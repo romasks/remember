@@ -19,4 +19,18 @@
     <string name="middle_name">Отчество</string>
     <string name="date_begin">Дата рождения</string>
     <string name="date_end">Дата смерти</string>
+    <string name="burial_place">Укажите место захоронения..</string>
+    <string name="celebrity">Знаменитость</string>
+    <string name="for_all">Для всех</string>
+    <string name="for_yourself">Для себя</string>
+    <string name="pick_level">Выберите уровень доступа</string>
+    <string name="create_page">Создать памятную страницу</string>
+    <string name="burial_place_value">Место захоронения</string>
+    <string name="city">Город</string>
+    <string name="cemetery">Кладбище</string>
+    <string name="sector">Сектор</string>
+    <string name="grave">Могила</string>
+    <string name="coordinates">Координаты захоронения</string>
+    <string name="show_map">Показать на карте</string>
+    <string name="add">Добавить</string>
 </resources>

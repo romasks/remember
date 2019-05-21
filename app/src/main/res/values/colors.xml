@@ -3,9 +3,11 @@
     <color name="colorPrimary">#fcfcfc</color>
     <color name="gray">#444440</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#AC8C6D</color>
 
     <color name="brown">#917A5A</color>
     <color name="dark_gray">#707070</color>
+    <color name="light_brown">#AC8C6D</color>
+    <color name="app_bar">#fcfcfc</color>
 
 </resources>

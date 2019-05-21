@@ -1,80 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/image_layout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/dark_gray">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/add_white"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_add_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Добавить фотографию"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_white" />
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/image_layout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@color/dark_gray"
+                tools:ignore="MissingConstraints">
 
-    </android.support.constraint.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"/>
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/last_name"
-        style="@style/BaseEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/last_name"
-        app:backgroundTint="@color/brown"
-        app:layout_constraintTop_toBottomOf="@+id/image_layout" />
+                <ImageView
+                    android:id="@+id/add_white"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_add_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/name"
-        style="@style/BaseEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/name"
-        app:backgroundTint="@color/brown"
-        app:layout_constraintTop_toBottomOf="@+id/last_name" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Добавить фотографию"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/add_white" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/middle_name"
-        style="@style/BaseEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/middle_name"
-        app:backgroundTint="@color/brown"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+            </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/date_begin"
-        style="@style/BaseEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/date_begin"
-        app:layout_constraintTop_toBottomOf="@+id/middle_name"
-        app:backgroundTint="@color/brown"/>
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/last_name"
+                style="@style/BaseEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/last_name"
+                app:backgroundTint="@color/brown"
+                app:layout_constraintTop_toBottomOf="@+id/image_layout" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/date_end"
-        style="@style/BaseEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/date_end"
-        app:layout_constraintTop_toBottomOf="@+id/date_begin"
-        app:backgroundTint="@color/brown"/>
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/name"
+                style="@style/BaseEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name"
+                app:backgroundTint="@color/brown"
+                app:layout_constraintTop_toBottomOf="@+id/last_name" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/middle_name"
+                style="@style/BaseEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/middle_name"
+                app:backgroundTint="@color/brown"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/date_begin"
+                style="@style/BaseEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="@string/date_begin"
+                app:backgroundTint="@color/brown"
+                app:layout_constraintTop_toBottomOf="@+id/middle_name" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/date_end"
+                style="@style/BaseEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="@string/date_end"
+                app:backgroundTint="@color/brown"
+                app:layout_constraintTop_toBottomOf="@+id/date_begin" />
+
+            <Button
+                android:id="@+id/place_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/button"
+                android:text="@string/burial_place"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:layout_constraintTop_toBottomOf="@+id/date_end" />
+
+            <TextView
+                android:id="@+id/famous_desk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingStart="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:text="@string/celebrity"
+                android:textColor='@color/light_brown'
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/place_button"
+                tools:ignore="RtlSymmetry" />
+
+            <RadioGroup
+                android:id="@+id/famous"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/famous_desk">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/is_famous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:text="Да"
+                    android:textColor="@color/light_brown"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:buttonTint="@color/brown" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/not_famous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="Нет"
+                    android:textColor='@color/light_brown'
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:buttonTint="@color/brown"
+                    app:layout_constraintTop_toBottomOf="@+id/is_famous" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/access_desk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingStart="5dp"
+                android:paddingLeft="5dp"
+                android:text="@string/pick_level"
+                android:textColor='@color/light_brown'
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/famous" />
+
+            <RadioGroup
+                android:id="@+id/is_public"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/access_desk">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/it_public"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:text="@string/for_all"
+                    android:textColor='@color/light_brown'
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:buttonTint="@color/brown" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/not_public"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/for_yourself"
+                    android:textColor='@color/light_brown'
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:buttonTint="@color/brown"
+                    app:layout_constraintTop_toBottomOf="@+id/it_public" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/title_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingStart="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:text="Добавьте описание"
+                android:textColor='@color/light_brown'
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/is_public"/>
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edit_text_with_border"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="Описание..."
+                android:inputType="textMultiLine"
+                android:minHeight="200dp"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="16dp"
+                android:textColorHighlight="@color/light_brown"
+                android:textColorLink="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_description"
+                tools:ignore="RtlSymmetry" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/brown"
+                android:text="@string/create_page"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

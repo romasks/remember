@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_bottom_scroll_burial_place">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/app_bar"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/app_bar"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <ImageView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icons8back50" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/burial_place_value"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteX="148dp"
+                        tools:layout_editor_absoluteY="186dp" />
+                </android.support.v7.widget.Toolbar>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp" />
+            </android.support.design.widget.AppBarLayout>
+
+            <android.support.design.widget.TextInputLayout
+
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/light_brown">
+
+                <AutoCompleteTextView
+                    android:id="@+id/city_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:hint="@string/city"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+
+                android:id="@+id/cemetery_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/light_brown">
+
+                <AutoCompleteTextView
+                    android:id="@+id/cemetery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:hint="@string/cemetery"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+
+                android:id="@+id/sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/light_brown">
+
+                <AutoCompleteTextView
+                    android:id="@+id/sector_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:hint="@string/sector"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+
+                android:id="@+id/grave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/light_brown">
+
+                <AutoCompleteTextView
+                    android:id="@+id/grave_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:hint="@string/grave"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+
+                android:id="@+id/coordinates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/light_brown">
+
+                <AutoCompleteTextView
+                    android:id="@+id/coordinates_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:hint="@string/coordinates"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/pick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:background="@drawable/button"
+                android:text="@string/show_map"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/light_brown"
+        android:text="@string/add"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
