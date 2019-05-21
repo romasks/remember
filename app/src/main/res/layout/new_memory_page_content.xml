@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/dark_gray">
+
+        <ImageView
+            android:id="@+id/add_white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_add_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Добавить фотографию"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_white" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/last_name"
+        style="@style/BaseEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/last_name"
+        app:backgroundTint="@color/brown"
+        app:layout_constraintTop_toBottomOf="@+id/image_layout" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/name"
+        style="@style/BaseEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name"
+        app:backgroundTint="@color/brown"
+        app:layout_constraintTop_toBottomOf="@+id/last_name" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/middle_name"
+        style="@style/BaseEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/middle_name"
+        app:backgroundTint="@color/brown"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/date_begin"
+        style="@style/BaseEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/date_begin"
+        app:layout_constraintTop_toBottomOf="@+id/middle_name"
+        app:backgroundTint="@color/brown"/>
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/date_end"
+        style="@style/BaseEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/date_end"
+        app:layout_constraintTop_toBottomOf="@+id/date_begin"
+        app:backgroundTint="@color/brown"/>
+
+</android.support.constraint.ConstraintLayout>

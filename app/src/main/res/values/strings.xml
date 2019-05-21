@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Remember</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Иванов Иван Иванович</string>
+    <string name="nav_header_subtitle">test@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="memory_pages">Памятные страницы</string>
+    <string name="event_calendar">Календарь событий</string>
+    <string name="notifications">Уведомления</string>
+    <string name="orders">Заказы</string>
+    <string name="settings">Настройки</string>
+    <string name="questions">Вопросы/Предложения</string>
+    <string name="exit">Выйти</string>
+    <string name="last_name">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="middle_name">Отчество</string>
+    <string name="date_begin">Дата рождения</string>
+    <string name="date_end">Дата смерти</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:id="@+id/group1">
+        <item
+            android:id="@+id/memory_pages"
+            android:title="@string/memory_pages" />
+        <item
+            android:id="@+id/event_calendar"
+            android:title="@string/event_calendar" />
+        <item
+            android:id="@+id/notifications"
+            android:title="@string/notifications" />
+        <item
+            android:id="@+id/orders"
+            android:title="@string/orders" />
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/questions"
+            android:title="@string/questions" />
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/exit"
+                android:title="@string/exit" />
+        </menu>
+    </item>
+
+</menu>
