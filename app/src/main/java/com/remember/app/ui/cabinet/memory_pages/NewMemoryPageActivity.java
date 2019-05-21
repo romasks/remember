@@ -11,13 +11,11 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.text.format.DateUtils;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.remember.app.R;
+import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 
 import java.util.Calendar;
 
