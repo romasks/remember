@@ -28,4 +28,12 @@ public class PlacePresenter extends BasePresenter<PlaceView> {
                 .subscribe(getViewState()::onUpdatedCities);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void getCemetery(int id) {
+        Disposable subscription = serviceNetwork.getCemetery(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onUpdatedCemetery);
+        unsubscribeOnDestroy(subscription);
+    }
 }

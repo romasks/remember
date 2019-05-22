@@ -5,21 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
-import android.widget.SearchView;
 
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.adapters.HandBookAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PopupCity extends PopupWindow implements HandBookAdapter.Callback {
+public class PopupCemetry extends PopupWindow {
 
-    private Callback callback;
+    private PopupCity.Callback callback;
+    private RecyclerView recyclerView;
     private HandBookAdapter handBookAdapter;
 
-    PopupCity(View contentView, int width, int height) {
+    PopupCemetry(View contentView, int width, int height) {
         super(contentView, width, height);
     }
 
@@ -28,43 +27,23 @@ public class PopupCity extends PopupWindow implements HandBookAdapter.Callback {
         setOutsideTouchable(true);
         showAtLocation(contentView, Gravity.TOP, 0, 0);
         View popupView = getContentView();
-        RecyclerView recyclerView = popupView.findViewById(R.id.rv_city);
-        SearchView search = popupView.findViewById(R.id.search_city);
+        recyclerView = popupView.findViewById(R.id.rv_city);
         handBookAdapter = new HandBookAdapter(responseHandBooks);
         LinearLayoutManager layoutManager = new LinearLayoutManager(popupView.getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(handBookAdapter);
-        handBookAdapter.setCallback(this);
-
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                handBookAdapter.filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                handBookAdapter.filter(newText);
-                return false;
-            }
-        });
+//        handBookAdapter.setCallback(this);
+        handBookAdapter.setItems(responseHandBooks);
     }
 
-    public interface Callback {
+    public interface Callback{
 
-        void saveItem(ResponseHandBook responseHandBook);
+        void saveItem(String name);
 
     }
 
-    @Override
-    public void saveItem(ResponseHandBook responseHandBook) {
-        dismiss();
-        callback.saveItem(responseHandBook);
-    }
-
-    void setCallback(Callback callback) {
+    void setCallback(PopupCity.Callback callback) {
         this.callback = callback;
     }
 }

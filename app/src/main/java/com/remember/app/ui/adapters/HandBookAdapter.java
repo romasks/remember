@@ -10,11 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.remember.app.R;
-import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseViewHolder;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,13 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private Context context;
     private Callback callback;
     private List<ResponseHandBook> responseHandBooks = new ArrayList<>();
+    private List<ResponseHandBook> filteredList = new ArrayList<>();
+
+    public HandBookAdapter(List<ResponseHandBook> responseHandBooks) {
+        this.filteredList.addAll(responseHandBooks);
+        this.responseHandBooks.addAll(responseHandBooks);
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -43,7 +47,7 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        return responseHandBooks.size();
+        return filteredList.size();
     }
 
     public void setCallback(Callback callback){
@@ -52,8 +56,23 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public interface Callback{
 
-        void saveItem(String name);
+        void saveItem(ResponseHandBook name);
 
+    }
+
+    public void filter(String text) {
+        filteredList.clear();
+        if(text.isEmpty()){
+            filteredList.addAll(this.responseHandBooks);
+        } else{
+            text = text.toLowerCase();
+            for(ResponseHandBook item: this.responseHandBooks){
+                if(item.getName().toLowerCase().contains(text)){
+                    filteredList.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public void setItems(List<ResponseHandBook> responseHandBooks) {
@@ -76,9 +95,9 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            name.setText(responseHandBooks.get(position).getName());
+            name.setText(filteredList.get(position).getName());
             layout.setOnClickListener(v -> {
-                callback.saveItem(responseHandBooks.get(position).getName());
+                callback.saveItem(filteredList.get(position));
             });
         }
     }

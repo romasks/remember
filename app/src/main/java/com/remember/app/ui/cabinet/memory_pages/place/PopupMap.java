@@ -1,5 +1,11 @@
 package com.remember.app.ui.cabinet.memory_pages.place;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.View;
@@ -13,12 +19,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.remember.app.R;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
     private Button dismiss;
     private Callback callback;
     private double latitude;
     private double longitude;
+    private LatLng myPosition;
 
     PopupMap(View contentView, int width, int height) {
         super(contentView, width, height);
@@ -47,9 +56,29 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        if (ActivityCompat.checkSelfPermission(getContentView().getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContentView().getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);
+
+        LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            myPosition = new LatLng(latitude, longitude);
+            this.latitude = location.getLatitude();
+            this.longitude = location.getLongitude();
+            googleMap.addMarker(new MarkerOptions().position(myPosition).title("Start"));
+        }
         googleMap.setOnMapClickListener(point -> {
             googleMap.clear();
+            googleMap.setMyLocationEnabled(true);
             googleMap.addMarker(new MarkerOptions().position(point));
             latitude = point.latitude;
             longitude = point.longitude;

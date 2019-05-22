@@ -1,5 +1,6 @@
 package com.remember.app.data.network;
 
+import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseHandBook>> getCities();
 
+    Observable<List<ResponseCemetery>> getCemetery(int id);
 }

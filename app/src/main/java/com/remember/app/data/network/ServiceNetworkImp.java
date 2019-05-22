@@ -1,5 +1,6 @@
 package com.remember.app.data.network;
 
+import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 
 import java.util.List;
@@ -21,5 +22,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<List<ResponseHandBook>> getCities() {
         return apiMethods.getCities();
+    }
+
+    @Override
+    public Observable<List<ResponseCemetery>> getCemetery(int id) {
+        return apiMethods.getCemetery(id);
     }
 }
