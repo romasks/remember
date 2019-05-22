@@ -2,7 +2,6 @@ package com.remember.app.ui.cabinet.memory_pages.place;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -16,7 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.remember.app.R;
-import com.remember.app.data.models.ResponseCities;
+import com.remember.app.data.models.ResponseHandBook;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BurialPlaceActivity extends MvpAppCompatActivity implements OnMapReadyCallback, PopupMap.Callback, PlaceView {
+public class BurialPlaceActivity extends MvpAppCompatActivity implements OnMapReadyCallback, PopupMap.Callback, PlaceView, PopupCity.Callback {
 
     @InjectPresenter
     PlacePresenter presenter;
@@ -75,12 +74,18 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements OnMapRe
     }
 
     @Override
-    public void onUpdatedCities(List<ResponseCities> responseCities) {
+    public void onUpdatedCities(List<ResponseHandBook> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
         PopupCity popupWindow = new PopupCity(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setUp(pick);
+        popupWindow.setCallback(this);
+        popupWindow.setUp(pick, responseHandBooks);
+    }
+
+    @Override
+    public void saveItem(String name) {
+        city.setText(name);
     }
 }

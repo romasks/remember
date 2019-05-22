@@ -1,6 +1,6 @@
 package com.remember.app.data.network;
 
-import com.remember.app.data.models.ResponseCities;
+import com.remember.app.data.models.ResponseHandBook;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
 
     @Override
-    public Observable<List<ResponseCities>> getCities() {
+    public Observable<List<ResponseHandBook>> getCities() {
         return apiMethods.getCities();
     }
 }
