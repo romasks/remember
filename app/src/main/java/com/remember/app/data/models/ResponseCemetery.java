@@ -1,16 +1,21 @@
 package com.remember.app.data.models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ResponseCemetery {
 
     @SerializedName("id")
+    @Expose
     private int id;
     @SerializedName("city_id")
+    @Expose
     private int cityId;
     @SerializedName("body")
+    @Expose
     private String address;
     @SerializedName("name")
+    @Expose
     private String name;
 
     public int getId() {

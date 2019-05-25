@@ -23,7 +23,7 @@
             android:name=".ui.cabinet.memory_pages.place.BurialPlaceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.cabinet.memory_pages.NewMemoryPageActivity"
+            android:name=".ui.cabinet.memory_pages.add_page.NewMemoryPageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.MainActivity"

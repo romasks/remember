@@ -97,6 +97,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         popupWindow.setUp(pick, getSupportFragmentManager());
     }
 
+
     @Override
     public void setCoordinates(double latitude, double longitude) {
         String result = latitude + " " + "," + " " + longitude;

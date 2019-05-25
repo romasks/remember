@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import com.remember.app.R;
 import com.remember.app.ui.cabinet.events.EventFragment;
-import com.remember.app.ui.cabinet.memory_pages.NewMemoryPageActivity;
+import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 
 public class MainActivity extends AppCompatActivity

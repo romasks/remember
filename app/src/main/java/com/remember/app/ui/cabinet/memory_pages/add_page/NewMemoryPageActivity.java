@@ -1,4 +1,4 @@
-package com.remember.app.ui.cabinet.memory_pages;
+package com.remember.app.ui.cabinet.memory_pages.add_page;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -13,8 +13,12 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.remember.app.R;
+import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 
 import java.util.Calendar;
@@ -22,8 +26,12 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Response;
 
-public class NewMemoryPageActivity extends AppCompatActivity {
+public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView {
+
+    @InjectPresenter
+    AddPagePresenter presenter;
 
     @BindView(R.id.date_begin)
     AppCompatEditText dateBegin;
@@ -62,6 +70,30 @@ public class NewMemoryPageActivity extends AppCompatActivity {
     @OnClick(R.id.place_button)
     public void toPlace() {
         startActivity(new Intent(this, BurialPlaceActivity.class));
+    }
+
+    @OnClick(R.id.save_button)
+    public void savePage() {
+        AddPageModel person = new AddPageModel();
+        person.setSecondName("1");
+        person.setName("1");
+        person.setThirdName("1");
+        person.setComment("1");
+        person.setCoords(null);
+        person.setArea(null);
+        person.setDistrict(null);
+        person.setCity(null);
+        person.setCemeteryName(null);
+        person.setBirthDate("");
+        person.setDeathDate("");
+        person.setOptradio("options1");
+        person.setStatus(null);
+        person.setStar("false");
+        person.setFlag(null);
+        person.setPicture(null);
+        person.setReligion("");
+        person.setUserId("");
+        presenter.addPage(person);
     }
 
     private void initiate() {
@@ -129,4 +161,8 @@ public class NewMemoryPageActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onSavedPage(ResponseCemetery response) {
+        System.out.println("");
+    }
 }

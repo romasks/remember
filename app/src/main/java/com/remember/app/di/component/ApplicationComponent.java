@@ -10,6 +10,7 @@ import com.remember.app.di.module.ApplicationModule;
 import com.remember.app.di.module.ScreenModule;
 import com.remember.app.ui.cabinet.events.EventsPresenter;
 import com.remember.app.ui.cabinet.memory_pages.PagePresenter;
+import com.remember.app.ui.cabinet.memory_pages.add_page.AddPagePresenter;
 import com.remember.app.ui.cabinet.memory_pages.place.PlacePresenter;
 
 import javax.inject.Singleton;
@@ -32,5 +33,7 @@ public interface ApplicationComponent {
     void inject(EventsPresenter presenter);
 
     void inject(PlacePresenter presenter);
+
+    void inject(AddPagePresenter presenter);
 }
 
