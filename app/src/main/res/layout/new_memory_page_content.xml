@@ -24,7 +24,7 @@
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop" />
 
                 <ImageView
                     android:id="@+id/add_white"
@@ -48,52 +48,154 @@
 
             </android.support.constraint.ConstraintLayout>
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/last_name"
-                style="@style/BaseEditText"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/last_name_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/last_name"
-                app:backgroundTint="@color/brown"
-                app:layout_constraintTop_toBottomOf="@+id/image_layout" />
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/light_brown"
+                app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/name"
-                style="@style/BaseEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/name"
-                app:backgroundTint="@color/brown"
-                app:layout_constraintTop_toBottomOf="@+id/last_name" />
+                <AutoCompleteTextView
+                    android:id="@+id/last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:hint="@string/last_name"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/middle_name"
-                style="@style/BaseEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/middle_name"
-                app:backgroundTint="@color/brown"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/date_begin"
-                style="@style/BaseEditText"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/name_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/light_brown"
+                app:layout_constraintTop_toBottomOf="@+id/last_name_title">
+
+                <AutoCompleteTextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:hint="@string/name"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/middle_name_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/light_brown"
+                app:layout_constraintTop_toBottomOf="@+id/name_title">
+
+                <AutoCompleteTextView
+                    android:id="@+id/middle_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:hint="@string/middle_name"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/date_begin_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:hint="@string/date_begin"
-                app:backgroundTint="@color/brown"
-                app:layout_constraintTop_toBottomOf="@+id/middle_name" />
+                android:textColorHint="@color/light_brown"
+                app:layout_constraintTop_toBottomOf="@+id/middle_name_title">
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/date_end"
-                style="@style/BaseEditText"
+                <AutoCompleteTextView
+                    android:id="@+id/date_begin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:focusable="false"
+                    android:hint="@string/date_begin"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/date_end_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:hint="@string/date_end"
-                app:backgroundTint="@color/brown"
-                app:layout_constraintTop_toBottomOf="@+id/date_begin" />
+                android:textColorHint="@color/light_brown"
+                app:layout_constraintTop_toBottomOf="@+id/date_begin_title">
+
+                <AutoCompleteTextView
+                    android:id="@+id/date_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:focusable="false"
+                    android:hint="@string/date_begin"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/place_button"
@@ -106,7 +208,38 @@
                 android:text="@string/burial_place"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                app:layout_constraintTop_toBottomOf="@+id/date_end" />
+                app:layout_constraintTop_toBottomOf="@+id/date_end_title" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/religion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:focusable="false"
+                android:textColorHint="@color/light_brown"
+                app:layout_constraintTop_toBottomOf="@+id/place_button">
+
+                <AutoCompleteTextView
+                    android:id="@+id/religion_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:focusable="false"
+                    android:hint="@string/religion"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_brown"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/light_brown"
+                    android:textColorLink="@color/light_brown"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:id="@+id/famous_desk"
@@ -126,7 +259,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/place_button"
+                app:layout_constraintTop_toBottomOf="@+id/religion"
                 tools:ignore="RtlSymmetry" />
 
             <RadioGroup
@@ -241,7 +374,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/is_public"/>
+                app:layout_constraintTop_toBottomOf="@+id/is_public" />
 
             <EditText
                 android:id="@+id/description"

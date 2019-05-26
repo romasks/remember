@@ -30,4 +30,12 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
                 .subscribe(getViewState()::onSavedPage);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void getReligion() {
+        Disposable subscription = serviceNetwork.getReligion()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onGetedInfo);
+        unsubscribeOnDestroy(subscription);
+    }
 }

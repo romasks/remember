@@ -1,7 +1,9 @@
 package com.remember.app.ui.cabinet.memory_pages.place;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -68,7 +70,6 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
             } else {
                 Snackbar.make(city, "Введите город", Snackbar.LENGTH_LONG).show();
             }
-
         });
     }
 
@@ -77,12 +78,27 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         onBackPressed();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("COORDS", coordinates.getText().toString());
+        intent.putExtra("CITY", city.getText().toString());
+        intent.putExtra("CEMETERY", cemetery.getText().toString());
+        intent.putExtra("SPOT_ID", sector.getText().toString());
+        intent.putExtra("GRAVE_ID", grave.getText().toString());
+        setResult(Activity.RESULT_OK, intent);
+        super.onBackPressed();
+        finish();
+    }
+
     @OnClick(R.id.submit)
     public void submit(){
         if (city.getText().toString().equals("")){
             Snackbar.make(city, "Введите город", Snackbar.LENGTH_LONG).show();
         } else if (cemetery.getText().toString().equals("")){
             Snackbar.make(city, "Введите название кладбища", Snackbar.LENGTH_LONG).show();
+        } else {
+            onBackPressed();
         }
     }
 
@@ -96,7 +112,6 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         popupWindow.setCallback(this);
         popupWindow.setUp(pick, getSupportFragmentManager());
     }
-
 
     @Override
     public void setCoordinates(double latitude, double longitude) {

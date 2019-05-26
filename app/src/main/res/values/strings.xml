@@ -33,4 +33,5 @@
     <string name="coordinates">Координаты захоронения</string>
     <string name="show_map">Показать на карте</string>
     <string name="add">Добавить</string>
+    <string name="religion">Религия</string>
 </resources>

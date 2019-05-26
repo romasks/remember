@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:hint="@string/grave"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:textAlignment="textEnd"
                     android:textColor="@color/light_brown"

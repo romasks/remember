@@ -9,7 +9,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import okhttp3.Response;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
@@ -34,5 +33,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<ResponseCemetery> addPage(AddPageModel person) {
         return apiMethods.addPage(person);
+    }
+
+    @Override
+    public Observable<List<ResponseHandBook>> getReligion() {
+        return apiMethods.getReligion();
     }
 }

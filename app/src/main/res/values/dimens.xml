@@ -6,5 +6,5 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin_bottom_scroll_burial_place">50dp</dimen>
-    <dimen name="default_activity_fields_margin">25dp</dimen>
+    <dimen name="default_activity_fields_margin">15dp</dimen>
 </resources>

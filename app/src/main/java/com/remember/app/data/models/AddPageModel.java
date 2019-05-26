@@ -34,12 +34,6 @@ public class AddPageModel {
     private String deathDate;
     @SerializedName("optradio")
     private String optradio;
-    @SerializedName("picture")
-    private String picture;
-    @SerializedName("picture_data")
-    private String pictureData;
-    @SerializedName("status")
-    private String status;
     @SerializedName("star")
     private String star;
     @SerializedName("flag")
@@ -48,6 +42,16 @@ public class AddPageModel {
     private String religion;
     @SerializedName("user_id")
     private String userId;
+    @SerializedName("picture_data")
+    private String pictureData;
+
+    public String getPictureData() {
+        return pictureData;
+    }
+
+    public void setPictureData(String pictureData) {
+        this.pictureData = pictureData;
+    }
 
     public Integer getId() {
         return id;
@@ -167,30 +171,6 @@ public class AddPageModel {
 
     public void setOptradio(String optradio) {
         this.optradio = optradio;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getPictureData() {
-        return pictureData;
-    }
-
-    public void setPictureData(String pictureData) {
-        this.pictureData = pictureData;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getStar() {

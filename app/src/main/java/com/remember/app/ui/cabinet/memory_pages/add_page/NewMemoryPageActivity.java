@@ -1,16 +1,17 @@
 package com.remember.app.ui.cabinet.memory_pages.add_page;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatRadioButton;
-import android.text.format.DateUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -19,35 +20,58 @@ import com.bumptech.glide.Glide;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.ResponseCemetery;
+import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
+import com.remember.app.ui.cabinet.memory_pages.place.PopupMap;
+import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Response;
 
-public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView {
+public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
     @InjectPresenter
     AddPagePresenter presenter;
 
+    @BindView(R.id.last_name)
+    AutoCompleteTextView lastName;
+    @BindView(R.id.middle_name)
+    AutoCompleteTextView middleName;
+    @BindView(R.id.name)
+    AutoCompleteTextView name;
     @BindView(R.id.date_begin)
-    AppCompatEditText dateBegin;
+    AutoCompleteTextView dateBegin;
     @BindView(R.id.date_end)
-    AppCompatEditText dateEnd;
-    @BindView(R.id.it_public)
-    AppCompatRadioButton itPublic;
-    @BindView(R.id.not_public)
-    AppCompatRadioButton notPublic;
+    AutoCompleteTextView dateEnd;
+    @BindView(R.id.religion_value)
+    AutoCompleteTextView religion;
     @BindView(R.id.image)
     ImageView image;
+    @BindView(R.id.description)
+    EditText description;
+    @BindView(R.id.is_famous)
+    AppCompatRadioButton isFamous;
+    @BindView(R.id.not_famous)
+    AppCompatRadioButton notFamous;
+    @BindView(R.id.it_public)
+    AppCompatRadioButton isPublic;
+    @BindView(R.id.not_public)
+    AppCompatRadioButton noPublic;
 
     private Calendar dateAndTime = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private DatePickerDialog.OnDateSetListener dateEndPickerDialog;
+    private AddPageModel person;
     private static final int SELECT_PICTURE = 451;
+    private static final int GRAVE_INFO_RESULT = 646;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +79,10 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         setContentView(R.layout.activity_new_memory_page);
         ButterKnife.bind(this);
         initiate();
-
+        person = new AddPageModel();
+        religion.setOnClickListener(v -> {
+            presenter.getReligion();
+        });
     }
 
     @OnClick(R.id.image_layout)
@@ -64,36 +91,36 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-
     }
 
     @OnClick(R.id.place_button)
     public void toPlace() {
-        startActivity(new Intent(this, BurialPlaceActivity.class));
+        Intent intent = new Intent(this, BurialPlaceActivity.class);
+        startActivityForResult(intent, GRAVE_INFO_RESULT);
     }
 
     @OnClick(R.id.save_button)
     public void savePage() {
-        AddPageModel person = new AddPageModel();
-        person.setSecondName("1");
-        person.setName("1");
-        person.setThirdName("1");
-        person.setComment("1");
-        person.setCoords(null);
-        person.setArea(null);
-        person.setDistrict(null);
-        person.setCity(null);
-        person.setCemeteryName(null);
-        person.setBirthDate("");
-        person.setDeathDate("");
+        person.setSecondName(lastName.getText().toString());
+        person.setName(name.getText().toString());
+        person.setThirdName(middleName.getText().toString());
+        person.setComment(description.getText().toString());
+        person.setBirthDate(dateBegin.getText().toString());
+        person.setDeathDate(dateEnd.getText().toString());
         person.setOptradio("options1");
-        person.setStatus(null);
-        person.setStar("false");
-        person.setFlag(null);
-        person.setPicture(null);
-        person.setReligion("");
-        person.setUserId("");
-        presenter.addPage(person);
+        person.setPictureData("String");
+        if (isFamous.isChecked()) {
+            person.setStar("true");
+        } else if (notFamous.isChecked()) {
+            person.setStar("false");
+        }
+        if (isPublic.isChecked()) {
+            person.setFlag("true");
+        } else if (noPublic.isChecked()) {
+            person.setFlag("false");
+        }
+        person.setReligion(religion.getText().toString());
+        presenter.addPage(person);//TODO разобраться с id
     }
 
     private void initiate() {
@@ -132,23 +159,32 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     private void setInitialDateBegin() {
-        dateBegin.setText(DateUtils.formatDateTime(this,
-                dateAndTime.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+        @SuppressLint("SimpleDateFormat")
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
+        dateBegin.setText(requiredDate);
     }
 
     private void setInitialDateEnd() {
-        dateEnd.setText(DateUtils.formatDateTime(this,
-                dateAndTime.getTimeInMillis(),
-                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+        @SuppressLint("SimpleDateFormat")
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
+        dateEnd.setText(requiredDate);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-
+        if (requestCode == GRAVE_INFO_RESULT){
+            if (resultCode == RESULT_OK) {
+                person.setCoords(data.getStringExtra("COORDS"));
+                person.setCity(data.getStringExtra("CITY"));
+                person.setCemeteryName(data.getStringExtra("CEMETERY"));
+                person.setSpotId(data.getStringExtra("SPOT_ID"));
+                person.setGraveId(data.getStringExtra("GRAVE_ID"));
+            }
+        } else if (requestCode == SELECT_PICTURE){
+            if (resultCode == RESULT_OK) {
                 Glide.with(this)
                         .load(data.getData())
                         .into(image);
@@ -157,12 +193,28 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
                 image.setColorFilter(filter);
             }
-
         }
     }
 
     @Override
     public void onSavedPage(ResponseCemetery response) {
-        System.out.println("");
+        startActivity(new Intent(this, ShowPageActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onGetedInfo(List<ResponseHandBook> responseHandBooks) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
+        PopupReligion popupWindow = new PopupReligion(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setCallback(this);
+        popupWindow.setUp(lastName, responseHandBooks);
+    }
+
+    @Override
+    public void saveItem(ResponseHandBook responseHandBook) {
+        religion.setText(responseHandBook.getName());
     }
 }
