@@ -8,17 +8,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1">
 
             <LinearLayout
@@ -27,17 +27,18 @@
                 android:orientation="vertical">
 
                 <FrameLayout
-                    android:id="@+id/PageAvatar"
+                    android:id="@+id/avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="300dp"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:orientation="horizontal">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:layout_gravity="bottom"/>
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/gradient" />
 
                     <ImageButton
                         android:id="@+id/back_button"
@@ -52,8 +53,8 @@
                         android:id="@+id/textView10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
                         android:text="Памятная страница"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
@@ -62,9 +63,9 @@
                         android:id="@+id/settings"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_gravity="right"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:layout_gravity="right"
                         app:srcCompat="@mipmap/settings" />
 
                 </FrameLayout>
@@ -81,7 +82,6 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_marginTop="23dp"
                     android:id="@+id/dates"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -94,160 +94,158 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="left"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_plus" />
 
                 <TextView
                     android:id="@+id/textView9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginTop="15dp"
                     android:text="Место захоронения"
-                    android:textColor='@color/light_brown'
+                    android:textColor='#AC8C6D'
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@android:drawable/dialog_holo_light_frame">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:layout_marginRight="30dp">
-
-                        <TextView
-                            android:id="@+id/textView13"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="Город" />
-                        <TextView
-                            android:id="@+id/city"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:text="TextView"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginRight="30dp">
-
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="Сектор" />
-
-                        <TextView
-                            android:id="@+id/sector"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:text="TextView"
-                            android:textStyle="bold" />
-
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/textView11"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="Могила" />
-                        <TextView
-                            android:id="@+id/grave"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="TextView"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_horizontal"
+                    android:layout_height="180dp"
+                    android:background="@android:drawable/dialog_holo_light_frame"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:text="Кладбище" />
-
-                    <TextView
-                        android:id="@+id/crypt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAlignment="center"
-                        android:layout_gravity="center"
-                        android:text="TextView"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/enableText"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginBottom="7dp"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="5dp"
                         android:gravity="center_horizontal"
-                        android:text="Ещё"
-                        android:textAllCaps="false"
-                        android:textColor="@color/light_brown"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            tools:ignore="UselessParent">
+
+                            <TextView
+                                android:id="@+id/textView13"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:text="@string/city" />
+
+                            <TextView
+                                android:id="@+id/city"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:text="TextView"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="40dp"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical"
+                                tools:ignore="UselessParent">
+
+                                <TextView
+                                    android:id="@+id/textView14"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_weight="1"
+                                    android:text="@string/cemetery" />
+
+                                <TextView
+                                    android:id="@+id/crypt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:text="TextView"
+                                    android:textAlignment="center"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/textView12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:text="@string/sector" />
+
+                                <TextView
+                                    android:id="@+id/sector"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:text="TextView"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="50dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/textView11"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:text="@string/number_grave" />
+
+                                <TextView
+                                    android:id="@+id/grave"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:text="TextView"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
 
 
+                    </LinearLayout>
                 </LinearLayout>
-                </LinearLayout>
+
                 <TextView
                     android:id="@+id/Text"
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:layout_weight="1" />
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:text="" />
             </LinearLayout>
         </ScrollView>
 
@@ -283,8 +281,7 @@
                 android:background="@android:color/transparent"
                 app:srcCompat="@mipmap/calendaricon" />
         </LinearLayout>
-</LinearLayout>
-
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

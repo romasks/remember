@@ -30,6 +30,7 @@
     <string name="cemetery">Кладбище</string>
     <string name="sector">Сектор</string>
     <string name="grave">Могила</string>
+    <string name="number_grave">Место</string>
     <string name="coordinates">Координаты захоронения</string>
     <string name="show_map">Показать на карте</string>
     <string name="add">Добавить</string>

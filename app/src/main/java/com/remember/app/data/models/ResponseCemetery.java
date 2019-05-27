@@ -17,6 +17,17 @@ public class ResponseCemetery {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("user_id")
+    @Expose
+    private int userId;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getId() {
         return id;

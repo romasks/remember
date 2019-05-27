@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.remember.app.ui.cabinet.memory_pages.place.PopupMap;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -198,7 +200,14 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     public void onSavedPage(ResponseCemetery response) {
-        startActivity(new Intent(this, ShowPageActivity.class));
+        Intent intent = new Intent(this, ShowPageActivity.class);
+        intent.putExtra("PERSON",  (Parcelable) person);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         finish();
     }
 

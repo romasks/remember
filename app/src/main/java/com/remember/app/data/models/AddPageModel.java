@@ -1,8 +1,11 @@
 package com.remember.app.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class AddPageModel {
+public class AddPageModel implements Parcelable {
 
     @SerializedName("id")
     private Integer id;
@@ -204,4 +207,77 @@ public class AddPageModel {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public AddPageModel() {
+    }
+
+    private AddPageModel(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        secondName = in.readString();
+        thirdName = in.readString();
+        name = in.readString();
+        comment = in.readString();
+        coords = in.readString();
+        area = in.readString();
+        district = in.readString();
+        city = in.readString();
+        cemeteryName = in.readString();
+        spotId = in.readString();
+        graveId = in.readString();
+        birthDate = in.readString();
+        deathDate = in.readString();
+        optradio = in.readString();
+        star = in.readString();
+        flag = in.readString();
+        religion = in.readString();
+        userId = in.readString();
+        pictureData = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(secondName);
+        dest.writeString(thirdName);
+        dest.writeString(name);
+        dest.writeString(comment);
+        dest.writeString(coords);
+        dest.writeString(area);
+        dest.writeString(district);
+        dest.writeString(city);
+        dest.writeString(cemeteryName);
+        dest.writeString(spotId);
+        dest.writeString(graveId);
+        dest.writeString(birthDate);
+        dest.writeString(deathDate);
+        dest.writeString(optradio);
+        dest.writeString(star);
+        dest.writeString(flag);
+        dest.writeString(religion);
+        dest.writeString(userId);
+        dest.writeString(pictureData);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<AddPageModel> CREATOR = new Parcelable.Creator<AddPageModel>() {
+        @Override
+        public AddPageModel createFromParcel(Parcel in) {
+            return new AddPageModel(in);
+        }
+
+        @Override
+        public AddPageModel[] newArray(int size) {
+            return new AddPageModel[size];
+        }
+    };
 }
