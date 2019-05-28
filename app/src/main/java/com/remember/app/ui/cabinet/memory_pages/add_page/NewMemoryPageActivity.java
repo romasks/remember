@@ -201,7 +201,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @Override
     public void onSavedPage(ResponseCemetery response) {
         Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra("PERSON",  (Parcelable) person);
+        intent.putExtra("PERSON", person);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 

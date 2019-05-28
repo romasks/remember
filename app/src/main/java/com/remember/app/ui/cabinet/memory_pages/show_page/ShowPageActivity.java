@@ -2,11 +2,15 @@ package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.ui.cabinet.MainActivity;
+import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,8 +30,13 @@ public class ShowPageActivity extends MvpAppCompatActivity {
     TextView sector;
     @BindView(R.id.grave)
     TextView grave;
+    @BindView(R.id.epitButton)
+    ImageButton epitaphyButton;
 
     private Unbinder unbinder;
+    private boolean isList = false;
+    private AddPageModel person;
+    private MemoryPageModel memoryPageModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +44,48 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         setContentView(R.layout.activity_page);
         unbinder = ButterKnife.bind(this);
         Intent i = getIntent();
-        AddPageModel person = i.getParcelableExtra("PERSON");
-
-        if (person != null){
-            initTextName(person);
-            initDate(person);
-            initInfo(person);
+        isList = i.getBooleanExtra("IS_LIST", false);
+        if (!isList){
+            person = i.getParcelableExtra("PERSON");
+            if (person != null){
+                initTextName(person);
+                initDate(person);
+                initInfo(person);
+            }
+        } else {
+            memoryPageModel = i.getParcelableExtra("PERSON");
+            if (memoryPageModel != null){
+                initTextName(memoryPageModel);
+                initDate(memoryPageModel);
+                initInfo(memoryPageModel);
+            }
         }
+        epitaphyButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EpitaphsActivity.class);
+            if (isList){
+                intent.putExtra("ID_PAGE", memoryPageModel.getId());
+            } else {
+                intent.putExtra("ID_PAGE", person.getId());
+            }
+            startActivity(intent);
+        });
+    }
+
+    private void initInfo(MemoryPageModel memoryPageModel) {
+        city.setText(memoryPageModel.getGorod());
+        crypt.setText(memoryPageModel.getNazvaklad());
+        sector.setText(memoryPageModel.getUchastok());
+        grave.setText(memoryPageModel.getNummogil());
+    }
+
+    private void initDate(MemoryPageModel memoryPageModel) {
+        String textDate = memoryPageModel.getDatarod() + " - " + memoryPageModel.getDatasmert();
+        date.setText(textDate);
+    }
+
+    private void initTextName(MemoryPageModel memoryPageModel) {
+        String textName = memoryPageModel.getSecondname() + " " + memoryPageModel.getName() + " " + memoryPageModel.getThirtname();
+        name.setText(textName);
     }
 
     private void initInfo(AddPageModel person) {
@@ -64,6 +108,9 @@ public class ShowPageActivity extends MvpAppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.data.models.ResponsePages;
 
 import java.util.List;
 
@@ -38,5 +40,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<List<ResponseHandBook>> getReligion() {
         return apiMethods.getReligion();
+    }
+
+    @Override
+    public Observable<ResponsePages> getPages(int countPage) {
+        return apiMethods.getPages(countPage);
     }
 }

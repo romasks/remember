@@ -1,8 +1,10 @@
 package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.data.models.ResponsePages;
 
 import java.util.List;
 
@@ -19,4 +21,6 @@ public interface ServiceNetwork {
     Observable<ResponseCemetery> addPage(AddPageModel person);
 
     Observable<List<ResponseHandBook>> getReligion();
+
+    Observable<ResponsePages> getPages(int countPage);
 }

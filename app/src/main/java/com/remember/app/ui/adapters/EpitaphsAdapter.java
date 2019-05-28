@@ -2,7 +2,6 @@ package com.remember.app.ui.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,17 +21,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
-    private Callback callback;
     private List<MemoryPageModel> memoryPageModelList = new ArrayList<>();
 
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new PageFragmentAdapter.PageFragmentAdapterViewHolder(
-                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_page_fragment, viewGroup, false)
+        return new EpitaphsAdapter.EpitaphsAdapterViewHolder(
+                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_epitaphs, viewGroup, false)
         );
     }
 
@@ -51,30 +49,20 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
-
-    public interface Callback {
-
-        void sendItem(MemoryPageModel person);
-
-    }
-
-    public class PageFragmentAdapterViewHolder extends BaseViewHolder {
+    public class EpitaphsAdapterViewHolder extends BaseViewHolder {
 
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
+        @BindView(R.id.amount_days)
+        TextView amountDays;
         @BindView(R.id.name)
         TextView name;
         @BindView(R.id.date)
         TextView date;
         @BindView(R.id.comment)
         TextView comment;
-        @BindView(R.id.layout)
-        ConstraintLayout layout;
 
-        public PageFragmentAdapterViewHolder(View itemView) {
+        public EpitaphsAdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
@@ -82,19 +70,6 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            layout.setOnClickListener(v -> {
-                callback.sendItem(memoryPageModelList.get(position));
-            });
-            Glide.with(itemView)
-                    .load(memoryPageModelList.get(position).getPicture())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImage);
-            String fullName = memoryPageModelList.get(position).getSecondname() + " " +
-                     memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
-            name.setText(fullName);
-
-            String dateText = memoryPageModelList.get(position).getDatarod() + " - " + memoryPageModelList.get(position).getDatasmert();
-            date.setText(dateText);
         }
     }
 }

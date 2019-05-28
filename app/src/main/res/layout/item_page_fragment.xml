@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
     android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp"
     android:layout_marginBottom="20dp">
 
     <ImageView
         android:id="@+id/avatar_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:padding="4dp"/>
+        android:padding="4dp" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:textSize="16sp"
+        android:layout_marginTop="10dp"
         android:textColor="@android:color/black"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toTopOf="@id/avatar_image"
-        tools:text="Иванов Иван иванович"/>
+        tools:text="Иванов Иван иванович" />
 
     <TextView
         android:id="@+id/date"
@@ -35,26 +36,26 @@
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:text="02.04.1960 - 02.05.2019"/>
+        tools:text="02.04.1960 - 02.05.2019" />
 
     <TextView
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
-        tools:text="осталось"/>
+        app:layout_constraintStart_toEndOf="@+id/avatar_image"
+        tools:text="осталось" />
 
     <TextView
         android:id="@+id/amount_days"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:gravity="center"
-        android:visibility="gone"
-        android:textColor="@android:color/white"
         android:background="@drawable/circle_for_memory_pages"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
-        app:layout_constraintEnd_toEndOf="@+id/avatar_image"/>
+        app:layout_constraintEnd_toEndOf="@+id/avatar_image" />
 
 </android.support.constraint.ConstraintLayout>

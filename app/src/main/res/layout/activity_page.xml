@@ -159,11 +159,12 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="100dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="40dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical"
+                                android:weightSum="2"
                                 tools:ignore="UselessParent">
 
                                 <TextView
@@ -180,7 +181,9 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="1"
-                                    android:text="TextView"
+                                    android:maxLines="3"
+                                    android:lines="3"
+                                    android:text="TextVdsgdsgsdgdsgdsgsdgiew"
                                     android:textAlignment="center"
                                     android:textStyle="bold" />
 
@@ -194,7 +197,7 @@
                                 <TextView
                                     android:id="@+id/textView12"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="10dp"
                                     android:layout_gravity="center"
                                     android:layout_weight="1"
                                     android:text="@string/sector" />
@@ -219,7 +222,7 @@
                                 <TextView
                                     android:id="@+id/textView11"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="10dp"
                                     android:layout_gravity="center"
                                     android:layout_weight="1"
                                     android:text="@string/number_grave" />

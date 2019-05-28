@@ -71,14 +71,16 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @Override
         public void onBind(int position) {
             Glide.with(itemView)
-                    .load(memoryPageModelList.get(position).getAvatarUrl())
+                    .load(memoryPageModelList.get(position).getPicture())
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImage);
             amountDays.setVisibility(View.VISIBLE);
-            amountDays.setText(String.valueOf(memoryPageModelList.get(position).getAmountDayforEnd()));
-            name.setText(memoryPageModelList.get(position).getFullName());
+            amountDays.setText("0");
+            String fullName = memoryPageModelList.get(position).getSecondname() +
+                    memoryPageModelList.get(position).getName() + memoryPageModelList.get(position).getThirtname();
+            name.setText(fullName);
 
-            String dateText = memoryPageModelList.get(position).getDateBegin();
+            String dateText = memoryPageModelList.get(position).getDatarod() + " - " + memoryPageModelList.get(position).getDatasmert();
             date.setText(dateText);
 
             comment.setText("дней осталось");

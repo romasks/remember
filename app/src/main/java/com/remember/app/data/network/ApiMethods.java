@@ -2,8 +2,10 @@ package com.remember.app.data.network;
 
 
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.data.models.ResponsePages;
 
 import java.util.List;
 
@@ -28,4 +30,7 @@ public interface ApiMethods {
 
     @GET("religia")
     Observable<List<ResponseHandBook>> getReligion();
+
+    @GET("pages/{page}")
+    Observable<ResponsePages> getPages(@Path("page") int countPage);
 }
