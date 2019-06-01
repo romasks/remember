@@ -2,7 +2,9 @@ package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.ResponseCemetery;
+import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 
@@ -45,5 +47,15 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<ResponsePages> getPages(int countPage) {
         return apiMethods.getPages(countPage);
+    }
+
+    @Override
+    public Observable<List<ResponseEpitaphs>> getEpitaphs(int pageId) {
+        return apiMethods.getEpitaphs(pageId);
+    }
+
+    @Override
+    public Observable<RequestAddEpitaphs> saveEpitaph(RequestAddEpitaphs requestAddEpitaphs) {
+        return apiMethods.saveEpitaph(requestAddEpitaphs);
     }
 }

@@ -2,7 +2,9 @@ package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.ResponseCemetery;
+import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 
@@ -23,4 +25,8 @@ public interface ServiceNetwork {
     Observable<List<ResponseHandBook>> getReligion();
 
     Observable<ResponsePages> getPages(int countPage);
+
+    Observable<List<ResponseEpitaphs>> getEpitaphs(int pageId);
+
+    Observable<RequestAddEpitaphs> saveEpitaph(RequestAddEpitaphs requestAddEpitaphs);
 }

@@ -11,6 +11,7 @@ import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.cabinet.MainActivity;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +31,8 @@ public class ShowPageActivity extends MvpAppCompatActivity {
     TextView sector;
     @BindView(R.id.grave)
     TextView grave;
+    @BindView(R.id.events)
+    ImageButton events;
     @BindView(R.id.epitButton)
     ImageButton epitaphyButton;
 
@@ -45,16 +48,16 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         unbinder = ButterKnife.bind(this);
         Intent i = getIntent();
         isList = i.getBooleanExtra("IS_LIST", false);
-        if (!isList){
+        if (!isList) {
             person = i.getParcelableExtra("PERSON");
-            if (person != null){
+            if (person != null) {
                 initTextName(person);
                 initDate(person);
                 initInfo(person);
             }
         } else {
             memoryPageModel = i.getParcelableExtra("PERSON");
-            if (memoryPageModel != null){
+            if (memoryPageModel != null) {
                 initTextName(memoryPageModel);
                 initDate(memoryPageModel);
                 initInfo(memoryPageModel);
@@ -62,11 +65,16 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         }
         epitaphyButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, EpitaphsActivity.class);
-            if (isList){
+            if (isList) {
                 intent.putExtra("ID_PAGE", memoryPageModel.getId());
             } else {
                 intent.putExtra("ID_PAGE", person.getId());
             }
+            startActivity(intent);
+        });
+        events.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EventsActivity.class);
+            intent.putExtra("NAME", name.getText().toString());
             startActivity(intent);
         });
     }

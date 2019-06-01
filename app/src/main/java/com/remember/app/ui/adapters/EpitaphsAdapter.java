@@ -6,13 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
-import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.base.BaseViewHolder;
 
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ import butterknife.ButterKnife;
 public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
-    private List<MemoryPageModel> memoryPageModelList = new ArrayList<>();
+    private List<ResponseEpitaphs> responseEpitaphs = new ArrayList<>();
 
     @NonNull
     @Override
@@ -41,26 +38,23 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        return memoryPageModelList.size();
+        return responseEpitaphs.size();
     }
 
-    public void setItems(List<MemoryPageModel> memoryPageModelList) {
-        this.memoryPageModelList.addAll(memoryPageModelList);
+    public void setItems(List<ResponseEpitaphs> responseEpitaphs) {
+        this.responseEpitaphs.clear();
+        this.responseEpitaphs.addAll(responseEpitaphs);
         notifyDataSetChanged();
     }
 
     public class EpitaphsAdapterViewHolder extends BaseViewHolder {
 
-        @BindView(R.id.avatar_image)
-        ImageView avatarImage;
-        @BindView(R.id.amount_days)
-        TextView amountDays;
-        @BindView(R.id.name)
+        @BindView(R.id.description)
+        TextView description;
+        @BindView(R.id.name_user)
         TextView name;
         @BindView(R.id.date)
         TextView date;
-        @BindView(R.id.comment)
-        TextView comment;
 
         public EpitaphsAdapterViewHolder(View itemView) {
             super(itemView);
@@ -70,6 +64,9 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
+            name.setText(String.valueOf(responseEpitaphs.get(position).getId()));
+            date.setText("Сегодня в 16:59");
+            description.setText(responseEpitaphs.get(position).getBody());
         }
     }
 }

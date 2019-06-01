@@ -35,4 +35,17 @@
     <string name="show_map">Показать на карте</string>
     <string name="add">Добавить</string>
     <string name="religion">Религия</string>
+    <string name="save">Сохранить</string>
+    <string name="text_epitaph">Введите текст эпитафии ..</string>
+    <string name="epitaphs">Эпитафии</string>
+    <string name="new_event">Новое событие</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="for_your">Только для себя</string>
+    <string name="all">Общий</string>
+    <string name="notification">Уведомления</string>
+    <string name="access">Доступ</string>
+    <string name="date">Дата</string>
+    <string name="deceased">Усопший</string>
+    <string name="create_event">Создать событие</string>
 </resources>

@@ -20,6 +20,12 @@
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.cabinet.memory_pages.events.EventsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.cabinet.epitaphs.EpitaphsActivity"
             android:screenOrientation="portrait" />
         <activity

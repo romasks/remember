@@ -2,8 +2,9 @@ package com.remember.app.data.network;
 
 
 import com.remember.app.data.models.AddPageModel;
-import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.ResponseCemetery;
+import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 
@@ -33,4 +34,11 @@ public interface ApiMethods {
 
     @GET("pages/{page}")
     Observable<ResponsePages> getPages(@Path("page") int countPage);
+
+    @GET("page/epit/{id}")
+    Observable<List<ResponseEpitaphs>> getEpitaphs(@Path("id") int pageId);
+
+    @Headers("Content-Type: application/json")
+    @POST("epit/add")
+    Observable<RequestAddEpitaphs> saveEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs);
 }
