@@ -179,11 +179,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_weight="1"
+                android:button="@drawable/radio_button"
+                android:checked="true"
                 android:text="@string/all"
                 android:textColor="@color/light_brown"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:buttonTint="@color/brown"
                 tools:ignore="RtlHardcoded" />
 
             <android.support.v7.widget.AppCompatRadioButton
@@ -193,12 +194,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_weight="1"
+                android:button="@drawable/radio_button"
                 android:checked="true"
                 android:text="@string/for_your"
                 android:textColor='@color/light_brown'
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:buttonTint="@color/brown"
                 app:layout_constraintTop_toBottomOf="@+id/is_famous" />
         </RadioGroup>
 
@@ -237,26 +238,71 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_weight="1"
+                android:button="@drawable/radio_button"
                 android:text="@string/yes"
                 android:textColor='@color/light_brown'
                 android:textSize="16sp"
-                android:textStyle="bold"
-                app:buttonTint="@color/brown" />
+                android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/not_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:button="@drawable/radio_button"
                 android:checked="true"
                 android:text="@string/no"
                 android:textColor='@color/light_brown'
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:buttonTint="@color/brown"
                 app:layout_constraintTop_toBottomOf="@+id/it_public"
                 tools:ignore="RtlHardcoded" />
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/title_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:text="Добавьте описание"
+            android:textColor='@color/light_brown'
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/is_notification" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/edit_text_with_border"
+            android:ems="10"
+            android:gravity="start"
+            android:hint="Описание..."
+            android:inputType="textMultiLine"
+            android:minHeight="200dp"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="16dp"
+            android:textColorHighlight="@color/light_brown"
+            android:textColorLink="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_description"
+            tools:ignore="RtlSymmetry" />
 
     </android.support.constraint.ConstraintLayout>
 

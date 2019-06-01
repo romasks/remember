@@ -12,6 +12,7 @@ import com.remember.app.ui.cabinet.epitaphs.EpitaphsPresenter;
 import com.remember.app.ui.cabinet.events.EventsPresenter;
 import com.remember.app.ui.cabinet.memory_pages.PagePresenter;
 import com.remember.app.ui.cabinet.memory_pages.add_page.AddPagePresenter;
+import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventPresenter;
 import com.remember.app.ui.cabinet.memory_pages.place.PlacePresenter;
 
 import javax.inject.Singleton;
@@ -40,5 +41,7 @@ public interface ApplicationComponent {
     void inject(EpitaphsPresenter presenter);
 
     void inject(com.remember.app.ui.cabinet.memory_pages.events.EventsPresenter presenter);
+
+    void inject(AddNewEventPresenter presenter);
 }
 

@@ -3,6 +3,7 @@ package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
+import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseHandBook;
@@ -41,4 +42,11 @@ public interface ApiMethods {
     @Headers("Content-Type: application/json")
     @POST("epit/add")
     Observable<RequestAddEpitaphs> saveEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs);
+
+    @Headers("Content-Type: application/json")
+    @POST("deadevent/add")
+    Observable<RequestAddEvent> saveEvent(@Body RequestAddEvent requestAddEvent);
+
+    @GET("deadevent/page/{id}")
+    Observable<List<RequestAddEvent>> getEvents(@Path("id") int pageId);
 }

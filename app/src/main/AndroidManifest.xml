@@ -21,10 +21,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
         <activity
             android:name=".ui.cabinet.memory_pages.events.EventsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
         <activity
             android:name=".ui.cabinet.epitaphs.EpitaphsActivity"
             android:screenOrientation="portrait" />

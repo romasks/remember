@@ -262,7 +262,7 @@
                     android:textColor="@color/light_brown"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:buttonTint="@color/brown" />
+                    android:button="@drawable/radio_button" />
 
                 <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/not_famous"
@@ -276,7 +276,7 @@
                     android:textColor='@color/light_brown'
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:buttonTint="@color/brown"
+                    android:button="@drawable/radio_button"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous" />
             </RadioGroup>
 
@@ -319,7 +319,7 @@
                     android:textColor='@color/light_brown'
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:buttonTint="@color/brown" />
+                    android:button="@drawable/radio_button" />
 
                 <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/not_public"
@@ -333,7 +333,7 @@
                     android:textColor='@color/light_brown'
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:buttonTint="@color/brown"
+                    android:button="@drawable/radio_button"
                     app:layout_constraintTop_toBottomOf="@+id/it_public" />
             </RadioGroup>
 

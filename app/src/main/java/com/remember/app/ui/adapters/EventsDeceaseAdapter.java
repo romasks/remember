@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
-import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.base.BaseViewHolder;
 
 import java.text.ParseException;
@@ -27,16 +27,16 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
-    private List<MemoryPageModel> memoryPageModelList = new ArrayList<>();
+    private List<RequestAddEvent> requestAddEvent = new ArrayList<>();
 
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new EventsFragmentAdapter.EventsFragmentAdapterViewHolder(
-                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_page_fragment, viewGroup, false)
+        return new EventsDeceaseAdapter.EventsDeceaseAdapterViewHolder(
+                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_events, viewGroup, false)
         );
     }
 
@@ -47,15 +47,15 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
     @Override
     public int getItemCount() {
-        return memoryPageModelList.size();
+        return requestAddEvent.size();
     }
 
-    public void setItems(List<MemoryPageModel> memoryPageModelList) {
-        this.memoryPageModelList.addAll(memoryPageModelList);
+    public void setItems(List<RequestAddEvent> requestAddEvent) {
+        this.requestAddEvent.addAll(requestAddEvent);
         notifyDataSetChanged();
     }
 
-    public class EventsFragmentAdapterViewHolder extends BaseViewHolder {
+    public class EventsDeceaseAdapterViewHolder extends BaseViewHolder {
 
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
@@ -68,7 +68,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @BindView(R.id.comment)
         TextView comment;
 
-        public EventsFragmentAdapterViewHolder(View itemView) {
+        public EventsDeceaseAdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
@@ -77,30 +77,33 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @Override
         public void onBind(int position) {
             Glide.with(itemView)
-                    .load(memoryPageModelList.get(position).getPicture())
+                    .load("https://images-na.ssl-images-amazon.com/images/I/61flr%2BuHRpL._SX425_.jpg")
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImage);
-            amountDays.setVisibility(View.VISIBLE);
-            amountDays.setText("");
-            String fullName = memoryPageModelList.get(position).getSecondname() +
-                    memoryPageModelList.get(position).getName() + memoryPageModelList.get(position).getThirtname();
-            name.setText(fullName);
-
-            String dateText = memoryPageModelList.get(position).getDatarod() + " - " + memoryPageModelList.get(position).getDatasmert();
-            date.setText(dateText);
-
+            name.setText(requestAddEvent.get(position).getName());
+            try {
+                String days = String.valueOf(getDifferenceDays(requestAddEvent.get(position).getDate()));
+                amountDays.setText(days);
+            } catch (ParseException ignored) { }
+            date.setText(requestAddEvent.get(position).getDate());
             comment.setText("дней осталось");
         }
 
-        public long getDifferenceDays(String date) throws ParseException {
+        long getDifferenceDays(String date) throws ParseException {
             @SuppressLint("SimpleDateFormat")
-            Date dateResult = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
             Calendar past = Calendar.getInstance();
             past.setTime(dateResult);
             Calendar today = Calendar.getInstance();
             today.set(Calendar.YEAR, past.get(Calendar.YEAR));
-            long diff = today.getTime().getTime() - past.getTime().getTime();
-            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            if (!today.after(past)) {
+                long diff = today.getTime().getTime() - past.getTime().getTime();
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            } else {
+                today.set(Calendar.YEAR, past.get(Calendar.YEAR) - 1);
+                long diff = past.getTime().getTime() - today.getTime().getTime();
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            }
         }
 
     }

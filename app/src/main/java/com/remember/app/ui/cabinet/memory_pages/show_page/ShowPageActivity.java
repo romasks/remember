@@ -75,6 +75,11 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         events.setOnClickListener(v -> {
             Intent intent = new Intent(this, EventsActivity.class);
             intent.putExtra("NAME", name.getText().toString());
+            if (isList) {
+                intent.putExtra("ID_PAGE", memoryPageModel.getId());
+            } else {
+                intent.putExtra("ID_PAGE", person.getId());
+            }
             startActivity(intent);
         });
     }

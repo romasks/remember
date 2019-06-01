@@ -36,7 +36,7 @@
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:text="02.04.1960 - 02.05.2019" />
+        tools:text="02.04.1960" />
 
     <TextView
         android:id="@+id/comment"
@@ -54,8 +54,9 @@
         android:background="@drawable/circle_for_memory_pages"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
-        app:layout_constraintEnd_toEndOf="@+id/avatar_image" />
+        app:layout_constraintEnd_toEndOf="@+id/avatar_image"
+        tools:text="233"/>
 
 </android.support.constraint.ConstraintLayout>
