@@ -48,4 +48,5 @@
     <string name="date">Дата</string>
     <string name="deceased">Усопший</string>
     <string name="create_event">Создать событие</string>
+    <string name="entry_button">Войти</string>
 </resources>

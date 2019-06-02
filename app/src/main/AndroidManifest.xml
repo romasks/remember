@@ -23,6 +23,9 @@
             android:name=".ui.cabinet.MainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.cabinet.home.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.auth.AuthActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.remember.app.R;
 import com.remember.app.ui.cabinet.MainActivity;
+import com.remember.app.ui.cabinet.home.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -17,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             finish();
         }, 2000);
 

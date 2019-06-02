@@ -1,0 +1,33 @@
+package com.remember.app.ui.cabinet.home;
+
+import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.remember.app.R;
+import com.remember.app.ui.adapters.HomeGridAdapter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
+public class HomeActivity extends MvpAppCompatActivity {
+
+    @BindView(R.id.rv_grid)
+    RecyclerView recyclerView;
+
+    private HomeGridAdapter homeGridAdapter;
+    private Unbinder unbinder;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        unbinder = ButterKnife.bind(this);
+
+        homeGridAdapter = new HomeGridAdapter();
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setAdapter(homeGridAdapter);
+    }
+}
