@@ -8,6 +8,8 @@ import com.remember.app.di.ApplicationContext;
 import com.remember.app.di.module.ApiModule;
 import com.remember.app.di.module.ApplicationModule;
 import com.remember.app.di.module.ScreenModule;
+import com.remember.app.ui.auth.AuthPresenter;
+import com.remember.app.ui.auth.RegisterPresenter;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsPresenter;
 import com.remember.app.ui.cabinet.events.EventsPresenter;
 import com.remember.app.ui.cabinet.memory_pages.PagePresenter;
@@ -43,5 +45,9 @@ public interface ApplicationComponent {
     void inject(com.remember.app.ui.cabinet.memory_pages.events.EventsPresenter presenter);
 
     void inject(AddNewEventPresenter presenter);
+
+    void inject(AuthPresenter presenter);
+
+    void inject(RegisterPresenter presenter);
 }
 

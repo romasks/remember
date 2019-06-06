@@ -4,10 +4,14 @@ package com.remember.app.data.network;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
+import com.remember.app.data.models.RequestAuth;
+import com.remember.app.data.models.RequestRegister;
+import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
+import com.remember.app.data.models.ResponseRegister;
 
 import java.util.List;
 
@@ -49,4 +53,12 @@ public interface ApiMethods {
 
     @GET("deadevent/page/{id}")
     Observable<List<RequestAddEvent>> getEvents(@Path("id") int pageId);
+
+    @Headers("Content-Type: application/json")
+    @POST("user/add")
+    Observable<ResponseAuth> singInAuth(@Body RequestAuth requestAuth);
+
+    @Headers("Content-Type: application/json")
+    @POST("user")
+    Observable<ResponseRegister> registerLogin(@Body RequestRegister requestRegister);
 }

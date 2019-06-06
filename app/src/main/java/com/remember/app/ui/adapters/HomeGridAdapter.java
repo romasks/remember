@@ -73,16 +73,16 @@ public class HomeGridAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 } catch (IllegalArgumentException e) {
                     decodedString = new byte[0];
                 }
-                Glide.with(context)
-                        .load("https://vignette.wikia.nocookie.net/battlefront/images/0/0a/Battlefront_Vader.jpg/revision/latest?cb=20151022170631")
-                        .centerCrop()
-                        .placeholder(R.mipmap.logo)
-                        .into(imageView);
+//                Glide.with(context)
+//                        .load("https://vignette.wikia.nocookie.net/battlefront/images/0/0a/Battlefront_Vader.jpg/revision/latest?cb=20151022170631")
+//                        .centerCrop()
+//                        .placeholder(R.mipmap.logo)
+//                        .into(imageView);
             } else {
-                Glide.with(context)
-                        .load(R.mipmap.logo)
-                        .fitCenter()
-                        .into(imageView);
+//                Glide.with(context)
+//                        .load(R.mipmap.logo)
+//                        .fitCenter()
+//                        .into(imageView);
             }
         }
     }

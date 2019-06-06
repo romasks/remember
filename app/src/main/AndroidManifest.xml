@@ -20,13 +20,16 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
         <activity
-            android:name=".ui.cabinet.MainActivity"
+            android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.auth.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.home.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.auth.AuthActivity"
+            android:name=".ui.cabinet.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity"
@@ -49,7 +52,7 @@
             android:name=".ui.cabinet.memory_pages.show_page.ShowPageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.auth.AuthActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

@@ -49,4 +49,14 @@
     <string name="deceased">Усопший</string>
     <string name="create_event">Создать событие</string>
     <string name="entry_button">Войти</string>
+    <string name="sign_in">Войти</string>
+    <string name="login">Email</string>
+    <string name="password">Пароль</string>
+    <string name="registration"><u>Зарегистрироваться</u></string>
+    <string name="create_acc">Создайте аккаунт</string>
+    <string name="nickname">Никнейм</string>
+    <string name="email">Email</string>
+    <string name="create_acc2">Создать аккаунт</string>
+    <string name="have_acc">Уже есть аккаунт?</string>
+    <string name="entry_button_underline"><u>Войти</u></string>
 </resources>

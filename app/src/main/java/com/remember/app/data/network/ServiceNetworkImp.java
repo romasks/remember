@@ -3,10 +3,14 @@ package com.remember.app.data.network;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
+import com.remember.app.data.models.RequestAuth;
+import com.remember.app.data.models.RequestRegister;
+import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
+import com.remember.app.data.models.ResponseRegister;
 
 import java.util.List;
 
@@ -67,5 +71,21 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<List<RequestAddEvent>> getEvents(int pageId) {
         return apiMethods.getEvents(pageId);
+    }
+
+    @Override
+    public Observable<ResponseAuth> singInAuth(String email, String password) {
+        RequestAuth requestAuth = new RequestAuth();
+        requestAuth.setEmail(email);
+        requestAuth.setPassword(password);
+        return apiMethods.singInAuth(requestAuth);
+    }
+
+    @Override
+    public Observable<ResponseRegister> registerLogin(String nickName, String email) {
+        RequestRegister requestRegister = new RequestRegister();
+        requestRegister.setEmail(email);
+        requestRegister.setName(nickName);
+        return apiMethods.registerLogin(requestRegister);
     }
 }
