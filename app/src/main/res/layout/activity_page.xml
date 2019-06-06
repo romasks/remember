@@ -47,7 +47,7 @@
                         android:layout_gravity="left"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:src="@mipmap/icons8back50" />
+                        android:src="@drawable/ic_back" />
 
                     <TextView
                         android:id="@+id/textView10"

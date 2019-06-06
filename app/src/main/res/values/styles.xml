@@ -55,4 +55,10 @@
         <item name="android:layout_marginEnd">20dp</item>
     </style>
 
+    <style name="SeekBarColor" parent="Widget.AppCompat.SeekBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#023500</item>
+    </style>
+
 </resources>

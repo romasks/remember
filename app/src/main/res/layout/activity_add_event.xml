@@ -26,7 +26,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icons8back50" />
+                    android:src="@drawable/ic_back" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -64,22 +64,22 @@
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
             android:focusable="false"
-            android:textColorHint="@color/light_brown"
+            android:textColorHint="@drawable/abc"
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
                 android:id="@+id/deceased_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:focusable="false"
                 android:hint="@string/deceased"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:textAlignment="textEnd"
-                android:textColor="@color/light_brown"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@color/light_brown"
+                android:textColorHint="@drawable/abc"
                 android:textColorLink="@color/light_brown"
                 android:textStyle="bold" />
 
@@ -93,21 +93,21 @@
             android:layout_marginLeft="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@color/light_brown"
+            android:textColorHint="@drawable/abc"
             app:layout_constraintTop_toBottomOf="@+id/deceased">
 
             <AutoCompleteTextView
                 android:id="@+id/title_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:hint="Наименование"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:textAlignment="textEnd"
-                android:textColor="@color/light_brown"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@color/light_brown"
+                android:textColorHint="@drawable/abc"
                 android:textColorLink="@color/light_brown"
                 android:textStyle="bold" />
 
@@ -122,22 +122,22 @@
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
             android:focusable="false"
-            android:textColorHint="@color/light_brown"
+            android:textColorHint="@drawable/abc"
             app:layout_constraintTop_toBottomOf="@+id/title">
 
             <AutoCompleteTextView
                 android:id="@+id/date_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:focusable="false"
                 android:hint="@string/date"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:textAlignment="textEnd"
-                android:textColor="@color/light_brown"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@color/light_brown"
+                android:textColorHint="@drawable/abc"
                 android:textColorLink="@color/light_brown"
                 android:textStyle="bold" />
 
@@ -182,7 +182,7 @@
                 android:button="@drawable/radio_button"
                 android:checked="true"
                 android:text="@string/all"
-                android:textColor="@color/light_brown"
+                android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:ignore="RtlHardcoded" />

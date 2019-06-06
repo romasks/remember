@@ -1,7 +1,9 @@
 package com.remember.app;
 
 import android.app.Application;
+import android.content.ContextWrapper;
 
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.di.component.ApplicationComponent;
 import com.remember.app.di.component.DaggerApplicationComponent;
 import com.remember.app.di.module.ApplicationModule;
@@ -18,6 +20,12 @@ public class Remember extends Application {
 //        }
 //        LeakCanary.install(this);
 //        Fabric.with(this, new Crashlytics());
+        new Prefs.Builder()
+                .setContext(this)
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
         applicationComponent = DaggerApplicationComponent
                 .builder()
                 .applicationModule(new ApplicationModule(this))

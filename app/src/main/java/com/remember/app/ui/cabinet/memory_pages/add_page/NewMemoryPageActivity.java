@@ -3,12 +3,16 @@ package com.remember.app.ui.cabinet.memory_pages.add_page;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatRadioButton;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -18,16 +22,16 @@ import android.widget.ImageView;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.ui.ImageFieldPickerActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
-import com.remember.app.ui.cabinet.memory_pages.place.PopupMap;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,6 +49,10 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @BindView(R.id.last_name)
     AutoCompleteTextView lastName;
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.image_layout)
+    ConstraintLayout imageLayout;
     @BindView(R.id.middle_name)
     AutoCompleteTextView middleName;
     @BindView(R.id.name)
@@ -85,14 +93,15 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         religion.setOnClickListener(v -> {
             presenter.getReligion();
         });
+        back.setOnClickListener(v -> {
+            onBackPressed();
+            finish();
+        });
     }
 
     @OnClick(R.id.image_layout)
     public void pickImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+        startActivity(new Intent(this,  ImageFieldPickerActivity.class));
     }
 
     @OnClick(R.id.place_button)
@@ -177,7 +186,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GRAVE_INFO_RESULT){
+        if (requestCode == GRAVE_INFO_RESULT) {
             if (resultCode == RESULT_OK) {
                 person.setCoords(data.getStringExtra("COORDS"));
                 person.setCity(data.getStringExtra("CITY"));
@@ -185,7 +194,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 person.setSpotId(data.getStringExtra("SPOT_ID"));
                 person.setGraveId(data.getStringExtra("GRAVE_ID"));
             }
-        } else if (requestCode == SELECT_PICTURE){
+        } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
                 Glide.with(this)
                         .load(data.getData())
@@ -195,8 +204,34 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
                 image.setColorFilter(filter);
             }
+        } else if (requestCode == 1) {
+            DisplayMetrics dsMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dsMetrics);
+            Bitmap hah = null;
+            if (data != null) {
+                hah = Bitmap.createScaledBitmap(data.getParcelableExtra("bitmap"),
+                        dsMetrics.widthPixels, dsMetrics.heightPixels, false);
+            }
+            findViewById(R.id.text_image).setVisibility(View.GONE);
+            findViewById(R.id.add_white).setVisibility(View.GONE);
+            imageLayout.setBackgroundColor(Color.TRANSPARENT);
+            try {
+                Glide.with(this)
+                        .asBitmap()
+                        .load(hah)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(image);
+                ColorMatrix colorMatrix = new ColorMatrix();
+                colorMatrix.setSaturation(0);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+                image.setColorFilter(filter);
+            } catch (Exception e) {
+                Log.e("dsgsd", e.getMessage());
+            }
         }
+
     }
+
 
     @Override
     public void onSavedPage(ResponseCemetery response) {

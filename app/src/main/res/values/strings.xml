@@ -59,4 +59,5 @@
     <string name="create_acc2">Создать аккаунт</string>
     <string name="have_acc">Уже есть аккаунт?</string>
     <string name="entry_button_underline"><u>Войти</u></string>
+    <string name="star">Знаменитость</string>
 </resources>

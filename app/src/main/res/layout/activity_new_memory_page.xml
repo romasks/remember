@@ -21,10 +21,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
 
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
                     android:text="Новая памятная страница"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
@@ -40,6 +48,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize"

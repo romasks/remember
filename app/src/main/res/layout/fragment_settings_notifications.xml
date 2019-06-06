@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="50">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="15dp"
+           android:layout_marginLeft="25dp"
+           android:layout_marginRight="25dp"
+           android:text="Дни поминовения"
+           android:textColor="#AC8C6D"
+           android:textColorHighlight="#AC8C6D"
+           android:textColorLink="#AC8C6D"
+           android:textStyle="bold"
+           />
+           <RadioGroup
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="15dp"
+               android:layout_marginLeft="25dp"
+               android:layout_marginRight="25dp"
+               >
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Общественные"
+                   android:textColor="#AC8C6D"
+                   android:checked="true"
+                   android:button="@drawable/radio_button"
+                   android:paddingLeft="10dp"
+                   android:layout_marginTop="10dp"
+                   android:textColorHighlight="#AC8C6D"
+                   android:textColorLink="#AC8C6D"
+                   android:layout_weight="1"
+                   android:paddingStart="10dp" />
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Личные"
+                   android:button="@drawable/radio_button"
+                   android:paddingLeft="10dp"
+                   android:layout_marginTop="10dp"
+                   android:textColor="#AC8C6D"
+                   android:textColorHighlight="#AC8C6D"
+                   android:textColorLink="#AC8C6D"
+                   android:layout_weight="2"
+                   android:paddingStart="10dp" />
+           </RadioGroup>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="15dp"
+               android:layout_marginLeft="25dp"
+               android:layout_marginRight="25dp"
+               android:text="Уведомления"
+               android:textColor="#AC8C6D"
+               android:textColorHighlight="#AC8C6D"
+               android:textColorLink="#AC8C6D"
+               android:textStyle="bold"
+               />
+           <RadioGroup
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="15dp"
+               android:layout_marginLeft="25dp"
+               android:layout_marginRight="25dp">
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="За неделю"
+                   android:button="@drawable/radio_button"
+                   android:paddingLeft="10dp"
+                   android:textColor="#AC8C6D"
+                   android:checked="true"
+                   android:textColorHighlight="#AC8C6D"
+                   android:textColorLink="#AC8C6D"
+                   android:layout_weight="1"
+                   android:paddingStart="10dp" />
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="За день"
+                   android:button="@drawable/radio_button"
+                   android:paddingLeft="10dp"
+                   android:layout_marginTop="10dp"
+                   android:textColor="#AC8C6D"
+                   android:textColorHighlight="#AC8C6D"
+                   android:textColorLink="#AC8C6D"
+                   android:layout_weight="2"
+                   android:paddingStart="10dp" />
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Никогда"
+                   android:button="@drawable/radio_button"
+                   android:paddingLeft="10dp"
+                   android:layout_marginTop="10dp"
+                   android:textColor="#AC8C6D"
+                   android:textColorHighlight="#AC8C6D"
+                   android:textColorLink="#AC8C6D"
+                   android:layout_weight="2"
+                   android:paddingStart="10dp" />
+               <RadioButton
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="выбрать количество дней"
+                   android:textColor="#AC8C6D"
+                   android:button="@drawable/radio_button"
+                   android:paddingLeft="10dp"
+                   android:layout_marginTop="10dp"
+                   android:textColorHighlight="#AC8C6D"
+                   android:textColorLink="#AC8C6D"
+                   android:layout_weight="2"
+                   android:paddingStart="10dp" />
+           </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Сохранить"
+        android:layout_weight="1"
+        android:layout_gravity="bottom"
+        android:background="#AC8C6D"
+        android:textColor="#fff"
+        android:textStyle="bold"/>
+</LinearLayout>

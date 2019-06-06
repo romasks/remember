@@ -8,9 +8,10 @@ import android.widget.AutoCompleteTextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseAuth;
-import com.remember.app.ui.cabinet.MainActivity;
+import com.remember.app.ui.cabinet.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +62,9 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
     @Override
     public void onLogged(ResponseAuth responseAuth) {
         if (responseAuth != null) {
+            Prefs.putString("USER_ID", responseAuth.getId().toString());
+            Prefs.putString("NAME_USER", responseAuth.getName());
+            Prefs.putString("EMAIL", responseAuth.getEmail());
             startActivity(new Intent(this, MainActivity.class));
         }
     }

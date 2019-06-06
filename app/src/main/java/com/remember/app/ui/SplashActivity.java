@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.remember.app.R;
-import com.remember.app.ui.cabinet.MainActivity;
 import com.remember.app.ui.cabinet.home.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {

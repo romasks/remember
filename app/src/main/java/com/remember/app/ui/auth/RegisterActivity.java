@@ -2,8 +2,6 @@ package com.remember.app.ui.auth;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -14,7 +12,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseRegister;
-import com.remember.app.ui.cabinet.MainActivity;
+import com.remember.app.ui.cabinet.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
