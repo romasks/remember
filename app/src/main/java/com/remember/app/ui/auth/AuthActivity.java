@@ -3,6 +3,7 @@ package com.remember.app.ui.auth;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.widget.AutoCompleteTextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -22,7 +23,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
     AuthPresenter presenter;
 
     @BindView(R.id.login_value)
-    AutoCompleteTextView login;
+    TextInputEditText login;
     @BindView(R.id.password_value)
     AutoCompleteTextView password;
 

@@ -1,39 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        tools:ignore="MissingConstraints">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icons8back50" />
-
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v7.widget.Toolbar>
-
-
-    </android.support.design.widget.AppBarLayout>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="@+id/email_login_form"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,24 +41,21 @@
             android:layout_marginTop="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@color/light_brown"
+            android:textColorHint="@drawable/abc"
             app:layout_constraintTop_toBottomOf="@+id/name_title">
 
-            <AutoCompleteTextView
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/login_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:hint="@string/login"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:text="Admin@ya.ru"
-                android:textAlignment="textEnd"
-                android:textColor="@color/light_brown"
-                android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@color/light_brown"
-                android:textColorLink="@color/light_brown"
-                android:textStyle="bold" />
+                android:textAlignment="textStart"
+                android:textColorHint="@android:color/black"
+                android:textColor="@android:color/black" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -93,24 +68,20 @@
             android:layout_marginTop="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@color/light_brown"
+            android:textColorHint="@drawable/abc"
             app:layout_constraintTop_toBottomOf="@+id/login_title">
 
             <AutoCompleteTextView
                 android:id="@+id/password_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:text="11111111"
-                android:textAlignment="textEnd"
-                android:textColor="@color/light_brown"
-                android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@color/light_brown"
-                android:textColorLink="@color/light_brown"
-                android:textStyle="bold" />
+                android:textAlignment="textStart"
+                android:textColor="@android:color/black" />
 
         </android.support.design.widget.TextInputLayout>
 
