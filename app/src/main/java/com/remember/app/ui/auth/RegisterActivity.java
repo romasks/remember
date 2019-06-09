@@ -3,9 +3,9 @@ package com.remember.app.ui.auth;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.AppCompatEditText;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;

@@ -2,11 +2,10 @@ package com.remember.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.remember.app.R;
-import com.yalantis.ucrop.UCrop;
 
 public class ImageFieldPickerActivity extends AppCompatActivity {
 

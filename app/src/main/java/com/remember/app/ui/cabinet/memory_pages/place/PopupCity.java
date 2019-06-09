@@ -1,7 +1,7 @@
 package com.remember.app.ui.cabinet.memory_pages.place;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
@@ -11,7 +11,6 @@ import com.remember.app.R;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.adapters.HandBookAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PopupCity extends PopupWindow implements HandBookAdapter.Callback {

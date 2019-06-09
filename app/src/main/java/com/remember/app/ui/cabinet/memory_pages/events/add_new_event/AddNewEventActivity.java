@@ -4,18 +4,19 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
+import androidx.appcompat.widget.AppCompatRadioButton;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/image_layout"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
@@ -50,9 +50,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/add_white" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/last_name_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,9 +75,9 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/name_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,9 +100,9 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/middle_name_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,9 +125,9 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/date_begin_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -152,9 +152,9 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/date_end_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/place_button"
@@ -194,7 +194,7 @@
                 android:textColor="@android:color/white"
                 app:layout_constraintTop_toBottomOf="@+id/date_end_title" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/religion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                     android:textColorHint="@drawable/abc"
                     android:textColorLink="@color/light_brown" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/is_star"
@@ -251,7 +251,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/is_star">
 
-                <android.support.v7.widget.AppCompatRadioButton
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/is_famous"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
@@ -263,7 +263,7 @@
                     android:textColor='@color/light_brown'
                     android:textSize="16sp" />
 
-                <android.support.v7.widget.AppCompatRadioButton
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/not_famous"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -303,7 +303,7 @@
                 app:layout_constraintStart_toStartOf="@+id/access_desk"
                 app:layout_constraintTop_toBottomOf="@id/access_desk">
 
-                <android.support.v7.widget.AppCompatRadioButton
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/it_public"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -314,7 +314,7 @@
                     android:textColor='@color/light_brown'
                     android:textSize="16sp" />
 
-                <android.support.v7.widget.AppCompatRadioButton
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/not_public"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -384,8 +384,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
