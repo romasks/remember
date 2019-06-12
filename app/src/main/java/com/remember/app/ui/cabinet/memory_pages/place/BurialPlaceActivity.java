@@ -5,18 +5,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
@@ -46,6 +48,8 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     AutoCompleteTextView coordinates;
 
     private ResponseHandBook responseHandBook;
+    private boolean isEdit;
+    private MemoryPageModel memoryPageModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,8 +57,15 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         setContentView(R.layout.activity_burial_place);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         ButterKnife.bind(this);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         responseHandBook = new ResponseHandBook();
+
+        isEdit = getIntent().getBooleanExtra("EDIT", false);
+        if (isEdit) {
+            memoryPageModel = getIntent().getParcelableExtra("MODEL");
+            initEdit();
+        }
+
         city.setOnClickListener(v -> presenter.getCities());
         cemetery.setOnClickListener(v -> {
             if (!city.getText().toString().equals("")) {
@@ -63,6 +74,34 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
                 Snackbar.make(city, "Введите город", Snackbar.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void initEdit() {
+        try{
+            coordinates.setText(memoryPageModel.getCoords());
+        } catch (NullPointerException e){
+            coordinates.setText("");
+        }
+        try{
+            city.setText(memoryPageModel.getGorod());
+        } catch (NullPointerException e){
+            city.setText("");
+        }
+        try{
+            cemetery.setText(memoryPageModel.getNazvaklad());
+        } catch (NullPointerException e){
+            cemetery.setText("");
+        }
+        try{
+            sector.setText(memoryPageModel.getUchastok());
+        } catch (NullPointerException e){
+            sector.setText("");
+        }
+        try{
+            grave.setText(memoryPageModel.getNummogil());
+        } catch (NullPointerException e){
+            grave.setText("");
+        }
     }
 
     @OnClick(R.id.back)
@@ -84,10 +123,10 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     }
 
     @OnClick(R.id.submit)
-    public void submit(){
-        if (city.getText().toString().equals("")){
+    public void submit() {
+        if (city.getText().toString().equals("")) {
             Snackbar.make(city, "Введите город", Snackbar.LENGTH_LONG).show();
-        } else if (cemetery.getText().toString().equals("")){
+        } else if (cemetery.getText().toString().equals("")) {
             Snackbar.make(city, "Введите название кладбища", Snackbar.LENGTH_LONG).show();
         } else {
             onBackPressed();
@@ -130,7 +169,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             Snackbar.make(city, "Введите значение вручную", Snackbar.LENGTH_LONG).show();
-        }else {
+        } else {
             //TODO сделать попап
         }
     }

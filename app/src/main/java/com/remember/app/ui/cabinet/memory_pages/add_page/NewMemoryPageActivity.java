@@ -25,8 +25,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.ImageFieldPickerActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
@@ -90,6 +92,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private static final int SELECT_PICTURE = 451;
     private static final int GRAVE_INFO_RESULT = 646;
     private MultipartBody.Part imageUri;
+    private boolean isEdit;
+    private MemoryPageModel memoryPageModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +101,15 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         setContentView(R.layout.activity_new_memory_page);
         ButterKnife.bind(this);
         initiate();
+        Intent i = getIntent();
+
+        isEdit = i.getBooleanExtra("EDIT", false);
+
+        if (isEdit){
+            memoryPageModel = i.getParcelableExtra("PERSON");
+            initEdit();
+        }
+
         person = new AddPageModel();
         religion.setOnClickListener(v -> {
             presenter.getReligion();
@@ -105,6 +118,26 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             onBackPressed();
             finish();
         });
+    }
+
+    private void initEdit() {
+        lastName.setText(memoryPageModel.getThirtname());
+        name.setText(memoryPageModel.getName());
+        middleName.setText(memoryPageModel.getSecondname());
+        description.setText(memoryPageModel.getComment());
+        dateBegin.setText(memoryPageModel.getDatarod());
+        dateEnd.setText(memoryPageModel.getDatasmert());
+        religion.setText(memoryPageModel.getReligiya());
+        if (memoryPageModel.getStar().equals("true")){
+            isFamous.setChecked(true);
+        } else {
+            isFamous.setChecked(false);
+        }
+//        if (memoryPageModel.getStatus().equals("true")){
+//            isPublic.setChecked(true);
+//        } else {
+//            isPublic.setChecked(false);
+//        }
     }
 
     @OnClick(R.id.image_layout)
@@ -117,6 +150,10 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @OnClick(R.id.place_button)
     public void toPlace() {
         Intent intent = new Intent(this, BurialPlaceActivity.class);
+        if (isEdit){
+            intent.putExtra("MODEL", memoryPageModel);
+            intent.putExtra("EDIT", true);
+        }
         startActivityForResult(intent, GRAVE_INFO_RESULT);
     }
 
@@ -129,7 +166,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setBirthDate(dateBegin.getText().toString());
         person.setDeathDate(dateEnd.getText().toString());
         person.setOptradio("options1");
-        person.setPictureData("String");
+        person.setPictureData("");
         if (isFamous.isChecked()) {
             person.setStar("true");
         } else if (notFamous.isChecked()) {
@@ -141,7 +178,11 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             person.setFlag("false");
         }
         person.setReligion(religion.getText().toString());
-        presenter.addPage(person, imageUri);//TODO разобраться с id
+        if (!isEdit){
+            presenter.addPage(person, imageUri);
+        } else {
+            presenter.editPage(person, memoryPageModel.getId());
+        }
     }
 
     private void initiate() {
@@ -260,7 +301,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     }
 
-
     @Override
     public void onSavedPage(ResponseCemetery response) {
         Intent intent = new Intent(this, ShowPageActivity.class);
@@ -284,6 +324,14 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setCallback(this);
         popupWindow.setUp(lastName, responseHandBooks);
+    }
+
+    @Override
+    public void onEdited(ResponsePages responsePages) {
+        Intent intent = new Intent(this, ShowPageActivity.class);
+        intent.putExtra("PERSON", person);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

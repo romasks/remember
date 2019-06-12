@@ -13,6 +13,7 @@ import com.remember.app.data.models.ResponseRegister;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 
@@ -41,4 +42,6 @@ public interface ServiceNetwork {
     Observable<ResponseAuth> singInAuth(String login, String password);
 
     Observable<ResponseRegister> registerLogin(String nickName, String email);
+
+    Observable<ResponsePages> editPage(AddPageModel person, Integer id);
 }

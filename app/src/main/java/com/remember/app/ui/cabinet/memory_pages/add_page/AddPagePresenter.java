@@ -41,4 +41,12 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
                 .subscribe(getViewState()::onGetedInfo);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void editPage(AddPageModel person, Integer id) {
+        Disposable subscription = serviceNetwork.editPage(person, id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onEdited);
+        unsubscribeOnDestroy(subscription);
+    }
 }

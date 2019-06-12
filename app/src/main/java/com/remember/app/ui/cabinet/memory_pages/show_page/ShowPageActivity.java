@@ -10,11 +10,13 @@ import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
+import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ShowPageActivity extends MvpAppCompatActivity {
@@ -130,5 +132,14 @@ public class ShowPageActivity extends MvpAppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.settings)
+    public void editPage(){
+        Intent intent = new Intent(this, NewMemoryPageActivity.class);
+        intent.putExtra("PERSON", memoryPageModel);
+        intent.putExtra("LIST", isList);
+        intent.putExtra("EDIT", true);
+        startActivity(intent);
     }
 }

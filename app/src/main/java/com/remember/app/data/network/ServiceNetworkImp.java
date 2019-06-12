@@ -21,6 +21,7 @@ import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.http.Multipart;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
@@ -43,31 +44,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponseCemetery> addPage(AddPageModel person, MultipartBody.Part imageUri) {
-        RequestBody area = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody secondName = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody thirdName = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody comment = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody birthDate = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody deathDate = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody optradio = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody star = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody flag = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody religion = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
-        RequestBody image = RequestBody.create(MediaType.parse("text/plain"), imageUri.toString());
-        return apiMethods.addPage(area,
-                secondName,
-                name,
-                thirdName,
-                comment,
-                birthDate,
-                deathDate,
-                optradio,
-                star,
-                flag,
-                religion,
-                image);
+    public Observable<ResponseCemetery> addPage(AddPageModel person, MultipartBody.Part imageUrl) {
+        return apiMethods.addPage(person);
     }
 
     @Override
@@ -119,5 +97,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
         requestRegister.setEmail(email);
         requestRegister.setName(nickName);
         return apiMethods.registerLogin(requestRegister);
+    }
+
+    @Override
+    public Observable<ResponsePages> editPage(AddPageModel person, Integer id) {
+        return apiMethods.editPage(person, id);
     }
 }

@@ -67,18 +67,12 @@ public interface ApiMethods {
     @GET("deadevent/page/{id}")
     Observable<List<RequestAddEvent>> getEventsForId(int pageId);
 
+    @Headers("Content-Type: application/json")
     @POST("page/add")
-    @Multipart
-    Observable<ResponseCemetery> addPage(@Part("oblast") RequestBody area,
-                                         @Part("secondname") RequestBody secondName,
-                                         @Part("name") RequestBody name,
-                                         @Part("thirtname") RequestBody thirdName,
-                                         @Part("comment") RequestBody comment,
-                                         @Part("datarod") RequestBody birthDate,
-                                         @Part("datasmert") RequestBody deathDate,
-                                         @Part("optradio") RequestBody optradio,
-                                         @Part("star") RequestBody star,
-                                         @Part("flag") RequestBody flag,
-                                         @Part("religiya") RequestBody religion,
-                                         @Part("picture_data") RequestBody imageUri);
+    Observable<ResponseCemetery> addPage(@Body AddPageModel person);
+
+    @Headers("Content-Type: application/json")
+    @POST("page/edit/{id}")
+    Observable<ResponsePages> editPage(@Body AddPageModel person,
+                                       @Path("id") Integer id);
 }
