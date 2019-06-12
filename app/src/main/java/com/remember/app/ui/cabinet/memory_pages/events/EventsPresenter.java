@@ -22,7 +22,7 @@ public class EventsPresenter extends BasePresenter<EventsView> {
     }
 
     public void getEvents(int pageId) {
-        Disposable subscription = serviceNetwork.getEvents(pageId)
+        Disposable subscription = serviceNetwork.getEventsForId(pageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedEvent);

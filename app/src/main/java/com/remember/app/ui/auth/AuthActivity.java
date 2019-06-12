@@ -6,12 +6,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import android.widget.AutoCompleteTextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

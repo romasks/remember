@@ -6,14 +6,15 @@ import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
+import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 
 public interface ServiceNetwork {
 
@@ -21,7 +22,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseCemetery>> getCemetery(int id);
 
-    Observable<ResponseCemetery> addPage(AddPageModel person);
+    Observable<ResponseCemetery> addPage(AddPageModel person, MultipartBody.Part imageUri);
 
     Observable<List<ResponseHandBook>> getReligion();
 
@@ -33,7 +34,9 @@ public interface ServiceNetwork {
 
     Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent);
 
-    Observable<List<RequestAddEvent>> getEvents(int pageId);
+    Observable<List<RequestAddEvent>> getEventsForId(int pageId);
+
+    Observable<List<ResponseEvents>> getEvents();
 
     Observable<ResponseAuth> singInAuth(String login, String password);
 

@@ -8,11 +8,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.widget.AppCompatEditText;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

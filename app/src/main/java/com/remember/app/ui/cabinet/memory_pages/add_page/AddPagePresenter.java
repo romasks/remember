@@ -7,11 +7,14 @@ import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
 import com.remember.app.ui.cabinet.memory_pages.PageView;
 
+import java.io.File;
+
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MultipartBody;
 
 @InjectViewState
 public class AddPagePresenter extends BasePresenter<AddPageView> {
@@ -23,8 +26,8 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public void addPage(AddPageModel person) {
-        Disposable subscription = serviceNetwork.addPage(person)
+    public void addPage(AddPageModel person, MultipartBody.Part imageUri) {
+        Disposable subscription = serviceNetwork.addPage(person, imageUri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onSavedPage);

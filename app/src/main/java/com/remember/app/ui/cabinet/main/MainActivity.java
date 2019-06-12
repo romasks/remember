@@ -15,14 +15,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
+import com.remember.app.ui.question.QuestionActivity;
 import com.remember.app.ui.settings.SettingActivity;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -122,6 +123,10 @@ public class MainActivity extends MvpAppCompatActivity
 
         if (id == R.id.settings) {
             startActivity(new Intent(this, SettingActivity.class));
+            return true;
+        }
+        if (id == R.id.questions) {
+            startActivity(new Intent(this, QuestionActivity.class));
             return true;
         }
 

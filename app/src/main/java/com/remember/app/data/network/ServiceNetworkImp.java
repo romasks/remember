@@ -8,6 +8,7 @@ import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
+import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
@@ -17,6 +18,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
@@ -39,8 +43,31 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponseCemetery> addPage(AddPageModel person) {
-        return apiMethods.addPage(person);
+    public Observable<ResponseCemetery> addPage(AddPageModel person, MultipartBody.Part imageUri) {
+        RequestBody area = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody secondName = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody thirdName = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody comment = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody birthDate = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody deathDate = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody optradio = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody star = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody flag = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody religion = RequestBody.create(MediaType.parse("text/plain"), "dsgsdg");
+        RequestBody image = RequestBody.create(MediaType.parse("text/plain"), imageUri.toString());
+        return apiMethods.addPage(area,
+                secondName,
+                name,
+                thirdName,
+                comment,
+                birthDate,
+                deathDate,
+                optradio,
+                star,
+                flag,
+                religion,
+                image);
     }
 
     @Override
@@ -69,8 +96,13 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<List<RequestAddEvent>> getEvents(int pageId) {
-        return apiMethods.getEvents(pageId);
+    public Observable<List<RequestAddEvent>> getEventsForId(int pageId) {
+        return apiMethods.getEventsForId(pageId);
+    }
+
+    @Override
+    public Observable<List<ResponseEvents>> getEvents() {
+        return apiMethods.getEvents();
     }
 
     @Override

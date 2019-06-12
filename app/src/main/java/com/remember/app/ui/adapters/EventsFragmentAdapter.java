@@ -2,18 +2,21 @@ package com.remember.app.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
-import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseViewHolder;
 
 import java.text.ParseException;
@@ -30,13 +33,14 @@ import butterknife.ButterKnife;
 public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
-    private List<MemoryPageModel> memoryPageModelList = new ArrayList<>();
+    private Callback callback;
+    private List<ResponseEvents> responseEvents = new ArrayList<>();
 
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return new EventsFragmentAdapter.EventsFragmentAdapterViewHolder(
-                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_page_fragment, viewGroup, false)
+                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_events, viewGroup, false)
         );
     }
 
@@ -47,16 +51,28 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
     @Override
     public int getItemCount() {
-        return memoryPageModelList.size();
+        return responseEvents.size();
     }
 
-    public void setItems(List<MemoryPageModel> memoryPageModelList) {
-        this.memoryPageModelList.addAll(memoryPageModelList);
+    public void setItems(List<ResponseEvents> responseEvents) {
+        this.responseEvents.addAll(responseEvents);
         notifyDataSetChanged();
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public interface Callback {
+
+        void click(ResponseEvents events);
+
     }
 
     public class EventsFragmentAdapterViewHolder extends BaseViewHolder {
 
+        @BindView(R.id.layout)
+        ConstraintLayout layout;
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
         @BindView(R.id.amount_days)
@@ -76,17 +92,22 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
         @Override
         public void onBind(int position) {
+            layout.setOnClickListener(v -> {
+                callback.click(responseEvents.get(position));
+            });
+            Drawable mDefaultBackground = context.getResources().getDrawable(R.color.dark_gray);
             Glide.with(itemView)
-                    .load(memoryPageModelList.get(position).getPicture())
+                    .load(responseEvents.get(position).getPicture())
+                    .error(mDefaultBackground)
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImage);
+
             amountDays.setVisibility(View.VISIBLE);
             amountDays.setText("");
-            String fullName = memoryPageModelList.get(position).getSecondname() +
-                    memoryPageModelList.get(position).getName() + memoryPageModelList.get(position).getThirtname();
+            String fullName = responseEvents.get(position).getName();
             name.setText(fullName);
 
-            String dateText = memoryPageModelList.get(position).getDatarod() + " - " + memoryPageModelList.get(position).getDatasmert();
+            String dateText = responseEvents.get(position).getPutdate();
             date.setText(dateText);
 
             comment.setText("дней осталось");

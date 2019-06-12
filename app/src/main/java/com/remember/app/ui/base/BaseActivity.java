@@ -3,7 +3,7 @@ package com.remember.app.ui.base;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

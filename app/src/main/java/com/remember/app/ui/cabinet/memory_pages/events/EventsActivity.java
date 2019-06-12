@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.ImageView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.adapters.EventsDeceaseAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import java.util.List;
 

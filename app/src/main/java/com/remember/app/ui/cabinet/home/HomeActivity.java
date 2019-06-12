@@ -4,9 +4,9 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.remember.app.R;
 import com.remember.app.ui.adapters.HomeGridAdapter;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

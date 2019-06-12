@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,7 +20,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -31,7 +31,11 @@ import com.remember.app.ui.ImageFieldPickerActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,6 +45,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
@@ -82,6 +89,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private AddPageModel person;
     private static final int SELECT_PICTURE = 451;
     private static final int GRAVE_INFO_RESULT = 646;
+    private MultipartBody.Part imageUri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +109,9 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @OnClick(R.id.image_layout)
     public void pickImage() {
-        startActivity(new Intent(this,  ImageFieldPickerActivity.class));
+        CropImage.activity()
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .start(this);
     }
 
     @OnClick(R.id.place_button)
@@ -131,7 +141,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             person.setFlag("false");
         }
         person.setReligion(religion.getText().toString());
-        presenter.addPage(person);//TODO разобраться с id
+        presenter.addPage(person, imageUri);//TODO разобраться с id
     }
 
     private void initiate() {
@@ -227,6 +237,24 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 image.setColorFilter(filter);
             } catch (Exception e) {
                 Log.e("dsgsd", e.getMessage());
+            }
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                String resultUri = result.getUri().getPath();
+                Glide.with(this)
+                        .load(resultUri)
+                        .centerCrop()
+                        .into(image);
+                File file = new File(resultUri);
+                RequestBody requestFile =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+                imageUri = body;
+                System.out.println();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
         }
 

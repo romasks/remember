@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.adapters.EpitaphsAdapter;
+import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

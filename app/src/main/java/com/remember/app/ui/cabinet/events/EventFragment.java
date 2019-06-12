@@ -1,18 +1,21 @@
 package com.remember.app.ui.cabinet.events;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.gson.Gson;
 import com.remember.app.R;
-import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
+import com.remember.app.ui.utils.MvpAppCompatFragment;
 
 import java.util.List;
 
@@ -20,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class EventFragment extends MvpAppCompatFragment implements EventView {
+public class EventFragment extends MvpAppCompatFragment implements EventView, EventsFragmentAdapter.Callback {
 
     @InjectPresenter
     EventsPresenter presenter;
@@ -36,6 +39,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
         unbinder = ButterKnife.bind(this, v);
         presenter.getEvents();
         eventsFragmentAdapter = new EventsFragmentAdapter();
+        eventsFragmentAdapter.setCallback(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(container.getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
@@ -57,7 +62,15 @@ public class EventFragment extends MvpAppCompatFragment implements EventView {
     }
 
     @Override
-    public void getEvents(List<MemoryPageModel> memoryPageModelList) {
-        eventsFragmentAdapter.setItems(memoryPageModelList);
+    public void onReceivedEvents(List<ResponseEvents> responseEvents) {
+        eventsFragmentAdapter.setItems(responseEvents);
+    }
+
+    @Override
+    public void click(ResponseEvents events) {
+        Intent intent = new Intent(getActivity(), EventFullActivity.class);
+        String eventJson = new Gson().toJson(events);
+        intent.putExtra("EVENT", eventJson);
+        startActivity(intent);
     }
 }
