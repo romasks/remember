@@ -34,10 +34,13 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     RecyclerView recyclerView;
     @BindView(R.id.plus)
     ImageView plus;
+    @BindView(R.id.back)
+    ImageView back;
 
     private Unbinder unbinder;
     private EpitaphsAdapter epitaphsAdapter;
     private int pageId;
+    private boolean isShow;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -47,6 +50,8 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         unbinder = ButterKnife.bind(this);
 
         pageId = getIntent().getIntExtra("ID_PAGE", 1);
+        isShow = getIntent().getBooleanExtra("SHOW", false);
+
         epitaphsAdapter = new EpitaphsAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -55,7 +60,12 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
 
         presenter.getEpitaphs(pageId);
         plus.setOnClickListener(v -> {
-            showPopupAdd();
+            if (!isShow){
+                showPopupAdd();
+            }
+        });
+        back.setOnClickListener(v -> {
+            onBackPressed();
         });
     }
 

@@ -59,6 +59,8 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public interface Callback {
 
+        void openPage(MemoryPageModel memoryPageModel);
+
     }
 
     public class ImageAdapterHolder extends BaseViewHolder {
@@ -76,8 +78,10 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            System.out.println();
             try {
+                imageView.setOnClickListener(v -> {
+                    callback.openPage(memoryPageModels.get(position));
+                });
                 if (memoryPageModels.get(position).getPictureData().contains("uploads")){
                     Glide.with(context)
                             .load("http://86.57.172.88:8082" + memoryPageModels.get(position).getPictureData())

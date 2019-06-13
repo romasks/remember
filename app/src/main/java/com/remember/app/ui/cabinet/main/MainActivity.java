@@ -110,7 +110,7 @@ public class MainActivity extends MvpAppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
-        adapter.addFragment(new PageFragment(), "Памятные события");
+        adapter.addFragment(new PageFragment(), "Памятные страницы");
         adapter.addFragment(new EventFragment(), "События");
         viewPager.setAdapter(adapter);
     }

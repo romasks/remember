@@ -95,12 +95,22 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             layout.setOnClickListener(v -> {
                 callback.click(responseEvents.get(position));
             });
-            Drawable mDefaultBackground = context.getResources().getDrawable(R.color.dark_gray);
-            Glide.with(itemView)
-                    .load(responseEvents.get(position).getPicture())
-                    .error(mDefaultBackground)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImage);
+            Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
+            try {
+                if (!responseEvents.get(position).getPicture().contains("upload")){
+                    Glide.with(itemView)
+                            .load("http://86.57.172.88:8082/uploads/" + responseEvents.get(position).getPicture())
+                            .error(mDefaultBackground)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(avatarImage);
+                }
+            } catch (Exception e){
+                Glide.with(itemView)
+                        .load(mDefaultBackground)
+                        .error(mDefaultBackground)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(avatarImage);
+            }
 
             amountDays.setVisibility(View.VISIBLE);
             amountDays.setText("");

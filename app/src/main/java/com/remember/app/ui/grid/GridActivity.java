@@ -10,11 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.ui.SplashActivity;
 import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.cabinet.home.HomeActivity;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 
 import java.util.List;
 
@@ -46,9 +45,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @OnClick(R.id.button)
-    public void entry(){
+    public void entry() {
         startActivity(new Intent(this, AuthActivity.class));
-        finish();
     }
 
     @Override
@@ -59,5 +57,15 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onReceivedImages(List<MemoryPageModel> memoryPageModel) {
         imageAdapter.setItems(memoryPageModel);
+    }
+
+    @Override
+    public void openPage(MemoryPageModel memoryPageModel) {
+        Intent intent = new Intent(this, ShowPageActivity.class);
+        intent.putExtra("PERSON", memoryPageModel);
+        intent.putExtra("IS_LIST", true);
+        intent.putExtra("SHOW", true);
+        startActivity(intent);
+
     }
 }

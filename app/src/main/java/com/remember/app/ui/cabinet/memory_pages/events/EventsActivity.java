@@ -28,18 +28,21 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView {
     RecyclerView recyclerView;
     @BindView(R.id.new_event)
     ImageView plus;
+    @BindView(R.id.back)
+    ImageView back;
 
     private Unbinder unbinder;
     private String name;
     private EventsDeceaseAdapter eventsDeceaseAdapter;
     private int pageId;
+    private boolean isShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         unbinder = ButterKnife.bind(this);
-
+        isShow = getIntent().getBooleanExtra("SHOW", false);
         try {
             name = getIntent().getExtras().getString("NAME", "");
             pageId = getIntent().getIntExtra("ID_PAGE", 1);
@@ -55,10 +58,15 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView {
         recyclerView.setAdapter(eventsDeceaseAdapter);
 
         plus.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddNewEventActivity.class);
-            intent.putExtra("NAME", name);
-            intent.putExtra("ID_PAGE", pageId);
-            startActivity(intent);
+            if (!isShow){
+                Intent intent = new Intent(this, AddNewEventActivity.class);
+                intent.putExtra("NAME", name);
+                intent.putExtra("ID_PAGE", pageId);
+                startActivity(intent);
+            }
+        });
+        back.setOnClickListener(v -> {
+            onBackPressed();
         });
     }
 

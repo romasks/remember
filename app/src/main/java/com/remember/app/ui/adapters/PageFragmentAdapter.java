@@ -4,6 +4,9 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,9 +89,13 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 callback.sendItem(memoryPageModelList.get(position));
             });
             Glide.with(itemView)
-                    .load(memoryPageModelList.get(position).getPicture())
+                    .load("http://86.57.172.88:8082" + memoryPageModelList.get(position).getPicture())
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatarImage);
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            avatarImage.setColorFilter(filter);
             String fullName = memoryPageModelList.get(position).getSecondname() + " " +
                      memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
             name.setText(fullName);

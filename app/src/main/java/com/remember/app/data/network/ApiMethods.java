@@ -66,7 +66,7 @@ public interface ApiMethods {
     Observable<ResponseRegister> registerLogin(@Body RequestRegister requestRegister);
 
     @GET("deadevent/page/{id}")
-    Observable<List<RequestAddEvent>> getEventsForId(int pageId);
+    Observable<List<RequestAddEvent>> getEventsForId(@Path("id") int pageId);
 
     @Headers("Content-Type: application/json")
     @POST("page/add")

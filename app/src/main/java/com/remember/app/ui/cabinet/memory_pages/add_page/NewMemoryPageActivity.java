@@ -2,16 +2,14 @@ package com.remember.app.ui.cabinet.memory_pages.add_page;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.appcompat.widget.AppCompatRadioButton;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -19,25 +17,35 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import androidx.annotation.LongDef;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.nekoloop.base64image.Base64Image;
+import com.nekoloop.base64image.RequestEncode;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
-import com.remember.app.ui.ImageFieldPickerActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
+import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,9 +55,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
@@ -89,11 +95,13 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private DatePickerDialog.OnDateSetListener dateEndPickerDialog;
     private AddPageModel person;
+    private String dataString = "";
     private static final int SELECT_PICTURE = 451;
     private static final int GRAVE_INFO_RESULT = 646;
     private MultipartBody.Part imageUri;
     private boolean isEdit;
     private MemoryPageModel memoryPageModel;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,7 +113,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
         isEdit = i.getBooleanExtra("EDIT", false);
 
-        if (isEdit){
+        if (isEdit) {
             memoryPageModel = i.getParcelableExtra("PERSON");
             initEdit();
         }
@@ -121,14 +129,26 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     private void initEdit() {
-        lastName.setText(memoryPageModel.getThirtname());
+        try {
+            lastName.setText(memoryPageModel.getSecondname());
+        } catch (Exception e){
+            lastName.setText("");
+        }
         name.setText(memoryPageModel.getName());
-        middleName.setText(memoryPageModel.getSecondname());
+        middleName.setText(memoryPageModel.getThirtname());
         description.setText(memoryPageModel.getComment());
         dateBegin.setText(memoryPageModel.getDatarod());
         dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
-        if (memoryPageModel.getStar().equals("true")){
+        Glide.with(this)
+                .load("http://86.57.172.88:8082" + memoryPageModel.getPicture())
+                .error(R.drawable.darth_vader)
+                .into(image);
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        image.setColorFilter(filter);
+        if (memoryPageModel.getStar().equals("true")) {
             isFamous.setChecked(true);
         } else {
             isFamous.setChecked(false);
@@ -142,6 +162,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @OnClick(R.id.image_layout)
     public void pickImage() {
+        progressDialog = LoadingPopupUtils.showLoadingDialog(this);
         CropImage.activity()
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .start(this);
@@ -150,7 +171,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @OnClick(R.id.place_button)
     public void toPlace() {
         Intent intent = new Intent(this, BurialPlaceActivity.class);
-        if (isEdit){
+        if (isEdit) {
             intent.putExtra("MODEL", memoryPageModel);
             intent.putExtra("EDIT", true);
         }
@@ -165,7 +186,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setComment(description.getText().toString());
         person.setBirthDate(dateBegin.getText().toString());
         person.setDeathDate(dateEnd.getText().toString());
-        person.setOptradio("options1");
         person.setPictureData("");
         if (isFamous.isChecked()) {
             person.setStar("true");
@@ -178,7 +198,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             person.setFlag("false");
         }
         person.setReligion(religion.getText().toString());
-        if (!isEdit){
+//        person.setPictureData(dataString);
+        if (!isEdit) {
             presenter.addPage(person, imageUri);
         } else {
             presenter.editPage(person, memoryPageModel.getId());
@@ -282,23 +303,35 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                String resultUri = result.getUri().getPath();
-                Glide.with(this)
-                        .load(resultUri)
-                        .centerCrop()
-                        .into(image);
-                File file = new File(resultUri);
-                RequestBody requestFile =
-                        RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                MultipartBody.Part body =
-                        MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
-                imageUri = body;
-                System.out.println();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
+                    Base64Image.with(this)
+                            .encode(bitmap)
+                            .into(new RequestEncode.Encode() {
+                                @Override
+                                public void onSuccess(String base64) {
+                                    dataString = "data:image/png;base64," + base64;
+                                    progressDialog.hide();
+                                    Glide.with(getApplicationContext())
+                                            .load(result.getUri())
+                                            .centerCrop()
+                                            .into(image);
+                                    Log.d("DATA", base64);
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    dataString = "fail";
+                                    Log.d("DATA", "fail");
+                                }
+                            });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
         }
-
     }
 
     @Override

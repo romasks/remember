@@ -1,10 +1,14 @@
 package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.content.Intent;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
@@ -23,6 +27,10 @@ public class ShowPageActivity extends MvpAppCompatActivity {
 
     @BindView(R.id.fio)
     TextView name;
+    @BindView(R.id.image)
+    ImageView image;
+    @BindView(R.id.settings)
+    ImageView settings;
     @BindView(R.id.dates)
     TextView date;
     @BindView(R.id.city)
@@ -40,6 +48,7 @@ public class ShowPageActivity extends MvpAppCompatActivity {
 
     private Unbinder unbinder;
     private boolean isList = false;
+    private boolean isShow = false;
     private AddPageModel person;
     private MemoryPageModel memoryPageModel;
 
@@ -50,6 +59,10 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         unbinder = ButterKnife.bind(this);
         Intent i = getIntent();
         isList = i.getBooleanExtra("IS_LIST", false);
+        isShow = i.getBooleanExtra("SHOW", false);
+        if (isShow){
+            settings.setClickable(false);
+        }
         if (!isList) {
             person = i.getParcelableExtra("PERSON");
             if (person != null) {
@@ -60,6 +73,14 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         } else {
             memoryPageModel = i.getParcelableExtra("PERSON");
             if (memoryPageModel != null) {
+                Glide.with(this)
+                        .load("http://86.57.172.88:8082" + memoryPageModel.getPicture())
+                        .error(R.drawable.darth_vader)
+                        .into(image);
+                ColorMatrix colorMatrix = new ColorMatrix();
+                colorMatrix.setSaturation(0);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+                image.setColorFilter(filter);
                 initTextName(memoryPageModel);
                 initDate(memoryPageModel);
                 initInfo(memoryPageModel);
@@ -67,6 +88,9 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         }
         epitaphyButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, EpitaphsActivity.class);
+            if (isShow){
+                intent.putExtra("SHOW", true);
+            }
             if (isList) {
                 intent.putExtra("ID_PAGE", memoryPageModel.getId());
             } else {
@@ -76,6 +100,9 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         });
         events.setOnClickListener(v -> {
             Intent intent = new Intent(this, EventsActivity.class);
+            if (isShow){
+                intent.putExtra("SHOW", true);
+            }
             intent.putExtra("NAME", name.getText().toString());
             if (isList) {
                 intent.putExtra("ID_PAGE", memoryPageModel.getId());
@@ -84,6 +111,11 @@ public class ShowPageActivity extends MvpAppCompatActivity {
             }
             startActivity(intent);
         });
+    }
+
+    @OnClick(R.id.back_button)
+    public void back(){
+        onBackPressed();
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
@@ -123,9 +155,12 @@ public class ShowPageActivity extends MvpAppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        if (!isShow){
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+
     }
 
     @Override
