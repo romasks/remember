@@ -1,6 +1,7 @@
 package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestAuth;
@@ -102,5 +103,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<ResponsePages> editPage(AddPageModel person, Integer id) {
         return apiMethods.editPage(person, id);
+    }
+
+    @Override
+    public Observable<List<MemoryPageModel>> getImages() {
+        return apiMethods.getImages();
     }
 }

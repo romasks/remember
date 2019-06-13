@@ -39,6 +39,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     private EpitaphsAdapter epitaphsAdapter;
     private int pageId;
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
