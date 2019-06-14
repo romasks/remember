@@ -1,4 +1,4 @@
-package com.remember.app.ui;
+package com.remember.app.ui.utils;
 
 import android.content.Intent;
 import android.os.Bundle;

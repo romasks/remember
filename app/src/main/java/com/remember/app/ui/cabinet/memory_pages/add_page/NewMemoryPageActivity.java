@@ -27,6 +27,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.nekoloop.base64image.Base64Image;
 import com.nekoloop.base64image.RequestEncode;
 import com.remember.app.R;
@@ -35,6 +36,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
+import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
@@ -98,7 +100,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private String dataString = "";
     private static final int SELECT_PICTURE = 451;
     private static final int GRAVE_INFO_RESULT = 646;
-    private MultipartBody.Part imageUri;
+    private String imageUri;
     private boolean isEdit;
     private MemoryPageModel memoryPageModel;
     private ProgressDialog progressDialog;
@@ -186,7 +188,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setComment(description.getText().toString());
         person.setBirthDate(dateBegin.getText().toString());
         person.setDeathDate(dateEnd.getText().toString());
-        person.setPictureData("");
         if (isFamous.isChecked()) {
             person.setStar("true");
         } else if (notFamous.isChecked()) {
@@ -198,9 +199,9 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             person.setFlag("false");
         }
         person.setReligion(religion.getText().toString());
-//        person.setPictureData(dataString);
+        person.setPictureData(dataString);
         if (!isEdit) {
-            presenter.addPage(person, imageUri);
+//            presenter.addPage(person, imageUri);
         } else {
             presenter.editPage(person, memoryPageModel.getId());
         }
@@ -303,6 +304,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
+                imageUri = String.valueOf(result.getUri());
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     Base64Image.with(this)
@@ -310,8 +312,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                             .into(new RequestEncode.Encode() {
                                 @Override
                                 public void onSuccess(String base64) {
-                                    dataString = "data:image/png;base64," + base64;
-                                    progressDialog.hide();
+                                    dataString = base64;
+                                    progressDialog.dismiss();
                                     Glide.with(getApplicationContext())
                                             .load(result.getUri())
                                             .centerCrop()
@@ -321,7 +323,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
                                 @Override
                                 public void onFailure() {
-                                    dataString = "fail";
+                                    dataString = "";
+                                    progressDialog.dismiss();
                                     Log.d("DATA", "fail");
                                 }
                             });
@@ -361,10 +364,15 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     public void onEdited(ResponsePages responsePages) {
-        Intent intent = new Intent(this, ShowPageActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("PERSON", person);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    public void error(Throwable throwable) {
+        Snackbar.make(image, "Ошибка сохранения", Snackbar.LENGTH_LONG).show();
     }
 
     @Override

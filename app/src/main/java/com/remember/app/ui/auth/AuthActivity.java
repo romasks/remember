@@ -67,6 +67,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
             Prefs.putString("EMAIL", responseAuth.getEmail());
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             finish();
         }
 

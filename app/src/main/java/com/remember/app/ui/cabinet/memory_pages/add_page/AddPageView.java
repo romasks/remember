@@ -17,4 +17,6 @@ public interface AddPageView extends MvpView {
     void onGetedInfo(List<ResponseHandBook> responseHandBooks);
 
     void onEdited(ResponsePages responsePages);
+
+    void error(Throwable throwable);
 }

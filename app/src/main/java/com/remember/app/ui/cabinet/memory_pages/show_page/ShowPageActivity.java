@@ -1,29 +1,39 @@
 package com.remember.app.ui.cabinet.memory_pages.show_page;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
+import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ShowPageActivity extends MvpAppCompatActivity {
+public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback {
 
     @BindView(R.id.fio)
     TextView name;
@@ -60,7 +70,7 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         Intent i = getIntent();
         isList = i.getBooleanExtra("IS_LIST", false);
         isShow = i.getBooleanExtra("SHOW", false);
-        if (isShow){
+        if (isShow) {
             settings.setClickable(false);
         }
         if (!isList) {
@@ -88,7 +98,7 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         }
         epitaphyButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, EpitaphsActivity.class);
-            if (isShow){
+            if (isShow) {
                 intent.putExtra("SHOW", true);
             }
             if (isList) {
@@ -100,7 +110,7 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         });
         events.setOnClickListener(v -> {
             Intent intent = new Intent(this, EventsActivity.class);
-            if (isShow){
+            if (isShow) {
                 intent.putExtra("SHOW", true);
             }
             intent.putExtra("NAME", name.getText().toString());
@@ -114,8 +124,24 @@ public class ShowPageActivity extends MvpAppCompatActivity {
     }
 
     @OnClick(R.id.back_button)
-    public void back(){
+    public void back() {
         onBackPressed();
+    }
+
+    @OnClick(R.id.map_button)
+    public void showMap() {
+        Log.d("LOGS", memoryPageModel.getCoords());
+        if (memoryPageModel.getCoords().equals("")) {
+            Toast.makeText(this, "Координаты неизвестны", Toast.LENGTH_LONG).show();
+        } else {
+            View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
+            PopupMap popupWindow = new PopupMap(
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setCallback(this);
+            popupWindow.setUp(image, getSupportFragmentManager(), memoryPageModel.getCoords());
+        }
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
@@ -125,9 +151,19 @@ public class ShowPageActivity extends MvpAppCompatActivity {
         grave.setText(memoryPageModel.getNummogil());
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void initDate(MemoryPageModel memoryPageModel) {
-        String textDate = memoryPageModel.getDatarod() + " - " + memoryPageModel.getDatasmert();
-        date.setText(textDate);
+        try {
+            Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDatarod());
+            Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDatasmert());
+            DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
+            DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
+            String textDate = first.format(dateBegin) + " - " + second.format(dateEnd);
+            date.setText(textDate);
+        } catch (ParseException e) {
+            String textDate = memoryPageModel.getDatarod() + " - " + memoryPageModel.getDatasmert();
+            date.setText(textDate);
+        }
     }
 
     private void initTextName(MemoryPageModel memoryPageModel) {
@@ -155,12 +191,11 @@ public class ShowPageActivity extends MvpAppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (!isShow){
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
-
+//        if (!isShow) {
+//            Intent intent = new Intent(this, MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(intent);
+//        }
     }
 
     @Override
@@ -170,11 +205,16 @@ public class ShowPageActivity extends MvpAppCompatActivity {
     }
 
     @OnClick(R.id.settings)
-    public void editPage(){
+    public void editPage() {
         Intent intent = new Intent(this, NewMemoryPageActivity.class);
         intent.putExtra("PERSON", memoryPageModel);
         intent.putExtra("LIST", isList);
         intent.putExtra("EDIT", true);
         startActivity(intent);
+    }
+
+    @Override
+    public void setCoordinates(double latitude, double longitude) {
+
     }
 }

@@ -19,6 +19,7 @@ import com.remember.app.ui.cabinet.memory_pages.place.PlacePresenter;
 import com.remember.app.ui.grid.GridPresenter;
 import com.remember.app.ui.settings.data.PersonalDataFragmentPresenter;
 import com.remember.app.ui.settings.notification.NotificationFragmentPresenter;
+import com.remember.app.ui.splash.SplashPresenter;
 
 import javax.inject.Singleton;
 
@@ -58,5 +59,7 @@ public interface ApplicationComponent {
     void inject(NotificationFragmentPresenter presenter);
 
     void inject(GridPresenter presenter);
+
+    void inject(SplashPresenter presenter);
 }
 

@@ -117,7 +117,13 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             String fullName = responseEvents.get(position).getName();
             name.setText(fullName);
 
-            String dateText = responseEvents.get(position).getPutdate();
+            String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+            String dateText = null;
+            try {
+                dateText = String.valueOf(getDifferenceDays(responseEvents.get(position).getPutdate() + "." + year));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             date.setText(dateText);
 
             comment.setText("дней осталось");
@@ -125,7 +131,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
         public long getDifferenceDays(String date) throws ParseException {
             @SuppressLint("SimpleDateFormat")
-            Date dateResult = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
             Calendar past = Calendar.getInstance();
             past.setTime(dateResult);
             Calendar today = Calendar.getInstance();

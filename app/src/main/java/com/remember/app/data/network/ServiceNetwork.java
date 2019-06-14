@@ -44,7 +44,7 @@ public interface ServiceNetwork {
 
     Observable<ResponseRegister> registerLogin(String nickName, String email);
 
-    Observable<ResponsePages> editPage(AddPageModel person, Integer id);
-
     Observable<List<MemoryPageModel>> getImages();
+
+    Observable<ResponsePages> editPage(AddPageModel person, Integer id);
 }

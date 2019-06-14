@@ -78,31 +78,33 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
+            imageView.setOnClickListener(v -> {
+                callback.openPage(memoryPageModels.get(position));
+            });
             try {
-                imageView.setOnClickListener(v -> {
-                    callback.openPage(memoryPageModels.get(position));
-                });
-                if (memoryPageModels.get(position).getPictureData().contains("uploads")){
+                if (memoryPageModels.get(position).getPicture().contains("uploads")){
                     Glide.with(context)
-                            .load("http://86.57.172.88:8082" + memoryPageModels.get(position).getPictureData())
+                            .load("http://86.57.172.88:8082" + memoryPageModels.get(position).getPicture())
                             .error(R.drawable.darth_vader)
                             .into(imageView);
-                    ColorMatrix colorMatrix = new ColorMatrix();
-                    colorMatrix.setSaturation(0);
-                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                    imageView.setColorFilter(filter);
-                    String nameString = memoryPageModels.get(position).getSecondname() + " " + memoryPageModels.get(position).getName();
-                    name.setText(nameString);
+                } else {
+                    Glide.with(context)
+                            .load(R.drawable.darth_vader)
+                            .centerInside()
+                            .into(imageView);
                 }
-            }catch (Exception e){
+            } catch (NullPointerException e){
                 Glide.with(context)
                         .load(R.drawable.darth_vader)
+                        .centerInside()
                         .into(imageView);
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                imageView.setColorFilter(filter);
             }
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            imageView.setColorFilter(filter);
+            String nameString = memoryPageModels.get(position).getSecondname() + " " + memoryPageModels.get(position).getName();
+            name.setText(nameString);
         }
     }
 }

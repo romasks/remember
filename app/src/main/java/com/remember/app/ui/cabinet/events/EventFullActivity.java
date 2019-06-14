@@ -1,5 +1,6 @@
 package com.remember.app.ui.cabinet.events;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
@@ -34,11 +36,25 @@ public class EventFullActivity extends BaseActivity {
         if (getIntent().getExtras() != null) {
             ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENT")), ResponseEvents.class);
             System.out.println();
-
-            Glide.with(this)
-                    .load(responseEvents.getPicture())
-                    .into(avatarImage);
-
+            Drawable mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
+            try {
+                if (!responseEvents.getPicture().contains("upload")) {
+                    Glide.with(this)
+                            .load("http://86.57.172.88:8082/uploads/" + responseEvents.getPicture())
+                            .error(mDefaultBackground)
+                            .into(avatarImage);
+                } else {
+                    Glide.with(this)
+                            .load(mDefaultBackground)
+                            .error(mDefaultBackground)
+                            .into(avatarImage);
+                }
+            } catch (Exception e) {
+                Glide.with(this)
+                        .load(mDefaultBackground)
+                        .error(mDefaultBackground)
+                        .into(avatarImage);
+            }
             title.setText(responseEvents.getName());
             date.setText(responseEvents.getPutdate());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -50,7 +66,7 @@ public class EventFullActivity extends BaseActivity {
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         onBackPressed();
         finish();
     }

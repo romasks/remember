@@ -19,7 +19,11 @@ import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -88,10 +92,25 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             layout.setOnClickListener(v -> {
                 callback.sendItem(memoryPageModelList.get(position));
             });
-            Glide.with(itemView)
-                    .load("http://86.57.172.88:8082" + memoryPageModelList.get(position).getPicture())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImage);
+            try {
+                if (memoryPageModelList.get(position).getPicture().contains("uploads")){
+                    Glide.with(itemView)
+                            .load("http://86.57.172.88:8082" + memoryPageModelList.get(position).getPicture())
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(avatarImage);
+                } else {
+                    Glide.with(context)
+                            .load(R.drawable.darth_vader)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(avatarImage);
+                }
+            } catch (NullPointerException e){
+                Glide.with(context)
+                        .load(R.drawable.darth_vader)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(avatarImage);
+            }
+
             ColorMatrix colorMatrix = new ColorMatrix();
             colorMatrix.setSaturation(0);
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
@@ -100,8 +119,17 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                      memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
             name.setText(fullName);
 
-            String dateText = memoryPageModelList.get(position).getDatarod() + " - " + memoryPageModelList.get(position).getDatasmert();
-            date.setText(dateText);
+            try {
+                Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModelList.get(position).getDatarod());
+                Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModelList.get(position).getDatasmert());
+                DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
+                DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
+                String textDate = first.format(dateBegin) + " - " + second.format(dateEnd);
+                date.setText(textDate);
+            } catch (ParseException e) {
+                String textDate = memoryPageModelList.get(position).getDatarod() + " - " + memoryPageModelList.get(position).getDatasmert();
+                date.setText(textDate);
+            }
         }
     }
 }
