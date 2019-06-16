@@ -2,35 +2,41 @@ package com.remember.app.ui.cabinet.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.view.GravityCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
+import com.remember.app.ui.cabinet.memory_pages.place.PopupMap;
 import com.remember.app.ui.question.QuestionActivity;
 import com.remember.app.ui.settings.SettingActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.PopupPageScreen;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class MainActivity extends MvpAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback {
 
     @BindView(R.id.title_name)
     TextView title;
@@ -47,6 +53,8 @@ public class MainActivity extends MvpAppCompatActivity
 
         title.setText(Prefs.getString("NAME_USER", ""));
 
+        Prefs.putBoolean("EVENT_FRAGMENT", false);
+        Prefs.putBoolean("PAGE_FRAGMENT", true);
 
         ViewPager viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -58,6 +66,7 @@ public class MainActivity extends MvpAppCompatActivity
         imageView.setOnClickListener(v -> {
             startActivity(new Intent(this, NewMemoryPageActivity.class));
         });
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -72,6 +81,30 @@ public class MainActivity extends MvpAppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    @OnClick(R.id.search)
+    public void search() {
+        if (Prefs.getBoolean("PAGE_FRAGMENT", true)) {
+            showPageScreen();
+        } else {
+            showEventScreen();
+        }
+    }
+
+    private void showEventScreen() {
+
+    }
+
+    private void showPageScreen() {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
+        PopupPageScreen popupWindow = new PopupPageScreen(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setCallback(this);
+        popupWindow.setUp(title);
     }
 
     @Override

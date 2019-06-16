@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponsePages;
@@ -63,6 +64,20 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         });
 
         return v;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean visible)
+    {
+        super.setUserVisibleHint(visible);
+        if (visible && isResumed()) {
+            onResume();
+            Prefs.putBoolean("EVENT_FRAGMENT", false);
+            Prefs.putBoolean("PAGE_FRAGMENT", true);
+        } else {
+            Prefs.putBoolean("EVENT_FRAGMENT", true);
+            Prefs.putBoolean("PAGE_FRAGMENT", false);
+        }
     }
 
     @Override

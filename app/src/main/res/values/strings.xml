@@ -61,4 +61,5 @@
     <string name="entry_button_underline"><u>Войти</u></string>
     <string name="star">Знаменитость</string>
     <string name="send">Отправить</string>
+    <string name="search">Поиск</string>
 </resources>
