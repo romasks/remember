@@ -12,6 +12,7 @@ import com.remember.app.ui.auth.AuthPresenter;
 import com.remember.app.ui.auth.RegisterPresenter;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsPresenter;
 import com.remember.app.ui.cabinet.events.EventsPresenter;
+import com.remember.app.ui.cabinet.main.MainPresenter;
 import com.remember.app.ui.cabinet.memory_pages.PagePresenter;
 import com.remember.app.ui.cabinet.memory_pages.add_page.AddPagePresenter;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventPresenter;
@@ -61,5 +62,7 @@ public interface ApplicationComponent {
     void inject(GridPresenter presenter);
 
     void inject(SplashPresenter presenter);
+
+    void inject(MainPresenter presenter);
 }
 

@@ -15,7 +15,7 @@ public class PopupPageScreen extends PopupWindow {
     }
 
     public void setUp(View contentView) {
-        setFocusable(false);
+        setFocusable(true);
         setOutsideTouchable(false);
         showAtLocation(contentView, Gravity.TOP, 0, 0);
         View popupView = getContentView();

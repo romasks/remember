@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,20 +16,23 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
-import com.remember.app.ui.cabinet.memory_pages.place.PopupMap;
 import com.remember.app.ui.question.QuestionActivity;
 import com.remember.app.ui.settings.SettingActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.PopupPageScreen;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +40,10 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class MainActivity extends MvpAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback {
+        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
+
+    @InjectPresenter
+    MainPresenter presenter;
 
     @BindView(R.id.title_name)
     TextView title;
@@ -87,25 +94,35 @@ public class MainActivity extends MvpAppCompatActivity
     @OnClick(R.id.search)
     public void search() {
         Prefs.putBoolean("IS_SHOWED", true);
-        if (Prefs.getBoolean("PAGE_FRAGMENT", true)) {
-            showPageScreen();
+        if (!Prefs.getBoolean("PAGE_FRAGMENT", true)) {
+            presenter.getReligion();
         } else {
-            showEventScreen();
+           showEventScreen();
         }
     }
 
     private void showEventScreen() {
-
-    }
-
-    private void showPageScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
         PopupPageScreen popupWindow = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        popupWindow.setFocusable(true);
         popupWindow.setCallback(this);
         popupWindow.setUp(title);
+
+    }
+
+    private void showPageScreen(List<String> responseHandBooks) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen, null);
+        PopupEventScreen popupWindow = new PopupEventScreen(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setCallback(this);
+        popupWindow.setUp(title, responseHandBooks);
     }
 
     @Override
@@ -169,5 +186,11 @@ public class MainActivity extends MvpAppCompatActivity
         textView.setText(Prefs.getString("NAME_USER", ""));
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void onReceivedReligions(List<String> responseHandBooks) {
+        showPageScreen(responseHandBooks);
     }
 }
