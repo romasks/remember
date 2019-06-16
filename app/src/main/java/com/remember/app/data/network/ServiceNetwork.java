@@ -12,9 +12,9 @@ import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 
+import java.io.File;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 
@@ -24,7 +24,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseCemetery>> getCemetery(int id);
 
-    Observable<ResponseCemetery> addPage(AddPageModel person, MultipartBody.Part imageUri);
+    Observable<ResponseCemetery> addPage(AddPageModel person, File imageUri);
 
     Observable<List<ResponseHandBook>> getReligion();
 
@@ -46,5 +46,5 @@ public interface ServiceNetwork {
 
     Observable<List<MemoryPageModel>> getImages();
 
-    Observable<ResponsePages> editPage(AddPageModel person, Integer id);
+    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
 }

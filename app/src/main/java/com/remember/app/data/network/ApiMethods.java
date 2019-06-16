@@ -27,6 +27,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiMethods {
 
@@ -68,16 +69,52 @@ public interface ApiMethods {
     @GET("deadevent/page/{id}")
     Observable<List<RequestAddEvent>> getEventsForId(@Path("id") int pageId);
 
-    @Headers("Content-Type: application/json")
+    @Multipart
     @POST("page/add")
-    Observable<ResponseCemetery> addPage(@Body AddPageModel person);
+    Observable<ResponseCemetery> addPage(@Part("oblast") RequestBody oblast,
+                                         @Part("datarod") RequestBody datarod,
+                                         @Part("nazvaklad") RequestBody nazvaklad,
+                                         @Part("gorod") RequestBody gorod,
+                                         @Part("comment") RequestBody comment,
+                                         @Part("coords") RequestBody coords,
+                                         @Part("datasmert") RequestBody deathDate,
+                                         @Part("rajon") RequestBody district,
+                                         @Part("flag") RequestBody flag,
+                                         @Part("nummogil") RequestBody graveId,
+                                         @Part("name") RequestBody name,
+                                         @Part("optradio") RequestBody optradio,
+                                         @Part("religiya") RequestBody religion,
+                                         @Part("secondname") RequestBody secondName,
+                                         @Part("uchastok") RequestBody spotId,
+                                         @Part("star") RequestBody star,
+                                         @Part("thirtname") RequestBody thirdName,
+                                         @Part("user_id") RequestBody userId,
+                                         @Part MultipartBody.Part image);
 
-    @Headers("Content-Type: application/json")
-    @POST("page/edit/{id}")
-    Observable<ResponsePages> editPage(@Body AddPageModel person,
-                                       @Path("id") Integer id);
 
     @GET("page")
     Observable<List<MemoryPageModel>> getImages();
 
+    @Multipart
+    @POST("page/edit/{id}")
+    Observable<ResponsePages> editPage(@Part("oblast") RequestBody oblast,
+                                       @Part("datarod") RequestBody datarod,
+                                       @Part("nazvaklad") RequestBody nazvaklad,
+                                       @Part("gorod") RequestBody gorod,
+                                       @Part("comment") RequestBody comment,
+                                       @Part("coords") RequestBody coords,
+                                       @Part("datasmert") RequestBody deathDate,
+                                       @Part("rajon") RequestBody district,
+                                       @Part("flag") RequestBody flag,
+                                       @Part("nummogil") RequestBody graveId,
+                                       @Part("name") RequestBody name,
+                                       @Part("optradio") RequestBody optradio,
+                                       @Part("religiya") RequestBody religion,
+                                       @Part("secondname") RequestBody secondName,
+                                       @Part("uchastok") RequestBody spotId,
+                                       @Part("star") RequestBody star,
+                                       @Part("thirtname") RequestBody thirdName,
+                                       @Part("user_id") RequestBody userId,
+                                       @Part MultipartBody.Part image,
+                                       @Path("id") Integer id);
 }

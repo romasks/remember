@@ -33,7 +33,7 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public void addPage(AddPageModel person, MultipartBody.Part imageUri) {
+    public void addPage(AddPageModel person, File imageUri) {
         Disposable subscription = serviceNetwork.addPage(person, imageUri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -49,8 +49,8 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void editPage(AddPageModel person, Integer id) {
-        Disposable subscription = serviceNetwork.editPage(person, id)
+    public void editPage(AddPageModel person, Integer id, File imageFile) {
+        Disposable subscription = serviceNetwork.editPage(person, id, imageFile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onEdited,

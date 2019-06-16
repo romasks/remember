@@ -113,7 +113,6 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             }
 
             amountDays.setVisibility(View.VISIBLE);
-            amountDays.setText("");
             String fullName = responseEvents.get(position).getName();
             name.setText(fullName);
 
@@ -124,7 +123,8 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            date.setText(dateText);
+            date.setText(responseEvents.get(position).getPutdate());
+            amountDays.setText(dateText);
 
             comment.setText("дней осталось");
         }
@@ -136,8 +136,15 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             past.setTime(dateResult);
             Calendar today = Calendar.getInstance();
             today.set(Calendar.YEAR, past.get(Calendar.YEAR));
-            long diff = today.getTime().getTime() - past.getTime().getTime();
-            return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            long diff = past.getTime().getTime() - today.getTime().getTime();
+            if (diff > 0){
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            }else {
+                today.set(Calendar.YEAR, past.get(Calendar.YEAR));
+                past.add(Calendar.YEAR, 1);
+                diff = past.getTime().getTime() - today.getTime().getTime();
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            }
         }
 
     }

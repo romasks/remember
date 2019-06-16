@@ -1,14 +1,18 @@
 package com.remember.app.ui.cabinet.memory_pages.add_page;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,19 +21,16 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
-import com.nekoloop.base64image.Base64Image;
-import com.nekoloop.base64image.RequestEncode;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
@@ -45,8 +46,9 @@ import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -57,7 +59,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MultipartBody;
 
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
@@ -104,6 +105,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private boolean isEdit;
     private MemoryPageModel memoryPageModel;
     private ProgressDialog progressDialog;
+    private File imageFile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,6 +114,18 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         ButterKnife.bind(this);
         initiate();
         Intent i = getIntent();
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG", "Permission is granted");
+            } else {
+                Log.v("TAG", "Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG", "Permission is granted");
+        }
 
         isEdit = i.getBooleanExtra("EDIT", false);
 
@@ -133,7 +147,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private void initEdit() {
         try {
             lastName.setText(memoryPageModel.getSecondname());
-        } catch (Exception e){
+        } catch (Exception e) {
             lastName.setText("");
         }
         name.setText(memoryPageModel.getName());
@@ -201,9 +215,9 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setReligion(religion.getText().toString());
         person.setPictureData(dataString);
         if (!isEdit) {
-//            presenter.addPage(person, imageUri);
+            presenter.addPage(person, imageFile);
         } else {
-            presenter.editPage(person, memoryPageModel.getId());
+            presenter.editPage(person, memoryPageModel.getId(), imageFile);
         }
     }
 
@@ -304,30 +318,16 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
+                progressDialog.dismiss();
                 imageUri = String.valueOf(result.getUri());
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
-                    Base64Image.with(this)
-                            .encode(bitmap)
-                            .into(new RequestEncode.Encode() {
-                                @Override
-                                public void onSuccess(String base64) {
-                                    dataString = base64;
-                                    progressDialog.dismiss();
-                                    Glide.with(getApplicationContext())
-                                            .load(result.getUri())
-                                            .centerCrop()
-                                            .into(image);
-                                    Log.d("DATA", base64);
-                                }
-
-                                @Override
-                                public void onFailure() {
-                                    dataString = "";
-                                    progressDialog.dismiss();
-                                    Log.d("DATA", "fail");
-                                }
-                            });
+                    imageFile = saveBitmap(bitmap);
+                    progressDialog.dismiss();
+                    Glide.with(getApplicationContext())
+                            .load(result.getUri())
+                            .centerCrop()
+                            .into(image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -337,12 +337,26 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         }
     }
 
+    public static File saveBitmap(Bitmap bmp) throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
+        File f = new File(Environment.getExternalStorageDirectory()
+                + File.separator + "image.jpg");
+
+        f.createNewFile();
+        FileOutputStream fo = new FileOutputStream(f);
+        fo.write(bytes.toByteArray());
+        fo.close();
+        return f;
+    }
+
     @Override
     public void onSavedPage(ResponseCemetery response) {
         Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -379,4 +393,5 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     public void saveItem(ResponseHandBook responseHandBook) {
         religion.setText(responseHandBook.getName());
     }
+
 }
