@@ -86,6 +86,7 @@ public class MainActivity extends MvpAppCompatActivity
 
     @OnClick(R.id.search)
     public void search() {
+        Prefs.putBoolean("IS_SHOWED", true);
         if (Prefs.getBoolean("PAGE_FRAGMENT", true)) {
             showPageScreen();
         } else {

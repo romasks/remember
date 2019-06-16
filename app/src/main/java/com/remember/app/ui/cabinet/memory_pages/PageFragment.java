@@ -36,6 +36,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Prefs.putBoolean("PAGE_FRAGMENT", true);
         super.onCreate(savedInstanceState);
     }
 
