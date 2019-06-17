@@ -6,6 +6,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestAuth;
+import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
@@ -42,8 +43,8 @@ public interface ApiMethods {
     Observable<List<ResponseHandBook>> getReligion();
 
     @Headers("Content-Type: application/json")
-    @GET("page")
-    Observable<List<MemoryPageModel>> getPages();
+    @GET("page/user/{id}")
+    Observable<List<MemoryPageModel>> getPages(@Path("id") String id);
 
     @GET("page/epit/{id}")
     Observable<List<ResponseEpitaphs>> getEpitaphs(@Path("id") int pageId);
@@ -121,4 +122,30 @@ public interface ApiMethods {
 
     @GET("poisk/secondname/{second_name}")
     Observable<List<MemoryPageModel>> searchLastName(@Path("second_name") String lastName);
+
+    @Headers("Content-Type: application/json")
+    @POST("question/add")
+    Observable<Object> send(@Body RequestQuestion requestQuestion);
+
+    @Multipart
+    @POST("page/edit/{id}")
+    Observable<ResponsePages> editPageWithoutImage(@Part("oblast") RequestBody oblast,
+                                                   @Part("datarod") RequestBody datarod,
+                                                   @Part("nazvaklad") RequestBody nazvaklad,
+                                                   @Part("gorod") RequestBody gorod,
+                                                   @Part("comment") RequestBody comment,
+                                                   @Part("coords") RequestBody coords,
+                                                   @Part("datasmert") RequestBody deathDate,
+                                                   @Part("rajon") RequestBody district,
+                                                   @Part("flag") RequestBody flag,
+                                                   @Part("nummogil") RequestBody graveId,
+                                                   @Part("name") RequestBody name,
+                                                   @Part("optradio") RequestBody optradio,
+                                                   @Part("religiya") RequestBody religion,
+                                                   @Part("secondname") RequestBody secondName,
+                                                   @Part("uchastok") RequestBody spotId,
+                                                   @Part("star") RequestBody star,
+                                                   @Part("thirtname") RequestBody thirdName,
+                                                   @Part("user_id") RequestBody userId,
+                                                   @Path("id") Integer id);
 }

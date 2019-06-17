@@ -20,6 +20,7 @@
         app:ms_text_color="@color/colorAccent" />
 
     <EditText
+        android:id="@+id/body"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="40dp"
@@ -31,12 +32,8 @@
         android:hint="Текст ..."
         android:paddingStart="10dp"
         android:paddingTop="10dp"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="2"
-        android:shadowDy="4"
-        android:shadowRadius="2"
-        android:textColor="@color/gray"
-        android:textColorHint="#A8A8A8"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/dark_gray"
         app:layout_constraintBottom_toTopOf="@+id/pick"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 

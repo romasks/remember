@@ -2,11 +2,13 @@ package com.remember.app.data.network;
 
 import android.util.Log;
 
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestAuth;
+import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
@@ -182,7 +184,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<List<MemoryPageModel>> getPages() {
-        return apiMethods.getPages();
+        return apiMethods.getPages(Prefs.getString("USER_ID", "0"));
     }
 
     @Override
@@ -251,6 +253,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody star = null;
         RequestBody thirdName = null;
         RequestBody userId = null;
+        RequestBody mFile = null;
         MultipartBody.Part fileToUploadTranser = null;
         try {
             area = RequestBody.create(MultipartBody.FORM, person.getArea());
@@ -342,34 +345,68 @@ public class ServiceNetworkImp implements ServiceNetwork {
         } catch (Exception e) {
             userId = RequestBody.create(MultipartBody.FORM, "");
         }
-        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-        return apiMethods.editPage(area,
-                birthDate,
-                cemeteryName,
-                city,
-                comment,
-                coords,
-                deathDate,
-                district,
-                flag,
-                grave,
-                name,
-                optradio,
-                religion,
-                secondNam,
-                spotId,
-                star,
-                thirdName,
-                userId,
-                fileToUploadTranser,
-                id
+        try {
+            userId = RequestBody.create(MultipartBody.FORM, person.getUserId());
+        } catch (Exception e) {
+            userId = RequestBody.create(MultipartBody.FORM, "");
+        }
+        if (imageFile != null){
+            mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+            fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
+            return apiMethods.editPage(area,
+                    birthDate,
+                    cemeteryName,
+                    city,
+                    comment,
+                    coords,
+                    deathDate,
+                    district,
+                    flag,
+                    grave,
+                    name,
+                    optradio,
+                    religion,
+                    secondNam,
+                    spotId,
+                    star,
+                    thirdName,
+                    userId,
+                    fileToUploadTranser,
+                    id
 
-        );
+            );
+        } else {
+            return apiMethods.editPageWithoutImage(area,
+                    birthDate,
+                    cemeteryName,
+                    city,
+                    comment,
+                    coords,
+                    deathDate,
+                    district,
+                    flag,
+                    grave,
+                    name,
+                    optradio,
+                    religion,
+                    secondNam,
+                    spotId,
+                    star,
+                    thirdName,
+                    userId,
+                    id
+
+            );
+        }
     }
 
     @Override
     public Observable<List<MemoryPageModel>> searchLastName(String lastName) {
         return apiMethods.searchLastName(lastName);
+    }
+
+    @Override
+    public Observable<Object> send(RequestQuestion requestQuestion) {
+        return apiMethods.send(requestQuestion);
     }
 }

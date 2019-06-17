@@ -16,6 +16,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.adapters.EpitaphsAdapter;
+import com.remember.app.ui.utils.DividerItemDecoration;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import java.text.DateFormat;
@@ -58,6 +59,8 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(
+                new DividerItemDecoration(this, R.drawable.divider));
         recyclerView.setAdapter(epitaphsAdapter);
 
         presenter.getEpitaphs(pageId);
