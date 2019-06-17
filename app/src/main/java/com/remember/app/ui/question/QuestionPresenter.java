@@ -1,7 +1,8 @@
-package com.remember.app.ui.cabinet.memory_pages;
+package com.remember.app.ui.question;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
+import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
 
@@ -12,20 +13,22 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class PagePresenter extends BasePresenter<PageView> {
+public class QuestionPresenter extends BasePresenter<QuestionView> {
+
 
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public PagePresenter() {
+    public QuestionPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getPages() {
-        Disposable subscription = serviceNetwork.getPages()
+    public void send(RequestQuestion requestQuestion) {
+        Disposable subscription = serviceNetwork.send(requestQuestion)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedPages);
+                .subscribe(getViewState()::onReceived,
+                        getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
 }

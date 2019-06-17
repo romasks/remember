@@ -1,13 +1,18 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -55,6 +60,8 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView name;
         @BindView(R.id.date)
         TextView date;
+        @BindView(R.id.avatar)
+        ImageView avatar;
 
         public EpitaphsAdapterViewHolder(View itemView) {
             super(itemView);
@@ -64,7 +71,11 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            name.setText(String.valueOf(responseEpitaphs.get(position).getId()));
+            name.setText(Prefs.getString("NAME_USER", ""));
+            Glide.with(itemView)
+                    .load(R.drawable.darth_vader)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(avatar);
             date.setText("Сегодня в 16:59");
             description.setText(responseEpitaphs.get(position).getBody());
         }

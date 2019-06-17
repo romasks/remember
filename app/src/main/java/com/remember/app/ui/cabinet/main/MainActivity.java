@@ -1,11 +1,13 @@
 package com.remember.app.ui.cabinet.main;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,20 +17,24 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
-import com.remember.app.ui.cabinet.memory_pages.place.PopupMap;
 import com.remember.app.ui.question.QuestionActivity;
 import com.remember.app.ui.settings.SettingActivity;
+import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.PopupPageScreen;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,12 +42,21 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class MainActivity extends MvpAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback {
+        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
+
+    @InjectPresenter
+    MainPresenter presenter;
 
     @BindView(R.id.title_name)
     TextView title;
 
     private Unbinder unbinder;
+    private PageFragment pageFragment;
+    private CallbackPage callbackPage;
+    private ProgressDialog progressDialog;
+    private ViewPager viewPager;
+    private PopupEventScreen popupWindowEvent;
+    private PopupPageScreen popupWindowPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +66,13 @@ public class MainActivity extends MvpAppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        pageFragment = new PageFragment();
         title.setText(Prefs.getString("NAME_USER", ""));
 
         Prefs.putBoolean("EVENT_FRAGMENT", false);
         Prefs.putBoolean("PAGE_FRAGMENT", true);
 
-        ViewPager viewPager = findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
@@ -66,7 +82,6 @@ public class MainActivity extends MvpAppCompatActivity
         imageView.setOnClickListener(v -> {
             startActivity(new Intent(this, NewMemoryPageActivity.class));
         });
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -87,25 +102,41 @@ public class MainActivity extends MvpAppCompatActivity
     @OnClick(R.id.search)
     public void search() {
         Prefs.putBoolean("IS_SHOWED", true);
-        if (Prefs.getBoolean("PAGE_FRAGMENT", true)) {
-            showPageScreen();
+        if (!Prefs.getBoolean("PAGE_FRAGMENT", true)) {
+            presenter.getReligion();
         } else {
             showEventScreen();
         }
     }
 
-    private void showEventScreen() {
+    public interface CallbackPage {
+
+        void sendItemsSearch(List<MemoryPageModel> result);
 
     }
 
-    private void showPageScreen() {
+    private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
-        PopupPageScreen popupWindow = new PopupPageScreen(
+        popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setCallback(this);
-        popupWindow.setUp(title);
+        popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        popupWindowPage.setFocusable(true);
+        popupWindowPage.setCallback(this);
+        popupWindowPage.setUp(title);
+
+    }
+
+    private void showPageScreen(List<String> responseHandBooks) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen, null);
+        popupWindowEvent = new PopupEventScreen(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindowEvent.setFocusable(true);
+        popupWindowEvent.setCallback(this);
+        popupWindowEvent.setUp(title, responseHandBooks);
     }
 
     @Override
@@ -117,7 +148,11 @@ public class MainActivity extends MvpAppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (popupWindowEvent != null && popupWindowEvent.isShowing()) {
+            popupWindowEvent.dismiss();
+        } else if (popupWindowPage != null && popupWindowPage.isShowing()) {
+            popupWindowPage.dismiss();
+        } else if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -144,7 +179,7 @@ public class MainActivity extends MvpAppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
-        adapter.addFragment(new PageFragment(), "Памятные страницы");
+        adapter.addFragment(pageFragment, "Памятные страницы");
         adapter.addFragment(new EventFragment(), "События");
         viewPager.setAdapter(adapter);
     }
@@ -169,5 +204,31 @@ public class MainActivity extends MvpAppCompatActivity
         textView.setText(Prefs.getString("NAME_USER", ""));
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void onReceivedReligions(List<String> responseHandBooks) {
+        showPageScreen(responseHandBooks);
+    }
+
+    @Override
+    public void onSearchedLastNames(List<MemoryPageModel> memoryPageModels) {
+        progressDialog.dismiss();
+        callbackPage.sendItemsSearch(memoryPageModels);
+    }
+
+    @Override
+    public void search(String lastName) {
+        progressDialog = LoadingPopupUtils.showLoadingDialog(this);
+        if (!lastName.equals("")) {
+            presenter.searchLastName(lastName);
+        } else {
+            progressDialog.dismiss();
+        }
+    }
+
+    public void setCallback(CallbackPage callback) {
+        this.callbackPage = callback;
     }
 }

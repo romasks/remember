@@ -4,6 +4,7 @@ import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
+import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -15,6 +16,7 @@ import com.remember.app.data.models.ResponseRegister;
 import java.io.File;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 
@@ -28,7 +30,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseHandBook>> getReligion();
 
-    Observable<ResponsePages> getPages(int countPage);
+    Observable<List<MemoryPageModel>> getPages();
 
     Observable<List<ResponseEpitaphs>> getEpitaphs(int pageId);
 
@@ -47,4 +49,8 @@ public interface ServiceNetwork {
     Observable<List<MemoryPageModel>> getImages();
 
     Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
+
+    Observable<List<MemoryPageModel>> searchLastName(String lastName);
+
+    Observable<Object> send(RequestQuestion requestQuestion);
 }

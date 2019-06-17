@@ -54,6 +54,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItems(List<MemoryPageModel> memoryPageModelList) {
+        this.memoryPageModelList.clear();
         this.memoryPageModelList.addAll(memoryPageModelList);
         notifyDataSetChanged();
     }
