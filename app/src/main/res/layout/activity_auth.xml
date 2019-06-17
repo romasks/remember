@@ -18,8 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="45dp"
         android:text="Помню"
+        android:fontFamily="@font/round"
         android:textColor="@color/colorAccent"
-        android:textSize="30sp"
+        android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/email_login_form"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

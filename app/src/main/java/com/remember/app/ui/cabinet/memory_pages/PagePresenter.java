@@ -21,8 +21,8 @@ public class PagePresenter extends BasePresenter<PageView> {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getPages(int countPage) {
-        Disposable subscription = serviceNetwork.getPages(countPage)
+    public void getPages() {
+        Disposable subscription = serviceNetwork.getPages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedPages);

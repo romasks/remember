@@ -33,4 +33,12 @@ public class MainPresenter extends BasePresenter<MainView> {
                 .subscribe(getViewState()::onReceivedReligions);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void searchLastName(String lastName) {
+        Disposable subscription = serviceNetwork.searchLastName(lastName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onSearchedLastNames);
+        unsubscribeOnDestroy(subscription);
+    }
 }

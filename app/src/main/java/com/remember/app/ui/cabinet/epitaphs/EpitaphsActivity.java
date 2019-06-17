@@ -2,14 +2,16 @@ package com.remember.app.ui.cabinet.epitaphs;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -60,7 +62,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
 
         presenter.getEpitaphs(pageId);
         plus.setOnClickListener(v -> {
-            if (!isShow){
+            if (!isShow) {
                 showPopupAdd();
             }
         });
@@ -108,7 +110,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         RequestAddEpitaphs requestAddEpitaphs = new RequestAddEpitaphs();
         requestAddEpitaphs.setBody(text);
         requestAddEpitaphs.setPageId(pageId);
-        requestAddEpitaphs.setUserId("");
+        requestAddEpitaphs.setUserId(Prefs.getString("USER_ID", ""));
         requestAddEpitaphs.setCreated(df.format(new Date()));
         requestAddEpitaphs.setUpdated(df.format(new Date()));
         presenter.saveEpitaph(requestAddEpitaphs);

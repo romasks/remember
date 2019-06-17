@@ -80,8 +80,7 @@
                 android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
                 android:textColorHint="@drawable/abc"
-                android:textColorLink="@color/light_brown"
-                android:textStyle="bold" />
+                android:textColorLink="@color/light_brown" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,8 +107,7 @@
                 android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
                 android:textColorHint="@drawable/abc"
-                android:textColorLink="@color/light_brown"
-                android:textStyle="bold" />
+                android:textColorLink="@color/light_brown" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,8 +136,7 @@
                 android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
                 android:textColorHint="@drawable/abc"
-                android:textColorLink="@color/light_brown"
-                android:textStyle="bold" />
+                android:textColorLink="@color/light_brown" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,7 +154,6 @@
             android:text="@string/access"
             android:textColor='@color/light_brown'
             android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date"
@@ -167,7 +163,7 @@
             android:id="@+id/access"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/default_activity_fields_margin"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/access_desk">
@@ -182,24 +178,18 @@
                 android:button="@drawable/radio_button"
                 android:checked="true"
                 android:text="@string/all"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textColor='@color/light_brown'
                 tools:ignore="RtlHardcoded" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/not_for_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:button="@drawable/radio_button"
                 android:checked="true"
                 android:text="@string/for_your"
                 android:textColor='@color/light_brown'
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/is_famous" />
         </RadioGroup>
 
@@ -217,7 +207,6 @@
             android:text="@string/notification"
             android:textColor='@color/light_brown'
             android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/access" />
@@ -226,23 +215,20 @@
             android:id="@+id/is_notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/notification_title">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/it_notification"
-                android:layout_width="wrap_content"
+                android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:button="@drawable/radio_button"
                 android:text="@string/yes"
-                android:textColor='@color/light_brown'
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor='@color/light_brown' />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/not_notification"
@@ -253,8 +239,6 @@
                 android:checked="true"
                 android:text="@string/no"
                 android:textColor='@color/light_brown'
-                android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/it_public"
                 tools:ignore="RtlHardcoded" />
         </RadioGroup>
@@ -274,7 +258,6 @@
             android:text="Добавьте описание"
             android:textColor='@color/light_brown'
             android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/is_notification" />
 

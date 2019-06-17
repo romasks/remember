@@ -41,8 +41,9 @@ public interface ApiMethods {
     @GET("religia")
     Observable<List<ResponseHandBook>> getReligion();
 
-    @GET("pages/{page}")
-    Observable<ResponsePages> getPages(@Path("page") int countPage);
+    @Headers("Content-Type: application/json")
+    @GET("page")
+    Observable<List<MemoryPageModel>> getPages();
 
     @GET("page/epit/{id}")
     Observable<List<ResponseEpitaphs>> getEpitaphs(@Path("id") int pageId);
@@ -117,4 +118,7 @@ public interface ApiMethods {
                                        @Part("user_id") RequestBody userId,
                                        @Part MultipartBody.Part image,
                                        @Path("id") Integer id);
+
+    @GET("poisk/secondname/{second_name}")
+    Observable<List<MemoryPageModel>> searchLastName(@Path("second_name") String lastName);
 }

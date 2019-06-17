@@ -181,8 +181,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponsePages> getPages(int countPage) {
-        return apiMethods.getPages(countPage);
+    public Observable<List<MemoryPageModel>> getPages() {
+        return apiMethods.getPages();
     }
 
     @Override
@@ -366,5 +366,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 id
 
         );
+    }
+
+    @Override
+    public Observable<List<MemoryPageModel>> searchLastName(String lastName) {
+        return apiMethods.searchLastName(lastName);
     }
 }

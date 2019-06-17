@@ -28,7 +28,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseHandBook>> getReligion();
 
-    Observable<ResponsePages> getPages(int countPage);
+    Observable<List<MemoryPageModel>> getPages();
 
     Observable<List<ResponseEpitaphs>> getEpitaphs(int pageId);
 
@@ -47,4 +47,6 @@ public interface ServiceNetwork {
     Observable<List<MemoryPageModel>> getImages();
 
     Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
+
+    Observable<List<MemoryPageModel>> searchLastName(String lastName);
 }

@@ -45,13 +45,10 @@
                 tools:layout_editor_absoluteY="186dp" />
         </androidx.appcompat.widget.Toolbar>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="2dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/name"
+        android:id="@+id/last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
@@ -63,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
         <AutoCompleteTextView
-            android:id="@+id/city_value"
+            android:id="@+id/last_name_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
