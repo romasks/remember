@@ -64,7 +64,7 @@
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
             android:focusable="false"
-            android:textColorHint="@drawable/abc"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
@@ -79,7 +79,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="#000000"
                 android:textColorLink="@color/light_brown" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -92,7 +92,7 @@
             android:layout_marginLeft="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@drawable/abc"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@+id/deceased">
 
             <AutoCompleteTextView
@@ -106,7 +106,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="#000000"
                 android:textColorLink="@color/light_brown" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -120,7 +120,7 @@
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
             android:focusable="false"
-            android:textColorHint="@drawable/abc"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@+id/title">
 
             <AutoCompleteTextView
@@ -135,7 +135,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@android:color/black"
                 android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="#000000"
                 android:textColorLink="@color/light_brown" />
 
         </com.google.android.material.textfield.TextInputLayout>

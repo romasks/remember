@@ -42,21 +42,20 @@
             android:layout_marginTop="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@drawable/abc"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@+id/name_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:hint="@string/login"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:text="Admin@ya.ru"
-                android:textAlignment="textStart"
-                android:textColorHint="@android:color/black"
-                android:textColor="@android:color/black" />
+                android:singleLine="true"
+                android:textColor="#AC8C6D"
+                android:textColorHighlight="#AC8C6D"
+                android:textColorLink="#AC8C6D" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,7 +68,7 @@
             android:layout_marginTop="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@drawable/abc"
+            android:textColorHint="#000000"
             app:layout_constraintTop_toBottomOf="@+id/login_title">
 
             <AutoCompleteTextView
@@ -80,7 +79,6 @@
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:text="11111111"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/black" />
 
