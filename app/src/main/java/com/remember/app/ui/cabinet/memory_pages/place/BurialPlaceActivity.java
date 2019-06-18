@@ -135,13 +135,17 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
 
     @OnClick(R.id.pick)
     public void openMap() {
-        View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
-        PopupMap popupWindow = new PopupMap(
-                popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setCallback(this);
-        popupWindow.setUp(pick, getSupportFragmentManager());
+        try {
+            View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
+            PopupMap popupWindow = new PopupMap(
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setCallback(this);
+            popupWindow.setUp(pick, getSupportFragmentManager());
+        } catch (Exception e){
+            Snackbar.make(city, "Попробуйте еще раз", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override

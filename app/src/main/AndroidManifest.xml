@@ -65,6 +65,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.memory_pages.place.BurialPlaceActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.memory_pages.add_page.NewMemoryPageActivity"

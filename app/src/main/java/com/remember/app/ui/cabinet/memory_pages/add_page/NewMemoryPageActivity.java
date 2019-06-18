@@ -19,8 +19,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
@@ -94,6 +96,10 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     AppCompatRadioButton isPublic;
     @BindView(R.id.not_public)
     AppCompatRadioButton noPublic;
+    @BindView(R.id.save_button)
+    Button saveButton;
+    @BindView(R.id.text_image)
+    TextView textViewImage;
 
     private Calendar dateAndTime = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
@@ -132,6 +138,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         isEdit = i.getBooleanExtra("EDIT", false);
 
         if (isEdit) {
+            saveButton.setText("Сохранить изменения");
+            textViewImage.setText("Изменить фотографию");
             memoryPageModel = i.getParcelableExtra("PERSON");
             initEdit();
         }
@@ -330,7 +338,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                     progressDialog.dismiss();
                     Glide.with(getApplicationContext())
                             .load(result.getUri())
-                            .centerCrop()
                             .into(image);
                 } catch (IOException e) {
                     e.printStackTrace();

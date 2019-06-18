@@ -15,6 +15,7 @@ import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.data.models.ResponseSettings;
 
 import java.util.List;
 
@@ -151,4 +152,7 @@ public interface ApiMethods {
 
     @GET("page/{id}")
     Observable<MemoryPageModel> getImageAfterSave(@Path("id") Integer id);
+
+    @GET("setting/{id}")
+    Observable<ResponseSettings> getInfo(@Path("id") String id);
 }
