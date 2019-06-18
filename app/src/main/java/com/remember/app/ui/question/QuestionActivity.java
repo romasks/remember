@@ -36,6 +36,12 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
                 -> isQuestion = item.equals("Вопросы"));
     }
 
+    @OnClick(R.id.back)
+    public void back(){
+        onBackPressed();
+        finish();
+    }
+
     @OnClick(R.id.pick)
     public void send() {
         RequestQuestion requestQuestion = new RequestQuestion();

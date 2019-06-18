@@ -17,6 +17,7 @@ import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.data.models.ResponseSettings;
 
 import java.io.File;
 import java.util.List;
@@ -148,6 +149,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
             star = RequestBody.create(MultipartBody.FORM, person.getStar());
         } catch (Exception e) {
             star = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            userId = RequestBody.create(MultipartBody.FORM, person.getUserId());
+        } catch (Exception e) {
+            userId = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
             thirdName = RequestBody.create(MultipartBody.FORM, person.getThirdName());
@@ -408,5 +414,15 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<Object> send(RequestQuestion requestQuestion) {
         return apiMethods.send(requestQuestion);
+    }
+
+    @Override
+    public Observable<MemoryPageModel> getImageAfterSave(Integer id) {
+        return apiMethods.getImageAfterSave(id);
+    }
+
+    @Override
+    public Observable<ResponseSettings> getInfo(String id) {
+        return apiMethods.getInfo(id);
     }
 }

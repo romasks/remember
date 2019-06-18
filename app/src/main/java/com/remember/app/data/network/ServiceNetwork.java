@@ -12,6 +12,7 @@ import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.data.models.ResponseSettings;
 
 import java.io.File;
 import java.util.List;
@@ -53,4 +54,8 @@ public interface ServiceNetwork {
     Observable<List<MemoryPageModel>> searchLastName(String lastName);
 
     Observable<Object> send(RequestQuestion requestQuestion);
+
+    Observable<MemoryPageModel> getImageAfterSave(Integer id);
+
+    Observable<ResponseSettings> getInfo(String id);
 }

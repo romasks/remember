@@ -1,26 +1,31 @@
-package com.remember.app.ui.settings.data;
+package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.Remember;
+import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
+
+import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class PersonalDataFragmentPresenter extends BasePresenter<PersonalDataFragmentView> {
+public class ShowPagePresenter extends BasePresenter<ShowPageView> {
 
-    public PersonalDataFragmentPresenter() {
+    @Inject
+    ServiceNetwork serviceNetwork;
+
+    public ShowPagePresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getInfo() {
-        Disposable subscription = getServiceNetwork().getInfo(Prefs.getString("USER_ID","0"))
+    public void getImageAfterSave(Integer id) {
+        Disposable subscription = serviceNetwork.getImageAfterSave(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedInfo,
+                .subscribe(getViewState()::onReceivedImage,
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }

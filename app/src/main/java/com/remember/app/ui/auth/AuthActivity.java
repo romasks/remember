@@ -53,6 +53,12 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
+    @OnClick(R.id.back)
+    public void back() {
+       onBackPressed();
+       finish();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
