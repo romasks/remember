@@ -409,4 +409,9 @@ public class ServiceNetworkImp implements ServiceNetwork {
     public Observable<Object> send(RequestQuestion requestQuestion) {
         return apiMethods.send(requestQuestion);
     }
+
+    @Override
+    public Observable<MemoryPageModel> getImageAfterSave(Integer id) {
+        return apiMethods.getImageAfterSave(id);
+    }
 }

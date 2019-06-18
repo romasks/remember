@@ -53,4 +53,6 @@ public interface ServiceNetwork {
     Observable<List<MemoryPageModel>> searchLastName(String lastName);
 
     Observable<Object> send(RequestQuestion requestQuestion);
+
+    Observable<MemoryPageModel> getImageAfterSave(Integer id);
 }

@@ -10,15 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
-import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
@@ -33,7 +35,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback {
+public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView {
+
+    @InjectPresenter
+    ShowPagePresenter presenter;
 
     @BindView(R.id.fio)
     TextView name;
@@ -49,17 +54,24 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     TextView crypt;
     @BindView(R.id.sector)
     TextView sector;
+    @BindView(R.id.description)
+    TextView description;
+    @BindView(R.id.description_title)
+    TextView descriptionTitle;
     @BindView(R.id.grave)
     TextView grave;
     @BindView(R.id.events)
     ImageButton events;
     @BindView(R.id.epitButton)
     ImageButton epitaphyButton;
+    @BindView(R.id.scroll_view)
+    ScrollView scrollView;
 
     private Unbinder unbinder;
     private boolean isList = false;
     private boolean isShow = false;
-    private AddPageModel person;
+    private boolean afterSave = false;
+    private int id = 0;
     private MemoryPageModel memoryPageModel;
 
     @Override
@@ -68,21 +80,44 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         setContentView(R.layout.activity_page);
         unbinder = ButterKnife.bind(this);
         Intent i = getIntent();
+
         isList = i.getBooleanExtra("IS_LIST", false);
+        afterSave = i.getBooleanExtra("AFTER_SAVE", false);
         isShow = i.getBooleanExtra("SHOW", false);
+
         if (isShow) {
-            settings.setClickable(false);
-        }
-        if (!isList) {
-            person = i.getParcelableExtra("PERSON");
-            if (person != null) {
-                initTextName(person);
-                initDate(person);
-                initInfo(person);
-            }
-        } else {
             memoryPageModel = i.getParcelableExtra("PERSON");
-            if (memoryPageModel != null) {
+            settings.setClickable(false);
+            initAll();
+        } else {
+            id = i.getIntExtra("ID", 0);
+            presenter.getImageAfterSave(id);
+        }
+
+        epitaphyButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EpitaphsActivity.class);
+            if (isShow) {
+                intent.putExtra("SHOW", true);
+            }
+            intent.putExtra("ID_PAGE", memoryPageModel.getId());
+            startActivity(intent);
+        });
+
+        events.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EventsActivity.class);
+            if (isShow) {
+                intent.putExtra("SHOW", true);
+            }
+            intent.putExtra("NAME", name.getText().toString());
+            intent.putExtra("ID_PAGE", memoryPageModel.getId());
+            startActivity(intent);
+        });
+
+    }
+
+    private void initAll() {
+        if (memoryPageModel != null) {
+            if (!afterSave){
                 Glide.with(this)
                         .load("http://86.57.172.88:8082" + memoryPageModel.getPicture())
                         .error(R.drawable.darth_vader)
@@ -91,36 +126,21 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                 colorMatrix.setSaturation(0);
                 ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
                 image.setColorFilter(filter);
-                initTextName(memoryPageModel);
-                initDate(memoryPageModel);
-                initInfo(memoryPageModel);
             }
+            initTextName(memoryPageModel);
+            initDate(memoryPageModel);
+            initInfo(memoryPageModel);
         }
-        epitaphyButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EpitaphsActivity.class);
-            if (isShow) {
-                intent.putExtra("SHOW", true);
-            }
-            if (isList) {
-                intent.putExtra("ID_PAGE", memoryPageModel.getId());
-            } else {
-                intent.putExtra("ID_PAGE", person.getId());
-            }
-            startActivity(intent);
-        });
-        events.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EventsActivity.class);
-            if (isShow) {
-                intent.putExtra("SHOW", true);
-            }
-            intent.putExtra("NAME", name.getText().toString());
-            if (isList) {
-                intent.putExtra("ID_PAGE", memoryPageModel.getId());
-            } else {
-                intent.putExtra("ID_PAGE", person.getId());
-            }
-            startActivity(intent);
-        });
+    }
+
+    @OnClick(R.id.description_title)
+    public void description(){
+        if (description.getVisibility() == View.VISIBLE){
+            description.setVisibility(View.GONE);
+        } else {
+            description.setVisibility(View.VISIBLE);
+            scrollView.scrollTo(0, scrollView.getBottom() + 1500);
+        }
     }
 
     @OnClick(R.id.back_button)
@@ -169,33 +189,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private void initTextName(MemoryPageModel memoryPageModel) {
         String textName = memoryPageModel.getSecondname() + " " + memoryPageModel.getName() + " " + memoryPageModel.getThirtname();
         name.setText(textName);
-    }
-
-    private void initInfo(AddPageModel person) {
-        city.setText(person.getCity());
-        crypt.setText(person.getCemeteryName());
-        sector.setText(person.getSpotId());
-        grave.setText(person.getGraveId());
-    }
-
-    private void initDate(AddPageModel person) {
-        String textDate = person.getBirthDate() + " - " + person.getDeathDate();
-        date.setText(textDate);
-    }
-
-    private void initTextName(AddPageModel person) {
-        String textName = person.getSecondName() + " " + person.getName() + " " + person.getThirdName();
-        name.setText(textName);
+        description.setText(memoryPageModel.getComment());
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        if (!isShow) {
-//            Intent intent = new Intent(this, MainActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(intent);
-//        }
     }
 
     @Override
@@ -216,5 +215,24 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @Override
     public void setCoordinates(double latitude, double longitude) {
 
+    }
+
+    @Override
+    public void onReceivedImage(MemoryPageModel memoryPageModel) {
+        this.memoryPageModel = memoryPageModel;
+        initAll();
+        Glide.with(this)
+                .load("http://86.57.172.88:8082" + memoryPageModel.getPicture())
+                .error(R.drawable.darth_vader)
+                .into(image);
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        image.setColorFilter(filter);
+    }
+
+    @Override
+    public void error(Throwable throwable) {
+        Snackbar.make(image, "Ошибка загрузки изображения", Snackbar.LENGTH_LONG).show();
     }
 }

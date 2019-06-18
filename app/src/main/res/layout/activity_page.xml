@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -252,6 +253,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/description_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -265,18 +267,26 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:textColor="@android:color/black"
+                    tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as"/>
+
                 <Button
                     android:id="@+id/map_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/button"
                     android:text="Показать на карте"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
-
             </LinearLayout>
         </ScrollView>
 

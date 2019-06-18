@@ -27,6 +27,7 @@ import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
+import com.remember.app.ui.grid.GridActivity;
 import com.remember.app.ui.question.QuestionActivity;
 import com.remember.app.ui.settings.SettingActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
@@ -160,6 +161,15 @@ public class MainActivity extends MvpAppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -196,6 +206,11 @@ public class MainActivity extends MvpAppCompatActivity
         }
         if (id == R.id.questions) {
             startActivity(new Intent(this, QuestionActivity.class));
+            return true;
+        }
+        if (id == R.id.exit) {
+            Prefs.clear();
+            startActivity(new Intent(this, GridActivity.class));
             return true;
         }
 

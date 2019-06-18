@@ -24,13 +24,8 @@ public class SplashActivity extends AppCompatActivity implements SplashView{
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {
-            if (!Prefs.getString("USER_ID", "").equals("")){
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-            } else {
-                startActivity(new Intent(this, GridActivity.class));
-                finish();
-            }
+            startActivity(new Intent(this, GridActivity.class));
+            finish();
         }, 2000);
 
     }

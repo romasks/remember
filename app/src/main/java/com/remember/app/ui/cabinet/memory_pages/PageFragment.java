@@ -101,6 +101,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     public void sendItem(MemoryPageModel person) {
         Intent intent = new Intent(getActivity(), ShowPageActivity.class);
         intent.putExtra("PERSON", person);
+        intent.putExtra("ID", person.getId());
         intent.putExtra("IS_LIST", true);
         startActivity(intent);
     }

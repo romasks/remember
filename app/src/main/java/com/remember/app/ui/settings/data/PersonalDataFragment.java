@@ -55,10 +55,12 @@ public class PersonalDataFragment extends Fragment implements PersonalDataFragme
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
-                Glide.with(getContext())
-                        .load(resultUri)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(avatar);
+                if (getContext() != null){
+                    Glide.with(getContext())
+                            .load(resultUri)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(avatar);
+                }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }

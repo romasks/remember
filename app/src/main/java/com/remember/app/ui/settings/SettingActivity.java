@@ -11,6 +11,8 @@ import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.settings.data.PersonalDataFragment;
 import com.remember.app.ui.settings.notification.NotificationFragment;
 
+import butterknife.OnClick;
+
 public class SettingActivity extends BaseActivity {
 
     @Override
@@ -22,6 +24,12 @@ public class SettingActivity extends BaseActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @OnClick(R.id.back)
+    public void back(){
+        onBackPressed();
+        finish();
     }
 
     @Override

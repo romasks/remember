@@ -3,10 +3,14 @@ package com.remember.app;
 import android.app.Application;
 import android.content.ContextWrapper;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.di.component.ApplicationComponent;
 import com.remember.app.di.component.DaggerApplicationComponent;
 import com.remember.app.di.module.ApplicationModule;
+
+import io.fabric.sdk.android.Fabric;
 
 public class Remember extends Application {
 
@@ -19,7 +23,7 @@ public class Remember extends Application {
 //            return;
 //        }
 //        LeakCanary.install(this);
-//        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         new Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)

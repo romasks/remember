@@ -84,6 +84,9 @@
         </activity>
 
         <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="c7074eec0f20a665595a00e9d3e8f30494dfed6c" />
+        <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyChaINz3Z-zpj3LXh-9AMcJqYvwhBqSU_o" />
     </application>

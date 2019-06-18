@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:focusable="false"
-                    android:hint="@string/date_begin"
+                    android:hint="@string/date_end"
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"

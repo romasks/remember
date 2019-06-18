@@ -31,6 +31,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
@@ -106,6 +107,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private MemoryPageModel memoryPageModel;
     private ProgressDialog progressDialog;
     private File imageFile;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -180,6 +182,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     public void pickImage() {
         progressDialog = LoadingPopupUtils.showLoadingDialog(this);
         CropImage.activity()
+                .setFixAspectRatio(true)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .start(this);
     }
@@ -202,6 +205,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setComment(description.getText().toString());
         person.setBirthDate(dateBegin.getText().toString());
         person.setDeathDate(dateEnd.getText().toString());
+        person.setUserId(Prefs.getString("USER_ID", "0"));
         if (isFamous.isChecked()) {
             person.setStar("true");
         } else if (notFamous.isChecked()) {
@@ -321,7 +325,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 progressDialog.dismiss();
                 imageUri = String.valueOf(result.getUri());
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
                     progressDialog.dismiss();
                     Glide.with(getApplicationContext())
@@ -333,6 +337,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+                progressDialog.dismiss();
             }
         }
     }
@@ -354,6 +359,9 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     public void onSavedPage(ResponseCemetery response) {
         Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
+        intent.putExtra("IMAGE", imageFile);
+        intent.putExtra("ID", response.getId());
+        intent.putExtra("AFTER_SAVE", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

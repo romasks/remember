@@ -17,6 +17,7 @@ import com.remember.app.ui.cabinet.memory_pages.PagePresenter;
 import com.remember.app.ui.cabinet.memory_pages.add_page.AddPagePresenter;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventPresenter;
 import com.remember.app.ui.cabinet.memory_pages.place.PlacePresenter;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPagePresenter;
 import com.remember.app.ui.grid.GridPresenter;
 import com.remember.app.ui.question.QuestionPresenter;
 import com.remember.app.ui.settings.data.PersonalDataFragmentPresenter;
@@ -67,5 +68,7 @@ public interface ApplicationComponent {
     void inject(MainPresenter presenter);
 
     void inject(QuestionPresenter presenter);
+
+    void inject(ShowPagePresenter presenter);
 }
 

@@ -148,4 +148,7 @@ public interface ApiMethods {
                                                    @Part("thirtname") RequestBody thirdName,
                                                    @Part("user_id") RequestBody userId,
                                                    @Path("id") Integer id);
+
+    @GET("page/{id}")
+    Observable<MemoryPageModel> getImageAfterSave(@Path("id") Integer id);
 }
