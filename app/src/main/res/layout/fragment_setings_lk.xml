@@ -43,33 +43,23 @@
                     android:text="Новое фото профиля"
                     android:textAllCaps="false"
                     android:textColor="#fcfcfc"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColorHint="#000000">
+                android:text="Основная информация"
+                android:textColor="@drawable/abc"
+                android:textStyle="bold"
+                android:layout_marginStart="22dp"/>
 
-                <AutoCompleteTextView
-                    android:id="@+id/login"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Логин"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/secName"
@@ -88,7 +78,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/name"
@@ -107,7 +97,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/surname"
@@ -123,10 +113,68 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Аккаунт"
+                android:textColor="@drawable/abc"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="22dp"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
+
+                <AutoCompleteTextView
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Никнейм"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/dark_gray">
+
+                <AutoCompleteTextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Е-mail"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Контактная информация"
+                android:textColor="@drawable/abc"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="22dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/livePlace"
@@ -145,26 +193,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#000000">
-
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Е-mail"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/phone"
@@ -183,21 +212,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="#000000">
-
-                <AutoCompleteTextView
-                    android:id="@+id/religion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Религия"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:textColorHint="@color/dark_gray"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -250,7 +265,6 @@
         android:background="#AC8C6D"
         android:text="Сохранить"
         android:textColor="#fcfcfc"
-        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent" />
 

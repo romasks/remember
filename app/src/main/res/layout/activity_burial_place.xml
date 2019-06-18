@@ -69,7 +69,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/city_value"
@@ -83,7 +83,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="#000000"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -99,7 +99,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusableInTouchMode="false"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/cemetery"
@@ -112,7 +112,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="#000000"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown"
                     android:focusableInTouchMode="false" />
 
@@ -128,7 +128,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/sector_value"
@@ -141,7 +141,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="#000000"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -156,7 +156,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/grave_value"
@@ -169,7 +169,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="#000000"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -184,7 +184,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="#000000">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/coordinates_value"
@@ -197,7 +197,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="#000000"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>

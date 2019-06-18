@@ -62,4 +62,13 @@
         <item name="colorAccent">#023500</item>
     </style>
 
+    <style name="SpinnerUnderlined" parent="Widget.AppCompat.Spinner.Underlined">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="SwitchRemember" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="switchPadding">1dp</item>
+        <item name="colorSwitchThumbNormal">@color/brown</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
 </resources>

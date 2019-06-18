@@ -42,7 +42,7 @@
             android:layout_marginTop="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="#000000"
+            android:textColorHint="@color/dark_gray"
             app:layout_constraintTop_toBottomOf="@+id/name_title">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -53,7 +53,6 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="#AC8C6D"
                 android:textColorHighlight="#AC8C6D"
                 android:textColorLink="#AC8C6D" />
 
@@ -65,10 +64,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_activity_fields_margin"
             android:layout_marginLeft="@dimen/default_activity_fields_margin"
-            android:layout_marginTop="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="#000000"
+            android:textColorHint="@color/dark_gray"
             app:layout_constraintTop_toBottomOf="@+id/login_title">
 
             <AutoCompleteTextView

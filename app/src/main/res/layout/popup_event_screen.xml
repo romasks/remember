@@ -62,7 +62,7 @@
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
-        android:textColorHint="@drawable/abc"
+        android:textColorHint="@color/dark_gray"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
         <AutoCompleteTextView
@@ -95,8 +95,8 @@
         app:layout_constraintTop_toBottomOf="@+id/date"
         app:ms_popup_padding_left="10dp"
         app:ms_padding_left="5dp"
-        app:ms_arrow_tint="@color/colorAccent"
-        app:ms_text_color="@color/colorAccent" />
+        app:ms_arrow_tint="@color/dark_gray"
+        app:ms_text_color="@color/dark_gray" />
 
     <Button
         android:id="@+id/submit"
