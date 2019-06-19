@@ -63,7 +63,7 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
                 <AutoCompleteTextView
@@ -88,7 +88,7 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/last_name_title">
 
                 <AutoCompleteTextView
@@ -113,7 +113,7 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/name_title">
 
                 <AutoCompleteTextView
@@ -139,7 +139,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/middle_name_title">
 
                 <AutoCompleteTextView
@@ -166,7 +166,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/date_begin_title">
 
                 <AutoCompleteTextView
@@ -206,7 +206,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/place_button">
 
                 <AutoCompleteTextView
@@ -221,7 +221,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@android:color/black"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@drawable/abc"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>

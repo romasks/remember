@@ -55,7 +55,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@drawable/abc">
+                android:textColorHint="@color/dark_gray">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/secName"
@@ -75,7 +75,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                 <AutoCompleteTextView
@@ -97,7 +97,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                 <AutoCompleteTextView
