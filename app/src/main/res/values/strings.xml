@@ -48,6 +48,7 @@
     <string name="date">Дата</string>
     <string name="deceased">Усопший</string>
     <string name="create_event">Создать событие</string>
+    <string name="save_place">Сохранить координаты</string>
     <string name="entry_button">Войти</string>
     <string name="sign_in">Войти</string>
     <string name="login">Email</string>

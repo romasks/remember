@@ -41,16 +41,17 @@
             android:layout_marginStart="@dimen/default_activity_fields_margin"
             android:layout_marginLeft="@dimen/default_activity_fields_margin"
             android:layout_marginTop="@dimen/default_activity_fields_margin"
+            android:textColorHint="@color/dark_gray"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@color/dark_gray"
             app:layout_constraintTop_toBottomOf="@+id/name_title">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/login_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login"
+                android:textColor="@drawable/abc"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -66,8 +67,9 @@
             android:layout_marginStart="@dimen/default_activity_fields_margin"
             android:layout_marginLeft="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
-            android:layout_marginRight="@dimen/default_activity_fields_margin"
+            android:textColor="@drawable/abc"
             android:textColorHint="@color/dark_gray"
+            android:layout_marginRight="@dimen/default_activity_fields_margin"
             app:layout_constraintTop_toBottomOf="@+id/login_title">
 
             <AutoCompleteTextView
@@ -76,10 +78,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:hint="@string/password"
+                android:textColorHint="@color/dark_gray"
+                android:textColorHighlight="@color/dark_gray"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textAlignment="textStart"
-                android:textColor="@android:color/black" />
+                android:textColor="@drawable/abc" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

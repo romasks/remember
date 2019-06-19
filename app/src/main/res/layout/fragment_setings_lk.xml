@@ -27,7 +27,6 @@
                     android:id="@+id/avatar"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-
                     android:layout_marginLeft="15dp"
                     android:src="@android:color/transparent" />
 
@@ -41,9 +40,7 @@
                     android:background="@drawable/button"
                     android:text="Новое фото профиля"
                     android:textAllCaps="false"
-                    android:textColor="#fcfcfc"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textColor="#fcfcfc" />
             </LinearLayout>
 
             <TextView
@@ -58,15 +55,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray">
+                android:textColorHint="@drawable/abc">
 
-                <AutoCompleteTextView
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/secName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:hint="Фамилия"
+                    android:textColorHint="@color/dark_gray"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -77,7 +75,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray">
+                android:textColorHint="@drawable/abc"
+                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                 <AutoCompleteTextView
                     android:id="@+id/name"
@@ -86,6 +85,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:hint="Имя"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -96,7 +97,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray">
+                android:textColorHint="@drawable/abc"
+                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                 <AutoCompleteTextView
                     android:id="@+id/surname"
@@ -105,6 +107,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:hint="Отчество"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -263,8 +267,8 @@
         android:layout_weight="1"
         android:background="#AC8C6D"
         android:text="Сохранить"
+        android:textAllCaps="false"
         android:textColor="#fcfcfc"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

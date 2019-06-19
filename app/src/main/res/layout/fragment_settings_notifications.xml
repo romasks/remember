@@ -48,12 +48,13 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:button="@drawable/radio_button"
+                    android:layout_weight="2"
                     android:checked="true"
+                    android:button="@drawable/radio_button"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Все"
@@ -62,6 +63,7 @@
                     android:textColorLink="#AC8C6D" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -75,6 +77,7 @@
                     android:textColorLink="#AC8C6D" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -124,6 +127,6 @@
         android:layout_weight="1"
         android:background="#AC8C6D"
         android:text="Сохранить"
-        android:textColor="#fff"
-        android:textStyle="bold" />
+        android:textAllCaps="false"
+        android:textColor="#fff" />
 </LinearLayout>
