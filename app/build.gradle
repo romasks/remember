@@ -98,6 +98,15 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
     implementation 'com.crashlytics.sdk.android:crashlytics-ndk:2.1.0'
+
+    //VK
+    implementation 'com.vk:androidsdk:1.6.5'
+    //OK
+    implementation 'ru.ok:odnoklassniki-android-sdk:2.0.3'
+    //Twitter
+    implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    implementation 'com.twitter.sdk.android:tweet-ui:3.1.1'
 }
 
 crashlytics {

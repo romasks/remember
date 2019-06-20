@@ -8,6 +8,7 @@ import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestAuth;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
+import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -155,4 +156,11 @@ public interface ApiMethods {
 
     @GET("setting/{id}")
     Observable<ResponseSettings> getInfo(@Path("id") String id);
+
+    @POST("setting/edit/{id}")
+    Observable<Object> saveSettings(@Body RequestSettings requestSettings,
+                                    @Path("id") String id);
+
+    @GET("user/social")
+    Observable<List<ResponseSettings>> signInVk(@Query("email") String email);
 }

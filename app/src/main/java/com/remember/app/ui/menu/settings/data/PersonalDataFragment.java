@@ -1,23 +1,25 @@
-package com.remember.app.ui.settings.data;
+package com.remember.app.ui.menu.settings.data;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.AppCompatEditText;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
+import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -28,7 +30,7 @@ import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PersonalDataFragment extends Fragment implements PersonalDataFragmentView {
+public class PersonalDataFragment extends MvpAppCompatFragment implements PersonalDataFragmentView {
 
     @InjectPresenter
     PersonalDataFragmentPresenter presenter;
@@ -38,7 +40,7 @@ public class PersonalDataFragment extends Fragment implements PersonalDataFragme
     @BindView(R.id.login)
     AutoCompleteTextView login;
     @BindView(R.id.secName)
-    AutoCompleteTextView secondName;
+    AppCompatEditText secondName;
     @BindView(R.id.name)
     AutoCompleteTextView name;
     @BindView(R.id.surname)
@@ -49,8 +51,6 @@ public class PersonalDataFragment extends Fragment implements PersonalDataFragme
     AutoCompleteTextView email;
     @BindView(R.id.phone)
     AutoCompleteTextView phone;
-    @BindView(R.id.religion)
-    AutoCompleteTextView religion;
 
     private Unbinder unbinder;
 
@@ -75,7 +75,7 @@ public class PersonalDataFragment extends Fragment implements PersonalDataFragme
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
-                if (getContext() != null){
+                if (getContext() != null) {
                     Glide.with(getContext())
                             .load(resultUri)
                             .apply(RequestOptions.circleCropTransform())
@@ -91,7 +91,19 @@ public class PersonalDataFragment extends Fragment implements PersonalDataFragme
     public void addNewPhoto() {
         CropImage.activity()
                 .setCropShape(CropImageView.CropShape.OVAL)
+                .setFixAspectRatio(true)
                 .start(getContext(), this);
+    }
+
+    @OnClick(R.id.save_button)
+    public void save() {
+        RequestSettings requestSettings = new RequestSettings();
+        requestSettings.setName(name.getText().toString());
+        requestSettings.setLocation(city.getText().toString());
+        requestSettings.setMiddleName(middleName.getText().toString());
+        requestSettings.setSurName(secondName.getText().toString());
+        requestSettings.setPhone(phone.getText().toString());
+        presenter.saveSettings(requestSettings);
     }
 
     @Override
@@ -102,17 +114,21 @@ public class PersonalDataFragment extends Fragment implements PersonalDataFragme
 
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        login.setText(responseSettings.getEmail());
         secondName.setText(responseSettings.getSetting().getSurname());
         name.setText(responseSettings.getSetting().getSurname());
         middleName.setText(responseSettings.getSetting().getSurname());
         email.setText(responseSettings.getEmail());
         phone.setText(responseSettings.getSetting().getPhone());
-        religion.setText(responseSettings.getSetting().getRelId());
     }
 
     @Override
     public void error(Throwable throwable) {
-        Snackbar.make(avatar,"Ошибка загрузки данных", Snackbar.LENGTH_LONG).show();
+        Log.e("ERROR", throwable.getMessage());
+        Snackbar.make(avatar, "Ошибка загрузки данных", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSaved(Object o) {
+        presenter.getInfo();
     }
 }

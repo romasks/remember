@@ -5,6 +5,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
+import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -58,4 +59,8 @@ public interface ServiceNetwork {
     Observable<MemoryPageModel> getImageAfterSave(Integer id);
 
     Observable<ResponseSettings> getInfo(String id);
+
+    Observable<Object> saveSettings(RequestSettings requestSettings, String id);
+
+    Observable<List<ResponseSettings>> signInVk(String email);
 }

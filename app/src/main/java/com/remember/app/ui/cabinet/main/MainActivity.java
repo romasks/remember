@@ -28,8 +28,10 @@ import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.grid.GridActivity;
-import com.remember.app.ui.question.QuestionActivity;
-import com.remember.app.ui.settings.SettingActivity;
+import com.remember.app.ui.menu.events.EventsActivityMenu;
+import com.remember.app.ui.menu.page.PageActivityMenu;
+import com.remember.app.ui.menu.question.QuestionActivity;
+import com.remember.app.ui.menu.settings.SettingActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
@@ -204,6 +206,14 @@ public class MainActivity extends MvpAppCompatActivity
             startActivity(new Intent(this, SettingActivity.class));
             return true;
         }
+        if (id == R.id.event_calendar) {
+            startActivity(new Intent(this, EventsActivityMenu.class));
+            return true;
+        }
+        if (id == R.id.memory_pages) {
+            startActivity(new Intent(this, PageActivityMenu.class));
+            return true;
+        }
         if (id == R.id.questions) {
             startActivity(new Intent(this, QuestionActivity.class));
             return true;
@@ -211,6 +221,7 @@ public class MainActivity extends MvpAppCompatActivity
         if (id == R.id.exit) {
             Prefs.clear();
             startActivity(new Intent(this, GridActivity.class));
+            finish();
             return true;
         }
 

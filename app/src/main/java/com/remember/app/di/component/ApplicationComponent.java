@@ -19,9 +19,11 @@ import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEvent
 import com.remember.app.ui.cabinet.memory_pages.place.PlacePresenter;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPagePresenter;
 import com.remember.app.ui.grid.GridPresenter;
-import com.remember.app.ui.question.QuestionPresenter;
-import com.remember.app.ui.settings.data.PersonalDataFragmentPresenter;
-import com.remember.app.ui.settings.notification.NotificationFragmentPresenter;
+import com.remember.app.ui.menu.events.EventsMenuPresenter;
+import com.remember.app.ui.menu.page.PageMenuPresenter;
+import com.remember.app.ui.menu.question.QuestionPresenter;
+import com.remember.app.ui.menu.settings.data.PersonalDataFragmentPresenter;
+import com.remember.app.ui.menu.settings.notification.NotificationFragmentPresenter;
 import com.remember.app.ui.splash.SplashPresenter;
 
 import javax.inject.Singleton;
@@ -70,5 +72,9 @@ public interface ApplicationComponent {
     void inject(QuestionPresenter presenter);
 
     void inject(ShowPagePresenter presenter);
+
+    void inject(PageMenuPresenter presenter);
+
+    void inject(EventsMenuPresenter presenter);
 }
 
