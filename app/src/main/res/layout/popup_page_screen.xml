@@ -48,7 +48,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/last_name"
+        android:id="@+id/first_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
@@ -58,6 +58,34 @@
         android:layout_marginRight="@dimen/default_activity_fields_margin"
         android:textColorHint="@color/dark_gray"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+        <AutoCompleteTextView
+            android:id="@+id/first_name_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:hint="@string/name"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black"
+            android:textColorHighlight="@color/light_brown"
+            android:textColorHint="@color/dark_gray"
+            android:textColorLink="@color/light_brown" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/last_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_fields_margin"
+        android:layout_marginLeft="@dimen/default_activity_fields_margin"
+        android:layout_marginTop="@dimen/default_activity_fields_margin"
+        android:layout_marginEnd="@dimen/default_activity_fields_margin"
+        android:layout_marginRight="@dimen/default_activity_fields_margin"
+        android:textColorHint="@color/dark_gray"
+        app:layout_constraintTop_toBottomOf="@+id/first_name">
 
         <AutoCompleteTextView
             android:id="@+id/last_name_value"
@@ -74,6 +102,122 @@
             android:textColorLink="@color/light_brown" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/father_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_fields_margin"
+        android:layout_marginLeft="@dimen/default_activity_fields_margin"
+        android:layout_marginTop="@dimen/default_activity_fields_margin"
+        android:layout_marginEnd="@dimen/default_activity_fields_margin"
+        android:layout_marginRight="@dimen/default_activity_fields_margin"
+        android:textColorHint="@color/dark_gray"
+        app:layout_constraintTop_toBottomOf="@+id/last_name">
+
+        <AutoCompleteTextView
+            android:id="@+id/father_name_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:hint="@string/middle_name"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black"
+            android:textColorHighlight="@color/light_brown"
+            android:textColorHint="@color/dark_gray"
+            android:textColorLink="@color/light_brown" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/live_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_fields_margin"
+        android:layout_marginLeft="@dimen/default_activity_fields_margin"
+        android:layout_marginTop="@dimen/default_activity_fields_margin"
+        android:layout_marginEnd="@dimen/default_activity_fields_margin"
+        android:layout_marginRight="@dimen/default_activity_fields_margin"
+        android:textColorHint="@color/dark_gray"
+        app:layout_constraintTop_toBottomOf="@+id/father_name">
+
+        <AutoCompleteTextView
+            android:id="@+id/live_place_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:hint="@string/live_place"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black"
+            android:textColorHighlight="@color/light_brown"
+            android:textColorHint="@color/dark_gray"
+            android:textColorLink="@color/light_brown" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/date_begin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_fields_margin"
+        android:layout_marginLeft="@dimen/default_activity_fields_margin"
+        android:layout_marginTop="@dimen/default_activity_fields_margin"
+        android:layout_marginEnd="@dimen/default_activity_fields_margin"
+        android:layout_marginRight="@dimen/default_activity_fields_margin"
+        android:textColorHint="@color/dark_gray"
+        app:layout_constraintTop_toBottomOf="@+id/live_place">
+
+        <AutoCompleteTextView
+            android:id="@+id/date_begin_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:hint="@string/date_begin"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black"
+            android:textColorHighlight="@color/light_brown"
+            android:textColorHint="@color/dark_gray"
+            android:textColorLink="@color/light_brown" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/date_end_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_fields_margin"
+        android:layout_marginLeft="@dimen/default_activity_fields_margin"
+        android:layout_marginTop="@dimen/default_activity_fields_margin"
+        android:layout_marginEnd="@dimen/default_activity_fields_margin"
+        android:layout_marginRight="@dimen/default_activity_fields_margin"
+        android:textColorHint="@color/dark_gray"
+        app:layout_constraintTop_toBottomOf="@+id/date_begin">
+
+        <AutoCompleteTextView
+            android:id="@+id/date_end_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:hint="@string/date_end"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black"
+            android:textColorHighlight="@color/light_brown"
+            android:textColorHint="@color/dark_gray"
+            android:textColorLink="@color/light_brown" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
 
     <Button
         android:id="@+id/submit"

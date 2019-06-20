@@ -26,6 +26,7 @@
     <string name="pick_level">Выберите уровень доступа</string>
     <string name="create_page">Создать памятную страницу</string>
     <string name="burial_place_value">Место захоронения</string>
+    <string name="live_place">Населённый пункт</string>
     <string name="city">Город</string>
     <string name="cemetery">Кладбище</string>
     <string name="sector">Сектор</string>
@@ -41,12 +42,15 @@
     <string name="new_event">Новое событие</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="social">Общественное</string>
+    <string name="personal">Личное</string>
     <string name="for_your">Только для себя</string>
     <string name="all">Общий</string>
     <string name="notification">Уведомления</string>
+    <string name="type_event">Тип события</string>
     <string name="access">Доступ</string>
     <string name="date">Дата</string>
-    <string name="deceased">Усопший</string>
+    <string name="deceased">ФИО усопшего</string>
     <string name="create_event">Создать событие</string>
     <string name="save_place">Сохранить координаты</string>
     <string name="entry_button">Войти</string>
@@ -61,6 +65,8 @@
     <string name="have_acc">Уже есть аккаунт?</string>
     <string name="entry_button_underline"><u>Войти</u></string>
     <string name="star">Знаменитость</string>
+    <string name="add_more_photo">Добавьте ещё фотографии</string>
+    <string name="add_more_video">Добавьте видео</string>
     <string name="send">Отправить</string>
     <string name="search">Поиск</string>
     <string name="event_filter">Фильтр событий</string>
