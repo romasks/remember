@@ -75,7 +75,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +100,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,7 +125,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,7 +152,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,7 +179,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -219,7 +219,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />

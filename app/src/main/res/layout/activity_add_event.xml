@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/new_event"
-                    android:textColor="@android:color/black"
+                    android:textColor="@drawable/abc"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +117,7 @@
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:textAlignment="textStart"
-                android:textColor="@android:color/black"
+                android:textColor="@drawable/abc"
                 android:textColorHighlight="@color/light_brown"
                 android:textColorHint="@color/dark_gray"
                 android:textColorLink="@color/light_brown" />
@@ -144,7 +144,7 @@
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:textAlignment="textStart"
-                android:textColor="@android:color/black"
+                android:textColor="@drawable/abc"
                 android:textColorHighlight="@color/light_brown"
                 android:textColorHint="@color/dark_gray"
                 android:textColorLink="@color/light_brown" />
@@ -173,7 +173,7 @@
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 android:textAlignment="textStart"
-                android:textColor="@android:color/black"
+                android:textColor="@drawable/abc"
                 android:textColorHighlight="@color/light_brown"
                 android:textColorHint="@color/dark_gray"
                 android:textColorLink="@color/light_brown" />
