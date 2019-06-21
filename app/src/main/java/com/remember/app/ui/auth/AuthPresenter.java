@@ -70,4 +70,22 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void signInTwitter() {
+        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL",""))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onLogged,
+                        getViewState()::error);
+        unsubscribeOnDestroy(subscription);
+    }
+
+    public void signInFacebook() {
+        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL",""))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onLogged,
+                        getViewState()::error);
+        unsubscribeOnDestroy(subscription);
+    }
 }

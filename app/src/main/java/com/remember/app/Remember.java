@@ -33,15 +33,7 @@ public class Remember extends Application {
 //        }
 //        LeakCanary.install(this);
         VKSdk.initialize(this);
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))//enable logging when app is in debug mode
-                .twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.CONSUMER_KEY)
-                        , getResources().getString(R.string.CONSUMER_SECRET)))
-                .debug(true)//enable debug mode
-                .build();
 
-        //finally initialize twitter with created configs
-        Twitter.initialize(config);
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         new Prefs.Builder()
                 .setContext(this)

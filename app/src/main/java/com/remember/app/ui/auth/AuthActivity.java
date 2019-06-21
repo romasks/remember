@@ -2,12 +2,16 @@ package com.remember.app.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
+import com.jaychang.sa.AuthCallback;
+import com.jaychang.sa.SocialUser;
+import com.jaychang.sa.twitter.SimpleAuth;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseAuth;
@@ -27,6 +31,7 @@ import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,10 +55,6 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
     ImageButton vk;
 
     private Unbinder unbinder;
-    private static final String APP_ID = "125497344";
-    private static final String APP_KEY = "CBABPLHIABABABABA";
-    private static final String REDIRECT_URL = "okauth://ok125497344";
-    private Odnoklassniki odnoklassniki;
     private TwitterAuthClient client;
 
     @Override
@@ -70,30 +71,54 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
         VKSdk.login(this, "email");
     }
 
+    @OnClick(R.id.fb)
+    public void signInFacebook() {
+        List<String> scopes = Arrays.asList("");
+
+        com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
+            @Override
+            public void onSuccess(SocialUser socialUser) {
+                Prefs.putString("EMAIL", socialUser.email);
+                String[] str = socialUser.fullName.split(" ");
+                Prefs.putString("NAME_USER", str[0]);
+                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
+                presenter.signInFacebook();
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Log.d("FACEBOOK", error.getMessage());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d("FACEBOOK", "Canceled");
+            }
+        });
+    }
+
     @OnClick(R.id.twitter)
     public void signInTwitter() {
-        if (getTwitterSession() == null) {
+        SimpleAuth.connectTwitter(new AuthCallback() {
+            @Override
+            public void onSuccess(SocialUser socialUser) {
+                Prefs.putString("EMAIL", socialUser.email);
+                String[] str = socialUser.fullName.split(" ");
+                Prefs.putString("NAME_USER", str[0]);
+                presenter.signInTwitter();
+            }
 
-            //if user is not authenticated start authenticating
-            client.authorize(this, new Callback<TwitterSession>() {
-                @Override
-                public void success(Result<TwitterSession> result) {
+            @Override
+            public void onError(Throwable error) {
+                Snackbar.make(password, "Ошибка авторизации", Snackbar.LENGTH_LONG).show();
+                Log.e("TWITTER", error.getMessage());
+            }
 
-                    TwitterSession twitterSession = result.data;
-                    Snackbar.make(login, "success", Snackbar.LENGTH_SHORT).show();
-                    fetchTwitterEmail(twitterSession);
-                }
+            @Override
+            public void onCancel() {
 
-                @Override
-                public void failure(TwitterException e) {
-                    Snackbar.make(login, "Failed to authenticate. Please try again.", Snackbar.LENGTH_SHORT).show();
-
-                }
-            });
-        } else {
-            Snackbar.make(login, "User already authenticated", Snackbar.LENGTH_SHORT).show();
-            fetchTwitterEmail(getTwitterSession());
-        }
+            }
+        });
     }
 
     @OnClick(R.id.sign_in_btn)
@@ -154,7 +179,6 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
             startActivity(intent);
             finish();
         }
-
     }
 
     @Override
@@ -175,31 +199,5 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
-    }
-
-    public void fetchTwitterEmail(final TwitterSession twitterSession) {
-        client.requestEmail(twitterSession, new Callback<String>() {
-            @Override
-            public void success(Result<String> result) {
-                Snackbar.make(password,  twitterSession.getUserName(), Snackbar.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void failure(TwitterException exception) {
-                Snackbar.make(password, "Failed to authenticate. Please try again.", Snackbar.LENGTH_LONG).show();
-
-            }
-        });
-    }
-
-    private TwitterSession getTwitterSession() {
-        TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
-
-//        TwitterAuthToken authToken = session.getAuthToken();
-//        String token = authToken.token;
-//        String secret = authToken.secret;
-
-        return session;
     }
 }
