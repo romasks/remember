@@ -2,6 +2,8 @@ package com.remember.app.ui.cabinet.main;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -226,6 +230,17 @@ public class MainActivity extends MvpAppCompatActivity
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ImageView imageView = drawer.findViewById(R.id.avatar);
+        if (!Prefs.getString("AVATAR", "").equals("")){
+            Glide.with(this)
+                    .load(Prefs.getString("AVATAR", ""))
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(imageView);
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            imageView.setColorFilter(filter);
+        }
         TextView textView = drawer.findViewById(R.id.title_menu);
         textView.setText(Prefs.getString("NAME_USER", ""));
         drawer.closeDrawer(GravityCompat.START);
