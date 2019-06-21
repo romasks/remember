@@ -1,4 +1,4 @@
-package com.remember.app.ui.question;
+package com.remember.app.ui.menu.question;
 
 import com.arellomobile.mvp.MvpView;
 

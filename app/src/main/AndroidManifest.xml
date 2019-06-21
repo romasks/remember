@@ -31,13 +31,13 @@
             android:name=".ui.grid.GridActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.question.QuestionActivity"
+            android:name=".ui.menu.question.QuestionActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.events.EventFullActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.settings.SettingActivity"
+            android:name=".ui.menu.settings.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.utils.ImageFieldPickerActivity"
@@ -64,6 +64,12 @@
             android:name=".ui.cabinet.epitaphs.EpitaphsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.menu.page.PageActivityMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.menu.events.EventsActivityMenu"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.cabinet.memory_pages.place.BurialPlaceActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
@@ -81,6 +87,23 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.vk.sdk.VKServiceActivity"
+            android:label="ServiceActivity"
+            android:theme="@style/VK.Transparent" />
+        <activity
+            android:name="ru.ok.android.sdk.OkAuthActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="ok125497344"
+                    android:scheme="okauth"
+                    tools:ignore="AppLinkUrlError" />
             </intent-filter>
         </activity>
 

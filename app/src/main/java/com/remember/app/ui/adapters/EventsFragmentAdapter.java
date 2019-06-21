@@ -55,6 +55,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     }
 
     public void setItems(List<ResponseEvents> responseEvents) {
+        this.responseEvents.clear();
         this.responseEvents.addAll(responseEvents);
         notifyDataSetChanged();
     }

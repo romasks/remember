@@ -155,7 +155,7 @@
             android:src="@mipmap/path" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/vk"
             android:layout_width="110dp"
             android:layout_height="64dp"
             android:layout_gravity="bottom"
@@ -164,7 +164,7 @@
             android:src="@mipmap/vk" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/twitter"
             android:layout_width="110dp"
             android:layout_height="64dp"
             android:layout_gravity="bottom"
@@ -173,7 +173,7 @@
             android:src="@mipmap/twitter" />
 
         <ImageButton
-            android:id="@+id/imageButton7"
+            android:id="@+id/ok"
             android:layout_width="110dp"
             android:layout_height="64dp"
             android:layout_gravity="bottom"

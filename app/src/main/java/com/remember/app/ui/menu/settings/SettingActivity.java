@@ -1,4 +1,4 @@
-package com.remember.app.ui.settings;
+package com.remember.app.ui.menu.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
-import com.remember.app.ui.settings.data.PersonalDataFragment;
-import com.remember.app.ui.settings.notification.NotificationFragment;
+import com.remember.app.ui.menu.settings.data.PersonalDataFragment;
+import com.remember.app.ui.menu.settings.notification.NotificationFragment;
 
 import butterknife.OnClick;
 

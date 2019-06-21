@@ -1,4 +1,4 @@
-package com.remember.app.ui.settings.notification;
+package com.remember.app.ui.menu.settings.notification;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;

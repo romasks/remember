@@ -46,10 +46,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
                 android:text="Основная информация"
                 android:textColor="@drawable/abc"
-                android:textStyle="bold"
-                android:layout_marginStart="22dp"/>
+                android:textStyle="bold" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -64,11 +64,11 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:hint="Фамилия"
-                    android:textColorHint="@color/dark_gray"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/dark_gray" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,12 +85,12 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:hint="Имя"
-                    android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@color/dark_gray"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,25 +107,24 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:hint="Отчество"
-                    android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@color/dark_gray"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="25dp"
                 android:text="Аккаунт"
                 android:textColor="@drawable/abc"
-                android:textStyle="bold"
-                android:layout_marginTop="25dp"
-                android:layout_marginStart="22dp"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -149,6 +148,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="false"
                 android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
@@ -157,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:focusable="false"
                     android:hint="Е-mail"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
@@ -168,11 +169,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="25dp"
                 android:text="Контактная информация"
                 android:textColor="@drawable/abc"
-                android:textStyle="bold"
-                android:layout_marginTop="25dp"
-                android:layout_marginStart="22dp"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -215,7 +216,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray"/>
+                android:textColorHint="@color/dark_gray" />
 
             <TextView
                 android:layout_width="wrap_content"

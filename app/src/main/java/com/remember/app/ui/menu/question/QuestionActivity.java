@@ -1,11 +1,10 @@
-package com.remember.app.ui.question;
+package com.remember.app.ui.menu.question;
 
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
