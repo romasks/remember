@@ -21,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -91,26 +92,10 @@ public class MainActivity extends MvpAppCompatActivity
         });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ImageView imageViewAvatar = drawer.findViewById(R.id.avatar);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = headerView.findViewById(R.id.title_menu);
 
-        if (!Prefs.getString("AVATAR", "").equals("")) {
-            Glide.with(this)
-                    .load(Prefs.getString("AVATAR", ""))
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imageViewAvatar);
-            setBlackWhite(imageViewAvatar);
-
-            ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
-            setBlackWhite(imageViewBigAvatar);
-            Glide.with(this)
-                    .load(Prefs.getString("AVATAR", ""))
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imageViewBigAvatar);
-
-        }
 
         TextView textView = headerView.findViewById(R.id.textView);
         navUsername.setText(Prefs.getString("NAME_USER", ""));
@@ -121,8 +106,9 @@ public class MainActivity extends MvpAppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
     }
+
+
 
     @OnClick(R.id.search)
     public void search() {
@@ -197,6 +183,27 @@ public class MainActivity extends MvpAppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        }
+        if (!Prefs.getString("AVATAR", "").equals("")) {
+            ImageView imageViewAvatar = drawer.findViewById(R.id.avatar);
+            Glide.with(this)
+                    .load(Prefs.getString("AVATAR", ""))
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewAvatar);
+            setBlackWhite(imageViewAvatar);
+
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            View headerView = navigationView.getHeaderView(0);
+            ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
+            setBlackWhite(imageViewBigAvatar);
+            Glide.with(this)
+                    .load(Prefs.getString("AVATAR", ""))
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewBigAvatar);
         }
     }
 

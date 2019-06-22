@@ -3,6 +3,7 @@ package com.remember.app.ui.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import butterknife.ButterKnife;
 public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
+    private Callback callback;
     private List<RequestAddEvent> requestAddEvent = new ArrayList<>();
 
     @NonNull
@@ -55,8 +57,20 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public interface Callback{
+
+        void openEvent();
+
+    }
+
     public class EventsDeceaseAdapterViewHolder extends BaseViewHolder {
 
+        @BindView(R.id.layout)
+        ConstraintLayout constraintLayout;
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
         @BindView(R.id.amount_days)
@@ -76,6 +90,9 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
+            constraintLayout.setOnClickListener(v -> {
+                callback.openEvent();
+            });
             Glide.with(itemView)
                     .load("https://images-na.ssl-images-amazon.com/images/I/61flr%2BuHRpL._SX425_.jpg")
                     .apply(RequestOptions.circleCropTransform())

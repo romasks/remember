@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:text="@string/event_calendar"
+                    android:text="@string/events"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
