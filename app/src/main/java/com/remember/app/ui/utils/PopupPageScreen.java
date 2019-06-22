@@ -20,6 +20,8 @@ public class PopupPageScreen extends PopupWindow {
     private Callback callback;
     private AutoCompleteTextView dateBeginVal;
     private AutoCompleteTextView dateEndVal;
+    private TextInputLayout dateBegin;
+    private TextInputLayout dateEnd;
 
     private DatePickerDialog.OnDateSetListener datePickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();
@@ -43,9 +45,12 @@ public class PopupPageScreen extends PopupWindow {
         });
 
 
-
+        /*dateBegin = popupView.findViewById(R.id.date_begin);
+        dateEnd = popupView.findViewById(R.id.date_end);*/
         dateBeginVal = popupView.findViewById(R.id.date_begin_value);
         dateEndVal = popupView.findViewById(R.id.date_end_value);
+        /*dateBegin.setOnClickListener(v -> setDate(v,1));
+        dateEnd.setOnClickListener(v -> setDate(v,2));*/
         dateBeginVal.setOnClickListener(v -> setDate(v,1));
         dateEndVal.setOnClickListener(v -> setDate(v,2));
     }
