@@ -1,6 +1,7 @@
 package com.remember.app.ui.menu.settings.data;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -23,12 +24,15 @@ import androidx.core.app.ActivityCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -70,6 +74,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     private Unbinder unbinder;
     private File imageFile;
     private Bitmap bitmap;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,6 +122,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
                         imageFile = saveBitmap(bitmap);
                         presenter.saveImageSetting(imageFile);
+                        progressDialog = LoadingPopupUtils.showLoadingDialog(getContext());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -171,6 +177,8 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
         Glide.with(getContext())
                 .load("http://86.57.172.88:8082" + responseSettings.getSetting().get(0).getPicture())
                 .apply(RequestOptions.circleCropTransform())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(avatar);
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
@@ -207,6 +215,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
 
     @Override
     public void onSavedImage(Object o) {
-//        Prefs.getString("AVATAR",
+        progressDialog.dismiss();
     }
 }

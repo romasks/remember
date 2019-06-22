@@ -1,10 +1,12 @@
 package com.remember.app.ui.cabinet.memory_pages.events;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.widget.ImageView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
@@ -19,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class EventsActivity extends MvpAppCompatActivity implements EventsView {
+public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback {
 
     @InjectPresenter
     EventsPresenter presenter;
@@ -37,6 +39,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView {
     private int pageId;
     private boolean isShow;
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +55,14 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView {
         presenter.getEvents(pageId);
 
         eventsDeceaseAdapter = new EventsDeceaseAdapter();
+        eventsDeceaseAdapter.setCallback(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventsDeceaseAdapter);
 
         plus.setOnClickListener(v -> {
-            if (!isShow){
+            if (!isShow) {
                 Intent intent = new Intent(this, AddNewEventActivity.class);
                 intent.putExtra("NAME", name);
                 intent.putExtra("ID_PAGE", pageId);
@@ -79,5 +83,10 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView {
     @Override
     public void onReceivedEvent(List<RequestAddEvent> requestAddEvent) {
         eventsDeceaseAdapter.setItems(requestAddEvent);
+    }
+
+    @Override
+    public void openEvent() {
+        // TODO тут делать переход на экран просмотра
     }
 }
