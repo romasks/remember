@@ -3,6 +3,8 @@ package com.remember.app.data.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ResponseSettings {
 
     @SerializedName("id")
@@ -26,9 +28,9 @@ public class ResponseSettings {
     @SerializedName("reali")
     @Expose
     private String reali;
-    @SerializedName("setting")
+    @SerializedName("settings")
     @Expose
-    private SettingModel setting;
+    private List<SettingModel> setting;
 
     public Integer getId() {
         return id;
@@ -86,11 +88,11 @@ public class ResponseSettings {
         this.reali = reali;
     }
 
-    public SettingModel getSetting() {
+    public List<SettingModel> getSetting() {
         return setting;
     }
 
-    public void setSetting(SettingModel setting) {
+    public void setSetting(List<SettingModel> setting) {
         this.setting = setting;
     }
 

@@ -74,6 +74,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
             onResume();
             Prefs.putBoolean("EVENT_FRAGMENT", false);
             Prefs.putBoolean("PAGE_FRAGMENT", true);
+            presenter.getPages();
         } else {
             Prefs.putBoolean("EVENT_FRAGMENT", true);
             Prefs.putBoolean("PAGE_FRAGMENT", false);

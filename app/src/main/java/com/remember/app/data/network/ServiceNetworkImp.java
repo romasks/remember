@@ -434,4 +434,16 @@ public class ServiceNetworkImp implements ServiceNetwork {
     public  Observable<List<ResponseSettings>> signInVk(String email) {
         return apiMethods.signInVk(email);
     }
+
+    @Override
+    public Observable<List<MemoryPageModel>> getAllPages() {
+        return apiMethods.getAllPages();
+    }
+
+    @Override
+    public Observable<Object> saveImageSetting(File imageFile) {
+        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+        MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
+        return apiMethods.savePhotoSettings(fileToUploadTranser, Integer.parseInt(Prefs.getString("USER_ID", "0")));
+    }
 }

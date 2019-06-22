@@ -22,7 +22,7 @@ public class PageMenuPresenter extends BasePresenter<PageMenuView> {
     }
 
     public void getPages() {
-        Disposable subscription = serviceNetwork.getPages()
+        Disposable subscription = serviceNetwork.getAllPages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedPages,
