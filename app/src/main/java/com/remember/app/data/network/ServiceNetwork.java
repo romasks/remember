@@ -1,6 +1,7 @@
 package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -43,6 +44,8 @@ public interface ServiceNetwork {
     Observable<List<RequestAddEvent>> getEventsForId(int pageId);
 
     Observable<List<ResponseEvents>> getEvents();
+
+    Observable<EventModel> getEvent(int id);
 
     Observable<ResponseAuth> singInAuth(String login, String password);
 

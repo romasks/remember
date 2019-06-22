@@ -2,6 +2,7 @@ package com.remember.app.data.network;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -216,6 +217,9 @@ public class ServiceNetworkImp implements ServiceNetwork {
     public Observable<List<ResponseEvents>> getEvents() {
         return apiMethods.getEvents();
     }
+
+    @Override
+    public Observable<EventModel> getEvent(int id){return apiMethods.getEvent(id);}
 
     @Override
     public Observable<ResponseAuth> singInAuth(String email, String password) {

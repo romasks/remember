@@ -1,6 +1,7 @@
 package com.remember.app.data.network;
 
 
+import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -60,6 +61,9 @@ public interface ApiMethods {
 
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();
+
+    @GET("deadevent/{id}")
+    Observable<EventModel> getEvent(@Path("id") int id);
 
     @Headers("Content-Type: application/json")
     @POST("user/add")
