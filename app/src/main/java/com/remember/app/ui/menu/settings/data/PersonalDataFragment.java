@@ -1,8 +1,16 @@
 package com.remember.app.ui.menu.settings.data;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +19,24 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.app.ActivityCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,11 +68,25 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     AutoCompleteTextView phone;
 
     private Unbinder unbinder;
+    private File imageFile;
+    private Bitmap bitmap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.getInfo();
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG", "Permission is granted");
+            } else {
+                Log.v("TAG", "Permission is revoked");
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG", "Permission is granted");
+        }
     }
 
 
@@ -80,11 +109,35 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
                             .load(resultUri)
                             .apply(RequestOptions.circleCropTransform())
                             .into(avatar);
+                    ColorMatrix colorMatrix = new ColorMatrix();
+                    colorMatrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+                    avatar.setColorFilter(filter);
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
+                        imageFile = saveBitmap(bitmap);
+                        presenter.saveImageSetting(imageFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
         }
+    }
+
+    public static File saveBitmap(Bitmap bmp) throws IOException {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
+        File f = new File(Environment.getExternalStorageDirectory()
+                + File.separator + "image.jpg");
+
+        f.createNewFile();
+        FileOutputStream fo = new FileOutputStream(f);
+        fo.write(bytes.toByteArray());
+        fo.close();
+        return f;
     }
 
     @OnClick(R.id.add_new_photo)
@@ -114,11 +167,31 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
 
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        secondName.setText(responseSettings.getSetting().getSurname());
-        name.setText(responseSettings.getSetting().getSurname());
-        middleName.setText(responseSettings.getSetting().getSurname());
-        email.setText(responseSettings.getEmail());
-        phone.setText(responseSettings.getSetting().getPhone());
+        Prefs.putString("AVATAR", "http://86.57.172.88:8082" + responseSettings.getSetting().get(0).getPicture());
+        Glide.with(getContext())
+                .load("http://86.57.172.88:8082" + responseSettings.getSetting().get(0).getPicture())
+                .apply(RequestOptions.circleCropTransform())
+                .into(avatar);
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        avatar.setColorFilter(filter);
+        if (responseSettings.getSetting().get(0).getSurname() != null) {
+            secondName.setText(responseSettings.getSetting().get(0).getSurname());
+        }
+        if (responseSettings.getSetting().get(0).getName() != null) {
+            name.setText(responseSettings.getSetting().get(0).getName());
+        }
+        if (responseSettings.getSetting().get(0).getSurname() != null) {
+            middleName.setText(responseSettings.getSetting().get(0).getThirdname());
+        }
+        if (responseSettings.getEmail() != null) {
+            email.setText(responseSettings.getEmail());
+        }
+        if (responseSettings.getSetting().get(0).getPhone() != null) {
+            phone.setText(responseSettings.getSetting().get(0).getPhone());
+        }
+        getView().invalidate();
     }
 
     @Override
@@ -130,5 +203,10 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     @Override
     public void onSaved(Object o) {
         presenter.getInfo();
+    }
+
+    @Override
+    public void onSavedImage(Object o) {
+//        Prefs.getString("AVATAR",
     }
 }

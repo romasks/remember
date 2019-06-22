@@ -38,6 +38,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.menu.settings.SettingActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.utils.ImageFieldPickerActivity"

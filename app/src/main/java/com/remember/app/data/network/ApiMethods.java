@@ -1,7 +1,6 @@
 package com.remember.app.data.network;
 
 
-import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -163,4 +162,13 @@ public interface ApiMethods {
 
     @GET("user/social")
     Observable<List<ResponseSettings>> signInVk(@Query("email") String email);
+
+    @GET("page")
+    Observable<List<MemoryPageModel>> getAllPages();
+
+    @Multipart
+    @POST("setting/photo/{id}")
+    Observable<Object> savePhotoSettings(@Part MultipartBody.Part image,
+                                         @Path("id") Integer id);
+
 }

@@ -10,4 +10,6 @@ public interface PersonalDataFragmentView extends MvpView {
     void error(Throwable throwable);
 
     void onSaved(Object o);
+
+    void onSavedImage(Object o);
 }
