@@ -22,7 +22,6 @@ public class PopupEventScreen extends PopupWindow {
 
     private Callback callback;
     private MaterialSpinner spinner;
-    private TextInputLayout dateBegin;
     private AutoCompleteTextView date;
 
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
@@ -56,8 +55,7 @@ public class PopupEventScreen extends PopupWindow {
             dismiss();
         });
 
-        dateBegin = popupView.findViewById(R.id.date);
-        dateBegin.setOnClickListener(this::setDateBegin);
+        date.setOnClickListener(this::setDateBegin);
     }
 
     public void setDateBegin(View v) {
@@ -73,7 +71,6 @@ public class PopupEventScreen extends PopupWindow {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
         date.setText(requiredDate);
-        setInitialDateBegin();
     }
 
     public interface Callback {
