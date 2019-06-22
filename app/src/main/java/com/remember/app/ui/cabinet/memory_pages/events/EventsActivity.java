@@ -89,6 +89,5 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @Override
     public void openEvent() {
         startActivity(new Intent(EventsActivity.this, CurrentEvent.class));
-        // TODO доделать перенос информации о событии
     }
 }

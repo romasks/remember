@@ -1,8 +1,5 @@
 package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -10,14 +7,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.ui.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class CurrentEvent extends AppCompatActivity {
+public class CurrentEvent extends BaseActivity {
 
+    @InjectPresenter
+    CurrentEventPresenter presenter;
 
     @BindView(R.id.back_button)
     ImageButton back;
@@ -39,20 +40,18 @@ public class CurrentEvent extends AppCompatActivity {
     ImageView addVideo;
     @BindView(R.id.comments)
     RecyclerView comments;
-    private Unbinder unbinder;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_event);
-        unbinder = ButterKnife.bind(this);
-
 
         back.setOnClickListener(v -> {
             onBackPressed();
         });
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.fragment_event;
     }
 }
