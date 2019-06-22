@@ -79,8 +79,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     private void setItems(EventModel requestEvent){
         name.setText(requestEvent.getName());
         Glide.with(this)
-                .load(requestEvent.getPicture())
-                .apply(RequestOptions.circleCropTransform())
+                .load("http://86.57.172.88:8082"+requestEvent.getPicture())
                 .into(imageAvatar);
         dateView.setText(requestEvent.getDate());
         messageView.setText(requestEvent.getName() + " - " + requestEvent.getDescription());
