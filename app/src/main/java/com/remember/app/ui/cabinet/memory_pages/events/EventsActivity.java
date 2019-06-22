@@ -13,6 +13,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.adapters.EventsDeceaseAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 
 import java.util.List;
@@ -87,6 +88,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
 
     @Override
     public void openEvent() {
-        // TODO тут делать переход на экран просмотра
+        startActivity(new Intent(EventsActivity.this, CurrentEvent.class));
+        // TODO доделать перенос информации о событии
     }
 }
