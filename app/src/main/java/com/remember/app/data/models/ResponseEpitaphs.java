@@ -14,6 +14,9 @@ public class ResponseEpitaphs {
     @SerializedName("user_id")
     @Expose
     private String userId;
+    @SerializedName("parent_id")
+    @Expose
+    private Integer parentId;
     @SerializedName("body")
     @Expose
     private String body;
@@ -23,6 +26,18 @@ public class ResponseEpitaphs {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
+    @SerializedName("updated_at")
+    @Expose
+    private String updatedAt;
+    @SerializedName("deleted_at")
+    @Expose
+    private Object deletedAt;
+    @SerializedName("user")
+    @Expose
+    private ResponseUser user;
 
     public Integer getId() {
         return id;
@@ -48,6 +63,14 @@ public class ResponseEpitaphs {
         this.userId = userId;
     }
 
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
     public String getBody() {
         return body;
     }
@@ -70,5 +93,37 @@ public class ResponseEpitaphs {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Object getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Object deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public ResponseUser getUser() {
+        return user;
+    }
+
+    public void setUser(ResponseUser user) {
+        this.user = user;
     }
 }

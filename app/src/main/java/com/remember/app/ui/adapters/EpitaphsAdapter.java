@@ -1,6 +1,8 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,11 @@ import com.remember.app.R;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.base.BaseViewHolder;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -71,13 +77,32 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            name.setText(Prefs.getString("NAME_USER", ""));
+            if (!responseEpitaphs.get(position).getUser().getName().equals("")){
+                name.setText(responseEpitaphs.get(position).getUser().getName());
+            } else {
+                name.setText("Неизвестный");
+            }
             Glide.with(itemView)
-                    .load(R.drawable.darth_vader)
+                    .load("http://86.57.172.88:8082" + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
                     .apply(RequestOptions.circleCropTransform())
                     .into(avatar);
-            date.setText("Сегодня в 16:59");
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            avatar.setColorFilter(filter);
+            try {
+                date.setText(getDate(responseEpitaphs.get(position).getUpdatedAt()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             description.setText(responseEpitaphs.get(position).getBody());
         }
+    }
+
+    private String getDate(String updatedAt) throws ParseException {
+        DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        DateFormat targetFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = originalFormat.parse(updatedAt);
+        return targetFormat.format(date);
     }
 }
