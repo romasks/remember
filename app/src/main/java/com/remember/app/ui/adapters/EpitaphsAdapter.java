@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
+    private Callback callback;
     private List<ResponseEpitaphs> responseEpitaphs = new ArrayList<>();
 
     @NonNull
@@ -58,6 +59,17 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public interface Callback {
+
+        void change(ResponseEpitaphs responseEpitaphs);
+
+        void delete();
+    }
+
     public class EpitaphsAdapterViewHolder extends BaseViewHolder {
 
         @BindView(R.id.description)
@@ -66,6 +78,10 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView name;
         @BindView(R.id.date)
         TextView date;
+        @BindView(R.id.change)
+        TextView change;
+        @BindView(R.id.delete)
+        TextView delete;
         @BindView(R.id.avatar)
         ImageView avatar;
 
@@ -77,7 +93,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            if (!responseEpitaphs.get(position).getUser().getName().equals("")){
+            if (!responseEpitaphs.get(position).getUser().getName().equals("")) {
                 name.setText(responseEpitaphs.get(position).getUser().getName());
             } else {
                 name.setText("Неизвестный");
@@ -90,6 +106,19 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             colorMatrix.setSaturation(0);
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
             avatar.setColorFilter(filter);
+
+            if (responseEpitaphs.get(position).getUser().getId() == Integer.parseInt(Prefs.getString("USER_ID", "0"))) {
+                delete.setVisibility(View.VISIBLE);
+                change.setVisibility(View.VISIBLE);
+
+                delete.setOnClickListener(v -> {
+                    callback.delete();
+                });
+                change.setOnClickListener(v -> {
+                    callback.change(responseEpitaphs.get(position));
+                });
+            }
+
             try {
                 date.setText(getDate(responseEpitaphs.get(position).getUpdatedAt()));
             } catch (ParseException e) {

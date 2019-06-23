@@ -8,16 +8,18 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 
 import com.remember.app.R;
+import com.remember.app.data.models.ResponseEpitaphs;
 
 public class PopupAddEpitaph extends PopupWindow {
 
     private Callback callback;
+    private ResponseEpitaphs responseEpitaphs;
 
     public PopupAddEpitaph(View contentView, int width, int height) {
         super(contentView, width, height);
     }
 
-    public void setUp(View contentView) {
+    public void setUp(View contentView, String body) {
         setFocusable(true);
         setOutsideTouchable(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -27,19 +29,32 @@ public class PopupAddEpitaph extends PopupWindow {
         View popupView = getContentView();
         Button saveButton = popupView.findViewById(R.id.save_button);
         EditText text = popupView.findViewById(R.id.text_epitaph);
-        saveButton.setOnClickListener(v -> {
-            callback.saveEpitaph(text.getText().toString());
-            dismiss();
-        });
+        if (!body.equals("")) {
+            text.setText(body);
+            saveButton.setOnClickListener(v -> {
+                callback.editEpitaph(text.getText().toString(), responseEpitaphs.getId());
+                dismiss();
+            });
+        } else {
+            saveButton.setOnClickListener(v -> {
+                callback.saveEpitaph(text.getText().toString());
+                dismiss();
+            });
+        }
     }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
 
+    void setModel(ResponseEpitaphs responseEpitaphs) {
+        this.responseEpitaphs = responseEpitaphs;
+    }
+
     public interface Callback {
 
         void saveEpitaph(String text);
 
+        void editEpitaph(String toString, Integer id);
     }
 }
