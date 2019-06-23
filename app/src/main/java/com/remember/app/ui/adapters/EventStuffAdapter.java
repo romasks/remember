@@ -35,7 +35,7 @@ public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.Im
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-
+        holder.onBind(position);
     }
 
     public class ImageViewHolder extends BaseViewHolder {
@@ -52,7 +52,7 @@ public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.Im
 
         @Override
         public void onBind(int position) {
-            Glide.with(itemView)
+            Glide.with(context)
                     .load(R.drawable.darth_vader)
                     .apply(RequestOptions.circleCropTransform())
                     .into(itemImage);
