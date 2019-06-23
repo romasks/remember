@@ -13,4 +13,6 @@ public interface EpitaphsView extends MvpView {
     void onSavedEpitaphs(RequestAddEpitaphs requestAddEpitaphs);
 
     void onErrorSavedEpitaphs(Throwable throwable);
+
+    void onEditedEpitaphs(RequestAddEpitaphs requestAddEpitaphs);
 }

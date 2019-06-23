@@ -19,9 +19,7 @@ import com.remember.app.data.models.ResponseSettings;
 import java.io.File;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
 
 public interface ServiceNetwork {
 
@@ -70,4 +68,6 @@ public interface ServiceNetwork {
     Observable<List<MemoryPageModel>> getAllPages();
 
     Observable<Object> saveImageSetting(File imageFile);
+
+    Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id);
 }

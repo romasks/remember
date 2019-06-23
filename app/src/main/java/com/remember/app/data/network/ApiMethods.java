@@ -175,4 +175,8 @@ public interface ApiMethods {
     Observable<Object> savePhotoSettings(@Part MultipartBody.Part image,
                                          @Path("id") Integer id);
 
+    @Headers("Content-Type: application/json")
+    @POST("epit/edit/{id}")
+    Observable<RequestAddEpitaphs> editEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs,
+                                               @Path("id") Integer id);
 }
