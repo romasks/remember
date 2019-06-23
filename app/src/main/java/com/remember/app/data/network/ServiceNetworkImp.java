@@ -450,4 +450,9 @@ public class ServiceNetworkImp implements ServiceNetwork {
         MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
         return apiMethods.savePhotoSettings(fileToUploadTranser, Integer.parseInt(Prefs.getString("USER_ID", "0")));
     }
+
+    @Override
+    public Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
+        return apiMethods.editEpitaph(requestAddEpitaphs, id);
+    }
 }
