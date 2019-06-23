@@ -58,24 +58,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="-40dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="20dp"
                 android:orientation="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/photos"
                     android:layout_width="0dp"
-                    android:layout_height="85dp"
-                    android:layout_weight="3"
+                    android:layout_height="70dp"
+                    android:layout_weight="8"
                     android:orientation="horizontal" />
                 <ImageButton
                     android:id="@+id/add_photo"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="70dp"
+                    android:layout_weight="2"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/ic_plus"/>
             </LinearLayout>
@@ -130,23 +128,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginEnd="25dp"
-                android:layout_marginRight="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:orientation="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/videos"
                     android:layout_width="0dp"
                     android:layout_height="85dp"
-                    android:layout_weight="3"
+                    android:layout_weight="8"
                     android:orientation="horizontal" />
                 <ImageButton
                     android:id="@+id/add_video"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="70dp"
+                    android:layout_weight="2"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/ic_plus"/>
 
