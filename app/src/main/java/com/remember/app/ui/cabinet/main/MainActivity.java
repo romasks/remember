@@ -146,7 +146,7 @@ public class MainActivity extends MvpAppCompatActivity
 
     }
 
-    private void showPageScreen(List<String> responseHandBooks) {
+    private void showPageScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen, null);
         popupWindowEvent = new PopupEventScreen(
                 popupView,
@@ -154,7 +154,7 @@ public class MainActivity extends MvpAppCompatActivity
                 ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);
-        popupWindowEvent.setUp(title, responseHandBooks);
+        popupWindowEvent.setUp(title);
     }
 
     @Override
@@ -271,7 +271,7 @@ public class MainActivity extends MvpAppCompatActivity
 
     @Override
     public void onReceivedReligions(List<String> responseHandBooks) {
-        showPageScreen(responseHandBooks);
+        showPageScreen();
     }
 
     @Override

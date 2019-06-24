@@ -28,6 +28,7 @@ import com.remember.app.ui.cabinet.events.EventFullActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.PopupEventScreen;
+import com.remember.app.ui.utils.PopupEventScreenLocal;
 import com.remember.app.ui.utils.PopupPageScreen;
 
 import java.util.Arrays;
@@ -48,8 +49,6 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     private EventsFragmentAdapter eventsFragmentAdapter;
 
-    private MainActivity.CallbackPage callbackPage;
-    private ProgressDialog progressDialog;
     private PopupEventScreen popupWindowEvent;
 
     @SuppressLint("WrongConstant")
@@ -74,7 +73,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     @OnClick(R.id.search)
     public void openSearch(){
-        showPageScreen(Arrays.asList(new String[]{"тип 1", "тип 2", "тип 3"}));
+        showPageScreen();
     }
 
     @Override
@@ -102,7 +101,6 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (popupWindowEvent != null && popupWindowEvent.isShowing()) {
             popupWindowEvent.dismiss();
         } else {
@@ -110,7 +108,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
         }
     }
 
-    private void showPageScreen(List<String> responseHandBooks) {
+    private void showPageScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen, null);
         popupWindowEvent = new PopupEventScreen(
                 popupView,
@@ -118,7 +116,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
                 ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);
-        popupWindowEvent.setUp(relEvent, responseHandBooks);
+        popupWindowEvent.setUp(relEvent);
     }
 
 }

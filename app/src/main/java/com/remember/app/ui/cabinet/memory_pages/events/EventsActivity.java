@@ -3,7 +3,11 @@ package com.remember.app.ui.cabinet.memory_pages.events;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,14 +19,17 @@ import com.remember.app.ui.adapters.EventsDeceaseAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.PopupEventScreen;
+import com.remember.app.ui.utils.PopupEventScreenLocal;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback {
+public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreenLocal.Callback {
 
     @InjectPresenter
     EventsPresenter presenter;
@@ -33,12 +40,18 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     ImageView plus;
     @BindView(R.id.back)
     ImageView back;
+    @BindView(R.id.search)
+    ImageView search;
+    @BindView(R.id.title)
+    TextView title;
 
     private Unbinder unbinder;
     private String name;
     private EventsDeceaseAdapter eventsDeceaseAdapter;
     private int pageId;
     private boolean isShow;
+
+    private PopupEventScreenLocal popupWindowEvent;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -70,6 +83,10 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
                 startActivity(intent);
             }
         });
+        search.setOnClickListener(v -> {
+            String [] types = {"type 1", "type 2", "type 3"};
+            showPageScreen(Arrays.asList(types));
+        });
         back.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -84,6 +101,17 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @Override
     public void onReceivedEvent(List<RequestAddEvent> requestAddEvent) {
         eventsDeceaseAdapter.setItems(requestAddEvent);
+    }
+
+    private void showPageScreen(List<String> responseHandBooks) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen_local, null);
+        popupWindowEvent = new PopupEventScreenLocal(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindowEvent.setFocusable(true);
+        popupWindowEvent.setCallback(this);
+        popupWindowEvent.setUp(title, responseHandBooks);
     }
 
     @Override

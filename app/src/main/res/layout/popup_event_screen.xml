@@ -99,16 +99,16 @@
         android:textColorHint="@color/dark_gray"
         app:layout_constraintTop_toBottomOf="@+id/date">
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/spinner"
+        <AutoCompleteTextView
+            android:id="@+id/last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            app:ms_padding_left="5dp"
-            app:ms_background_color="@android:color/transparent"
-            app:ms_arrow_tint="@color/dark_gray"
-            app:ms_text_color="@color/dark_gray"
-            android:text="Тип"
+            android:hint="Фамилия"
+            android:textAlignment="textStart"
+            android:textColor="@drawable/abc"
+            android:textColorHighlight="@color/light_brown"
+            android:textColorLink="@color/light_brown"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>

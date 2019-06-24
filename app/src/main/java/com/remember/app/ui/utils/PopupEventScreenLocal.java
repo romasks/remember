@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.PopupWindow;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 
@@ -17,21 +16,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
-public class PopupEventScreen extends PopupWindow {
+public class PopupEventScreenLocal extends PopupWindow {
 
     private Callback callback;
-    private AutoCompleteTextView lastName;
+    private MaterialSpinner spinner;
     private AutoCompleteTextView date;
 
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();
 
-    public PopupEventScreen(View contentView, int width, int height) {
+    public PopupEventScreenLocal(View contentView, int width, int height) {
         super(contentView, width, height);
     }
 
-    public void setUp(View contentView) {
+    public void setUp(View contentView, List<String> responseHandBooks) {
         setFocusable(false);
         setOutsideTouchable(false);
         showAtLocation(contentView, Gravity.TOP, 0, 0);
@@ -48,7 +46,8 @@ public class PopupEventScreen extends PopupWindow {
             setInitialDateBegin();
         };
 
-        lastName = popupView.findViewById(R.id.last_name);
+        spinner = popupView.findViewById(R.id.spinner);
+        spinner.setItems(responseHandBooks);
 
         popupView.findViewById(R.id.submit).setOnClickListener(v -> {
             dismiss();
