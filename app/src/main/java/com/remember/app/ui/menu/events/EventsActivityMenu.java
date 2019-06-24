@@ -37,7 +37,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EventsActivityMenu extends BaseActivity implements EventsFragmentAdapter.Callback, EventsMenuView, PopupEventScreen.Callback {
+public class EventsActivityMenu extends BaseActivity implements EventsFragmentAdapter.Callback, EventsMenuView, PopupEventScreenLocal.Callback {
 
     @InjectPresenter
     EventsMenuPresenter presenter;
@@ -49,7 +49,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     private EventsFragmentAdapter eventsFragmentAdapter;
 
-    private PopupEventScreen popupWindowEvent;
+    private PopupEventScreenLocal popupWindowEvent;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -73,7 +73,8 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     @OnClick(R.id.search)
     public void openSearch(){
-        showPageScreen();
+        String [] rhb = {"aaa", "bbb", "ccc"};
+        showPageScreen(Arrays.asList(rhb));
     }
 
     @Override
@@ -108,15 +109,15 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
         }
     }
 
-    private void showPageScreen() {
-        View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen, null);
-        popupWindowEvent = new PopupEventScreen(
+    private void showPageScreen(List<String> responseHandBooks) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen_local, null);
+        popupWindowEvent = new PopupEventScreenLocal(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);
-        popupWindowEvent.setUp(relEvent);
+        popupWindowEvent.setUp(relEvent, responseHandBooks);
     }
 
 }

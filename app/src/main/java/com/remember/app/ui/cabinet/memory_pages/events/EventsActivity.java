@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreenLocal.Callback {
+public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
 
     @InjectPresenter
     EventsPresenter presenter;
@@ -51,7 +51,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     private int pageId;
     private boolean isShow;
 
-    private PopupEventScreenLocal popupWindowEvent;
+    private PopupEventScreen popupWindowEvent;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -84,8 +84,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
             }
         });
         search.setOnClickListener(v -> {
-            String [] types = {"type 1", "type 2", "type 3"};
-            showPageScreen(Arrays.asList(types));
+            showPageScreen();
         });
         back.setOnClickListener(v -> {
             onBackPressed();
@@ -103,15 +102,15 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         eventsDeceaseAdapter.setItems(requestAddEvent);
     }
 
-    private void showPageScreen(List<String> responseHandBooks) {
-        View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen_local, null);
-        popupWindowEvent = new PopupEventScreenLocal(
+    private void showPageScreen() {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen, null);
+        popupWindowEvent = new PopupEventScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);
-        popupWindowEvent.setUp(title, responseHandBooks);
+        popupWindowEvent.setUp(title);
     }
 
     @Override

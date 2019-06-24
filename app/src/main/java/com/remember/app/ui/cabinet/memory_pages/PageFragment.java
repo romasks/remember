@@ -58,7 +58,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         presenter.getPages();
         pageFragmentAdapter = new PageFragmentAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(container.getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
         pageFragmentAdapter.setCallback(this);
