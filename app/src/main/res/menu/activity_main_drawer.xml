@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="@+id/nav_view">
 
-    <group android:id="@+id/group1">
+
         <item
             android:id="@+id/memory_pages"
             android:title="@string/important_pages" />
@@ -19,14 +19,13 @@
         <item
             android:id="@+id/questions"
             android:title="@string/questions" />
-    </group>
+        <item android:title="" />
+        <item android:title="" />
 
-    <item android:title="">
-        <menu>
-            <item
-                android:id="@+id/exit"
-                android:title="@string/exit" />
-        </menu>
-    </item>
+
+        <item
+            android:id="@+id/exit"
+            android:title="@string/exit" />
+
 
 </menu>

@@ -44,5 +44,10 @@
         app:layout_constraintTop_toBottomOf="@+id/logo"
         tools:text="@string/nav_header_subtitle"/>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#a99175"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
