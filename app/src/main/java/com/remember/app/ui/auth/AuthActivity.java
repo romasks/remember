@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
 import com.jaychang.sa.twitter.SimpleAuth;
@@ -108,7 +108,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
             @Override
             public void onError(Throwable error) {
-                Snackbar.make(password, "Ошибка авторизации", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_LONG).show();
                 Log.e("TWITTER", error.getMessage());
             }
 
@@ -122,9 +122,9 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
         if (login.getText().toString().equals("")) {
-            Snackbar.make(password, "Введите e-mail", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите e-mail", Toast.LENGTH_LONG).show();
         } else if (password.getText().toString().equals("")) {
-            Snackbar.make(password, "Введите пароль", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите пароль", Toast.LENGTH_LONG).show();
         } else {
             presenter.singInAuth(login.getText().toString(), password.getText().toString());
         }
@@ -197,7 +197,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
     @Override
     public void error(Throwable throwable) {
-        Snackbar.make(password, "Неправильный логин или пароль", Snackbar.LENGTH_LONG).show();
+        Toast.makeText(this, "Неправильный логин или пароль", Toast.LENGTH_LONG).show();
     }
 
     @Override
