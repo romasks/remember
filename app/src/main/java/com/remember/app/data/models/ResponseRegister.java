@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResponseRegister {
 
+    @SerializedName("id")
+    @Expose
+    private int id;
     @SerializedName("email")
     @Expose
     private String email;
@@ -20,6 +23,14 @@ public class ResponseRegister {
     @SerializedName("user")
     @Expose
     private String user;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUser() {
         return user;

@@ -86,6 +86,7 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
                 }
             } else {
                 Prefs.putString("EMAIL", email.getText().toString());
+                Prefs.putString("USER_ID", String.valueOf(responseRegisterResponse.body().getId()));
                 Toast.makeText(this, "Ваш пароль " + responseRegisterResponse.body().getRealPassword(), Toast.LENGTH_LONG).show();
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
