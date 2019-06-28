@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".ui.cabinet.memory_pages.events.current_event.CurrentEvent"></activity>
+        <activity android:name=".ui.cabinet.memory_pages.events.current_event.CurrentEvent" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -95,7 +95,10 @@
             android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity"
             android:theme="@style/VK.Transparent" />
-        <activity android:name="ru.ok.android.sdk.OkAuthActivity">
+        <activity
+            android:name="ru.ok.android.sdk.OkAuthActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -103,9 +106,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="ok125497344"
-                    android:scheme="okauth"
-                    tools:ignore="AppLinkUrlError" />
+                    android:host="ok1278579968"
+                    android:scheme="okauth" />
             </intent-filter>
         </activity>
 

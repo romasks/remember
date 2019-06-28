@@ -7,6 +7,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
@@ -17,7 +20,9 @@ import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseVk;
 import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.utils.DeleteAlertDialog;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.WrongEmailDialog;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
@@ -38,6 +43,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import ru.ok.android.sdk.Odnoklassniki;
+import ru.ok.android.sdk.util.OkAuthType;
+import ru.ok.android.sdk.util.OkScope;
 
 public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
@@ -51,8 +59,13 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
     @BindView(R.id.vk)
     ImageButton vk;
 
+    private static final String APP_ID = "CBAGJGDNEBABABABA";
+    private static final String APP_KEY = "A488208737DA4B970D6E3EB1";
+    private static final String REDIRECT_URL = "okauth://ok1278579968";
+
     private Unbinder unbinder;
     private TwitterAuthClient client;
+    private Odnoklassniki odnoklassniki;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +79,12 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
     @OnClick(R.id.vk)
     public void signInVk() {
         VKSdk.login(this, "email");
+    }
+
+    @OnClick(R.id.ok)
+    public void signInOk() {
+        odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
+        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.LONG_ACCESS_TOKEN);
     }
 
     @OnClick(R.id.fb)
@@ -84,6 +103,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
             @Override
             public void onError(Throwable error) {
+                errorDialog("Ошибка авторизации");
                 Log.d("FACEBOOK", error.getMessage());
             }
 
@@ -108,7 +128,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
             @Override
             public void onError(Throwable error) {
-                Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_LONG).show();
+                errorDialog("Ошибка авторизации");
                 Log.e("TWITTER", error.getMessage());
             }
 
@@ -146,6 +166,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
                     @Override
                     public void onError(VKError error) {
+                        errorDialog("Ошибка авторизации");
                     }
 
                     @Override
@@ -197,7 +218,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
     @Override
     public void error(Throwable throwable) {
-        Toast.makeText(this, "Неправильный логин или пароль", Toast.LENGTH_LONG).show();
+        errorDialog("Неправильный логин или пароль");
     }
 
     @Override
@@ -213,5 +234,13 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    public void errorDialog(String text){
+        WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
+        FragmentManager manager = getSupportFragmentManager();
+        wrongEmailDialog.setDescription(text);
+        FragmentTransaction transaction = manager.beginTransaction();
+        wrongEmailDialog.show(transaction, "wrongEmailDialog");
     }
 }

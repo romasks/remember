@@ -7,6 +7,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.textfield.TextInputLayout;
@@ -15,6 +17,8 @@ import com.remember.app.R;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.SuccessDialog;
+import com.remember.app.ui.utils.WrongEmailDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +26,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Response;
 
-public class RegisterActivity extends MvpAppCompatActivity implements RegisterView {
+public class RegisterActivity extends MvpAppCompatActivity implements RegisterView, SuccessDialog.Callback {
 
     @InjectPresenter
     RegisterPresenter presenter;
@@ -79,18 +83,40 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
         if (responseRegisterResponse.isSuccessful()){
             if (responseRegisterResponse.body().getUser() != null){
                 if (responseRegisterResponse.body().getUser().equals("isset")) {
-                    Toast.makeText(this, "Такой email существует", Toast.LENGTH_LONG).show();
+                    errorDialog("Такой email существует");
                 } else {
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
                 }
             } else {
                 Prefs.putString("EMAIL", email.getText().toString());
+                Prefs.putString("NAME_USER", nickName.getText().toString());
                 Prefs.putString("USER_ID", String.valueOf(responseRegisterResponse.body().getId()));
-                Toast.makeText(this, "Ваш пароль " + responseRegisterResponse.body().getRealPassword(), Toast.LENGTH_LONG).show();
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+                successDialog(responseRegisterResponse.body());
             }
         }
+    }
+
+    private void successDialog(ResponseRegister responseRegister) {
+        SuccessDialog successDialog = new SuccessDialog();
+        successDialog.setCallback(this);
+        FragmentManager manager = getSupportFragmentManager();
+        successDialog.setDescription(responseRegister);
+        FragmentTransaction transaction = manager.beginTransaction();
+        successDialog.show(transaction, "wrongEmailDialog");
+    }
+
+    public void errorDialog(String text){
+        WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
+        FragmentManager manager = getSupportFragmentManager();
+        wrongEmailDialog.setDescription(text);
+        FragmentTransaction transaction = manager.beginTransaction();
+        wrongEmailDialog.show(transaction, "wrongEmailDialog");
+    }
+
+    @Override
+    public void clickOk() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

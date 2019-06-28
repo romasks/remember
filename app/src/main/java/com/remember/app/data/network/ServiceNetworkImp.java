@@ -437,7 +437,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public  Observable<List<ResponseSettings>> signInVk(String email) {
-        return apiMethods.signInVk(email);
+        String name = Prefs.getString("USER_NAME","");
+        return apiMethods.signInVk(email, name);
     }
 
     @Override
