@@ -2,10 +2,12 @@ package com.remember.app.ui.grid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -26,7 +30,6 @@ import com.remember.app.ui.utils.PopupPageScreen;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.processors.PublishProcessor;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback {
 
@@ -39,13 +42,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     ImageView search;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
 
     private RecyclerView.LayoutManager layoutManager;
     private ImageAdapter imageAdapter;
-    private PublishProcessor<Integer> paginator = PublishProcessor.create();
     private int pageNumber = 1;
     private int countSum = 0;
-
     private PopupPageScreen popupWindowPage;
 
     @Override
@@ -59,8 +62,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
 
+        setUpLoadMoreListener();
         presenter.getImages(pageNumber);
-
 
     }
 
@@ -68,7 +71,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     public void entry() {
         if (!Prefs.getString("USER_ID", "").equals("")) {
             startActivity(new Intent(this, MainActivity.class));
-            finish();
         } else {
             startActivity(new Intent(this, AuthActivity.class));
         }
@@ -87,7 +89,24 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
         imageAdapter.setItems(responsePages.getResult());
+        progressBar.setVisibility(View.GONE);
         countSum = responsePages.getPages();
+    }
+
+    private void setUpLoadMoreListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView,
+                                   int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (pageNumber < countSum) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    pageNumber++;
+                    presenter.getImages(pageNumber);
+                }
+            }
+        });
     }
 
     private void showEventScreen() {

@@ -109,7 +109,7 @@ dependencies {
     implementation 'com.jaychang:simpleauth-facebook:2.1.4'
 
     //pagination
-    implementation 'ru.alexbykov:nopaginate:0.9.9'
+    implementation 'com.github.omadahealth:swipy:1.2.3@aar'
 }
 
 android.defaultConfig.manifestPlaceholders = [

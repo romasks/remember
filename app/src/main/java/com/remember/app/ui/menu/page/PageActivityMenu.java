@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
@@ -41,9 +43,13 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     TextView showAll;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
 
     private PopupPageScreen popupWindowPage;
     private ProgressDialog progressDialog;
+    private int pageNumber = 1;
+    private int countSum = 0;
 
     private PageFragmentAdapter pageFragmentAdapter;
 
@@ -52,18 +58,36 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter.getPages();
         pageFragmentAdapter = new PageFragmentAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
         pageFragmentAdapter.setCallback(this);
+
+        setUpLoadMoreListener();
+        presenter.getImages(pageNumber);
     }
 
     @Override
     protected int getContentView() {
         return R.layout.activity_page_menu;
+    }
+
+    private void setUpLoadMoreListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView,
+                                   int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (pageNumber < countSum) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    pageNumber++;
+                    presenter.getImages(pageNumber);
+                }
+            }
+        });
     }
 
     @OnClick(R.id.back)
@@ -87,13 +111,14 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     }
 
     @Override
-    public void onReceivedPages(List<MemoryPageModel> memoryPageModels) {
-        pageFragmentAdapter.setItems(memoryPageModels);
+    public void error(Throwable throwable) {
+        Snackbar.make(showAll, "Оибка получения данных", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void error(Throwable throwable) {
-        Snackbar.make(showAll, "Оибка получения данных", Snackbar.LENGTH_LONG).show();
+    public void onReceivedPages(ResponsePages responsePages) {
+        pageFragmentAdapter.setItems(responsePages.getResult());
+        progressBar.setVisibility(View.GONE);
     }
 
     private void showEventScreen() {

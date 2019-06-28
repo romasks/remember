@@ -20,6 +20,8 @@ import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.SuccessDialog;
 import com.remember.app.ui.utils.WrongEmailDialog;
 
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,6 +43,15 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
     AppCompatEditText email;
 
     private Unbinder unbinder;
+    private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
 
     @SuppressLint("ResourceType")
     @Override
@@ -62,7 +73,11 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
         } else if (email.getText().toString().equals("")) {
             Toast.makeText(this, "Введите Email", Toast.LENGTH_LONG).show();
         } else {
-            presenter.registerLogin(nickName.getText().toString(), email.getText().toString());
+            if (checkEmail(email.getText().toString())){
+                presenter.registerLogin(nickName.getText().toString(), email.getText().toString());
+            } else {
+                errorDialog("Некорректный тип e-mail");
+            }
         }
     }
 
@@ -95,6 +110,10 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
                 successDialog(responseRegisterResponse.body());
             }
         }
+    }
+
+    private boolean checkEmail(String email) {
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
     private void successDialog(ResponseRegister responseRegister) {

@@ -34,7 +34,7 @@ public class SuccessDialog extends AppCompatDialogFragment {
     }
 
     public void setDescription(ResponseRegister responseRegister) {
-       message = "Имя:  " + responseRegister.getName() + newline + "Email:  "
+       message = "Имя:  " + responseRegister.getName() + newline + "E-mail:  "
                + responseRegister.getEmail() + newline + "Пароль:  " + responseRegister.getPassword();
     }
 
