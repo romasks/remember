@@ -110,7 +110,7 @@ dependencies {
 }
 
 android.defaultConfig.manifestPlaceholders = [
-        facebookAppId        : "2194910250765470",
+        facebookAppId        : "1963053877138941",
         googleWebClientId    : "your google web client id",
         twitterConsumerKey   : "PT6uezLMteHqTsq2VO3qio3cT",
         twitterConsumerSecret: "6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb",
