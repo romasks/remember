@@ -16,6 +16,7 @@ import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 
 import java.util.List;
@@ -171,6 +172,9 @@ public interface ApiMethods {
 
     @GET("page")
     Observable<List<MemoryPageModel>> getAllPages();
+
+    @GET("/user/restore/{email}")
+    Observable<ResponseRestorePassword> restorePassword(@Path("email") String email);
 
     @Multipart
     @POST("setting/photo/{id}")

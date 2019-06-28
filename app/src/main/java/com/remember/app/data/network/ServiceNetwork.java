@@ -14,11 +14,13 @@ import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 
 import java.io.File;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -71,4 +73,6 @@ public interface ServiceNetwork {
     Observable<Object> saveImageSetting(File imageFile);
 
     Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id);
+
+    Observable<ResponseRestorePassword> restorePassword(String email);
 }

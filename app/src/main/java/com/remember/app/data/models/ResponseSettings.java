@@ -30,7 +30,7 @@ public class ResponseSettings {
     private String reali;
     @SerializedName("settings")
     @Expose
-    private List<SettingModel> setting;
+    private List<SettingModel> setting = null;
 
     public Integer getId() {
         return id;

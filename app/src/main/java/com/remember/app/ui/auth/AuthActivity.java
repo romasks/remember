@@ -1,5 +1,6 @@
 package com.remember.app.ui.auth;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,11 +18,13 @@ import com.jaychang.sa.twitter.SimpleAuth;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseAuth;
+import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseVk;
 import com.remember.app.ui.cabinet.main.MainActivity;
-import com.remember.app.ui.utils.DeleteAlertDialog;
+import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.RepairPasswordDialog;
 import com.remember.app.ui.utils.WrongEmailDialog;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
@@ -47,7 +50,7 @@ import ru.ok.android.sdk.Odnoklassniki;
 import ru.ok.android.sdk.util.OkAuthType;
 import ru.ok.android.sdk.util.OkScope;
 
-public class AuthActivity extends MvpAppCompatActivity implements AuthView {
+public class AuthActivity extends MvpAppCompatActivity implements AuthView, RepairPasswordDialog.Callback {
 
     @InjectPresenter
     AuthPresenter presenter;
@@ -66,6 +69,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
     private Unbinder unbinder;
     private TwitterAuthClient client;
     private Odnoklassniki odnoklassniki;
+    private ProgressDialog popupDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +195,15 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
+    @OnClick(R.id.wrong_password)
+    public void reparePassword() {
+        RepairPasswordDialog repairPasswordDialog = new RepairPasswordDialog();
+        repairPasswordDialog.setCallback(this);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        repairPasswordDialog.show(transaction, "repairPasswordDialog");
+    }
+
     @OnClick(R.id.back)
     public void back() {
         onBackPressed();
@@ -236,11 +249,33 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
         finish();
     }
 
-    public void errorDialog(String text){
+    @Override
+    public void onRestored(ResponseRestorePassword responseRestorePassword) {
+        popupDialog.dismiss();
+        if (responseRestorePassword.getPage().equals("found")){
+            errorDialog("Новый пароль успешно отправлен на E-mail");
+        } else {
+            errorDialog("Ошибка отправки");
+        }
+    }
+
+    @Override
+    public void errorRestored(Throwable throwable) {
+        popupDialog.dismiss();
+        errorDialog("Ошибка отправки");
+    }
+
+    public void errorDialog(String text) {
         WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
         FragmentManager manager = getSupportFragmentManager();
         wrongEmailDialog.setDescription(text);
         FragmentTransaction transaction = manager.beginTransaction();
         wrongEmailDialog.show(transaction, "wrongEmailDialog");
+    }
+
+    @Override
+    public void sendEmail(String email) {
+        popupDialog = LoadingPopupUtils.showLoadingDialog(this);
+        presenter.restorePassword(email);
     }
 }

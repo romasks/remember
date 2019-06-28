@@ -88,4 +88,13 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void restorePassword(String email) {
+        Disposable subscription = serviceNetwork.restorePassword(email)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onRestored,
+                        getViewState()::errorRestored);
+        unsubscribeOnDestroy(subscription);
+    }
 }

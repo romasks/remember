@@ -17,6 +17,7 @@ import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 
 import java.io.File;
@@ -456,5 +457,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
         return apiMethods.editEpitaph(requestAddEpitaphs, id);
+    }
+
+    @Override
+    public Observable<ResponseRestorePassword> restorePassword(String email) {
+        return apiMethods.restorePassword(email);
     }
 }
