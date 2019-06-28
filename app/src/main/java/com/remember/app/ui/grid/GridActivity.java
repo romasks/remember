@@ -1,6 +1,5 @@
 package com.remember.app.ui.grid;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,20 +16,19 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.PopupPageScreen;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.processors.PublishProcessor;
 
-public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback{
+public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback {
 
     @InjectPresenter
     GridPresenter presenter;
@@ -44,26 +42,31 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     private RecyclerView.LayoutManager layoutManager;
     private ImageAdapter imageAdapter;
-    private ProgressDialog progressDialog;
+    private PublishProcessor<Integer> paginator = PublishProcessor.create();
+    private int pageNumber = 1;
+    private int countSum = 0;
 
     private PopupPageScreen popupWindowPage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = LoadingPopupUtils.showLoadingDialog(this);
+
         layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
 
-        presenter.getImages();
+        presenter.getImages(pageNumber);
+
+
     }
 
     @OnClick(R.id.button)
     public void entry() {
-        if (!Prefs.getString("USER_ID", "").equals("")){
+        if (!Prefs.getString("USER_ID", "").equals("")) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         } else {
@@ -72,7 +75,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @OnClick(R.id.search)
-    public void doSearch(){
+    public void doSearch() {
         showEventScreen();
     }
 
@@ -82,9 +85,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
-    public void onReceivedImages(List<MemoryPageModel> memoryPageModel) {
-        imageAdapter.setItems(memoryPageModel);
-        progressDialog.dismiss();
+    public void onReceivedImages(ResponsePages responsePages) {
+        imageAdapter.setItems(responsePages.getResult());
+        countSum = responsePages.getPages();
     }
 
     private void showEventScreen() {

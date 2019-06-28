@@ -19,6 +19,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 
@@ -92,10 +93,20 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         presenter.getPages();
     }
 
+    @OnClick(R.id.button)
+    public void newPage(){
+        startActivity(new Intent(getContext(), NewMemoryPageActivity.class));
+    }
+
     @Override
     public void onReceivedPages(List<MemoryPageModel> memoryPageModels) {
-        showAll.setVisibility(View.GONE);
-        pageFragmentAdapter.setItems(memoryPageModels);
+        if (!memoryPageModels.isEmpty()){
+            showAll.setVisibility(View.GONE);
+            pageFragmentAdapter.setItems(memoryPageModels);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

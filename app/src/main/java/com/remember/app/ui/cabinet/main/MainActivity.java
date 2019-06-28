@@ -189,7 +189,7 @@ public class MainActivity extends MvpAppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
-        if (!Prefs.getString("AVATAR", "").equals("") || Prefs.getString("AVATAR", "") != null) {
+        if (!Prefs.getString("AVATAR", "").equals("")) {
             Glide.with(this)
                     .load(Prefs.getString("AVATAR", ""))
                     .apply(RequestOptions.circleCropTransform())

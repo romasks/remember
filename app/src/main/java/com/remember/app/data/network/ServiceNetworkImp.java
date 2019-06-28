@@ -6,7 +6,6 @@ import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
-import com.remember.app.data.models.RequestAuth;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.RequestSettings;
@@ -225,10 +224,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<ResponseAuth> singInAuth(String email, String password) {
-        RequestAuth requestAuth = new RequestAuth();
-        requestAuth.setEmail(email);
-        requestAuth.setPassword(password);
-        return apiMethods.singInAuth(requestAuth);
+        return apiMethods.singInAuth(email, password);
     }
 
     @Override
@@ -240,8 +236,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<List<MemoryPageModel>> getImages() {
-        return apiMethods.getImages();
+    public Observable<ResponsePages> getImages(int count) {
+        return apiMethods.getImages(count, "Одобрено");
     }
 
     @Override

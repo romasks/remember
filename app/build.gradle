@@ -107,6 +107,9 @@ dependencies {
     implementation 'com.jaychang:simpleauth:2.1.4'
     implementation 'com.jaychang:simpleauth-twitter:2.1.4'
     implementation 'com.jaychang:simpleauth-facebook:2.1.4'
+
+    //pagination
+    implementation 'ru.alexbykov:nopaginate:0.9.9'
 }
 
 android.defaultConfig.manifestPlaceholders = [

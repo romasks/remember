@@ -48,7 +48,6 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItems(List<MemoryPageModel> memoryPageModels) {
-        this.memoryPageModels.clear();
         this.memoryPageModels.addAll(memoryPageModels);
         notifyDataSetChanged();
     }

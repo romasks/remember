@@ -202,6 +202,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         repairPasswordDialog.show(transaction, "repairPasswordDialog");
+        transaction.commitAllowingStateLoss();
     }
 
     @OnClick(R.id.back)
@@ -271,6 +272,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         wrongEmailDialog.setDescription(text);
         FragmentTransaction transaction = manager.beginTransaction();
         wrongEmailDialog.show(transaction, "wrongEmailDialog");
+        transaction.commitAllowingStateLoss();
     }
 
     @Override

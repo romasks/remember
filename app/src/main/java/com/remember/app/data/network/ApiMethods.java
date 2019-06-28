@@ -67,9 +67,9 @@ public interface ApiMethods {
     @GET("deadevent/{id}")
     Observable<EventModel> getEvent(@Path("id") int id);
 
-    @Headers("Content-Type: application/json")
-    @POST("user/add")
-    Observable<ResponseAuth> singInAuth(@Body RequestAuth requestAuth);
+    @GET("user/{email}/{password}")
+    Observable<ResponseAuth> singInAuth(@Path("email") String email,
+                                        @Path("password") String password);
 
     @Headers("Content-Type: application/json")
     @POST("user")
@@ -101,8 +101,9 @@ public interface ApiMethods {
                                          @Part MultipartBody.Part image);
 
 
-    @GET("page")
-    Observable<List<MemoryPageModel>> getImages();
+    @GET("pages/{count}")
+    Observable<ResponsePages> getImages(@Path("count") int count,
+                                        @Query("status") String status);
 
     @Multipart
     @POST("page/edit/{id}")

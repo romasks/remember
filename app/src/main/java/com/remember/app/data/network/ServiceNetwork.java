@@ -20,7 +20,6 @@ import com.remember.app.data.models.ResponseSettings;
 import java.io.File;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -52,7 +51,7 @@ public interface ServiceNetwork {
 
     Observable<Response<ResponseRegister>> registerLogin(String nickName, String email);
 
-    Observable<List<MemoryPageModel>> getImages();
+    Observable<ResponsePages> getImages(int count);
 
     Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
 
