@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="Помню"
             android:fontFamily="@font/round"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textColor="@color/light_brown"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

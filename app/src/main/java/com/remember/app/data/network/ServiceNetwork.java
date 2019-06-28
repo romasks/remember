@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.Response;
 
 public interface ServiceNetwork {
 
@@ -47,7 +48,7 @@ public interface ServiceNetwork {
 
     Observable<ResponseAuth> singInAuth(String login, String password);
 
-    Observable<ResponseRegister> registerLogin(String nickName, String email);
+    Observable<Response<ResponseRegister>> registerLogin(String nickName, String email);
 
     Observable<List<MemoryPageModel>> getImages();
 

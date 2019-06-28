@@ -23,6 +23,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -71,7 +72,7 @@ public interface ApiMethods {
 
     @Headers("Content-Type: application/json")
     @POST("user")
-    Observable<ResponseRegister> registerLogin(@Body RequestRegister requestRegister);
+    Observable<Response<ResponseRegister>> registerLogin(@Body RequestRegister requestRegister);
 
     @GET("deadevent/page/{id}")
     Observable<List<RequestAddEvent>> getEventsForId(@Path("id") int pageId);

@@ -8,7 +8,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
 import com.jaychang.sa.twitter.SimpleAuth;
@@ -19,17 +18,18 @@ import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseVk;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterCore;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiUser;
+import com.vk.sdk.api.model.VKList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,9 +38,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import ru.ok.android.sdk.Odnoklassniki;
-import ru.ok.android.sdk.util.OkAuthType;
-import ru.ok.android.sdk.util.OkScope;
 
 public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
@@ -105,12 +102,13 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
                 Prefs.putString("EMAIL", socialUser.email);
                 String[] str = socialUser.fullName.split(" ");
                 Prefs.putString("NAME_USER", str[0]);
+                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
                 presenter.signInTwitter();
             }
 
             @Override
             public void onError(Throwable error) {
-                Snackbar.make(password, "Ошибка авторизации", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_LONG).show();
                 Log.e("TWITTER", error.getMessage());
             }
 
@@ -124,9 +122,9 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
         if (login.getText().toString().equals("")) {
-            Snackbar.make(password, "Введите e-mail", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите e-mail", Toast.LENGTH_LONG).show();
         } else if (password.getText().toString().equals("")) {
-            Snackbar.make(password, "Введите пароль", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите пароль", Toast.LENGTH_LONG).show();
         } else {
             presenter.singInAuth(login.getText().toString(), password.getText().toString());
         }
@@ -138,6 +136,22 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
             @Override
             public void onResult(VKAccessToken res) {
                 Prefs.putString("EMAIL", res.email);
+                VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200"));
+                request.executeWithListener(new VKRequest.VKRequestListener() {
+                    @Override
+                    public void onComplete(VKResponse response) {
+                        VKApiUser user = ((VKList<VKApiUser>) response.parsedModel).get(0);
+                        Prefs.putString("AVATAR", user.photo_200);
+                    }
+
+                    @Override
+                    public void onError(VKError error) {
+                    }
+
+                    @Override
+                    public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
+                    }
+                });
                 presenter.getInfoUser();
             }
 
@@ -183,7 +197,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView {
 
     @Override
     public void error(Throwable throwable) {
-        Snackbar.make(password, "Неправильный логин или пароль", Snackbar.LENGTH_LONG).show();
+        Toast.makeText(this, "Неправильный логин или пароль", Toast.LENGTH_LONG).show();
     }
 
     @Override

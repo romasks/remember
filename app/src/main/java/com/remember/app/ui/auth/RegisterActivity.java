@@ -3,12 +3,14 @@ package com.remember.app.ui.auth;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.appcompat.widget.AppCompatEditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.material.textfield.TextInputLayout;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.ui.cabinet.main.MainActivity;
@@ -18,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.Response;
 
 public class RegisterActivity extends MvpAppCompatActivity implements RegisterView {
 
@@ -51,9 +54,9 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
     @OnClick(R.id.sign_in_btn)
     public void register() {
         if (nickName.getText().toString().equals("")) {
-            Snackbar.make(loginScreen, "Введите Никнейм", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите Никнейм", Toast.LENGTH_LONG).show();
         } else if (email.getText().toString().equals("")) {
-            Snackbar.make(loginScreen, "Введите Email", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите Email", Toast.LENGTH_LONG).show();
         } else {
             presenter.registerLogin(nickName.getText().toString(), email.getText().toString());
         }
@@ -72,18 +75,22 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
     }
 
     @Override
-    public void onRegistered(ResponseRegister responseRegister) {
-        if (responseRegister.getUser().equals("isset")) {
-            Snackbar.make(loginScreen, "Такой email существует", Snackbar.LENGTH_LONG).show();
-        } else {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+    public void onRegistered(Response<ResponseRegister> responseRegisterResponse) {
+        if (responseRegisterResponse.isSuccessful()){
+            if (responseRegisterResponse.body().getUser() != null){
+                if (responseRegisterResponse.body().getUser().equals("isset")) {
+                    Toast.makeText(this, "Такой email существует", Toast.LENGTH_LONG).show();
+                } else {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                }
+            } else {
+                Prefs.putString("EMAIL", email.getText().toString());
+                Prefs.putString("USER_ID", String.valueOf(responseRegisterResponse.body().getId()));
+                Toast.makeText(this, "Ваш пароль " + responseRegisterResponse.body().getRealPassword(), Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
         }
-
-    }
-
-    @Override
-    public void error(Throwable throwable) {
-        Snackbar.make(loginScreen, "Ошибка регистрации", Snackbar.LENGTH_LONG).show();
     }
 }

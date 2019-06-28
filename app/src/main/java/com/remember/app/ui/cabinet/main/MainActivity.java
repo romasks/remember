@@ -184,27 +184,42 @@ public class MainActivity extends MvpAppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
+        ImageView imageViewAvatar = drawer.findViewById(R.id.avatar);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
         if (!Prefs.getString("AVATAR", "").equals("")) {
-            ImageView imageViewAvatar = drawer.findViewById(R.id.avatar);
             Glide.with(this)
                     .load(Prefs.getString("AVATAR", ""))
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(imageViewAvatar);
-            setBlackWhite(imageViewAvatar);
 
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            View headerView = navigationView.getHeaderView(0);
-            ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
-            setBlackWhite(imageViewBigAvatar);
             Glide.with(this)
                     .load(Prefs.getString("AVATAR", ""))
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(imageViewBigAvatar);
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.ic_user)
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewAvatar);
+
+            Glide.with(this)
+                    .load(R.drawable.ic_user)
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewBigAvatar);
         }
+        setBlackWhite(imageViewBigAvatar);
+        setBlackWhite(imageViewAvatar);
     }
 
     @Override

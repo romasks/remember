@@ -28,6 +28,7 @@ import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
@@ -230,7 +231,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponseRegister> registerLogin(String nickName, String email) {
+    public Observable<Response<ResponseRegister>> registerLogin(String nickName, String email) {
         RequestRegister requestRegister = new RequestRegister();
         requestRegister.setEmail(email);
         requestRegister.setName(nickName);
