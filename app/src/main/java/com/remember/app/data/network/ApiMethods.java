@@ -8,6 +8,7 @@ import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestAuth;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
@@ -186,4 +187,16 @@ public interface ApiMethods {
     @POST("epit/edit/{id}")
     Observable<RequestAddEpitaphs> editEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs,
                                                @Path("id") Integer id);
+
+    @GET("poisk/page")
+    Observable<List<MemoryPageModel>> searchPageAllDead(@Query("name") String name,
+                                                        @Query("secondname") String secondName,
+                                                        @Query("thirtname") String middleName,
+                                                        @Query("datarod") String dateStart,
+                                                        @Query("datasmert") String dateEnd,
+                                                        @Query("gorod") String city);
+
+    @GET("poisk/event")
+    Observable<List<ResponseEvents>> searchEventReligios(@Query("date") String date,
+                                                         @Query("religia") String religia);
 }

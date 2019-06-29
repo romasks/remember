@@ -11,4 +11,6 @@ public interface PageMenuView extends MvpView {
     void error(Throwable throwable);
 
     void onReceivedPages(ResponsePages responsePages);
+
+    void onSearchedPages(List<MemoryPageModel> memoryPageModels);
 }

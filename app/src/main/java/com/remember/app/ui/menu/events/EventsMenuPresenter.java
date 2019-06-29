@@ -29,4 +29,13 @@ public class EventsMenuPresenter extends BasePresenter<EventsMenuView> {
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void searchEventReligios(String date, int selectedIndex) {
+        Disposable subscription = serviceNetwork.searchEventReligios(date, selectedIndex)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onReceivedEvents,
+                        getViewState()::error);
+        unsubscribeOnDestroy(subscription);
+    }
 }

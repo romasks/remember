@@ -8,6 +8,7 @@ import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
@@ -48,6 +49,148 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<List<ResponseCemetery>> getCemetery(int id) {
         return apiMethods.getCemetery(id);
+    }
+
+
+    @Override
+    public Observable<List<ResponseHandBook>> getReligion() {
+        return apiMethods.getReligion();
+    }
+
+    @Override
+    public Observable<List<MemoryPageModel>> getPages() {
+        return apiMethods.getPages(Prefs.getString("USER_ID", "0"));
+    }
+
+    @Override
+    public Observable<List<ResponseEpitaphs>> getEpitaphs(int pageId) {
+        return apiMethods.getEpitaphs(pageId);
+    }
+
+    @Override
+    public Observable<RequestAddEpitaphs> saveEpitaph(RequestAddEpitaphs requestAddEpitaphs) {
+        return apiMethods.saveEpitaph(requestAddEpitaphs);
+    }
+
+    @Override
+    public Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent) {
+        return apiMethods.saveEvent(requestAddEvent);
+    }
+
+    @Override
+    public Observable<List<RequestAddEvent>> getEventsForId(int pageId) {
+        return apiMethods.getEventsForId(pageId);
+    }
+
+    @Override
+    public Observable<List<ResponseEvents>> getEvents() {
+        return apiMethods.getEvents();
+    }
+
+    @Override
+    public Observable<EventModel> getEvent(int id){return apiMethods.getEvent(id);}
+
+    @Override
+    public Observable<ResponseAuth> singInAuth(String email, String password) {
+        return apiMethods.singInAuth(email, password);
+    }
+
+    @Override
+    public Observable<Response<ResponseRegister>> registerLogin(String nickName, String email) {
+        RequestRegister requestRegister = new RequestRegister();
+        requestRegister.setEmail(email);
+        requestRegister.setName(nickName);
+        return apiMethods.registerLogin(requestRegister);
+    }
+
+    @Override
+    public Observable<ResponsePages> getImages(int count) {
+        return apiMethods.getImages(count, "Одобрено");
+    }
+
+    @Override
+    public Observable<List<MemoryPageModel>> searchLastName(String lastName) {
+        return apiMethods.searchLastName(lastName);
+    }
+
+    @Override
+    public Observable<Object> send(RequestQuestion requestQuestion) {
+        return apiMethods.send(requestQuestion);
+    }
+
+    @Override
+    public Observable<MemoryPageModel> getImageAfterSave(Integer id) {
+        return apiMethods.getImageAfterSave(id);
+    }
+
+    @Override
+    public Observable<ResponseSettings> getInfo(String id) {
+        return apiMethods.getInfo(id);
+    }
+
+    @Override
+    public Observable<Object> saveSettings(RequestSettings requestSettings, String id) {
+        return apiMethods.saveSettings(requestSettings, id);
+    }
+
+    @Override
+    public  Observable<List<ResponseSettings>> signInVk(String email) {
+        String name = Prefs.getString("USER_NAME","");
+        return apiMethods.signInVk(email, name);
+    }
+
+    @Override
+    public Observable<List<MemoryPageModel>> getAllPages() {
+        return apiMethods.getAllPages();
+    }
+
+    @Override
+    public Observable<Object> saveImageSetting(File imageFile) {
+        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+        MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
+        return apiMethods.savePhotoSettings(fileToUploadTranser, Integer.parseInt(Prefs.getString("USER_ID", "0")));
+    }
+
+    @Override
+    public Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
+        return apiMethods.editEpitaph(requestAddEpitaphs, id);
+    }
+
+    @Override
+    public Observable<ResponseRestorePassword> restorePassword(String email) {
+        return apiMethods.restorePassword(email);
+    }
+
+    @Override
+    public Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage) {
+        return apiMethods.searchPageAllDead(requestSearchPage.getName(), requestSearchPage.getSecondName(),
+                requestSearchPage.getThirdName(), requestSearchPage.getDateBegin(), requestSearchPage.getDateEnd(),requestSearchPage.getCity());
+    }
+
+    @Override
+    public Observable<List<ResponseEvents>> searchEventReligios(String date, int selectedIndex) {
+        String religia;
+        switch (selectedIndex) {
+            case 0:  religia = "Православие";
+                break;
+            case 1:  religia = "Католицизм";
+                break;
+            case 2:  religia = "Ислам";
+                break;
+            case 3:  religia = "Иудаизм";
+                break;
+            case 4:  religia = "Буддизм";
+                break;
+            case 5:  religia = "Индуизм";
+                break;
+            case 6:  religia = "Другая религия";
+                break;
+            case 7:  religia = "Отсутствует";
+                break;
+            default: religia = "Отсутствует";
+                break;
+        }
+        return apiMethods.searchEventReligios(date, religia);
     }
 
     @Override
@@ -182,62 +325,6 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 thirdName,
                 userId,
                 fileToUploadTranser);
-    }
-
-    @Override
-    public Observable<List<ResponseHandBook>> getReligion() {
-        return apiMethods.getReligion();
-    }
-
-    @Override
-    public Observable<List<MemoryPageModel>> getPages() {
-        return apiMethods.getPages(Prefs.getString("USER_ID", "0"));
-    }
-
-    @Override
-    public Observable<List<ResponseEpitaphs>> getEpitaphs(int pageId) {
-        return apiMethods.getEpitaphs(pageId);
-    }
-
-    @Override
-    public Observable<RequestAddEpitaphs> saveEpitaph(RequestAddEpitaphs requestAddEpitaphs) {
-        return apiMethods.saveEpitaph(requestAddEpitaphs);
-    }
-
-    @Override
-    public Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent) {
-        return apiMethods.saveEvent(requestAddEvent);
-    }
-
-    @Override
-    public Observable<List<RequestAddEvent>> getEventsForId(int pageId) {
-        return apiMethods.getEventsForId(pageId);
-    }
-
-    @Override
-    public Observable<List<ResponseEvents>> getEvents() {
-        return apiMethods.getEvents();
-    }
-
-    @Override
-    public Observable<EventModel> getEvent(int id){return apiMethods.getEvent(id);}
-
-    @Override
-    public Observable<ResponseAuth> singInAuth(String email, String password) {
-        return apiMethods.singInAuth(email, password);
-    }
-
-    @Override
-    public Observable<Response<ResponseRegister>> registerLogin(String nickName, String email) {
-        RequestRegister requestRegister = new RequestRegister();
-        requestRegister.setEmail(email);
-        requestRegister.setName(nickName);
-        return apiMethods.registerLogin(requestRegister);
-    }
-
-    @Override
-    public Observable<ResponsePages> getImages(int count) {
-        return apiMethods.getImages(count, "Одобрено");
     }
 
     @Override
@@ -405,58 +492,5 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
             );
         }
-    }
-
-    @Override
-    public Observable<List<MemoryPageModel>> searchLastName(String lastName) {
-        return apiMethods.searchLastName(lastName);
-    }
-
-    @Override
-    public Observable<Object> send(RequestQuestion requestQuestion) {
-        return apiMethods.send(requestQuestion);
-    }
-
-    @Override
-    public Observable<MemoryPageModel> getImageAfterSave(Integer id) {
-        return apiMethods.getImageAfterSave(id);
-    }
-
-    @Override
-    public Observable<ResponseSettings> getInfo(String id) {
-        return apiMethods.getInfo(id);
-    }
-
-    @Override
-    public Observable<Object> saveSettings(RequestSettings requestSettings, String id) {
-        return apiMethods.saveSettings(requestSettings, id);
-    }
-
-    @Override
-    public  Observable<List<ResponseSettings>> signInVk(String email) {
-        String name = Prefs.getString("USER_NAME","");
-        return apiMethods.signInVk(email, name);
-    }
-
-    @Override
-    public Observable<List<MemoryPageModel>> getAllPages() {
-        return apiMethods.getAllPages();
-    }
-
-    @Override
-    public Observable<Object> saveImageSetting(File imageFile) {
-        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
-        return apiMethods.savePhotoSettings(fileToUploadTranser, Integer.parseInt(Prefs.getString("USER_ID", "0")));
-    }
-
-    @Override
-    public Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
-        return apiMethods.editEpitaph(requestAddEpitaphs, id);
-    }
-
-    @Override
-    public Observable<ResponseRestorePassword> restorePassword(String email) {
-        return apiMethods.restorePassword(email);
     }
 }

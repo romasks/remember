@@ -56,6 +56,12 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         this.callback = callback;
     }
 
+    public void setItemsSearch(List<MemoryPageModel> memoryPageModels) {
+        this.memoryPageModels.clear();
+        this.memoryPageModels.addAll(memoryPageModels);
+        notifyDataSetChanged();
+    }
+
     public interface Callback {
 
         void openPage(MemoryPageModel memoryPageModel);

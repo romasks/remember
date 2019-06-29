@@ -63,7 +63,6 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_memory_pages, container, false);
         unbinder = ButterKnife.bind(this, v);
-        presenter.getPages();
         pageFragmentAdapter = new PageFragmentAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(container.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -87,6 +86,12 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
             Prefs.putBoolean("EVENT_FRAGMENT", true);
             Prefs.putBoolean("PAGE_FRAGMENT", false);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.getPages();
     }
 
     @Override

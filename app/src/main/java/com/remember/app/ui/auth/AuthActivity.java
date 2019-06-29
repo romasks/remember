@@ -197,12 +197,14 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     @OnClick(R.id.wrong_password)
     public void reparePassword() {
-        RepairPasswordDialog repairPasswordDialog = new RepairPasswordDialog();
-        repairPasswordDialog.setCallback(this);
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        repairPasswordDialog.show(transaction, "repairPasswordDialog");
-        transaction.commitAllowingStateLoss();
+        try {
+            RepairPasswordDialog repairPasswordDialog = new RepairPasswordDialog();
+            repairPasswordDialog.setCallback(this);
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            repairPasswordDialog.show(transaction, "repairPasswordDialog");
+        } catch (Exception e){}
+
     }
 
     @OnClick(R.id.back)

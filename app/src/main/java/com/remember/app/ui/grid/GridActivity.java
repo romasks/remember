@@ -2,10 +2,10 @@ package com.remember.app.ui.grid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,11 +15,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
@@ -27,6 +26,8 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.PopupPageScreen;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,6 +43,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     ImageView search;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.show_all)
+    Button showAll;
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
@@ -65,6 +68,11 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         setUpLoadMoreListener();
         presenter.getImages(pageNumber);
 
+        showAll.setOnClickListener(v -> {
+            showAll.setVisibility(View.GONE);
+            pageNumber = 1;
+            presenter.getImages(pageNumber);
+        });
     }
 
     @OnClick(R.id.button)
@@ -91,6 +99,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter.setItems(responsePages.getResult());
         progressBar.setVisibility(View.GONE);
         countSum = responsePages.getPages();
+    }
+
+    @Override
+    public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
+        if (memoryPageModels.isEmpty()) {
+            showAll.setVisibility(View.VISIBLE);
+        } else {
+            showAll.setVisibility(View.GONE);
+        }
+        imageAdapter.setItemsSearch(memoryPageModels);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void setUpLoadMoreListener() {
@@ -132,7 +151,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
-    public void search(String lastName) {
-
+    public void search(RequestSearchPage requestSearchPage) {
+        presenter.search(requestSearchPage);
     }
 }

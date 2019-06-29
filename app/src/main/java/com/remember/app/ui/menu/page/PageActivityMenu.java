@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +20,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
@@ -40,7 +41,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.show_all)
-    TextView showAll;
+    Button showAll;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.progress)
@@ -96,6 +97,12 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         finish();
     }
 
+    @OnClick(R.id.show_all)
+    public void showAll() {
+        pageNumber = 1;
+        presenter.getImages(pageNumber);
+    }
+
     @OnClick(R.id.search)
     public void searchOpen(){
         showEventScreen();
@@ -117,7 +124,19 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void onReceivedPages(ResponsePages responsePages) {
+        showAll.setVisibility(View.GONE);
         pageFragmentAdapter.setItems(responsePages.getResult());
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
+        if (memoryPageModels.isEmpty()){
+            showAll.setVisibility(View.VISIBLE);
+        } else {
+            showAll.setVisibility(View.GONE);
+        }
+        pageFragmentAdapter.setItemsSearched(memoryPageModels);
         progressBar.setVisibility(View.GONE);
     }
 
@@ -145,12 +164,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     }
 
     @Override
-    public void search(String lastName) {
-        progressDialog = LoadingPopupUtils.showLoadingDialog(this);
-        if (!lastName.equals("")) {
-           // presenter.searchLastName(lastName);
-        } else {
-            progressDialog.dismiss();
-        }
+    public void search(RequestSearchPage requestSearchPage) {
+        presenter.search(requestSearchPage);
     }
 }

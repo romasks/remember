@@ -2,6 +2,7 @@ package com.remember.app.ui.cabinet.main;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
@@ -34,8 +35,8 @@ public class MainPresenter extends BasePresenter<MainView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void searchLastName(String lastName) {
-        Disposable subscription = serviceNetwork.searchLastName(lastName)
+    public void searchLastName(RequestSearchPage requestSearchPage) {
+        Disposable subscription = serviceNetwork.searchPageAllDead(requestSearchPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onSearchedLastNames);

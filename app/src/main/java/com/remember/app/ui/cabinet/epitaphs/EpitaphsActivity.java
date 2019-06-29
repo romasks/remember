@@ -60,7 +60,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         pageId = getIntent().getIntExtra("ID_PAGE", 1);
         isShow = getIntent().getBooleanExtra("SHOW", false);
 
-        epitaphsAdapter = new EpitaphsAdapter();
+        epitaphsAdapter = new EpitaphsAdapter(isShow);
         epitaphsAdapter.setCallback(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -72,14 +72,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/show_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:text="Показать всех"
-        android:textColor="@color/colorAccent"
+        android:textAllCaps="false"
+        android:background="@drawable/button"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/app_bar" />

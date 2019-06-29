@@ -9,6 +9,7 @@ import android.widget.PopupWindow;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.remember.app.R;
+import com.remember.app.data.models.RequestSearchPage;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,15 +37,12 @@ public class PopupPageScreen extends PopupWindow {
         showAtLocation(contentView, Gravity.TOP, 0, 0);
         View popupView = getContentView();
         AutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
+        AutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
+        AutoCompleteTextView middleName = popupView.findViewById(R.id.father_name_value);
+        AutoCompleteTextView city = popupView.findViewById(R.id.live_place_value);
         popupView.findViewById(R.id.back).setOnClickListener(v -> {
             dismiss();
         });
-        popupView.findViewById(R.id.submit).setOnClickListener(v -> {
-            callback.search(lastName.getText().toString());
-            dismiss();
-        });
-
-
         /*dateBegin = popupView.findViewById(R.id.date_begin);
         dateEnd = popupView.findViewById(R.id.date_end);*/
         dateBeginVal = popupView.findViewById(R.id.date_begin_value);
@@ -53,6 +51,17 @@ public class PopupPageScreen extends PopupWindow {
         dateEnd.setOnClickListener(v -> setDate(v,2));*/
         dateBeginVal.setOnClickListener(v -> setDate(v,1));
         dateEndVal.setOnClickListener(v -> setDate(v,2));
+        popupView.findViewById(R.id.submit).setOnClickListener(v -> {
+            RequestSearchPage requestSearchPage = new RequestSearchPage();
+            requestSearchPage.setName(name.getText().toString());
+            requestSearchPage.setSecondName(lastName.getText().toString());
+            requestSearchPage.setThirdName(middleName.getText().toString());
+            requestSearchPage.setDateBegin(dateBeginVal.getText().toString());
+            requestSearchPage.setDateEnd(dateEndVal.getText().toString());
+            requestSearchPage.setCity(city.getText().toString());
+            callback.search(requestSearchPage);
+            dismiss();
+        });
     }
 
     public void setDate(View v, int type) {
@@ -81,7 +90,7 @@ public class PopupPageScreen extends PopupWindow {
 
     public interface Callback {
 
-        void search(String lastName);
+        void search(RequestSearchPage requestSearchPage);
 
     }
 
