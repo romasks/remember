@@ -48,7 +48,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/first_name"
+        android:id="@+id/last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
@@ -57,14 +57,14 @@
         android:layout_marginEnd="@dimen/default_activity_fields_margin"
         android:layout_marginRight="@dimen/default_activity_fields_margin"
         android:textColorHint="@color/dark_gray"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
         <AutoCompleteTextView
-            android:id="@+id/first_name_value"
+            android:id="@+id/last_name_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:hint="@string/name"
+            android:hint="@string/last_name"
             android:inputType="textPersonName"
             android:maxLines="1"
             android:textAlignment="textStart"
@@ -76,7 +76,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/last_name"
+        android:id="@+id/first_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
@@ -85,14 +85,14 @@
         android:layout_marginEnd="@dimen/default_activity_fields_margin"
         android:layout_marginRight="@dimen/default_activity_fields_margin"
         android:textColorHint="@color/dark_gray"
-        app:layout_constraintTop_toBottomOf="@+id/first_name">
+        app:layout_constraintTop_toBottomOf="@+id/last_name">
 
         <AutoCompleteTextView
-            android:id="@+id/last_name_value"
+            android:id="@+id/first_name_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:hint="@string/last_name"
+            android:hint="@string/name"
             android:inputType="textPersonName"
             android:maxLines="1"
             android:textAlignment="textStart"
@@ -113,7 +113,7 @@
         android:layout_marginEnd="@dimen/default_activity_fields_margin"
         android:layout_marginRight="@dimen/default_activity_fields_margin"
         android:textColorHint="@color/dark_gray"
-        app:layout_constraintTop_toBottomOf="@+id/last_name">
+        app:layout_constraintTop_toBottomOf="@+id/first_name">
 
         <AutoCompleteTextView
             android:id="@+id/father_name_value"
