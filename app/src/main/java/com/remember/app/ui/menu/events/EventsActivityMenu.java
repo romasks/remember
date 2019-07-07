@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.remember.app.R;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
@@ -69,6 +71,8 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
         presenter.getEvents();
     }
 
+
+
     @OnClick(R.id.search)
     public void openSearch() {
         String[] rhb = {"Православие", "Католицизм", "Ислам", "Иудаизм", "Буддизм",
@@ -91,6 +95,8 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     @Override
     public void onReceivedEvents(List<ResponseEvents> responseEvents) {
+        if(responseEvents.size()==0)
+            Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsFragmentAdapter.setItems(responseEvents);
     }
 

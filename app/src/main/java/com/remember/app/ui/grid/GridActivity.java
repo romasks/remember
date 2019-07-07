@@ -106,7 +106,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
         if(memoryPageModels.size()==0) {
             Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
-            showAll.setVisibility(View.INVISIBLE);
         }
         if (memoryPageModels.isEmpty()) {
             showAll.setVisibility(View.VISIBLE);

@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -131,6 +132,9 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
+        if(memoryPageModels.size()==0) {
+            Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+        }
         if (memoryPageModels.isEmpty()){
             showAll.setVisibility(View.VISIBLE);
         } else {

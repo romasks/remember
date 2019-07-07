@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -112,6 +113,9 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     @Override
     public void onReceivedPages(List<MemoryPageModel> memoryPageModels) {
+        if(memoryPageModels.size()==0) {
+            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+        }
         if (!memoryPageModels.isEmpty()){
             showAll.setVisibility(View.GONE);
             pageFragmentAdapter.setItems(memoryPageModels);
