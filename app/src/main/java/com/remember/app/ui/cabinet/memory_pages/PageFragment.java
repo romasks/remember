@@ -2,11 +2,6 @@ package com.remember.app.ui.cabinet.memory_pages;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +9,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
@@ -75,8 +72,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     }
 
     @Override
-    public void setUserVisibleHint(boolean visible)
-    {
+    public void setUserVisibleHint(boolean visible) {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
             onResume();
@@ -102,21 +98,18 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     }
 
     @OnClick(R.id.show_all)
-    public void showAll(){
+    public void showAll() {
         presenter.getPages();
     }
 
     @OnClick(R.id.button)
-    public void newPage(){
+    public void newPage() {
         startActivity(new Intent(getContext(), NewMemoryPageActivity.class));
     }
 
     @Override
     public void onReceivedPages(List<MemoryPageModel> memoryPageModels) {
-        if(memoryPageModels.size()==0) {
-            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
-        }
-        if (!memoryPageModels.isEmpty()){
+        if (!memoryPageModels.isEmpty()) {
             showAll.setVisibility(View.GONE);
             pageFragmentAdapter.setItems(memoryPageModels);
         } else {
@@ -139,6 +132,9 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     @Override
     public void sendItemsSearch(List<MemoryPageModel> result) {
+        if (result.isEmpty()){
+            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+        }
         showAll.setVisibility(View.VISIBLE);
         pageFragmentAdapter.setItems(result);
         pageFragmentAdapter.notifyDataSetChanged();
