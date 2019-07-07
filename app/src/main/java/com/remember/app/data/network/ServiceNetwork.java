@@ -21,7 +21,6 @@ import com.remember.app.data.models.ResponseSettings;
 import java.io.File;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -80,4 +79,6 @@ public interface ServiceNetwork {
     Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage);
 
     Observable<List<ResponseEvents>> searchEventReligios(String date, int selectedIndex);
+
+    Observable<Object> savePhoto(File imageFile, String string, Integer id);
 }

@@ -8,4 +8,6 @@ public interface ShowPageView extends MvpView {
     void onReceivedImage(MemoryPageModel memoryPageModel);
 
     void error(Throwable throwable);
+
+    void onSavedImage(Object o);
 }
