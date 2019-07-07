@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -96,13 +97,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
-        imageAdapter.setItems(responsePages.getResult());
+       imageAdapter.setItems(responsePages.getResult());
         progressBar.setVisibility(View.GONE);
         countSum = responsePages.getPages();
     }
 
     @Override
     public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
+        if(memoryPageModels.size()==0) {
+            Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+            showAll.setVisibility(View.INVISIBLE);
+        }
         if (memoryPageModels.isEmpty()) {
             showAll.setVisibility(View.VISIBLE);
         } else {
