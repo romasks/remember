@@ -22,7 +22,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
-                android:textColor="#AC8C6D"
+                android:textColor="#a99175"
                 android:theme="@style/SwitchRemember"
                 android:textSize="18sp"
                 android:text="Включить уведомления" />
@@ -34,10 +34,9 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 android:text="Дни поминовения"
-                android:textColor="#AC8C6D"
-                android:textColorHighlight="#AC8C6D"
-                android:textColorLink="#AC8C6D"
-                android:textStyle="bold" />
+                android:textColor="#a99175"
+                android:textColorHighlight="#a99175"
+                android:textColorLink="#a99175" />
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -58,9 +57,9 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Все"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
+                    android:textColor="#a99175"
+                    android:textColorHighlight="#a99175"
+                    android:textColorLink="#a99175" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/two"
@@ -72,9 +71,9 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Для усопших"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
+                    android:textColor="#a99175"
+                    android:textColorHighlight="#a99175"
+                    android:textColorLink="#a99175" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/three"
@@ -86,9 +85,9 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Религиозные"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
+                    android:textColor="#a99175"
+                    android:textColorHighlight="#a99175"
+                    android:textColorLink="#a99175" />
             </RadioGroup>
 
             <TextView
@@ -98,12 +97,12 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 android:text="Уведомления"
-                android:textColor="#AC8C6D"
-                android:textColorHighlight="#AC8C6D"
-                android:textColorLink="#AC8C6D"
-                android:textStyle="bold" />
+                android:textColor="#a99175"
+                android:textColorHighlight="#a99175"
+                android:textColorLink="#a99175" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
@@ -114,7 +113,8 @@
                 app:ms_background_color="@android:color/transparent"
                 app:ms_arrow_tint="@color/dark_gray"
                 app:ms_text_color="@color/dark_gray"
-                android:text="Выбрать количество дней..."
+                android:textColorHint="@color/dark_gray"
+                android:hint="Выбрать количество дней..."
                 android:textSize="18sp"/>
 
         </LinearLayout>

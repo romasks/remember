@@ -19,6 +19,11 @@
         <item name="counterOverflowTextAppearance">@style/TextAppearance.Design.Counter.Overflow</item>
     </style>
 
+    <style name="themeDialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="android:drawable">@drawable/dialog_corners</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
     <item name="android:textColor">@color/brown</item>
     </style>
