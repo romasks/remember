@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
@@ -227,9 +228,17 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setReligion(religion.getText().toString());
         person.setPictureData(dataString);
         if (!isEdit) {
-            presenter.addPage(person, imageFile);
+            if (imageFile != null){
+                presenter.addPage(person, imageFile);
+            } else {
+                presenter.addPage(person, null);
+            }
         } else {
-            presenter.editPage(person, memoryPageModel.getId(), imageFile);
+            if (imageFile != null){
+                presenter.editPage(person, memoryPageModel.getId(), imageFile);
+            } else {
+                presenter.editPage(person, memoryPageModel.getId(), null);
+            }
         }
     }
 
@@ -344,6 +353,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+                progressDialog.dismiss();
+            } else {
                 progressDialog.dismiss();
             }
         }

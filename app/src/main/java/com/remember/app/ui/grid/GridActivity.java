@@ -1,12 +1,13 @@
 package com.remember.app.ui.grid;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,12 +18,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RequestSearchPage;
+import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.PopupPageScreen;
 
 import java.util.List;
@@ -30,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback{
+public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback {
 
     @InjectPresenter
     GridPresenter presenter;
@@ -41,38 +43,49 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     ImageView search;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.show_all)
+    Button showAll;
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
 
     private RecyclerView.LayoutManager layoutManager;
     private ImageAdapter imageAdapter;
-    private ProgressDialog progressDialog;
-
+    private int pageNumber = 1;
+    private int countSum = 0;
     private PopupPageScreen popupWindowPage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = LoadingPopupUtils.showLoadingDialog(this);
+
         layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
 
-        presenter.getImages();
+        setUpLoadMoreListener();
+        presenter.getImages(pageNumber);
+
+        showAll.setOnClickListener(v -> {
+            showAll.setVisibility(View.GONE);
+            pageNumber = 1;
+            presenter.getImages(pageNumber);
+        });
     }
 
     @OnClick(R.id.button)
     public void entry() {
-        if (!Prefs.getString("USER_ID", "").equals("")){
+        if (!Prefs.getString("USER_ID", "").equals("")) {
             startActivity(new Intent(this, MainActivity.class));
-            finish();
         } else {
             startActivity(new Intent(this, AuthActivity.class));
         }
     }
 
     @OnClick(R.id.search)
-    public void doSearch(){
+    public void doSearch() {
         showEventScreen();
     }
 
@@ -82,9 +95,37 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
-    public void onReceivedImages(List<MemoryPageModel> memoryPageModel) {
-        imageAdapter.setItems(memoryPageModel);
-        progressDialog.dismiss();
+    public void onReceivedImages(ResponsePages responsePages) {
+        imageAdapter.setItems(responsePages.getResult());
+        progressBar.setVisibility(View.GONE);
+        countSum = responsePages.getPages();
+    }
+
+    @Override
+    public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
+        if (memoryPageModels.isEmpty()) {
+            showAll.setVisibility(View.VISIBLE);
+        } else {
+            showAll.setVisibility(View.GONE);
+        }
+        imageAdapter.setItemsSearch(memoryPageModels);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void setUpLoadMoreListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView,
+                                   int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (pageNumber < countSum) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    pageNumber++;
+                    presenter.getImages(pageNumber);
+                }
+            }
+        });
     }
 
     private void showEventScreen() {
@@ -110,7 +151,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
-    public void search(String lastName) {
-
+    public void search(RequestSearchPage requestSearchPage) {
+        presenter.search(requestSearchPage);
     }
 }

@@ -6,6 +6,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
@@ -14,11 +15,13 @@ import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 
 import java.io.File;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -50,7 +53,7 @@ public interface ServiceNetwork {
 
     Observable<Response<ResponseRegister>> registerLogin(String nickName, String email);
 
-    Observable<List<MemoryPageModel>> getImages();
+    Observable<ResponsePages> getImages(int count);
 
     Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
 
@@ -71,4 +74,10 @@ public interface ServiceNetwork {
     Observable<Object> saveImageSetting(File imageFile);
 
     Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id);
+
+    Observable<ResponseRestorePassword> restorePassword(String email);
+
+    Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage);
+
+    Observable<List<ResponseEvents>> searchEventReligios(String date, int selectedIndex);
 }

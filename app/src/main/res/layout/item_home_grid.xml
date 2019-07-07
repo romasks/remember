@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <GridLayout
         android:layout_width="match_parent"
@@ -20,13 +20,21 @@
                 android:layout_height="match_parent"
                 android:layout_margin="0.5dp">
 
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="0.5dp"
-                    tools:ignore="ContentDescription"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/name"
@@ -34,13 +42,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="1dp"
                     android:layout_marginEnd="1dp"
-                    android:textSize="11sp"
-                    android:gravity="center"
                     android:background="@android:color/black"
+                    android:gravity="center"
                     android:textColor="@color/colorAccent"
-                    app:layout_constraintStart_toStartOf="@id/imageView"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/imageView"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintStart_toStartOf="@id/imageView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

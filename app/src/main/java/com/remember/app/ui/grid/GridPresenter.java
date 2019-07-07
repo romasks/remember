@@ -2,6 +2,7 @@ package com.remember.app.ui.grid;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
 
@@ -21,11 +22,19 @@ public class GridPresenter extends BasePresenter<GridView> {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getImages() {
-        Disposable subscription = serviceNetwork.getImages()
+    public void getImages(int count) {
+        Disposable subscription = serviceNetwork.getImages(count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedImages);
+        unsubscribeOnDestroy(subscription);
+    }
+
+    public void search(RequestSearchPage requestSearchPage) {
+        Disposable subscription = serviceNetwork.searchPageAllDead(requestSearchPage)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onSearchedPages);
         unsubscribeOnDestroy(subscription);
     }
 }

@@ -28,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
@@ -296,13 +297,9 @@ public class MainActivity extends MvpAppCompatActivity
     }
 
     @Override
-    public void search(String lastName) {
+    public void search(RequestSearchPage requestSearchPage) {
         progressDialog = LoadingPopupUtils.showLoadingDialog(this);
-        if (!lastName.equals("")) {
-            presenter.searchLastName(lastName);
-        } else {
-            progressDialog.dismiss();
-        }
+        presenter.searchLastName(requestSearchPage);
     }
 
     public void setCallback(CallbackPage callback) {

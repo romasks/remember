@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -19,6 +20,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 
@@ -38,6 +40,12 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     RecyclerView recyclerView;
     @BindView(R.id.show_all)
     TextView showAll;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.center_text)
+    TextView centerTaxi;
+    @BindView(R.id.button)
+    Button button;
 
     private Unbinder unbinder;
     private PageFragmentAdapter pageFragmentAdapter;
@@ -55,7 +63,6 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_memory_pages, container, false);
         unbinder = ButterKnife.bind(this, v);
-        presenter.getPages();
         pageFragmentAdapter = new PageFragmentAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(container.getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -82,6 +89,12 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.getPages();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
@@ -92,10 +105,23 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         presenter.getPages();
     }
 
+    @OnClick(R.id.button)
+    public void newPage(){
+        startActivity(new Intent(getContext(), NewMemoryPageActivity.class));
+    }
+
     @Override
     public void onReceivedPages(List<MemoryPageModel> memoryPageModels) {
-        showAll.setVisibility(View.GONE);
-        pageFragmentAdapter.setItems(memoryPageModels);
+        if (!memoryPageModels.isEmpty()){
+            showAll.setVisibility(View.GONE);
+            pageFragmentAdapter.setItems(memoryPageModels);
+        } else {
+            title.setVisibility(View.VISIBLE);
+            centerTaxi.setVisibility(View.VISIBLE);
+            button.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

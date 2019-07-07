@@ -8,6 +8,7 @@ import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestAuth;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
+import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
@@ -16,6 +17,7 @@ import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 
 import java.util.List;
@@ -66,9 +68,9 @@ public interface ApiMethods {
     @GET("deadevent/{id}")
     Observable<EventModel> getEvent(@Path("id") int id);
 
-    @Headers("Content-Type: application/json")
-    @POST("user/add")
-    Observable<ResponseAuth> singInAuth(@Body RequestAuth requestAuth);
+    @GET("user/{email}/{password}")
+    Observable<ResponseAuth> singInAuth(@Path("email") String email,
+                                        @Path("password") String password);
 
     @Headers("Content-Type: application/json")
     @POST("user")
@@ -100,8 +102,9 @@ public interface ApiMethods {
                                          @Part MultipartBody.Part image);
 
 
-    @GET("page")
-    Observable<List<MemoryPageModel>> getImages();
+    @GET("pages/{count}")
+    Observable<ResponsePages> getImages(@Path("count") int count,
+                                        @Query("status") String status);
 
     @Multipart
     @POST("page/edit/{id}")
@@ -166,10 +169,14 @@ public interface ApiMethods {
                                     @Path("id") String id);
 
     @GET("user/social")
-    Observable<List<ResponseSettings>> signInVk(@Query("email") String email);
+    Observable<List<ResponseSettings>> signInVk(@Query("email") String email,
+                                                @Query("name") String name);
 
     @GET("page")
     Observable<List<MemoryPageModel>> getAllPages();
+
+    @GET("/user/restore/{email}")
+    Observable<ResponseRestorePassword> restorePassword(@Path("email") String email);
 
     @Multipart
     @POST("setting/photo/{id}")
@@ -180,4 +187,16 @@ public interface ApiMethods {
     @POST("epit/edit/{id}")
     Observable<RequestAddEpitaphs> editEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs,
                                                @Path("id") Integer id);
+
+    @GET("poisk/page")
+    Observable<List<MemoryPageModel>> searchPageAllDead(@Query("name") String name,
+                                                        @Query("secondname") String secondName,
+                                                        @Query("thirtname") String middleName,
+                                                        @Query("datarod") String dateStart,
+                                                        @Query("datasmert") String dateEnd,
+                                                        @Query("gorod") String city);
+
+    @GET("poisk/event")
+    Observable<List<ResponseEvents>> searchEventReligios(@Query("date") String date,
+                                                         @Query("religia") String religia);
 }

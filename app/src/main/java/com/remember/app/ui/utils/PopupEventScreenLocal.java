@@ -50,6 +50,7 @@ public class PopupEventScreenLocal extends PopupWindow {
         spinner.setItems(responseHandBooks);
 
         popupView.findViewById(R.id.submit).setOnClickListener(v -> {
+            callback.search(date.getText().toString(), spinner.getSelectedIndex());
             dismiss();
         });
 
@@ -73,6 +74,7 @@ public class PopupEventScreenLocal extends PopupWindow {
 
     public interface Callback {
 
+        void search(String date, int selectedIndex);
 
     }
 

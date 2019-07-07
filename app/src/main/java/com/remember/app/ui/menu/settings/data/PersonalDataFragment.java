@@ -41,6 +41,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,6 +81,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.getInfo();
+
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -173,31 +175,45 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
 
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        Prefs.putString("AVATAR", "http://86.57.172.88:8082" + responseSettings.getSetting().get(0).getPicture());
-        Glide.with(getContext())
-                .load("http://86.57.172.88:8082" + responseSettings.getSetting().get(0).getPicture())
-                .apply(RequestOptions.circleCropTransform())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(avatar);
+        if (!Prefs.getString("AVATAR", "").equals("") || Prefs.getString("AVATAR", "") != null) {
+            Glide.with(this)
+                    .load(Prefs.getString("AVATAR", ""))
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(avatar);
+        }
+        if (responseSettings.getSetting().get(0).getPicture() != null){
+            Glide.with(getContext())
+                    .load("http://86.57.172.88:8082" + responseSettings.getSetting().get(0).getPicture())
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(avatar);
+        }
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
         avatar.setColorFilter(filter);
-        if (responseSettings.getSetting().get(0).getSurname() != null) {
-            secondName.setText(responseSettings.getSetting().get(0).getSurname());
-        }
-        if (responseSettings.getSetting().get(0).getName() != null) {
-            name.setText(responseSettings.getSetting().get(0).getName());
-        }
-        if (responseSettings.getSetting().get(0).getSurname() != null) {
-            middleName.setText(responseSettings.getSetting().get(0).getThirdname());
-        }
-        if (responseSettings.getEmail() != null) {
+        try {
+            if (responseSettings.getSetting().get(0).getSurname() != null) {
+                secondName.setText(responseSettings.getSetting().get(0).getSurname());
+            }
+            if (responseSettings.getSetting().get(0).getName() != null) {
+                name.setText(responseSettings.getSetting().get(0).getName());
+            }
+            if (responseSettings.getSetting().get(0).getSurname() != null) {
+                middleName.setText(responseSettings.getSetting().get(0).getThirdname());
+            }
+            if (responseSettings.getEmail() != null) {
+                email.setText(responseSettings.getEmail());
+            }
+            if (responseSettings.getSetting().get(0).getPhone() != null) {
+                phone.setText(responseSettings.getSetting().get(0).getPhone());
+            }
+        } catch (Exception e){
+            login.setText(responseSettings.getName());
             email.setText(responseSettings.getEmail());
-        }
-        if (responseSettings.getSetting().get(0).getPhone() != null) {
-            phone.setText(responseSettings.getSetting().get(0).getPhone());
         }
         getView().invalidate();
     }

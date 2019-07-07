@@ -108,7 +108,7 @@
             app:ms_arrow_tint="@color/dark_gray"
             app:ms_text_color="@color/dark_gray"
             app:ms_hint_color="@color/dark_gray"
-            app:ms_hint="Тип"
+            app:ms_hint="Религия"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>

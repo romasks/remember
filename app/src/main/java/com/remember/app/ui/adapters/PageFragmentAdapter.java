@@ -59,6 +59,12 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setItemsSearched(List<MemoryPageModel> memoryPageModelList) {
+        this.memoryPageModelList.clear();
+        this.memoryPageModelList.addAll(memoryPageModelList);
+        notifyDataSetChanged();
+    }
+
     public void setCallback(Callback callback) {
         this.callback = callback;
     }

@@ -33,7 +33,12 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     private Callback callback;
+    private boolean isShow;
     private List<ResponseEpitaphs> responseEpitaphs = new ArrayList<>();
+
+    public EpitaphsAdapter(boolean isShow) {
+        this.isShow = isShow;
+    }
 
     @NonNull
     @Override
@@ -98,33 +103,50 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             } else {
                 name.setText("Неизвестный");
             }
-            Glide.with(itemView)
-                    .load("http://86.57.172.88:8082" + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatar);
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            avatar.setColorFilter(filter);
-
-            if (responseEpitaphs.get(position).getUser().getId() == Integer.parseInt(Prefs.getString("USER_ID", "0"))) {
-                delete.setVisibility(View.VISIBLE);
-                change.setVisibility(View.VISIBLE);
-
-                delete.setOnClickListener(v -> {
-                    callback.delete();
-                });
-                change.setOnClickListener(v -> {
-                    callback.change(responseEpitaphs.get(position));
-                });
+            if (responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture() != null) {
+                Glide.with(itemView)
+                        .load("http://86.57.172.88:8082" + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(avatar);
             }
-
+            if (!isShow){
+                if (responseEpitaphs.get(position).getUser().getId() == Integer.parseInt(Prefs.getString("USER_ID", "0"))) {
+                    delete.setVisibility(View.VISIBLE);
+                    change.setVisibility(View.VISIBLE);
+                    if (!Prefs.getString("AVATAR", "").equals("")) {
+                        Glide.with(itemView)
+                                .load(Prefs.getString("AVATAR", ""))
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(avatar);
+                    } else {
+                        Glide.with(itemView)
+                                .load(R.drawable.ic_user)
+                                .apply(RequestOptions.circleCropTransform())
+                                .into(avatar);
+                    }
+                    delete.setOnClickListener(v -> {
+                        callback.delete();
+                    });
+                    change.setOnClickListener(v -> {
+                        callback.change(responseEpitaphs.get(position));
+                    });
+                }
+            } else {
+                Glide.with(itemView)
+                        .load(R.drawable.ic_user)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(avatar);
+            }
             try {
                 date.setText(getDate(responseEpitaphs.get(position).getUpdatedAt()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             description.setText(responseEpitaphs.get(position).getBody());
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            avatar.setColorFilter(filter);
         }
     }
 

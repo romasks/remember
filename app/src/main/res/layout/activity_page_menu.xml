@@ -62,14 +62,27 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/show_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:text="Показать всех"
-        android:textColor="@color/colorAccent"
+        android:textAllCaps="false"
+        android:background="@drawable/button"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/app_bar" />
@@ -78,6 +91,7 @@
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="50dp"
         app:layout_constraintTop_toBottomOf="@+id/show_all"
         tools:listitem="@layout/item_events" />
 
