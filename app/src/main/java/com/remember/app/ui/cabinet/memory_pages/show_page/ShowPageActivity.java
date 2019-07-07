@@ -1,6 +1,7 @@
 package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -14,17 +15,24 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
-import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.PhotoDialog;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView {
+public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback {
 
     @InjectPresenter
     ShowPagePresenter presenter;
@@ -64,6 +72,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     ImageButton events;
     @BindView(R.id.epitButton)
     ImageButton epitaphyButton;
+    @BindView(R.id.imageButton)
+    ImageButton imageButton;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
 
@@ -71,6 +81,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private boolean isList = false;
     private boolean isShow = false;
     private boolean afterSave = false;
+    private  PhotoDialog photoDialog;
     private int id = 0;
     private MemoryPageModel memoryPageModel;
 
@@ -113,6 +124,15 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             startActivity(intent);
         });
 
+    }
+
+    @OnClick(R.id.imageButton)
+    public void pickImage() {
+        photoDialog = new PhotoDialog();
+        photoDialog.setCallback(this);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        photoDialog.show(transaction, "photoDialog");
     }
 
     private void initAll() {
@@ -161,6 +181,17 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                     ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setCallback(this);
             popupWindow.setUp(image, getSupportFragmentManager(), memoryPageModel.getCoords());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        CropImage.ActivityResult result = CropImage.getActivityResult(data);
+        if (resultCode == Activity.RESULT_OK) {
+            photoDialog.setUri(result.getUri());
+        } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            Exception error = result.getError();
+        } else {
         }
     }
 
@@ -234,5 +265,24 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @Override
     public void error(Throwable throwable) {
         Snackbar.make(image, "Ошибка загрузки изображения", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSavedImage(Object o) {
+        photoDialog.dismiss();
+        Snackbar.make(image, "Успешно", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showPhoto() {
+        CropImage.activity()
+                .setFixAspectRatio(true)
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .start(this);
+    }
+
+    @Override
+    public void sendPhoto(File imageFile, String string) {
+        presenter.savePhoto(imageFile, string, memoryPageModel.getId());
     }
 }
