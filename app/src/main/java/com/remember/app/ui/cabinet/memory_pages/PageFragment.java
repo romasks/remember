@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,12 +39,8 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     RecyclerView recyclerView;
     @BindView(R.id.show_all)
     TextView showAll;
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.center_text)
-    TextView centerTaxi;
-    @BindView(R.id.button)
-    Button button;
+    @BindView(R.id.not_page)
+    LinearLayout emptyLayout;
 
     private Unbinder unbinder;
     private PageFragmentAdapter pageFragmentAdapter;
@@ -102,7 +99,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         presenter.getPages();
     }
 
-    @OnClick(R.id.button)
+    @OnClick(R.id.go_to_add)
     public void newPage() {
         startActivity(new Intent(getContext(), NewMemoryPageActivity.class));
     }
@@ -113,9 +110,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
             showAll.setVisibility(View.GONE);
             pageFragmentAdapter.setItems(memoryPageModels);
         } else {
-            title.setVisibility(View.VISIBLE);
-            centerTaxi.setVisibility(View.VISIBLE);
-            button.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
 
