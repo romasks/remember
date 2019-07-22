@@ -236,7 +236,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:text="@string/star"
-                android:textColor='@color/light_brown'
+                android:textColor='@color/dark_gray'
+                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -290,7 +291,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:text="@string/pick_level"
-                android:textColor='@color/light_brown'
+                android:textColor='@color/dark_gray'
+                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -340,7 +342,8 @@
                 android:layout_marginRight="16dp"
                 android:paddingTop="10dp"
                 android:text="Добавьте описание"
-                android:textColor='@color/light_brown'
+                android:textColor='@color/dark_gray'
+                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/is_public" />

@@ -68,8 +68,8 @@
             android:clickable="true"
             android:textAllCaps="false"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#AC8C6D"
-            app:tabSelectedTextColor="#AC8C6D"
+            app:tabIndicatorColor="#a99175"
+            app:tabSelectedTextColor="#a99175"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             app:tabTextColor="@color/gray"
             android:focusable="true" />

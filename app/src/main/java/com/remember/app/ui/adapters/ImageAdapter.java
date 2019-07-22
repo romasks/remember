@@ -130,7 +130,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             colorMatrix.setSaturation(0);
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
             imageView.setColorFilter(filter);
-            String nameString = memoryPageModels.get(position).getSecondname() + " " + memoryPageModels.get(position).getName();
+            String nameString = memoryPageModels.get(position).getName() + " " + memoryPageModels.get(position).getName();
             name.setText(nameString);
         }
     }
