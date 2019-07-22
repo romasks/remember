@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <Switch
@@ -24,7 +24,7 @@
                 android:layout_marginRight="25dp"
                 android:textColor="#a99175"
                 android:theme="@style/SwitchRemember"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:text="Включить уведомления" />
 
             <TextView
@@ -94,12 +94,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="25dp"
                 android:text="Уведомления"
                 android:textColor="#a99175"
                 android:textColorHighlight="#a99175"
                 android:textColorLink="#a99175" />
+
 
             <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/days"
@@ -116,6 +117,7 @@
                 android:textColorHint="@color/dark_gray"
                 android:hint="Выбрать количество дней..."
                 android:textSize="18sp"/>
+
 
         </LinearLayout>
     </ScrollView>

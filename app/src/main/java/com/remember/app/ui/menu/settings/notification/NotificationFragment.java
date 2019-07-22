@@ -35,7 +35,8 @@ public class NotificationFragment extends MvpAppCompatFragment implements Notifi
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings_notifications, container, false);
         unbinder = ButterKnife.bind(this, v);
-        days.setItems(new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31});
+        String [] daysArr = {"","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+        days.setItems(daysArr);
         return v;
     }
 

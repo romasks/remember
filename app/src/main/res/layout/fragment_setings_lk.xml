@@ -43,18 +43,11 @@
                     android:textColor="#fcfcfc" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="22dp"
-                android:text="Основная информация"
-                android:textColor="@drawable/abc"
-                android:textStyle="bold" />
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:textColorHint="@color/dark_gray">
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -117,15 +110,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="25dp"
-                android:text="Аккаунт"
-                android:textColor="@drawable/abc"
-                android:textStyle="bold" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -165,15 +149,6 @@
                     android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="25dp"
-                android:text="Контактная информация"
-                android:textColor="@drawable/abc"
-                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -225,9 +200,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 android:text="Тема оформления"
-                android:textColor="#AC8C6D"
-                android:textColorHighlight="#AC8C6D"
-                android:textColorLink="#AC8C6D"
+                android:textColor="@color/dark_gray"
                 android:textStyle="bold" />
 
             <RadioGroup
