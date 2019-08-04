@@ -190,7 +190,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
             default: religia = "Отсутствует";
                 break;
         }
-        return apiMethods.searchEventReligios(date, religia);
+        String resultDate = date.substring(0, date.length() - 5);
+        return apiMethods.searchEventReligios(resultDate, religia);
     }
 
     @Override
