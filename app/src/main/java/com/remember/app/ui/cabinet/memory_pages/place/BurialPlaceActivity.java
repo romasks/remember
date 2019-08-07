@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -29,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMap.Callback, PlaceView, PopupCity.Callback {
+public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMap.Callback, PlaceView, PopupCity.Callback, PopupCemetery.Callback {
 
     @InjectPresenter
     PlacePresenter presenter;
@@ -172,9 +173,15 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
             cemetery.requestFocus();
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            Snackbar.make(city, "Введите значение вручную", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите значение вручную", Toast.LENGTH_LONG).show();
         } else {
-            //TODO сделать попап
+            View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
+            PopupCemetery popupWindow = new PopupCemetery(
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setCallback(this);
+            popupWindow.setUp(pick, responseCemeteries);
         }
     }
 
@@ -187,4 +194,8 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     }
 
 
+    @Override
+    public void saveItem(ResponseCemetery responseCemetery) {
+        cemetery.setText(responseCemetery.getName());
+    }
 }
