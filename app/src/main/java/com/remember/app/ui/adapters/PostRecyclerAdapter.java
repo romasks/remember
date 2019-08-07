@@ -146,7 +146,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolderPagi
             try {
                 if (memoryPageModels.get(position).getPicture().contains("uploads")) {
                     Glide.with(context)
-                            .load("http://86.57.172.88:8082" + memoryPageModels.get(position).getPicture())
+                            .load("http://помню.рус" + memoryPageModels.get(position).getPicture())
                             .error(R.drawable.darth_vader)
                             .into(imageView);
                 } else {

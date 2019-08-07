@@ -98,7 +98,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             try {
                 if (memoryPageModels.get(position).getPicture().contains("uploads")){
                     Glide.with(context)
-                            .load("http://86.57.172.88:8082" + memoryPageModels.get(position).getPicture())
+                            .load("http://помню.рус" + memoryPageModels.get(position).getPicture())
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

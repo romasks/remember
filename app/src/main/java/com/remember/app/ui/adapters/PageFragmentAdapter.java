@@ -102,7 +102,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             try {
                 if (memoryPageModelList.get(position).getPicture().contains("uploads")){
                     Glide.with(itemView)
-                            .load("http://86.57.172.88:8082" + memoryPageModelList.get(position).getPicture())
+                            .load("http://помню.рус" + memoryPageModelList.get(position).getPicture())
                             .apply(RequestOptions.circleCropTransform())
                             .into(avatarImage);
                 } else {

@@ -168,7 +168,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
         Glide.with(this)
-                .load("http://86.57.172.88:8082" + memoryPageModel.getPicture())
+                .load("http://помню.рус" + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();

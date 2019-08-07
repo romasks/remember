@@ -185,7 +185,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
         }
         if (responseSettings.getSetting().get(0).getPicture() != null){
             Glide.with(getContext())
-                    .load("http://86.57.172.88:8082" + responseSettings.getSetting().get(0).getPicture())
+                    .load("http://помню.рус" + responseSettings.getSetting().get(0).getPicture())
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)

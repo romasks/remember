@@ -40,7 +40,7 @@ public class EventFullActivity extends BaseActivity {
             try {
                 if (!responseEvents.getPicture().contains("upload")) {
                     Glide.with(this)
-                            .load("http://86.57.172.88:8082/uploads/" + responseEvents.getPicture())
+                            .load("http://помню.рус/uploads/" + responseEvents.getPicture())
                             .error(mDefaultBackground)
                             .into(avatarImage);
                 } else {

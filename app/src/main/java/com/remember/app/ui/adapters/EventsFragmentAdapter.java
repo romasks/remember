@@ -102,7 +102,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             try {
                 if (!responseEvents.get(position).getPicture().contains("upload")){
                     Glide.with(itemView)
-                            .load("http://86.57.172.88:8082/uploads/" + responseEvents.get(position).getPicture())
+                            .load("http://помню.рус/uploads/" + responseEvents.get(position).getPicture())
                             .error(mDefaultBackground)
                             .apply(RequestOptions.circleCropTransform())
                             .into(avatarImage);

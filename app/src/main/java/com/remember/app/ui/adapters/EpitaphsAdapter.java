@@ -105,7 +105,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
             if (responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture() != null) {
                 Glide.with(itemView)
-                        .load("http://86.57.172.88:8082" + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
+                        .load("http://помню.рус" + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
                         .apply(RequestOptions.circleCropTransform())
                         .into(avatar);
             }

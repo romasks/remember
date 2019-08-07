@@ -139,7 +139,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (memoryPageModel != null) {
             if (!afterSave){
                 Glide.with(this)
-                        .load("http://86.57.172.88:8082" + memoryPageModel.getPicture())
+                        .load("http://помню.рус" + memoryPageModel.getPicture())
                         .error(R.drawable.darth_vader)
                         .into(image);
                 ColorMatrix colorMatrix = new ColorMatrix();
@@ -253,7 +253,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         this.memoryPageModel = memoryPageModel;
         initAll();
         Glide.with(this)
-                .load("http://86.57.172.88:8082" + memoryPageModel.getPicture())
+                .load("http://помню.рус" + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();
