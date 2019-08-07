@@ -231,7 +231,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             if (imageFile != null){
                 presenter.addPage(person, imageFile);
             } else {
-                presenter.addPage(person, null);
+                Toast.makeText(this, "Необходимо загрузить фото", Toast.LENGTH_LONG).show();
             }
         } else {
             if (imageFile != null){
