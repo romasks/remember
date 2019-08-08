@@ -89,7 +89,9 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<EventModel> getEvent(int id){return apiMethods.getEvent(id);}
+    public Observable<EventModel> getEvent(int id) {
+        return apiMethods.getEvent(id);
+    }
 
     @Override
     public Observable<ResponseAuth> singInAuth(String email, String password) {
@@ -135,8 +137,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public  Observable<List<ResponseSettings>> signInVk(String email) {
-        String name = Prefs.getString("USER_NAME","");
+    public Observable<List<ResponseSettings>> signInVk(String email) {
+        String name = Prefs.getString("USER_NAME", "");
         return apiMethods.signInVk(email, name);
     }
 
@@ -165,30 +167,39 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage) {
         return apiMethods.searchPageAllDead(requestSearchPage.getName(), requestSearchPage.getSecondName(),
-                requestSearchPage.getThirdName(), requestSearchPage.getDateBegin(), requestSearchPage.getDateEnd(),requestSearchPage.getCity());
+                requestSearchPage.getThirdName(), requestSearchPage.getDateBegin(), requestSearchPage.getDateEnd(), requestSearchPage.getCity());
     }
 
     @Override
     public Observable<List<ResponseEvents>> searchEventReligios(String date, int selectedIndex) {
         String religia;
         switch (selectedIndex) {
-            case 0:  religia = "Православие";
+            case 0:
+                religia = "Православие";
                 break;
-            case 1:  religia = "Католицизм";
+            case 1:
+                religia = "Католицизм";
                 break;
-            case 2:  religia = "Ислам";
+            case 2:
+                religia = "Ислам";
                 break;
-            case 3:  religia = "Иудаизм";
+            case 3:
+                religia = "Иудаизм";
                 break;
-            case 4:  religia = "Буддизм";
+            case 4:
+                religia = "Буддизм";
                 break;
-            case 5:  religia = "Индуизм";
+            case 5:
+                religia = "Индуизм";
                 break;
-            case 6:  religia = "Другая религия";
+            case 6:
+                religia = "Другая религия";
                 break;
-            case 7:  religia = "Отсутствует";
+            case 7:
+                religia = "Отсутствует";
                 break;
-            default: religia = "Отсутствует";
+            default:
+                religia = "Отсутствует";
                 break;
         }
         String resultDate = date.substring(0, date.length() - 5);
@@ -199,7 +210,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     public Observable<Object> savePhoto(File imageFile, String string, Integer id) {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-        return apiMethods.savePhoto(fileToUploadTranser, string, id);
+        return apiMethods.savePhoto(string, id, fileToUploadTranser);
     }
 
     @Override
@@ -246,12 +257,12 @@ public class ServiceNetworkImp implements ServiceNetwork {
         try {
             city = RequestBody.create(MultipartBody.FORM, person.getCity());
         } catch (Exception e) {
-            city = RequestBody.create(MultipartBody.FORM,"");
+            city = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
             comment = RequestBody.create(MultipartBody.FORM, person.getComment());
         } catch (Exception e) {
-            comment = RequestBody.create(MultipartBody.FORM,"");
+            comment = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
             coords = RequestBody.create(MultipartBody.FORM, person.getCoords());
@@ -381,12 +392,12 @@ public class ServiceNetworkImp implements ServiceNetwork {
         try {
             city = RequestBody.create(MultipartBody.FORM, person.getCity());
         } catch (Exception e) {
-            city = RequestBody.create(MultipartBody.FORM,"");
+            city = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
             comment = RequestBody.create(MultipartBody.FORM, person.getComment());
         } catch (Exception e) {
-            comment = RequestBody.create(MultipartBody.FORM,"");
+            comment = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
             coords = RequestBody.create(MultipartBody.FORM, person.getCoords());
@@ -458,7 +469,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
         } catch (Exception e) {
             userId = RequestBody.create(MultipartBody.FORM, "");
         }
-        if (imageFile != null){
+        if (imageFile != null) {
             mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
             fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
             return apiMethods.editPage(area,

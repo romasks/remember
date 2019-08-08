@@ -205,8 +205,8 @@ public interface ApiMethods {
 
     @Multipart
     @POST("photo/add")
-    Observable<Object> savePhoto(@Part MultipartBody.Part image,
-                                 @Part("body") String string,
-                                 @Part("page_id ") Integer id);
+    Observable<Object> savePhoto(@Part("body") String string,
+                                 @Part("page_id ") Integer id,
+                                 @Part MultipartBody.Part image);
 
 }
