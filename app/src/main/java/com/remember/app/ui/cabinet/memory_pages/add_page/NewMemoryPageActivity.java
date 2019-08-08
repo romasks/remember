@@ -2,8 +2,10 @@ package com.remember.app.ui.cabinet.memory_pages.add_page;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -115,6 +117,11 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private ProgressDialog progressDialog;
     private File imageFile;
     private Bitmap bitmap;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -153,6 +160,23 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             onBackPressed();
             finish();
         });
+        if (Build.VERSION.SDK_INT >= 23) {
+            verifyStoragePermissions(this);
+        }
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 
     private void initEdit() {
@@ -228,13 +252,13 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setReligion(religion.getText().toString());
         person.setPictureData(dataString);
         if (!isEdit) {
-            if (imageFile != null){
+            if (imageFile != null) {
                 presenter.addPage(person, imageFile);
             } else {
                 Toast.makeText(this, "Необходимо загрузить фото", Toast.LENGTH_LONG).show();
             }
         } else {
-            if (imageFile != null){
+            if (imageFile != null) {
                 presenter.editPage(person, memoryPageModel.getId(), imageFile);
             } else {
                 presenter.editPage(person, memoryPageModel.getId(), null);

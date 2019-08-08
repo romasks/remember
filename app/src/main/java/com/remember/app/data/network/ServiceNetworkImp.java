@@ -209,8 +209,9 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<Object> savePhoto(File imageFile, String string, Integer id) {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-        return apiMethods.savePhoto(string, id, fileToUploadTranser);
+        MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
+        MultipartBody.Part imageCut = MultipartBody.Part.createFormData("picture_cut", imageFile.getName(), mFile);
+        return apiMethods.savePhoto(string, id, fileToUploadTranser, imageCut);
     }
 
     @Override
