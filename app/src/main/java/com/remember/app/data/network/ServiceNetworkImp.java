@@ -15,6 +15,7 @@ import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
@@ -199,6 +200,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
         return apiMethods.savePhoto(fileToUploadTranser, string, id);
+    }
+
+    @Override
+    public Observable<List<ResponseImagesSlider>> getImagesSlider(Integer id) {
+        return apiMethods.getAllPhotosForPage(id);
     }
 
     @Override

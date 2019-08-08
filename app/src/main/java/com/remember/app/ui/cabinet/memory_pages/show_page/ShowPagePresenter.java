@@ -42,4 +42,13 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void getImagesSlider(Integer id) {
+        Disposable subscription = serviceNetwork.getImagesSlider(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onImagesSlider,
+                        getViewState()::error);
+        unsubscribeOnDestroy(subscription);
+    }
 }

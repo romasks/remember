@@ -32,6 +32,7 @@ public class PhotoDialog extends DialogFragment {
     private ImageView imageView;
     private EditText editText;
     private TextView done;
+    private TextView cancel;
     private Uri uri;
     private Bitmap bitmap;
     private File imageFile;
@@ -51,6 +52,7 @@ public class PhotoDialog extends DialogFragment {
         imageView = view.findViewById(R.id.image);
         editText = view.findViewById(R.id.description);
         done = view.findViewById(R.id.done);
+        cancel = view.findViewById(R.id.cancel);
         image.setOnClickListener(v -> {
             callback.showPhoto();
         });
@@ -62,6 +64,9 @@ public class PhotoDialog extends DialogFragment {
                 e.printStackTrace();
             }
             callback.sendPhoto(imageFile, editText.getText().toString());
+        });
+        cancel.setOnClickListener(v -> {
+            dismiss();
         });
         builder.setView(view);
         return builder.create();

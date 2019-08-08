@@ -18,12 +18,16 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.ResponseImagesSlider;
+import com.remember.app.ui.adapters.PhotoSliderAdapter;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
@@ -37,6 +41,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +81,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     ImageButton imageButton;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
+    @BindView(R.id.recycler_slider)
+    RecyclerView recyclerSlider;
 
     private Unbinder unbinder;
     private boolean isList = false;
@@ -84,6 +91,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private  PhotoDialog photoDialog;
     private int id = 0;
     private MemoryPageModel memoryPageModel;
+    private PhotoSliderAdapter photoSliderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +106,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
         if (isShow) {
             memoryPageModel = i.getParcelableExtra("PERSON");
+            presenter.getImagesSlider(memoryPageModel.getId());
             settings.setClickable(false);
             initAll();
         } else {
             id = i.getIntExtra("ID", 0);
+            presenter.getImagesSlider(id);
             presenter.getImageAfterSave(id);
         }
 
@@ -123,6 +133,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             intent.putExtra("ID_PAGE", memoryPageModel.getId());
             startActivity(intent);
         });
+
+
+        recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        photoSliderAdapter = new PhotoSliderAdapter();
+        recyclerSlider.setAdapter(photoSliderAdapter);
 
     }
 
@@ -271,6 +286,13 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     public void onSavedImage(Object o) {
         photoDialog.dismiss();
         Snackbar.make(image, "Успешно", Snackbar.LENGTH_LONG).show();
+        presenter.getImagesSlider(memoryPageModel.getId());
+
+    }
+
+    @Override
+    public void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders) {
+        photoSliderAdapter.setItems(responseImagesSliders);
     }
 
     @Override
@@ -283,6 +305,10 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void sendPhoto(File imageFile, String string) {
-        presenter.savePhoto(imageFile, string, memoryPageModel.getId());
+        if (memoryPageModel.getId() != null){
+            presenter.savePhoto(imageFile, string, memoryPageModel.getId());
+        } else  {
+            presenter.savePhoto(imageFile, string, id);
+        }
     }
 }

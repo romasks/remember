@@ -14,6 +14,7 @@ import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
@@ -198,6 +199,9 @@ public interface ApiMethods {
     @GET("poisk/event")
     Observable<List<ResponseEvents>> searchEventReligios(@Query("date") String date,
                                                          @Query("religia") String religia);
+
+    @GET("photo/page/{page_id}")
+    Observable<List<ResponseImagesSlider>> getAllPhotosForPage(@Path("page_id") int pageId);
 
     @Multipart
     @POST("photo/add")

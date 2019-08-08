@@ -13,6 +13,7 @@ import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
@@ -21,6 +22,7 @@ import com.remember.app.data.models.ResponseSettings;
 import java.io.File;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -81,4 +83,6 @@ public interface ServiceNetwork {
     Observable<List<ResponseEvents>> searchEventReligios(String date, int selectedIndex);
 
     Observable<Object> savePhoto(File imageFile, String string, Integer id);
+
+    Observable<List<ResponseImagesSlider>> getImagesSlider(Integer id);
 }
