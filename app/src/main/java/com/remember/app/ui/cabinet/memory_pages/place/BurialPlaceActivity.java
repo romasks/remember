@@ -30,7 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMap.Callback, PlaceView, PopupCity.Callback, PopupCemetery.Callback {
+public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMap.Callback,
+        PlaceView, PopupCity.Callback, PopupCemetery.Callback {
 
     @InjectPresenter
     PlacePresenter presenter;
@@ -56,9 +57,11 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_burial_place);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment);
         ButterKnife.bind(this);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         responseHandBook = new ResponseHandBook();
 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
@@ -171,7 +174,8 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         if (responseCemeteries.isEmpty()) {
             cemetery.setFocusableInTouchMode(true);
             cemetery.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm =
+                    (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             Toast.makeText(this, "Введите значение вручную", Toast.LENGTH_LONG).show();
         } else {

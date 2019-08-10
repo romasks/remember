@@ -103,9 +103,16 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             } else {
                 name.setText("Неизвестный");
             }
-            if (responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture() != null) {
+            try {
+                if (responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture() != null) {
+                    Glide.with(itemView)
+                            .load("http://помню.рус" + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(avatar);
+                }
+            } catch (Exception e){
                 Glide.with(itemView)
-                        .load("http://помню.рус" + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
+                        .load(R.drawable.ic_user)
                         .apply(RequestOptions.circleCropTransform())
                         .into(avatar);
             }

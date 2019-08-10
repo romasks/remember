@@ -255,6 +255,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         intent.putExtra("PERSON", memoryPageModel);
         intent.putExtra("LIST", isList);
         intent.putExtra("EDIT", true);
+        intent.putExtra("CITY", city.getText().toString());
+        intent.putExtra("SECTOR", sector.getText().toString());
+        intent.putExtra("GRAVE", grave.getText().toString());
+        intent.putExtra("CRYPT", crypt.getText().toString());
+        intent.putExtra("COORD", memoryPageModel.getCoords());
         startActivity(intent);
     }
 

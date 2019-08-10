@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -26,6 +24,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_back" />
@@ -47,290 +46,292 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
-    android:layout_marginBottom="70dp">
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar">
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="70dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/image_layout"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:background="@color/dark_gray"
-            tools:ignore="MissingConstraints">
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/app_bar">
 
-            <ImageView
-                android:id="@+id/image"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/image_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="160dp"
+                android:background="@color/dark_gray"
+                tools:ignore="MissingConstraints">
 
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/add_white"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/ic_add_white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/add_white"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_add_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Добавить фотографию"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/add_white" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/deceased"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:focusable="false"
+                android:textColorHint="@color/dark_gray"
+                app:layout_constraintTop_toBottomOf="@id/image_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/deceased_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:focusable="false"
+                    android:hint="@string/deceased"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/dark_gray"
+                app:layout_constraintTop_toBottomOf="@+id/deceased">
+
+                <AutoCompleteTextView
+                    android:id="@+id/title_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:hint="Наименование"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:focusable="false"
+                android:textColorHint="@color/dark_gray"
+                app:layout_constraintTop_toBottomOf="@+id/title">
+
+                <AutoCompleteTextView
+                    android:id="@+id/date_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:focusable="false"
+                    android:hint="@string/date"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/text_image"
-                android:layout_width="wrap_content"
+                android:id="@+id/access_desk"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Добавить фотографию"
-                android:textColor="@android:color/white"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingStart="6dp"
+                android:paddingLeft="6dp"
+                android:text="@string/access"
+                android:textColor='@color/dark_gray'
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_white" />
+                app:layout_constraintTop_toBottomOf="@+id/date"
+                tools:ignore="RtlHardcoded,RtlSymmetry" />
+
+            <RadioGroup
+                android:id="@+id/access"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/access_desk">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/for_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:button="@drawable/radio_button"
+                    android:checked="true"
+                    android:text="@string/all"
+                    android:textColor='@color/light_brown'
+                    tools:ignore="RtlHardcoded" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/not_for_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@drawable/radio_button"
+                    android:checked="true"
+                    android:text="@string/for_your"
+                    android:textColor='@color/light_brown'
+                    app:layout_constraintTop_toBottomOf="@+id/is_famous" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/notification_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingStart="6dp"
+                android:paddingLeft="6dp"
+                android:text="@string/notification"
+                android:textColor='@color/dark_gray'
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/access" />
+
+            <RadioGroup
+                android:id="@+id/is_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/notification_title">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/it_notification"
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:button="@drawable/radio_button"
+                    android:text="@string/yes"
+                    android:textColor='@color/light_brown' />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/not_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@drawable/radio_button"
+                    android:checked="true"
+                    android:text="@string/no"
+                    android:textColor='@color/light_brown'
+                    app:layout_constraintTop_toBottomOf="@+id/it_public"
+                    tools:ignore="RtlHardcoded" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/title_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:paddingStart="6dp"
+                android:paddingLeft="6dp"
+                android:paddingTop="10dp"
+                android:text="Добавьте описание"
+                android:textColor='@color/dark_gray'
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/is_notification" />
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edit_text_with_border"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="Описание..."
+                android:inputType="textMultiLine"
+                android:minHeight="200dp"
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="16dp"
+                android:textColorHighlight="@color/light_brown"
+                android:textColorLink="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_description"
+                tools:ignore="RtlSymmetry" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/deceased"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_activity_fields_margin"
-            android:layout_marginLeft="@dimen/default_activity_fields_margin"
-            android:layout_marginTop="@dimen/default_activity_fields_margin"
-            android:layout_marginEnd="@dimen/default_activity_fields_margin"
-            android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:focusable="false"
-            android:textColorHint="@color/dark_gray"
-            app:layout_constraintTop_toBottomOf="@id/image_layout">
-
-            <AutoCompleteTextView
-                android:id="@+id/deceased_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:focusable="false"
-                android:hint="@string/deceased"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:textAlignment="textStart"
-                android:textColor="@drawable/abc"
-                android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@color/dark_gray"
-                android:textColorLink="@color/light_brown" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_activity_fields_margin"
-            android:layout_marginLeft="@dimen/default_activity_fields_margin"
-            android:layout_marginEnd="@dimen/default_activity_fields_margin"
-            android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@color/dark_gray"
-            app:layout_constraintTop_toBottomOf="@+id/deceased">
-
-            <AutoCompleteTextView
-                android:id="@+id/title_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:hint="Наименование"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:textAlignment="textStart"
-                android:textColor="@drawable/abc"
-                android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@color/dark_gray"
-                android:textColorLink="@color/light_brown" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_activity_fields_margin"
-            android:layout_marginLeft="@dimen/default_activity_fields_margin"
-            android:layout_marginEnd="@dimen/default_activity_fields_margin"
-            android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:focusable="false"
-            android:textColorHint="@color/dark_gray"
-            app:layout_constraintTop_toBottomOf="@+id/title">
-
-            <AutoCompleteTextView
-                android:id="@+id/date_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:focusable="false"
-                android:hint="@string/date"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:textAlignment="textStart"
-                android:textColor="@drawable/abc"
-                android:textColorHighlight="@color/light_brown"
-                android:textColorHint="@color/dark_gray"
-                android:textColorLink="@color/light_brown" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/access_desk"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingStart="6dp"
-            android:paddingLeft="6dp"
-            android:text="@string/access"
-            android:textColor='@color/dark_gray'
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
-
-        <RadioGroup
-            android:id="@+id/access"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/access_desk">
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/for_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_weight="1"
-                android:button="@drawable/radio_button"
-                android:checked="true"
-                android:text="@string/all"
-                android:textColor='@color/light_brown'
-                tools:ignore="RtlHardcoded" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/not_for_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:button="@drawable/radio_button"
-                android:checked="true"
-                android:text="@string/for_your"
-                android:textColor='@color/light_brown'
-                app:layout_constraintTop_toBottomOf="@+id/is_famous" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/notification_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingStart="6dp"
-            android:paddingLeft="6dp"
-            android:text="@string/notification"
-            android:textColor='@color/dark_gray'
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/access" />
-
-        <RadioGroup
-            android:id="@+id/is_notification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/notification_title">
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/it_notification"
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_weight="1"
-                android:button="@drawable/radio_button"
-                android:text="@string/yes"
-                android:textColor='@color/light_brown' />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/not_notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:button="@drawable/radio_button"
-                android:checked="true"
-                android:text="@string/no"
-                android:textColor='@color/light_brown'
-                app:layout_constraintTop_toBottomOf="@+id/it_public"
-                tools:ignore="RtlHardcoded" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/title_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingStart="6dp"
-            android:paddingLeft="6dp"
-            android:paddingTop="10dp"
-            android:text="Добавьте описание"
-            android:textColor='@color/dark_gray'
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/is_notification" />
-
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/edit_text_with_border"
-            android:ems="10"
-            android:gravity="start"
-            android:hint="Описание..."
-            android:inputType="textMultiLine"
-            android:minHeight="200dp"
-            android:paddingStart="20dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="16dp"
-            android:textColorHighlight="@color/light_brown"
-            android:textColorLink="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_description"
-            tools:ignore="RtlSymmetry" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
     <Button
         android:id="@+id/save_button"
         android:layout_width="match_parent"

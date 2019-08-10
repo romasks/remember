@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -130,7 +131,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         ButterKnife.bind(this);
         initiate();
         Intent i = getIntent();
-
+        person = new AddPageModel();
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -150,9 +151,13 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             textViewImage.setText("Изменить фотографию");
             memoryPageModel = i.getParcelableExtra("PERSON");
             initEdit();
+            person.setCity(getIntent().getExtras().getString("CITY", ""));
+            person.setSpotId(getIntent().getExtras().getString("SECTOR", ""));
+            person.setGraveId(getIntent().getExtras().getString("GRAVE", ""));
+            person.setCemeteryName(getIntent().getExtras().getString("CRYPT", ""));
+            person.setCoords(getIntent().getExtras().getString("COORD", ""));
         }
 
-        person = new AddPageModel();
         religion.setOnClickListener(v -> {
             presenter.getReligion();
         });
@@ -258,10 +263,27 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 Toast.makeText(this, "Необходимо загрузить фото", Toast.LENGTH_LONG).show();
             }
         } else {
+
             if (imageFile != null) {
                 presenter.editPage(person, memoryPageModel.getId(), imageFile);
             } else {
-                presenter.editPage(person, memoryPageModel.getId(), null);
+                File file = new File(this.getCacheDir(), "image");
+                try {
+                    file.createNewFile();
+                    image.invalidate();
+                    BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+                    Bitmap bitmap = drawable.getBitmap();
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+                    FileOutputStream fos = new FileOutputStream(file);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                presenter.editPage(person, memoryPageModel.getId(), file);
             }
         }
     }

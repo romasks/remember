@@ -95,6 +95,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         }
     }
 
+    @OnClick(R.id.back)
+    public void back(){
+        onBackPressed();
+        finish();
+    }
+
     @OnClick(R.id.save_button)
     public void saveEvent() {
         if (nameDeceased.getText().toString().equals("")) {
