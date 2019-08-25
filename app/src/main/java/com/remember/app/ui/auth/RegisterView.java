@@ -8,4 +8,6 @@ import retrofit2.Response;
 public interface RegisterView extends MvpView {
 
     void onRegistered(Response<ResponseRegister> responseRegisterResponse);
+
+    void onError(Throwable throwable);
 }

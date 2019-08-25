@@ -26,7 +26,8 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
         Disposable subscription = serviceNetwork.registerLogin(nickName, email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onRegistered);
+                .subscribe(getViewState()::onRegistered,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 

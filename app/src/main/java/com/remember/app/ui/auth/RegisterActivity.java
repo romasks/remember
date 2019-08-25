@@ -73,7 +73,7 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
         } else if (email.getText().toString().equals("")) {
             Toast.makeText(this, "Введите Email", Toast.LENGTH_LONG).show();
         } else {
-            if (checkEmail(email.getText().toString())){
+            if (checkEmail(email.getText().toString())) {
                 presenter.registerLogin(nickName.getText().toString(), email.getText().toString());
             } else {
                 errorDialog("Некорректный тип e-mail");
@@ -95,8 +95,8 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
 
     @Override
     public void onRegistered(Response<ResponseRegister> responseRegisterResponse) {
-        if (responseRegisterResponse.isSuccessful()){
-            if (responseRegisterResponse.body().getUser() != null){
+        if (responseRegisterResponse.isSuccessful()) {
+            if (responseRegisterResponse.body().getUser() != null) {
                 if (responseRegisterResponse.body().getUser().equals("isset")) {
                     errorDialog("Такой email существует");
                 } else {
@@ -112,6 +112,11 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
         }
     }
 
+    @Override
+    public void onError(Throwable throwable) {
+        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
     private boolean checkEmail(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
@@ -125,7 +130,7 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
         successDialog.show(transaction, "wrongEmailDialog");
     }
 
-    public void errorDialog(String text){
+    public void errorDialog(String text) {
         WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
         FragmentManager manager = getSupportFragmentManager();
         wrongEmailDialog.setDescription(text);

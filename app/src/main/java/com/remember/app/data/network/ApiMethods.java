@@ -72,7 +72,7 @@ public interface ApiMethods {
                                         @Path("password") String password);
 
     @Headers("Content-Type: application/json")
-    @POST("user")
+    @POST("user/create")
     Observable<Response<ResponseRegister>> registerLogin(@Body RequestRegister requestRegister);
 
     @GET("deadevent/page/{id}")
