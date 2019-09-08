@@ -27,6 +27,7 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -67,9 +68,9 @@ public interface ApiMethods {
     @GET("deadevent/{id}")
     Observable<EventModel> getEvent(@Path("id") int id);
 
-    @GET("user/{email}/{password}")
-    Observable<ResponseAuth> singInAuth(@Path("email") String email,
-                                        @Path("password") String password);
+    @GET("user/login")
+    Observable<ResponseAuth> singInAuth(@Query("email") String email,
+                                        @Query("password") String password);
 
     @Headers("Content-Type: application/json")
     @POST("user/create")
@@ -160,8 +161,8 @@ public interface ApiMethods {
     @GET("page/{id}")
     Observable<MemoryPageModel> getImageAfterSave(@Path("id") Integer id);
 
-    @GET("setting/{id}")
-    Observable<ResponseSettings> getInfo(@Path("id") String id);
+    @GET("settings")
+    Observable<ResponseSettings> getInfo(@Header("Authorization") String token);
 
     @POST("setting/edit/{id}")
     Observable<Object> saveSettings(@Body RequestSettings requestSettings,
@@ -178,9 +179,9 @@ public interface ApiMethods {
     Observable<ResponseRestorePassword> restorePassword(@Path("email") String email);
 
     @Multipart
-    @POST("setting/photo/{id}")
+    @POST("settings/picture")
     Observable<Object> savePhotoSettings(@Part MultipartBody.Part image,
-                                         @Path("id") Integer id);
+                                         @Header("Authorization") String token);
 
     @Headers("Content-Type: application/json")
     @POST("epit/edit/{id}")

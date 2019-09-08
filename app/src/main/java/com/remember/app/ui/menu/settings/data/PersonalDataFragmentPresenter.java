@@ -20,7 +20,7 @@ public class PersonalDataFragmentPresenter extends BasePresenter<PersonalDataFra
     }
 
     public void getInfo() {
-        Disposable subscription = getServiceNetwork().getInfo(Prefs.getString("USER_ID","0"))
+        Disposable subscription = getServiceNetwork().getInfo(Prefs.getString("TOKEN","0"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedInfo,

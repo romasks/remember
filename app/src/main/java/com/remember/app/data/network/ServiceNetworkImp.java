@@ -127,8 +127,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponseSettings> getInfo(String id) {
-        return apiMethods.getInfo(id);
+    public Observable<ResponseSettings> getInfo(String token) {
+        return apiMethods.getInfo("Bearer " + token);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     public Observable<Object> saveImageSetting(File imageFile) {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
-        return apiMethods.savePhotoSettings(fileToUploadTranser, Integer.parseInt(Prefs.getString("USER_ID", "0")));
+        return apiMethods.savePhotoSettings(fileToUploadTranser, "Bearer " + Prefs.getString("TOKEN", ""));
     }
 
     @Override

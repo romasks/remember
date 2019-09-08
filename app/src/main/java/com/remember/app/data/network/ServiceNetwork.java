@@ -64,7 +64,7 @@ public interface ServiceNetwork {
 
     Observable<MemoryPageModel> getImageAfterSave(Integer id);
 
-    Observable<ResponseSettings> getInfo(String id);
+    Observable<ResponseSettings> getInfo(String token);
 
     Observable<Object> saveSettings(RequestSettings requestSettings, String id);
 

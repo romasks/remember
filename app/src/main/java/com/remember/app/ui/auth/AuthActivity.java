@@ -80,68 +80,68 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     }
 
-    @OnClick(R.id.vk)
-    public void signInVk() {
-        VKSdk.login(this, "email");
-    }
-
-    @OnClick(R.id.ok)
-    public void signInOk() {
-        odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
-        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.LONG_ACCESS_TOKEN);
-    }
-
-    @OnClick(R.id.fb)
-    public void signInFacebook() {
-        List<String> scopes = Arrays.asList("");
-
-        com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
-            @Override
-            public void onSuccess(SocialUser socialUser) {
-                Prefs.putString("EMAIL", socialUser.email);
-                String[] str = socialUser.fullName.split(" ");
-                Prefs.putString("NAME_USER", str[0]);
-                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
-                presenter.signInFacebook();
-            }
-
-            @Override
-            public void onError(Throwable error) {
-                errorDialog("Ошибка авторизации");
-                Log.d("FACEBOOK", error.getMessage());
-            }
-
-            @Override
-            public void onCancel() {
-                Log.d("FACEBOOK", "Canceled");
-            }
-        });
-    }
-
-    @OnClick(R.id.twitter)
-    public void signInTwitter() {
-        SimpleAuth.connectTwitter(new AuthCallback() {
-            @Override
-            public void onSuccess(SocialUser socialUser) {
-                Prefs.putString("EMAIL", socialUser.email);
-                String[] str = socialUser.fullName.split(" ");
-                Prefs.putString("NAME_USER", str[0]);
-                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
-                presenter.signInTwitter();
-            }
-
-            @Override
-            public void onError(Throwable error) {
-                errorDialog("Ошибка авторизации");
-                Log.e("TWITTER", error.getMessage());
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
-    }
+//    @OnClick(R.id.vk)
+//    public void signInVk() {
+//        VKSdk.login(this, "email");
+//    }
+//
+//    @OnClick(R.id.ok)
+//    public void signInOk() {
+//        odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
+//        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.LONG_ACCESS_TOKEN);
+//    }
+//
+//    @OnClick(R.id.fb)
+//    public void signInFacebook() {
+//        List<String> scopes = Arrays.asList("");
+//
+//        com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
+//            @Override
+//            public void onSuccess(SocialUser socialUser) {
+//                Prefs.putString("EMAIL", socialUser.email);
+//                String[] str = socialUser.fullName.split(" ");
+//                Prefs.putString("NAME_USER", str[0]);
+//                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
+//                presenter.signInFacebook();
+//            }
+//
+//            @Override
+//            public void onError(Throwable error) {
+//                errorDialog("Ошибка авторизации");
+//                Log.d("FACEBOOK", error.getMessage());
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                Log.d("FACEBOOK", "Canceled");
+//            }
+//        });
+//    }
+//
+//    @OnClick(R.id.twitter)
+//    public void signInTwitter() {
+//        SimpleAuth.connectTwitter(new AuthCallback() {
+//            @Override
+//            public void onSuccess(SocialUser socialUser) {
+//                Prefs.putString("EMAIL", socialUser.email);
+//                String[] str = socialUser.fullName.split(" ");
+//                Prefs.putString("NAME_USER", str[0]);
+//                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
+//                presenter.signInTwitter();
+//            }
+//
+//            @Override
+//            public void onError(Throwable error) {
+//                errorDialog("Ошибка авторизации");
+//                Log.e("TWITTER", error.getMessage());
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//
+//            }
+//        });
+//    }
 
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
@@ -223,6 +223,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     public void onLogged(ResponseAuth responseAuth) {
         if (responseAuth != null) {
             Prefs.putString("USER_ID", responseAuth.getId().toString());
+            Prefs.putString("TOKEN", responseAuth.getToken().toString());
             Prefs.putString("NAME_USER", responseAuth.getName());
             Prefs.putString("EMAIL", responseAuth.getEmail());
             Intent intent = new Intent(this, MainActivity.class);
@@ -245,7 +246,6 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     @Override
     public void onLogged(List<ResponseSettings> responseSettings) {
-        Prefs.putString("USER_ID", responseSettings.get(0).getId().toString());
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class RequestAddEvent {
 
+    @SerializedName("id")
+    @Expose
+    private Integer id;
     @SerializedName("page_id")
     @Expose
     private Integer pageId;
@@ -29,6 +32,14 @@ public class RequestAddEvent {
 
     public Integer getPageId() {
         return pageId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setPageId(Integer pageId) {

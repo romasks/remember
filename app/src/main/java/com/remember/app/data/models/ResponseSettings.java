@@ -7,37 +7,44 @@ import java.util.List;
 
 public class ResponseSettings {
 
-    @SerializedName("id")
+    @SerializedName("surname")
     @Expose
-    private Integer id;
+    private String surname;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("email")
+    @SerializedName("thirdname")
     @Expose
-    private String email;
-    @SerializedName("password")
+    private String thirdname;
+    @SerializedName("rel_id")
     @Expose
-    private String password;
-    @SerializedName("created_at")
+    private Integer relId;
+    @SerializedName("picture")
     @Expose
-    private String createdAt;
-    @SerializedName("updated_at")
+    private String picture;
+    @SerializedName("phone")
     @Expose
-    private String updatedAt;
-    @SerializedName("reali")
+    private String phone;
+    @SerializedName("location")
     @Expose
-    private String reali;
-    @SerializedName("settings")
+    private Integer location;
+    @SerializedName("id_notice")
     @Expose
-    private List<SettingModel> setting = null;
+    private Integer idNotice;
+    @SerializedName("amount_days")
+    @Expose
+    private Integer amountDays;
+    @SerializedName("show_no")
+    @Expose
+    private Integer showNo;
 
-    public Integer getId() {
-        return id;
+
+    public String getSurname() {
+        return surname;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getName() {
@@ -48,52 +55,67 @@ public class ResponseSettings {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getThirdname() {
+        return thirdname;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setThirdname(String thirdname) {
+        this.thirdname = thirdname;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getRelId() {
+        return relId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRelId(Integer relId) {
+        this.relId = relId;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getReali() {
-        return reali;
+    public Integer getLocation() {
+        return location;
     }
 
-    public void setReali(String reali) {
-        this.reali = reali;
+    public void setLocation(Integer location) {
+        this.location = location;
     }
 
-    public List<SettingModel> getSetting() {
-        return setting;
+    public Integer getIdNotice() {
+        return idNotice;
     }
 
-    public void setSetting(List<SettingModel> setting) {
-        this.setting = setting;
+    public void setIdNotice(Integer idNotice) {
+        this.idNotice = idNotice;
     }
 
+    public Integer getAmountDays() {
+        return amountDays;
+    }
+
+    public void setAmountDays(Integer amountDays) {
+        this.amountDays = amountDays;
+    }
+
+    public Integer getShowNo() {
+        return showNo;
+    }
+
+    public void setShowNo(Integer showNo) {
+        this.showNo = showNo;
+    }
 }

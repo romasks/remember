@@ -1,6 +1,8 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +80,10 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         .load("http://помню.рус" + responseImagesSliders.get(position).getPicture())
                         .circleCrop()
                         .into(imageView);
+                ColorMatrix colorMatrix = new ColorMatrix();
+                colorMatrix.setSaturation(0);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+                imageView.setColorFilter(filter);
             } catch (Exception e){}
         }
     }

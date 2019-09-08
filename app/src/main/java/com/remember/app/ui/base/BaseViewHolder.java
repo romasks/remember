@@ -3,6 +3,8 @@ package com.remember.app.ui.base;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
+import java.text.ParseException;
+
 public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private int currentPosition;

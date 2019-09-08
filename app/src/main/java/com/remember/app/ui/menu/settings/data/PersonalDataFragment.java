@@ -175,17 +175,18 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
 
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        if (!Prefs.getString("AVATAR", "").equals("") || Prefs.getString("AVATAR", "") != null) {
+        if (responseSettings.getPicture() != null) {
+            Prefs.putString("AVATAR", "http://помню.рус" + responseSettings.getPicture());
+            Prefs.putString("NAME_USER", responseSettings.getName() + " " + responseSettings.getSurname());
             Glide.with(this)
-                    .load(Prefs.getString("AVATAR", ""))
+                    .load("http://помню.рус" + responseSettings.getPicture())
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(avatar);
-        }
-        if (responseSettings.getSetting().get(0).getPicture() != null){
-            Glide.with(getContext())
-                    .load("http://помню.рус" + responseSettings.getSetting().get(0).getPicture())
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.ic_unknown)
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -196,24 +197,20 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
         avatar.setColorFilter(filter);
         try {
-            if (responseSettings.getSetting().get(0).getSurname() != null) {
-                secondName.setText(responseSettings.getSetting().get(0).getSurname());
+            if (responseSettings.getSurname() != null) {
+                secondName.setText(responseSettings.getSurname());
             }
-            if (responseSettings.getSetting().get(0).getName() != null) {
-                name.setText(responseSettings.getSetting().get(0).getName());
+            if (responseSettings.getName() != null) {
+                name.setText(responseSettings.getName());
             }
-            if (responseSettings.getSetting().get(0).getSurname() != null) {
-                middleName.setText(responseSettings.getSetting().get(0).getThirdname());
+            if (responseSettings.getThirdname() != null) {
+                middleName.setText(responseSettings.getThirdname());
             }
-            if (responseSettings.getEmail() != null) {
-                email.setText(responseSettings.getEmail());
-            }
-            if (responseSettings.getSetting().get(0).getPhone() != null) {
-                phone.setText(responseSettings.getSetting().get(0).getPhone());
+            if (responseSettings.getPhone() != null) {
+                phone.setText(responseSettings.getPhone());
             }
         } catch (Exception e){
             login.setText(responseSettings.getName());
-            email.setText(responseSettings.getEmail());
         }
         getView().invalidate();
     }

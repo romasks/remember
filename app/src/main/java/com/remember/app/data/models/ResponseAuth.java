@@ -14,6 +14,9 @@ public class ResponseAuth {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("token")
+    @Expose
+    private String token;
     @SerializedName("password")
     @Expose
     private String password;
@@ -26,6 +29,14 @@ public class ResponseAuth {
     @SerializedName("realPassword")
     @Expose
     private String realPassword;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Integer getId() {
         return id;

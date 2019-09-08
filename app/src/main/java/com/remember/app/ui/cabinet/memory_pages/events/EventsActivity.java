@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +19,7 @@ import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEvent
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
-import com.remember.app.ui.utils.PopupEventScreenLocal;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -114,7 +111,9 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     }
 
     @Override
-    public void openEvent() {
-        startActivity(new Intent(EventsActivity.this, CurrentEvent.class));
+    public void openEvent(Integer pageId) {
+        Intent intent = new Intent(this, CurrentEvent.class);
+        intent.putExtra("ID_EVENT", pageId);
+        startActivity(intent);
     }
 }

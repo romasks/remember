@@ -3,25 +3,34 @@ package com.remember.app.data.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class EventModel implements Parcelable {
 
     @SerializedName("id")
+    @Expose
     private Integer id;
     @SerializedName("page_id")
+    @Expose
     private String page_id;
     @SerializedName("date")
+    @Expose
     private String date;
     @SerializedName("name")
+    @Expose
     private String name;
     @SerializedName("flag")
+    @Expose
     private String flag;
     @SerializedName("description")
+    @Expose
     private String description;
     @SerializedName("uv_show")
+    @Expose
     private String uv_show;
     @SerializedName("picture")
+    @Expose
     private String picture;
 
 

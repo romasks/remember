@@ -206,14 +206,14 @@ public class MainActivity extends MvpAppCompatActivity
                     .into(imageViewBigAvatar);
         } else {
             Glide.with(this)
-                    .load(R.drawable.ic_user)
+                    .load(R.drawable.ic_unknown)
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(imageViewAvatar);
 
             Glide.with(this)
-                    .load(R.drawable.ic_user)
+                    .load(R.drawable.ic_unknown)
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
