@@ -3,7 +3,6 @@ package com.remember.app.ui.auth;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -12,9 +11,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.jaychang.sa.AuthCallback;
-import com.jaychang.sa.SocialUser;
-import com.jaychang.sa.twitter.SimpleAuth;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseAuth;
@@ -39,7 +35,6 @@ import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKList;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,25 +42,20 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.ok.android.sdk.Odnoklassniki;
-import ru.ok.android.sdk.util.OkAuthType;
-import ru.ok.android.sdk.util.OkScope;
 
 public class AuthActivity extends MvpAppCompatActivity implements AuthView, RepairPasswordDialog.Callback {
 
+    private static final String APP_ID = "CBAGJGDNEBABABABA";
+    private static final String APP_KEY = "A488208737DA4B970D6E3EB1";
+    private static final String REDIRECT_URL = "okauth://ok1278579968";
     @InjectPresenter
     AuthPresenter presenter;
-
     @BindView(R.id.login_value)
     AutoCompleteTextView login;
     @BindView(R.id.password_value)
     AutoCompleteTextView password;
     @BindView(R.id.vk)
     ImageButton vk;
-
-    private static final String APP_ID = "CBAGJGDNEBABABABA";
-    private static final String APP_KEY = "A488208737DA4B970D6E3EB1";
-    private static final String REDIRECT_URL = "okauth://ok1278579968";
-
     private Unbinder unbinder;
     private TwitterAuthClient client;
     private Odnoklassniki odnoklassniki;
@@ -150,7 +140,11 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         } else if (password.getText().toString().equals("")) {
             Toast.makeText(this, "Введите пароль", Toast.LENGTH_LONG).show();
         } else {
-            presenter.singInAuth(login.getText().toString(), password.getText().toString());
+            try {
+                presenter.singInAuth(login.getText().toString(), password.getText().toString());
+            } catch (Exception e) {
+                Toast.makeText(this, "Произошла ошибка, проверьте введенные данные", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -203,7 +197,8 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             repairPasswordDialog.show(transaction, "repairPasswordDialog");
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
 
     }
 
@@ -223,7 +218,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     public void onLogged(ResponseAuth responseAuth) {
         if (responseAuth != null) {
             Prefs.putString("USER_ID", responseAuth.getId().toString());
-            Prefs.putString("TOKEN", responseAuth.getToken().toString());
+            Prefs.putString("TOKEN", responseAuth.getToken());
             Prefs.putString("NAME_USER", responseAuth.getName());
             Prefs.putString("EMAIL", responseAuth.getEmail());
             Intent intent = new Intent(this, MainActivity.class);
@@ -235,7 +230,12 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     @Override
     public void error(Throwable throwable) {
-        errorDialog("Неправильный логин или пароль");
+        Toast.makeText(this, "Неправильный логин или пароль", Toast.LENGTH_LONG).show();
+        try {
+            errorDialog("Неправильный логин или пароль");
+        }catch (Exception e){
+            errorDialog("Неправильный логин или пароль");
+        }
     }
 
     @Override
@@ -255,7 +255,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @Override
     public void onRestored(ResponseRestorePassword responseRestorePassword) {
         popupDialog.dismiss();
-        if (responseRestorePassword.getPage().equals("found")){
+        if (responseRestorePassword.getPage().equals("found")) {
             errorDialog("Новый пароль успешно отправлен на E-mail");
         } else {
             errorDialog("Ошибка отправки");
@@ -269,12 +269,12 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     }
 
     public void errorDialog(String text) {
-        WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
-        FragmentManager manager = getSupportFragmentManager();
-        wrongEmailDialog.setDescription(text);
-        FragmentTransaction transaction = manager.beginTransaction();
-        wrongEmailDialog.show(transaction, "wrongEmailDialog");
-        transaction.commitAllowingStateLoss();
+//        WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
+//        FragmentManager manager = getSupportFragmentManager();
+//        wrongEmailDialog.setDescription(text);
+//        FragmentTransaction transaction = manager.beginTransaction();
+//        wrongEmailDialog.show(transaction, "wrongEmailDialog");
+//        transaction.commitAllowingStateLoss();
     }
 
     @Override

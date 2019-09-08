@@ -22,8 +22,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.0.003"
+        versionCode 7
+        versionName "1.0.004"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
