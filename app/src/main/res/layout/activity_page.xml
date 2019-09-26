@@ -280,7 +280,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:lines="3"
+                                android:lines="2"
                                 android:maxLines="3"
                                 android:text="TextVdsgdsgsdgdsgdsgsdgiew"
                                 android:textAlignment="center"

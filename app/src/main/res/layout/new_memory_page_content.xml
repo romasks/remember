@@ -263,7 +263,7 @@
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
                     android:text="Да"
-                    android:textColor='@color/light_brown'
+                    android:textColor='@color/gray'
                     android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
@@ -276,7 +276,7 @@
                     android:button="@drawable/radio_button"
                     android:checked="true"
                     android:text="Нет"
-                    android:textColor='@color/light_brown'
+                    android:textColor='@color/gray'
                     android:textSize="16sp"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous" />
             </RadioGroup>
@@ -315,7 +315,7 @@
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
                     android:text="@string/for_all"
-                    android:textColor='@color/light_brown'
+                    android:textColor='@color/gray'
                     android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
@@ -326,7 +326,7 @@
                     android:button="@drawable/radio_button"
                     android:checked="true"
                     android:text="@string/for_yourself"
-                    android:textColor='@color/light_brown'
+                    android:textColor='@color/gray'
                     android:textSize="16sp"
                     app:layout_constraintTop_toBottomOf="@+id/it_public" />
             </RadioGroup>

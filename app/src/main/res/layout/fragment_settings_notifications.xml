@@ -57,9 +57,7 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Все"
-                    android:textColor="#a99175"
-                    android:textColorHighlight="#a99175"
-                    android:textColorLink="#a99175" />
+                    android:textColor="@color/gray"/>
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/two"
@@ -71,9 +69,7 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Для усопших"
-                    android:textColor="#a99175"
-                    android:textColorHighlight="#a99175"
-                    android:textColorLink="#a99175" />
+                    android:textColor="@color/gray" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/three"
@@ -85,9 +81,7 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Религиозные"
-                    android:textColor="#a99175"
-                    android:textColorHighlight="#a99175"
-                    android:textColorLink="#a99175" />
+                    android:textColor="@color/gray"/>
             </RadioGroup>
 
             <TextView

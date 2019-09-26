@@ -219,7 +219,7 @@
                     android:button="@drawable/radio_button"
                     android:checked="true"
                     android:text="Светлая"
-                    android:textColor="#AC8C6D" />
+                    android:textColor="@color/gray" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:layout_width="wrap_content"
@@ -229,7 +229,7 @@
                     android:button="@drawable/radio_button"
                     android:enabled="false"
                     android:text="Тёмная"
-                    android:textColor="#AC8C6D" />
+                    android:textColor="@color/gray" />
             </RadioGroup>
         </LinearLayout>
     </ScrollView>

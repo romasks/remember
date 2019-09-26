@@ -220,7 +220,7 @@
                     android:button="@drawable/radio_button"
                     android:checked="true"
                     android:text="@string/all"
-                    android:textColor='@color/light_brown'
+                    android:textColor='@color/gray'
                     tools:ignore="RtlHardcoded" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
@@ -231,7 +231,7 @@
                     android:button="@drawable/radio_button"
                     android:checked="true"
                     android:text="@string/for_your"
-                    android:textColor='@color/light_brown'
+                    android:textColor='@color/gray'
                     app:layout_constraintTop_toBottomOf="@+id/is_famous" />
             </RadioGroup>
 
@@ -270,7 +270,7 @@
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
                     android:text="@string/yes"
-                    android:textColor='@color/light_brown' />
+                    android:textColor='@color/gray'/>
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/not_notification"
@@ -280,7 +280,7 @@
                     android:button="@drawable/radio_button"
                     android:checked="true"
                     android:text="@string/no"
-                    android:textColor='@color/light_brown'
+                    android:textColor='@color/gray'
                     app:layout_constraintTop_toBottomOf="@+id/it_public"
                     tools:ignore="RtlHardcoded" />
             </RadioGroup>
