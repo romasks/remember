@@ -36,7 +36,7 @@
                 android:layout_gravity="center"
                 android:text="@string/event_filter"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

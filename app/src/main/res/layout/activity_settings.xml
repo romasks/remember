@@ -42,6 +42,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:paddingEnd="20dp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -68,8 +69,8 @@
             android:clickable="true"
             android:textAllCaps="false"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#a99175"
-            app:tabSelectedTextColor="#a99175"
+            app:tabIndicatorColor="#b1a28c"
+            app:tabSelectedTextColor="#b1a28c"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             app:tabTextColor="@color/gray"
             android:focusable="true" />

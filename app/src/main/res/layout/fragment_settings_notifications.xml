@@ -57,7 +57,9 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Все"
-                    android:textColor="@color/gray"/>
+                    android:textColor="@color/gray"
+                    android:textColorHighlight="@color/gray"
+                    android:textColorLink="@color/gray" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/two"
@@ -69,7 +71,9 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Для усопших"
-                    android:textColor="@color/gray" />
+                    android:textColor="@color/gray"
+                    android:textColorHighlight="@color/gray"
+                    android:textColorLink="@color/gray" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/three"
@@ -81,7 +85,9 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Религиозные"
-                    android:textColor="@color/gray"/>
+                    android:textColor="@color/gray"
+                    android:textColorHighlight="@color/gray"
+                    android:textColorLink="@color/gray" />
             </RadioGroup>
 
             <TextView
@@ -90,7 +96,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="25dp"
-                android:text="Уведомления"
+                android:text="Количество дней"
                 android:textColor="#a99175"
                 android:textColorHighlight="#a99175"
                 android:textColorLink="#a99175" />
@@ -100,7 +106,7 @@
                 android:id="@+id/days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 app:ms_popup_padding_left="10dp"
@@ -110,7 +116,7 @@
                 app:ms_text_color="@color/dark_gray"
                 android:textColorHint="@color/dark_gray"
                 android:hint="Выбрать количество дней..."
-                android:textSize="18sp"/>
+                android:textSize="14sp"/>
 
 
         </LinearLayout>
@@ -121,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_weight="1"
-        android:background="#AC8C6D"
+        android:background="#b1a28c"
         android:text="Сохранить"
         android:textAllCaps="false"
         android:textColor="#fff" />

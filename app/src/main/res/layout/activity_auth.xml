@@ -55,8 +55,8 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColorHighlight="#AC8C6D"
-                android:textColorLink="#AC8C6D" />
+                android:textColorHighlight="#b1a28c"
+                android:textColorLink="#b1a28c" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +107,7 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:text="@string/registration"
         android:textColor="@color/colorAccent"
         android:textSize="17sp"
@@ -119,7 +119,7 @@
         android:id="@+id/wrong_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="5dp"
         android:text="@string/wrong_registration"
         android:textColor="@color/colorAccent"
         android:textSize="17sp"
@@ -143,7 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Или войдите через соцсети:"
-        android:textColor="#AC8C6D"
+        android:textColor="#b1a28c"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/social_group"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -218,6 +218,8 @@
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
                     android:checked="true"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:text="Светлая"
                     android:textColor="@color/gray" />
 
@@ -227,6 +229,8 @@
                     android:layout_marginBottom="50dp"
                     android:layout_weight="2"
                     android:button="@drawable/radio_button"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:enabled="false"
                     android:text="Тёмная"
                     android:textColor="@color/gray" />
@@ -239,7 +243,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#AC8C6D"
+        android:background="#b1a28c"
         android:text="Сохранить"
         android:textAllCaps="false"
         android:textColor="#fcfcfc"

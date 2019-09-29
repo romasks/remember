@@ -19,51 +19,54 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
+                android:weightSum="15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/back"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_back"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    />
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:paddingLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textAlignment="center"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
                     android:text="@string/events"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textStyle="bold"
+                     />
 
                 <ImageView
                     android:id="@+id/search"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="4dp"
                     android:src="@drawable/ic_search"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/new_event" />
+                    android:layout_gravity="center_vertical"
+                    />
 
 
                 <ImageView
                     android:id="@+id/new_event"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_add_black"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -76,6 +79,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/app_bar"
         tools:itemCount="4"
+        tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/item_events" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
