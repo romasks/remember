@@ -39,6 +39,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/button"
                     android:text="Новое фото профиля"
+                    android:textSize="18sp"
                     android:textAllCaps="false"
                     android:textColor="#fcfcfc" />
             </LinearLayout>
@@ -200,8 +201,9 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 android:text="Тема оформления"
+                android:textSize="18sp"
                 android:textColor="@color/dark_gray"
-                android:textStyle="bold" />
+              />
 
             <RadioGroup
                 android:id="@+id/theme"
@@ -221,6 +223,7 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Светлая"
+                    android:textSize="16sp"
                     android:textColor="@color/gray" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
@@ -232,6 +235,7 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:enabled="false"
+                    android:textSize="16sp"
                     android:text="Тёмная"
                     android:textColor="@color/gray" />
             </RadioGroup>
@@ -243,10 +247,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="#b1a28c"
         android:text="Сохранить"
         android:textAllCaps="false"
         android:textColor="#fcfcfc"
+        android:textSize="18sp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/button"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -34,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="noft"
+                android:text="Фильтр"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -44,10 +48,6 @@
                 tools:layout_editor_absoluteX="148dp"
                 tools:layout_editor_absoluteY="186dp" />
         </androidx.appcompat.widget.Toolbar>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="2dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -84,17 +84,15 @@
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_activity_fields_margin"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="@dimen/default_activity_fields_margin"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/button"
         android:text="@string/search"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/date"
+        tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -211,11 +211,12 @@
                 android:layout_marginLeft="@dimen/default_activity_fields_margin"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:textSize="18sp"
                 android:background="@drawable/button"
                 android:text="@string/show_map"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                />
         </LinearLayout>
 
     </ScrollView>
@@ -232,7 +233,7 @@
         android:text="@string/add"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textStyle="bold"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

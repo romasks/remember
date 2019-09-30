@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#fcfcfc</color>
-    <color name="gray">#444440</color>
+    <color name="gray">#8a8a8a</color>
     <color name="colorPrimaryDark">#fcfcfc</color>
     <color name="colorAccent">#b1a28c</color>
 
     <color name="brown">#917b5a</color>
-    <color name="dark_gray">#8a8a8a</color>
+    <color name="dark_gray">#444440</color>
     <color name="light_brown">#b1a28c</color>
     <color name="app_bar">#fcfcfc</color>
 

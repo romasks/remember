@@ -50,9 +50,9 @@
 
     <include
         android:id="@+id/content"
+        layout="@layout/new_memory_page_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        layout="@layout/new_memory_page_content" />
+        android:layout_marginTop="?attr/actionBarSize" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

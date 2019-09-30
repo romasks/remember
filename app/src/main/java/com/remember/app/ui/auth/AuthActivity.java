@@ -2,9 +2,11 @@ package com.remember.app.ui.auth;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
@@ -67,7 +69,10 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         setContentView(R.layout.activity_auth);
         unbinder = ButterKnife.bind(this);
         client = new TwitterAuthClient();
-
+        TextView register = (TextView) findViewById(R.id.register);
+        TextView wrongPas = (TextView) findViewById(R.id.wrong_password);
+        register.setPaintFlags(register.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+        wrongPas.setPaintFlags(wrongPas.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
     }
 
 //    @OnClick(R.id.vk)

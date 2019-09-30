@@ -60,6 +60,7 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:visibility="visible"
+
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
         app:layout_constraintEnd_toEndOf="@+id/avatar_image"
         tools:text="233"/>

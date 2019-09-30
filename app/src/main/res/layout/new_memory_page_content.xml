@@ -7,7 +7,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-44dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -191,9 +193,11 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button"
+
                 android:text="@string/burial_place"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@+id/date_end_title" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -237,7 +241,6 @@
                 android:layout_marginRight="16dp"
                 android:text="@string/star"
                 android:textColor="@color/dark_gray"
-                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -260,12 +263,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:text="Да"
-                    android:textColor="@color/light_brown"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
@@ -274,13 +277,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
                     android:checked="true"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:text="Нет"
-                    android:textColor="@color/light_brown"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous" />
             </RadioGroup>
@@ -296,7 +299,6 @@
                 android:layout_marginRight="16dp"
                 android:text="@string/pick_level"
                 android:textColor="@color/dark_gray"
-                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -317,11 +319,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
+                    android:button="@drawable/radio_button"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
-                    android:button="@drawable/radio_button"
                     android:text="@string/for_all"
-                    android:textColor="@color/light_brown"
+                    android:textColor="@color/gray"
                     android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
@@ -334,7 +336,7 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="@string/for_yourself"
-                    android:textColor="@color/light_brown"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintTop_toBottomOf="@+id/it_public" />
             </RadioGroup>
@@ -352,7 +354,6 @@
 
                 android:text="Добавьте описание"
                 android:textColor="@color/dark_gray"
-                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/is_public" />
@@ -375,8 +376,8 @@
                 android:paddingStart="20dp"
                 android:paddingLeft="20dp"
                 android:paddingTop="16dp"
-                android:textColorHighlight="@color/light_brown"
-                android:textColorLink="@color/colorPrimary"
+                android:textColorHighlight="@color/gray"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -395,6 +396,7 @@
                 android:text="@string/create_page"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
 

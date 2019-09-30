@@ -28,10 +28,10 @@
     <string name="create_page">Создать памятную страницу</string>
     <string name="burial_place_value">Место захоронения</string>
     <string name="live_place">Населённый пункт</string>
-    <string name="city">Город</string>
-    <string name="cemetery">Кладбище</string>
-    <string name="sector">Сектор</string>
-    <string name="grave">Могила</string>
+    <string name="city">Населенный пункт</string>
+    <string name="cemetery">Название кладбища</string>
+    <string name="sector">Ряд</string>
+    <string name="grave">Место</string>
     <string name="number_grave">Место</string>
     <string name="coordinates">Координаты захоронения</string>
     <string name="show_map">Показать на карте</string>
@@ -71,13 +71,12 @@
     <string name="send">Отправить</string>
     <string name="search">Поиск</string>
     <string name="event_filter">Фильтр событий</string>
-
     <integer name="com_vk_sdk_AppId">7042939</integer>
 
     <string name="CONSUMER_KEY">PT6uezLMteHqTsq2VO3qio3cT </string>
     <string name="CONSUMER_SECRET">6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb </string>
     <string name="events">События</string>
-    <string name="wrong_registration">Забыли пароль</string>
+    <string name="wrong_registration"><u>Забыли пароль</u></string>
     <string name="pick_email">Укажите E-mail</string>
 
 </resources>
