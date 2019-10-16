@@ -168,7 +168,7 @@ public interface ApiMethods {
                                     @Path("id") String id);
 
     @GET("user/social")
-    Observable<List<ResponseSettings>> signInVk(@Query("email") String email,
+    Observable<ResponseSettings> signInVk(@Query("email") String email,
                                                 @Query("name") String name);
 
     @GET("page")

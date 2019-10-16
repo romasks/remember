@@ -252,7 +252,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     }
 
     @Override
-    public void onLogged(List<ResponseSettings> responseSettings) {
+    public void onLogged(ResponseSettings responseSettings) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

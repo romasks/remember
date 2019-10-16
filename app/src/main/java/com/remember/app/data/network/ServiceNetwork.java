@@ -68,7 +68,7 @@ public interface ServiceNetwork {
 
     Observable<Object> saveSettings(RequestSettings requestSettings, String id);
 
-    Observable<List<ResponseSettings>> signInVk(String email);
+    Observable<ResponseSettings> signInVk(String email);
 
     Observable<List<MemoryPageModel>> getAllPages();
 

@@ -16,7 +16,7 @@ public interface AuthView extends MvpView {
 
     void onRecievedInfo(ResponseVk response);
 
-    void onLogged(List<ResponseSettings> responseSettings);
+    void onLogged(ResponseSettings responseSettings);
 
     void onRestored(ResponseRestorePassword responseRestorePassword);
 

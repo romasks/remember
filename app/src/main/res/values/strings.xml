@@ -71,7 +71,7 @@
     <string name="send">Отправить</string>
     <string name="search">Поиск</string>
     <string name="event_filter">Фильтр событий</string>
-    <integer name="com_vk_sdk_AppId">7042939</integer>
+    <integer name="com_vk_sdk_AppId">7173194</integer>
 
     <string name="CONSUMER_KEY">PT6uezLMteHqTsq2VO3qio3cT </string>
     <string name="CONSUMER_SECRET">6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb </string>
