@@ -25,7 +25,7 @@ public class Remember extends Application {
 //        }
 //        LeakCanary.install(this);
         VKSdk.initialize(this);
-        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+//        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         new Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)

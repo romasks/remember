@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.jaychang.sa.AuthCallback;
+import com.jaychang.sa.SocialUser;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseAuth;
@@ -23,7 +26,6 @@ import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.RepairPasswordDialog;
-import com.remember.app.ui.utils.WrongEmailDialog;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
@@ -37,6 +39,7 @@ import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKList;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -75,10 +78,10 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         wrongPas.setPaintFlags(wrongPas.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
     }
 
-//    @OnClick(R.id.vk)
-//    public void signInVk() {
-//        VKSdk.login(this, "email");
-//    }
+    @OnClick(R.id.vk)
+    public void signInVk() {
+        VKSdk.login(this, "email");
+    }
 //
 //    @OnClick(R.id.ok)
 //    public void signInOk() {
@@ -86,32 +89,31 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 //        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.LONG_ACCESS_TOKEN);
 //    }
 //
-//    @OnClick(R.id.fb)
-//    public void signInFacebook() {
-//        List<String> scopes = Arrays.asList("");
-//
-//        com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
-//            @Override
-//            public void onSuccess(SocialUser socialUser) {
-//                Prefs.putString("EMAIL", socialUser.email);
-//                String[] str = socialUser.fullName.split(" ");
-//                Prefs.putString("NAME_USER", str[0]);
-//                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
-//                presenter.signInFacebook();
-//            }
-//
-//            @Override
-//            public void onError(Throwable error) {
-//                errorDialog("Ошибка авторизации");
-//                Log.d("FACEBOOK", error.getMessage());
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                Log.d("FACEBOOK", "Canceled");
-//            }
-//        });
-//    }
+    @OnClick(R.id.fb)
+    public void signInFacebook() {
+        List<String> scopes = Collections.singletonList("");
+
+        com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
+            @Override
+            public void onSuccess(SocialUser socialUser) {
+                Prefs.putString("EMAIL", socialUser.email);
+                String[] str = socialUser.fullName.split(" ");
+                Prefs.putString("NAME_USER", str[0]);
+                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
+                presenter.signInFacebook();
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Log.d("FACEBOOK", error.getMessage());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d("FACEBOOK", "Canceled");
+            }
+        });
+    }
 //
 //    @OnClick(R.id.twitter)
 //    public void signInTwitter() {

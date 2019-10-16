@@ -102,9 +102,8 @@ public interface ApiMethods {
                                          @Part MultipartBody.Part image);
 
 
-    @GET("pages/{count}")
-    Observable<ResponsePages> getImages(@Path("count") int count,
-                                        @Query("status") String status);
+    @GET("pages")
+    Observable<ResponsePages> getImages(@Query("status") String status);
 
     @Multipart
     @POST("page/edit/{id}")

@@ -44,6 +44,9 @@ public class MemoryPageModel implements Parcelable {
     @SerializedName("nummogil")
     @Expose
     private String nummogil;
+    @SerializedName("sector")
+    @Expose
+    private String sector;
     @SerializedName("datarod")
     @Expose
     private String datarod;
