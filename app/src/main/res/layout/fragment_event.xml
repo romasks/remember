@@ -158,7 +158,8 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="35dp"
                 android:text="Комментарии"
-                android:textColor="#b1a28c"
+                android:textColor="#917b5a"
+                android:textStyle="bold"
                 android:textSize="18sp" />
 
             <VideoView

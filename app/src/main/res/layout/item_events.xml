@@ -19,18 +19,16 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="250dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/brown"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:maxLines="2"
-        android:lines="1"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toTopOf="@id/avatar_image"
-        tools:text="Иванов Иван иванович" />
+        tools:text="Иванов Иван иванович"  />
 
     <TextView
         android:id="@+id/date"

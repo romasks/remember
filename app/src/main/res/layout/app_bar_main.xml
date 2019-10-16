@@ -84,11 +84,12 @@
             android:clickable="true"
             android:textAllCaps="false"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#b1a28c"
-            app:tabSelectedTextColor="#b1a28c"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            app:tabTextColor="@color/gray"
-            android:focusable="true" />
+            app:tabIndicatorColor="#917b5a"
+            app:tabSelectedTextColor="#917b5a"
+            app:tabTextAppearance="@style/tab_text"
+            app:tabTextColor="@android:color/black"
+            android:focusable="true"
+            android:textSize="16sp"/>
 
 
     </com.google.android.material.appbar.AppBarLayout>

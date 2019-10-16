@@ -81,29 +81,29 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     }
 
     private void initEdit() {
-        try{
+        try {
             coordinates.setText(memoryPageModel.getCoords());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             coordinates.setText("");
         }
-        try{
+        try {
             city.setText(memoryPageModel.getGorod());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             city.setText("");
         }
-        try{
+        try {
             cemetery.setText(memoryPageModel.getNazvaklad());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             cemetery.setText("");
         }
-        try{
+        try {
             sector.setText(memoryPageModel.getUchastok());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             sector.setText("");
         }
-        try{
+        try {
             grave.setText(memoryPageModel.getNummogil());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             grave.setText("");
         }
     }
@@ -139,18 +139,21 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
 
     @OnClick(R.id.pick)
     public void openMap() {
+        PopupMap popupWindow = null;
         try {
             View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
-            PopupMap popupWindow = new PopupMap(
+            popupWindow = new PopupMap(
                     popupView,
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setCallback(this);
             popupWindow.setUp(pick, getSupportFragmentManager());
-        } catch (Exception e){
-            Snackbar.make(city, "Попробуйте еще раз", Snackbar.LENGTH_LONG).show();
+        } catch (Exception e) {
+
+        } finally {
         }
     }
+
 
     @Override
     public void setCoordinates(double latitude, double longitude) {

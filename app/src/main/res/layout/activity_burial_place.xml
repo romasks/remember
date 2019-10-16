@@ -121,6 +121,36 @@
 
             <com.google.android.material.textfield.TextInputLayout
 
+                android:id="@+id/sec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/dark_gray">
+
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/sec_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:hint="Сектор"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+
                 android:id="@+id/sector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,6 +160,8 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:textColorHint="@color/dark_gray">
+
+
 
                 <AutoCompleteTextView
                     android:id="@+id/sector_value"
@@ -164,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:hint="@string/grave"
+                    android:hint="@string/number_grave"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textAlignment="textStart"

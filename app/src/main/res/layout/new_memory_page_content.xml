@@ -234,14 +234,15 @@
                 android:id="@+id/is_star"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="26dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:text="@string/star"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/brown"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/religion" />
@@ -253,6 +254,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginStart="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/is_star">
@@ -269,7 +271,7 @@
                     android:paddingLeft="10dp"
                     android:text="Да"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/not_famous"
@@ -284,7 +286,7 @@
                     android:paddingLeft="10dp"
                     android:text="Нет"
                     android:textColor="@color/gray"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous" />
             </RadioGroup>
 
@@ -292,14 +294,15 @@
                 android:id="@+id/access_desk"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:text="@string/pick_level"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/brown"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/famous" />
@@ -308,7 +311,8 @@
                 android:id="@+id/is_public"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="25dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="@+id/access_desk"
                 app:layout_constraintTop_toBottomOf="@id/access_desk">
@@ -324,20 +328,20 @@
                     android:paddingLeft="10dp"
                     android:text="@string/for_all"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/not_public"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.16"
+                    android:layout_weight="1.2"
                     android:button="@drawable/radio_button"
                     android:checked="true"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="@string/for_yourself"
                     android:textColor="@color/gray"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@+id/it_public" />
             </RadioGroup>
 
@@ -345,7 +349,7 @@
                 android:id="@+id/title_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -353,7 +357,8 @@
                 android:paddingTop="10dp"
 
                 android:text="Добавьте описание"
-                android:textColor="@color/dark_gray"
+                android:textColor="@color/brown"
+                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/is_public" />
@@ -377,10 +382,11 @@
                 android:paddingLeft="20dp"
                 android:paddingTop="16dp"
                 android:textColorHighlight="@color/gray"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="@color/gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+
                 app:layout_constraintTop_toBottomOf="@+id/title_description"
                 tools:ignore="RtlSymmetry" />
 
