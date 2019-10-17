@@ -21,6 +21,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
+        <activity android:name=".ui.cabinet.memory_pages.show_page.SlidePhotoActivity">
+
+        </activity>
         <activity android:name=".ui.cabinet.memory_pages.events.current_event.CurrentEvent" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

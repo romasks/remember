@@ -27,6 +27,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private Context context;
     private Callback callback;
     private List<ResponseImagesSlider> responseImagesSliders = new ArrayList<>();
+    private ItemClickListener mClickListener;
 
     @NonNull
     @Override
@@ -43,7 +44,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return responseImagesSliders.size();
     }
 
     public void setItems(List<ResponseImagesSlider> responseImagesSliders) {
@@ -62,7 +63,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     }
 
-    public class PhotoSliderAdapterHolder extends BaseViewHolder {
+    public class PhotoSliderAdapterHolder extends BaseViewHolder implements View.OnClickListener{
 
         @BindView(R.id.image)
         ImageView imageView;
@@ -84,7 +85,19 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 colorMatrix.setSaturation(0);
                 ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
                 imageView.setColorFilter(filter);
+                imageView.setOnClickListener(this);
             } catch (Exception e){}
         }
+
+        @Override
+        public void onClick(View v) {
+            if (mClickListener != null) mClickListener.onItemClick(v, getAdapterPosition());        }
+    }
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+
+    }
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
     }
 }

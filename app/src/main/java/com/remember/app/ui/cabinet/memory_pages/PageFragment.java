@@ -114,6 +114,8 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
             recyclerView.setVisibility(View.GONE);
         }
 
+
+
     }
 
     @Override
@@ -127,11 +129,16 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     @Override
     public void sendItemsSearch(List<MemoryPageModel> result) {
-        if (result.isEmpty()){
-            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+        if(result.size()==0) {
+            Toast.makeText(getActivity(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         }
-        showAll.setVisibility(View.VISIBLE);
+        if (result.isEmpty()) {
+            showAll.setVisibility(View.VISIBLE);
+        } else {
+            showAll.setVisibility(View.GONE);
+        }
         pageFragmentAdapter.setItems(result);
         pageFragmentAdapter.notifyDataSetChanged();
+
     }
 }

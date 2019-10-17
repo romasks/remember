@@ -87,6 +87,8 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView comment;
         @BindView(R.id.layout)
         ConstraintLayout layout;
+        @BindView(R.id.surname)
+        TextView surname;
 
         public PageFragmentAdapterViewHolder(View itemView) {
             super(itemView);
@@ -122,8 +124,9 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             colorMatrix.setSaturation(0);
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
             avatarImage.setColorFilter(filter);
-            String fullName = memoryPageModelList.get(position).getSecondname() + " " +
-                     memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
+            String secondName = memoryPageModelList.get(position).getSecondname();
+            String fullName =   memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
+            surname.setText(secondName);
             name.setText(fullName);
 
             try {

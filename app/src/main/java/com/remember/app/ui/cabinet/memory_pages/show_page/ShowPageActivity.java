@@ -48,7 +48,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback {
+public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback,PhotoSliderAdapter.ItemClickListener {
 
     @InjectPresenter
     ShowPagePresenter presenter;
@@ -92,6 +92,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private int id = 0;
     private MemoryPageModel memoryPageModel;
     private PhotoSliderAdapter photoSliderAdapter;
+    private final String TAG="ShowPageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,10 +135,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             intent.putExtra("ID_PAGE", memoryPageModel.getId());
             startActivity(intent);
         });
-
+        image.setOnClickListener(n->startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class)
+                .putExtra("ID",id)));
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
+        photoSliderAdapter.setClickListener(this);
         recyclerSlider.setAdapter(photoSliderAdapter);
 
     }
@@ -319,5 +322,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         } else  {
             presenter.savePhoto(imageFile, string, id);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class)
+                .putExtra("ID",id));
+
     }
 }
