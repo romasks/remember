@@ -42,8 +42,8 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     AutoCompleteTextView city;
     @BindView(R.id.cemetery)
     AutoCompleteTextView cemetery;
-    @BindView(R.id.sector_value)
-    AutoCompleteTextView sector;
+//    @BindView(R.id.sector_value)
+//    AutoCompleteTextView sector;
     @BindView(R.id.grave_value)
     AutoCompleteTextView grave;
     @BindView(R.id.coordinates_value)
@@ -73,7 +73,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         city.setOnClickListener(v -> presenter.getCities());
         cemetery.setOnClickListener(v -> {
             if (!city.getText().toString().equals("")) {
-                presenter.getCemetery(responseHandBook.getId());
+//                presenter.getCemetery(responseHandBook.getId());
             } else {
                 Snackbar.make(city, "Введите город", Snackbar.LENGTH_LONG).show();
             }
@@ -96,11 +96,11 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         } catch (NullPointerException e) {
             cemetery.setText("");
         }
-        try {
-            sector.setText(memoryPageModel.getUchastok());
-        } catch (NullPointerException e) {
-            sector.setText("");
-        }
+//        try {
+//            sector.setText(memoryPageModel.getUchastok());
+//        } catch (NullPointerException e) {
+//            sector.setText("");
+//        }
         try {
             grave.setText(memoryPageModel.getNummogil());
         } catch (NullPointerException e) {
@@ -119,7 +119,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         intent.putExtra("COORDS", coordinates.getText().toString());
         intent.putExtra("CITY", city.getText().toString());
         intent.putExtra("CEMETERY", cemetery.getText().toString());
-        intent.putExtra("SPOT_ID", sector.getText().toString());
+        intent.putExtra("SPOT_ID", "");
         intent.putExtra("GRAVE_ID", grave.getText().toString());
         setResult(Activity.RESULT_OK, intent);
         super.onBackPressed();
