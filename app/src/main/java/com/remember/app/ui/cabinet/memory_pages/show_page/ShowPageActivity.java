@@ -108,6 +108,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (isShow) {
             memoryPageModel = i.getParcelableExtra("PERSON");
             presenter.getImagesSlider(memoryPageModel.getId());
+            id=memoryPageModel.getId();
             settings.setClickable(false);
             imageButton.setClickable(false);
             initAll();
