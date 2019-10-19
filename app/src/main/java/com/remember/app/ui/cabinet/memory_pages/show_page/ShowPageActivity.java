@@ -208,10 +208,16 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == Activity.RESULT_OK) {
+            assert result != null;
             photoDialog.setUri(result.getUri());
+            Log.i(TAG,"RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            assert result != null;
             Exception error = result.getError();
+            Log.i(TAG,"CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
         } else {
+            Log.i(TAG,"HZ");
+
         }
     }
 
@@ -292,6 +298,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void error(Throwable throwable) {
+        Log.i(TAG,"throwable= "+throwable.toString());
         Snackbar.make(image, "Ошибка загрузки изображения", Snackbar.LENGTH_LONG).show();
     }
 
@@ -319,8 +326,10 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @Override
     public void sendPhoto(File imageFile, String string) {
         if (memoryPageModel.getId() != null){
+            Log.i(TAG,"!= null"+imageFile.toString()+"  string= "+string+"  "+memoryPageModel.getId());
             presenter.savePhoto(imageFile, string, memoryPageModel.getId());
         } else  {
+            Log.i(TAG,"== null");
             presenter.savePhoto(imageFile, string, id);
         }
     }

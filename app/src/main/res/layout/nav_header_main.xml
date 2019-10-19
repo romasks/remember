@@ -18,18 +18,20 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:contentDescription="@string/nav_header_desc"
-        android:paddingTop="@dimen/nav_header_vertical_spacing" />
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/title_menu"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:lines="3"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/black"
         android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/logo"
         app:layout_constraintStart_toEndOf="@+id/logo"
         app:layout_constraintTop_toTopOf="@+id/logo"
@@ -43,13 +45,15 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/logo"
-        tools:text="@string/nav_header_subtitle" />
+        tools:text="@string/nav_header_subtitle"
+        tools:ignore="MissingConstraints" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#b1a28c"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

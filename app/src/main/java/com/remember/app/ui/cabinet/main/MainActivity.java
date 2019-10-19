@@ -96,8 +96,6 @@ public class MainActivity extends MvpAppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = headerView.findViewById(R.id.title_menu);
-
-
         TextView textView = headerView.findViewById(R.id.textView);
         navUsername.setText(Prefs.getString("NAME_USER", ""));
         textView.setText(Prefs.getString("EMAIL", ""));
@@ -186,7 +184,6 @@ public class MainActivity extends MvpAppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
         ImageView imageViewAvatar = drawer.findViewById(R.id.avatar);
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
