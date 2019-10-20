@@ -1,10 +1,12 @@
 package com.remember.app.ui.cabinet.main;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
+import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
@@ -38,6 +41,8 @@ import com.remember.app.ui.menu.events.EventsActivityMenu;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
+import com.remember.app.ui.menu.settings.data.PersonalDataFragmentPresenter;
+import com.remember.app.ui.menu.settings.data.PersonalDataFragmentView;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
@@ -51,14 +56,16 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class MainActivity extends MvpAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
+        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView, PersonalDataFragmentView {
 
     @InjectPresenter
     MainPresenter presenter;
-
+@BindView(R.id.imageView6)
+ImageView button_menu;
     @BindView(R.id.title_name)
     TextView title;
-
+    @InjectPresenter
+    PersonalDataFragmentPresenter presenterData;
     private Unbinder unbinder;
     private PageFragment pageFragment;
     private CallbackPage callbackPage;
@@ -66,7 +73,10 @@ public class MainActivity extends MvpAppCompatActivity
     private ViewPager viewPager;
     private PopupEventScreen popupWindowEvent;
     private PopupPageScreen popupWindowPage;
-
+    private ImageView imageViewAvatar;
+    private ImageView imageViewBigAvatar;
+     private TextView textView;
+     private static String TAG="MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +86,6 @@ public class MainActivity extends MvpAppCompatActivity
         setSupportActionBar(toolbar);
 
         pageFragment = new PageFragment();
-        title.setText(Prefs.getString("NAME_USER", ""));
-
         Prefs.putBoolean("EVENT_FRAGMENT", false);
         Prefs.putBoolean("PAGE_FRAGMENT", true);
 
@@ -99,11 +107,13 @@ public class MainActivity extends MvpAppCompatActivity
         TextView textView = headerView.findViewById(R.id.textView);
         navUsername.setText(Prefs.getString("NAME_USER", ""));
         textView.setText(Prefs.getString("EMAIL", ""));
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        button_menu.setOnClickListener(i->{
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -117,6 +127,64 @@ public class MainActivity extends MvpAppCompatActivity
         } else {
             showEventScreen();
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onReceivedInfo(ResponseSettings responseSettings) {
+        if (responseSettings.getPicture() != null) {
+            Glide.with(this)
+                    .load("http://помню.рус" + responseSettings.getPicture())
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewAvatar);
+            Glide.with(this)
+                    .load("http://помню.рус" + responseSettings.getPicture())
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewBigAvatar);
+            textView.setText(responseSettings.getName()+" "+responseSettings.getSurname());
+            Prefs.putString("AVATAR", "http://помню.рус" + responseSettings.getPicture());
+            Prefs.putString("NAME_USER", responseSettings.getName() + " " + responseSettings.getSurname());
+
+
+
+        } else{
+            Log.i(TAG,"==null");
+            Glide.with(this)
+                    .load(R.drawable.ic_unknown)
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewAvatar);
+
+            Glide.with(this)
+                    .load(R.drawable.ic_unknown)
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewBigAvatar);
+
+        }
+        setBlackWhite(imageViewAvatar);
+        setBlackWhite(imageViewBigAvatar);
+    }
+
+    @Override
+    public void error(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onSaved(Object o) {
+
+    }
+
+    @Override
+    public void onSavedImage(Object o) {
+
     }
 
     public interface CallbackPage {
@@ -183,11 +251,12 @@ public class MainActivity extends MvpAppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        ImageView imageViewAvatar = drawer.findViewById(R.id.avatar);
+         imageViewAvatar = drawer.findViewById(R.id.avatar);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
-        ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
+        imageViewBigAvatar = headerView.findViewById(R.id.logo);
         if (!Prefs.getString("AVATAR", "").equals("")) {
+            title.setText(Prefs.getString("NAME_USER", ""));
             Glide.with(this)
                     .load(Prefs.getString("AVATAR", ""))
                     .apply(RequestOptions.circleCropTransform())
@@ -202,19 +271,8 @@ public class MainActivity extends MvpAppCompatActivity
                     .skipMemoryCache(true)
                     .into(imageViewBigAvatar);
         } else {
-            Glide.with(this)
-                    .load(R.drawable.ic_unknown)
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(imageViewAvatar);
-
-            Glide.with(this)
-                    .load(R.drawable.ic_unknown)
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(imageViewBigAvatar);
+            Log.i(TAG,"AVATAR!=null");
+            presenterData.getInfo();
         }
         setBlackWhite(imageViewBigAvatar);
         setBlackWhite(imageViewAvatar);
@@ -275,7 +333,7 @@ public class MainActivity extends MvpAppCompatActivity
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        TextView textView = drawer.findViewById(R.id.title_menu);
+         textView = drawer.findViewById(R.id.title_menu);
         textView.setText(Prefs.getString("NAME_USER", ""));
         drawer.closeDrawer(GravityCompat.START);
         return true;

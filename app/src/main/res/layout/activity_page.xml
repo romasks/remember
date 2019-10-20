@@ -37,9 +37,10 @@
 
                     <ImageView
                         android:id="@+id/image"
-                        android:layout_marginTop="30dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="30dp"
+                        android:scaleType="center" />
 
                     <View
                         android:layout_width="match_parent"

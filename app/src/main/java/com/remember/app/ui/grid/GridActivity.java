@@ -35,6 +35,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
+import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
@@ -44,6 +45,8 @@ import com.remember.app.ui.menu.events.EventsActivityMenu;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
+import com.remember.app.ui.menu.settings.data.PersonalDataFragmentPresenter;
+import com.remember.app.ui.menu.settings.data.PersonalDataFragmentView;
 import com.remember.app.ui.utils.PopupPageScreen;
 
 import java.util.List;
@@ -51,7 +54,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback,NavigationView.OnNavigationItemSelectedListener {
+public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PersonalDataFragmentView, PopupPageScreen.Callback,NavigationView.OnNavigationItemSelectedListener {
 
     @InjectPresenter
     GridPresenter presenter;
@@ -66,10 +69,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     Button showAll;
     @BindView(R.id.progress)
     ProgressBar progressBar;
-    @BindView(R.id.textView17)
-    TextView name_user;
     @BindView(R.id.imageView5)
     ImageView avatar_user;
+    @BindView(R.id.imageView4)
+    ImageView button_menu;
+
+    @InjectPresenter
+    PersonalDataFragmentPresenter presenterData;
 
     private RecyclerView.LayoutManager layoutManager;
     private ImageAdapter imageAdapter;
@@ -78,27 +84,33 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private PopupPageScreen popupWindowPage;
     private ImageView imageViewBigAvatar;
     private final String TAG="GridActivity";
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
-
-        setUpLoadMoreListener();
+//        setUpLoadMoreListener();
+        drawer = findViewById(R.id.drawer_layout_2);
         presenter.getImages(pageNumber);
-
         showAll.setOnClickListener(v -> {
             showAll.setVisibility(View.GONE);
             pageNumber = 1;
             presenter.getImages(pageNumber);
         });
-        getInfoUser();
+        button_menu.setOnClickListener(k->{
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+
     }
 
     public void setBlackWhite(ImageView imageView) {
@@ -110,9 +122,11 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     private void getInfoUser(){
         if (!Prefs.getString("USER_ID", "").equals("")) {
+            Log.i(TAG,"USER_ID!=null");
+            avatar_user.setVisibility(View.VISIBLE);
+            button_menu.setVisibility(View.VISIBLE);
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-            DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
             NavigationView navigationView = findViewById(R.id.nav_view_grid);
             View headerView = navigationView.getHeaderView(0);
             TextView navUsername = headerView.findViewById(R.id.title_menu);
@@ -120,13 +134,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             TextView textView = headerView.findViewById(R.id.textView);
             navUsername.setText(Prefs.getString("NAME_USER", ""));
             textView.setText(Prefs.getString("EMAIL", ""));
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.addDrawerListener(toggle);
-            toggle.syncState();
             navigationView.setNavigationItemSelectedListener(this);
-            name_user.setText(Prefs.getString("NAME_USER",""));
-            if (!Prefs.getString("AVATAR", "").equals("")) {
+            if(Prefs.getString("AVATAR", "").equals("")){
+                presenterData.getInfo();
+            }else {
                 Glide.with(this)
                         .load(Prefs.getString("AVATAR", ""))
                         .apply(RequestOptions.circleCropTransform())
@@ -140,28 +151,14 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(imageViewBigAvatar);
-            } else {
-                Glide.with(this)
-                        .load(R.drawable.ic_unknown)
-                        .apply(RequestOptions.circleCropTransform())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(avatar_user);
-
-                Glide.with(this)
-                        .load(R.drawable.ic_unknown)
-                        .apply(RequestOptions.circleCropTransform())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(imageViewBigAvatar);
+                setBlackWhite(avatar_user);
+                setBlackWhite(imageViewBigAvatar);
             }
-            setBlackWhite(avatar_user);
-            setBlackWhite(imageViewBigAvatar);
+
         } else {
-            DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
             avatar_user.setVisibility(View.GONE);
-            name_user.setVisibility(View.GONE);
+            button_menu.setVisibility(View.GONE);
 
         }
     }
@@ -212,7 +209,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             public void onScrolled(RecyclerView recyclerView,
                                    int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
+                Log.i(TAG,"pageNumber"+pageNumber+" countSum"+countSum);
                 if (pageNumber < countSum) {
                     progressBar.setVisibility(View.VISIBLE);
                     pageNumber++;
@@ -250,6 +247,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getInfoUser();
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
@@ -284,5 +287,58 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         textView.setText(Prefs.getString("NAME_USER", ""));
         drawer.closeDrawer(GravityCompat.START);
         return false;
+    }
+
+    @Override
+    public void onReceivedInfo(ResponseSettings responseSettings) {
+        if (responseSettings.getPicture() != null) {
+            Prefs.putString("AVATAR", "http://помню.рус" + responseSettings.getPicture());
+            Prefs.putString("NAME_USER", responseSettings.getName() + " " + responseSettings.getSurname());
+            Glide.with(this)
+                    .load("http://помню.рус" + responseSettings.getPicture())
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(avatar_user);
+            Glide.with(this)
+                    .load("http://помню.рус" + responseSettings.getPicture())
+                    .apply(RequestOptions.circleCropTransform())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(imageViewBigAvatar);
+
+        } else{
+                Glide.with(this)
+                        .load(R.drawable.ic_unknown)
+                        .apply(RequestOptions.circleCropTransform())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(avatar_user);
+
+                Glide.with(this)
+                        .load(R.drawable.ic_unknown)
+                        .apply(RequestOptions.circleCropTransform())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageViewBigAvatar);
+
+        }
+        setBlackWhite(avatar_user);
+        setBlackWhite(imageViewBigAvatar);
+    }
+
+    @Override
+    public void error(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onSaved(Object o) {
+
+    }
+
+    @Override
+    public void onSavedImage(Object o) {
+
     }
 }

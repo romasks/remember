@@ -18,10 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.app.ActivityCompat;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,17 +29,14 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,7 +66,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     AutoCompleteTextView email;
     @BindView(R.id.phone)
     AutoCompleteTextView phone;
-
+     private static String TAG="PersonalDataFragment";
     private Unbinder unbinder;
     private File imageFile;
     private Bitmap bitmap;
@@ -109,6 +104,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            Log.i(TAG,result.getUri().getPath());
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 if (getContext() != null) {

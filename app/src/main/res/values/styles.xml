@@ -89,5 +89,9 @@
         <item name="android:textColor">@android:color/tab_indicator_text</item>
     </style>
 
-
+    <style name="MenuItems" parent="AppTheme">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

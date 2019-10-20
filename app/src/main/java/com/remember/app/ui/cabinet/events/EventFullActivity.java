@@ -1,5 +1,7 @@
 package com.remember.app.ui.cabinet.events;
 
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,6 +65,13 @@ public class EventFullActivity extends BaseActivity {
                 body.setText(Html.fromHtml(responseEvents.getBody()));
             }
         }
+        setBlackWhite(avatarImage);
+    }
+    public void setBlackWhite(ImageView imageView) {
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        imageView.setColorFilter(filter);
     }
 
     @OnClick(R.id.back)

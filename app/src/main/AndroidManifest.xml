@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".ui.cabinet.memory_pages.show_page.SlidePhotoActivity">
+        <activity android:name=".ui.cabinet.memory_pages.show_page.SlidePhotoActivity"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".ui.cabinet.memory_pages.events.current_event.CurrentEvent" />
