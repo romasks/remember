@@ -24,6 +24,7 @@ import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,6 +45,8 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     AutoCompleteTextView cemetery;
     @BindView(R.id.sector_value)
     AutoCompleteTextView sector;
+    @BindView(R.id.sec_value)
+    AutoCompleteTextView sectorPlace;
     @BindView(R.id.grave_value)
     AutoCompleteTextView grave;
     @BindView(R.id.coordinates_value)
@@ -106,6 +109,11 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         } catch (NullPointerException e) {
             grave.setText("");
         }
+        try {
+            sectorPlace.setText(memoryPageModel.getSector());
+        } catch (NullPointerException e){
+            sectorPlace.setText("");
+        }
     }
 
     @OnClick(R.id.back)
@@ -121,6 +129,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         intent.putExtra("CEMETERY", cemetery.getText().toString());
         intent.putExtra("SPOT_ID", sector.getText().toString());
         intent.putExtra("GRAVE_ID", grave.getText().toString());
+        intent.putExtra("SECTOR", sectorPlace.getText().toString());
         setResult(Activity.RESULT_OK, intent);
         super.onBackPressed();
         finish();
@@ -175,6 +184,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     @Override
     public void onUpdatedCemetery(List<ResponseCemetery> responseCemeteries) {
         if (responseCemeteries.isEmpty()) {
+//        if (responseCemeteries == null) {
             cemetery.setFocusableInTouchMode(true);
             cemetery.requestFocus();
             InputMethodManager imm =
@@ -188,7 +198,10 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setCallback(this);
+//            ArrayList<ResponseCemetery> list = new ArrayList<>();
+//            list.add(responseCemeteries);
             popupWindow.setUp(pick, responseCemeteries);
+//            popupWindow.setUp(pick, list);
         }
     }
 

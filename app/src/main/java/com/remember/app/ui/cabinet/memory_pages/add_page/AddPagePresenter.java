@@ -1,6 +1,7 @@
 package com.remember.app.ui.cabinet.memory_pages.add_page;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
@@ -13,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -37,8 +39,12 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
         Disposable subscription = serviceNetwork.addPage(person, imageUri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedPage);
+                .subscribe(getViewState()::onSavedPage, this::onError);
         unsubscribeOnDestroy(subscription);
+    }
+
+    private void onError(Throwable throwable){
+        Log.e("AddPagePresenter", "exception", throwable);
     }
 
     public void getReligion() {
