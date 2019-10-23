@@ -20,7 +20,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseRestorePassword;
-import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseVk;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
@@ -97,6 +97,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
             @Override
             public void onSuccess(SocialUser socialUser) {
                 Prefs.putString("EMAIL", socialUser.email);
+                Prefs.putString("ACCESS_TOKEN", socialUser.accessToken);
                 String[] str = socialUser.fullName.split(" ");
                 Prefs.putString("NAME_USER", str[0]);
                 Prefs.putString("AVATAR", socialUser.profilePictureUrl);
@@ -252,11 +253,15 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     }
 
     @Override
-    public void onLogged(ResponseSettings responseSettings) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+    public void onLoggedSocial(ResponseSocialAuth responseSocialAuth) {
+        if (responseSocialAuth != null) {
+            Prefs.putString("USER_ID", responseSocialAuth.getId().toString());
+            Prefs.putString("TOKEN", responseSocialAuth.getToken());
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
