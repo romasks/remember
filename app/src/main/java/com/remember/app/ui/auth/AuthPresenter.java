@@ -2,19 +2,15 @@ package com.remember.app.ui.auth;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.Remember;
-import com.remember.app.data.models.RequestSettings;
-import com.remember.app.data.models.ResponseVk;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseVkResponse;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
-
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -63,28 +59,33 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     public void signInVk() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL",""))
+        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL", ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onLogged,
+                .subscribe(getViewState()::onLoggedSocial,
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
 
     public void signInTwitter() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL",""))
+        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL", ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onLogged,
+                .subscribe(getViewState()::onLoggedSocial,
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
 
     public void signInFacebook() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL",""))
+        RequestSocialAuth request = new RequestSocialAuth(
+                Prefs.getString("EMAIL", ""),
+                Prefs.getString("ACCESS_TOKEN", ""),
+                "fb"
+        );
+        Disposable subscription = serviceNetwork.signInSocial(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onLogged,
+                .subscribe(getViewState()::onLoggedSocial,
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }

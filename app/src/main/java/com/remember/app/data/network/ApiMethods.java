@@ -9,6 +9,7 @@ import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.RequestSettings;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -19,6 +20,7 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.util.List;
 
@@ -41,8 +43,7 @@ public interface ApiMethods {
     @GET("city")
     Observable<List<ResponseHandBook>> getCities();
 
-    //    @GET("numen/city/{id}")
-    @GET("numen/{id}")
+    @GET("numen/city/{id}")
     Observable<List<ResponseCemetery>> getCemetery(@Path("id") int id);
 
 
@@ -81,36 +82,12 @@ public interface ApiMethods {
     @GET("deadevent/page/{id}")
     Observable<List<RequestAddEvent>> getEventsForId(@Path("id") int pageId);
 
-//    @Multipart
-//    @POST("page/add")
-//    Observable<ResponseCemetery> addPage(@Part("oblast") RequestBody oblast,
-//                                         @Part("datarod") RequestBody datarod,
-//                                         @Part("nazvaklad") RequestBody nazvaklad,
-//                                         @Part("gorod") RequestBody gorod,
-//                                         @Part("comment") RequestBody comment,
-//                                         @Part("coords") RequestBody coords,
-//                                         @Part("datasmert") RequestBody deathDate,
-//                                         @Part("rajon") RequestBody district,
-//                                         @Part("flag") RequestBody flag,
-//                                         @Part("nummogil") RequestBody graveId,
-//                                         @Part("name") RequestBody name,
-//                                         @Part("optradio") RequestBody optradio,
-//                                         @Part("religiya") RequestBody religion,
-//                                         @Part("secondname") RequestBody secondName,
-//                                         @Part("uchastok") RequestBody spotId,
-//                                         @Part("star") RequestBody star,
-//                                         @Part("thirtname") RequestBody thirdName,
-//                                         @Part("user_id") RequestBody userId,
-//                                         @Part MultipartBody.Part image);
-
     @Multipart
     @POST("page/add")
-    Observable<ResponseCemetery> addPage(@Header("Authorization") String token,
-                                         @Part("oblast") RequestBody oblast,
+    Observable<ResponseCemetery> addPage(@Part("oblast") RequestBody oblast,
                                          @Part("datarod") RequestBody datarod,
                                          @Part("nazvaklad") RequestBody nazvaklad,
                                          @Part("gorod") RequestBody gorod,
-                                         @Part("sector") RequestBody sector,
                                          @Part("comment") RequestBody comment,
                                          @Part("coords") RequestBody coords,
                                          @Part("datasmert") RequestBody deathDate,
@@ -125,41 +102,34 @@ public interface ApiMethods {
                                          @Part("star") RequestBody star,
                                          @Part("thirtname") RequestBody thirdName,
                                          @Part("user_id") RequestBody userId,
-                                         @Part MultipartBody.Part image
-    );
+                                         @Part MultipartBody.Part image);
 
-
-//    @GET("pages")
-//    Observable<ResponsePages> getImages(@Query("status") String status);
 
     @GET("pages")
-    Observable<ResponsePages> getImages(@Query("page") int count,
-                                        @Query("status") String status);
+    Observable<ResponsePages> getImages(@Query("status") String status);
 
     @Multipart
     @POST("page/edit/{id}")
-//    Observable<ResponsePages> editPage(@Header("Authorization") String token,
-    Observable<PageEditedResponse> editPage(@Header("Authorization") String token,
-                                            @Part("oblast") RequestBody oblast,
-                                            @Part("datarod") RequestBody datarod,
-                                            @Part("nazvaklad") RequestBody nazvaklad,
-                                            @Part("gorod") RequestBody gorod,
-                                            @Part("comment") RequestBody comment,
-                                            @Part("coords") RequestBody coords,
-                                            @Part("datasmert") RequestBody deathDate,
-                                            @Part("rajon") RequestBody district,
-                                            @Part("flag") RequestBody flag,
-                                            @Part("nummogil") RequestBody graveId,
-                                            @Part("name") RequestBody name,
-                                            @Part("optradio") RequestBody optradio,
-                                            @Part("religiya") RequestBody religion,
-                                            @Part("secondname") RequestBody secondName,
-                                            @Part("uchastok") RequestBody spotId,
-                                            @Part("star") RequestBody star,
-                                            @Part("thirtname") RequestBody thirdName,
-                                            @Part("user_id") RequestBody userId,
-                                            @Part MultipartBody.Part image,
-                                            @Path("id") Integer id);
+    Observable<ResponsePages> editPage(@Part("oblast") RequestBody oblast,
+                                       @Part("datarod") RequestBody datarod,
+                                       @Part("nazvaklad") RequestBody nazvaklad,
+                                       @Part("gorod") RequestBody gorod,
+                                       @Part("comment") RequestBody comment,
+                                       @Part("coords") RequestBody coords,
+                                       @Part("datasmert") RequestBody deathDate,
+                                       @Part("rajon") RequestBody district,
+                                       @Part("flag") RequestBody flag,
+                                       @Part("nummogil") RequestBody graveId,
+                                       @Part("name") RequestBody name,
+                                       @Part("optradio") RequestBody optradio,
+                                       @Part("religiya") RequestBody religion,
+                                       @Part("secondname") RequestBody secondName,
+                                       @Part("uchastok") RequestBody spotId,
+                                       @Part("star") RequestBody star,
+                                       @Part("thirtname") RequestBody thirdName,
+                                       @Part("user_id") RequestBody userId,
+                                       @Part MultipartBody.Part image,
+                                       @Path("id") Integer id);
 
     @GET("poisk/secondname/{second_name}")
     Observable<List<MemoryPageModel>> searchLastName(@Path("second_name") String lastName);
@@ -170,9 +140,7 @@ public interface ApiMethods {
 
     @Multipart
     @POST("page/edit/{id}")
-//    Observable<ResponsePages> editPageWithoutImage(@Header("Authorization") String token,
-    Observable<PageEditedResponse> editPageWithoutImage(@Header("Authorization") String token,
-                                                   @Part("oblast") RequestBody oblast,
+    Observable<ResponsePages> editPageWithoutImage(@Part("oblast") RequestBody oblast,
                                                    @Part("datarod") RequestBody datarod,
                                                    @Part("nazvaklad") RequestBody nazvaklad,
                                                    @Part("gorod") RequestBody gorod,
@@ -204,7 +172,7 @@ public interface ApiMethods {
 
     @GET("user/social")
     Observable<ResponseSettings> signInVk(@Query("email") String email,
-                                          @Query("name") String name);
+                                                @Query("name") String name);
 
     @GET("page")
     Observable<List<MemoryPageModel>> getAllPages();

@@ -11,6 +11,7 @@ import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -21,6 +22,7 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.io.File;
 import java.util.List;
@@ -133,14 +135,19 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<Object> saveSettings(RequestSettings requestSettings, String id) {
-        return apiMethods.saveSettings(requestSettings, id);
+    public Observable<Object> saveSettings(RequestSettings requestSettings) {
+        return apiMethods.saveSettings(requestSettings);
     }
 
     @Override
-    public Observable<ResponseSettings> signInVk(String email) {
+    public Observable<ResponseSocialAuth> signInVk(String email) {
         String name = Prefs.getString("USER_NAME", "");
         return apiMethods.signInVk(email, name);
+    }
+
+    @Override
+    public Observable<ResponseSocialAuth> signInSocial(RequestSocialAuth request) {
+        return apiMethods.signInSocial(request);
     }
 
     @Override

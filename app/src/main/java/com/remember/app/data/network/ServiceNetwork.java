@@ -9,6 +9,7 @@ import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -19,11 +20,11 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.io.File;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -68,9 +69,11 @@ public interface ServiceNetwork {
 
     Observable<ResponseSettings> getInfo(String token);
 
-    Observable<Object> saveSettings(RequestSettings requestSettings, String id);
+    Observable<Object> saveSettings(RequestSettings requestSettings);
 
-    Observable<ResponseSettings> signInVk(String email);
+    Observable<ResponseSocialAuth> signInVk(String email);
+
+    Observable<ResponseSocialAuth> signInSocial(RequestSocialAuth request);
 
     Observable<List<MemoryPageModel>> getAllPages();
 
