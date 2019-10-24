@@ -22,7 +22,6 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
-
                 android:theme="@style/SwitchRemember"
                 android:textSize="18sp"
                 android:text="Включить уведомления"
@@ -63,7 +62,6 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Все"
-
                     android:textColor="@color/gray"
                     android:textColorHighlight="@color/gray"
                     android:textColorLink="@color/gray" />
@@ -93,7 +91,6 @@
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="Религиозные"
-
                     android:textSize="16sp"
                     android:textColor="@color/gray"
                     android:textColorHighlight="@color/gray"
@@ -115,7 +112,7 @@
 
 
             <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/days"
+                android:id="@+id/days_sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

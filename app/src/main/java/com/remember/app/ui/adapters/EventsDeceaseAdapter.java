@@ -2,6 +2,8 @@ package com.remember.app.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,6 +120,10 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
             date.setText(requestAddEvent.get(position).getDate());
             comment.setText("дней осталось");
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            avatarImage.setColorFilter(filter);
         }
 
         long getDifferenceDaysOtherDate(String date) throws ParseException {

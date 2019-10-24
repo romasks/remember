@@ -1,5 +1,6 @@
 package com.remember.app.ui.grid;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -19,7 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -88,7 +91,19 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
+        if (Prefs.getInt("IS_THEME",0)==2){
+            search.setImageResource(R.drawable.ic_search_dark_theme);
+        }else {
+            search.setImageResource(R.drawable.ic_search);
+        }
         layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -120,9 +135,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageView.setColorFilter(filter);
     }
 
+    @SuppressLint("WrongConstant")
     private void getInfoUser(){
         if (!Prefs.getString("USER_ID", "").equals("")) {
-            Log.i(TAG,"USER_ID!=null");
             avatar_user.setVisibility(View.VISIBLE);
             button_menu.setVisibility(View.VISIBLE);
             Toolbar toolbar = findViewById(R.id.toolbar);

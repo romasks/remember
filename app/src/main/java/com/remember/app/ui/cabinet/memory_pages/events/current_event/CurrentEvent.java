@@ -1,6 +1,8 @@
 package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 
 import android.annotation.SuppressLint;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -54,6 +56,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     ImageView addVideo;
     @BindView(R.id.comments)
     RecyclerView comments;
+    @BindView(R.id.textView3)
+    TextView name_event;
 
     private Integer eventId = 0;
 
@@ -69,6 +73,10 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         comments.setLayoutManager(new LinearLayoutManager(this));
         comments.setAdapter(new EventStuffAdapter());
         presenter.getEvent(eventId);
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        imageAvatar.setColorFilter(filter);
         back.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -86,7 +94,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
     private void setItems(EventModel requestEvent) {
         try {
-            name.setText(requestEvent.getName());
+            name_event.setText(requestEvent.getName());
             Glide.with(this)
                     .load("http://помню.рус" + requestEvent.getPicture())
                     .into(imageAvatar);

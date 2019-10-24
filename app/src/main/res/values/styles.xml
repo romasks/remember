@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -9,6 +9,27 @@
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
         <item name="android:editTextStyle">@style/BaseEditText</item>
         <item name="android:textColorHint">@color/light_brown</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryBlack</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryBlack</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/DrawerIcon</item>
+        <item name="android:editTextStyle">@style/BaseEditText</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textColor">@color/colorWhiteDark</item>
+    </style>
+    <style name="Text.Caption" parent="TextAppearance.AppCompat.Caption">
+    </style>
+
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Widget.Design.TextInputLayout" parent="AppTheme">
@@ -93,5 +114,7 @@
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:attr/textColor</item>
     </style>
+
 </resources>

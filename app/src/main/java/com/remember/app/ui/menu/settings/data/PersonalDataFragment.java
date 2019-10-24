@@ -17,7 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+
+import androidx.appcompat.widget.AppCompatRadioButton;
+
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.app.ActivityCompat;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -37,6 +42,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +72,14 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     AutoCompleteTextView email;
     @BindView(R.id.phone)
     AutoCompleteTextView phone;
+    @BindView(R.id.cb_theme_svetl)
+    AppCompatRadioButton but_svetl;
+    @BindView(R.id.cb_theme_temn)
+    AppCompatRadioButton but_temnee;
+    @BindView(R.id.add_new_photo)
+    Button add_photo;
+    @BindView(R.id.save_button)
+    Button save_photo;
      private static String TAG="PersonalDataFragment";
     private Unbinder unbinder;
     private File imageFile;
@@ -76,8 +90,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.getInfo();
-
-
         if (Build.VERSION.SDK_INT >= 23) {
             if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -89,6 +101,9 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
         } else { //permission is automatically granted on sdk<23 upon installation
             Log.v("TAG", "Permission is granted");
         }
+
+
+
     }
 
 
@@ -97,6 +112,49 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_setings_lk, container, false);
         unbinder = ButterKnife.bind(this, v);
+        if (Prefs.getInt("IS_THEME",0)==0||Prefs.getInt("IS_THEME",0)==1){
+            but_svetl.setChecked(true);
+            name.setTextColor(getResources().getColor(android.R.color.black));
+            login.setTextColor(getResources().getColor(android.R.color.black));
+            middleName.setTextColor(getResources().getColor(android.R.color.black));
+            city.setTextColor(getResources().getColor(android.R.color.black));
+            email.setTextColor(getResources().getColor(android.R.color.black));
+            secondName.setTextColor(getResources().getColor(android.R.color.black));
+            but_svetl.setTextColor(getResources().getColor(R.color.gray));
+            but_temnee.setTextColor(getResources().getColor(R.color.gray));
+            phone.setTextColor(getResources().getColor(android.R.color.black));
+        }else if (Prefs.getInt("IS_THEME",0)==2){
+            but_temnee.setChecked(true);
+            name.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            login.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            middleName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            city.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            email.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            secondName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            but_svetl.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            but_temnee.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            phone.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+
+        }
+        but_svetl.setOnClickListener(l->{
+            Objects.requireNonNull(getActivity()).setTheme(R.style.AppTheme);
+            getActivity().recreate();
+
+            if (but_temnee.isChecked()) {
+                but_temnee.setChecked(false);
+            }
+            Prefs.putInt("IS_THEME",1);
+        });
+
+        but_temnee.setOnClickListener(o->{
+            Objects.requireNonNull(getActivity()).setTheme(R.style.AppTheme_Dark);
+            getActivity().recreate();
+            if (but_svetl.isChecked()){
+                but_svetl.setChecked(false);
+            }
+            Prefs.putInt("IS_THEME",2);
+        });
+
         return v;
     }
 
