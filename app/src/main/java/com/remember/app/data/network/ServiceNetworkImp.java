@@ -109,7 +109,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<ResponsePages> getImages(int count) {
-        return apiMethods.getImages("Одобрено");
+        return apiMethods.getImages(count ,"Одобрено");
     }
 
     @Override

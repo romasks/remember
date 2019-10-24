@@ -129,8 +129,12 @@ public interface ApiMethods {
     );
 
 
+//    @GET("pages")
+//    Observable<ResponsePages> getImages(@Query("status") String status);
+
     @GET("pages")
-    Observable<ResponsePages> getImages(@Query("status") String status);
+    Observable<ResponsePages> getImages(@Query("page") int count,
+                                        @Query("status") String status);
 
     @Multipart
     @POST("page/edit/{id}")
