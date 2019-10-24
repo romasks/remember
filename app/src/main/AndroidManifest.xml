@@ -84,6 +84,9 @@
             android:name=".ui.cabinet.memory_pages.show_page.ShowPageActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.menu.notifications.NotificationsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">

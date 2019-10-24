@@ -34,7 +34,7 @@ public class EventFullActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getIntent().getExtras() != null) {
-            ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENT")), ResponseEvents.class);
+            ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
             System.out.println();
             Drawable mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
             try {

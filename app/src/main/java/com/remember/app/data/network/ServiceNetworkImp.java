@@ -2,7 +2,9 @@ package com.remember.app.data.network;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
+import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -48,7 +50,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<List<ResponseCemetery>> getCemetery(int id) {
+    public Observable<ResponseCemetery> getCemetery(int id) {
         return apiMethods.getCemetery(id);
     }
 
@@ -91,6 +93,16 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<EventModel> getEvent(int id) {
         return apiMethods.getEvent(id);
+    }
+
+    @Override
+    public Observable<List<EventNotificationModel>> getEventNotifications(String token, String filterType) {
+        return apiMethods.getEventNotifications("Bearer " + token, filterType);
+    }
+
+    @Override
+    public Observable<List<EpitNotificationModel>> getEpitNotifications(String token) {
+        return apiMethods.getEpitNotifications("Bearer " + token);
     }
 
     @Override

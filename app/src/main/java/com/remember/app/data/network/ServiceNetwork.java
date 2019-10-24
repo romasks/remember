@@ -1,7 +1,9 @@
 package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
+import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -22,7 +24,6 @@ import com.remember.app.data.models.ResponseSettings;
 import java.io.File;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -30,7 +31,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseHandBook>> getCities();
 
-    Observable<List<ResponseCemetery>> getCemetery(int id);
+    Observable<ResponseCemetery> getCemetery(int id);
 
     Observable<ResponseCemetery> addPage(AddPageModel person, File imageUri);
 
@@ -49,6 +50,10 @@ public interface ServiceNetwork {
     Observable<List<ResponseEvents>> getEvents();
 
     Observable<EventModel> getEvent(int id);
+
+    Observable<List<EventNotificationModel>> getEventNotifications(String token, String type);
+
+    Observable<List<EpitNotificationModel>> getEpitNotifications(String token);
 
     Observable<ResponseAuth> singInAuth(String login, String password);
 
