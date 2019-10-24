@@ -90,7 +90,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     public void click(ResponseEvents events) {
         Intent intent = new Intent(this, EventFullActivity.class);
         String eventJson = new Gson().toJson(events);
-        intent.putExtra("EVENT", eventJson);
+        intent.putExtra("EVENTS", eventJson);
         startActivity(intent);
     }
 

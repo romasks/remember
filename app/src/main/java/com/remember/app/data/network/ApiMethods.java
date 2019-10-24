@@ -1,7 +1,9 @@
 package com.remember.app.data.network;
 
 
+import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
+import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
@@ -43,8 +45,9 @@ public interface ApiMethods {
     @GET("city")
     Observable<List<ResponseHandBook>> getCities();
 
-    @GET("numen/city/{id}")
-    Observable<List<ResponseCemetery>> getCemetery(@Path("id") int id);
+//    @GET("numen/city/{id}")
+    @GET("numen/{id}")
+    Observable<ResponseCemetery> getCemetery(@Path("id") int id);
 
 
     @GET("religia")
@@ -70,6 +73,12 @@ public interface ApiMethods {
 
     @GET("deadevent/{id}")
     Observable<EventModel> getEvent(@Path("id") int id);
+
+    @GET("event/notifications")
+    Observable<List<EventNotificationModel>> getEventNotifications(@Header("Authorization") String token, @Query("filter_type") String filterType);
+
+    @GET("epit/notification")
+    Observable<List<EpitNotificationModel>> getEpitNotifications(@Header("Authorization") String token);
 
     @GET("user/login")
     Observable<ResponseAuth> singInAuth(@Query("email") String email,

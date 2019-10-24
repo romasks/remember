@@ -34,7 +34,7 @@ public class PopupEventScreen extends PopupWindow {
     public void setUp(View contentView) {
         setFocusable(false);
         setOutsideTouchable(false);
-        showAtLocation(contentView, Gravity.TOP, 0, 0);
+        //showAtLocation(contentView, Gravity.TOP, 0, 0);
         View popupView = getContentView();
         popupView.findViewById(R.id.back).setOnClickListener(v -> {
             dismiss();
