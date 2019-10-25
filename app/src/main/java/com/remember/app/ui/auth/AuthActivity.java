@@ -48,6 +48,13 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.ok.android.sdk.Odnoklassniki;
 
+import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
+import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+
 public class AuthActivity extends MvpAppCompatActivity implements AuthView, RepairPasswordDialog.Callback {
 
     private static final String APP_ID = "CBAGJGDNEBABABABA";
@@ -96,11 +103,11 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
             @Override
             public void onSuccess(SocialUser socialUser) {
-                Prefs.putString("EMAIL", socialUser.email);
-                Prefs.putString("ACCESS_TOKEN", socialUser.accessToken);
+                Prefs.putString(PREFS_KEY_EMAIL, socialUser.email);
+                Prefs.putString(PREFS_KEY_ACCESS_TOKEN, socialUser.accessToken);
                 String[] str = socialUser.fullName.split(" ");
-                Prefs.putString("NAME_USER", str[0]);
-                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
+                Prefs.putString(PREFS_KEY_NAME_USER, str[0]);
+                Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
                 presenter.signInFacebook();
             }
 
@@ -121,10 +128,10 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 //        SimpleAuth.connectTwitter(new AuthCallback() {
 //            @Override
 //            public void onSuccess(SocialUser socialUser) {
-//                Prefs.putString("EMAIL", socialUser.email);
+//                Prefs.putString(PREFS_KEY_EMAIL, socialUser.email);
 //                String[] str = socialUser.fullName.split(" ");
-//                Prefs.putString("NAME_USER", str[0]);
-//                Prefs.putString("AVATAR", socialUser.profilePictureUrl);
+//                Prefs.putString(PREFS_KEY_NAME_USER, str[0]);
+//                Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
 //                presenter.signInTwitter();
 //            }
 //
@@ -161,13 +168,13 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(VKAccessToken res) {
-                Prefs.putString("EMAIL", res.email);
+                Prefs.putString(PREFS_KEY_EMAIL, res.email);
                 VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200"));
                 request.executeWithListener(new VKRequest.VKRequestListener() {
                     @Override
                     public void onComplete(VKResponse response) {
                         VKApiUser user = ((VKList<VKApiUser>) response.parsedModel).get(0);
-                        Prefs.putString("AVATAR", user.photo_200);
+                        Prefs.putString(PREFS_KEY_AVATAR, user.photo_200);
                     }
 
                     @Override
@@ -225,10 +232,10 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @Override
     public void onLogged(ResponseAuth responseAuth) {
         if (responseAuth != null) {
-            Prefs.putString("USER_ID", responseAuth.getId().toString());
-            Prefs.putString("TOKEN", responseAuth.getToken());
-            Prefs.putString("NAME_USER", responseAuth.getName());
-            Prefs.putString("EMAIL", responseAuth.getEmail());
+            Prefs.putString(PREFS_KEY_USER_ID, responseAuth.getId().toString());
+            Prefs.putString(PREFS_KEY_TOKEN, responseAuth.getToken());
+            Prefs.putString(PREFS_KEY_NAME_USER, responseAuth.getName());
+            Prefs.putString(PREFS_KEY_EMAIL, responseAuth.getEmail());
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -249,14 +256,14 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @Override
     public void onRecievedInfo(ResponseVk response) {
         presenter.signInVk();
-        Prefs.putString("NAME_USER", response.getFirstName());
+        Prefs.putString(PREFS_KEY_NAME_USER, response.getFirstName());
     }
 
     @Override
     public void onLoggedSocial(ResponseSocialAuth responseSocialAuth) {
         if (responseSocialAuth != null) {
-            Prefs.putString("USER_ID", responseSocialAuth.getId().toString());
-            Prefs.putString("TOKEN", responseSocialAuth.getToken());
+            Prefs.putString(PREFS_KEY_USER_ID, responseSocialAuth.getId().toString());
+            Prefs.putString(PREFS_KEY_TOKEN, responseSocialAuth.getToken());
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

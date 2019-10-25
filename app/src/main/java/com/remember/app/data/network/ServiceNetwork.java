@@ -65,9 +65,9 @@ public interface ServiceNetwork {
 
     Observable<MemoryPageModel> getImageAfterSave(Integer id);
 
-    Observable<ResponseSettings> getInfo(String token);
+    Observable<ResponseSettings> getInfo();
 
-    Observable<Object> saveSettings(String token, RequestSettings requestSettings);
+    Observable<Object> saveSettings(RequestSettings requestSettings);
 
     Observable<ResponseSocialAuth> signInVk(String email);
 

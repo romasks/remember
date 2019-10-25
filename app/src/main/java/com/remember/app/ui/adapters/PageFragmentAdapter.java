@@ -29,6 +29,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
@@ -104,7 +106,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             try {
                 if (memoryPageModelList.get(position).getPicture().contains("uploads")){
                     Glide.with(itemView)
-                            .load("http://помню.рус" + memoryPageModelList.get(position).getPicture())
+                            .load(BASE_SERVICE_URL + memoryPageModelList.get(position).getPicture())
                             .apply(RequestOptions.circleCropTransform())
                             .into(avatarImage);
                 } else {

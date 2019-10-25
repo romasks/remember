@@ -31,7 +31,6 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -41,7 +40,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,8 +47,14 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 
 public class PersonalDataFragment extends MvpAppCompatFragment implements PersonalDataFragmentView {
+
+    private final String TAG = PersonalDataFragment.class.getSimpleName();
 
     @InjectPresenter
     PersonalDataFragmentPresenter presenter;
@@ -59,11 +63,11 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     ImageView avatar;
     @BindView(R.id.login)
     AutoCompleteTextView login;
-    @BindView(R.id.secName)
-    AppCompatEditText secondName;
+    @BindView(R.id.surname)
+    AppCompatEditText surname;
     @BindView(R.id.name)
     AutoCompleteTextView name;
-    @BindView(R.id.surname)
+    @BindView(R.id.middleName)
     AutoCompleteTextView middleName;
     @BindView(R.id.livePlace)
     AutoCompleteTextView city;
@@ -86,13 +90,13 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
         if (Build.VERSION.SDK_INT >= 23) {
             if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.v("TAG", "Permission is granted");
+                Log.v(TAG, "Permission is granted");
             } else {
-                Log.v("TAG", "Permission is revoked");
+                Log.v(TAG, "Permission is revoked");
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         } else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("TAG", "Permission is granted");
+            Log.v(TAG, "Permission is granted");
         }
     }
 
@@ -102,7 +106,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_setings_lk, container, false);
         unbinder = ButterKnife.bind(this, v);
-        email.setText(Prefs.getString("EMAIL", ""));
+        email.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
         return v;
     }
 
@@ -163,7 +167,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
         requestSettings.setName(name.getText().toString());
         requestSettings.setLocation(city.getText().toString());
         requestSettings.setMiddleName(middleName.getText().toString());
-        requestSettings.setSurName(secondName.getText().toString());
+        requestSettings.setSurName(surname.getText().toString());
         requestSettings.setPhone(phone.getText().toString());
         presenter.saveSettings(requestSettings);
     }
@@ -177,10 +181,10 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
         if (responseSettings.getPicture() != null) {
-            Prefs.putString("AVATAR", "http://помню.рус" + responseSettings.getPicture());
-            Prefs.putString("NAME_USER", responseSettings.getName() + " " + responseSettings.getSurname());
+            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
+            Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
             Glide.with(this)
-                    .load("http://помню.рус" + responseSettings.getPicture())
+                    .load(BASE_SERVICE_URL + responseSettings.getPicture())
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -199,7 +203,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
         avatar.setColorFilter(filter);
         try {
             if (responseSettings.getSurname() != null) {
-                secondName.setText(responseSettings.getSurname());
+                surname.setText(responseSettings.getSurname());
             }
             if (responseSettings.getName() != null) {
                 name.setText(responseSettings.getName());
@@ -210,7 +214,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
             if (responseSettings.getPhone() != null) {
                 phone.setText(responseSettings.getPhone());
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             login.setText(responseSettings.getName());
         }
         getView().invalidate();
@@ -218,17 +222,19 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
 
     @Override
     public void error(Throwable throwable) {
-        Log.e("ERROR", throwable.getMessage());
+        Log.e(TAG, throwable.getMessage());
         Snackbar.make(avatar, "Ошибка загрузки данных", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void onSaved(Object o) {
+        Snackbar.make(avatar, "Данные успешно сохранены", Snackbar.LENGTH_SHORT).show();
         presenter.getInfo();
     }
 
     @Override
     public void onSavedImage(Object o) {
+        Snackbar.make(avatar, "Фото успешно сохранено", Snackbar.LENGTH_SHORT).show();
         progressDialog.dismiss();
     }
 }

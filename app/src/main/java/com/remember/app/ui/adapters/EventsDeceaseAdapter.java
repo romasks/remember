@@ -29,6 +29,8 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
@@ -96,7 +98,7 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
             try {
                 Glide.with(itemView)
-                        .load("http://помню.рус" + requestAddEvent.get(position).getPicture())
+                        .load(BASE_SERVICE_URL + requestAddEvent.get(position).getPicture())
                         .apply(RequestOptions.circleCropTransform())
                         .into(avatarImage);
             } catch (Exception e){

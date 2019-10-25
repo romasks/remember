@@ -25,6 +25,8 @@ import java.util.Date;
 
 import butterknife.BindView;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
     @InjectPresenter
@@ -88,7 +90,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         try {
             name.setText(requestEvent.getName());
             Glide.with(this)
-                    .load("http://помню.рус" + requestEvent.getPicture())
+                    .load(BASE_SERVICE_URL + requestEvent.getPicture())
                     .into(imageAvatar);
             dateView.setText(formatDate(requestEvent.getDate()));
             messageView.setText(requestEvent.getName() + " - " + requestEvent.getDescription());

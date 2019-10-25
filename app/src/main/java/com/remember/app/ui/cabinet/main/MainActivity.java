@@ -50,6 +50,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+
 public class MainActivity extends MvpAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
 
@@ -76,7 +80,7 @@ public class MainActivity extends MvpAppCompatActivity
         setSupportActionBar(toolbar);
 
         pageFragment = new PageFragment();
-        title.setText(Prefs.getString("NAME_USER", ""));
+        title.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
         Prefs.putBoolean("EVENT_FRAGMENT", false);
         Prefs.putBoolean("PAGE_FRAGMENT", true);
@@ -97,8 +101,8 @@ public class MainActivity extends MvpAppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = headerView.findViewById(R.id.title_menu);
         TextView textView = headerView.findViewById(R.id.textView);
-        navUsername.setText(Prefs.getString("NAME_USER", ""));
-        textView.setText(Prefs.getString("EMAIL", ""));
+        navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+        textView.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -187,16 +191,16 @@ public class MainActivity extends MvpAppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
-        if (!Prefs.getString("AVATAR", "").equals("")) {
+        if (!Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
             Glide.with(this)
-                    .load(Prefs.getString("AVATAR", ""))
+                    .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(imageViewAvatar);
 
             Glide.with(this)
-                    .load(Prefs.getString("AVATAR", ""))
+                    .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
                     .apply(RequestOptions.circleCropTransform())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -276,7 +280,7 @@ public class MainActivity extends MvpAppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         TextView textView = drawer.findViewById(R.id.title_menu);
-        textView.setText(Prefs.getString("NAME_USER", ""));
+        textView.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

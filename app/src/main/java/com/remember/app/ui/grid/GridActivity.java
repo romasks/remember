@@ -51,6 +51,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback,NavigationView.OnNavigationItemSelectedListener {
 
     @InjectPresenter
@@ -109,7 +114,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     private void getInfoUser(){
-        if (!Prefs.getString("USER_ID", "").equals("")) {
+        if (!Prefs.getString(PREFS_KEY_USER_ID, "").equals("")) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
@@ -118,24 +123,24 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             TextView navUsername = headerView.findViewById(R.id.title_menu);
             imageViewBigAvatar= headerView.findViewById(R.id.logo);
             TextView textView = headerView.findViewById(R.id.textView);
-            navUsername.setText(Prefs.getString("NAME_USER", ""));
-            textView.setText(Prefs.getString("EMAIL", ""));
+            navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+            textView.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                     this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.addDrawerListener(toggle);
             toggle.syncState();
             navigationView.setNavigationItemSelectedListener(this);
-            name_user.setText(Prefs.getString("NAME_USER",""));
-            if (!Prefs.getString("AVATAR", "").equals("")) {
+            name_user.setText(Prefs.getString(PREFS_KEY_NAME_USER,""));
+            if (!Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
                 Glide.with(this)
-                        .load(Prefs.getString("AVATAR", ""))
+                        .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
                         .apply(RequestOptions.circleCropTransform())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(avatar_user);
 
                 Glide.with(this)
-                        .load(Prefs.getString("AVATAR", ""))
+                        .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
                         .apply(RequestOptions.circleCropTransform())
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
@@ -168,7 +173,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @OnClick(R.id.button)
     public void entry() {
-        if (!Prefs.getString("USER_ID", "").equals("")) {
+        if (!Prefs.getString(PREFS_KEY_USER_ID, "").equals("")) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, AuthActivity.class));
@@ -281,7 +286,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         TextView textView = drawer.findViewById(R.id.title_menu);
-        textView.setText(Prefs.getString("NAME_USER", ""));
+        textView.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
         drawer.closeDrawer(GravityCompat.START);
         return false;
     }

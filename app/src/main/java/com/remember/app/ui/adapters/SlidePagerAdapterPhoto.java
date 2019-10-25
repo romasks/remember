@@ -24,6 +24,8 @@ import java.util.List;
 
 import retrofit2.http.Body;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class SlidePagerAdapterPhoto extends PagerAdapter {
 
 
@@ -69,7 +71,7 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
         textView.setText(responseImagesSliders.get(position).getBody());
         count.getCountPage(String.valueOf(responseImagesSliders.size()));
         Glide.with(context)
-                .load("http://помню.рус" + responseImagesSliders.get(position).getPicture())
+                .load(BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture())
                 .into(imageView);
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);

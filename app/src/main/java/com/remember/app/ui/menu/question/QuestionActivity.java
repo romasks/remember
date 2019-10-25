@@ -14,6 +14,9 @@ import com.remember.app.ui.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+
 public class QuestionActivity extends BaseActivity implements QuestionView {
 
     @InjectPresenter
@@ -50,8 +53,8 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
             requestQuestion.setType("predlogenie");
         }
         requestQuestion.setBody(body.getText().toString());
-        requestQuestion.setName(Prefs.getString("EMAIL", ""));
-        requestQuestion.setUserId(Integer.parseInt(Prefs.getString("USER_ID", "")));
+        requestQuestion.setName(Prefs.getString(PREFS_KEY_EMAIL, ""));
+        requestQuestion.setUserId(Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "")));
         presenter.send(requestQuestion);
     }
 

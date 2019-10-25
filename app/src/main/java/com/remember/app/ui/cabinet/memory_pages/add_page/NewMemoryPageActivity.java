@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -66,6 +65,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
@@ -197,7 +199,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
         Glide.with(this)
-                .load("http://помню.рус" + memoryPageModel.getPicture())
+                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();
@@ -243,7 +245,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setComment(description.getText().toString());
         person.setBirthDate(dateBegin.getText().toString());
         person.setDeathDate(dateEnd.getText().toString());
-        person.setUserId(Prefs.getString("USER_ID", "0"));
+        person.setUserId(Prefs.getString(PREFS_KEY_USER_ID, "0"));
         if (isFamous.isChecked()) {
             person.setStar("true");
         } else if (notFamous.isChecked()) {

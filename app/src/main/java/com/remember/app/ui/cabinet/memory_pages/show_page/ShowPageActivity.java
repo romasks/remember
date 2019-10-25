@@ -48,6 +48,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback,PhotoSliderAdapter.ItemClickListener {
 
     @InjectPresenter
@@ -159,7 +161,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (memoryPageModel != null) {
             if (!afterSave){
                 Glide.with(this)
-                        .load("http://помню.рус" + memoryPageModel.getPicture())
+                        .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                         .error(R.drawable.darth_vader)
                         .into(image);
                 ColorMatrix colorMatrix = new ColorMatrix();
@@ -287,7 +289,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         this.memoryPageModel = memoryPageModel;
         initAll();
         Glide.with(this)
-                .load("http://помню.рус" + memoryPageModel.getPicture())
+                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();

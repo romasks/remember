@@ -18,6 +18,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+
 @InjectViewState
 public class AuthPresenter extends BasePresenter<AuthView> {
 
@@ -59,7 +62,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     public void signInVk() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL", ""))
+        Disposable subscription = serviceNetwork.signInVk(Prefs.getString(PREFS_KEY_EMAIL, ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
@@ -68,7 +71,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     public void signInTwitter() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL", ""))
+        Disposable subscription = serviceNetwork.signInVk(Prefs.getString(PREFS_KEY_EMAIL, ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
@@ -78,8 +81,8 @@ public class AuthPresenter extends BasePresenter<AuthView> {
 
     public void signInFacebook() {
         RequestSocialAuth request = new RequestSocialAuth(
-                Prefs.getString("EMAIL", ""),
-                Prefs.getString("ACCESS_TOKEN", ""),
+                Prefs.getString(PREFS_KEY_EMAIL, ""),
+                Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
                 "fb"
         );
         Disposable subscription = serviceNetwork.signInSocial(request)

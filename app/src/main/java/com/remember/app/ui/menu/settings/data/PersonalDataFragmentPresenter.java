@@ -1,7 +1,6 @@
 package com.remember.app.ui.menu.settings.data;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.Remember;
 import com.remember.app.data.models.RequestSettings;
 import com.remember.app.ui.base.BasePresenter;
@@ -15,12 +14,12 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class PersonalDataFragmentPresenter extends BasePresenter<PersonalDataFragmentView> {
 
-    public PersonalDataFragmentPresenter() {
+    PersonalDataFragmentPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getInfo() {
-        Disposable subscription = getServiceNetwork().getInfo(Prefs.getString("TOKEN","0"))
+    void getInfo() {
+        Disposable subscription = getServiceNetwork().getInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedInfo,
@@ -28,8 +27,8 @@ public class PersonalDataFragmentPresenter extends BasePresenter<PersonalDataFra
         unsubscribeOnDestroy(subscription);
     }
 
-    public void saveSettings(RequestSettings requestSettings) {
-        Disposable subscription = getServiceNetwork().saveSettings(Prefs.getString("TOKEN","0"), requestSettings)
+    void saveSettings(RequestSettings requestSettings) {
+        Disposable subscription = getServiceNetwork().saveSettings(requestSettings)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onSaved,
@@ -37,7 +36,7 @@ public class PersonalDataFragmentPresenter extends BasePresenter<PersonalDataFra
         unsubscribeOnDestroy(subscription);
     }
 
-    public void saveImageSetting(File imageFile) {
+    void saveImageSetting(File imageFile) {
         Disposable subscription = getServiceNetwork().saveImageSetting(imageFile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

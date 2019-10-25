@@ -22,6 +22,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
@@ -78,7 +80,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             try {
                 Glide.with(context)
-                        .load("http://помню.рус" + responseImagesSliders.get(position).getPicture())
+                        .load(BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture())
                         .circleCrop()
                         .into(imageView);
                 ColorMatrix colorMatrix = new ColorMatrix();
