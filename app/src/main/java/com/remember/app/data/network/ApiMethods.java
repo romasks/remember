@@ -139,7 +139,8 @@ public interface ApiMethods {
     @Multipart
     @POST("page/edit/{id}")
 //    Observable<ResponsePages> editPage(@Header("Authorization") String token,
-    Observable<PageEditedResponse> editPage(@Header("Authorization") String token,
+//    Observable<PageEditedResponse> editPage(@Header("Authorization") String token,
+    Observable<MemoryPageModel> editPage(@Header("Authorization") String token,
                                             @Part("oblast") RequestBody oblast,
                                             @Part("datarod") RequestBody datarod,
                                             @Part("nazvaklad") RequestBody nazvaklad,
@@ -171,7 +172,8 @@ public interface ApiMethods {
     @Multipart
     @POST("page/edit/{id}")
 //    Observable<ResponsePages> editPageWithoutImage(@Header("Authorization") String token,
-    Observable<PageEditedResponse> editPageWithoutImage(@Header("Authorization") String token,
+//    Observable<PageEditedResponse> editPageWithoutImage(@Header("Authorization") String token,
+    Observable<MemoryPageModel> editPageWithoutImage(@Header("Authorization") String token,
                                                    @Part("oblast") RequestBody oblast,
                                                    @Part("datarod") RequestBody datarod,
                                                    @Part("nazvaklad") RequestBody nazvaklad,

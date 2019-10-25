@@ -214,8 +214,16 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
-        city.setText(memoryPageModel.getGorod());
-        crypt.setText(memoryPageModel.getNazvaklad());
+        if (memoryPageModel.getGorod() == null || memoryPageModel.getGorod().isEmpty()) {
+            city.setText("-");
+        } else {
+            city.setText(memoryPageModel.getGorod());
+        }
+        if (memoryPageModel.getNazvaklad() == null || memoryPageModel.getNazvaklad().isEmpty()) {
+            crypt.setText("-");
+        } else {
+            crypt.setText(memoryPageModel.getNazvaklad());
+        }
         if (memoryPageModel.getUchastok() == null || memoryPageModel.getUchastok().isEmpty()) {
             sector.setText("-");
         } else {

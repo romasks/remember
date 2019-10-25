@@ -367,8 +367,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
 //    @Override
 //    public Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile) {
+//    @Override
+//    public Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile) {
     @Override
-    public Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile) {
+    public Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile) {
         RequestBody area = null;
         RequestBody birthDate = null;
         RequestBody cemeteryName = null;
