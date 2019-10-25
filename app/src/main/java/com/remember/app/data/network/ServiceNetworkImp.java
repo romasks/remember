@@ -342,7 +342,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
         }
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-        return apiMethods.addPage(area,
+        return apiMethods.addPage("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""),
+                area,
                 birthDate,
                 cemeteryName,
                 city,
