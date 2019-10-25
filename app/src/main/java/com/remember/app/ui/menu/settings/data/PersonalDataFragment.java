@@ -102,6 +102,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_setings_lk, container, false);
         unbinder = ButterKnife.bind(this, v);
+        email.setText(Prefs.getString("EMAIL", ""));
         return v;
     }
 

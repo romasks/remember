@@ -166,7 +166,8 @@ public interface ApiMethods {
     Observable<ResponseSettings> getInfo(@Header("Authorization") String token);
 
     @POST("settings")
-    Observable<Object> saveSettings(@Body RequestSettings requestSettings);
+    Observable<Object> saveSettings(@Header("Authorization") String token,
+                                    @Body RequestSettings requestSettings);
 
     @GET("user/social")
     Observable<ResponseSocialAuth> signInVk(@Query("email") String email,

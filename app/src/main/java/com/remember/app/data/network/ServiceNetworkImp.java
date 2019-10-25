@@ -134,8 +134,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<Object> saveSettings(RequestSettings requestSettings) {
-        return apiMethods.saveSettings(requestSettings);
+    public Observable<Object> saveSettings(String token, RequestSettings requestSettings) {
+        return apiMethods.saveSettings("Bearer " + token, requestSettings);
     }
 
     @Override

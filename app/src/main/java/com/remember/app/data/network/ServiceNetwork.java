@@ -67,7 +67,7 @@ public interface ServiceNetwork {
 
     Observable<ResponseSettings> getInfo(String token);
 
-    Observable<Object> saveSettings(RequestSettings requestSettings);
+    Observable<Object> saveSettings(String token, RequestSettings requestSettings);
 
     Observable<ResponseSocialAuth> signInVk(String email);
 
