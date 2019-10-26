@@ -212,7 +212,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
         MultipartBody.Part imageCut = MultipartBody.Part.createFormData("picture_cut", imageFile.getName(), mFile);
-        return apiMethods.savePhoto(string, id, fileToUploadTranser, imageCut);
+        String token = "Bearer " + Prefs.getString("TOKEN", "");
+        return apiMethods.savePhoto(token, string, id, fileToUploadTranser, imageCut);
     }
 
     @Override
