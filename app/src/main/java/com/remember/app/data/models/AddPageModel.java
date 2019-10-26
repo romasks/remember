@@ -25,8 +25,6 @@ public class AddPageModel implements Parcelable {
     private String district;
     @SerializedName("gorod")
     private String city;
-    @SerializedName("sector")
-    private String sector;
     @SerializedName("nazvaklad")
     private String cemeteryName;
     @SerializedName("uchastok")
@@ -282,12 +280,4 @@ public class AddPageModel implements Parcelable {
             return new AddPageModel[size];
         }
     };
-
-    public String getSector() {
-        return sector;
-    }
-
-    public void setSector(String sector) {
-        this.sector = sector;
-    }
 }

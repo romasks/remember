@@ -29,7 +29,7 @@ public class PersonalDataFragmentPresenter extends BasePresenter<PersonalDataFra
     }
 
     public void saveSettings(RequestSettings requestSettings) {
-        Disposable subscription = getServiceNetwork().saveSettings(requestSettings)
+        Disposable subscription = getServiceNetwork().saveSettings(requestSettings, Prefs.getString("USER_ID","0"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onSaved,

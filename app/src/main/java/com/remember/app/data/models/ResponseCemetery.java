@@ -10,7 +10,7 @@ public class ResponseCemetery {
     private int id;
     @SerializedName("city_id")
     @Expose
-    private String cityId;
+    private int cityId;
     @SerializedName("body")
     @Expose
     private String address;
@@ -37,11 +37,11 @@ public class ResponseCemetery {
         this.id = id;
     }
 
-    public String getCityId() {
+    public int getCityId() {
         return cityId;
     }
 
-    public void setCityId(String cityId) {
+    public void setCityId(int cityId) {
         this.cityId = cityId;
     }
 

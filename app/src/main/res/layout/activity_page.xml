@@ -240,6 +240,7 @@
                                     android:layout_gravity="center"
                                     android:paddingTop="12dp"
                                     android:layout_weight="1"
+                                    android:text="TextView"
                                     android:textStyle="bold" />
 
                             </LinearLayout>

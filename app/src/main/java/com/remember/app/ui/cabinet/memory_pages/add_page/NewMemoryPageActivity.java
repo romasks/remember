@@ -41,7 +41,6 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
@@ -326,16 +325,14 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     private void setInitialDateBegin() {
         @SuppressLint("SimpleDateFormat")
-//        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
         dateBegin.setText(requiredDate);
     }
 
     private void setInitialDateEnd() {
         @SuppressLint("SimpleDateFormat")
-//        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
         dateEnd.setText(requiredDate);
     }
@@ -350,7 +347,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 person.setCemeteryName(data.getStringExtra("CEMETERY"));
                 person.setSpotId(data.getStringExtra("SPOT_ID"));
                 person.setGraveId(data.getStringExtra("GRAVE_ID"));
-                person.setSector(data.getStringExtra("SECTOR"));
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
@@ -453,21 +449,11 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     @Override
-//    public void onEdited(ResponsePages responsePages) {
-    public void onEdited(PageEditedResponse responsePages) {
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.putExtra("PERSON", person);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
-//        Toast.makeText(this, "Данные сохранены", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, ShowPageActivity.class);
+    public void onEdited(ResponsePages responsePages) {
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("PERSON", person);
-        intent.putExtra("IMAGE", imageFile);
-        intent.putExtra("ID", person.getId());
-        intent.putExtra("AFTER_SAVE", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        finish();
     }
 
     @Override

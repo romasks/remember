@@ -6,14 +6,12 @@ import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
-import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -24,7 +22,6 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.io.File;
 import java.util.List;
@@ -123,7 +120,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<ResponsePages> getImages(int count) {
-        return apiMethods.getImages(count ,"Одобрено");
+        return apiMethods.getImages("Одобрено");
     }
 
     @Override
@@ -147,19 +144,14 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<Object> saveSettings(RequestSettings requestSettings) {
-        return apiMethods.saveSettings(requestSettings);
+    public Observable<Object> saveSettings(RequestSettings requestSettings, String id) {
+        return apiMethods.saveSettings(requestSettings, id);
     }
 
     @Override
-    public Observable<ResponseSocialAuth> signInVk(String email) {
+    public Observable<ResponseSettings> signInVk(String email) {
         String name = Prefs.getString("USER_NAME", "");
         return apiMethods.signInVk(email, name);
-    }
-
-    @Override
-    public Observable<ResponseSocialAuth> signInSocial(RequestSocialAuth request) {
-        return apiMethods.signInSocial(request);
     }
 
     @Override
@@ -231,7 +223,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
         MultipartBody.Part imageCut = MultipartBody.Part.createFormData("picture_cut", imageFile.getName(), mFile);
-        return apiMethods.savePhoto(string, id, fileToUploadTranser, imageCut);
+        return apiMethods.savePhoto(string, id, fileToUploadTranser, imageCut,Prefs.getString("TOKEN", ""));
     }
 
     @Override
@@ -251,7 +243,6 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody district = null;
         RequestBody flag = null;
         RequestBody grave = null;
-        RequestBody sector = null;
         RequestBody name = null;
         RequestBody optradio = null;
         RequestBody religion = null;
@@ -351,21 +342,12 @@ public class ServiceNetworkImp implements ServiceNetwork {
         } catch (Exception e) {
             thirdName = RequestBody.create(MultipartBody.FORM, "");
         }
-        try {
-            sector = RequestBody.create(MultipartBody.FORM, person.getSector());
-        } catch (Exception e) {
-            sector = RequestBody.create(MultipartBody.FORM, "");
-        }
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-        String token = "Bearer " + Prefs.getString("TOKEN", "");
-        return apiMethods.addPage(
-                token,
-                area,
+        return apiMethods.addPage(area,
                 birthDate,
                 cemeteryName,
                 city,
-                sector,
                 comment,
                 coords,
                 deathDate,
@@ -380,14 +362,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 star,
                 thirdName,
                 userId,
-                fileToUploadTranser
-        );
+                fileToUploadTranser);
     }
 
-//    @Override
-//    public Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile) {
     @Override
-    public Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile) {
+    public Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile) {
         RequestBody area = null;
         RequestBody birthDate = null;
         RequestBody cemeteryName = null;
@@ -506,10 +485,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
         if (imageFile != null) {
             mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
             fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-            String token = "Bearer " + Prefs.getString("TOKEN", "");
-            return apiMethods.editPage(
-                    token,
-                    area,
+            return apiMethods.editPage(area,
                     birthDate,
                     cemeteryName,
                     city,
@@ -532,10 +508,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
             );
         } else {
-            String token = "Bearer " + Prefs.getString("TOKEN", "");
-            return apiMethods.editPageWithoutImage(
-                    token,
-                    area,
+            return apiMethods.editPageWithoutImage(area,
                     birthDate,
                     cemeteryName,
                     city,

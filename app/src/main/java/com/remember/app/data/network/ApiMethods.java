@@ -5,13 +5,11 @@ import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.RequestSettings;
-import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -22,7 +20,6 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.util.List;
 
@@ -214,11 +211,15 @@ public interface ApiMethods {
     @GET("photo/page/{page_id}")
     Observable<List<ResponseImagesSlider>> getAllPhotosForPage(@Path("page_id") int pageId);
 
+
+
+
     @Multipart
     @POST("photo/add")
     Observable<Object> savePhoto(@Part("body") String string,
                                  @Part("page_id") Integer id,
                                  @Part MultipartBody.Part image,
-                                 @Part MultipartBody.Part imageCut);
+                                 @Part MultipartBody.Part imageCut,
+                                 @Header("Authorization") String token);
 
 }

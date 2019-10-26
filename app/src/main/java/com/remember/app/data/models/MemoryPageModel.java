@@ -343,12 +343,4 @@ public class MemoryPageModel implements Parcelable {
             return new MemoryPageModel[size];
         }
     };
-
-    public String getSector() {
-        return sector;
-    }
-
-    public void setSector(String sector) {
-        this.sector = sector;
-    }
 }
