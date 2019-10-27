@@ -30,6 +30,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
@@ -98,7 +100,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             try {
                 if (memoryPageModels.get(position).getPicture().contains("uploads")){
                     Glide.with(context)
-                            .load("http://помню.рус" + memoryPageModels.get(position).getPicture())
+                            .load(BASE_SERVICE_URL + memoryPageModels.get(position).getPicture())
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

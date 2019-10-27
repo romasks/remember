@@ -32,6 +32,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+
 public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsView, PopupAddEpitaph.Callback,
         EpitaphsAdapter.Callback, DeleteAlertDialog.Callback {
 
@@ -133,7 +135,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         RequestAddEpitaphs requestAddEpitaphs = new RequestAddEpitaphs();
         requestAddEpitaphs.setBody(text);
         requestAddEpitaphs.setPageId(pageId);
-        requestAddEpitaphs.setUserId(Prefs.getString("USER_ID", ""));
+        requestAddEpitaphs.setUserId(Prefs.getString(PREFS_KEY_USER_ID, ""));
         requestAddEpitaphs.setCreated(df.format(new Date()));
         requestAddEpitaphs.setUpdated(df.format(new Date()));
         presenter.saveEpitaph(requestAddEpitaphs);
@@ -145,7 +147,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         RequestAddEpitaphs requestAddEpitaphs = new RequestAddEpitaphs();
         requestAddEpitaphs.setBody(text);
         requestAddEpitaphs.setPageId(pageId);
-        requestAddEpitaphs.setUserId(Prefs.getString("USER_ID", ""));
+        requestAddEpitaphs.setUserId(Prefs.getString(PREFS_KEY_USER_ID, ""));
         presenter.editEpitaph(requestAddEpitaphs, id);
     }
 

@@ -86,6 +86,7 @@ public class ApiModule {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addInterceptor(loggingInterceptor);
         }
+        builder.retryOnConnectionFailure(true);
         return builder.build();
     }
 }

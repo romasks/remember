@@ -68,13 +68,13 @@
                 android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:hint="@string/last_name"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapWords"
                     android:maxLines="1"
                     android:textAlignment="textStart"
                     android:textColor="@drawable/abc" />
@@ -93,14 +93,14 @@
                 android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/last_name_title">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:hint="@string/name"
-                    android:inputType="textPersonName"
                     android:maxLines="1"
+                    android:inputType="textPersonName|textCapWords"
                     android:textAlignment="textStart"
                     android:textColor="@drawable/abc" />
 
@@ -118,14 +118,14 @@
                 android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/name_title">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:hint="@string/middle_name"
-                    android:inputType="textPersonName"
                     android:maxLines="1"
+                    android:inputType="textPersonName|textCapWords"
                     android:textAlignment="textStart"
                     android:textColor="@drawable/abc" />
 

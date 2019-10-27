@@ -48,7 +48,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback {
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
+public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback,PhotoSliderAdapter.ItemClickListener {
 
     @InjectPresenter
     ShowPagePresenter presenter;
@@ -79,6 +81,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     ImageButton epitaphyButton;
     @BindView(R.id.imageButton)
     ImageButton imageButton;
+    @BindView(R.id.sec_value)
+    TextView sectorPlace;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
     @BindView(R.id.recycler_slider)
@@ -88,10 +92,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private boolean isList = false;
     private boolean isShow = false;
     private boolean afterSave = false;
-    private  PhotoDialog photoDialog;
+    private PhotoDialog photoDialog;
     private int id = 0;
     private MemoryPageModel memoryPageModel;
     private PhotoSliderAdapter photoSliderAdapter;
+    private final String TAG="ShowPageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +112,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (isShow) {
             memoryPageModel = i.getParcelableExtra("PERSON");
             presenter.getImagesSlider(memoryPageModel.getId());
+            id=memoryPageModel.getId();
             settings.setClickable(false);
             imageButton.setClickable(false);
             initAll();
@@ -134,10 +140,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             intent.putExtra("ID_PAGE", memoryPageModel.getId());
             startActivity(intent);
         });
-
+        image.setOnClickListener(n->startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class)
+                .putExtra("ID",id)));
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
+        photoSliderAdapter.setClickListener(this);
         recyclerSlider.setAdapter(photoSliderAdapter);
 
     }
@@ -153,9 +161,9 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     private void initAll() {
         if (memoryPageModel != null) {
-            if (!afterSave){
+            if (!afterSave) {
                 Glide.with(this)
-                        .load("http://помню.рус" + memoryPageModel.getPicture())
+                        .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                         .error(R.drawable.darth_vader)
                         .into(image);
                 ColorMatrix colorMatrix = new ColorMatrix();
@@ -170,8 +178,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
 
     @OnClick(R.id.description_title)
-    public void description(){
-        if (description.getVisibility() == View.VISIBLE){
+    public void description() {
+        if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
         } else {
             description.setVisibility(View.VISIBLE);
@@ -204,18 +212,45 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == Activity.RESULT_OK) {
+            assert result != null;
             photoDialog.setUri(result.getUri());
+            Log.i(TAG,"RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            assert result != null;
             Exception error = result.getError();
+            Log.i(TAG,"CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
         } else {
+            Log.i(TAG,"HZ");
+
         }
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
-        city.setText(memoryPageModel.getGorod());
-        crypt.setText(memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getUchastok());
-        grave.setText(memoryPageModel.getNummogil());
+        if (memoryPageModel.getGorod() == null || memoryPageModel.getGorod().isEmpty()) {
+            city.setText("-");
+        } else {
+            city.setText(memoryPageModel.getGorod());
+        }
+        if (memoryPageModel.getNazvaklad() == null || memoryPageModel.getNazvaklad().isEmpty()) {
+            crypt.setText("-");
+        } else {
+            crypt.setText(memoryPageModel.getNazvaklad());
+        }
+        if (memoryPageModel.getUchastok() == null || memoryPageModel.getUchastok().isEmpty()) {
+            sector.setText("-");
+        } else {
+            sector.setText(memoryPageModel.getUchastok());
+        }
+        if (memoryPageModel.getNummogil() == null || memoryPageModel.getNummogil().isEmpty()) {
+            grave.setText("-");
+        } else {
+            grave.setText(memoryPageModel.getNummogil());
+        }
+        if (memoryPageModel.getSector() == null || memoryPageModel.getSector().isEmpty()) {
+            sectorPlace.setText("-");
+        } else {
+            sectorPlace.setText(memoryPageModel.getSector());
+        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -277,7 +312,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         this.memoryPageModel = memoryPageModel;
         initAll();
         Glide.with(this)
-                .load("http://помню.рус" + memoryPageModel.getPicture())
+                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();
@@ -288,6 +323,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void error(Throwable throwable) {
+        Log.i(TAG,"throwable= "+throwable.toString());
         Snackbar.make(image, "Ошибка загрузки изображения", Snackbar.LENGTH_LONG).show();
     }
 
@@ -315,9 +351,18 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @Override
     public void sendPhoto(File imageFile, String string) {
         if (memoryPageModel.getId() != null){
+            Log.i(TAG,"!= null"+imageFile.toString()+"  string= "+string+"  "+memoryPageModel.getId());
             presenter.savePhoto(imageFile, string, memoryPageModel.getId());
         } else  {
+            Log.i(TAG,"== null");
             presenter.savePhoto(imageFile, string, id);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class)
+                .putExtra("ID",id));
+
     }
 }

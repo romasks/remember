@@ -5,11 +5,13 @@ import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -20,6 +22,7 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.io.File;
 import java.util.List;
@@ -61,7 +64,9 @@ public interface ServiceNetwork {
 
     Observable<ResponsePages> getImages(int count);
 
-    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
+//    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
+//    Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile);
+    Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile);
 
     Observable<List<MemoryPageModel>> searchLastName(String lastName);
 
@@ -69,11 +74,13 @@ public interface ServiceNetwork {
 
     Observable<MemoryPageModel> getImageAfterSave(Integer id);
 
-    Observable<ResponseSettings> getInfo(String token);
+    Observable<ResponseSettings> getInfo();
 
-    Observable<Object> saveSettings(RequestSettings requestSettings, String id);
+    Observable<Object> saveSettings(RequestSettings requestSettings);
 
-    Observable<ResponseSettings> signInVk(String email);
+    Observable<ResponseSocialAuth> signInVk(String email);
+
+    Observable<ResponseSocialAuth> signInSocial(RequestSocialAuth request);
 
     Observable<List<MemoryPageModel>> getAllPages();
 

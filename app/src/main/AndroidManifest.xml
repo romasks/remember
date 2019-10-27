@@ -21,6 +21,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
+        <activity android:name=".ui.cabinet.memory_pages.show_page.SlidePhotoActivity">
+
+        </activity>
         <activity android:name=".ui.cabinet.memory_pages.events.current_event.CurrentEvent" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -118,7 +121,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="c7074eec0f20a665595a00e9d3e8f30494dfed6c" />
+            android:value="7ac28b26f9adbec5e15c86d2820f825947e74f53" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyChaINz3Z-zpj3LXh-9AMcJqYvwhBqSU_o" />

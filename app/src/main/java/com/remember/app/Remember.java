@@ -3,15 +3,11 @@ package com.remember.app;
 import android.app.Application;
 import android.content.ContextWrapper;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.di.component.ApplicationComponent;
 import com.remember.app.di.component.DaggerApplicationComponent;
 import com.remember.app.di.module.ApplicationModule;
 import com.vk.sdk.VKSdk;
-
-import io.fabric.sdk.android.Fabric;
 
 public class Remember extends Application {
 
