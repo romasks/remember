@@ -3,6 +3,7 @@ package com.remember.app.data.network;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
@@ -57,7 +58,9 @@ public interface ServiceNetwork {
 
     Observable<ResponsePages> getImages(int count);
 
-    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
+//    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
+//    Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile);
+    Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile);
 
     Observable<List<MemoryPageModel>> searchLastName(String lastName);
 

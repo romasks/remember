@@ -81,6 +81,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     ImageButton epitaphyButton;
     @BindView(R.id.imageButton)
     ImageButton imageButton;
+    @BindView(R.id.sec_value)
+    TextView sectorPlace;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
     @BindView(R.id.recycler_slider)
@@ -90,7 +92,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private boolean isList = false;
     private boolean isShow = false;
     private boolean afterSave = false;
-    private  PhotoDialog photoDialog;
+    private PhotoDialog photoDialog;
     private int id = 0;
     private MemoryPageModel memoryPageModel;
     private PhotoSliderAdapter photoSliderAdapter;
@@ -159,7 +161,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     private void initAll() {
         if (memoryPageModel != null) {
-            if (!afterSave){
+            if (!afterSave) {
                 Glide.with(this)
                         .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                         .error(R.drawable.darth_vader)
@@ -176,8 +178,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
 
     @OnClick(R.id.description_title)
-    public void description(){
-        if (description.getVisibility() == View.VISIBLE){
+    public void description() {
+        if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
         } else {
             description.setVisibility(View.VISIBLE);
@@ -224,10 +226,31 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
-        city.setText(memoryPageModel.getGorod());
-        crypt.setText(memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getUchastok());
-        grave.setText(memoryPageModel.getNummogil());
+        if (memoryPageModel.getGorod() == null || memoryPageModel.getGorod().isEmpty()) {
+            city.setText("-");
+        } else {
+            city.setText(memoryPageModel.getGorod());
+        }
+        if (memoryPageModel.getNazvaklad() == null || memoryPageModel.getNazvaklad().isEmpty()) {
+            crypt.setText("-");
+        } else {
+            crypt.setText(memoryPageModel.getNazvaklad());
+        }
+        if (memoryPageModel.getUchastok() == null || memoryPageModel.getUchastok().isEmpty()) {
+            sector.setText("-");
+        } else {
+            sector.setText(memoryPageModel.getUchastok());
+        }
+        if (memoryPageModel.getNummogil() == null || memoryPageModel.getNummogil().isEmpty()) {
+            grave.setText("-");
+        } else {
+            grave.setText(memoryPageModel.getNummogil());
+        }
+        if (memoryPageModel.getSector() == null || memoryPageModel.getSector().isEmpty()) {
+            sectorPlace.setText("-");
+        } else {
+            sectorPlace.setText(memoryPageModel.getSector());
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

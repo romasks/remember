@@ -4,6 +4,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
@@ -113,7 +114,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<ResponsePages> getImages(int count) {
-        return apiMethods.getImages("Одобрено");
+        return apiMethods.getImages(count ,"Одобрено");
     }
 
     @Override
@@ -221,7 +222,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
         MultipartBody.Part imageCut = MultipartBody.Part.createFormData("picture_cut", imageFile.getName(), mFile);
-        return apiMethods.savePhoto(string, id, fileToUploadTranser, imageCut);
+        String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
+        return apiMethods.savePhoto(token, string, id, fileToUploadTranser, imageCut);
     }
 
     @Override
@@ -241,6 +243,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody district = null;
         RequestBody flag = null;
         RequestBody grave = null;
+        RequestBody sector = null;
         RequestBody name = null;
         RequestBody optradio = null;
         RequestBody religion = null;
@@ -340,13 +343,21 @@ public class ServiceNetworkImp implements ServiceNetwork {
         } catch (Exception e) {
             thirdName = RequestBody.create(MultipartBody.FORM, "");
         }
+        try {
+            sector = RequestBody.create(MultipartBody.FORM, person.getSector());
+        } catch (Exception e) {
+            sector = RequestBody.create(MultipartBody.FORM, "");
+        }
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-        return apiMethods.addPage("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""),
+        String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
+        return apiMethods.addPage(
+                token,
                 area,
                 birthDate,
                 cemeteryName,
                 city,
+                sector,
                 comment,
                 coords,
                 deathDate,
@@ -361,11 +372,16 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 star,
                 thirdName,
                 userId,
-                fileToUploadTranser);
+                fileToUploadTranser
+        );
     }
 
+//    @Override
+//    public Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile) {
+//    @Override
+//    public Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile) {
     @Override
-    public Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile) {
+    public Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile) {
         RequestBody area = null;
         RequestBody birthDate = null;
         RequestBody cemeteryName = null;
@@ -484,7 +500,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
         if (imageFile != null) {
             mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
             fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-            return apiMethods.editPage(area,
+            String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
+            return apiMethods.editPage(
+                    token,
+                    area,
                     birthDate,
                     cemeteryName,
                     city,
@@ -507,7 +526,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
             );
         } else {
-            return apiMethods.editPageWithoutImage(area,
+            String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
+            return apiMethods.editPageWithoutImage(
+                    token,
+                    area,
                     birthDate,
                     cemeteryName,
                     city,
