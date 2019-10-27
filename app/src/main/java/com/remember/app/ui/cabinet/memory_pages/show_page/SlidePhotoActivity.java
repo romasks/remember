@@ -7,11 +7,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
@@ -51,9 +53,21 @@ public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide_photo);
         unbinder = ButterKnife.bind(this);
+        if (Prefs.getInt("IS_THEME",0)==2){
+            im_back.setImageResource(R.drawable.ic_back_dark_theme);
+        }else {
+            im_back.setImageResource(R.drawable.ic_back);
+        }
         slidePagerAdapterPhoto=new SlidePagerAdapterPhoto(this);
         slidePagerAdapterPhoto.setCount(this);
         viewPager.setAdapter(slidePagerAdapterPhoto);

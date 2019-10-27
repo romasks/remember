@@ -14,9 +14,13 @@ public class RequestSettings {
     @SerializedName("thirdname")
     @Expose
     private String middleName;
+
+
     @SerializedName("location")
     @Expose
     private String location;
+
+
     @SerializedName("phone")
     @Expose
     private String phone;

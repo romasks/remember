@@ -49,7 +49,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/avatar"
@@ -57,7 +57,7 @@
                     tools:text="Иван Иванов" />
 
                 <ImageView
-                    android:id="@+id/search"
+                    android:id="@+id/search2"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_gravity="center_vertical"
@@ -93,7 +93,7 @@
             app:tabIndicatorColor="#917b5a"
             app:tabSelectedTextColor="#917b5a"
             app:tabTextAppearance="@style/tab_text"
-            app:tabTextColor="@android:color/black"
+            app:tabTextColor="?android:attr/textColor"
             android:focusable="true"
             android:textSize="16sp"/>
 

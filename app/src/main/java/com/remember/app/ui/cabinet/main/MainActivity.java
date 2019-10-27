@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -65,32 +65,52 @@ public class MainActivity extends MvpAppCompatActivity
 ImageView button_menu;
     @BindView(R.id.title_name)
     TextView title;
+    @BindView(R.id.search2)
+    ImageView searchImg;
+    @BindView(R.id.add_plus)
+    ImageView addImg;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
     @InjectPresenter
     PersonalDataFragmentPresenter presenterData;
     private Unbinder unbinder;
     private PageFragment pageFragment;
     private CallbackPage callbackPage;
     private ProgressDialog progressDialog;
-    private ViewPager viewPager;
     private PopupEventScreen popupWindowEvent;
     private PopupPageScreen popupWindowPage;
     private ImageView imageViewAvatar;
     private ImageView imageViewBigAvatar;
      private TextView textView;
+     private int theme_setting=0;
      private static String TAG="MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
+        if (Prefs.getInt("IS_THEME",0)==2){
+            viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
+            searchImg.setImageResource(R.drawable.ic_search_dark_theme);
+            addImg.setImageResource(R.drawable.ic_add_white);
+        }else {
+            searchImg.setImageResource(R.drawable.ic_search);
+            addImg.setImageResource(R.drawable.ic_add_black);
+            viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         pageFragment = new PageFragment();
         Prefs.putBoolean("EVENT_FRAGMENT", false);
         Prefs.putBoolean("PAGE_FRAGMENT", true);
-
-        viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
@@ -119,7 +139,7 @@ ImageView button_menu;
     }
 
 
-    @OnClick(R.id.search)
+    @OnClick(R.id.search2)
     public void search() {
         Prefs.putBoolean("IS_SHOWED", true);
         if (!Prefs.getBoolean("PAGE_FRAGMENT", true)) {
@@ -247,6 +267,9 @@ ImageView button_menu;
     @Override
     protected void onResume() {
         super.onResume();
+        if (theme_setting==1){
+            this.recreate();
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -278,23 +301,6 @@ ImageView button_menu;
         setBlackWhite(imageViewAvatar);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingActivity.class));
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private void setupViewPager(ViewPager viewPager) {
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
@@ -315,6 +321,7 @@ ImageView button_menu;
         }
         if (id == R.id.settings) {
             startActivity(new Intent(this, SettingActivity.class));
+            theme_setting=1;
             return true;
         }
         if (id == R.id.event_calendar) {

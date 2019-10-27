@@ -70,7 +70,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
         presenter.getEvents();
     }
 
-    @OnClick(R.id.search)
+    @OnClick(R.id.search2)
     public void openSearch() {
         String[] rhb = {"Православие", "Католицизм", "Ислам", "Иудаизм", "Буддизм",
                 "Индуизм", "Другая религия", "Отсутствует"};

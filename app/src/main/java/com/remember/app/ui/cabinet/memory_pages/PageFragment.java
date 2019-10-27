@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,7 +65,12 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
         pageFragmentAdapter.setCallback(this);
+        if (Prefs.getInt("IS_THEME",0)==0||Prefs.getInt("IS_THEME",0)==1){
 
+        }else if (Prefs.getInt("IS_THEME",0)==2){
+
+
+        }
         return v;
     }
 

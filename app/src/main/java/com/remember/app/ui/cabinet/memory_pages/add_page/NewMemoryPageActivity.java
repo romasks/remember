@@ -17,6 +17,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +60,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,15 +76,18 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     AddPagePresenter presenter;
 
     @BindView(R.id.last_name)
-    AutoCompleteTextView lastName;
+//    AutoCompleteTextView lastName;
+            EditText lastName;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.image_layout)
     ConstraintLayout imageLayout;
     @BindView(R.id.middle_name)
-    AutoCompleteTextView middleName;
+//    AutoCompleteTextView middleName;
+            EditText middleName;
     @BindView(R.id.name)
-    AutoCompleteTextView name;
+//    AutoCompleteTextView name;
+            EditText name;
     @BindView(R.id.date_begin)
     AutoCompleteTextView dateBegin;
     @BindView(R.id.date_end)
@@ -193,8 +199,32 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         name.setText(memoryPageModel.getName());
         middleName.setText(memoryPageModel.getThirtname());
         description.setText(memoryPageModel.getComment());
-        dateBegin.setText(memoryPageModel.getDatarod());
-        dateEnd.setText(memoryPageModel.getDatasmert());
+
+        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+        DateFormat dfRemote = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date beginDate = null;
+        try {
+            beginDate = dfRemote.parse(memoryPageModel.getDatarod());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (beginDate != null) {
+            dateBegin.setText(dfLocal.format(beginDate));
+        }
+
+        Date endDate = null;
+        try {
+            endDate = dfRemote.parse(memoryPageModel.getDatasmert());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (endDate != null) {
+            dateEnd.setText(dfLocal.format(endDate));
+        }
+
+//        dateBegin.setText(memoryPageModel.getDatarod());
+//        dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
         Glide.with(this)
                 .load("http://помню.рус" + memoryPageModel.getPicture())
@@ -241,8 +271,29 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setName(name.getText().toString());
         person.setThirdName(middleName.getText().toString());
         person.setComment(description.getText().toString());
-        person.setBirthDate(dateBegin.getText().toString());
-        person.setDeathDate(dateEnd.getText().toString());
+
+        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date beginDate = null;
+        try {
+            beginDate = dfLocal.parse(dateBegin.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (beginDate != null) {
+            person.setBirthDate(df.format(beginDate));
+        }
+
+        Date endDate = null;
+        try {
+            endDate = dfLocal.parse(dateEnd.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (endDate != null) {
+            person.setDeathDate(df.format(endDate));
+        }
         person.setUserId(Prefs.getString("USER_ID", "0"));
         if (isFamous.isChecked()) {
             person.setStar("true");
@@ -293,14 +344,49 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            setInitialDateBegin();
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date endDate = null;
+            try {
+                if (!dateEnd.getText().toString().isEmpty()) {
+                    endDate = simpleDateFormat.parse(dateEnd.getText().toString());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (endDate != null) {
+                if (dateAndTime.getTime().after(endDate)) {
+                    Snackbar.make(dateBegin, "Дата смерти не может быть перед датой рождения", Snackbar.LENGTH_LONG).show();
+                } else {
+                    setInitialDateBegin();
+                }
+            } else {
+                setInitialDateBegin();
+            }
         };
 
         dateEndPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            setInitialDateEnd();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = null;
+            try {
+                if (!dateBegin.getText().toString().isEmpty()) {
+                    startDate = simpleDateFormat.parse(dateBegin.getText().toString());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (startDate != null) {
+                if (startDate.after(dateAndTime.getTime())) {
+                    Snackbar.make(dateBegin, "Дата смерти не может быть перед датой рождения", Snackbar.LENGTH_LONG).show();
+                } else {
+                    setInitialDateEnd();
+                }
+            } else {
+                setInitialDateEnd();
+            }
         };
 
         dateBegin.setOnClickListener(this::setDateBegin);
@@ -308,32 +394,34 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     public void setDateBegin(View v) {
-        new DatePickerDialog(this, dateBeginPickerDialog,
+        DatePickerDialog dialog = new DatePickerDialog(this, dateBeginPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH))
-                .show();
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(new Date().getTime());
+        dialog.show();
     }
 
     public void setDateEnd(View v) {
-        new DatePickerDialog(this, dateEndPickerDialog,
+        DatePickerDialog dialog = new DatePickerDialog(this, dateEndPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH))
-                .show();
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(new Date().getTime());
+        dialog.show();
     }
 
     private void setInitialDateBegin() {
         @SuppressLint("SimpleDateFormat")
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
+        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+        String requiredDate = dfLocal.format(new Date(dateAndTime.getTimeInMillis()));
         dateBegin.setText(requiredDate);
     }
 
     private void setInitialDateEnd() {
         @SuppressLint("SimpleDateFormat")
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
+        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+        String requiredDate = dfLocal.format(new Date(dateAndTime.getTimeInMillis()));
         dateEnd.setText(requiredDate);
     }
 
@@ -450,8 +538,26 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     public void onEdited(ResponsePages responsePages) {
-        Intent intent = new Intent(this, MainActivity.class);
+
+    }
+
+    @Override
+
+//    public void onEdited(ResponsePages responsePages) {
+//        Intent intent = new Intent(this, MainActivity.class);
+//        intent.putExtra("PERSON", person);
+//    public void onEdited(ResponsePages responsePages) {
+    public void onEdited(MemoryPageModel memoryPageModel) {
+//        Intent intent = new Intent(this, MainActivity.class);
+//        intent.putExtra("PERSON", person);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//        Toast.makeText(this, "Данные сохранены", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
+        intent.putExtra("IMAGE", imageFile);
+        intent.putExtra("ID", memoryPageModel.getId());
+        intent.putExtra("AFTER_SAVE", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

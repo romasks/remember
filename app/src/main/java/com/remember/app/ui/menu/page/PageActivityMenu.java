@@ -26,7 +26,6 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.PopupPageScreen;
 
 import java.util.List;
@@ -104,7 +103,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         presenter.getImages(pageNumber);
     }
 
-    @OnClick(R.id.search)
+    @OnClick(R.id.search2)
     public void searchOpen(){
         showEventScreen();
     }

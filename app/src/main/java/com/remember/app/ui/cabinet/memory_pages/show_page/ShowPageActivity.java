@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -84,6 +86,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     ScrollView scrollView;
     @BindView(R.id.recycler_slider)
     RecyclerView recyclerSlider;
+    @BindView(R.id.back_button)
+    ImageView backImg;
+   @BindView(R.id.panel)
+    LinearLayout panel;
+    @BindView(R.id.gradient_img)
+    View view;
 
     private Unbinder unbinder;
     private boolean isList = false;
@@ -97,9 +105,29 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
         unbinder = ButterKnife.bind(this);
+        if (Prefs.getInt("IS_THEME",0)==2){
+            date.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            backImg.setImageResource(R.drawable.ic_back_dark_theme);
+            settings.setImageResource(R.drawable.setting_white);
+            panel.setBackground(getResources().getDrawable(R.drawable.panel_dark));
+//            view.setBackground(getResources().getDrawable(R.drawable.gradient_dark));
+        }else {
+            date.setTextColor(getResources().getColor(R.color.gray));
+            backImg.setImageResource(R.drawable.ic_back);
+            settings.setImageResource(R.drawable.setting_black);
+            panel.setBackground(getResources().getDrawable(R.drawable.panel_white));
+//            view.setBackground(getResources().getDrawable(R.drawable.gradient));
+        }
         Intent i = getIntent();
 
         isList = i.getBooleanExtra("IS_LIST", false);
@@ -227,6 +255,32 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         crypt.setText(memoryPageModel.getNazvaklad());
         sector.setText(memoryPageModel.getUchastok());
         grave.setText(memoryPageModel.getNummogil());
+        if (memoryPageModel.getGorod() == null || memoryPageModel.getGorod().isEmpty()) {
+            city.setText("-");
+        } else {
+            city.setText(memoryPageModel.getGorod());
+        }
+        if (memoryPageModel.getNazvaklad() == null || memoryPageModel.getNazvaklad().isEmpty()) {
+            crypt.setText("-");
+        } else {
+            crypt.setText(memoryPageModel.getNazvaklad());
+        }
+        if (memoryPageModel.getUchastok() == null || memoryPageModel.getUchastok().isEmpty()) {
+            sector.setText("-");
+        } else {
+            sector.setText(memoryPageModel.getUchastok());
+        }
+        if (memoryPageModel.getNummogil() == null || memoryPageModel.getNummogil().isEmpty()) {
+            grave.setText("-");
+        } else {
+            grave.setText(memoryPageModel.getNummogil());
+        }
+//        if (memoryPageModel.getSector() == null || memoryPageModel.getSector().isEmpty()) {
+//            sectorPlace.setText("-");
+//        } else {
+//            sectorPlace.setText(memoryPageModel.getSector());
+//        }
+
     }
 
     @SuppressLint("SimpleDateFormat")

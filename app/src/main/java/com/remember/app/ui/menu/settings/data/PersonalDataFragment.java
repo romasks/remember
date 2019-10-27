@@ -271,7 +271,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
 
     @Override
     public void error(Throwable throwable) {
-        Log.e("ERROR", throwable.getMessage());
+        Log.i(TAG, throwable.toString());
         Snackbar.make(avatar, "Ошибка загрузки данных", Snackbar.LENGTH_LONG).show();
     }
 

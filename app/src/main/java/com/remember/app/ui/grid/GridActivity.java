@@ -12,17 +12,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -64,7 +61,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @BindView(R.id.image_rv)
     RecyclerView recyclerView;
-    @BindView(R.id.search)
+    @BindView(R.id.search2)
     ImageView search;
     @BindView(R.id.title)
     TextView title;
@@ -83,6 +80,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private RecyclerView.LayoutManager layoutManager;
     private ImageAdapter imageAdapter;
     private int pageNumber = 1;
+    private int theme_setting=0;
     private int countSum = 0;
     private PopupPageScreen popupWindowPage;
     private ImageView imageViewBigAvatar;
@@ -187,7 +185,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         }
     }
 
-    @OnClick(R.id.search)
+    @OnClick(R.id.search2)
     public void doSearch() {
         showEventScreen();
     }
@@ -264,6 +262,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onResume() {
         super.onResume();
+        if (theme_setting==1){
+            this.recreate();
+        }
         getInfoUser();
     }
 
@@ -273,6 +274,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         if (id == R.id.settings) {
             startActivity(new Intent(this, SettingActivity.class));
+            theme_setting=1;
             return true;
         }
         if (id == R.id.event_calendar) {
@@ -356,4 +358,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     public void onSavedImage(Object o) {
 
     }
+
+
 }

@@ -37,7 +37,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     ImageView plus;
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.search)
+    @BindView(R.id.search2)
     ImageView search;
     @BindView(R.id.title)
     TextView title;

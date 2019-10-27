@@ -27,7 +27,7 @@ public class ResponseSettings {
     private String phone;
     @SerializedName("location")
     @Expose
-    private Integer location;
+    private String location;
     @SerializedName("id_notice")
     @Expose
     private Integer idNotice;
@@ -87,11 +87,11 @@ public class ResponseSettings {
         this.phone = phone;
     }
 
-    public Integer getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Integer location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 

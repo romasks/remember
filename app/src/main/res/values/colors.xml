@@ -10,5 +10,7 @@
     <color name="app_bar">#fcfcfc</color>
     <color name="colorPrimaryBlack">#22211F</color>
     <color name="colorWhiteDark">#ffe6e0e0</color>
+    <color name="colorBlacDark">#272624</color>
+
 
 </resources>
