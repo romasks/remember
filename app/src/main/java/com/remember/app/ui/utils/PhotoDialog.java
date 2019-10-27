@@ -24,7 +24,7 @@ import com.remember.app.R;
 import java.io.File;
 import java.io.IOException;
 
-import static com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity.saveBitmap;
+import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 
 public class PhotoDialog extends DialogFragment {
 

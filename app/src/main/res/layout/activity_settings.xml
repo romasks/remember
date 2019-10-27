@@ -83,4 +83,13 @@
             android:visibility="visible"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/save_button"
+        style="@style/SettingsSaveButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

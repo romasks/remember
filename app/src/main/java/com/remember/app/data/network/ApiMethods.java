@@ -33,6 +33,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -166,7 +167,7 @@ public interface ApiMethods {
     @GET("settings")
     Observable<ResponseSettings> getInfo(@Header("Authorization") String token);
 
-    @POST("settings")
+    @PUT("settings")
     Observable<Object> saveSettings(@Header("Authorization") String token,
                                     @Body RequestSettings requestSettings);
 

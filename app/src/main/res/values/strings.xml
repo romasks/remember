@@ -91,6 +91,15 @@
     <string name="settings_theme_text">Тема оформления</string>
     <string name="settings_theme_light_rb">Светлая</string>
     <string name="settings_theme_dark_rb">Тёмная</string>
+
+    <string name="settings_enable_notifications">Включить уведомления</string>
+    <string name="settings_commemoration_days">Дни поминовения</string>
+    <string name="settings_com_days_all">Все</string>
+    <string name="settings_com_days_for_deceased">Для усопших</string>
+    <string name="settings_com_days_religious">Религиозные</string>
+    <string name="settings_number_of_days">Количество дней</string>
+    <string name="settings_choose_number_of_days">Выбрать количество дней...</string>
+
     <string name="settings_button_save">Сохранить</string>
 
 </resources>
