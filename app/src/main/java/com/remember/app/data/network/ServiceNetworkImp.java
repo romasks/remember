@@ -248,6 +248,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody district = null;
         RequestBody flag = null;
         RequestBody grave = null;
+        RequestBody sector = null;
         RequestBody name = null;
         RequestBody optradio = null;
         RequestBody religion = null;
@@ -347,12 +348,20 @@ public class ServiceNetworkImp implements ServiceNetwork {
         } catch (Exception e) {
             thirdName = RequestBody.create(MultipartBody.FORM, "");
         }
+        try {
+            sector = RequestBody.create(MultipartBody.FORM, person.getSector());
+        } catch (Exception e) {
+            sector = RequestBody.create(MultipartBody.FORM, "");
+        }
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
-        return apiMethods.addPage(area,
+        String token = "Bearer " + Prefs.getString("TOKEN", "");
+        return apiMethods.addPage(token,
+                area,
                 birthDate,
                 cemeteryName,
                 city,
+                sector,
                 comment,
                 coords,
                 deathDate,

@@ -542,11 +542,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     @Override
-
-//    public void onEdited(ResponsePages responsePages) {
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.putExtra("PERSON", person);
-//    public void onEdited(ResponsePages responsePages) {
     public void onEdited(MemoryPageModel memoryPageModel) {
 //        Intent intent = new Intent(this, MainActivity.class);
 //        intent.putExtra("PERSON", person);
@@ -560,6 +555,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         intent.putExtra("AFTER_SAVE", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     @Override

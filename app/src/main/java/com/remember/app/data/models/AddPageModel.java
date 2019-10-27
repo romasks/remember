@@ -48,6 +48,17 @@ public class AddPageModel implements Parcelable {
     @SerializedName("picture_data")
     private String pictureData;
 
+    public String getSector() {
+        return sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
+
+    @SerializedName("sector")
+    private String sector;
+
     public String getPictureData() {
         return pictureData;
     }

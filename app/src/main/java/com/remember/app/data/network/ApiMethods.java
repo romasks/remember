@@ -90,10 +90,12 @@ public interface ApiMethods {
 
     @Multipart
     @POST("page/add")
-    Observable<ResponseCemetery> addPage(@Part("oblast") RequestBody oblast,
+    Observable<ResponseCemetery> addPage(@Header("Authorization") String token,
+                                         @Part("oblast") RequestBody oblast,
                                          @Part("datarod") RequestBody datarod,
                                          @Part("nazvaklad") RequestBody nazvaklad,
                                          @Part("gorod") RequestBody gorod,
+                                         @Part("sector") RequestBody sector,
                                          @Part("comment") RequestBody comment,
                                          @Part("coords") RequestBody coords,
                                          @Part("datasmert") RequestBody deathDate,
