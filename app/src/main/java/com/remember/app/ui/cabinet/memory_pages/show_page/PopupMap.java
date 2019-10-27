@@ -74,10 +74,19 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
         String provider = locationManager.getBestProvider(criteria, true);
         Location location = locationManager.getLastKnownLocation(provider);
         if (location != null) {
+            double latitude=location.getLatitude();
+            double longtitude=location.getLongitude();
             myPosition = new LatLng(latitude, longitude);
+            this.latitude=location.getLatitude();
+            this.longitude=location.getLongitude();
             googleMap.addMarker(new MarkerOptions().position(myPosition).title("Start"));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 13));
         }
+
+        googleMap.setOnMapClickListener(point->{
+            googleMap.clear();
+            googleMap.setMyLocationEnabled(true);
+            googleMap.addMarker(new MarkerOptions().position(point));
+        });
     }
 
     interface Callback{

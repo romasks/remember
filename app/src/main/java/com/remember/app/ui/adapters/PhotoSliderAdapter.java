@@ -22,11 +22,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     private Callback callback;
     private List<ResponseImagesSlider> responseImagesSliders = new ArrayList<>();
+    private ItemClickListener mClickListener;
 
     @NonNull
     @Override
@@ -43,7 +46,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return responseImagesSliders.size();
     }
 
     public void setItems(List<ResponseImagesSlider> responseImagesSliders) {
@@ -62,7 +65,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     }
 
-    public class PhotoSliderAdapterHolder extends BaseViewHolder {
+    public class PhotoSliderAdapterHolder extends BaseViewHolder implements View.OnClickListener{
 
         @BindView(R.id.image)
         ImageView imageView;
@@ -77,14 +80,26 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             try {
                 Glide.with(context)
-                        .load("http://помню.рус" + responseImagesSliders.get(position).getPicture())
+                        .load(BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture())
                         .circleCrop()
                         .into(imageView);
                 ColorMatrix colorMatrix = new ColorMatrix();
                 colorMatrix.setSaturation(0);
                 ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
                 imageView.setColorFilter(filter);
+                imageView.setOnClickListener(this);
             } catch (Exception e){}
         }
+
+        @Override
+        public void onClick(View v) {
+            if (mClickListener != null) mClickListener.onItemClick(v, getAdapterPosition());        }
+    }
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+
+    }
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
     }
 }

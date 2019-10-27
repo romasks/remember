@@ -17,7 +17,7 @@
         android:padding="4dp" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/surname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -58,4 +58,16 @@
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
         app:layout_constraintEnd_toEndOf="@+id/avatar_image" />
 
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:textColor="@color/brown"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/avatar_image"
+        app:layout_constraintTop_toTopOf="@id/avatar_image"
+        tools:text="Иван иванович" />
 </androidx.constraintlayout.widget.ConstraintLayout>

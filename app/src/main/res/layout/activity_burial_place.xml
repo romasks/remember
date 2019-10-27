@@ -114,8 +114,7 @@
                     android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
-                    android:textColorLink="@color/light_brown"
-                    android:focusableInTouchMode="false" />
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,8 +128,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray">
-
+                android:textColorHint="@color/dark_gray"
+                android:visibility="gone">
 
 
                 <AutoCompleteTextView
