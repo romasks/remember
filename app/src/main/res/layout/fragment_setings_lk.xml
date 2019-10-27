@@ -25,11 +25,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/avatar"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:src="@android:color/transparent" />
 
                 <Button
@@ -40,7 +40,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/button"
-                    android:text="Новое фото профиля"
+                    android:text="@string/settings_new_profile_photo"
                     android:textAllCaps="false"
                     android:textColor="#fcfcfc"
                     android:textSize="18sp" />
@@ -54,17 +54,11 @@
                 android:textColorHint="@color/dark_gray">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/secName"
+                    android:id="@+id/surname"
+                    style="@style/SettingsTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Фамилия"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@drawable/abc"
-                    android:textColorHint="@color/dark_gray" />
+                    android:hint="@string/settings_hint_surname" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,17 +70,10 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/name"
+                    style="@style/SettingsTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Имя"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@drawable/abc"
-                    android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@color/dark_gray" />
+                    android:hint="@string/settings_hint_name" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,18 +84,11 @@
                 app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                 <AutoCompleteTextView
-                    android:id="@+id/surname"
+                    android:id="@+id/middleName"
+                    style="@style/SettingsTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Отчество"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@drawable/abc"
-                    android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@color/dark_gray" />
+                    android:hint="@string/settings_hint_middle_name" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,16 +99,11 @@
                 android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
-                    android:id="@+id/login"
+                    android:id="@+id/nickname"
+                    style="@style/SettingsTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Никнейм"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@drawable/abc" />
+                    android:hint="@string/settings_hint_nickname" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,16 +115,11 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
+                    style="@style/SettingsTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:focusable="false"
-                    android:hint="Е-mail"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@drawable/abc" />
+                    android:hint="@string/settings_hint_email" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,16 +129,11 @@
                 android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
-                    android:id="@+id/livePlace"
+                    android:id="@+id/location"
+                    style="@style/SettingsTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Населённый пункт"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@drawable/abc" />
+                    android:hint="@string/settings_hint_locality" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,15 +144,11 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/phone"
+                    style="@style/SettingsTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:hint="Телефон"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@drawable/abc" />
+                    android:hint="@string/settings_name_phone"
+                    android:inputType="phone" />
 
             </com.google.android.material.textfield.TextInputLayout>
             <!-- ЭТО ПОЛЕ ДОЛЖНО БУДЕТ БЫТЬ СПИННЕРОМ -->
@@ -197,15 +158,13 @@
                 android:textColorHint="@color/dark_gray" />
 
             <TextView
+                style="@style/SettingsNotificationBoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
-                android:text="Тема оформления"
-                android:textColor="@color/brown"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:text="@string/settings_theme_text" />
 
             <RadioGroup
                 android:id="@+id/theme"
@@ -217,47 +176,31 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    style="@style/SettingsRadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:button="@drawable/radio_button"
                     android:checked="true"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Светлая"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:text="@string/settings_theme_light_rb" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    style="@style/SettingsRadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50dp"
                     android:layout_weight="2"
-                    android:button="@drawable/radio_button"
                     android:enabled="false"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Тёмная"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:text="@string/settings_theme_dark_rb" />
             </RadioGroup>
         </LinearLayout>
     </ScrollView>
 
-    <Button
+    <!--<Button
         android:id="@+id/save_button"
+        style="@style/SettingsSaveButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Сохранить"
-        android:textAllCaps="false"
-        android:textColor="#fcfcfc"
-        android:textSize="18sp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/button"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

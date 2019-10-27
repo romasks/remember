@@ -8,6 +8,7 @@ import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.RequestSettings;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -18,6 +19,7 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -81,7 +84,8 @@ public interface ApiMethods {
 
     @Multipart
     @POST("page/add")
-    Observable<ResponseCemetery> addPage(@Part("oblast") RequestBody oblast,
+    Observable<ResponseCemetery> addPage(@Header("Authorization") String token,
+                                         @Part("oblast") RequestBody oblast,
                                          @Part("datarod") RequestBody datarod,
                                          @Part("nazvaklad") RequestBody nazvaklad,
                                          @Part("gorod") RequestBody gorod,
@@ -163,13 +167,16 @@ public interface ApiMethods {
     @GET("settings")
     Observable<ResponseSettings> getInfo(@Header("Authorization") String token);
 
-    @POST("setting/edit/{id}")
-    Observable<Object> saveSettings(@Body RequestSettings requestSettings,
-                                    @Path("id") String id);
+    @PUT("settings")
+    Observable<Object> saveSettings(@Header("Authorization") String token,
+                                    @Body RequestSettings requestSettings);
 
     @GET("user/social")
-    Observable<ResponseSettings> signInVk(@Query("email") String email,
+    Observable<ResponseSocialAuth> signInVk(@Query("email") String email,
                                                 @Query("name") String name);
+
+    @POST("user/social")
+    Observable<ResponseSocialAuth> signInSocial(@Body RequestSocialAuth requestSocialAuth);
 
     @GET("page")
     Observable<List<MemoryPageModel>> getAllPages();

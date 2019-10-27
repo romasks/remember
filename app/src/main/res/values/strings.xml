@@ -79,4 +79,27 @@
     <string name="wrong_registration"><u>Забыли пароль</u></string>
     <string name="pick_email">Укажите E-mail</string>
 
+    <!--settings-->
+    <string name="settings_new_profile_photo">Новое фото профиля</string>
+    <string name="settings_hint_surname">Фамилия</string>
+    <string name="settings_hint_name">Имя</string>
+    <string name="settings_hint_middle_name">Отчество</string>
+    <string name="settings_hint_nickname">Никнейм</string>
+    <string name="settings_hint_email">Е-mail</string>
+    <string name="settings_hint_locality">Населённый пункт</string>
+    <string name="settings_name_phone">Телефон</string>
+    <string name="settings_theme_text">Тема оформления</string>
+    <string name="settings_theme_light_rb">Светлая</string>
+    <string name="settings_theme_dark_rb">Тёмная</string>
+
+    <string name="settings_enable_notifications">Включить уведомления</string>
+    <string name="settings_commemoration_days">Дни поминовения</string>
+    <string name="settings_com_days_all">Все</string>
+    <string name="settings_com_days_for_deceased">Для усопших</string>
+    <string name="settings_com_days_religious">Религиозные</string>
+    <string name="settings_number_of_days">Количество дней</string>
+    <string name="settings_choose_number_of_days">Выбрать количество дней...</string>
+
+    <string name="settings_button_save">Сохранить</string>
+
 </resources>
