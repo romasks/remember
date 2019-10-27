@@ -88,7 +88,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     public void click(ResponseEvents events) {
         Intent intent = new Intent(getActivity(), EventFullActivity.class);
         String eventJson = new Gson().toJson(events);
-        intent.putExtra("EVENT", eventJson);
+        intent.putExtra("EVENTS", eventJson);
         startActivity(intent);
     }
 }

@@ -21,6 +21,7 @@ import com.remember.app.ui.cabinet.memory_pages.place.PlacePresenter;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPagePresenter;
 import com.remember.app.ui.grid.GridPresenter;
 import com.remember.app.ui.menu.events.EventsMenuPresenter;
+import com.remember.app.ui.menu.notifications.NotificationsPresenter;
 import com.remember.app.ui.menu.page.PageMenuPresenter;
 import com.remember.app.ui.menu.question.QuestionPresenter;
 import com.remember.app.ui.menu.settings.SettingPresenter;
@@ -76,5 +77,7 @@ public interface ApplicationComponent {
     void inject(EventsMenuPresenter presenter);
 
     void inject(CurrentEventPresenter presenter);
+
+    void inject(NotificationsPresenter presenter);
 }
 

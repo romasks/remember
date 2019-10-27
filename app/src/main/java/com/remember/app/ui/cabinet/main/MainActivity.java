@@ -35,6 +35,7 @@ import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.grid.GridActivity;
 import com.remember.app.ui.menu.events.EventsActivityMenu;
+import com.remember.app.ui.menu.notifications.NotificationsActivity;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
@@ -110,7 +111,6 @@ public class MainActivity extends MvpAppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
     }
-
 
 
     @OnClick(R.id.search)
@@ -255,6 +255,10 @@ public class MainActivity extends MvpAppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        if (id == R.id.notifications) {
+            startActivity(new Intent(this, NotificationsActivity.class));
+            return true;
+        }
         if (id == R.id.settings) {
             startActivity(new Intent(this, SettingActivity.class));
             return true;
