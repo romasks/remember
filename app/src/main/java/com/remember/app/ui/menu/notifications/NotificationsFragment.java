@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.NotificationModelNew;
+import com.remember.app.ui.menu.settings.NotificationFragment;
 import com.remember.app.ui.utils.DividerItemDecoration;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 
@@ -26,10 +28,11 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
 
     private static final String KEY_TYPE = "key_type";
 
-    private View rootView;
-
     private Type type;
 
+    private View rootView;
+    private RecyclerView recyclerView;
+    private TextView textEmptyState;
     private NotificationListAdapter adapter;
 
     private NotificationsPresenter.NotificationFilterType filterType = NotificationsPresenter.NotificationFilterType.ALL;
@@ -61,6 +64,11 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
+
+        textEmptyState = rootView.findViewById(R.id.text_empty_state);
+        textEmptyState.setVisibility(View.GONE);
+        textEmptyState.setText(type == Type.EVENTS ? "Событий нет" : "Сообщений нет");
+
         return rootView;
     }
 
@@ -76,11 +84,22 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
             presenter.getEpitNotifications();
     }
 
+    void showFilterDialog(){
+        NotificationFilterDialog.show(getFragmentManager(), filterType.ordinal()).setClickListener(new NotificationFilterDialog.FilterDialogClickListener() {
+            @Override
+            public void onFilterSubmit(NotificationsPresenter.NotificationFilterType filterType) {
+                NotificationsFragment.this.filterType = filterType;
+                presenter.getEventNotification(filterType);
+
+            }
+        });
+    }
+
     private void setupRV(){
         adapter = new NotificationListAdapter();
         adapter.setClickListener(this);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.rv);
+        recyclerView = rootView.findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
@@ -91,11 +110,22 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     @Override
     public void onNotificationsLoaded(List<? extends NotificationModelNew> notifications) {
         adapter.setNotificationList(notifications);
+        updateEmptyState(notifications.isEmpty());
     }
 
     @Override
     public void onNotificationClick(NotificationModelNew notification) {
 
+    }
+
+    private void updateEmptyState(boolean isEmpty){
+        if (isEmpty){
+            recyclerView.setVisibility(View.GONE);
+            textEmptyState.setVisibility(View.VISIBLE);
+        } else {
+            textEmptyState.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
 }

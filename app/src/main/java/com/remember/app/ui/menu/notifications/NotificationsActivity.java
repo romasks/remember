@@ -16,6 +16,8 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
 
     private View btnFilter;
 
+    private NotificationsFragment eventsFragment = NotificationsFragment.newInstance(NotificationsFragment.Type.EVENTS);
+
     @Override
     protected int getContentView() {
         return R.layout.activity_notifications;
@@ -35,7 +37,7 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
 
     private void setupViewPager(){
         NotificationsPagerAdapter adapter = new NotificationsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(NotificationsFragment.newInstance(NotificationsFragment.Type.EVENTS), "События");
+        adapter.addFragment(eventsFragment, "События");
         adapter.addFragment(NotificationsFragment.newInstance(NotificationsFragment.Type.MESSAGES), "Сообщения");
 
         ViewPager viewPager = findViewById(R.id.viewpager);
@@ -70,6 +72,7 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.filter:
+                eventsFragment.showFilterDialog();
                 break;
         }
     }
