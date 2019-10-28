@@ -27,11 +27,11 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public AuthPresenter() {
+    AuthPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void singInAuth(String login, String password) {
+    void singInAuth(String login, String password) {
         Disposable subscription = serviceNetwork.singInAuth(login, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -40,13 +40,13 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void getInfoUser() {
+    void getInfoUser() {
         VKRequest request = new VKRequest("account.getProfileInfo");
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 ResponseVkResponse responseVk = new Gson().fromJson(response.json.toString(), ResponseVkResponse.class);
-                getViewState().onRecievedInfo(responseVk.getResponse());
+                getViewState().onReceivedInfo(responseVk.getResponse());
             }
 
             @Override
@@ -61,8 +61,13 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         });
     }
 
-    public void signInVk() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString(PREFS_KEY_EMAIL, ""))
+    void signInVk() {
+        RequestSocialAuth request = new RequestSocialAuth(
+                Prefs.getString(PREFS_KEY_EMAIL, ""),
+                Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
+                "vk"
+        );
+        Disposable subscription = serviceNetwork.signInSocial(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
@@ -79,7 +84,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void signInFacebook() {
+    void signInFacebook() {
         RequestSocialAuth request = new RequestSocialAuth(
                 Prefs.getString(PREFS_KEY_EMAIL, ""),
                 Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
@@ -93,7 +98,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void restorePassword(String email) {
+    void restorePassword(String email) {
         Disposable subscription = serviceNetwork.restorePassword(email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

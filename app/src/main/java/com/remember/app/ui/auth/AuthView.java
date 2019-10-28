@@ -12,7 +12,7 @@ public interface AuthView extends MvpView {
 
     void error(Throwable throwable);
 
-    void onRecievedInfo(ResponseVk response);
+    void onReceivedInfo(ResponseVk response);
 
     void onLoggedSocial(ResponseSocialAuth responseSocialAuth);
 

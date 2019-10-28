@@ -60,6 +60,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     private static final String APP_ID = "CBAGJGDNEBABABABA";
     private static final String APP_KEY = "A488208737DA4B970D6E3EB1";
     private static final String REDIRECT_URL = "okauth://ok1278579968";
+
     @InjectPresenter
     AuthPresenter presenter;
     @BindView(R.id.login_value)
@@ -68,6 +69,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     AutoCompleteTextView password;
     @BindView(R.id.vk)
     ImageButton vk;
+
     private Unbinder unbinder;
     private TwitterAuthClient client;
     private Odnoklassniki odnoklassniki;
@@ -79,17 +81,18 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         setContentView(R.layout.activity_auth);
         unbinder = ButterKnife.bind(this);
         client = new TwitterAuthClient();
-        TextView register = (TextView) findViewById(R.id.register);
-        TextView wrongPas = (TextView) findViewById(R.id.wrong_password);
-        register.setPaintFlags(register.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-        wrongPas.setPaintFlags(wrongPas.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+        TextView register = findViewById(R.id.register);
+        TextView wrongPas = findViewById(R.id.wrong_password);
+        register.setPaintFlags(register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
     @OnClick(R.id.vk)
     public void signInVk() {
         VKSdk.login(this, "email");
     }
-//
+
+    //
 //    @OnClick(R.id.ok)
 //    public void signInOk() {
 //        odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
@@ -169,6 +172,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
             @Override
             public void onResult(VKAccessToken res) {
                 Prefs.putString(PREFS_KEY_EMAIL, res.email);
+                Prefs.putString(PREFS_KEY_ACCESS_TOKEN, res.accessToken);
                 VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200"));
                 request.executeWithListener(new VKRequest.VKRequestListener() {
                     @Override
@@ -205,7 +209,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     }
 
     @OnClick(R.id.wrong_password)
-    public void reparePassword() {
+    public void repairPassword() {
         try {
             RepairPasswordDialog repairPasswordDialog = new RepairPasswordDialog();
             repairPasswordDialog.setCallback(this);
@@ -248,13 +252,13 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         Toast.makeText(this, "Неправильный логин или пароль", Toast.LENGTH_LONG).show();
         try {
             errorDialog("Неправильный логин или пароль");
-        }catch (Exception e){
+        } catch (Exception e) {
             errorDialog("Неправильный логин или пароль");
         }
     }
 
     @Override
-    public void onRecievedInfo(ResponseVk response) {
+    public void onReceivedInfo(ResponseVk response) {
         presenter.signInVk();
         Prefs.putString(PREFS_KEY_NAME_USER, response.getFirstName());
     }
