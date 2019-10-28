@@ -86,14 +86,13 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
 
     private int getIdNotice() {
         switch (idNotice.getCheckedRadioButtonId()) {
-            case R.id.id_notice_one:
-                return 0;
             case R.id.id_notice_two:
                 return 1;
             case R.id.id_notice_three:
                 return 2;
+            case R.id.id_notice_one:
             default:
-                return 0;
+                return 3;
         }
     }
 
