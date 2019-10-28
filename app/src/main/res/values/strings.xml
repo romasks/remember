@@ -79,7 +79,14 @@
     <string name="wrong_registration"><u>Забыли пароль</u></string>
     <string name="pick_email">Укажите E-mail</string>
 
+    <!--grid-->
+    <string name="grid_header">Помню</string>
+    <string name="grid_show_all">Показать всех</string>
+    <string name="grid_login">Войти</string>
+
     <!--settings-->
+    <string name="settings_header_text">Настройки</string>
+
     <string name="settings_new_profile_photo">Новое фото профиля</string>
     <string name="settings_hint_surname">Фамилия</string>
     <string name="settings_hint_name">Имя</string>
@@ -97,8 +104,8 @@
     <string name="settings_com_days_all">Все</string>
     <string name="settings_com_days_for_deceased">Для усопших</string>
     <string name="settings_com_days_religious">Религиозные</string>
-    <string name="settings_number_of_days">Количество дней</string>
-    <string name="settings_choose_number_of_days">Выбрать количество дней...</string>
+    <string name="settings_number_of_days">Уведомлять за</string>
+    <string name="settings_choose_number_of_days">Укажите количество дней...</string>
 
     <string name="settings_button_save">Сохранить</string>
 

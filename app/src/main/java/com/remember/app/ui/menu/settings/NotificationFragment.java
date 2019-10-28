@@ -38,7 +38,7 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
 
     private SettingPresenter presenter;
     private Unbinder unbinder;
-    private String[] daysArr = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+    private String[] daysArr = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 
     NotificationFragment(@NotNull SettingPresenter presenter) {
         this.presenter = presenter;
@@ -115,14 +115,13 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
     }
 
     private Integer getAmountDays() {
-        return days.getSelectedIndex() == 0 ? null :
-                Integer.valueOf(daysArr[days.getSelectedIndex()]);
+        return Integer.valueOf(daysArr[days.getSelectedIndex()]);
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
         notifications.setChecked(responseSettings.getNotificationsEnabled() == 1);
         setIdNotice(responseSettings.getIdNotice());
-        days.setSelectedIndex(responseSettings.getAmountDays());
+        days.setSelectedIndex(responseSettings.getAmountDays() - 1);
         switchNotifications();
     }
 
