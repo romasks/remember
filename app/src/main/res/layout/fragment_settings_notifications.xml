@@ -7,7 +7,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="50">
 
         <LinearLayout
@@ -20,6 +20,7 @@
                 android:id="@+id/notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:text="@string/settings_enable_notifications"
                 android:textColor="#8a8a8a"
                 android:textColorHighlight="#8a8a8a"
@@ -81,10 +82,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
                 android:hint="@string/settings_choose_number_of_days"
                 android:textColorHint="@color/gray"
                 android:textSize="18sp"
                 app:ms_arrow_tint="@color/gray"
+                app:ms_dropdown_height="200dp"
+                app:ms_background_selector="@android:color/white"
                 app:ms_background_color="@android:color/transparent"
                 app:ms_padding_left="0dp"
                 app:ms_popup_padding_left="10dp"
@@ -92,11 +96,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <!--<Button
-        style="@style/SettingsSaveButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />-->
 
 </LinearLayout>

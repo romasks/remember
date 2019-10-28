@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +54,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
-public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback,NavigationView.OnNavigationItemSelectedListener {
+public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
 
     @InjectPresenter
     GridPresenter presenter;
@@ -82,7 +80,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private int countSum = 0;
     private PopupPageScreen popupWindowPage;
     private ImageView imageViewBigAvatar;
-    private final String TAG="GridActivity";
+    private final String TAG = "GridActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +111,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageView.setColorFilter(filter);
     }
 
-    private void getInfoUser(){
+    private void getInfoUser() {
         if (!Prefs.getString(PREFS_KEY_USER_ID, "").equals("")) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -121,7 +119,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             NavigationView navigationView = findViewById(R.id.nav_view_grid);
             View headerView = navigationView.getHeaderView(0);
             TextView navUsername = headerView.findViewById(R.id.title_menu);
-            imageViewBigAvatar= headerView.findViewById(R.id.logo);
+            imageViewBigAvatar = headerView.findViewById(R.id.logo);
             TextView textView = headerView.findViewById(R.id.textView);
             navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
             textView.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
@@ -130,7 +128,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             drawer.addDrawerListener(toggle);
             toggle.syncState();
             navigationView.setNavigationItemSelectedListener(this);
-            name_user.setText(Prefs.getString(PREFS_KEY_NAME_USER,""));
+            name_user.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
             if (!Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
                 Glide.with(this)
                         .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
@@ -162,6 +160,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             }
             setBlackWhite(avatar_user);
             setBlackWhite(imageViewBigAvatar);
+
+            imageViewBigAvatar.setOnClickListener(view -> {
+                startActivity(new Intent(this, SettingActivity.class));
+            });
         } else {
             DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -192,14 +194,14 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
-       imageAdapter.setItems(responsePages.getResult());
+        imageAdapter.setItems(responsePages.getResult());
         progressBar.setVisibility(View.GONE);
         countSum = responsePages.getPages();
     }
 
     @Override
     public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
-        if(memoryPageModels.size()==0) {
+        if (memoryPageModels.size() == 0) {
             Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         }
         if (memoryPageModels.isEmpty()) {
@@ -280,8 +282,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             finish();
             return true;
         }
-        if (id==R.id.notifications){
-            return  true;
+        if (id == R.id.notifications) {
+            return true;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
