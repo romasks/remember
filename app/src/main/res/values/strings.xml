@@ -105,7 +105,7 @@
     <string name="settings_com_days_for_deceased">Для усопших</string>
     <string name="settings_com_days_religious">Религиозные</string>
     <string name="settings_number_of_days">Уведомлять за</string>
-    <string name="settings_choose_number_of_days">Укажите количество дней...</string>
+    <string name="settings_choose_number_of_days">Количество дней</string>
 
     <string name="settings_button_save">Сохранить</string>
 

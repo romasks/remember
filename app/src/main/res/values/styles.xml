@@ -109,7 +109,7 @@
     </style>
 
     <style name="SettingsNotificationBoldTextStyle">
-        <item name="android:layout_marginTop">25dp</item>
+        <item name="android:layout_marginTop">35dp</item>
         <item name="android:textColor">#917b5a</item>
         <item name="android:textColorHighlight">#917b5a</item>
         <item name="android:textColorLink">#917b5a</item>

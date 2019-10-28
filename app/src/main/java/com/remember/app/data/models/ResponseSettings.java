@@ -124,7 +124,7 @@ public class ResponseSettings {
     }
 
     public Integer getAmountDays() {
-        return amountDays;
+        return amountDays == null ? 1 : amountDays;
     }
 
     public void setAmountDays(Integer amountDays) {
