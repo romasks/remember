@@ -8,8 +8,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 9
-        versionName "1.1.000"
+        versionCode 10
+        versionName "1.2.000"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
