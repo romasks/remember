@@ -25,8 +25,14 @@
                 android:weightSum="14">
 
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/avatar"
                     android:layout_width="0dp"
                     android:layout_weight="2"
@@ -50,31 +56,28 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Иван Иванов" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/search"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/add_plus"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_gravity="center_vertical"
                     android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_add_black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-
-
             </LinearLayout>
-
         </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
