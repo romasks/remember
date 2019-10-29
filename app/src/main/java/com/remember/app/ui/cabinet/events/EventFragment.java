@@ -58,8 +58,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     }
 
     @Override
-    public void setUserVisibleHint(boolean visible)
-    {
+    public void setUserVisibleHint(boolean visible) {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
             onResume();
@@ -79,8 +78,8 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
 
     @Override
     public void onReceivedEvents(List<ResponseEvents> responseEvents) {
-        if(responseEvents.size()==0)
-        Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+        if (responseEvents.size() == 0)
+            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsFragmentAdapter.setItems(responseEvents);
     }
 

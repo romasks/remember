@@ -35,11 +35,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/image"
-                        android:layout_marginTop="30dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -47,12 +47,11 @@
                         android:layout_gravity="bottom"
                         android:background="@drawable/gradient" />
 
-                    <ImageButton
+                    <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/back_button"
                         android:layout_width="40dp"
                         android:layout_height="30dp"
-                        android:layout_gravity="left"
-                        android:layout_weight="1"
+                        android:layout_gravity="start"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_back" />
 
@@ -61,20 +60,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:text="Памятная страница"
+                        android:text="@string/memory_page_header_text"
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/settings"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="10dp"
                         app:srcCompat="@mipmap/settings" />
 
                 </FrameLayout>
@@ -85,24 +81,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
                     android:gravity="center_horizontal"
-                    android:text="TextView"
                     android:textColor="@color/brown"
                     android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="Фамилия Имя Отчество" />
 
                 <TextView
                     android:id="@+id/dates"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="TextView"
-                    android:textColor="@color/gray" />
+                    android:textColor="@color/gray"
+                    tools:text="13.07.1952 - 28.01.207" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="10dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
                     android:weightSum="1">
 
                     <LinearLayout
@@ -111,7 +108,7 @@
                         android:layout_weight="0.73"
                         android:gravity="center_vertical">
 
-                        <ImageButton
+                        <androidx.appcompat.widget.AppCompatImageButton
                             android:id="@+id/imageButton"
                             android:layout_width="55dp"
                             android:layout_height="55dp"
@@ -132,9 +129,7 @@
                             android:orientation="horizontal"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="3"
-                            tools:listitem="@layout/slider_photo">
-
-                        </androidx.recyclerview.widget.RecyclerView>
+                            tools:listitem="@layout/slider_photo"/>
 
                     </LinearLayout>
 
@@ -144,10 +139,10 @@
                     android:id="@+id/textView9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="15dp"
                     android:paddingBottom="5dp"
-                    android:text="Место захоронения"
+                    android:text="@string/memory_page_burial_place_title"
                     android:textColor="#917b5a"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -169,196 +164,185 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical"
-                            android:weightSum="2">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="7dp"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="@string/city"
+                            android:textAlignment="center" />
 
-                            <TextView
-                                android:id="@+id/textView13"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:singleLine="true"
-                                android:layout_marginTop="7dp"
-                                android:text="@string/city"
-                                android:textAlignment="center" />
-
-                            <TextView
-                                android:id="@+id/city"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="12dp"
-                                android:layout_weight="1"
-                                android:text="TextView"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/city"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:textStyle="bold"
+                            tools:text="Минск" />
 
                     </LinearLayout>
 
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="20dp"
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal"
-                            android:weightSum="3">
-
-                            <LinearLayout
-                                android:layout_width="100dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:textAlignment="center"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center_horizontal"
-                                android:orientation="vertical"
-                                android:weightSum="2">
-
-                                <TextView
-                                    android:id="@+id/sec"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="7dp"
-                                    android:layout_weight="1"
-                                    android:maxLines="2"
-                                    android:text="Сектор" />
-
-                                <TextView
-                                    android:id="@+id/sec_value"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:paddingTop="12dp"
-                                    android:layout_weight="1"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="100dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:textAlignment="center"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="center_horizontal"
-                                android:orientation="vertical"
-                                android:weightSum="2">
-
-                                <TextView
-                                    android:id="@+id/textView12"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="7dp"
-                                    android:layout_weight="1"
-                                    android:maxLines="2"
-                                    android:text="@string/sector" />
-
-                                <TextView
-                                    android:id="@+id/sector"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:paddingTop="12dp"
-                                    android:layout_weight="1"
-                                    android:text="TextView"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="100dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:weightSum="2">
-
-                                <TextView
-                                    android:id="@+id/textView11"
-                                    android:textAlignment="center"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="7dp"
-                                    android:layout_weight="1"
-                                    android:text="@string/number_grave" />
-
-                                <TextView
-                                    android:id="@+id/grave"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:paddingTop="12dp"
-                                    android:layout_weight="1"
-                                    android:text="TextView"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="20dp"
+                        android:baselineAligned="false"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
 
                         <LinearLayout
-                            android:layout_marginTop="20dp"
-                            android:layout_width="match_parent"
+                            android:layout_width="100dp"
                             android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:textAlignment="center"
+                            android:weightSum="2">
 
                             <TextView
-                                android:layout_marginTop="7dp"
-                                android:gravity="center_vertical"
-                                android:id="@+id/textView14"
+                                android:id="@+id/sec"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="7dp"
                                 android:layout_weight="1"
-                                android:text="@string/cemetery" />
+                                android:maxLines="2"
+                                android:text="@string/memory_page_sector_text" />
 
                             <TextView
-                                android:id="@+id/crypt"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center|center_vertical"
-                                android:layout_weight="1"
-                                android:lines="3"
-                                android:maxLines="3"
-                                android:layout_marginTop="12dp"
-                                android:text="TextVdsgdsgsdgdsgdsgsdgiew"
-                                android:textAlignment="center"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/description_title"
+                                android:id="@+id/sec_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginBottom="5dp"
                                 android:layout_weight="1"
-                                android:paddingTop="5dp"
-                                android:text="Ещё"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="16sp" />
+                                android:paddingTop="12dp"
+                                android:textStyle="bold"
+                                tools:text="6" />
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:textAlignment="center"
+                            android:weightSum="2">
 
+                            <TextView
+                                android:id="@+id/textView12"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:layout_weight="1"
+                                android:maxLines="2"
+                                android:text="@string/memory_page_row_text" />
+
+                            <TextView
+                                android:id="@+id/sector"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="12dp"
+                                android:textStyle="bold"
+                                tools:text="12" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="7dp"
+                                android:layout_weight="1"
+                                android:text="@string/grave_number"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:id="@+id/grave"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="12dp"
+                                android:textStyle="bold"
+                                tools:text="325" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="7dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/cemetery" />
+
+                        <TextView
+                            android:id="@+id/crypt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|center_vertical"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:lines="3"
+                            android:maxLines="3"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            tools:text="Название кладбища" />
+
+                        <TextView
+                            android:id="@+id/description_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:paddingTop="5dp"
+                            android:text="@string/memory_page_show_descpiption_text"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginTop="10dp"
-                    android:visibility="gone"
+                    android:gravity="center"
                     android:textColor="@android:color/black"
-                    tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as"/>
+                    android:visibility="gone"
+                    tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
 
                 <Button
                     android:id="@+id/map_button"
@@ -368,11 +352,11 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="10dp"
-                    android:textSize="18sp"
                     android:background="@drawable/button"
-                    android:text="Показать на карте"
+                    android:text="@string/memory_page_button_show_on_map"
                     android:textAllCaps="false"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </ScrollView>
@@ -384,16 +368,16 @@
             android:layout_margin="2dp"
             android:orientation="horizontal">
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/epitButton"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
-                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_detailed_candle_icon" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/add_us"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
@@ -402,11 +386,11 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_plus_icon" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/events"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_calendar_icon" />
@@ -422,16 +406,7 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:text="Эпитафии"
-                android:textSize="14sp"
-                android:textAlignment="center"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:text="Добавить заказ"
+                android:text="@string/memory_page_bottom_navbar_epitaphs"
                 android:textAlignment="center"
                 android:textSize="14sp" />
 
@@ -439,15 +414,20 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:text="События"
-                android:textSize="14sp"
-                android:paddingRight="4dp"
-                android:textAlignment="center"/>
+                android:text="@string/memory_page_bottom_navbar_add_order"
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:paddingEnd="4dp"
+                android:text="@string/memory_page_bottom_navbar_events"
+                android:textAlignment="center"
+                android:textSize="14sp" />
 
         </LinearLayout>
-
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

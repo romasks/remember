@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Новое событие"
+                    android:text="@string/new_event_header_text"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -42,10 +42,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.appcompat.widget.Toolbar>
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -56,7 +53,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/app_bar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,7 +63,7 @@
                 android:background="@color/dark_gray"
                 tools:ignore="MissingConstraints">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -75,7 +72,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/add_white"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -89,7 +86,7 @@
                     android:id="@+id/text_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Добавить фотографию"
+                    android:text="@string/new_event_add_photo_text"
                     android:textColor="@android:color/white"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:hint="Наименование"
+                    android:hint="@string/new_event_hint_event_name"
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
@@ -197,8 +194,8 @@
                 android:paddingLeft="6dp"
                 android:text="@string/access"
                 android:textColor="@color/brown"
-                android:textStyle="bold"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/date"
@@ -214,32 +211,30 @@
                 app:layout_constraintTop_toBottomOf="@id/access_desk">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/for_one"
+                    android:id="@+id/not_for_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:textSize="16sp"
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
                     android:checked="true"
+                    android:paddingStart="10dp"
                     android:text="@string/all"
                     android:textColor="@color/gray"
+                    android:textSize="16sp"
                     tools:ignore="RtlHardcoded" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/not_for_one"
+                    android:id="@+id/for_one"
                     android:layout_width="wrap_content"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
                     android:checked="true"
-                    android:textSize="16sp"
+                    android:paddingStart="10dp"
                     android:text="@string/for_your"
                     android:textColor="@color/gray"
+                    android:textSize="16sp"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous" />
             </RadioGroup>
 
@@ -253,11 +248,10 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:paddingStart="6dp"
-                android:paddingLeft="6dp"
                 android:text="@string/notification"
                 android:textColor="@color/brown"
-                android:textStyle="bold"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/access" />
@@ -276,26 +270,24 @@
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
                     android:layout_weight="1"
-                    android:textSize="16sp"
                     android:button="@drawable/radio_button"
+                    android:checked="true"
+                    android:paddingStart="10dp"
                     android:text="@string/yes"
-                    android:textColor="@color/gray" />
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/not_notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.15"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
                     android:button="@drawable/radio_button"
-                    android:checked="true"
+                    android:paddingStart="10dp"
                     android:text="@string/no"
-                    android:textSize="16sp"
                     android:textColor="@color/gray"
+                    android:textSize="16sp"
                     app:layout_constraintTop_toBottomOf="@+id/it_public"
                     tools:ignore="RtlHardcoded" />
             </RadioGroup>
@@ -310,16 +302,15 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:paddingStart="6dp"
-                android:paddingLeft="6dp"
                 android:paddingTop="10dp"
-                android:text="Добавьте описание"
+                android:text="@string/new_event_add_description_title"
                 android:textColor="@color/brown"
-                android:textStyle="bold"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/is_notification" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -331,14 +322,13 @@
                 android:background="@drawable/edit_text_with_border"
                 android:ems="10"
                 android:gravity="start"
-                android:hint="Описание..."
+                android:hint="@string/new_event_hint_description"
                 android:inputType="textMultiLine"
                 android:minHeight="200dp"
                 android:paddingStart="20dp"
-                android:paddingLeft="20dp"
                 android:paddingTop="16dp"
-                android:textColorHint="@color/gray"
                 android:textColorHighlight="@color/dark_gray"
+                android:textColorHint="@color/gray"
                 android:textColorLink="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -353,16 +343,16 @@
         android:id="@+id/save_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/button"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
         android:text="@string/create_event"
         android:textAllCaps="false"
-        android:textSize="18sp"
         android:textColor="@android:color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,11 @@
 package com.remember.app.ui.cabinet.main;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,22 +13,18 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
+import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
@@ -51,65 +47,109 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class MainActivity extends MvpAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
 
+    private static String TAG = MainActivity.class.getSimpleName();
+
     @InjectPresenter
     MainPresenter presenter;
 
+    @BindView(R.id.imageView6)
+    ImageView button_menu;
     @BindView(R.id.title_name)
-    TextView title;
+    TextView titleUserName;
+    @BindView(R.id.search)
+    ImageView searchImg;
+    @BindView(R.id.add_plus)
+    ImageView addImg;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
 
     private Unbinder unbinder;
     private PageFragment pageFragment;
     private CallbackPage callbackPage;
     private ProgressDialog progressDialog;
-    private ViewPager viewPager;
     private PopupEventScreen popupWindowEvent;
     private PopupPageScreen popupWindowPage;
+    private ImageView imageViewAvatar;
+    private ImageView imageViewBigAvatar;
+    private TextView navUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        searchImg.setImageResource(R.drawable.ic_search);
+        addImg.setImageResource(R.drawable.ic_add_black);
+        viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
+
+        setSupportActionBar(findViewById(R.id.toolbar));
 
         pageFragment = new PageFragment();
-        title.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
-
         Prefs.putBoolean("EVENT_FRAGMENT", false);
         Prefs.putBoolean("PAGE_FRAGMENT", true);
-
-        viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        ImageView imageView = findViewById(R.id.add_plus);
-        imageView.setOnClickListener(v -> {
-            startActivity(new Intent(this, NewMemoryPageActivity.class));
-        });
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+
+        navUsername = headerView.findViewById(R.id.user_name);
+        navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+
+        TextView navEmail = headerView.findViewById(R.id.user_email);
+        navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        button_menu.setOnClickListener(i -> {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        imageViewAvatar = drawer.findViewById(R.id.avatar);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
-        TextView navUsername = headerView.findViewById(R.id.title_menu);
-        TextView textView = headerView.findViewById(R.id.textView);
-        navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
-        textView.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
+        imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+        String avatarStr = Prefs.getString(PREFS_KEY_AVATAR, "");
+        if (!Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
+            titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+
+            setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewAvatar);
+            setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
+        } else {
+            presenter.getInfo();
+        }
+
+        setBlackWhite(imageViewBigAvatar);
+        setBlackWhite(imageViewAvatar);
+
+        imageViewBigAvatar.setOnClickListener(view -> {
+            startActivity(new Intent(this, SettingActivity.class));
+        });
     }
 
 
@@ -123,10 +163,33 @@ public class MainActivity extends MvpAppCompatActivity
         }
     }
 
+    @OnClick(R.id.add_plus)
+    public void addNewMemoryPage() {
+        startActivity(new Intent(this, NewMemoryPageActivity.class));
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onReceivedInfo(ResponseSettings responseSettings) {
+        if (responseSettings.getPicture() != null) {
+            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewAvatar);
+            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewBigAvatar);
+
+            navUsername.setText(responseSettings.getName() + " " + responseSettings.getSurname());
+            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
+            Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
+
+        } else {
+            setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
+            setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+        }
+
+        setBlackWhite(imageViewAvatar);
+        setBlackWhite(imageViewBigAvatar);
+    }
+
     public interface CallbackPage {
-
         void sendItemsSearch(List<MemoryPageModel> result);
-
     }
 
     public void setBlackWhite(ImageView imageView) {
@@ -145,7 +208,7 @@ public class MainActivity extends MvpAppCompatActivity
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);
-        popupWindowPage.setUp(title);
+        popupWindowPage.setUp(titleUserName);
 
     }
 
@@ -157,7 +220,7 @@ public class MainActivity extends MvpAppCompatActivity
                 ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);
-        popupWindowEvent.setUp(title);
+        popupWindowEvent.setUp(titleUserName);
     }
 
     @Override
@@ -180,77 +243,26 @@ public class MainActivity extends MvpAppCompatActivity
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-        ImageView imageViewAvatar = drawer.findViewById(R.id.avatar);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
-        if (!Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
-            Glide.with(this)
-                    .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(imageViewAvatar);
-
-            Glide.with(this)
-                    .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(imageViewBigAvatar);
-        } else {
-            Glide.with(this)
-                    .load(R.drawable.ic_unknown)
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(imageViewAvatar);
-
-            Glide.with(this)
-                    .load(R.drawable.ic_unknown)
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(imageViewBigAvatar);
-        }
-        setBlackWhite(imageViewBigAvatar);
-        setBlackWhite(imageViewAvatar);
-
-        imageViewBigAvatar.setOnClickListener(view -> {
-            startActivity(new Intent(this, SettingActivity.class));
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingActivity.class));
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void setupViewPager(ViewPager viewPager) {
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
         adapter.addFragment(pageFragment, "Памятные страницы");
         adapter.addFragment(new EventFragment(), "События");
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                findViewById(R.id.add_plus).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -287,12 +299,11 @@ public class MainActivity extends MvpAppCompatActivity
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        TextView textView = drawer.findViewById(R.id.title_menu);
-        textView.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+        TextView userName = drawer.findViewById(R.id.user_name);
+        userName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     @Override
     public void onReceivedReligions(List<String> responseHandBooks) {

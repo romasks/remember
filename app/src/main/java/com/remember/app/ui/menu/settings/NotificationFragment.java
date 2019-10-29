@@ -56,6 +56,7 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
         View view = inflater.inflate(R.layout.fragment_settings_notifications, container, false);
         unbinder = ButterKnife.bind(this, view);
         days.setItems(daysArr);
+        days.setSelectedIndex(0);
 
         ((SettingActivity) getActivity()).setSaveButtonClickListener(v -> {
             presenter.getRequestSettings()

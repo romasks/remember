@@ -50,7 +50,9 @@ import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback,PhotoSliderAdapter.ItemClickListener {
+public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
+
+    private final String TAG = ShowPageActivity.class.getSimpleName();
 
     @InjectPresenter
     ShowPagePresenter presenter;
@@ -96,7 +98,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private int id = 0;
     private MemoryPageModel memoryPageModel;
     private PhotoSliderAdapter photoSliderAdapter;
-    private final String TAG="ShowPageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +113,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (isShow) {
             memoryPageModel = i.getParcelableExtra("PERSON");
             presenter.getImagesSlider(memoryPageModel.getId());
-            id=memoryPageModel.getId();
+            id = memoryPageModel.getId();
             settings.setClickable(false);
             imageButton.setClickable(false);
             initAll();
@@ -140,8 +141,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             intent.putExtra("ID_PAGE", memoryPageModel.getId());
             startActivity(intent);
         });
-        image.setOnClickListener(n->startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class)
-                .putExtra("ID",id)));
+        image.setOnClickListener(n -> startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                .putExtra("ID", id)));
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
@@ -214,13 +215,13 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (resultCode == Activity.RESULT_OK) {
             assert result != null;
             photoDialog.setUri(result.getUri());
-            Log.i(TAG,"RESULT_OK");
+            Log.i(TAG, "RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             assert result != null;
             Exception error = result.getError();
-            Log.i(TAG,"CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
+            Log.i(TAG, "CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
         } else {
-            Log.i(TAG,"HZ");
+            Log.i(TAG, "HZ");
 
         }
     }
@@ -323,7 +324,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void error(Throwable throwable) {
-        Log.i(TAG,"throwable= "+throwable.toString());
+        Log.i(TAG, "throwable= " + throwable.toString());
         Snackbar.make(image, "Ошибка загрузки изображения", Snackbar.LENGTH_LONG).show();
     }
 
@@ -350,19 +351,19 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void sendPhoto(File imageFile, String string) {
-        if (memoryPageModel.getId() != null){
-            Log.i(TAG,"!= null"+imageFile.toString()+"  string= "+string+"  "+memoryPageModel.getId());
+        if (memoryPageModel.getId() != null) {
+            Log.i(TAG, "!= null" + imageFile.toString() + "  string= " + string + "  " + memoryPageModel.getId());
             presenter.savePhoto(imageFile, string, memoryPageModel.getId());
-        } else  {
-            Log.i(TAG,"== null");
+        } else {
+            Log.i(TAG, "== null");
             presenter.savePhoto(imageFile, string, id);
         }
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class)
-                .putExtra("ID",id));
+        startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                .putExtra("ID", id));
 
     }
 }
