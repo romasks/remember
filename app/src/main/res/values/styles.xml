@@ -136,5 +136,26 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="EmptyListButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">35dp</item>
+        <item name="android:layout_marginEnd">35dp</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#fcfcfc</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="EmptyListTextStyle">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
+        <item name="android:textColor">#bdbdbd</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>

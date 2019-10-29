@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,17 +9,16 @@
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:background="#FFFFFF" />
 
     <TextView
         android:id="@+id/text_empty_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="21sp"
         android:textColor="#707070"
+        android:textSize="21sp"
         android:textStyle="bold"
-        tools:text="Нет событий"/>
+        tools:text="Нет событий" />
 
 </FrameLayout>

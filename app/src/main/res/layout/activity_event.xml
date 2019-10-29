@@ -78,37 +78,15 @@
         app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
         <TextView
+            style="@style/EmptyListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/events_no_events_title"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="#bdbdbd"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:text="@string/events_no_events_text"
-            android:textColor="#d3d3d3"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="@string/events_no_events_title" />
 
         <Button
             android:id="@+id/btn_create_event"
-            android:layout_width="280dp"
-            android:layout_height="55dp"
-            android:layout_gravity="center"
-            android:background="@drawable/button"
-            android:text="@string/events_create_event_button"
-            android:textAllCaps="false"
-            android:textColor="#fcfcfc"
-            android:textSize="16sp" />
+            style="@style/EmptyListButtonStyle"
+            android:text="@string/events_create_event_button" />
 
     </LinearLayout>
 

@@ -15,7 +15,7 @@ public class PopupAddEpitaph extends PopupWindow {
     private Callback callback;
     private ResponseEpitaphs responseEpitaphs;
 
-    public PopupAddEpitaph(View contentView, int width, int height) {
+    PopupAddEpitaph(View contentView, int width, int height) {
         super(contentView, width, height);
     }
 

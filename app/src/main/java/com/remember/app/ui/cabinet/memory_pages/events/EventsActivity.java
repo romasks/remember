@@ -83,18 +83,12 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         plus.setVisibility(isShow ? View.GONE : View.VISIBLE);
         plus.setOnClickListener(v -> {
             if (!isShow) {
-                Intent intent = new Intent(this, AddNewEventActivity.class);
-                intent.putExtra("NAME", name);
-                intent.putExtra("ID_PAGE", pageId);
-                startActivity(intent);
+                openAddNewEventScreen();
             }
         });
         btnCreateEvent.setOnClickListener(v -> {
             if (!isShow) {
-                Intent intent = new Intent(this, AddNewEventActivity.class);
-                intent.putExtra("NAME", name);
-                intent.putExtra("ID_PAGE", pageId);
-                startActivity(intent);
+                openAddNewEventScreen();
             }
         });
         search.setOnClickListener(v -> {
@@ -114,7 +108,15 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @Override
     public void onReceivedEvent(List<RequestAddEvent> requestAddEvent) {
         eventsDeceaseAdapter.setItems(requestAddEvent);
-        noEvents.setVisibility(eventsDeceaseAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+        noEvents.setVisibility(requestAddEvent.isEmpty() ? View.VISIBLE : View.GONE);
+        btnCreateEvent.setVisibility(isShow ? View.GONE : requestAddEvent.isEmpty() ? View.VISIBLE : View.GONE);
+    }
+
+    private void openAddNewEventScreen() {
+        Intent intent = new Intent(this, AddNewEventActivity.class);
+        intent.putExtra("NAME", name);
+        intent.putExtra("ID_PAGE", pageId);
+        startActivity(intent);
     }
 
     private void showPageScreen() {

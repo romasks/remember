@@ -1,26 +1,23 @@
 package com.remember.app.ui.menu.notifications;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.NotificationModelNew;
-import com.remember.app.ui.menu.settings.NotificationFragment;
 import com.remember.app.ui.utils.DividerItemDecoration;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class NotificationsFragment extends MvpAppCompatFragment implements NotificationsView, NotificationListAdapter.NotificationClickListener {
 
@@ -40,7 +37,7 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     @InjectPresenter
     NotificationsPresenter presenter;
 
-    static NotificationsFragment newInstance(Type type){
+    static NotificationsFragment newInstance(Type type) {
         NotificationsFragment fragment = new NotificationsFragment();
 
         Bundle args = new Bundle();
@@ -51,7 +48,8 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
         return fragment;
     }
 
-    private NotificationsFragment() {}
+    private NotificationsFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +82,7 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
             presenter.getEpitNotifications();
     }
 
-    void showFilterDialog(){
+    void showFilterDialog() {
         NotificationFilterDialog.show(getFragmentManager(), filterType.ordinal()).setClickListener(new NotificationFilterDialog.FilterDialogClickListener() {
             @Override
             public void onFilterSubmit(NotificationsPresenter.NotificationFilterType filterType) {
@@ -95,7 +93,7 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
         });
     }
 
-    private void setupRV(){
+    private void setupRV() {
         adapter = new NotificationListAdapter();
         adapter.setClickListener(this);
 
@@ -118,8 +116,8 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
 
     }
 
-    private void updateEmptyState(boolean isEmpty){
-        if (isEmpty){
+    private void updateEmptyState(boolean isEmpty) {
+        if (isEmpty) {
             recyclerView.setVisibility(View.GONE);
             textEmptyState.setVisibility(View.VISIBLE);
         } else {

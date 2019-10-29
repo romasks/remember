@@ -4,13 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,6 +25,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -46,6 +47,10 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     ImageView plus;
     @BindView(R.id.back)
     ImageView back;
+    @BindView(R.id.no_events)
+    LinearLayout noEvents;
+    @BindView(R.id.btn_create_event)
+    Button btnCreateEvent;
 
     private Unbinder unbinder;
     private EpitaphsAdapter epitaphsAdapter;
@@ -77,6 +82,11 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
                 showPopupAdd();
             }
         });
+        btnCreateEvent.setOnClickListener(v -> {
+            if (!isShow) {
+                showPopupAdd();
+            }
+        });
         back.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -101,6 +111,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @Override
     public void onReceivedEpitaphs(List<ResponseEpitaphs> responseEpitaphs) {
         epitaphsAdapter.setItems(responseEpitaphs);
+        noEvents.setVisibility(responseEpitaphs.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     public void onClick(View view) {
