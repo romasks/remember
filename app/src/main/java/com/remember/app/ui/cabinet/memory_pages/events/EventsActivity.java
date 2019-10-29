@@ -80,6 +80,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventsDeceaseAdapter);
 
+        plus.setVisibility(isShow ? View.GONE : View.VISIBLE);
         plus.setOnClickListener(v -> {
             if (!isShow) {
                 Intent intent = new Intent(this, AddNewEventActivity.class);
