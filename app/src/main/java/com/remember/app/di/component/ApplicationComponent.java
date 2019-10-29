@@ -12,13 +12,19 @@ import com.remember.app.ui.auth.AuthPresenter;
 import com.remember.app.ui.auth.RegisterPresenter;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsPresenter;
 import com.remember.app.ui.cabinet.events.EventsPresenter;
+import com.remember.app.ui.cabinet.main.MainPresenter;
 import com.remember.app.ui.cabinet.memory_pages.PagePresenter;
 import com.remember.app.ui.cabinet.memory_pages.add_page.AddPagePresenter;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventPresenter;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEventPresenter;
 import com.remember.app.ui.cabinet.memory_pages.place.PlacePresenter;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPagePresenter;
 import com.remember.app.ui.grid.GridPresenter;
-import com.remember.app.ui.settings.data.PersonalDataFragmentPresenter;
-import com.remember.app.ui.settings.notification.NotificationFragmentPresenter;
+import com.remember.app.ui.menu.events.EventsMenuPresenter;
+import com.remember.app.ui.menu.notifications.NotificationsPresenter;
+import com.remember.app.ui.menu.page.PageMenuPresenter;
+import com.remember.app.ui.menu.question.QuestionPresenter;
+import com.remember.app.ui.menu.settings.SettingPresenter;
 import com.remember.app.ui.splash.SplashPresenter;
 
 import javax.inject.Singleton;
@@ -54,12 +60,24 @@ public interface ApplicationComponent {
 
     void inject(RegisterPresenter presenter);
 
-    void inject(PersonalDataFragmentPresenter presenter);
-
-    void inject(NotificationFragmentPresenter presenter);
+    void inject(SettingPresenter presenter);
 
     void inject(GridPresenter presenter);
 
     void inject(SplashPresenter presenter);
+
+    void inject(MainPresenter presenter);
+
+    void inject(QuestionPresenter presenter);
+
+    void inject(ShowPagePresenter presenter);
+
+    void inject(PageMenuPresenter presenter);
+
+    void inject(EventsMenuPresenter presenter);
+
+    void inject(CurrentEventPresenter presenter);
+
+    void inject(NotificationsPresenter presenter);
 }
 

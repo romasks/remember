@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
@@ -35,7 +36,7 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
     public void setUp(View contentView, FragmentManager supportFragmentManager) {
         setFocusable(true);
-        setOutsideTouchable(true);
+        setOutsideTouchable(false);
         showAtLocation(contentView, Gravity.TOP, 0, 0);
         View popupView = getContentView();
         dismiss = popupView.findViewById(R.id.dismiss);
@@ -84,6 +85,7 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
             longitude = point.longitude;
         });
     }
+
 
     interface Callback{
 

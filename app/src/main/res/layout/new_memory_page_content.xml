@@ -7,7 +7,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-44dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -63,19 +65,19 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:hint="@string/last_name"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapWords"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,19 +90,19 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/last_name_title">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:hint="@string/name"
-                    android:inputType="textPersonName"
                     android:maxLines="1"
+                    android:inputType="textPersonName|textCapWords"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,19 +115,19 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/name_title">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/middle_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:hint="@string/middle_name"
-                    android:inputType="textPersonName"
                     android:maxLines="1"
+                    android:inputType="textPersonName|textCapWords"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,7 +141,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/middle_name_title">
 
                 <AutoCompleteTextView
@@ -152,7 +154,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,7 +168,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/date_begin_title">
 
                 <AutoCompleteTextView
@@ -175,11 +177,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:focusable="false"
-                    android:hint="@string/date_begin"
+                    android:hint="@string/date_end"
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@drawable/abc" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -191,9 +193,11 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button"
+
                 android:text="@string/burial_place"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@+id/date_end_title" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -206,7 +210,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@drawable/abc"
+                android:textColorHint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@+id/place_button">
 
                 <AutoCompleteTextView
@@ -219,9 +223,9 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@drawable/abc"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -230,14 +234,15 @@
                 android:id="@+id/is_star"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="26dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:text="@string/star"
-                android:textColor='@color/light_brown'
+                android:textColor="@color/brown"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/religion" />
@@ -249,6 +254,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginStart="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/is_star">
@@ -261,9 +267,11 @@
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:text="Да"
-                    android:textColor='@color/light_brown'
-                    android:textSize="16sp" />
+                    android:textColor="@color/gray"
+                    android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/not_famous"
@@ -274,9 +282,11 @@
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
                     android:checked="true"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:text="Нет"
-                    android:textColor='@color/light_brown'
-                    android:textSize="16sp"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous" />
             </RadioGroup>
 
@@ -284,14 +294,15 @@
                 android:id="@+id/access_desk"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:text="@string/pick_level"
-                android:textColor='@color/light_brown'
+                android:textColor="@color/brown"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/famous" />
@@ -300,7 +311,8 @@
                 android:id="@+id/is_public"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="25dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="@+id/access_desk"
                 app:layout_constraintTop_toBottomOf="@id/access_desk">
@@ -312,20 +324,24 @@
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
                     android:button="@drawable/radio_button"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:text="@string/for_all"
-                    android:textColor='@color/light_brown'
-                    android:textSize="16sp" />
+                    android:textColor="@color/gray"
+                    android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/not_public"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.2"
                     android:button="@drawable/radio_button"
                     android:checked="true"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:text="@string/for_yourself"
-                    android:textColor='@color/light_brown'
-                    android:textSize="16sp"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@+id/it_public" />
             </RadioGroup>
 
@@ -333,14 +349,16 @@
                 android:id="@+id/title_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:paddingTop="10dp"
+
                 android:text="Добавьте описание"
-                android:textColor='@color/light_brown'
+                android:textColor="@color/brown"
+                android:textStyle="bold"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/is_public" />
@@ -363,11 +381,12 @@
                 android:paddingStart="20dp"
                 android:paddingLeft="20dp"
                 android:paddingTop="16dp"
-                android:textColorHighlight="@color/light_brown"
-                android:textColorLink="@color/colorPrimary"
+                android:textColorHighlight="@color/gray"
+                android:textColorHint="@color/gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+
                 app:layout_constraintTop_toBottomOf="@+id/title_description"
                 tools:ignore="RtlSymmetry" />
 
@@ -383,6 +402,7 @@
                 android:text="@string/create_page"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
 

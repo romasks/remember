@@ -2,6 +2,8 @@ package com.remember.app.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +57,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     }
 
     public void setItems(List<ResponseEvents> responseEvents) {
+        this.responseEvents.clear();
         this.responseEvents.addAll(responseEvents);
         notifyDataSetChanged();
     }
@@ -99,7 +102,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             try {
                 if (!responseEvents.get(position).getPicture().contains("upload")){
                     Glide.with(itemView)
-                            .load("http://86.57.172.88:8082/uploads/" + responseEvents.get(position).getPicture())
+                            .load("http://помню.рус/uploads/" + responseEvents.get(position).getPicture())
                             .error(mDefaultBackground)
                             .apply(RequestOptions.circleCropTransform())
                             .into(avatarImage);
@@ -111,7 +114,10 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
                         .apply(RequestOptions.circleCropTransform())
                         .into(avatarImage);
             }
-
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            avatarImage.setColorFilter(filter);
             amountDays.setVisibility(View.VISIBLE);
             String fullName = responseEvents.get(position).getName();
             name.setText(fullName);

@@ -19,49 +19,108 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:weightSum="15">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
                     android:src="@drawable/ic_back" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/event_calendar"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="10"
+                    android:paddingStart="10dp"
+                    android:text="@string/events"
+                    android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/new_event"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/search"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icons8plusmath50"
-                    android:layout_marginEnd="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_search" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/new_event"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:src="@drawable/ic_add_black" />
+
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-
-
     </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/no_events"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/events_no_events_title"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="#bdbdbd"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="@string/events_no_events_text"
+            android:textColor="#d3d3d3"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_create_event"
+            android:layout_width="280dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button"
+            android:text="@string/events_create_event_button"
+            android:textAllCaps="false"
+            android:textColor="#fcfcfc"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@+id/app_bar"
-        tools:listitem="@layout/item_events"
-        tools:itemCount="4"/>
+        tools:itemCount="4"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/item_events" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

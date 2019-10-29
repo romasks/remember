@@ -2,25 +2,33 @@ package com.remember.app.ui.cabinet.memory_pages.add_page;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
@@ -31,9 +39,11 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.data.models.ResponsePages;
@@ -51,6 +61,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -60,21 +71,28 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
     @InjectPresenter
     AddPagePresenter presenter;
 
     @BindView(R.id.last_name)
-    AutoCompleteTextView lastName;
+//    AutoCompleteTextView lastName;
+            EditText lastName;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.image_layout)
     ConstraintLayout imageLayout;
     @BindView(R.id.middle_name)
-    AutoCompleteTextView middleName;
+//    AutoCompleteTextView middleName;
+            EditText middleName;
     @BindView(R.id.name)
-    AutoCompleteTextView name;
+//    AutoCompleteTextView name;
+            EditText name;
     @BindView(R.id.date_begin)
     AutoCompleteTextView dateBegin;
     @BindView(R.id.date_end)
@@ -93,6 +111,10 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     AppCompatRadioButton isPublic;
     @BindView(R.id.not_public)
     AppCompatRadioButton noPublic;
+    @BindView(R.id.save_button)
+    Button saveButton;
+    @BindView(R.id.text_image)
+    TextView textViewImage;
 
     private Calendar dateAndTime = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
@@ -106,6 +128,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private MemoryPageModel memoryPageModel;
     private ProgressDialog progressDialog;
     private File imageFile;
+    private Bitmap bitmap;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,7 +142,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         ButterKnife.bind(this);
         initiate();
         Intent i = getIntent();
-
+        person = new AddPageModel();
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -130,11 +158,17 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         isEdit = i.getBooleanExtra("EDIT", false);
 
         if (isEdit) {
+            saveButton.setText("Сохранить изменения");
+            textViewImage.setText("Изменить фотографию");
             memoryPageModel = i.getParcelableExtra("PERSON");
             initEdit();
+            person.setCity(getIntent().getExtras().getString("CITY", ""));
+            person.setSpotId(getIntent().getExtras().getString("SECTOR", ""));
+            person.setGraveId(getIntent().getExtras().getString("GRAVE", ""));
+            person.setCemeteryName(getIntent().getExtras().getString("CRYPT", ""));
+            person.setCoords(getIntent().getExtras().getString("COORD", ""));
         }
 
-        person = new AddPageModel();
         religion.setOnClickListener(v -> {
             presenter.getReligion();
         });
@@ -142,6 +176,23 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             onBackPressed();
             finish();
         });
+        if (Build.VERSION.SDK_INT >= 23) {
+            verifyStoragePermissions(this);
+        }
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 
     private void initEdit() {
@@ -153,11 +204,35 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         name.setText(memoryPageModel.getName());
         middleName.setText(memoryPageModel.getThirtname());
         description.setText(memoryPageModel.getComment());
-        dateBegin.setText(memoryPageModel.getDatarod());
-        dateEnd.setText(memoryPageModel.getDatasmert());
+
+        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+        DateFormat dfRemote = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date beginDate = null;
+        try {
+            beginDate = dfRemote.parse(memoryPageModel.getDatarod());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (beginDate != null) {
+            dateBegin.setText(dfLocal.format(beginDate));
+        }
+
+        Date endDate = null;
+        try {
+            endDate = dfRemote.parse(memoryPageModel.getDatasmert());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (endDate != null) {
+            dateEnd.setText(dfLocal.format(endDate));
+        }
+
+//        dateBegin.setText(memoryPageModel.getDatarod());
+//        dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
         Glide.with(this)
-                .load("http://86.57.172.88:8082" + memoryPageModel.getPicture())
+                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();
@@ -180,6 +255,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     public void pickImage() {
         progressDialog = LoadingPopupUtils.showLoadingDialog(this);
         CropImage.activity()
+                .setFixAspectRatio(true)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .start(this);
     }
@@ -200,8 +276,30 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setName(name.getText().toString());
         person.setThirdName(middleName.getText().toString());
         person.setComment(description.getText().toString());
-        person.setBirthDate(dateBegin.getText().toString());
-        person.setDeathDate(dateEnd.getText().toString());
+
+        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date beginDate = null;
+        try {
+            beginDate = dfLocal.parse(dateBegin.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (beginDate != null) {
+            person.setBirthDate(df.format(beginDate));
+        }
+
+        Date endDate = null;
+        try {
+            endDate = dfLocal.parse(dateEnd.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (endDate != null) {
+            person.setDeathDate(df.format(endDate));
+        }
+        person.setUserId(Prefs.getString(PREFS_KEY_USER_ID, "0"));
         if (isFamous.isChecked()) {
             person.setStar("true");
         } else if (notFamous.isChecked()) {
@@ -215,9 +313,34 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setReligion(religion.getText().toString());
         person.setPictureData(dataString);
         if (!isEdit) {
-            presenter.addPage(person, imageFile);
+            if (imageFile != null) {
+                presenter.addPage(person, imageFile);
+            } else {
+                Toast.makeText(this, "Необходимо загрузить фото", Toast.LENGTH_LONG).show();
+            }
         } else {
-            presenter.editPage(person, memoryPageModel.getId(), imageFile);
+
+            if (imageFile != null) {
+                presenter.editPage(person, memoryPageModel.getId(), imageFile);
+            } else {
+                File file = new File(this.getCacheDir(), "image");
+                try {
+                    file.createNewFile();
+                    image.invalidate();
+                    BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+                    Bitmap bitmap = drawable.getBitmap();
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+                    FileOutputStream fos = new FileOutputStream(file);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                presenter.editPage(person, memoryPageModel.getId(), file);
+            }
         }
     }
 
@@ -226,14 +349,49 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            setInitialDateBegin();
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date endDate = null;
+            try {
+                if (!dateEnd.getText().toString().isEmpty()) {
+                    endDate = simpleDateFormat.parse(dateEnd.getText().toString());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (endDate != null) {
+                if (dateAndTime.getTime().after(endDate)) {
+                    Snackbar.make(dateBegin, "Дата смерти не может быть перед датой рождения", Snackbar.LENGTH_LONG).show();
+                } else {
+                    setInitialDateBegin();
+                }
+            } else {
+                setInitialDateBegin();
+            }
         };
 
         dateEndPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            setInitialDateEnd();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = null;
+            try {
+                if (!dateBegin.getText().toString().isEmpty()) {
+                    startDate = simpleDateFormat.parse(dateBegin.getText().toString());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (startDate != null) {
+                if (startDate.after(dateAndTime.getTime())) {
+                    Snackbar.make(dateBegin, "Дата смерти не может быть перед датой рождения", Snackbar.LENGTH_LONG).show();
+                } else {
+                    setInitialDateEnd();
+                }
+            } else {
+                setInitialDateEnd();
+            }
         };
 
         dateBegin.setOnClickListener(this::setDateBegin);
@@ -241,32 +399,34 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     public void setDateBegin(View v) {
-        new DatePickerDialog(this, dateBeginPickerDialog,
+        DatePickerDialog dialog = new DatePickerDialog(this, dateBeginPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH))
-                .show();
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(new Date().getTime());
+        dialog.show();
     }
 
     public void setDateEnd(View v) {
-        new DatePickerDialog(this, dateEndPickerDialog,
+        DatePickerDialog dialog = new DatePickerDialog(this, dateEndPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH))
-                .show();
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(new Date().getTime());
+        dialog.show();
     }
 
     private void setInitialDateBegin() {
         @SuppressLint("SimpleDateFormat")
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
+        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+        String requiredDate = dfLocal.format(new Date(dateAndTime.getTimeInMillis()));
         dateBegin.setText(requiredDate);
     }
 
     private void setInitialDateEnd() {
         @SuppressLint("SimpleDateFormat")
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
+        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+        String requiredDate = dfLocal.format(new Date(dateAndTime.getTimeInMillis()));
         dateEnd.setText(requiredDate);
     }
 
@@ -280,6 +440,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 person.setCemeteryName(data.getStringExtra("CEMETERY"));
                 person.setSpotId(data.getStringExtra("SPOT_ID"));
                 person.setGraveId(data.getStringExtra("GRAVE_ID"));
+                person.setSector(data.getStringExtra("SECTOR"));
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
@@ -321,39 +482,31 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 progressDialog.dismiss();
                 imageUri = String.valueOf(result.getUri());
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
                     progressDialog.dismiss();
                     Glide.with(getApplicationContext())
                             .load(result.getUri())
-                            .centerCrop()
                             .into(image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+                progressDialog.dismiss();
+            } else {
+                progressDialog.dismiss();
             }
         }
-    }
-
-    public static File saveBitmap(Bitmap bmp) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
-        File f = new File(Environment.getExternalStorageDirectory()
-                + File.separator + "image.jpg");
-
-        f.createNewFile();
-        FileOutputStream fo = new FileOutputStream(f);
-        fo.write(bytes.toByteArray());
-        fo.close();
-        return f;
     }
 
     @Override
     public void onSavedPage(ResponseCemetery response) {
         Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
+        intent.putExtra("IMAGE", imageFile);
+        intent.putExtra("ID", response.getId());
+        intent.putExtra("AFTER_SAVE", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
@@ -377,11 +530,21 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     @Override
-    public void onEdited(ResponsePages responsePages) {
-        Intent intent = new Intent(this, MainActivity.class);
+//    public void onEdited(ResponsePages responsePages) {
+    public void onEdited(MemoryPageModel memoryPageModel) {
+//        Intent intent = new Intent(this, MainActivity.class);
+//        intent.putExtra("PERSON", person);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//        Toast.makeText(this, "Данные сохранены", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
+        intent.putExtra("IMAGE", imageFile);
+        intent.putExtra("ID", memoryPageModel.getId());
+        intent.putExtra("AFTER_SAVE", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     @Override

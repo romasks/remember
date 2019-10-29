@@ -27,7 +27,7 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onRegistered,
-                        getViewState()::error);
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 

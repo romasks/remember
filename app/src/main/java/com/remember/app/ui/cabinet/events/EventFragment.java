@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,8 +58,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     }
 
     @Override
-    public void setUserVisibleHint(boolean visible)
-    {
+    public void setUserVisibleHint(boolean visible) {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
             onResume();
@@ -78,6 +78,8 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
 
     @Override
     public void onReceivedEvents(List<ResponseEvents> responseEvents) {
+        if (responseEvents.size() == 0)
+            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsFragmentAdapter.setItems(responseEvents);
     }
 
@@ -85,7 +87,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     public void click(ResponseEvents events) {
         Intent intent = new Intent(getActivity(), EventFullActivity.class);
         String eventJson = new Gson().toJson(events);
-        intent.putExtra("EVENT", eventJson);
+        intent.putExtra("EVENTS", eventJson);
         startActivity(intent);
     }
 }

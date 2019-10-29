@@ -3,16 +3,23 @@ package com.remember.app.ui.adapters;
 import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -22,6 +29,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 
 public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -48,13 +57,18 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItems(List<MemoryPageModel> memoryPageModels) {
-        this.memoryPageModels.clear();
         this.memoryPageModels.addAll(memoryPageModels);
         notifyDataSetChanged();
     }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
+    }
+
+    public void setItemsSearch(List<MemoryPageModel> memoryPageModels) {
+        this.memoryPageModels.clear();
+        this.memoryPageModels.addAll(memoryPageModels);
+        notifyDataSetChanged();
     }
 
     public interface Callback {
@@ -69,6 +83,8 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ImageView imageView;
         @BindView(R.id.name)
         TextView name;
+        @BindView(R.id.progress)
+        ProgressBar progress;
 
         public ImageAdapterHolder(View itemView) {
             super(itemView);
@@ -84,7 +100,20 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             try {
                 if (memoryPageModels.get(position).getPicture().contains("uploads")){
                     Glide.with(context)
-                            .load("http://86.57.172.88:8082" + memoryPageModels.get(position).getPicture())
+                            .load(BASE_SERVICE_URL + memoryPageModels.get(position).getPicture())
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    progress.setVisibility(View.GONE);
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    progress.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            })
                             .error(R.drawable.darth_vader)
                             .into(imageView);
                 } else {
@@ -103,7 +132,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             colorMatrix.setSaturation(0);
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
             imageView.setColorFilter(filter);
-            String nameString = memoryPageModels.get(position).getSecondname() + " " + memoryPageModels.get(position).getName();
+            String nameString = memoryPageModels.get(position).getName() + " " + memoryPageModels.get(position).getSecondname();
             name.setText(nameString);
         }
     }

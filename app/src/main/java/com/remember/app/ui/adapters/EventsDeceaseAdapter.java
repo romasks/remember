@@ -2,13 +2,15 @@ package com.remember.app.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -27,9 +29,12 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
+    private Callback callback;
     private List<RequestAddEvent> requestAddEvent = new ArrayList<>();
 
     @NonNull
@@ -55,8 +60,20 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public interface Callback {
+
+        void openEvent(Integer pageId);
+
+    }
+
     public class EventsDeceaseAdapterViewHolder extends BaseViewHolder {
 
+        @BindView(R.id.layout)
+        ConstraintLayout constraintLayout;
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
         @BindView(R.id.amount_days)
@@ -76,22 +93,55 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            Glide.with(itemView)
-                    .load("https://images-na.ssl-images-amazon.com/images/I/61flr%2BuHRpL._SX425_.jpg")
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(avatarImage);
+            constraintLayout.setOnClickListener(v -> {
+                callback.openEvent(requestAddEvent.get(position).getId());
+            });
+            try {
+                Glide.with(itemView)
+                        .load(BASE_SERVICE_URL + requestAddEvent.get(position).getPicture())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(avatarImage);
+            } catch (Exception e){
+                Glide.with(itemView)
+                        .load(R.drawable.ic_unknown)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(avatarImage);
+            }
             name.setText(requestAddEvent.get(position).getName());
             try {
                 String days = String.valueOf(getDifferenceDays(requestAddEvent.get(position).getDate()));
-                amountDays.setText(days);
-            } catch (ParseException ignored) { }
+                amountDays.setText(days.replace("-", ""));
+            } catch (ParseException ignored) {
+                try {
+                    String days = String.valueOf(getDifferenceDaysOtherDate(requestAddEvent.get(position).getDate()));
+                    amountDays.setText(days.replace("-", ""));
+                } catch (Exception e) {
+                }
+            }
             date.setText(requestAddEvent.get(position).getDate());
             comment.setText("дней осталось");
         }
 
-        long getDifferenceDays(String date) throws ParseException {
+        long getDifferenceDaysOtherDate(String date) throws ParseException {
             @SuppressLint("SimpleDateFormat")
             Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
+            Calendar past = Calendar.getInstance();
+            past.setTime(dateResult);
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.YEAR, past.get(Calendar.YEAR));
+            if (!today.after(past)) {
+                long diff = today.getTime().getTime() - past.getTime().getTime();
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            } else {
+                today.set(Calendar.YEAR, past.get(Calendar.YEAR) - 1);
+                long diff = past.getTime().getTime() - today.getTime().getTime();
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            }
+        }
+
+        long getDifferenceDays(String date) throws ParseException {
+            @SuppressLint("SimpleDateFormat")
+            Date dateResult = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             Calendar past = Calendar.getInstance();
             past.setTime(dateResult);
             Calendar today = Calendar.getInstance();

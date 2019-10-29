@@ -38,4 +38,13 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
                         getViewState()::onErrorSavedEpitaphs);
         unsubscribeOnDestroy(subscription);
     }
+
+    public void editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
+        Disposable subscription = serviceNetwork.editEpitaph(requestAddEpitaphs, id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onEditedEpitaphs,
+                        getViewState()::onErrorSavedEpitaphs);
+        unsubscribeOnDestroy(subscription);
+    }
 }

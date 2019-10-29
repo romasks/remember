@@ -44,6 +44,9 @@ public class MemoryPageModel implements Parcelable {
     @SerializedName("nummogil")
     @Expose
     private String nummogil;
+    @SerializedName("sector")
+    @Expose
+    private String sector;
     @SerializedName("datarod")
     @Expose
     private String datarod;
@@ -262,7 +265,10 @@ public class MemoryPageModel implements Parcelable {
         this.userId = userId;
     }
 
-    protected MemoryPageModel(Parcel in) {
+    public MemoryPageModel() {
+    }
+
+    public MemoryPageModel(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         secondname = in.readString();
         thirtname = in.readString();
@@ -337,4 +343,12 @@ public class MemoryPageModel implements Parcelable {
             return new MemoryPageModel[size];
         }
     };
+
+    public String getSector() {
+        return sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
 }

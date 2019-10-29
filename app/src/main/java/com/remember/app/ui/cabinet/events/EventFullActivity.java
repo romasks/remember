@@ -34,13 +34,13 @@ public class EventFullActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getIntent().getExtras() != null) {
-            ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENT")), ResponseEvents.class);
+            ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
             System.out.println();
             Drawable mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
             try {
                 if (!responseEvents.getPicture().contains("upload")) {
                     Glide.with(this)
-                            .load("http://86.57.172.88:8082/uploads/" + responseEvents.getPicture())
+                            .load("http://помню.рус/uploads/" + responseEvents.getPicture())
                             .error(mDefaultBackground)
                             .into(avatarImage);
                 } else {

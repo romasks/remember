@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -29,6 +30,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewEventView {
+
+    private final String TAG = AddNewEventActivity.class.getSimpleName();
 
     @InjectPresenter
     AddNewEventPresenter presenter;
@@ -95,6 +98,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         }
     }
 
+    @OnClick(R.id.back)
+    public void back() {
+        onBackPressed();
+        finish();
+    }
+
     @OnClick(R.id.save_button)
     public void saveEvent() {
         if (nameDeceased.getText().toString().equals("")) {
@@ -111,9 +120,9 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             requestAddEvent.setName(title.getText().toString());
             requestAddEvent.setDescription(description.getText().toString());
             if (forOne.isChecked()) {
-                requestAddEvent.setFlag(1);
-            } else {
                 requestAddEvent.setFlag(0);
+            } else {
+                requestAddEvent.setFlag(1);
             }
             if (isNeedNotification.isChecked()) {
                 requestAddEvent.setUvShow("1");
@@ -138,5 +147,11 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         intent.putExtra("ID_PAGE", pageId);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Log.e(TAG, throwable.getMessage());
+        Snackbar.make(description, "Ошибка загрузки данных", Snackbar.LENGTH_LONG).show();
     }
 }

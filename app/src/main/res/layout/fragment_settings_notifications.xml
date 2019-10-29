@@ -1,149 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="50">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="24dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="25dp"
-                android:text="Дни поминовения"
-                android:textColor="#AC8C6D"
-                android:textColorHighlight="#AC8C6D"
-                android:textColorLink="#AC8C6D"
-                android:textStyle="bold" />
-
-            <RadioGroup
+            <Switch
+                android:id="@+id/notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:text="@string/settings_enable_notifications"
+                android:textColor="#8a8a8a"
+                android:textColorHighlight="#8a8a8a"
+                android:textColorLink="#8a8a8a"
+                android:textSize="18sp"
+                android:theme="@style/SwitchRemember" />
+
+            <TextView
+                style="@style/SettingsNotificationBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_commemoration_days" />
+
+            <RadioGroup
+                android:id="@+id/id_notice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginRight="25dp"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:button="@drawable/radio_button"
-                    android:checked="true"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Общественные"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/id_notice_one"
+                    style="@style/SettingsRadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="2"
-                    android:button="@drawable/radio_button"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Личные"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
+                    android:checked="true"
+                    android:text="@string/settings_com_days_all" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/id_notice_two"
+                    style="@style/SettingsRadioButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="2"
+                    android:text="@string/settings_com_days_for_deceased" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/id_notice_three"
+                    style="@style/SettingsRadioButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="2"
+                    android:text="@string/settings_com_days_religious" />
             </RadioGroup>
 
             <TextView
+                style="@style/SettingsNotificationBoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="25dp"
-                android:text="Уведомления"
-                android:textColor="#AC8C6D"
-                android:textColorHighlight="#AC8C6D"
-                android:textColorLink="#AC8C6D"
-                android:textStyle="bold" />
+                android:text="@string/settings_number_of_days" />
 
-            <RadioGroup
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="25dp"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp">
 
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:layout_width="wrap_content"
+                <TextView
+                    style="@style/SettingsRadioButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="0dp"
+                    android:text="@string/settings_choose_number_of_days" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/days"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:button="@drawable/radio_button"
-                    android:checked="true"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="За неделю"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
+                    android:hint="1"
+                    android:textColorHint="@color/gray"
+                    android:textSize="18sp"
+                    app:ms_arrow_tint="@color/gray"
+                    app:ms_background_color="@android:color/transparent"
+                    app:ms_background_selector="@android:color/white"
+                    app:ms_dropdown_height="200dp"
+                    app:ms_padding_left="10dp"
+                    app:ms_popup_padding_left="10dp"
+                    app:ms_text_color="@color/gray" />
 
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="2"
-                    android:button="@drawable/radio_button"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="За день"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
+            </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="2"
-                    android:button="@drawable/radio_button"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="Никогда"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="2"
-                    android:button="@drawable/radio_button"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="выбрать количество дней"
-                    android:textColor="#AC8C6D"
-                    android:textColorHighlight="#AC8C6D"
-                    android:textColorLink="#AC8C6D" />
-            </RadioGroup>
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_weight="1"
-        android:background="#AC8C6D"
-        android:text="Сохранить"
-        android:textColor="#fff"
-        android:textStyle="bold" />
 </LinearLayout>

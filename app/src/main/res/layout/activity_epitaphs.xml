@@ -19,52 +19,55 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:weightSum="10">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="2"
                     android:src="@drawable/ic_back" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:text="Эпитафии"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="6"
+                    android:text="@string/epitaphs_header_text"
+                    android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    android:textStyle="bold" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/plus"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icons8plusmath50"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginEnd="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    android:layout_weight="2"
+                    android:src="@drawable/ic_add_black" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-
-
     </com.google.android.material.appbar.AppBarLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_epitaphs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
         android:layout_marginBottom="50dp"
-        app:layout_constraintTop_toBottomOf="@id/app_bar"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        app:layout_constraintVertical_bias="0.0"
         tools:itemCount="4"
+        tools:layout_editor_absoluteX="16dp"
         tools:listitem="@layout/item_epitaphs" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

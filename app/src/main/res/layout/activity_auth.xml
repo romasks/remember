@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -18,8 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="45dp"
         android:text="Помню"
+        android:fontFamily="@font/round"
         android:textColor="@color/colorAccent"
-        android:textSize="30sp"
+        android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/email_login_form"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -39,23 +41,22 @@
             android:layout_marginStart="@dimen/default_activity_fields_margin"
             android:layout_marginLeft="@dimen/default_activity_fields_margin"
             android:layout_marginTop="@dimen/default_activity_fields_margin"
+            android:textColorHint="@color/dark_gray"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@drawable/abc"
             app:layout_constraintTop_toBottomOf="@+id/name_title">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/login_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:hint="@string/login"
+                android:textColor="@drawable/abc"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:text="Admin@ya.ru"
-                android:textAlignment="textStart"
-                android:textColorHint="@android:color/black"
-                android:textColor="@android:color/black" />
+                android:singleLine="true"
+                android:textColorHighlight="#b1a28c"
+                android:textColorLink="#b1a28c" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,10 +66,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_activity_fields_margin"
             android:layout_marginLeft="@dimen/default_activity_fields_margin"
-            android:layout_marginTop="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
+            android:textColor="@drawable/abc"
+            android:textColorHint="@color/dark_gray"
             android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@drawable/abc"
             app:layout_constraintTop_toBottomOf="@+id/login_title">
 
             <AutoCompleteTextView
@@ -77,11 +78,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:hint="@string/password"
+                android:textColorHint="@color/dark_gray"
+                android:textColorHighlight="@color/dark_gray"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:text="11111111"
                 android:textAlignment="textStart"
-                android:textColor="@android:color/black" />
+                android:textColor="@drawable/abc" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +99,7 @@
             android:text="@string/sign_in"
             android:textAllCaps="false"
             android:textColor="#fcfcfc"
-            android:textStyle="bold" />
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -105,13 +107,27 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:text="@string/registration"
         android:textColor="@color/colorAccent"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_login_form" />
+        app:layout_constraintTop_toBottomOf="@+id/email_login_form"
+       />
+
+
+    <TextView
+        android:id="@+id/wrong_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Забыли пароль"
+        android:textColor="@color/colorAccent"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register" />
 
     <ProgressBar
         android:id="@+id/login_progress"
@@ -129,8 +145,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Или войдите через соцсети:"
-        android:textColor="#AC8C6D"
-        android:textSize="16sp"
+        android:textColor="#b1a28c"
+        android:textSize="17sp"
         app:layout_constraintBottom_toTopOf="@id/social_group"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -153,7 +169,7 @@
             android:src="@mipmap/path" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/vk"
             android:layout_width="110dp"
             android:layout_height="64dp"
             android:layout_gravity="bottom"
@@ -162,7 +178,7 @@
             android:src="@mipmap/vk" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/twitter"
             android:layout_width="110dp"
             android:layout_height="64dp"
             android:layout_gravity="bottom"
@@ -171,7 +187,7 @@
             android:src="@mipmap/twitter" />
 
         <ImageButton
-            android:id="@+id/imageButton7"
+            android:id="@+id/ok"
             android:layout_width="110dp"
             android:layout_height="64dp"
             android:layout_gravity="bottom"

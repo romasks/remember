@@ -3,10 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+
     <group android:id="@+id/group1">
         <item
             android:id="@+id/memory_pages"
-            android:title="@string/memory_pages" />
+            android:title="@string/important_pages"
+            />
         <item
             android:id="@+id/event_calendar"
             android:title="@string/event_calendar" />
@@ -19,14 +21,13 @@
         <item
             android:id="@+id/questions"
             android:title="@string/questions" />
+
     </group>
 
-    <item android:title="">
-        <menu>
-            <item
-                android:id="@+id/exit"
-                android:title="@string/exit" />
-        </menu>
-    </item>
+    <group android:id="@+id/group">
+        <item
+            android:id="@+id/exit"
+            android:title="@string/exit" />
+    </group>
 
 </menu>

@@ -43,8 +43,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/burial_place_value"
+                        android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -69,7 +70,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@drawable/abc">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/city_value"
@@ -81,9 +82,9 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@drawable/abc"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -99,7 +100,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusableInTouchMode="false"
-                android:textColorHint="@drawable/abc">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/cemetery"
@@ -110,11 +111,40 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@drawable/abc"
-                    android:textColorLink="@color/light_brown"
-                    android:focusableInTouchMode="false" />
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/sec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginLeft="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:layout_marginRight="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/dark_gray"
+                android:visibility="gone">
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/sec_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:hint="Сектор"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,7 +158,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc">
+                android:textColorHint="@color/dark_gray">
+
+
 
                 <AutoCompleteTextView
                     android:id="@+id/sector_value"
@@ -139,9 +171,9 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@drawable/abc"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -156,20 +188,20 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/grave_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:hint="@string/grave"
+                    android:hint="@string/grave_number"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@drawable/abc"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -184,7 +216,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@drawable/abc">
+                android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
                     android:id="@+id/coordinates_value"
@@ -195,9 +227,9 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@drawable/abc"
+                    android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -210,11 +242,12 @@
                 android:layout_marginLeft="@dimen/default_activity_fields_margin"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:textSize="18sp"
                 android:background="@drawable/button"
                 android:text="@string/show_map"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                />
         </LinearLayout>
 
     </ScrollView>
@@ -231,7 +264,7 @@
         android:text="@string/add"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textStyle="bold"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

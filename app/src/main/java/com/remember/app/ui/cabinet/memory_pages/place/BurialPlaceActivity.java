@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -23,13 +24,15 @@ import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMap.Callback, PlaceView, PopupCity.Callback {
+public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMap.Callback,
+        PlaceView, PopupCity.Callback, PopupCemetery.Callback {
 
     @InjectPresenter
     PlacePresenter presenter;
@@ -42,6 +45,8 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     AutoCompleteTextView cemetery;
     @BindView(R.id.sector_value)
     AutoCompleteTextView sector;
+    @BindView(R.id.sec_value)
+    AutoCompleteTextView sectorPlace;
     @BindView(R.id.grave_value)
     AutoCompleteTextView grave;
     @BindView(R.id.coordinates_value)
@@ -55,9 +60,11 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_burial_place);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment);
         ButterKnife.bind(this);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         responseHandBook = new ResponseHandBook();
 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
@@ -77,30 +84,35 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     }
 
     private void initEdit() {
-        try{
+        try {
             coordinates.setText(memoryPageModel.getCoords());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             coordinates.setText("");
         }
-        try{
+        try {
             city.setText(memoryPageModel.getGorod());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             city.setText("");
         }
-        try{
+        try {
             cemetery.setText(memoryPageModel.getNazvaklad());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             cemetery.setText("");
         }
-        try{
+        try {
             sector.setText(memoryPageModel.getUchastok());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             sector.setText("");
         }
-        try{
+        try {
             grave.setText(memoryPageModel.getNummogil());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             grave.setText("");
+        }
+        try {
+            sectorPlace.setText(memoryPageModel.getSector());
+        } catch (NullPointerException e){
+            sectorPlace.setText("");
         }
     }
 
@@ -117,6 +129,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         intent.putExtra("CEMETERY", cemetery.getText().toString());
         intent.putExtra("SPOT_ID", sector.getText().toString());
         intent.putExtra("GRAVE_ID", grave.getText().toString());
+        intent.putExtra("SECTOR", sectorPlace.getText().toString());
         setResult(Activity.RESULT_OK, intent);
         super.onBackPressed();
         finish();
@@ -135,14 +148,21 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
 
     @OnClick(R.id.pick)
     public void openMap() {
-        View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
-        PopupMap popupWindow = new PopupMap(
-                popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setCallback(this);
-        popupWindow.setUp(pick, getSupportFragmentManager());
+        PopupMap popupWindow = null;
+        try {
+            View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
+            popupWindow = new PopupMap(
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setCallback(this);
+            popupWindow.setUp(pick, getSupportFragmentManager());
+        } catch (Exception e) {
+
+        } finally {
+        }
     }
+
 
     @Override
     public void setCoordinates(double latitude, double longitude) {
@@ -162,15 +182,26 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     }
 
     @Override
-    public void onUpdatedCemetery(List<ResponseCemetery> responseCemeteries) {
-        if (responseCemeteries.isEmpty()) {
+    public void onUpdatedCemetery(ResponseCemetery responseCemeteries) {
+//        if (responseCemeteries.isEmpty()) {
+        if (responseCemeteries == null) {
             cemetery.setFocusableInTouchMode(true);
             cemetery.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm =
+                    (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            Snackbar.make(city, "Введите значение вручную", Snackbar.LENGTH_LONG).show();
+            Toast.makeText(this, "Введите значение вручную", Toast.LENGTH_LONG).show();
         } else {
-            //TODO сделать попап
+            View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
+            PopupCemetery popupWindow = new PopupCemetery(
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setCallback(this);
+            ArrayList<ResponseCemetery> list = new ArrayList<>();
+            list.add(responseCemeteries);
+//            popupWindow.setUp(pick, responseCemeteries);
+            popupWindow.setUp(pick, list);
         }
     }
 
@@ -183,4 +214,8 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     }
 
 
+    @Override
+    public void saveItem(ResponseCemetery responseCemetery) {
+        cemetery.setText(responseCemetery.getName());
+    }
 }

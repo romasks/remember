@@ -10,5 +10,5 @@ import retrofit2.Response;
 
 public interface PageView extends MvpView {
 
-    void onReceivedPages(ResponsePages responsePages);
+    void onReceivedPages(List<MemoryPageModel> memoryPageModels);
 }

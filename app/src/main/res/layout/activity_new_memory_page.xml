@@ -36,6 +36,7 @@
                     android:text="Новая памятная страница"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -49,9 +50,9 @@
 
     <include
         android:id="@+id/content"
+        layout="@layout/new_memory_page_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
-        layout="@layout/new_memory_page_content" />
+        android:layout_marginTop="?attr/actionBarSize" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
