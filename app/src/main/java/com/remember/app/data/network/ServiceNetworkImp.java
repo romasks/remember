@@ -83,7 +83,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent) {
-        return apiMethods.saveEvent(requestAddEvent);
+        String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
+        return apiMethods.saveEvent(token, requestAddEvent);
     }
 
     @Override

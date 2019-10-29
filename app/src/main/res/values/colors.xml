@@ -6,8 +6,9 @@
     <color name="colorAccent">#b1a28c</color>
 
     <color name="brown">#917B5A</color>
-    <color name="dark_gray">#444440</color>
     <color name="light_brown">#b1a28c</color>
+    <color name="dark_gray">#444440</color>
+    <color name="light_gray">#8A8A93</color>
     <color name="app_bar">#fcfcfc</color>
 
 </resources>

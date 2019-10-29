@@ -21,7 +21,7 @@ public class EventsPresenter extends BasePresenter<EventsView> {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getEvents(int pageId) {
+    void getEvents(int pageId) {
         Disposable subscription = serviceNetwork.getEventsForId(pageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

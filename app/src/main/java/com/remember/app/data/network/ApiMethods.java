@@ -67,7 +67,7 @@ public interface ApiMethods {
 
     @Headers("Content-Type: application/json")
     @POST("deadevent/add")
-    Observable<RequestAddEvent> saveEvent(@Body RequestAddEvent requestAddEvent);
+    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token, @Body RequestAddEvent requestAddEvent);
 
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();

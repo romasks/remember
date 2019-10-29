@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,8 @@ import butterknife.Unbinder;
 
 public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
 
+    private final String TAG = EventsActivity.class.getSimpleName();
+
     @InjectPresenter
     EventsPresenter presenter;
 
@@ -41,6 +45,10 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     ImageView search;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.no_events)
+    LinearLayout noEvents;
+    @BindView(R.id.btn_create_event)
+    Button btnCreateEvent;
 
     private Unbinder unbinder;
     private String name;
@@ -80,6 +88,14 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
                 startActivity(intent);
             }
         });
+        btnCreateEvent.setOnClickListener(v -> {
+            if (!isShow) {
+                Intent intent = new Intent(this, AddNewEventActivity.class);
+                intent.putExtra("NAME", name);
+                intent.putExtra("ID_PAGE", pageId);
+                startActivity(intent);
+            }
+        });
         search.setOnClickListener(v -> {
             showPageScreen();
         });
@@ -97,6 +113,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @Override
     public void onReceivedEvent(List<RequestAddEvent> requestAddEvent) {
         eventsDeceaseAdapter.setItems(requestAddEvent);
+        noEvents.setVisibility(eventsDeceaseAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     private void showPageScreen() {
