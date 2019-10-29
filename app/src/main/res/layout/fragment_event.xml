@@ -18,7 +18,8 @@
             <FrameLayout
                 android:id="@+id/pageAvatar"
                 android:layout_width="wrap_content"
-                android:layout_height="300dp"
+                android:layout_height="310dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -34,7 +35,7 @@
                     android:id="@+id/image_avatar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="40dp"
                     android:scaleType="center" />
 
                 <View
@@ -49,7 +50,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:text="Памятное событие"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -109,6 +110,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
                 android:text="TextView"
                 android:textColor="@color/brown"

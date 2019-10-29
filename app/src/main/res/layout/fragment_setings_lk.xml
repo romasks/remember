@@ -63,8 +63,10 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@drawable/abc"
-                    android:textColorHint="@color/dark_gray" />
+                    android:textColor="?android:attr/textColor"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,9 +86,10 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@drawable/abc"
+                    android:textColor="?android:attr/textColor"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@color/dark_gray" />
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,9 +109,10 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@drawable/abc"
+                    android:textColor="?android:attr/textColor"
                     android:textColorHighlight="@color/light_brown"
-                    android:textColorHint="@color/dark_gray" />
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,7 +132,10 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@drawable/abc" />
+                    android:textColor="?android:attr/textColor"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,7 +156,10 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@drawable/abc" />
+                    android:textColor="?android:attr/textColor"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -168,7 +178,10 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor" />
+                    android:textColor="?android:attr/textColor"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -187,7 +200,10 @@
                     android:inputType="phone"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor" />
+                    android:textColor="?android:attr/textColor"
+                    android:textColorHighlight="@color/light_brown"
+                    android:textColorHint="@color/dark_gray"
+                    android:textColorLink="@color/light_brown" />
 
             </com.google.android.material.textfield.TextInputLayout>
             <!-- ЭТО ПОЛЕ ДОЛЖНО БУДЕТ БЫТЬ СПИННЕРОМ -->

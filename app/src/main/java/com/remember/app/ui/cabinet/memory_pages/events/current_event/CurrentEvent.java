@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
@@ -26,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
@@ -63,8 +66,18 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
+        if (Prefs.getInt("IS_THEME",0)==2){
+            back.setImageResource(R.drawable.ic_back_dark_theme);
 
+        }
         eventId = getIntent().getExtras().getInt("ID_EVENT", 0);
         photosView.setLayoutManager(new LinearLayoutManager(this));
         photosView.setAdapter(new EventStuffAdapter());
@@ -99,7 +112,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
                     .load("http://помню.рус" + requestEvent.getPicture())
                     .into(imageAvatar);
             dateView.setText(formatDate(requestEvent.getDate()));
-            messageView.setText(requestEvent.getName() + " - " + requestEvent.getDescription());
+            messageView.setText(requestEvent.getDescription());
         } catch (Exception e) {
 
         }

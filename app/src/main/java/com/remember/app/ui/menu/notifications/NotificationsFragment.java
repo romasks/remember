@@ -61,6 +61,12 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
+        RecyclerView recyclerView=rootView.findViewById(R.id.rv);
+        if (Prefs.getInt("IS_THEME",0)==2){
+            recyclerView.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
+        }else {
+            recyclerView.setBackgroundColor(getResources().getColor(android.R.color.white));
+        }
         return rootView;
     }
 

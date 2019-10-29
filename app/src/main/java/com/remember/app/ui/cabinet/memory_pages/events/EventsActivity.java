@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.adapters.EventsDeceaseAdapter;
@@ -53,9 +55,22 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         unbinder = ButterKnife.bind(this);
+        if (Prefs.getInt("IS_THEME",0)==2){
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            search.setImageResource(R.drawable.ic_search2);
+            plus.setImageResource(R.drawable.ic_add2);
+
+        }
         isShow = getIntent().getBooleanExtra("SHOW", false);
         try {
             name = getIntent().getExtras().getString("NAME", "");

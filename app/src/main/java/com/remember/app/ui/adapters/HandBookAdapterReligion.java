@@ -2,6 +2,7 @@ package com.remember.app.ui.adapters;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -37,7 +39,10 @@ public class HandBookAdapterReligion extends RecyclerView.Adapter<BaseViewHolder
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return new HandBookAdapterReligion.HandBookAdapterReligionViewHolder(
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hand_book, viewGroup, false)
+
         );
+
+
     }
 
     @Override

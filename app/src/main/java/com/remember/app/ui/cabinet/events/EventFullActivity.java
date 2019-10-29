@@ -10,10 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
@@ -31,10 +33,26 @@ public class EventFullActivity extends BaseActivity {
     TextView body;
     @BindView(R.id.date)
     TextView date;
+    @BindView(R.id.back)
+    ImageView backImg;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
+
+        if (Prefs.getInt("IS_THEME",0)==2){
+            backImg.setImageResource(R.drawable.ic_back_dark_theme);
+            title.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            date.setTextColor(getResources().getColor(R.color.gray));
+
+        }
         if (getIntent().getExtras() != null) {
             ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
             System.out.println();

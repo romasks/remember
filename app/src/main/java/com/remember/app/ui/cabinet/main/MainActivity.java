@@ -12,11 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -25,6 +27,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -100,14 +103,9 @@ ImageView button_menu;
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
             searchImg.setImageResource(R.drawable.ic_search_dark_theme);
             addImg.setImageResource(R.drawable.ic_add_white);
-        }else {
-            searchImg.setImageResource(R.drawable.ic_search);
-            addImg.setImageResource(R.drawable.ic_add_black);
-            viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         pageFragment = new PageFragment();
         Prefs.putBoolean("EVENT_FRAGMENT", false);
         Prefs.putBoolean("PAGE_FRAGMENT", true);
@@ -222,6 +220,28 @@ ImageView button_menu;
 
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
+        ConstraintLayout layout=popupView.findViewById(R.id.cont);
+        Toolbar toolbar=popupView.findViewById(R.id.toolbar);
+        ImageView backImg=popupView.findViewById(R.id.back);
+        TextView textView=popupView.findViewById(R.id.textView2);
+        AutoCompleteTextView lastName=popupView.findViewById(R.id.last_name_value);
+        AutoCompleteTextView name=popupView.findViewById(R.id.first_name_value);
+        AutoCompleteTextView middleName=popupView.findViewById(R.id.father_name_value);
+        AutoCompleteTextView place=popupView.findViewById(R.id.live_place_value);
+        AutoCompleteTextView dateBegin=popupView.findViewById(R.id.date_begin_value);
+        AutoCompleteTextView dateEnd=popupView.findViewById(R.id.date_end_value);
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
+            backImg.setImageResource(R.drawable.ic_back_dark_theme);
+            textView.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            name.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            lastName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            middleName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            dateBegin.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            dateEnd.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            place.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+        }
         popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,

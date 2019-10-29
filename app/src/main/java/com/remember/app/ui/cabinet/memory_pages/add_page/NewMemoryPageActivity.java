@@ -27,10 +27,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -110,7 +112,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     Button saveButton;
     @BindView(R.id.text_image)
     TextView textViewImage;
-
+    private final String TAG="NewMemoryPageActivity";
     private Calendar dateAndTime = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private DatePickerDialog.OnDateSetListener dateEndPickerDialog;
@@ -132,9 +134,31 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_memory_page);
         ButterKnife.bind(this);
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            name.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            lastName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            middleName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            dateBegin.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            dateEnd.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            religion.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            isFamous.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            isPublic.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            noPublic.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            notFamous.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
+
+        }
         initiate();
         Intent i = getIntent();
         person = new AddPageModel();
@@ -509,6 +533,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     public void onSavedPage(ResponseCemetery response) {
+        Log.i(TAG,"onSavedPage");
         Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
         intent.putExtra("IMAGE", imageFile);
@@ -528,6 +553,10 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @Override
     public void onGetedInfo(List<ResponseHandBook> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
+        LinearLayout layout=popupView.findViewById(R.id.lay);
+        if (Prefs.getInt("IS_THEME",0)==2) {
+           layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
+        }
         PopupReligion popupWindow = new PopupReligion(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -548,6 +577,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        startActivity(intent);
 //        Toast.makeText(this, "Данные сохранены", Toast.LENGTH_LONG).show();
+        Log.i(TAG,"onEdited");
         Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
         intent.putExtra("IMAGE", imageFile);

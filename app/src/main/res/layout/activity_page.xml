@@ -82,9 +82,10 @@
                     android:id="@+id/fio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
                     android:gravity="center_horizontal"
-                    android:text="TextView"
+                    android:text="-"
                     android:textColor="@color/brown"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -94,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="TextView"
+                    android:text="-"
                     android:textColor="@color/gray" />
 
                 <LinearLayout
@@ -194,7 +195,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="12dp"
                                 android:layout_weight="1"
-                                android:text="TextView"
+                                android:text="-"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -239,7 +240,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:paddingTop="12dp"
-                                android:text="TextView"
+                                android:text="-"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -270,7 +271,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:paddingTop="12dp"
-                                android:text="TextView"
+                                android:text="-"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -299,7 +300,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:paddingTop="12dp"
-                                android:text="TextView"
+                                android:text="-"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
@@ -330,7 +331,7 @@
                             android:layout_weight="1"
                             android:lines="3"
                             android:maxLines="3"
-                            android:text="TextVdsgdsgsdgdsgdsgsdgiew"
+                            android:text="-"
                             android:textAlignment="center"
                             android:textStyle="bold" />
 
@@ -355,11 +356,13 @@
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:visibility="gone"
-                    tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
+                    tools:text="-" />
 
                 <Button
                     android:id="@+id/map_button"

@@ -121,12 +121,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             settings.setImageResource(R.drawable.setting_white);
             panel.setBackground(getResources().getDrawable(R.drawable.panel_dark));
 //            view.setBackground(getResources().getDrawable(R.drawable.gradient_dark));
-        }else {
-            date.setTextColor(getResources().getColor(R.color.gray));
-            backImg.setImageResource(R.drawable.ic_back);
-            settings.setImageResource(R.drawable.setting_black);
-            panel.setBackground(getResources().getDrawable(R.drawable.panel_white));
-//            view.setBackground(getResources().getDrawable(R.drawable.gradient));
         }
         Intent i = getIntent();
 
@@ -391,8 +385,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void onItemClick(View view, int position) {
-        startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class)
-                .putExtra("ID",id));
+        startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class).putExtra("ID",id).putExtra("POSITION",position));
 
     }
 }

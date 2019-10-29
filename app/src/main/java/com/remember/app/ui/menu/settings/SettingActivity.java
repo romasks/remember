@@ -39,7 +39,7 @@ public class SettingActivity extends BaseActivity {
         }else {
             back.setImageResource(R.drawable.ic_back);
         }
-        ViewPager viewPager = findViewById(R.id.container);
+        ViewPager viewPager = findViewById(R.id.cont);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = findViewById(R.id.tabs);

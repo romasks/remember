@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
@@ -45,6 +48,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     AppCompatRadioButton isNeedNotification;
     @BindView(R.id.description)
     EditText description;
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.not_for_one)
+    AppCompatRadioButton but2;
+    @BindView(R.id.not_notification)
+    AppCompatRadioButton but4;
 
     private Unbinder unbinder;
     private String name;
@@ -54,10 +63,25 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
         unbinder = ButterKnife.bind(this);
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
+            forOne.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            but2.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            isNeedNotification.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            but4.setTextColor(getResources().getColor(R.color.colorWhiteDark));
 
+        }
         try {
             name = getIntent().getExtras().getString("NAME", "");
             pageId = getIntent().getIntExtra("ID_PAGE", 1);

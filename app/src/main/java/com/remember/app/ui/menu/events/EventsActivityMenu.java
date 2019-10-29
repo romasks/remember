@@ -5,17 +5,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
@@ -40,6 +48,12 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     TextView relEvent;
     @BindView(R.id.show_all)
     Button showAll;
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.search2)
+    ImageView search;
+
+
 
     private EventsFragmentAdapter eventsFragmentAdapter;
     private PopupEventScreenLocal popupWindowEvent;
@@ -47,8 +61,20 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            setTheme(R.style.AppTheme_Dark);
+        }else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
+        if (Prefs.getInt("IS_THEME",0)==2){
+            relEvent.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            search.setImageResource(R.drawable.ic_search2);
 
+        }
         presenter.getEvents();
         eventsFragmentAdapter = new EventsFragmentAdapter();
         eventsFragmentAdapter.setCallback(this);
@@ -117,6 +143,22 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     private void showPageScreen(List<String> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen_local, null);
+        ConstraintLayout layout=popupView.findViewById(R.id.cl);
+        Toolbar toolbar=popupView.findViewById(R.id.toolbar);
+        ImageView backImg=popupView.findViewById(R.id.back);
+        TextView textView=popupView.findViewById(R.id.textView2);
+        AutoCompleteTextView date=popupView.findViewById(R.id.date_value);
+        MaterialSpinner religion=popupView.findViewById(R.id.spinner);
+        if (Prefs.getInt("IS_THEME",0)==2) {
+            religion.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
+            backImg.setImageResource(R.drawable.ic_back_dark_theme);
+            textView.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            date.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+
+
+        }
         popupWindowEvent = new PopupEventScreenLocal(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,

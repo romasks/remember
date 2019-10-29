@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
         <item name="android:editTextStyle">@style/BaseEditText</item>
-        <item name="android:textColorHint">@color/light_brown</item>
+        <item name="android:textColorHint">@color/dark_gray</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
 

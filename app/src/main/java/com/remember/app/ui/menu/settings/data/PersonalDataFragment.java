@@ -114,26 +114,10 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
         unbinder = ButterKnife.bind(this, v);
         if (Prefs.getInt("IS_THEME",0)==0||Prefs.getInt("IS_THEME",0)==1){
             but_svetl.setChecked(true);
-            name.setTextColor(getResources().getColor(android.R.color.black));
-            login.setTextColor(getResources().getColor(android.R.color.black));
-            middleName.setTextColor(getResources().getColor(android.R.color.black));
-            city.setTextColor(getResources().getColor(android.R.color.black));
-            email.setTextColor(getResources().getColor(android.R.color.black));
-            secondName.setTextColor(getResources().getColor(android.R.color.black));
-            but_svetl.setTextColor(getResources().getColor(R.color.gray));
-            but_temnee.setTextColor(getResources().getColor(R.color.gray));
-            phone.setTextColor(getResources().getColor(android.R.color.black));
         }else if (Prefs.getInt("IS_THEME",0)==2){
             but_temnee.setChecked(true);
-            name.setTextColor(getResources().getColor(R.color.colorWhiteDark));
-            login.setTextColor(getResources().getColor(R.color.colorWhiteDark));
-            middleName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
-            city.setTextColor(getResources().getColor(R.color.colorWhiteDark));
-            email.setTextColor(getResources().getColor(R.color.colorWhiteDark));
-            secondName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
             but_svetl.setTextColor(getResources().getColor(R.color.colorWhiteDark));
             but_temnee.setTextColor(getResources().getColor(R.color.colorWhiteDark));
-            phone.setTextColor(getResources().getColor(R.color.colorWhiteDark));
 
         }
         but_svetl.setOnClickListener(l->{

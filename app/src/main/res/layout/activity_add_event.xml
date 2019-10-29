@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Новое событие"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Добавить фотографию"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorWhiteDark"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +108,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@id/image_layout">
 
                 <AutoCompleteTextView
@@ -121,7 +121,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@drawable/abc"
+                    android:textColor="?android:attr/textColor"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -136,7 +136,7 @@
                 android:layout_marginLeft="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@+id/deceased">
 
                 <AutoCompleteTextView
@@ -148,7 +148,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@drawable/abc"
+                    android:textColor="?android:attr/textColor"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -164,7 +164,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@+id/title">
 
                 <AutoCompleteTextView
@@ -177,7 +177,7 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:textAlignment="textStart"
-                    android:textColor="@drawable/abc"
+                    android:textColor="?android:attr/textColor"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -338,8 +338,8 @@
                 android:paddingLeft="20dp"
                 android:paddingTop="16dp"
                 android:textColorHint="@color/gray"
-                android:textColorHighlight="@color/dark_gray"
-                android:textColorLink="@color/colorPrimary"
+                android:textColorHighlight="@color/gray"
+                android:textColor="?android:attr/textColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

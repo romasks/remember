@@ -47,6 +47,7 @@ public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPage
     private Unbinder unbinder;
     private SlidePagerAdapterPhoto slidePagerAdapterPhoto;
     private final static String TAG="SlidePhotoActivity";
+    private int position;
 
 
 
@@ -68,12 +69,13 @@ public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPage
         }else {
             im_back.setImageResource(R.drawable.ic_back);
         }
+        Intent i = getIntent();
+        id = i.getIntExtra("ID", 0);
+        position=i.getIntExtra("POSITION",0);
         slidePagerAdapterPhoto=new SlidePagerAdapterPhoto(this);
         slidePagerAdapterPhoto.setCount(this);
         viewPager.setAdapter(slidePagerAdapterPhoto);
         viewPager.addOnPageChangeListener(changeListener);
-        Intent i = getIntent();
-        id = i.getIntExtra("ID", 0);
         presenter.getImagesSlider(id);
         presenter.getImageAfterSave(id);
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -81,6 +83,7 @@ public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPage
         photoSliderAdapter.setClickListener(this);
         recyclerSlider.setAdapter(photoSliderAdapter);
         im_back.setOnClickListener(v->onBackPressed());
+
     }
 
     @Override
@@ -103,13 +106,14 @@ public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPage
     public void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders) {
         photoSliderAdapter.setItems(responseImagesSliders);
         slidePagerAdapterPhoto.setItems(responseImagesSliders);
+        viewPager.setCurrentItem(position);
+
     }
 
     ViewPager.OnPageChangeListener changeListener=new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-           textCount_1.setText(String.valueOf(position+1));
+            textCount_1.setText(String.valueOf(position+1));
         }
 
         @Override
