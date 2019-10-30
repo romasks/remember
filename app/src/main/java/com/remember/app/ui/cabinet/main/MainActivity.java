@@ -51,6 +51,7 @@ import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class MainActivity extends MvpAppCompatActivity
@@ -135,13 +136,18 @@ public class MainActivity extends MvpAppCompatActivity
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
         String avatarStr = Prefs.getString(PREFS_KEY_AVATAR, "");
-        if (!Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
+        if (!Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
             titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
             setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewAvatar);
             setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
         } else {
-            presenter.getInfo();
+            if (!Prefs.getString(PREFS_KEY_TOKEN, "").isEmpty()) {
+                presenter.getInfo();
+            } else {
+                setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
+                setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+            }
         }
 
         setBlackWhite(imageViewBigAvatar);

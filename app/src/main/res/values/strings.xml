@@ -113,6 +113,8 @@
     <string name="epitaphs_header_text">Эпитафии</string>
     <string name="epitaphs_item_action_change">Изменить</string>
     <string name="epitaphs_item_action_delete">Удалить</string>
+    <string name="epitaphs_no_epitaphs_title">Эпитафий нет</string>
+    <string name="epitaphs_create_epitaph_button">Создать эпитафию</string>
 
     <!--memory_page-->
     <string name="memory_page_header_text">Памятная страница</string>
@@ -126,14 +128,16 @@
     <string name="memory_page_bottom_navbar_events">События</string>
 
     <!--events-->
-    <string name="events_no_events_title">У Вас еще нет событий</string>
-    <string name="events_no_events_text">Вы можете создать первое</string>
+    <string name="events_no_events_title">Событий нет</string>
     <string name="events_create_event_button">Создать событие</string>
-
     <string name="new_event_header_text">Новое событие</string>
     <string name="new_event_add_photo_text">Добавить фотографию</string>
     <string name="new_event_hint_event_name">Наименование события</string>
     <string name="new_event_add_description_title">Добавьте описание</string>
     <string name="new_event_hint_description">Описание...</string>
+
+    <!--questions-->
+    <string name="questions_header_text">Обратная связь</string>
+    <string name="questions_textarea_hint_text">Внесите текст вопроса или предложения ...</string>
 
 </resources>
