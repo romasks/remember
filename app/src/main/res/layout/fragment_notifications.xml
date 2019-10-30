@@ -13,12 +13,9 @@
 
     <TextView
         android:id="@+id/text_empty_state"
+        style="@style/EmptyListTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="#707070"
-        android:textSize="21sp"
-        android:textStyle="bold"
         tools:text="Нет событий" />
 
 </FrameLayout>

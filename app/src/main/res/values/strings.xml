@@ -136,4 +136,8 @@
     <string name="new_event_add_description_title">Добавьте описание</string>
     <string name="new_event_hint_description">Описание...</string>
 
+    <!--questions-->
+    <string name="questions_header_text">Обратная связь</string>
+    <string name="questions_textarea_hint_text">Внесите текст вопроса или предложения ...</string>
+
 </resources>
