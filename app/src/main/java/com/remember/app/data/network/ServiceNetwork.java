@@ -88,6 +88,8 @@ public interface ServiceNetwork {
 
     Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id);
 
+    Observable<Object> deleteEpitaph(Integer id);
+
     Observable<ResponseRestorePassword> restorePassword(String email);
 
     Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage);

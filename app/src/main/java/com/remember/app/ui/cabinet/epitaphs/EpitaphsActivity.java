@@ -135,7 +135,18 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     }
 
     @Override
+    public void onErrorDeleteEpitaphs(Throwable throwable) {
+        Snackbar.make(recyclerView, "Ошибка удаления", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onEditedEpitaphs(RequestAddEpitaphs requestAddEpitaphs) {
+        presenter.getEpitaphs(pageId);
+    }
+
+    @Override
+    public void onDeletedEpitaphs(Object obj) {
+        Toast.makeText(this, "Эпитафия удалена", Toast.LENGTH_LONG).show();
         presenter.getEpitaphs(pageId);
     }
 
@@ -175,13 +186,19 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     }
 
     @Override
-    public void delete() {
-        onClick(recyclerView);
+    public void delete(Integer id) {
+//        onClick(recyclerView);
+        DeleteAlertDialog myDialogFragment = new DeleteAlertDialog();
+        myDialogFragment.setCallback(this);
+        myDialogFragment.setEpitaphId(id);
+        FragmentManager manager = getSupportFragmentManager();
+
+        FragmentTransaction transaction = manager.beginTransaction();
+        myDialogFragment.show(transaction, "dialog");
     }
 
     @Override
-    public void deleteEpitaph() {
-        Toast.makeText(this, "Эпитафия удалена",
-                Toast.LENGTH_LONG).show();
+    public void deleteEpitaph(Integer id) {
+        presenter.deleteEpitaph(id);
     }
 }

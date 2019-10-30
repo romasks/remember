@@ -58,24 +58,24 @@
         android:id="@+id/change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
         android:text="@string/epitaphs_item_action_change"
         android:textColor="@color/brown"
-        android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@+id/date"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/delete"
         app:layout_constraintTop_toBottomOf="@id/description" />
 
     <TextView
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:text="@string/epitaphs_item_action_delete"
         android:textColor="@color/brown"
-        android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@+id/change"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

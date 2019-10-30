@@ -76,7 +76,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         void change(ResponseEpitaphs responseEpitaphs);
 
-        void delete();
+        void delete(Integer id);
     }
 
     public class EpitaphsAdapterViewHolder extends BaseViewHolder {
@@ -136,7 +136,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                                 .into(avatar);
                     }
                     delete.setOnClickListener(v -> {
-                        callback.delete();
+                        callback.delete(responseEpitaphs.get(position).getId());
                     });
                     change.setOnClickListener(v -> {
                         callback.change(responseEpitaphs.get(position));
