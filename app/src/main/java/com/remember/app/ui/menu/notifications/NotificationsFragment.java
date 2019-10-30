@@ -1,5 +1,6 @@
 package com.remember.app.ui.menu.notifications;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,10 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.NotificationModelNew;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.DividerItemDecoration;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 
@@ -113,7 +117,28 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
 
     @Override
     public void onNotificationClick(NotificationModelNew notification) {
-
+        switch (((EventNotificationModel) notification).getType()) {
+            case "event": {
+                Intent intent = new Intent(getContext(), CurrentEvent.class);
+                intent.putExtra("ID_EVENT", ((EventNotificationModel) notification).getEventId());
+                startActivity(intent);
+                break;
+            }
+            case "birth": {
+                Intent intent = new Intent(getContext(), CurrentEvent.class);
+                intent.putExtra("ID_EVENT", ((EventNotificationModel) notification).getPageId());
+                startActivity(intent);
+                break;
+            }
+            case "dead": {
+                Intent intent = new Intent(getActivity(), ShowPageActivity.class);
+                intent.putExtra("PERSON", ((EventNotificationModel) notification).getPageName());
+                intent.putExtra("ID", ((EventNotificationModel) notification).getPageId());
+                intent.putExtra("IS_LIST", true);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 
     private void updateEmptyState(boolean isEmpty) {
