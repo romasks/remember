@@ -59,7 +59,9 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        type = (Type) getArguments().getSerializable(KEY_TYPE);
+        if (getArguments() != null) {
+            type = (Type) getArguments().getSerializable(KEY_TYPE);
+        }
     }
 
     @Nullable
