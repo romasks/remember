@@ -167,8 +167,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(imageViewBigAvatar);
-                setBlackWhite(avatar_user);
-                setBlackWhite(imageViewBigAvatar);
+//                setBlackWhite(avatar_user);
+//                setBlackWhite(imageViewBigAvatar);
             }
 
         } else {
@@ -366,8 +366,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                         .into(imageViewBigAvatar);
 
         }
-        setBlackWhite(avatar_user);
-        setBlackWhite(imageViewBigAvatar);
+//        setBlackWhite(avatar_user);
+//        setBlackWhite(imageViewBigAvatar);
     }
 
     @Override

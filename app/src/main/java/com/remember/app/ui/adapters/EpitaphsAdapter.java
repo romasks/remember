@@ -150,10 +150,10 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 e.printStackTrace();
             }
             description.setText(responseEpitaphs.get(position).getBody());
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            avatar.setColorFilter(filter);
+//            ColorMatrix colorMatrix = new ColorMatrix();
+//            colorMatrix.setSaturation(0);
+//            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+//            avatar.setColorFilter(filter);
         }
     }
 

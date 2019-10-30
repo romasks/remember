@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
         <item name="android:editTextStyle">@style/BaseEditText</item>
-        <item name="android:textColorHint">@color/dark_gray</item>
+        <item name="android:textColorHint">@color/gray</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
 
@@ -114,7 +114,7 @@
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">?android:attr/textColor</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 
 </resources>

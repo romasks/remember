@@ -230,10 +230,10 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Person
                     .skipMemoryCache(true)
                     .into(avatar);
         }
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-        avatar.setColorFilter(filter);
+//        ColorMatrix colorMatrix = new ColorMatrix();
+//        colorMatrix.setSaturation(0);
+//        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+//        avatar.setColorFilter(filter);
         try {
             if (responseSettings.getSurname() != null) {
                 secondName.setText(responseSettings.getSurname());

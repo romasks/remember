@@ -15,7 +15,7 @@
         android:id="@+id/text_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#707070"
+        android:textColor="@color/colorAccent"
         android:textSize="16sp"
         tools:text="Сегодня событие"/>
 
@@ -25,11 +25,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_event_title"
         android:layout_marginTop="16dp"
-        android:textColor="@color/colorAccent"
-
-        android:textStyle="bold"
+        android:text="Показать"
+        android:textColor="#707070"
         android:textSize="16sp"
-        android:text="Показать"/>
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/text_event_date"

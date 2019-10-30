@@ -63,7 +63,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -86,7 +86,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -109,7 +109,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -132,7 +132,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -156,7 +156,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -178,7 +178,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />
@@ -200,7 +200,7 @@
                     android:inputType="phone"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColor"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown" />

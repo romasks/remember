@@ -116,7 +116,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         setContentView(R.layout.activity_page);
         unbinder = ButterKnife.bind(this);
         if (Prefs.getInt("IS_THEME",0)==2){
-            date.setTextColor(getResources().getColor(R.color.colorWhiteDark));
             backImg.setImageResource(R.drawable.ic_back_dark_theme);
             settings.setImageResource(R.drawable.setting_white);
             panel.setBackground(getResources().getDrawable(R.drawable.panel_dark));

@@ -186,8 +186,8 @@ ImageView button_menu;
                     .into(imageViewBigAvatar);
 
         }
-        setBlackWhite(imageViewAvatar);
-        setBlackWhite(imageViewBigAvatar);
+//        setBlackWhite(imageViewAvatar);
+//        setBlackWhite(imageViewBigAvatar);
     }
 
     @Override
@@ -317,8 +317,8 @@ ImageView button_menu;
             Log.i(TAG,"AVATAR!=null");
             presenterData.getInfo();
         }
-        setBlackWhite(imageViewBigAvatar);
-        setBlackWhite(imageViewAvatar);
+//        setBlackWhite(imageViewBigAvatar);
+//        setBlackWhite(imageViewAvatar);
     }
 
 
@@ -327,6 +327,20 @@ ImageView button_menu;
         adapter.addFragment(pageFragment, "Памятные страницы");
         adapter.addFragment(new EventFragment(), "События");
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                findViewById(R.id.add_plus).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

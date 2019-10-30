@@ -49,6 +49,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
             spinner.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
         }
         spinner.setItems("Вопросы", "Предложения");
+        spinner.setTextSize(18);
         spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item)
                 -> isQuestion = item.equals("Вопросы"));
     }

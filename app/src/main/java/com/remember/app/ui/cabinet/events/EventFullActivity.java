@@ -50,7 +50,6 @@ public class EventFullActivity extends BaseActivity {
         if (Prefs.getInt("IS_THEME",0)==2){
             backImg.setImageResource(R.drawable.ic_back_dark_theme);
             title.setTextColor(getResources().getColor(R.color.colorWhiteDark));
-            date.setTextColor(getResources().getColor(R.color.gray));
 
         }
         if (getIntent().getExtras() != null) {
