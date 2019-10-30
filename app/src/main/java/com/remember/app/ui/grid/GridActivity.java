@@ -14,6 +14,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -28,6 +35,7 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.menu.events.EventsActivityMenu;
+import com.remember.app.ui.menu.notifications.NotificationsActivity;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
@@ -35,12 +43,6 @@ import com.remember.app.ui.utils.PopupPageScreen;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -48,6 +50,7 @@ import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
@@ -129,7 +132,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     private void getInfoUser() {
-        if (!Prefs.getString(PREFS_KEY_USER_ID, "").equals("")) {
+        if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty()) {
             avatar_user.setVisibility(View.VISIBLE);
             button_menu.setVisibility(View.VISIBLE);
 
@@ -149,8 +152,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
             String avatarStr = Prefs.getString(PREFS_KEY_AVATAR, "");
-            if (Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
-                presenter.getInfo();
+            if (Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
+                if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty() && !Prefs.getString(PREFS_KEY_TOKEN, "").isEmpty()) {
+                    presenter.getInfo();
+                } else {
+                    setGlideImage(this, R.drawable.ic_unknown, avatar_user);
+                    setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+                }
             } else {
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), avatar_user);
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
@@ -172,7 +180,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @OnClick(R.id.grid_sign_in)
     public void entry() {
         String avatarStr = Prefs.getString(PREFS_KEY_AVATAR, "");
-        if (!Prefs.getString(PREFS_KEY_USER_ID, "").equals("")) {
+        if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty()) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, AuthActivity.class));
@@ -274,6 +282,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             return true;
         }
         if (id == R.id.notifications) {
+            startActivity(new Intent(this, NotificationsActivity.class));
             return true;
         }
 

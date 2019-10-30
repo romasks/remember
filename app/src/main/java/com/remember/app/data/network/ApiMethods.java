@@ -5,7 +5,6 @@ import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
@@ -46,7 +45,7 @@ public interface ApiMethods {
     @GET("city")
     Observable<List<ResponseHandBook>> getCities();
 
-//    @GET("numen/city/{id}")
+    //    @GET("numen/city/{id}")
     @GET("numen/{id}")
     Observable<ResponseCemetery> getCemetery(@Path("id") int id);
 
@@ -217,7 +216,7 @@ public interface ApiMethods {
 
     @GET("user/social")
     Observable<ResponseSocialAuth> signInVk(@Query("email") String email,
-                                                @Query("name") String name);
+                                            @Query("name") String name);
 
     @POST("user/social")
     Observable<ResponseSocialAuth> signInSocial(@Body RequestSocialAuth requestSocialAuth);
@@ -237,6 +236,9 @@ public interface ApiMethods {
     @POST("epit/edit/{id}")
     Observable<RequestAddEpitaphs> editEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs,
                                                @Path("id") Integer id);
+
+    @POST("epit/remove/{id}")
+    Observable<Object> deleteEpitaph(@Header("Authorization") String token, @Path("id") Integer id);
 
     @GET("poisk/page")
     Observable<List<MemoryPageModel>> searchPageAllDead(@Query("name") String name,

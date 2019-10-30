@@ -18,11 +18,11 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public EpitaphsPresenter() {
+    EpitaphsPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getEpitaphs(int pageId) {
+    void getEpitaphs(int pageId) {
         Disposable subscription = serviceNetwork.getEpitaphs(pageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -30,7 +30,7 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void saveEpitaph(RequestAddEpitaphs requestAddEpitaphs) {
+    void saveEpitaph(RequestAddEpitaphs requestAddEpitaphs) {
         Disposable subscription = serviceNetwork.saveEpitaph(requestAddEpitaphs)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -39,12 +39,21 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
+    void editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
         Disposable subscription = serviceNetwork.editEpitaph(requestAddEpitaphs, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onEditedEpitaphs,
                         getViewState()::onErrorSavedEpitaphs);
+        unsubscribeOnDestroy(subscription);
+    }
+
+    void deleteEpitaph(Integer id) {
+        Disposable subscription = serviceNetwork.deleteEpitaph(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onDeletedEpitaphs,
+                        getViewState()::onErrorDeleteEpitaphs);
         unsubscribeOnDestroy(subscription);
     }
 }

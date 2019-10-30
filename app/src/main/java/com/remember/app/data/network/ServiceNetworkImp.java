@@ -184,6 +184,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
+    public Observable<Object> deleteEpitaph(Integer id) {
+        return apiMethods.deleteEpitaph("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id);
+    }
+
+    @Override
     public Observable<ResponseRestorePassword> restorePassword(String email) {
         return apiMethods.restorePassword(email);
     }
