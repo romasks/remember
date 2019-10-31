@@ -20,11 +20,11 @@ public class MainPresenter extends BasePresenter<MainView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public MainPresenter() {
+    MainPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getReligion() {
+    void getReligion() {
         Disposable subscription = serviceNetwork.getReligion()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -35,11 +35,19 @@ public class MainPresenter extends BasePresenter<MainView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void searchLastName(RequestSearchPage requestSearchPage) {
+    void searchLastName(RequestSearchPage requestSearchPage) {
         Disposable subscription = serviceNetwork.searchPageAllDead(requestSearchPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onSearchedLastNames);
+        unsubscribeOnDestroy(subscription);
+    }
+
+    void getInfo() {
+        Disposable subscription = getServiceNetwork().getInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onReceivedInfo);
         unsubscribeOnDestroy(subscription);
     }
 }

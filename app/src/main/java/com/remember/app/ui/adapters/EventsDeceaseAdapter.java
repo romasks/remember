@@ -10,10 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
@@ -28,6 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -96,14 +95,14 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             constraintLayout.setOnClickListener(v -> {
                 callback.openEvent(requestAddEvent.get(position).getId());
             });
-            try {
+            if (!requestAddEvent.get(position).getPicture().isEmpty()) {
                 Glide.with(itemView)
                         .load("http://помню.рус" + requestAddEvent.get(position).getPicture())
                         .apply(RequestOptions.circleCropTransform())
                         .into(avatarImage);
-            } catch (Exception e){
+            } else {
                 Glide.with(itemView)
-                        .load(R.drawable.ic_unknown)
+                        .load(R.drawable.ic_round_camera)
                         .apply(RequestOptions.circleCropTransform())
                         .into(avatarImage);
             }

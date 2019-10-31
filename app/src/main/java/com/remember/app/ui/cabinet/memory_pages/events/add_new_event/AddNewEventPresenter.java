@@ -18,15 +18,16 @@ public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public AddNewEventPresenter() {
+    AddNewEventPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void saveEvent(RequestAddEvent requestAddEvent) {
+    void saveEvent(RequestAddEvent requestAddEvent) {
         Disposable subscription = serviceNetwork.saveEvent(requestAddEvent)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedEvent);
+                .subscribe(getViewState()::onSavedEvent,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 }

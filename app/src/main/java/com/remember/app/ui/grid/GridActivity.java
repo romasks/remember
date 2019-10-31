@@ -1,11 +1,9 @@
 package com.remember.app.ui.grid;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +26,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -48,8 +43,6 @@ import com.remember.app.ui.menu.notifications.NotificationsActivity;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
-import com.remember.app.ui.menu.settings.data.PersonalDataFragmentPresenter;
-import com.remember.app.ui.menu.settings.data.PersonalDataFragmentView;
 import com.remember.app.ui.utils.PopupPageScreen;
 
 import java.util.List;
@@ -57,14 +50,24 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PersonalDataFragmentView, PopupPageScreen.Callback,NavigationView.OnNavigationItemSelectedListener {
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+
+public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
+
+    private final String TAG = GridActivity.class.getSimpleName();
 
     @InjectPresenter
     GridPresenter presenter;
 
     @BindView(R.id.image_rv)
     RecyclerView recyclerView;
-    @BindView(R.id.search2)
+    @BindView(R.id.search)
     ImageView search;
     @BindView(R.id.title)
     TextView title;
@@ -72,61 +75,75 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     Button showAll;
     @BindView(R.id.progress)
     ProgressBar progressBar;
-    @BindView(R.id.imageView5)
+    @BindView(R.id.avatar_small_toolbar)
     ImageView avatar_user;
-    @BindView(R.id.imageView4)
+    @BindView(R.id.menu_icon)
     ImageView button_menu;
 
-    @InjectPresenter
-    PersonalDataFragmentPresenter presenterData;
-
-    private RecyclerView.LayoutManager layoutManager;
-    private ImageAdapter imageAdapter;
-    private int pageNumber = 1;
-    private int theme_setting=0;
-    private int countSum = 0;
-    private PopupPageScreen popupWindowPage;
     private ImageView imageViewBigAvatar;
-    private final String TAG="GridActivity";
-    private DrawerLayout drawer;
+    private ImageAdapter imageAdapter;
+    private TextView navUserName;
+
+    private int pageNumber = 1;
+    private int theme_setting = 0;
+    private int countSum = 0;
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_grid;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             setTheme(R.style.AppTheme_Dark);
-        }else {
+        } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             setTheme(R.style.AppTheme);
         }
+
         super.onCreate(savedInstanceState);
-        if (Prefs.getInt("IS_THEME",0)==2){
+
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             search.setImageResource(R.drawable.ic_search_dark_theme);
-        }else {
+        } else {
             search.setImageResource(R.drawable.ic_search);
         }
-        layoutManager = new GridLayoutManager(this, 3);
-        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setHasFixedSize(true);
+
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
+
 //        setUpLoadMoreListener();
-        drawer = findViewById(R.id.drawer_layout_2);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
         presenter.getImages(pageNumber);
+
         showAll.setOnClickListener(v -> {
             showAll.setVisibility(View.GONE);
             pageNumber = 1;
             presenter.getImages(pageNumber);
         });
-        button_menu.setOnClickListener(k->{
+
+        button_menu.setOnClickListener(k -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
                 drawer.openDrawer(GravityCompat.START);
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (theme_setting == 1) {
+            this.recreate();
+        }
+        getInfoUser();
     }
 
     public void setBlackWhite(ImageView imageView) {
@@ -136,78 +153,76 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageView.setColorFilter(filter);
     }
 
-    @SuppressLint("WrongConstant")
-    private void getInfoUser(){
-        if (!Prefs.getString("USER_ID", "").equals("")) {
+    private void getInfoUser() {
+        if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty()) {
             avatar_user.setVisibility(View.VISIBLE);
             button_menu.setVisibility(View.VISIBLE);
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            NavigationView navigationView = findViewById(R.id.nav_view_grid);
-            View headerView = navigationView.getHeaderView(0);
-            TextView navUsername = headerView.findViewById(R.id.title_menu);
-            imageViewBigAvatar= headerView.findViewById(R.id.logo);
-            TextView textView = headerView.findViewById(R.id.textView);
-            navUsername.setText(Prefs.getString("NAME_USER", ""));
-            textView.setText(Prefs.getString("EMAIL", ""));
-            navigationView.setNavigationItemSelectedListener(this);
-            if(Prefs.getString("AVATAR", "").equals("")){
-                presenterData.getInfo();
-            }else {
-                Glide.with(this)
-                        .load(Prefs.getString("AVATAR", ""))
-                        .apply(RequestOptions.circleCropTransform())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(avatar_user);
 
-                Glide.with(this)
-                        .load(Prefs.getString("AVATAR", ""))
-                        .apply(RequestOptions.circleCropTransform())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(imageViewBigAvatar);
-//                setBlackWhite(avatar_user);
-//                setBlackWhite(imageViewBigAvatar);
+            setSupportActionBar(findViewById(R.id.toolbar));
+
+            NavigationView navigationView = findViewById(R.id.nav_view_grid);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            View headerView = navigationView.getHeaderView(0);
+
+            navUserName = headerView.findViewById(R.id.user_name);
+            navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+
+            TextView navEmail = headerView.findViewById(R.id.user_email);
+            navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
+
+            imageViewBigAvatar = headerView.findViewById(R.id.logo);
+
+            String avatarStr = Prefs.getString(PREFS_KEY_AVATAR, "");
+            if (Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
+                if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty() && !Prefs.getString(PREFS_KEY_TOKEN, "").isEmpty()) {
+                    presenter.getInfo();
+                } else {
+                    setGlideImage(this, R.drawable.ic_unknown, avatar_user);
+                    setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+                }
+            } else {
+                setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), avatar_user);
+                setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
+
+                setBlackWhite(avatar_user);
+                setBlackWhite(imageViewBigAvatar);
             }
 
+            imageViewBigAvatar.setOnClickListener(view -> {
+                startActivity(new Intent(this, SettingActivity.class));
+            });
         } else {
 
             avatar_user.setVisibility(View.GONE);
             button_menu.setVisibility(View.GONE);
-
         }
     }
 
-    @OnClick(R.id.button)
+    @OnClick(R.id.grid_sign_in)
     public void entry() {
-        if (!Prefs.getString("USER_ID", "").equals("")) {
+        if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty()) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, AuthActivity.class));
         }
     }
 
-    @OnClick(R.id.search2)
+    @OnClick(R.id.search)
     public void doSearch() {
         showEventScreen();
     }
 
     @Override
-    protected int getContentView() {
-        return R.layout.activity_grid;
-    }
-
-    @Override
     public void onReceivedImages(ResponsePages responsePages) {
-       imageAdapter.setItems(responsePages.getResult());
+        imageAdapter.setItems(responsePages.getResult());
         progressBar.setVisibility(View.GONE);
         countSum = responsePages.getPages();
     }
 
     @Override
     public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
-        if(memoryPageModels.size()==0) {
+        if (memoryPageModels.size() == 0) {
             Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         }
         if (memoryPageModels.isEmpty()) {
@@ -225,7 +240,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             public void onScrolled(RecyclerView recyclerView,
                                    int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.i(TAG,"pageNumber"+pageNumber+" countSum"+countSum);
+
                 if (pageNumber < countSum) {
                     progressBar.setVisibility(View.VISIBLE);
                     pageNumber++;
@@ -237,17 +252,18 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
-        ConstraintLayout layout=popupView.findViewById(R.id.cont);
-        Toolbar toolbar=popupView.findViewById(R.id.toolbar);
-        ImageView backImg=popupView.findViewById(R.id.back);
-        TextView textView=popupView.findViewById(R.id.textView2);
-        AutoCompleteTextView lastName=popupView.findViewById(R.id.last_name_value);
-        AutoCompleteTextView name=popupView.findViewById(R.id.first_name_value);
-        AutoCompleteTextView middleName=popupView.findViewById(R.id.father_name_value);
-        AutoCompleteTextView place=popupView.findViewById(R.id.live_place_value);
-        AutoCompleteTextView dateBegin=popupView.findViewById(R.id.date_begin_value);
-        AutoCompleteTextView dateEnd=popupView.findViewById(R.id.date_end_value);
-        if (Prefs.getInt("IS_THEME",0)==2) {
+
+        ConstraintLayout layout = popupView.findViewById(R.id.cont);
+        Toolbar toolbar = popupView.findViewById(R.id.toolbar);
+        ImageView backImg = popupView.findViewById(R.id.back);
+        TextView textView = popupView.findViewById(R.id.textView2);
+        AutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
+        AutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
+        AutoCompleteTextView middleName = popupView.findViewById(R.id.father_name_value);
+        AutoCompleteTextView place = popupView.findViewById(R.id.live_place_value);
+        AutoCompleteTextView dateBegin = popupView.findViewById(R.id.date_begin_value);
+        AutoCompleteTextView dateEnd = popupView.findViewById(R.id.date_end_value);
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
             layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
             backImg.setImageResource(R.drawable.ic_back_dark_theme);
@@ -259,7 +275,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             dateEnd.setTextColor(getResources().getColor(R.color.colorWhiteDark));
             place.setTextColor(getResources().getColor(R.color.colorWhiteDark));
         }
-        popupWindowPage = new PopupPageScreen(
+
+        PopupPageScreen popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
@@ -276,7 +293,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         intent.putExtra("IS_LIST", true);
         intent.putExtra("SHOW", true);
         startActivity(intent);
-
     }
 
     @Override
@@ -285,21 +301,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (theme_setting==1){
-            this.recreate();
-        }
-        getInfoUser();
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
         if (id == R.id.settings) {
             startActivity(new Intent(this, SettingActivity.class));
-            theme_setting=1;
+            theme_setting = 1;
             return true;
         }
         if (id == R.id.event_calendar) {
@@ -320,14 +327,16 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             finish();
             return true;
         }
-        if (id==R.id.notifications){
+        if (id == R.id.notifications) {
             startActivity(new Intent(this, NotificationsActivity.class));
-            return  true;
+            return true;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        TextView textView = drawer.findViewById(R.id.title_menu);
-        textView.setText(Prefs.getString("NAME_USER", ""));
+
+        TextView navUserName = drawer.findViewById(R.id.user_name);
+        navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+
         drawer.closeDrawer(GravityCompat.START);
         return false;
     }
@@ -335,55 +344,18 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
         if (responseSettings.getPicture() != null) {
-            Prefs.putString("AVATAR", "http://помню.рус" + responseSettings.getPicture());
-            Prefs.putString("NAME_USER", responseSettings.getName() + " " + responseSettings.getSurname());
-            Glide.with(this)
-                    .load("http://помню.рус" + responseSettings.getPicture())
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(avatar_user);
-            Glide.with(this)
-                    .load("http://помню.рус" + responseSettings.getPicture())
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(imageViewBigAvatar);
+            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
 
-        } else{
-                Glide.with(this)
-                        .load(R.drawable.ic_unknown)
-                        .apply(RequestOptions.circleCropTransform())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(avatar_user);
-
-                Glide.with(this)
-                        .load(R.drawable.ic_unknown)
-                        .apply(RequestOptions.circleCropTransform())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into(imageViewBigAvatar);
-
+            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), avatar_user);
+            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewBigAvatar);
+        } else {
+            setGlideImage(this, R.drawable.ic_unknown, avatar_user);
+            setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
-//        setBlackWhite(avatar_user);
-//        setBlackWhite(imageViewBigAvatar);
+        setBlackWhite(avatar_user);
+        setBlackWhite(imageViewBigAvatar);
+
+        Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
+        navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
     }
-
-    @Override
-    public void error(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onSaved(Object o) {
-
-    }
-
-    @Override
-    public void onSavedImage(Object o) {
-
-    }
-
-
 }

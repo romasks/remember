@@ -4,9 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -36,6 +37,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+
 public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsView, PopupAddEpitaph.Callback,
         EpitaphsAdapter.Callback, DeleteAlertDialog.Callback {
 
@@ -48,8 +51,10 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     ImageView plus;
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.titliepi)
-    TextView title;
+    @BindView(R.id.no_events)
+    LinearLayout noEvents;
+    @BindView(R.id.btn_create_event)
+    Button btnCreateEvent;
 
     private Unbinder unbinder;
     private EpitaphsAdapter epitaphsAdapter;
@@ -59,21 +64,23 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             setTheme(R.style.AppTheme_Dark);
-        }else {
+        } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             setTheme(R.style.AppTheme);
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_epitaphs);
         unbinder = ButterKnife.bind(this);
-        if (Prefs.getInt("IS_THEME",0)==2){
+
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             back.setImageResource(R.drawable.ic_back_dark_theme);
             plus.setImageResource(R.drawable.ic_add2);
-
         }
+
         pageId = getIntent().getIntExtra("ID_PAGE", 1);
         isShow = getIntent().getBooleanExtra("SHOW", false);
 
@@ -91,6 +98,11 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
                 showPopupAdd();
             }
         });
+        btnCreateEvent.setOnClickListener(v -> {
+            if (!isShow) {
+                showPopupAdd();
+            }
+        });
         back.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -98,9 +110,9 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
 
     private void showPopupAdd() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_epitaph, null);
-        ConstraintLayout layout=popupView.findViewById(R.id.addepi);
-        EditText editText=popupView.findViewById(R.id.text_epitaph);
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        ConstraintLayout layout = popupView.findViewById(R.id.addepi);
+        EditText editText = popupView.findViewById(R.id.text_epitaph);
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
             layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
         }
@@ -121,6 +133,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @Override
     public void onReceivedEpitaphs(List<ResponseEpitaphs> responseEpitaphs) {
         epitaphsAdapter.setItems(responseEpitaphs);
+        noEvents.setVisibility(responseEpitaphs.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     public void onClick(View view) {
@@ -144,7 +157,18 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     }
 
     @Override
+    public void onErrorDeleteEpitaphs(Throwable throwable) {
+        Snackbar.make(recyclerView, "Ошибка удаления", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onEditedEpitaphs(RequestAddEpitaphs requestAddEpitaphs) {
+        presenter.getEpitaphs(pageId);
+    }
+
+    @Override
+    public void onDeletedEpitaphs(Object obj) {
+        Toast.makeText(this, "Эпитафия удалена", Toast.LENGTH_LONG).show();
         presenter.getEpitaphs(pageId);
     }
 
@@ -155,7 +179,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         RequestAddEpitaphs requestAddEpitaphs = new RequestAddEpitaphs();
         requestAddEpitaphs.setBody(text);
         requestAddEpitaphs.setPageId(pageId);
-        requestAddEpitaphs.setUserId(Prefs.getString("USER_ID", ""));
+        requestAddEpitaphs.setUserId(Prefs.getString(PREFS_KEY_USER_ID, ""));
         requestAddEpitaphs.setCreated(df.format(new Date()));
         requestAddEpitaphs.setUpdated(df.format(new Date()));
         presenter.saveEpitaph(requestAddEpitaphs);
@@ -167,16 +191,16 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         RequestAddEpitaphs requestAddEpitaphs = new RequestAddEpitaphs();
         requestAddEpitaphs.setBody(text);
         requestAddEpitaphs.setPageId(pageId);
-        requestAddEpitaphs.setUserId(Prefs.getString("USER_ID", ""));
+        requestAddEpitaphs.setUserId(Prefs.getString(PREFS_KEY_USER_ID, ""));
         presenter.editEpitaph(requestAddEpitaphs, id);
     }
 
     @Override
     public void change(ResponseEpitaphs responseEpitaphs) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_epitaph, null);
-        ConstraintLayout layout=popupView.findViewById(R.id.addepi);
-        EditText editText=popupView.findViewById(R.id.text_epitaph);
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        ConstraintLayout layout = popupView.findViewById(R.id.addepi);
+        EditText editText = popupView.findViewById(R.id.text_epitaph);
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
             layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
         }
@@ -190,13 +214,19 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     }
 
     @Override
-    public void delete() {
-        onClick(recyclerView);
+    public void delete(Integer id) {
+//        onClick(recyclerView);
+        DeleteAlertDialog myDialogFragment = new DeleteAlertDialog();
+        myDialogFragment.setCallback(this);
+        myDialogFragment.setEpitaphId(id);
+        FragmentManager manager = getSupportFragmentManager();
+
+        FragmentTransaction transaction = manager.beginTransaction();
+        myDialogFragment.show(transaction, "dialog");
     }
 
     @Override
-    public void deleteEpitaph() {
-        Toast.makeText(this, "Эпитафия удалена",
-                Toast.LENGTH_LONG).show();
+    public void deleteEpitaph(Integer id) {
+        presenter.deleteEpitaph(id);
     }
 }

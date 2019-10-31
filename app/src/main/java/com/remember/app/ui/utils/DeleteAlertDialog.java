@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 public class DeleteAlertDialog extends AppCompatDialogFragment {
 
     private Callback callback;
+    private Integer epitaphId;
 
     @NonNull
     @Override
@@ -22,7 +23,7 @@ public class DeleteAlertDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(message);
         builder.setPositiveButton(positive, (dialog, id) -> {
-            callback.deleteEpitaph();
+            callback.deleteEpitaph(epitaphId);
         });
         builder.setNegativeButton(negative, (dialog, id) -> {
             dismiss();
@@ -36,9 +37,13 @@ public class DeleteAlertDialog extends AppCompatDialogFragment {
         this.callback = callback;
     }
 
+    public void setEpitaphId(Integer id) {
+        this.epitaphId = id;
+    }
+
     public interface Callback {
 
-        void deleteEpitaph();
+        void deleteEpitaph(Integer epitaphId);
 
     }
 }

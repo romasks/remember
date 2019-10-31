@@ -2,11 +2,9 @@ package com.remember.app.ui.auth;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.Remember;
-import com.remember.app.data.models.RequestSettings;
-import com.remember.app.data.models.ResponseVk;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseVkResponse;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
@@ -14,13 +12,14 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 
-import org.json.JSONObject;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 
 @InjectViewState
 public class AuthPresenter extends BasePresenter<AuthView> {
@@ -28,11 +27,11 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public AuthPresenter() {
+    AuthPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void singInAuth(String login, String password) {
+    void singInAuth(String login, String password) {
         Disposable subscription = serviceNetwork.singInAuth(login, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -41,13 +40,13 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void getInfoUser() {
+    void getInfoUser() {
         VKRequest request = new VKRequest("account.getProfileInfo");
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 ResponseVkResponse responseVk = new Gson().fromJson(response.json.toString(), ResponseVkResponse.class);
-                getViewState().onRecievedInfo(responseVk.getResponse());
+                getViewState().onReceivedInfo(responseVk.getResponse());
             }
 
             @Override
@@ -62,34 +61,44 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         });
     }
 
-    public void signInVk() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL",""))
+    void signInVk() {
+        RequestSocialAuth request = new RequestSocialAuth(
+                Prefs.getString(PREFS_KEY_EMAIL, ""),
+                Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
+                "vk"
+        );
+        Disposable subscription = serviceNetwork.signInSocial(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onLogged,
+                .subscribe(getViewState()::onLoggedSocial,
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
 
     public void signInTwitter() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL",""))
+        Disposable subscription = serviceNetwork.signInVk(Prefs.getString(PREFS_KEY_EMAIL, ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onLogged,
+                .subscribe(getViewState()::onLoggedSocial,
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
 
-    public void signInFacebook() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString("EMAIL",""))
+    void signInFacebook() {
+        RequestSocialAuth request = new RequestSocialAuth(
+                Prefs.getString(PREFS_KEY_EMAIL, ""),
+                Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
+                "fb"
+        );
+        Disposable subscription = serviceNetwork.signInSocial(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onLogged,
+                .subscribe(getViewState()::onLoggedSocial,
                         getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
 
-    public void restorePassword(String email) {
+    void restorePassword(String email) {
         Disposable subscription = serviceNetwork.restorePassword(email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

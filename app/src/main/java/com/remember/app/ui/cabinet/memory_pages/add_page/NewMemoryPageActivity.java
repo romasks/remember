@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,10 +14,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -47,8 +43,6 @@ import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
-import com.remember.app.data.models.ResponsePages;
-import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
@@ -72,24 +66,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
     @InjectPresenter
     AddPagePresenter presenter;
 
     @BindView(R.id.last_name)
-//    AutoCompleteTextView lastName;
-            EditText lastName;
+    EditText lastName;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.image_layout)
     ConstraintLayout imageLayout;
     @BindView(R.id.middle_name)
-//    AutoCompleteTextView middleName;
-            EditText middleName;
+    EditText middleName;
     @BindView(R.id.name)
-//    AutoCompleteTextView name;
-            EditText name;
+    EditText name;
     @BindView(R.id.date_begin)
     AutoCompleteTextView dateBegin;
     @BindView(R.id.date_end)
@@ -112,7 +107,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     Button saveButton;
     @BindView(R.id.text_image)
     TextView textViewImage;
-    private final String TAG="NewMemoryPageActivity";
+
     private Calendar dateAndTime = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private DatePickerDialog.OnDateSetListener dateEndPickerDialog;
@@ -134,17 +129,19 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             setTheme(R.style.AppTheme_Dark);
-        }else {
+        } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             setTheme(R.style.AppTheme);
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_memory_page);
         ButterKnife.bind(this);
-        if (Prefs.getInt("IS_THEME",0)==2) {
+
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             back.setImageResource(R.drawable.ic_back_dark_theme);
             name.setTextColor(getResources().getColor(R.color.colorWhiteDark));
             lastName.setTextColor(getResources().getColor(R.color.colorWhiteDark));
@@ -159,6 +156,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
 
         }
+
         initiate();
         Intent i = getIntent();
         person = new AddPageModel();
@@ -251,7 +249,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 //        dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
         Glide.with(this)
-                .load("http://помню.рус" + memoryPageModel.getPicture())
+                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();
@@ -318,7 +316,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         if (endDate != null) {
             person.setDeathDate(df.format(endDate));
         }
-        person.setUserId(Prefs.getString("USER_ID", "0"));
+        person.setUserId(Prefs.getString(PREFS_KEY_USER_ID, "0"));
         if (isFamous.isChecked()) {
             person.setStar("true");
         } else if (notFamous.isChecked()) {
@@ -459,6 +457,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 person.setCemeteryName(data.getStringExtra("CEMETERY"));
                 person.setSpotId(data.getStringExtra("SPOT_ID"));
                 person.setGraveId(data.getStringExtra("GRAVE_ID"));
+                person.setSector(data.getStringExtra("SECTOR"));
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
@@ -518,22 +517,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         }
     }
 
-    public static File saveBitmap(Bitmap bmp) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
-        File f = new File(Environment.getExternalStorageDirectory()
-                + File.separator + "image.jpg");
-
-        f.createNewFile();
-        FileOutputStream fo = new FileOutputStream(f);
-        fo.write(bytes.toByteArray());
-        fo.close();
-        return f;
-    }
-
     @Override
     public void onSavedPage(ResponseCemetery response) {
-        Log.i(TAG,"onSavedPage");
         Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
         intent.putExtra("IMAGE", imageFile);
@@ -553,10 +538,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @Override
     public void onGetedInfo(List<ResponseHandBook> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
-        LinearLayout layout=popupView.findViewById(R.id.lay);
-        if (Prefs.getInt("IS_THEME",0)==2) {
-           layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
+
+        LinearLayout layout = popupView.findViewById(R.id.lay);
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
         }
+
         PopupReligion popupWindow = new PopupReligion(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -566,18 +553,13 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     @Override
-    public void onEdited(ResponsePages responsePages) {
-
-    }
-
-    @Override
+//    public void onEdited(ResponsePages responsePages) {
     public void onEdited(MemoryPageModel memoryPageModel) {
 //        Intent intent = new Intent(this, MainActivity.class);
 //        intent.putExtra("PERSON", person);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        startActivity(intent);
 //        Toast.makeText(this, "Данные сохранены", Toast.LENGTH_LONG).show();
-        Log.i(TAG,"onEdited");
         Intent intent = new Intent(this, ShowPageActivity.class);
         intent.putExtra("PERSON", person);
         intent.putExtra("IMAGE", imageFile);

@@ -51,7 +51,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback,PhotoSliderAdapter.ItemClickListener {
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
+public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
+
+    private final String TAG = ShowPageActivity.class.getSimpleName();
 
     @InjectPresenter
     ShowPagePresenter presenter;
@@ -82,13 +86,15 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     ImageButton epitaphyButton;
     @BindView(R.id.imageButton)
     ImageButton imageButton;
+    @BindView(R.id.sec_value)
+    TextView sectorPlace;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
     @BindView(R.id.recycler_slider)
     RecyclerView recyclerSlider;
     @BindView(R.id.back_button)
     ImageView backImg;
-   @BindView(R.id.panel)
+    @BindView(R.id.panel)
     LinearLayout panel;
     @BindView(R.id.gradient_img)
     View view;
@@ -97,25 +103,24 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private boolean isList = false;
     private boolean isShow = false;
     private boolean afterSave = false;
-    private  PhotoDialog photoDialog;
+    private PhotoDialog photoDialog;
     private int id = 0;
     private MemoryPageModel memoryPageModel;
     private PhotoSliderAdapter photoSliderAdapter;
-    private final String TAG="ShowPageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             setTheme(R.style.AppTheme_Dark);
-        }else {
+        } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             setTheme(R.style.AppTheme);
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
         unbinder = ButterKnife.bind(this);
-        if (Prefs.getInt("IS_THEME",0)==2){
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             backImg.setImageResource(R.drawable.ic_back_dark_theme);
             settings.setImageResource(R.drawable.setting_white);
             panel.setBackground(getResources().getDrawable(R.drawable.panel_dark));
@@ -130,7 +135,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (isShow) {
             memoryPageModel = i.getParcelableExtra("PERSON");
             presenter.getImagesSlider(memoryPageModel.getId());
-            id=memoryPageModel.getId();
+            id = memoryPageModel.getId();
             settings.setClickable(false);
             imageButton.setClickable(false);
             initAll();
@@ -158,8 +163,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             intent.putExtra("ID_PAGE", memoryPageModel.getId());
             startActivity(intent);
         });
-        image.setOnClickListener(n->startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class)
-                .putExtra("ID",id)));
+        image.setOnClickListener(n -> startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                .putExtra("ID", id)));
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
@@ -179,9 +184,9 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     private void initAll() {
         if (memoryPageModel != null) {
-            if (!afterSave){
+            if (!afterSave) {
                 Glide.with(this)
-                        .load("http://помню.рус" + memoryPageModel.getPicture())
+                        .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                         .error(R.drawable.darth_vader)
                         .into(image);
                 ColorMatrix colorMatrix = new ColorMatrix();
@@ -196,8 +201,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
 
     @OnClick(R.id.description_title)
-    public void description(){
-        if (description.getVisibility() == View.VISIBLE){
+    public void description() {
+        if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
         } else {
             description.setVisibility(View.VISIBLE);
@@ -232,13 +237,13 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (resultCode == Activity.RESULT_OK) {
             assert result != null;
             photoDialog.setUri(result.getUri());
-            Log.i(TAG,"RESULT_OK");
+            Log.i(TAG, "RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             assert result != null;
             Exception error = result.getError();
-            Log.i(TAG,"CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
+            Log.i(TAG, "CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
         } else {
-            Log.i(TAG,"HZ");
+            Log.i(TAG, "HZ");
 
         }
     }
@@ -248,6 +253,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         crypt.setText(memoryPageModel.getNazvaklad());
         sector.setText(memoryPageModel.getUchastok());
         grave.setText(memoryPageModel.getNummogil());
+
         if (memoryPageModel.getGorod() == null || memoryPageModel.getGorod().isEmpty()) {
             city.setText("-");
         } else {
@@ -335,7 +341,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         this.memoryPageModel = memoryPageModel;
         initAll();
         Glide.with(this)
-                .load("http://помню.рус" + memoryPageModel.getPicture())
+                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();
@@ -346,7 +352,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void error(Throwable throwable) {
-        Log.i(TAG,"throwable= "+throwable.toString());
+        Log.i(TAG, "throwable= " + throwable.toString());
         Snackbar.make(image, "Ошибка загрузки изображения", Snackbar.LENGTH_LONG).show();
     }
 
@@ -373,18 +379,19 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void sendPhoto(File imageFile, String string) {
-        if (memoryPageModel.getId() != null){
-            Log.i(TAG,"!= null"+imageFile.toString()+"  string= "+string+"  "+memoryPageModel.getId());
+        if (memoryPageModel.getId() != null) {
+            Log.i(TAG, "!= null" + imageFile.toString() + "  string= " + string + "  " + memoryPageModel.getId());
             presenter.savePhoto(imageFile, string, memoryPageModel.getId());
-        } else  {
-            Log.i(TAG,"== null");
+        } else {
+            Log.i(TAG, "== null");
             presenter.savePhoto(imageFile, string, id);
         }
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        startActivity(new Intent(ShowPageActivity.this,SlidePhotoActivity.class).putExtra("ID",id).putExtra("POSITION",position));
+        startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                .putExtra("ID", id));
 
     }
 }

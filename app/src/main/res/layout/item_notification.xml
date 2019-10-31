@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorAccent"
         android:textSize="16sp"
-        tools:text="Сегодня событие"/>
+        tools:text="Сегодня событие" />
 
     <TextView
         android:id="@+id/text_show"
@@ -38,6 +38,6 @@
         android:layout_below="@id/text_event_title"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
-        tools:text="Сегодня в 11:11"/>
+        tools:text="Сегодня в 11:11" />
 
 </RelativeLayout>

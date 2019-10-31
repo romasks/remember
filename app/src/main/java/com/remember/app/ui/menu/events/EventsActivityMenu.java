@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +37,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.THEME_DARK;
+
 public class EventsActivityMenu extends BaseActivity implements EventsFragmentAdapter.Callback, EventsMenuView, PopupEventScreenLocal.Callback {
 
     @InjectPresenter
@@ -48,12 +51,12 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     TextView relEvent;
     @BindView(R.id.show_all)
     Button showAll;
+    @BindView(R.id.no_events)
+    LinearLayout noEvents;
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.search2)
+    @BindView(R.id.search)
     ImageView search;
-
-
 
     private EventsFragmentAdapter eventsFragmentAdapter;
     private PopupEventScreenLocal popupWindowEvent;
@@ -61,19 +64,18 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_DARK) {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             setTheme(R.style.AppTheme_Dark);
-        }else {
+        } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             setTheme(R.style.AppTheme);
         }
         super.onCreate(savedInstanceState);
-        if (Prefs.getInt("IS_THEME",0)==2){
+        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_DARK) {
             relEvent.setTextColor(getResources().getColor(R.color.colorWhiteDark));
             back.setImageResource(R.drawable.ic_back_dark_theme);
             search.setImageResource(R.drawable.ic_search2);
-
         }
         presenter.getEvents();
         eventsFragmentAdapter = new EventsFragmentAdapter();
@@ -96,7 +98,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
         presenter.getEvents();
     }
 
-    @OnClick(R.id.search2)
+    @OnClick(R.id.search)
     public void openSearch() {
         String[] rhb = {"Православие", "Католицизм", "Ислам", "Иудаизм", "Буддизм",
                 "Индуизм", "Другая религия", "Отсутствует"};
@@ -125,6 +127,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
         if (responseEvents.size() == 0)
             Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsFragmentAdapter.setItems(responseEvents);
+        noEvents.setVisibility(responseEvents.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -143,13 +146,13 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     private void showPageScreen(List<String> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen_local, null);
-        ConstraintLayout layout=popupView.findViewById(R.id.cl);
-        Toolbar toolbar=popupView.findViewById(R.id.toolbar);
-        ImageView backImg=popupView.findViewById(R.id.back);
-        TextView textView=popupView.findViewById(R.id.textView2);
-        AutoCompleteTextView date=popupView.findViewById(R.id.date_value);
-        MaterialSpinner religion=popupView.findViewById(R.id.spinner);
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        ConstraintLayout layout = popupView.findViewById(R.id.cl);
+        Toolbar toolbar = popupView.findViewById(R.id.toolbar);
+        ImageView backImg = popupView.findViewById(R.id.back);
+        TextView textView = popupView.findViewById(R.id.textView2);
+        AutoCompleteTextView date = popupView.findViewById(R.id.date_value);
+        MaterialSpinner religion = popupView.findViewById(R.id.spinner);
+        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_DARK) {
             religion.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
             layout.setBackgroundColor(getResources().getColor(R.color.colorBlacDark));

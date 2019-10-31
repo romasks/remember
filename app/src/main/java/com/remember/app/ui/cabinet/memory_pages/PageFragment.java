@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +28,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.THEME_DARK;
+import static com.remember.app.data.Constants.THEME_LIGHT;
 
 public class PageFragment extends MvpAppCompatFragment implements PageView, PageFragmentAdapter.Callback, MainActivity.CallbackPage {
 
@@ -65,10 +67,9 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
         pageFragmentAdapter.setCallback(this);
-        if (Prefs.getInt("IS_THEME",0)==0||Prefs.getInt("IS_THEME",0)==1){
+        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == 0 || Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_LIGHT) {
 
-        }else if (Prefs.getInt("IS_THEME",0)==2){
-
+        } else if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_DARK) {
 
         }
         return v;
@@ -101,12 +102,12 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     }
 
     @OnClick(R.id.show_all)
-    public void showAll() {
+    void showAll() {
         presenter.getPages();
     }
 
     @OnClick(R.id.go_to_add)
-    public void newPage() {
+    void newPage() {
         startActivity(new Intent(getContext(), NewMemoryPageActivity.class));
     }
 
@@ -119,9 +120,6 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
             emptyLayout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
-
-
-
     }
 
     @Override
@@ -135,7 +133,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     @Override
     public void sendItemsSearch(List<MemoryPageModel> result) {
-        if(result.size()==0) {
+        if (result.size() == 0) {
             Toast.makeText(getActivity(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         }
         if (result.isEmpty()) {

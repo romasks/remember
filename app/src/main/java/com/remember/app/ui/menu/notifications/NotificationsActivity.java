@@ -26,6 +26,8 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
 
 
 
+    private NotificationsFragment eventsFragment = NotificationsFragment.newInstance(NotificationsFragment.Type.EVENTS);
+
     @Override
     protected int getContentView() {
         return R.layout.activity_notifications;
@@ -56,7 +58,7 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
 
     private void setupViewPager(){
         NotificationsPagerAdapter adapter = new NotificationsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(NotificationsFragment.newInstance(NotificationsFragment.Type.EVENTS), "События");
+        adapter.addFragment(eventsFragment, "События");
         adapter.addFragment(NotificationsFragment.newInstance(NotificationsFragment.Type.MESSAGES), "Сообщения");
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
@@ -88,6 +90,7 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.filter:
+                eventsFragment.showFilterDialog();
                 break;
         }
     }

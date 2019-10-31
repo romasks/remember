@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
@@ -26,7 +25,7 @@ import com.remember.app.R;
 import java.io.File;
 import java.io.IOException;
 
-import static com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity.saveBitmap;
+import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 
 public class PhotoDialog extends DialogFragment {
 
@@ -39,7 +38,7 @@ public class PhotoDialog extends DialogFragment {
     private Uri uri;
     private Bitmap bitmap;
     private File imageFile;
-    private final String TAG="PhotoDialog";
+    private final String TAG = "PhotoDialog";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class PhotoDialog extends DialogFragment {
         editText = view.findViewById(R.id.description);
         done = view.findViewById(R.id.done);
         cancel = view.findViewById(R.id.cancel);
-        if (Prefs.getInt("IS_THEME",0)==2) {
+        if (Prefs.getInt("IS_THEME", 0) == 2) {
             editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
             image.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
         }
@@ -67,8 +66,8 @@ public class PhotoDialog extends DialogFragment {
         done.setOnClickListener(v -> {
             try {
 
-                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                    imageFile = saveBitmap(bitmap);
+                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                imageFile = saveBitmap(bitmap);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -87,7 +86,7 @@ public class PhotoDialog extends DialogFragment {
     }
 
     public void setUri(Uri uri) {
-        Log.i(TAG,"Url= "+uri.toString());
+        Log.i(TAG, "Url= " + uri.toString());
         Glide.with(getContext())
                 .load(uri)
                 .into(imageView);
