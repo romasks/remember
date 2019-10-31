@@ -135,6 +135,7 @@
     <string name="new_event_hint_event_name">Наименование события</string>
     <string name="new_event_add_description_title">Добавьте описание</string>
     <string name="new_event_hint_description">Описание...</string>
+    <string name="memory_page_event_header_text">Памятное событие</string>
 
     <!--questions-->
     <string name="questions_header_text">Обратная связь</string>

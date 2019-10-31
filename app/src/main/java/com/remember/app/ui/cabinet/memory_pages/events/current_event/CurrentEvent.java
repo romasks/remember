@@ -1,6 +1,8 @@
 package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 
 import android.annotation.SuppressLint;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -33,9 +35,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     CurrentEventPresenter presenter;
 
     @BindView(R.id.back_button)
-    ImageButton back;
-    @BindView(R.id.name)
-    TextView name;
+    ImageView back;
     @BindView(R.id.pageAvatar)
     FrameLayout pageAvatar;
     @BindView(R.id.image_avatar)
@@ -56,6 +56,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     ImageView addVideo;
     @BindView(R.id.comments)
     RecyclerView comments;
+    @BindView(R.id.name)
+    TextView name_event;
 
     private Integer eventId = 0;
 
@@ -71,6 +73,10 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         comments.setLayoutManager(new LinearLayoutManager(this));
         comments.setAdapter(new EventStuffAdapter());
         presenter.getEvent(eventId);
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+        imageAvatar.setColorFilter(filter);
         back.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -88,12 +94,12 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
     private void setItems(EventModel requestEvent) {
         try {
-            name.setText(requestEvent.getName());
+            name_event.setText(requestEvent.getName());
             Glide.with(this)
                     .load(BASE_SERVICE_URL + requestEvent.getPicture())
                     .into(imageAvatar);
             dateView.setText(formatDate(requestEvent.getDate()));
-            messageView.setText(requestEvent.getName() + " - " + requestEvent.getDescription());
+            messageView.setText(requestEvent.getDescription());
         } catch (Exception e) {
 
         }
