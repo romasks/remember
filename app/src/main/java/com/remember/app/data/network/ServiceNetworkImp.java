@@ -2,6 +2,8 @@ package com.remember.app.data.network;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.CreateEventRequest;
+import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.PageEditedResponse;
@@ -75,8 +77,109 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent) {
-        return apiMethods.saveEvent(requestAddEvent);
+    public Observable<RequestAddEvent> saveEvent(CreateEventRequest createEventRequest, File imageFile) {
+//        return apiMethods.saveEvent(token, requestAddEvent);
+        RequestBody pageId = null;
+        RequestBody date = null;
+        RequestBody name = null;
+        RequestBody flag = null;
+        RequestBody uvShow = null;
+        RequestBody description = null;
+        MultipartBody.Part fileToUploadTransfer = null;
+        try {
+            pageId = RequestBody.create(MultipartBody.FORM, createEventRequest.getPageId());
+        } catch (Exception e) {
+            pageId = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            date = RequestBody.create(MultipartBody.FORM, createEventRequest.getDate());
+        } catch (Exception e) {
+            date = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            name = RequestBody.create(MultipartBody.FORM, createEventRequest.getName());
+        } catch (Exception e) {
+            name = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            flag = RequestBody.create(MultipartBody.FORM, createEventRequest.getFlag());
+        } catch (Exception e) {
+            flag = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            uvShow = RequestBody.create(MultipartBody.FORM, createEventRequest.getUvShow());
+        } catch (Exception e) {
+            uvShow = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            description = RequestBody.create(MultipartBody.FORM, createEventRequest.getDescription());
+        } catch (Exception e) {
+            description = RequestBody.create(MultipartBody.FORM, "");
+        }
+        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+        fileToUploadTransfer = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
+        String token = "Bearer " + Prefs.getString("TOKEN", "");
+        return apiMethods.saveEvent(token,
+                pageId,
+                date,
+                name,
+                flag,
+                uvShow,
+                description,
+                fileToUploadTransfer);
+    }
+
+    @Override
+    public Observable<RequestAddEvent> editEvent(EditEventRequest editEventRequest, File image) {
+        RequestBody pageId = null;
+        RequestBody date = null;
+        RequestBody name = null;
+        RequestBody flag = null;
+        RequestBody uvShow = null;
+        RequestBody description = null;
+        MultipartBody.Part fileToUploadTransfer = null;
+        try {
+            pageId = RequestBody.create(MultipartBody.FORM, editEventRequest.getPageId());
+        } catch (Exception e) {
+            pageId = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            date = RequestBody.create(MultipartBody.FORM, editEventRequest.getDate());
+        } catch (Exception e) {
+            date = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            name = RequestBody.create(MultipartBody.FORM, editEventRequest.getName());
+        } catch (Exception e) {
+            name = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            flag = RequestBody.create(MultipartBody.FORM, editEventRequest.getFlag());
+        } catch (Exception e) {
+            flag = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            uvShow = RequestBody.create(MultipartBody.FORM, editEventRequest.getUvShow());
+        } catch (Exception e) {
+            uvShow = RequestBody.create(MultipartBody.FORM, "");
+        }
+        try {
+            description = RequestBody.create(MultipartBody.FORM, editEventRequest.getDescription());
+        } catch (Exception e) {
+            description = RequestBody.create(MultipartBody.FORM, "");
+        }
+        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), image);
+        fileToUploadTransfer = MultipartBody.Part.createFormData("picture", image.getName(), mFile);
+        String token = "Bearer " + Prefs.getString("TOKEN", "");
+        return apiMethods.editEvent(token,
+                pageId,
+                date,
+                name,
+                flag,
+                uvShow,
+                description,
+                fileToUploadTransfer,
+                editEventRequest.getEventId());
     }
 
     @Override
@@ -109,7 +212,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<ResponsePages> getImages(int count) {
-        return apiMethods.getImages(count ,"Одобрено");
+        return apiMethods.getImages(count, "Одобрено");
     }
 
     @Override
@@ -304,7 +407,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
             optradio = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
-            religion = RequestBody.create(MultipartBody.FORM, person.getReligion());
+            if (person.getReligion().isEmpty()) {
+                religion = RequestBody.create(MultipartBody.FORM, "Отсутствует");
+            } else {
+                religion = RequestBody.create(MultipartBody.FORM, person.getReligion());
+            }
         } catch (Exception e) {
             religion = RequestBody.create(MultipartBody.FORM, "");
         }
@@ -366,7 +473,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
         );
     }
 
-//    @Override
+    //    @Override
 //    public Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile) {
 //    @Override
 //    public Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile) {

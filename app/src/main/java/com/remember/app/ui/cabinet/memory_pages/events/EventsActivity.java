@@ -47,6 +47,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     private EventsDeceaseAdapter eventsDeceaseAdapter;
     private int pageId;
     private boolean isShow;
+    private String imageUrl = "";
 
     private PopupEventScreen popupWindowEvent;
 
@@ -63,7 +64,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         } catch (NullPointerException ignored) {
         }
 
-        presenter.getEvents(pageId);
+//        presenter.getEvents(pageId);
 
         eventsDeceaseAdapter = new EventsDeceaseAdapter();
         eventsDeceaseAdapter.setCallback(this);
@@ -75,8 +76,9 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         plus.setOnClickListener(v -> {
             if (!isShow) {
                 Intent intent = new Intent(this, AddNewEventActivity.class);
-                intent.putExtra("NAME", name);
+                intent.putExtra("PERSON_NAME", name);
                 intent.putExtra("ID_PAGE", pageId);
+                intent.putExtra("IMAGE_URL", imageUrl);
                 startActivity(intent);
             }
         });
@@ -86,6 +88,12 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         back.setOnClickListener(v -> {
             onBackPressed();
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getEvents(pageId);
     }
 
     @Override
@@ -111,9 +119,12 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     }
 
     @Override
-    public void openEvent(Integer pageId) {
+    public void openEvent(Integer eventId, String imageUrl) {
         Intent intent = new Intent(this, CurrentEvent.class);
-        intent.putExtra("ID_EVENT", pageId);
+        intent.putExtra("ID_EVENT", eventId);
+        intent.putExtra("PERSON_NAME", name);
+        intent.putExtra("EVENT_IMAGE_URL", imageUrl);
+        intent.putExtra("PAGE_ID", pageId);
         startActivity(intent);
     }
 }

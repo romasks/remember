@@ -1,6 +1,7 @@
 package com.remember.app.data.network;
 
 
+import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.PageEditedResponse;
@@ -32,6 +33,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -60,9 +62,33 @@ public interface ApiMethods {
     @POST("epit/add")
     Observable<RequestAddEpitaphs> saveEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs);
 
-    @Headers("Content-Type: application/json")
-    @POST("deadevent/add")
-    Observable<RequestAddEvent> saveEvent(@Body RequestAddEvent requestAddEvent);
+//    @Headers("Content-Type: application/json")
+//    @POST("deadevent/add")
+//    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token,
+//                                          @Body RequestAddEvent requestAddEvent);
+
+    @Multipart
+    @POST("deadevent")
+    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token,
+                                          @Part("page_id") RequestBody pageId,
+                                          @Part("date") RequestBody date,
+                                          @Part("name") RequestBody name,
+                                          @Part("flag") RequestBody flag,
+                                          @Part("uv_show") RequestBody uvShow,
+                                          @Part("description") RequestBody description,
+                                          @Part MultipartBody.Part image);
+
+    @Multipart
+    @PUT("deadevent/{eventId}")
+    Observable<RequestAddEvent> editEvent(@Header("Authorization") String token,
+                                          @Part("page_id") RequestBody pageId,
+                                          @Part("date") RequestBody date,
+                                          @Part("name") RequestBody name,
+                                          @Part("flag") RequestBody flag,
+                                          @Part("uv_show") RequestBody uvShow,
+                                          @Part("description") RequestBody description,
+                                          @Part MultipartBody.Part image,
+                                          @Path("eventId") int eventId);
 
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();

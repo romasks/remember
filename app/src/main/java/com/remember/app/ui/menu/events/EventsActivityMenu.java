@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -121,6 +122,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindowEvent.setContext(EventsActivityMenu.this);
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);
         popupWindowEvent.setUp(relEvent, responseHandBooks);

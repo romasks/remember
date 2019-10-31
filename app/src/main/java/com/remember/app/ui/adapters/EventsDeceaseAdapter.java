@@ -2,6 +2,8 @@ package com.remember.app.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.base.BaseViewHolder;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +57,7 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItems(List<RequestAddEvent> requestAddEvent) {
+        this.requestAddEvent.clear();
         this.requestAddEvent.addAll(requestAddEvent);
         notifyDataSetChanged();
     }
@@ -64,7 +68,7 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public interface Callback {
 
-        void openEvent(Integer pageId);
+        void openEvent(Integer pageId, String imageUrl);
 
     }
 
@@ -92,13 +96,18 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         public void onBind(int position) {
             constraintLayout.setOnClickListener(v -> {
-                callback.openEvent(requestAddEvent.get(position).getId());
+                callback.openEvent(requestAddEvent.get(position).getId(), requestAddEvent.get(position).getPicture());
             });
             try {
                 Glide.with(itemView)
                         .load("http://помню.рус" + requestAddEvent.get(position).getPicture())
                         .apply(RequestOptions.circleCropTransform())
+                        .error(R.drawable.darth_vader)
                         .into(avatarImage);
+                ColorMatrix colorMatrix = new ColorMatrix();
+                colorMatrix.setSaturation(0);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+                avatarImage.setColorFilter(filter);
             } catch (Exception e){
                 Glide.with(itemView)
                         .load(R.drawable.ic_unknown)
@@ -116,7 +125,21 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 } catch (Exception e) {
                 }
             }
-            date.setText(requestAddEvent.get(position).getDate());
+
+            DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
+            DateFormat dfRemote = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date serverDate = null;
+            try {
+                serverDate = dfRemote.parse(requestAddEvent.get(position).getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (serverDate != null) {
+                date.setText(dfLocal.format(serverDate));
+            }
+
+//            date.setText(requestAddEvent.get(position).getDate());
             comment.setText("дней осталось");
         }
 

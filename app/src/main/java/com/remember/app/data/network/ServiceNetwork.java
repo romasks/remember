@@ -1,6 +1,8 @@
 package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.CreateEventRequest;
+import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.PageEditedResponse;
@@ -43,7 +45,10 @@ public interface ServiceNetwork {
 
     Observable<RequestAddEpitaphs> saveEpitaph(RequestAddEpitaphs requestAddEpitaphs);
 
-    Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent);
+//    Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent);
+    Observable<RequestAddEvent> saveEvent(CreateEventRequest createEventRequest, File image);
+
+    Observable<RequestAddEvent> editEvent(EditEventRequest editEventRequest, File image);
 
     Observable<List<RequestAddEvent>> getEventsForId(int pageId);
 

@@ -1,6 +1,9 @@
 package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -17,6 +20,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 
 import java.text.Format;
 import java.text.ParseException;
@@ -24,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
@@ -44,6 +49,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     ImageView addPhoto;
     @BindView(R.id.date)
     TextView dateView;
+    @BindView(R.id.messageHeader)
+    TextView messageHeader;
     @BindView(R.id.message)
     TextView messageView;
     @BindView(R.id.video)
@@ -56,19 +63,25 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     RecyclerView comments;
 
     private Integer eventId = 0;
+    private String personName;
+    private String imageUrl = "";
+    private int pageId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         eventId = getIntent().getExtras().getInt("ID_EVENT", 0);
+        pageId = getIntent().getExtras().getInt("PAGE_ID", 0);
+        personName = getIntent().getExtras().getString("PERSON_NAME", "");
+        imageUrl = getIntent().getExtras().getString("EVENT_IMAGE_URL", "");
         photosView.setLayoutManager(new LinearLayoutManager(this));
         photosView.setAdapter(new EventStuffAdapter());
         videos.setLayoutManager(new LinearLayoutManager(this));
         videos.setAdapter(new EventStuffAdapter());
         comments.setLayoutManager(new LinearLayoutManager(this));
         comments.setAdapter(new EventStuffAdapter());
-        presenter.getEvent(eventId);
+//        presenter.getEvent(eventId);
         back.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -77,6 +90,12 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     @Override
     protected int getContentView() {
         return R.layout.fragment_event;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getEvent(eventId);
     }
 
     @Override
@@ -90,11 +109,31 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
             Glide.with(this)
                     .load("http://помню.рус" + requestEvent.getPicture())
                     .into(imageAvatar);
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+            imageAvatar.setColorFilter(filter);
             dateView.setText(formatDate(requestEvent.getDate()));
-            messageView.setText(requestEvent.getName() + " - " + requestEvent.getDescription());
+            messageHeader.setText(requestEvent.getName());
+            messageView.setText(requestEvent.getDescription());
+//            messageView.setText(requestEvent.getName() + " - " + requestEvent.getDescription());
         } catch (Exception e) {
 
         }
+    }
+
+    @OnClick(R.id.settings)
+    public void onSettingsClicked() {
+        Intent intent = new Intent(this, AddNewEventActivity.class);
+        intent.putExtra("EVENT_ID", eventId);
+        intent.putExtra("EVENT_NAME", name.getText().toString());
+        intent.putExtra("EVENT_PERSON", personName);
+        intent.putExtra("EVENT_DESCRIPTION", messageView.getText().toString());
+        intent.putExtra("EVENT_IMAGE_URL", imageUrl);
+        intent.putExtra("EVENT_DATE", dateView.getText().toString());
+        intent.putExtra("PAGE_ID", pageId);
+        intent.putExtra("IS_EVENT_EDITING", true);
+        startActivity(intent);
     }
 
     private String formatDate(String date) {

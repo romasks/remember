@@ -69,15 +69,15 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
         }
         googleMap.setMyLocationEnabled(true);
 
-        LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria, true);
-        Location location = locationManager.getLastKnownLocation(provider);
-        if (location != null) {
+//        LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
+//        Criteria criteria = new Criteria();
+//        String provider = locationManager.getBestProvider(criteria, true);
+//        Location location = locationManager.getLastKnownLocation(provider);
+//        if (location != null) {
             myPosition = new LatLng(latitude, longitude);
             googleMap.addMarker(new MarkerOptions().position(myPosition).title("Start"));
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 13));
-        }
+//        }
     }
 
     interface Callback{
