@@ -52,11 +52,13 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseEvents>> getEvents();
 
-    Observable<EventModel> getEvent(int id);
+    Observable<ResponseEvents> getEvent(int id);
 
-    Observable<List<EventNotificationModel>> getEventNotifications(String token, String type);
+    Observable<EventModel> getDeadEvent(int id);
 
-    Observable<List<EpitNotificationModel>> getEpitNotifications(String token);
+    Observable<List<EventNotificationModel>> getEventNotifications(String type);
+
+    Observable<List<EpitNotificationModel>> getEpitNotifications();
 
     Observable<ResponseAuth> singInAuth(String login, String password);
 

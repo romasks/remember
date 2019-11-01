@@ -1,7 +1,5 @@
 package com.remember.app.ui.cabinet.memory_pages.show_page;
 
-import android.net.Uri;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.network.ServiceNetwork;
@@ -21,11 +19,11 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public ShowPagePresenter() {
+    ShowPagePresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getImageAfterSave(Integer id) {
+    void getImageAfterSave(Integer id) {
         Disposable subscription = serviceNetwork.getImageAfterSave(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -34,7 +32,7 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void savePhoto(File imageFile, String string, Integer id) {
+    void savePhoto(File imageFile, String string, Integer id) {
         Disposable subscription = serviceNetwork.savePhoto(imageFile, string, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -43,7 +41,7 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void getImagesSlider(Integer id) {
+    void getImagesSlider(Integer id) {
         Disposable subscription = serviceNetwork.getImagesSlider(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

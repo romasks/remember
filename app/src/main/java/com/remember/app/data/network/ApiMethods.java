@@ -71,10 +71,13 @@ public interface ApiMethods {
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();
 
-    @GET("deadevent/{id}")
-    Observable<EventModel> getEvent(@Path("id") int id);
+    @GET("event/{id}")
+    Observable<ResponseEvents> getEvent(@Path("id") int id);
 
-    @GET("event/notifications")
+    @GET("deadevent/{id}")
+    Observable<EventModel> getDeadEvent(@Path("id") int id);
+
+    @GET("feed/notifications")
     Observable<List<EventNotificationModel>> getEventNotifications(@Header("Authorization") String token, @Query("filter_type") String filterType);
 
     @GET("epit/notification")
@@ -138,13 +141,10 @@ public interface ApiMethods {
                                          @Part MultipartBody.Part image
     );
 
-
-//    @GET("pages")
-//    Observable<ResponsePages> getImages(@Query("status") String status);
-
     @GET("pages")
     Observable<ResponsePages> getImages(@Query("page") int count,
-                                        @Query("status") String status);
+                                        @Query("status") String status,
+                                        @Query("flag") boolean flag);
 
     @Multipart
     @POST("page/edit/{id}")

@@ -17,16 +17,15 @@ public class CurrentEventPresenter extends BasePresenter<CurrentEventView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public CurrentEventPresenter() {
+    CurrentEventPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getEvent(int id) {
-        Disposable subscription = serviceNetwork.getEvent(id)
+    void getDeadEvent(int id) {
+        Disposable subscription = serviceNetwork.getDeadEvent(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedEvent);
         unsubscribeOnDestroy(subscription);
-
     }
 }

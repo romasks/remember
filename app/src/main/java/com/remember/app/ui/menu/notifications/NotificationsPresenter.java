@@ -42,7 +42,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
     void getEventNotification(NotificationFilterType filterType) {
 
-        Disposable subscription = serviceNetwork.getEventNotifications(Prefs.getString("TOKEN", ""), filterType.toString())
+        Disposable subscription = serviceNetwork.getEventNotifications(filterType.toString())
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEventNotifications)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -51,7 +51,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
     }
 
     void getEpitNotifications(){
-        Disposable subscription = serviceNetwork.getEpitNotifications(Prefs.getString("TOKEN", ""))
+        Disposable subscription = serviceNetwork.getEpitNotifications()
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEpitNotifications)
                 .observeOn(AndroidSchedulers.mainThread())

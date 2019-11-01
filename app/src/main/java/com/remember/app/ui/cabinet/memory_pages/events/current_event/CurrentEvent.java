@@ -5,7 +5,6 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -65,18 +64,23 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        eventId = getIntent().getExtras().getInt("ID_EVENT", 0);
         photosView.setLayoutManager(new LinearLayoutManager(this));
         photosView.setAdapter(new EventStuffAdapter());
+
         videos.setLayoutManager(new LinearLayoutManager(this));
         videos.setAdapter(new EventStuffAdapter());
+
         comments.setLayoutManager(new LinearLayoutManager(this));
         comments.setAdapter(new EventStuffAdapter());
-        presenter.getEvent(eventId);
+
+        eventId = getIntent().getExtras().getInt("ID_EVENT", 0);
+        presenter.getDeadEvent(eventId);
+
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
         imageAvatar.setColorFilter(filter);
+
         back.setOnClickListener(v -> {
             onBackPressed();
         });

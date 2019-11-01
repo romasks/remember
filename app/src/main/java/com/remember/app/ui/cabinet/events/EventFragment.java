@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -81,6 +82,16 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
         if (responseEvents.size() == 0)
             Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsFragmentAdapter.setItems(responseEvents);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Snackbar.make(recyclerView, "Ошибка получения события", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onReceivedEvent(ResponseEvents responseEvents) {
+        // placeholder
     }
 
     @Override
