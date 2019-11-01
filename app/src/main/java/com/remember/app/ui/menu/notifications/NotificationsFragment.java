@@ -136,7 +136,7 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
                 startActivity(intent);
                 break;
             }
-            case "deadevent": {
+            case "dead_event": {
                 Intent intent = new Intent(getActivity(), ShowPageActivity.class);
                 intent.putExtra("PERSON", ((EventNotificationModel) notification).getPageName());
                 intent.putExtra("ID", ((EventNotificationModel) notification).getPageId());
