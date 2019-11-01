@@ -7,27 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.NotificationModelNew;
-import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
+import com.remember.app.ui.cabinet.events.EventFullActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.DividerItemDecoration;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class NotificationsFragment extends MvpAppCompatFragment implements NotificationsView, NotificationListAdapter.NotificationClickListener {
 
     public enum Type {EVENTS, MESSAGES}
 
     private static final String KEY_TYPE = "key_type";
+    private static final String TAG = NotificationsFragment.class.getSimpleName();
 
     private Type type;
 
@@ -121,18 +122,21 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     public void onNotificationClick(NotificationModelNew notification) {
         switch (((EventNotificationModel) notification).getType()) {
             case "event": {
-                Intent intent = new Intent(getContext(), CurrentEvent.class);
+                Intent intent = new Intent(getContext(), EventFullActivity.class);
                 intent.putExtra("ID_EVENT", ((EventNotificationModel) notification).getEventId());
+                intent.putExtra("FROM_NOTIF", true);
                 startActivity(intent);
                 break;
             }
-            case "birth": {
-                Intent intent = new Intent(getContext(), CurrentEvent.class);
-                intent.putExtra("ID_EVENT", ((EventNotificationModel) notification).getPageId());
-                startActivity(intent);
-                break;
-            }
+            case "birth":
             case "dead": {
+                Intent intent = new Intent(getContext(), EventFullActivity.class);
+                intent.putExtra("ID_EVENT", ((EventNotificationModel) notification).getPageId());
+                intent.putExtra("FROM_NOTIF", true);
+                startActivity(intent);
+                break;
+            }
+            case "deadevent": {
                 Intent intent = new Intent(getActivity(), ShowPageActivity.class);
                 intent.putExtra("PERSON", ((EventNotificationModel) notification).getPageName());
                 intent.putExtra("ID", ((EventNotificationModel) notification).getPageId());

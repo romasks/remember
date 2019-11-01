@@ -98,18 +98,23 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<EventModel> getEvent(int id) {
+    public Observable<ResponseEvents> getEvent(int id) {
         return apiMethods.getEvent(id);
     }
 
     @Override
-    public Observable<List<EventNotificationModel>> getEventNotifications(String token, String filterType) {
-        return apiMethods.getEventNotifications("Bearer " + token, filterType);
+    public Observable<EventModel> getDeadEvent(int id) {
+        return apiMethods.getDeadEvent(id);
     }
 
     @Override
-    public Observable<List<EpitNotificationModel>> getEpitNotifications(String token) {
-        return apiMethods.getEpitNotifications("Bearer " + token);
+    public Observable<List<EventNotificationModel>> getEventNotifications(String filterType) {
+        return apiMethods.getEventNotifications("Bearer " + Prefs.getString("TOKEN", ""), filterType);
+    }
+
+    @Override
+    public Observable<List<EpitNotificationModel>> getEpitNotifications() {
+        return apiMethods.getEpitNotifications("Bearer " + Prefs.getString("TOKEN", ""));
     }
 
     @Override
@@ -127,7 +132,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<ResponsePages> getImages(int count) {
-        return apiMethods.getImages(count ,"Одобрено");
+        return apiMethods.getImages(count ,"Одобрено", true);
     }
 
     @Override

@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -311,5 +312,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
         navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Snackbar.make(recyclerView, "Ошибка получения плиток", Snackbar.LENGTH_LONG).show();
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.ViewHolder> {
 
-    public interface NotificationClickListener{
+    public interface NotificationClickListener {
         void onNotificationClick(NotificationModelNew notification);
     }
 
@@ -24,12 +24,12 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     private NotificationClickListener clickListener;
 
-    public void setNotificationList(List<? extends NotificationModelNew> notificationList) {
+    void setNotificationList(List<? extends NotificationModelNew> notificationList) {
         this.notificationList = notificationList;
         notifyDataSetChanged();
     }
 
-    public void setClickListener(NotificationClickListener clickListener) {
+    void setClickListener(NotificationClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -50,26 +50,24 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         return notificationList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
         private TextView date;
-        private TextView btnShow;
 
         ViewHolder(View v) {
             super(v);
 
             title = v.findViewById(R.id.text_event_title);
             date = v.findViewById(R.id.text_event_date);
-            btnShow = v.findViewById(R.id.text_show);
 
-            btnShow.setOnClickListener(view -> {
+            v.findViewById(R.id.item_tile).setOnClickListener(view -> {
                 if (clickListener != null)
                     clickListener.onNotificationClick(notificationList.get(getAdapterPosition()));
             });
         }
 
-        void bind(int position){
+        void bind(int position) {
             NotificationModelNew notification = notificationList.get(position);
 
             title.setText(notification.getDisplayedText());

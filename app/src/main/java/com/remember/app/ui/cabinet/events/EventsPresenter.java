@@ -15,12 +15,21 @@ public class EventsPresenter extends BasePresenter<EventView> {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getEvents() {
+    void getEvents() {
         Disposable subscription = getServiceNetwork().getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedEvents);
+                .subscribe(getViewState()::onReceivedEvents,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
+    void getEvent(int id) {
+        Disposable subscription = getServiceNetwork().getEvent(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onReceivedEvent,
+                        getViewState()::onError);
+        unsubscribeOnDestroy(subscription);
+    }
 }
