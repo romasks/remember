@@ -1,19 +1,12 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -26,12 +19,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -94,7 +91,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.avatar)
         ImageView avatar;
 
-        public EpitaphsAdapterViewHolder(View itemView) {
+        EpitaphsAdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
@@ -109,31 +106,22 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
             try {
                 if (responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture() != null) {
-                    Glide.with(itemView)
-                            .load(BASE_SERVICE_URL + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(avatar);
+                    setGlideImage(
+                            itemView.getContext(),
+                            BASE_SERVICE_URL + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture(),
+                            avatar);
                 }
-            } catch (Exception e){
-                Glide.with(itemView)
-                        .load(R.drawable.ic_user)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(avatar);
+            } catch (Exception e) {
+                setGlideImage(itemView.getContext(), R.drawable.ic_user, avatar);
             }
-            if (!isShow){
+            if (!isShow) {
                 if (responseEpitaphs.get(position).getUser().getId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"))) {
                     delete.setVisibility(View.VISIBLE);
                     change.setVisibility(View.VISIBLE);
-                    if (!Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
-                        Glide.with(itemView)
-                                .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
-                                .apply(RequestOptions.circleCropTransform())
-                                .into(avatar);
+                    if (!Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
+                        setGlideImage(itemView.getContext(), Prefs.getString(PREFS_KEY_AVATAR, ""), avatar);
                     } else {
-                        Glide.with(itemView)
-                                .load(R.drawable.ic_user)
-                                .apply(RequestOptions.circleCropTransform())
-                                .into(avatar);
+                        setGlideImage(itemView.getContext(), R.drawable.ic_user, avatar);
                     }
                     delete.setOnClickListener(v -> {
                         callback.delete(responseEpitaphs.get(position).getId());
@@ -143,10 +131,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     });
                 }
             } else {
-                Glide.with(itemView)
-                        .load(R.drawable.ic_user)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(avatar);
+                setGlideImage(itemView.getContext(), R.drawable.ic_user, avatar);
             }
             try {
                 date.setText(getDate(responseEpitaphs.get(position).getUpdatedAt()));
@@ -154,10 +139,8 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 e.printStackTrace();
             }
             description.setText(responseEpitaphs.get(position).getBody());
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            avatar.setColorFilter(filter);
+
+            setBlackWhite(avatar);
         }
     }
 

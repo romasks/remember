@@ -1,8 +1,6 @@
 package com.remember.app.ui.grid;
 
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,13 +11,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -44,15 +35,25 @@ import com.remember.app.ui.utils.PopupPageScreen;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
+import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
@@ -100,7 +101,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
 
-//        setUpLoadMoreListener();
         DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
         presenter.getImages(pageNumber);
 
@@ -123,13 +123,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     protected void onResume() {
         super.onResume();
         getInfoUser();
-    }
-
-    public void setBlackWhite(ImageView imageView) {
-        ColorMatrix matrix = new ColorMatrix();
-        matrix.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-        imageView.setColorFilter(filter);
     }
 
     private void getInfoUser() {
@@ -180,7 +173,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @OnClick(R.id.grid_sign_in)
     public void entry() {
-        String avatarStr = Prefs.getString(PREFS_KEY_AVATAR, "");
         if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty()) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
@@ -214,22 +206,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         progressBar.setVisibility(View.GONE);
     }
 
-    private void setUpLoadMoreListener() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView,
-                                   int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if (pageNumber < countSum) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    pageNumber++;
-                    presenter.getImages(pageNumber);
-                }
-            }
-        });
-    }
-
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
         PopupPageScreen popupWindowPage = new PopupPageScreen(
@@ -245,9 +221,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void openPage(MemoryPageModel memoryPageModel) {
         Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra("PERSON", memoryPageModel);
-        intent.putExtra("IS_LIST", true);
-        intent.putExtra("SHOW", true);
+        intent.putExtra(INTENT_EXTRA_PERSON, memoryPageModel);
+        intent.putExtra(INTENT_EXTRA_IS_LIST, true);
+        intent.putExtra(INTENT_EXTRA_SHOW, true);
         startActivity(intent);
     }
 

@@ -1,23 +1,21 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseViewHolder;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.ImageViewHolder> {
 
@@ -44,7 +42,7 @@ public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.Im
         @BindView(R.id.item_image)
         ImageView itemImage;
 
-        public ImageViewHolder(@NonNull View itemView) {
+        ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
@@ -52,15 +50,8 @@ public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.Im
 
         @Override
         public void onBind(int position) {
-            Glide.with(context)
-                    .load(R.drawable.darth_vader)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(itemImage);
-
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            itemImage.setColorFilter(filter);
+            setGlideImage(context, R.drawable.darth_vader, itemImage);
+            setBlackWhite(itemImage);
         }
     }
 }

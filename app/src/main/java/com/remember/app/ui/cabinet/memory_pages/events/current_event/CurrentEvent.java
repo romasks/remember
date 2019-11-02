@@ -2,8 +2,6 @@ package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -29,6 +27,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
@@ -111,10 +110,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
             Glide.with(this)
                     .load(BASE_SERVICE_URL + requestEvent.getPicture())
                     .into(imageAvatar);
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            imageAvatar.setColorFilter(filter);
+            setBlackWhite(imageAvatar);
             dateView.setText(formatDate(requestEvent.getDate()));
             eventName.setText(requestEvent.getName());
             description.setText(requestEvent.getDescription());

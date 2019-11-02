@@ -127,6 +127,8 @@
     <string name="memory_page_bottom_navbar_epitaphs">Эпитафии</string>
     <string name="memory_page_bottom_navbar_add_order">Добавить заказ</string>
     <string name="memory_page_bottom_navbar_events">События</string>
+    <string name="memory_page_no_page_title">У Вас нет памятных страниц</string>
+    <string name="memory_page_create_page_button">Создать памятную страницу</string>
 
     <!--events-->
     <string name="events_no_events_title">Событий нет</string>

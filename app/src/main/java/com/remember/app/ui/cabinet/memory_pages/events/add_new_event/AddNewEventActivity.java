@@ -1,16 +1,11 @@
 package com.remember.app.ui.cabinet.memory_pages.events.add_new_event;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,13 +46,15 @@ import java.util.Date;
 
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewEventView {
 
@@ -95,11 +92,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     private Calendar dateAndTime = Calendar.getInstance();
     private int pageId;
     private ProgressDialog progressDialog;
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
     private String imageUri;
     private Bitmap bitmap;
     private File imageFile;
@@ -124,14 +116,11 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         dateString = getIntent().getExtras().getString("EVENT_DATE", "");
 
         Glide.with(this)
-                .load("http://помню.рус" + imageUrl)
+                .load(BASE_SERVICE_URL + imageUrl)
                 .into(image);
 
         if (getIntent().getBooleanExtra("IS_EVENT_EDITING", false)) {
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            image.setColorFilter(filter);
+            setBlackWhite(image);
 
             saveButton.setText(getString(R.string.change_event));
             eventHeaderName.setText(eventName);
@@ -140,15 +129,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         }
 
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v("TAG", "Permission is granted");
-            } else {
-                Log.v("TAG", "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        } else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("TAG", "Permission is granted");
+            verifyStoragePermissions(this);
         }
 
         try {
@@ -196,10 +177,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                 Glide.with(this)
                         .load(data.getData())
                         .into(image);
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                image.setColorFilter(filter);
+                setBlackWhite(image);
             }
         } else if (requestCode == 1) {
             DisplayMetrics dsMetrics = new DisplayMetrics();
@@ -218,10 +196,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                         .load(hah)
                         .apply(RequestOptions.circleCropTransform())
                         .into(image);
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                image.setColorFilter(filter);
+                setBlackWhite(image);
             } catch (Exception e) {
                 Log.e("dsgsd", e.getMessage());
             }
@@ -390,18 +365,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
 //        startActivity(intent);
 //        finish();
         onBackPressed();
-    }
-
-    public static void verifyStoragePermissions(Activity activity) {
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
     }
 
     private String formatToServerDate(String date) {

@@ -31,38 +31,17 @@
 
         <TextView
             android:id="@+id/content"
+            style="@style/EmptyListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="У Вас еще нет памятных страниц"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="#bdbdbd"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:text="Вы можете создать первую"
-            android:textColor="#d3d3d3"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="@string/memory_page_no_page_title" />
 
         <Button
             android:id="@+id/go_to_add"
-            android:layout_width="280dp"
+            style="@style/EmptyListButtonStyle"
+            android:layout_width="290dp"
             android:layout_height="55dp"
-            android:layout_gravity="center"
-            android:background="@drawable/button"
-            android:text="Создать памятную страницу"
-            android:textAllCaps="false"
-            android:textColor="#fcfcfc"
-            android:textSize="16sp" />
+            android:text="@string/memory_page_create_page_button" />
 
     </LinearLayout>
 

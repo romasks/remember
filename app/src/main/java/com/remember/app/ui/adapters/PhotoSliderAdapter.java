@@ -1,17 +1,11 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -19,10 +13,14 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -65,12 +63,12 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     }
 
-    public class PhotoSliderAdapterHolder extends BaseViewHolder implements View.OnClickListener{
+    public class PhotoSliderAdapterHolder extends BaseViewHolder implements View.OnClickListener {
 
         @BindView(R.id.image)
         ImageView imageView;
 
-        public PhotoSliderAdapterHolder(View itemView) {
+        PhotoSliderAdapterHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
@@ -79,26 +77,24 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         public void onBind(int position) {
             try {
-                Glide.with(context)
-                        .load(BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture())
-                        .circleCrop()
-                        .into(imageView);
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                imageView.setColorFilter(filter);
+                setGlideImage(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
+                setBlackWhite(imageView);
                 imageView.setOnClickListener(this);
-            } catch (Exception e){}
+            } catch (Exception e) {
+            }
         }
 
         @Override
         public void onClick(View v) {
-            if (mClickListener != null) mClickListener.onItemClick(v, getAdapterPosition());        }
+            if (mClickListener != null) mClickListener.onItemClick(v, getAdapterPosition());
+        }
     }
+
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
 
     }
+
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }

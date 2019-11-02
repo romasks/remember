@@ -3,8 +3,6 @@ package com.remember.app.ui.cabinet.main;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +10,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -42,6 +36,9 @@ import com.remember.app.ui.utils.PopupPageScreen;
 
 import java.util.List;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -52,6 +49,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class MainActivity extends MvpAppCompatActivity
@@ -135,7 +133,6 @@ public class MainActivity extends MvpAppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
-        String avatarStr = Prefs.getString(PREFS_KEY_AVATAR, "");
         if (!Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
             titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
@@ -196,13 +193,6 @@ public class MainActivity extends MvpAppCompatActivity
 
     public interface CallbackPage {
         void sendItemsSearch(List<MemoryPageModel> result);
-    }
-
-    public void setBlackWhite(ImageView imageView) {
-        ColorMatrix matrix = new ColorMatrix();
-        matrix.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-        imageView.setColorFilter(filter);
     }
 
     private void showEventScreen() {

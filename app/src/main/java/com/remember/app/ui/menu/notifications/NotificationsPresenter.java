@@ -113,7 +113,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
         switch (event.getType()){
             case "dead_event":
                 if (event.getRemainDays() == 0) {
-                    tmpTitle = "Сегодня " + event.getEventName();
+                    tmpTitle = "Сегодня " + event.getEventName() + " у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
                     addSpan(title, tmpTitle.indexOf(event.getEventName()), tmpTitle.length(), color, true);
