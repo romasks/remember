@@ -259,14 +259,14 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
 
     private void setInitialDateBegin() {
         Calendar today = Calendar.getInstance();
-        if (dateAndTime.after(today)) {
-            Toast.makeText(this, "Дата не может быть больше текущей", Toast.LENGTH_LONG).show();
-        } else {
+//        if (dateAndTime.after(today)) {
+//            Toast.makeText(this, "Дата не может быть больше текущей", Toast.LENGTH_LONG).show();
+//        } else {
             @SuppressLint("SimpleDateFormat")
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
             String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
             date.setText(requiredDate);
-        }
+//        }
     }
 
     @OnClick(R.id.back)

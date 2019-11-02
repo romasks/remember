@@ -306,7 +306,12 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 religia = "Отсутствует";
                 break;
         }
-        String resultDate = date.substring(0, date.length() - 5);
+        String resultDate;
+        if (!date.isEmpty()) {
+            resultDate = date.substring(0, date.length() - 5);
+        } else {
+            resultDate = "";
+        }
         return apiMethods.searchEventReligios(resultDate, religia);
     }
 
