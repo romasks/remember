@@ -182,9 +182,9 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     }
 
     @Override
-    public void onUpdatedCemetery(List<ResponseCemetery> responseCemeteries) {
-        if (responseCemeteries.isEmpty()) {
-//        if (responseCemeteries == null) {
+    public void onUpdatedCemetery(ResponseCemetery responseCemeteries) {
+//        if (responseCemeteries.isEmpty()) {
+        if (responseCemeteries == null) {
             cemetery.setFocusableInTouchMode(true);
             cemetery.requestFocus();
             InputMethodManager imm =
@@ -198,10 +198,10 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setCallback(this);
-//            ArrayList<ResponseCemetery> list = new ArrayList<>();
-//            list.add(responseCemeteries);
-            popupWindow.setUp(pick, responseCemeteries);
-//            popupWindow.setUp(pick, list);
+            ArrayList<ResponseCemetery> list = new ArrayList<>();
+            list.add(responseCemeteries);
+//            popupWindow.setUp(pick, responseCemeteries);
+            popupWindow.setUp(pick, list);
         }
     }
 

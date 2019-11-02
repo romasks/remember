@@ -50,7 +50,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback {
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
+public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
+
+    private final String TAG = ShowPageActivity.class.getSimpleName();
 
     @InjectPresenter
     ShowPagePresenter presenter;
@@ -111,6 +115,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (isShow) {
             memoryPageModel = i.getParcelableExtra("PERSON");
             presenter.getImagesSlider(memoryPageModel.getId());
+            id = memoryPageModel.getId();
             settings.setClickable(false);
             imageButton.setClickable(false);
             initAll();
@@ -138,10 +143,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             intent.putExtra("ID_PAGE", memoryPageModel.getId());
             startActivity(intent);
         });
-
+        image.setOnClickListener(n -> startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                .putExtra("ID", id)));
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
+        photoSliderAdapter.setClickListener(this);
         recyclerSlider.setAdapter(photoSliderAdapter);
 
     }
@@ -159,7 +166,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (memoryPageModel != null) {
             if (!afterSave) {
                 Glide.with(this)
-                        .load("http://помню.рус" + memoryPageModel.getPicture())
+                        .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                         .error(R.drawable.darth_vader)
                         .into(image);
                 ColorMatrix colorMatrix = new ColorMatrix();
@@ -208,10 +215,16 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == Activity.RESULT_OK) {
+            assert result != null;
             photoDialog.setUri(result.getUri());
+            Log.i(TAG, "RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            assert result != null;
             Exception error = result.getError();
+            Log.i(TAG, "CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
         } else {
+            Log.i(TAG, "HZ");
+
         }
     }
 
@@ -302,7 +315,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         this.memoryPageModel = memoryPageModel;
         initAll();
         Glide.with(this)
-                .load("http://помню.рус" + memoryPageModel.getPicture())
+                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();
@@ -313,6 +326,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     public void error(Throwable throwable) {
+        Log.i(TAG, "throwable= " + throwable.toString());
         Snackbar.make(image, "Ошибка загрузки изображения", Snackbar.LENGTH_LONG).show();
     }
 
@@ -340,9 +354,18 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @Override
     public void sendPhoto(File imageFile, String string) {
         if (memoryPageModel.getId() != null) {
+            Log.i(TAG, "!= null" + imageFile.toString() + "  string= " + string + "  " + memoryPageModel.getId());
             presenter.savePhoto(imageFile, string, memoryPageModel.getId());
         } else {
+            Log.i(TAG, "== null");
             presenter.savePhoto(imageFile, string, id);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                .putExtra("ID", id));
+
     }
 }

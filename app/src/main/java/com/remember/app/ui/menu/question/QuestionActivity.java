@@ -10,9 +10,13 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.utils.QuestionSendDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
 public class QuestionActivity extends BaseActivity implements QuestionView {
 
@@ -36,7 +40,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         onBackPressed();
         finish();
     }
@@ -50,8 +54,8 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
             requestQuestion.setType("predlogenie");
         }
         requestQuestion.setBody(body.getText().toString());
-        requestQuestion.setName(Prefs.getString("EMAIL", ""));
-        requestQuestion.setUserId(Integer.parseInt(Prefs.getString("USER_ID", "")));
+        requestQuestion.setName(Prefs.getString(PREFS_KEY_EMAIL, ""));
+        requestQuestion.setUserId(Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "")));
         presenter.send(requestQuestion);
     }
 
@@ -63,11 +67,17 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     @Override
     public void onReceived(Object o) {
         body.setText("");
-        Toast.makeText(this, "Ваша заявка успешно отправлена", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Ваша заявка успешно отправлена", Toast.LENGTH_LONG).show();
+        successDialog();
     }
 
     @Override
     public void error(Throwable throwable) {
         Toast.makeText(this, "Ошибка отправки", Toast.LENGTH_LONG).show();
+    }
+
+    private void successDialog() {
+        QuestionSendDialog dialog = new QuestionSendDialog();
+        dialog.show(getSupportFragmentManager().beginTransaction(), "successDialog");
     }
 }

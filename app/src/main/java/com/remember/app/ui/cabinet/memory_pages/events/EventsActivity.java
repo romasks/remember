@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
@@ -22,11 +21,15 @@ import com.remember.app.ui.utils.PopupEventScreen;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
+
+    private final String TAG = EventsActivity.class.getSimpleName();
 
     @InjectPresenter
     EventsPresenter presenter;
@@ -41,6 +44,10 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     ImageView search;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.no_events)
+    LinearLayout noEvents;
+    @BindView(R.id.btn_create_event)
+    Button btnCreateEvent;
 
     private Unbinder unbinder;
     private String name;
@@ -73,13 +80,15 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventsDeceaseAdapter);
 
+        plus.setVisibility(isShow ? View.GONE : View.VISIBLE);
         plus.setOnClickListener(v -> {
             if (!isShow) {
-                Intent intent = new Intent(this, AddNewEventActivity.class);
-                intent.putExtra("PERSON_NAME", name);
-                intent.putExtra("ID_PAGE", pageId);
-                intent.putExtra("IMAGE_URL", imageUrl);
-                startActivity(intent);
+                openAddNewEventScreen();
+            }
+        });
+        btnCreateEvent.setOnClickListener(v -> {
+            if (!isShow) {
+                openAddNewEventScreen();
             }
         });
         search.setOnClickListener(v -> {
@@ -105,6 +114,16 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @Override
     public void onReceivedEvent(List<RequestAddEvent> requestAddEvent) {
         eventsDeceaseAdapter.setItems(requestAddEvent);
+        noEvents.setVisibility(requestAddEvent.isEmpty() ? View.VISIBLE : View.GONE);
+        btnCreateEvent.setVisibility(isShow ? View.GONE : requestAddEvent.isEmpty() ? View.VISIBLE : View.GONE);
+    }
+
+    private void openAddNewEventScreen() {
+        Intent intent = new Intent(this, AddNewEventActivity.class);
+        intent.putExtra("PERSON_NAME", name);
+        intent.putExtra("ID_PAGE", pageId);
+        intent.putExtra("IMAGE_URL", imageUrl);
+        startActivity(intent);
     }
 
     private void showPageScreen() {

@@ -25,10 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -37,7 +33,6 @@ import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.RequestAddEvent;
-import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -54,14 +49,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity.saveBitmap;
+import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 
 public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewEventView {
+
+    private final String TAG = AddNewEventActivity.class.getSimpleName();
 
     private static final int SELECT_PICTURE = 451;
 
@@ -127,7 +127,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                 .load("http://помню.рус" + imageUrl)
                 .into(image);
 
-        if (getIntent().getBooleanExtra("IS_EVENT_EDITING", false)){
+        if (getIntent().getBooleanExtra("IS_EVENT_EDITING", false)) {
             ColorMatrix colorMatrix = new ColorMatrix();
             colorMatrix.setSaturation(0);
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
@@ -154,7 +154,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         try {
             name = getIntent().getExtras().getString("PERSON_NAME", "");
             pageId = getIntent().getIntExtra("ID_PAGE", 1);
-            if (pageId == 1){
+            if (pageId == 1) {
                 pageId = getIntent().getExtras().getInt("PAGE_ID", 1);
             }
             personName = getIntent().getExtras().getString("EVENT_PERSON", "");
@@ -168,10 +168,10 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         if (!eventName.isEmpty()) {
             title.setText(eventName);
         }
-        if (!eventDescription.isEmpty()){
+        if (!eventDescription.isEmpty()) {
             description.setText(eventDescription);
         }
-        if (!dateString.isEmpty()){
+        if (!dateString.isEmpty()) {
             date.setText(dateString);
         }
 
@@ -415,5 +415,11 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             result = date;
         }
         return result;
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Log.e(TAG, throwable.getMessage());
+        Snackbar.make(description, "Ошибка загрузки данных", Snackbar.LENGTH_LONG).show();
     }
 }

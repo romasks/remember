@@ -71,6 +71,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
     @InjectPresenter
@@ -228,7 +232,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 //        dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
         Glide.with(this)
-                .load("http://помню.рус" + memoryPageModel.getPicture())
+                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
         ColorMatrix colorMatrix = new ColorMatrix();
@@ -295,7 +299,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         if (endDate != null) {
             person.setDeathDate(df.format(endDate));
         }
-        person.setUserId(Prefs.getString("USER_ID", "0"));
+        person.setUserId(Prefs.getString(PREFS_KEY_USER_ID, "0"));
         if (isFamous.isChecked()) {
             person.setStar("true");
         } else if (notFamous.isChecked()) {
@@ -494,19 +498,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 progressDialog.dismiss();
             }
         }
-    }
-
-    public static File saveBitmap(Bitmap bmp) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 60, bytes);
-        File f = new File(Environment.getExternalStorageDirectory()
-                + File.separator + "image.jpg");
-
-        f.createNewFile();
-        FileOutputStream fo = new FileOutputStream(f);
-        fo.write(bytes.toByteArray());
-        fo.close();
-        return f;
     }
 
     @Override

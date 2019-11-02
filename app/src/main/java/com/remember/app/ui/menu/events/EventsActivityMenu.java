@@ -7,12 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
@@ -27,6 +24,9 @@ import com.remember.app.ui.utils.PopupEventScreenLocal;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -41,6 +41,8 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     TextView relEvent;
     @BindView(R.id.show_all)
     Button showAll;
+    @BindView(R.id.no_events)
+    LinearLayout noEvents;
 
     private EventsFragmentAdapter eventsFragmentAdapter;
     private PopupEventScreenLocal popupWindowEvent;
@@ -91,7 +93,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     public void click(ResponseEvents events) {
         Intent intent = new Intent(this, EventFullActivity.class);
         String eventJson = new Gson().toJson(events);
-        intent.putExtra("EVENT", eventJson);
+        intent.putExtra("EVENTS", eventJson);
         startActivity(intent);
     }
 
@@ -100,6 +102,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
         if (responseEvents.size() == 0)
             Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsFragmentAdapter.setItems(responseEvents);
+        noEvents.setVisibility(responseEvents.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override

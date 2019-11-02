@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,6 +17,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.remember.app.R;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -69,24 +69,34 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
         }
         googleMap.setMyLocationEnabled(true);
 
-//        LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
-//        Criteria criteria = new Criteria();
-//        String provider = locationManager.getBestProvider(criteria, true);
-//        Location location = locationManager.getLastKnownLocation(provider);
-//        if (location != null) {
+        LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
             myPosition = new LatLng(latitude, longitude);
+            this.latitude = location.getLatitude();
+            this.longitude = location.getLongitude();
             googleMap.addMarker(new MarkerOptions().position(myPosition).title("Start"));
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 13));
-//        }
+        }
+
+        googleMap.setOnMapClickListener(point -> {
+            googleMap.clear();
+            googleMap.setMyLocationEnabled(true);
+            googleMap.addMarker(new MarkerOptions().position(point));
+        });
     }
 
-    interface Callback{
+    interface Callback {
 
         void setCoordinates(double latitude, double longitude);
 
     }
 
-    public void setCallback(Callback callback){
+    public void setCallback(Callback callback) {
         this.callback = callback;
     }
 }

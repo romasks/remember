@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
-import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
 
@@ -22,16 +21,17 @@ public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public AddNewEventPresenter() {
+    AddNewEventPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-//    public void saveEvent(RequestAddEvent requestAddEvent) {
+    //    public void saveEvent(RequestAddEvent requestAddEvent) {
     public void saveEvent(CreateEventRequest createEventRequest, File image) {
         Disposable subscription = serviceNetwork.saveEvent(createEventRequest, image)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedEvent);
+                .subscribe(getViewState()::onSavedEvent,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -39,7 +39,8 @@ public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
         Disposable subscription = serviceNetwork.editEvent(editEventRequest, image)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedEvent);
+                .subscribe(getViewState()::onSavedEvent,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 }

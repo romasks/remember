@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,12 +94,12 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     }
 
     @OnClick(R.id.show_all)
-    public void showAll() {
+    void showAll() {
         presenter.getPages();
     }
 
     @OnClick(R.id.go_to_add)
-    public void newPage() {
+    void newPage() {
         startActivity(new Intent(getContext(), NewMemoryPageActivity.class));
     }
 
@@ -113,7 +112,6 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
             emptyLayout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
-
     }
 
     @Override
@@ -127,11 +125,16 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     @Override
     public void sendItemsSearch(List<MemoryPageModel> result) {
-        if (result.isEmpty()){
-            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+        if (result.size() == 0) {
+            Toast.makeText(getActivity(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         }
-        showAll.setVisibility(View.VISIBLE);
+        if (result.isEmpty()) {
+            showAll.setVisibility(View.VISIBLE);
+        } else {
+            showAll.setVisibility(View.GONE);
+        }
         pageFragmentAdapter.setItems(result);
         pageFragmentAdapter.notifyDataSetChanged();
+
     }
 }

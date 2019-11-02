@@ -3,14 +3,16 @@ package com.remember.app.data.network;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
+import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
+import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.RequestSettings;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -21,11 +23,11 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.io.File;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -33,7 +35,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseHandBook>> getCities();
 
-    Observable<List<ResponseCemetery>> getCemetery(int id);
+    Observable<ResponseCemetery> getCemetery(int id);
 
     Observable<ResponseCemetery> addPage(AddPageModel person, File imageUri);
 
@@ -45,7 +47,7 @@ public interface ServiceNetwork {
 
     Observable<RequestAddEpitaphs> saveEpitaph(RequestAddEpitaphs requestAddEpitaphs);
 
-//    Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent);
+    //    Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent);
     Observable<RequestAddEvent> saveEvent(CreateEventRequest createEventRequest, File image);
 
     Observable<RequestAddEvent> editEvent(EditEventRequest editEventRequest, File image);
@@ -54,7 +56,13 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseEvents>> getEvents();
 
-    Observable<EventModel> getEvent(int id);
+    Observable<ResponseEvents> getEvent(int id);
+
+    Observable<EventModel> getDeadEvent(int id);
+
+    Observable<List<EventNotificationModel>> getEventNotifications(String type);
+
+    Observable<List<EpitNotificationModel>> getEpitNotifications();
 
     Observable<ResponseAuth> singInAuth(String login, String password);
 
@@ -62,7 +70,7 @@ public interface ServiceNetwork {
 
     Observable<ResponsePages> getImages(int count);
 
-//    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
+    //    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
 //    Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile);
     Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile);
 
@@ -72,17 +80,21 @@ public interface ServiceNetwork {
 
     Observable<MemoryPageModel> getImageAfterSave(Integer id);
 
-    Observable<ResponseSettings> getInfo(String token);
+    Observable<ResponseSettings> getInfo();
 
-    Observable<Object> saveSettings(RequestSettings requestSettings, String id);
+    Observable<Object> saveSettings(RequestSettings requestSettings);
 
-    Observable<ResponseSettings> signInVk(String email);
+    Observable<ResponseSocialAuth> signInVk(String email);
+
+    Observable<ResponseSocialAuth> signInSocial(RequestSocialAuth request);
 
     Observable<List<MemoryPageModel>> getAllPages();
 
     Observable<Object> saveImageSetting(File imageFile);
 
     Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id);
+
+    Observable<Object> deleteEpitaph(Integer id);
 
     Observable<ResponseRestorePassword> restorePassword(String email);
 

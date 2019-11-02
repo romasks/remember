@@ -6,13 +6,9 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
@@ -27,8 +23,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
@@ -36,9 +36,9 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     CurrentEventPresenter presenter;
 
     @BindView(R.id.back_button)
-    ImageButton back;
-    @BindView(R.id.name)
-    TextView name;
+    ImageView back;
+    @BindView(R.id.event_name)
+    TextView eventName;
     @BindView(R.id.pageAvatar)
     FrameLayout pageAvatar;
     @BindView(R.id.image_avatar)
@@ -49,10 +49,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     ImageView addPhoto;
     @BindView(R.id.date)
     TextView dateView;
-    @BindView(R.id.messageHeader)
-    TextView messageHeader;
-    @BindView(R.id.message)
-    TextView messageView;
+    @BindView(R.id.description)
+    TextView description;
     @BindView(R.id.video)
     VideoView videoView;
     @BindView(R.id.videos)
@@ -75,13 +73,18 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         pageId = getIntent().getExtras().getInt("PAGE_ID", 0);
         personName = getIntent().getExtras().getString("PERSON_NAME", "");
         imageUrl = getIntent().getExtras().getString("EVENT_IMAGE_URL", "");
+
         photosView.setLayoutManager(new LinearLayoutManager(this));
         photosView.setAdapter(new EventStuffAdapter());
+
         videos.setLayoutManager(new LinearLayoutManager(this));
         videos.setAdapter(new EventStuffAdapter());
+
         comments.setLayoutManager(new LinearLayoutManager(this));
         comments.setAdapter(new EventStuffAdapter());
+
 //        presenter.getEvent(eventId);
+
         back.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -95,7 +98,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.getEvent(eventId);
+        presenter.getDeadEvent(eventId);
     }
 
     @Override
@@ -105,18 +108,16 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
     private void setItems(EventModel requestEvent) {
         try {
-            name.setText(requestEvent.getName());
             Glide.with(this)
-                    .load("http://помню.рус" + requestEvent.getPicture())
+                    .load(BASE_SERVICE_URL + requestEvent.getPicture())
                     .into(imageAvatar);
             ColorMatrix colorMatrix = new ColorMatrix();
             colorMatrix.setSaturation(0);
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
             imageAvatar.setColorFilter(filter);
             dateView.setText(formatDate(requestEvent.getDate()));
-            messageHeader.setText(requestEvent.getName());
-            messageView.setText(requestEvent.getDescription());
-//            messageView.setText(requestEvent.getName() + " - " + requestEvent.getDescription());
+            eventName.setText(requestEvent.getName());
+            description.setText(requestEvent.getDescription());
         } catch (Exception e) {
 
         }
@@ -126,9 +127,9 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     public void onSettingsClicked() {
         Intent intent = new Intent(this, AddNewEventActivity.class);
         intent.putExtra("EVENT_ID", eventId);
-        intent.putExtra("EVENT_NAME", name.getText().toString());
+        intent.putExtra("EVENT_NAME", eventName.getText().toString());
         intent.putExtra("EVENT_PERSON", personName);
-        intent.putExtra("EVENT_DESCRIPTION", messageView.getText().toString());
+        intent.putExtra("EVENT_DESCRIPTION", description.getText().toString());
         intent.putExtra("EVENT_IMAGE_URL", imageUrl);
         intent.putExtra("EVENT_DATE", dateView.getText().toString());
         intent.putExtra("PAGE_ID", pageId);

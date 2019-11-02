@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -58,8 +59,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     }
 
     @Override
-    public void setUserVisibleHint(boolean visible)
-    {
+    public void setUserVisibleHint(boolean visible) {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
             onResume();
@@ -79,16 +79,26 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
 
     @Override
     public void onReceivedEvents(List<ResponseEvents> responseEvents) {
-        if(responseEvents.size()==0)
-        Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+        if (responseEvents.size() == 0)
+            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsFragmentAdapter.setItems(responseEvents);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Snackbar.make(recyclerView, "Ошибка получения события", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onReceivedEvent(ResponseEvents responseEvents) {
+        // placeholder
     }
 
     @Override
     public void click(ResponseEvents events) {
         Intent intent = new Intent(getActivity(), EventFullActivity.class);
         String eventJson = new Gson().toJson(events);
-        intent.putExtra("EVENT", eventJson);
+        intent.putExtra("EVENTS", eventJson);
         startActivity(intent);
     }
 }

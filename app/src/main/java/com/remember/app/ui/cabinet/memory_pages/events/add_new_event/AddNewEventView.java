@@ -10,4 +10,5 @@ public interface AddNewEventView extends MvpView {
 
     void onEditEvent(EditEventRequest editEventRequest);
 
+    void onError(Throwable throwable);
 }

@@ -10,10 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
@@ -29,8 +25,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 
 public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -98,9 +99,9 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             constraintLayout.setOnClickListener(v -> {
                 callback.openEvent(requestAddEvent.get(position).getId(), requestAddEvent.get(position).getPicture());
             });
-            try {
+            if (!requestAddEvent.get(position).getPicture().isEmpty()) {
                 Glide.with(itemView)
-                        .load("http://помню.рус" + requestAddEvent.get(position).getPicture())
+                        .load(BASE_SERVICE_URL + requestAddEvent.get(position).getPicture())
                         .apply(RequestOptions.circleCropTransform())
                         .error(R.drawable.darth_vader)
                         .into(avatarImage);
@@ -108,9 +109,9 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 colorMatrix.setSaturation(0);
                 ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
                 avatarImage.setColorFilter(filter);
-            } catch (Exception e){
+            } else {
                 Glide.with(itemView)
-                        .load(R.drawable.ic_unknown)
+                        .load(R.drawable.ic_round_camera)
                         .apply(RequestOptions.circleCropTransform())
                         .into(avatarImage);
             }

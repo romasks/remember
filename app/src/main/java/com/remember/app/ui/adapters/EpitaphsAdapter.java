@@ -29,6 +29,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+
 public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
@@ -72,7 +76,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         void change(ResponseEpitaphs responseEpitaphs);
 
-        void delete();
+        void delete(Integer id);
     }
 
     public class EpitaphsAdapterViewHolder extends BaseViewHolder {
@@ -106,7 +110,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             try {
                 if (responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture() != null) {
                     Glide.with(itemView)
-                            .load("http://помню.рус" + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
+                            .load(BASE_SERVICE_URL + responseEpitaphs.get(position).getUser().getSettings().get(0).getPicture())
                             .apply(RequestOptions.circleCropTransform())
                             .into(avatar);
                 }
@@ -117,12 +121,12 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         .into(avatar);
             }
             if (!isShow){
-                if (responseEpitaphs.get(position).getUser().getId() == Integer.parseInt(Prefs.getString("USER_ID", "0"))) {
+                if (responseEpitaphs.get(position).getUser().getId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"))) {
                     delete.setVisibility(View.VISIBLE);
                     change.setVisibility(View.VISIBLE);
-                    if (!Prefs.getString("AVATAR", "").equals("")) {
+                    if (!Prefs.getString(PREFS_KEY_AVATAR, "").equals("")) {
                         Glide.with(itemView)
-                                .load(Prefs.getString("AVATAR", ""))
+                                .load(Prefs.getString(PREFS_KEY_AVATAR, ""))
                                 .apply(RequestOptions.circleCropTransform())
                                 .into(avatar);
                     } else {
@@ -132,7 +136,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                                 .into(avatar);
                     }
                     delete.setOnClickListener(v -> {
-                        callback.delete();
+                        callback.delete(responseEpitaphs.get(position).getId());
                     });
                     change.setOnClickListener(v -> {
                         callback.change(responseEpitaphs.get(position));

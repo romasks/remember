@@ -3,8 +3,6 @@ package com.remember.app.data.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class ResponseSettings {
 
     @SerializedName("surname")
@@ -19,6 +17,12 @@ public class ResponseSettings {
     @SerializedName("rel_id")
     @Expose
     private Integer relId;
+    @SerializedName("nickname")
+    @Expose
+    private String nickname;
+    @SerializedName("email")
+    @Expose
+    private String email;
     @SerializedName("picture")
     @Expose
     private String picture;
@@ -27,7 +31,7 @@ public class ResponseSettings {
     private String phone;
     @SerializedName("location")
     @Expose
-    private Integer location;
+    private String location;
     @SerializedName("id_notice")
     @Expose
     private Integer idNotice;
@@ -36,7 +40,7 @@ public class ResponseSettings {
     private Integer amountDays;
     @SerializedName("show_no")
     @Expose
-    private Integer showNo;
+    private Integer notificationsEnabled;
 
 
     public String getSurname() {
@@ -63,6 +67,22 @@ public class ResponseSettings {
         this.thirdname = thirdname;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Integer getRelId() {
         return relId;
     }
@@ -87,11 +107,11 @@ public class ResponseSettings {
         this.phone = phone;
     }
 
-    public Integer getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Integer location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -104,18 +124,18 @@ public class ResponseSettings {
     }
 
     public Integer getAmountDays() {
-        return amountDays;
+        return amountDays == null ? 1 : amountDays;
     }
 
     public void setAmountDays(Integer amountDays) {
         this.amountDays = amountDays;
     }
 
-    public Integer getShowNo() {
-        return showNo;
+    public Integer getNotificationsEnabled() {
+        return notificationsEnabled;
     }
 
-    public void setShowNo(Integer showNo) {
-        this.showNo = showNo;
+    public void setNotificationsEnabled(Integer notificationsEnabled) {
+        this.notificationsEnabled = notificationsEnabled;
     }
 }

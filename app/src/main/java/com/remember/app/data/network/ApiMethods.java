@@ -1,15 +1,16 @@
 package com.remember.app.data.network;
 
 
-import com.remember.app.data.models.CreateEventRequest;
+import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
+import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.data.models.RequestRegister;
 import com.remember.app.data.models.RequestSettings;
+import com.remember.app.data.models.RequestSocialAuth;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -20,6 +21,7 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseSocialAuth;
 
 import java.util.List;
 
@@ -45,7 +47,7 @@ public interface ApiMethods {
 
     //    @GET("numen/city/{id}")
     @GET("numen/{id}")
-    Observable<List<ResponseCemetery>> getCemetery(@Path("id") int id);
+    Observable<ResponseCemetery> getCemetery(@Path("id") int id);
 
 
     @GET("religia")
@@ -93,8 +95,17 @@ public interface ApiMethods {
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();
 
+    @GET("event/{id}")
+    Observable<ResponseEvents> getEvent(@Path("id") int id);
+
     @GET("deadevent/{id}")
-    Observable<EventModel> getEvent(@Path("id") int id);
+    Observable<EventModel> getDeadEvent(@Path("id") int id);
+
+    @GET("feed/notifications")
+    Observable<List<EventNotificationModel>> getEventNotifications(@Header("Authorization") String token, @Query("filter_type") String filterType);
+
+    @GET("epit/notification")
+    Observable<List<EpitNotificationModel>> getEpitNotifications(@Header("Authorization") String token);
 
     @GET("user/login")
     Observable<ResponseAuth> singInAuth(@Query("email") String email,
@@ -154,13 +165,10 @@ public interface ApiMethods {
                                          @Part MultipartBody.Part image
     );
 
-
-//    @GET("pages")
-//    Observable<ResponsePages> getImages(@Query("status") String status);
-
     @GET("pages")
     Observable<ResponsePages> getImages(@Query("page") int count,
-                                        @Query("status") String status);
+                                        @Query("status") String status,
+                                        @Query("flag") boolean flag);
 
     @Multipart
     @POST("page/edit/{id}")
@@ -226,13 +234,16 @@ public interface ApiMethods {
     @GET("settings")
     Observable<ResponseSettings> getInfo(@Header("Authorization") String token);
 
-    @POST("setting/edit/{id}")
-    Observable<Object> saveSettings(@Body RequestSettings requestSettings,
-                                    @Path("id") String id);
+    @PUT("settings")
+    Observable<Object> saveSettings(@Header("Authorization") String token,
+                                    @Body RequestSettings requestSettings);
 
     @GET("user/social")
-    Observable<ResponseSettings> signInVk(@Query("email") String email,
-                                          @Query("name") String name);
+    Observable<ResponseSocialAuth> signInVk(@Query("email") String email,
+                                            @Query("name") String name);
+
+    @POST("user/social")
+    Observable<ResponseSocialAuth> signInSocial(@Body RequestSocialAuth requestSocialAuth);
 
     @GET("page")
     Observable<List<MemoryPageModel>> getAllPages();
@@ -249,6 +260,9 @@ public interface ApiMethods {
     @POST("epit/edit/{id}")
     Observable<RequestAddEpitaphs> editEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs,
                                                @Path("id") Integer id);
+
+    @POST("epit/remove/{id}")
+    Observable<Object> deleteEpitaph(@Header("Authorization") String token, @Path("id") Integer id);
 
     @GET("poisk/page")
     Observable<List<MemoryPageModel>> searchPageAllDead(@Query("name") String name,
