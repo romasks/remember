@@ -63,11 +63,9 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity"
-            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.memory_pages.events.EventsActivity"
-            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.epitaphs.EpitaphsActivity"

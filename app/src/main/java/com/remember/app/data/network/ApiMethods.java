@@ -64,9 +64,33 @@ public interface ApiMethods {
     @POST("epit/add")
     Observable<RequestAddEpitaphs> saveEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs);
 
-    @Headers("Content-Type: application/json")
-    @POST("deadevent/add")
-    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token, @Body RequestAddEvent requestAddEvent);
+//    @Headers("Content-Type: application/json")
+//    @POST("deadevent/add")
+//    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token,
+//                                          @Body RequestAddEvent requestAddEvent);
+
+    @Multipart
+    @POST("deadevent")
+    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token,
+                                          @Part("page_id") RequestBody pageId,
+                                          @Part("date") RequestBody date,
+                                          @Part("name") RequestBody name,
+                                          @Part("flag") RequestBody flag,
+                                          @Part("uv_show") RequestBody uvShow,
+                                          @Part("description") RequestBody description,
+                                          @Part MultipartBody.Part image);
+
+    @Multipart
+    @PUT("deadevent/{eventId}")
+    Observable<RequestAddEvent> editEvent(@Header("Authorization") String token,
+                                          @Part("page_id") RequestBody pageId,
+                                          @Part("date") RequestBody date,
+                                          @Part("name") RequestBody name,
+                                          @Part("flag") RequestBody flag,
+                                          @Part("uv_show") RequestBody uvShow,
+                                          @Part("description") RequestBody description,
+                                          @Part MultipartBody.Part image,
+                                          @Path("eventId") int eventId);
 
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();
