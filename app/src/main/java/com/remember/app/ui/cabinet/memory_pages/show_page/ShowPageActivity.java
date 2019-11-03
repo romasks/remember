@@ -185,8 +185,10 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     public void description() {
         if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
+            descriptionTitle.setText(R.string.memory_page_show_description_text);
         } else {
             description.setVisibility(View.VISIBLE);
+            descriptionTitle.setText(R.string.memory_page_hide_description_text);
             scrollView.scrollTo(0, scrollView.getBottom() + 1500);
         }
     }

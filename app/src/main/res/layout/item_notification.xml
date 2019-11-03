@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_tile"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="16dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="16dp"
-    android:paddingBottom="8dp">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/text_event_title"
@@ -16,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textColor="#707070"
         android:textSize="16sp"
-        tools:text="Сегодня событие"/>
+        tools:text="Сегодня событие" />
 
     <TextView
         android:id="@+id/text_show"
@@ -24,11 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_event_title"
         android:layout_marginTop="16dp"
+        android:text="@string/notifications_show_text"
         android:textColor="@color/colorAccent"
-        android:visibility="gone"
-        android:textStyle="bold"
         android:textSize="16sp"
-        android:text="Показать"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_event_date"
@@ -37,6 +32,6 @@
         android:layout_below="@id/text_event_title"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
-        tools:text="Сегодня в 11:11"/>
+        tools:text="Сегодня в 11:11" />
 
 </RelativeLayout>
