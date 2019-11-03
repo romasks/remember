@@ -3,8 +3,6 @@ package com.remember.app.ui.cabinet.memory_pages.show_page;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,16 +13,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -45,12 +35,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID_PAGE;
+import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
+import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
+import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
 
@@ -108,19 +111,19 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         unbinder = ButterKnife.bind(this);
         Intent i = getIntent();
 
-        isList = i.getBooleanExtra("IS_LIST", false);
-        afterSave = i.getBooleanExtra("AFTER_SAVE", false);
-        isShow = i.getBooleanExtra("SHOW", false);
+        isList = i.getBooleanExtra(INTENT_EXTRA_IS_LIST, false);
+        afterSave = i.getBooleanExtra(INTENT_EXTRA_AFTER_SAVE, false);
+        isShow = i.getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
         if (isShow) {
-            memoryPageModel = i.getParcelableExtra("PERSON");
+            memoryPageModel = i.getParcelableExtra(INTENT_EXTRA_PERSON);
             presenter.getImagesSlider(memoryPageModel.getId());
             id = memoryPageModel.getId();
             settings.setClickable(false);
             imageButton.setClickable(false);
             initAll();
         } else {
-            id = i.getIntExtra("ID", 0);
+            id = i.getIntExtra(INTENT_EXTRA_ID, 0);
             presenter.getImagesSlider(id);
             presenter.getImageAfterSave(id);
         }
@@ -128,23 +131,23 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         epitaphyButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, EpitaphsActivity.class);
             if (isShow) {
-                intent.putExtra("SHOW", true);
+                intent.putExtra(INTENT_EXTRA_SHOW, true);
             }
-            intent.putExtra("ID_PAGE", memoryPageModel.getId());
+            intent.putExtra(INTENT_EXTRA_ID_PAGE, memoryPageModel.getId());
             startActivity(intent);
         });
 
         events.setOnClickListener(v -> {
             Intent intent = new Intent(this, EventsActivity.class);
             if (isShow) {
-                intent.putExtra("SHOW", true);
+                intent.putExtra(INTENT_EXTRA_SHOW, true);
             }
-            intent.putExtra("NAME", name.getText().toString());
-            intent.putExtra("ID_PAGE", memoryPageModel.getId());
+            intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
+            intent.putExtra(INTENT_EXTRA_ID_PAGE, memoryPageModel.getId());
             startActivity(intent);
         });
         image.setOnClickListener(n -> startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
-                .putExtra("ID", id)));
+                .putExtra(INTENT_EXTRA_ID, id)));
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
@@ -169,10 +172,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                         .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                         .error(R.drawable.darth_vader)
                         .into(image);
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                image.setColorFilter(filter);
+
+                setBlackWhite(image);
             }
             initTextName(memoryPageModel);
             initDate(memoryPageModel);
@@ -184,8 +185,10 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     public void description() {
         if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
+            descriptionTitle.setText(R.string.memory_page_show_description_text);
         } else {
             description.setVisibility(View.VISIBLE);
+            descriptionTitle.setText(R.string.memory_page_hide_description_text);
             scrollView.scrollTo(0, scrollView.getBottom() + 1500);
         }
     }
@@ -323,10 +326,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                 .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-        image.setColorFilter(filter);
+
+        setBlackWhite(image);
     }
 
     @Override

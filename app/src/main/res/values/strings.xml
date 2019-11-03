@@ -102,9 +102,9 @@
 
     <string name="settings_enable_notifications">Включить уведомления</string>
     <string name="settings_commemoration_days">Дни поминовения</string>
-    <string name="settings_com_days_all">Все</string>
-    <string name="settings_com_days_for_deceased">Для усопших</string>
-    <string name="settings_com_days_religious">Религиозные</string>
+    <string name="settings_com_days_all">Все события</string>
+    <string name="settings_com_days_for_deceased">События усопших</string>
+    <string name="settings_com_days_religious">Религиозные события</string>
     <string name="settings_number_of_days">Уведомлять за</string>
     <string name="settings_choose_number_of_days">Количество дней</string>
 
@@ -122,11 +122,14 @@
     <string name="memory_page_burial_place_title">Место захоронения</string>
     <string name="memory_page_sector_text">Сектор</string>
     <string name="memory_page_row_text">Ряд</string>
-    <string name="memory_page_show_descpiption_text">Описание</string>
+    <string name="memory_page_show_description_text">Описание</string>
+    <string name="memory_page_hide_description_text">Скрыть</string>
     <string name="memory_page_button_show_on_map">Показать на карте</string>
     <string name="memory_page_bottom_navbar_epitaphs">Эпитафии</string>
     <string name="memory_page_bottom_navbar_add_order">Добавить заказ</string>
     <string name="memory_page_bottom_navbar_events">События</string>
+    <string name="memory_page_no_page_title">У Вас нет памятных страниц</string>
+    <string name="memory_page_create_page_button">Создать памятную страницу</string>
 
     <!--events-->
     <string name="events_no_events_title">Событий нет</string>
@@ -142,5 +145,8 @@
     <!--questions-->
     <string name="questions_header_text">Обратная связь</string>
     <string name="questions_textarea_hint_text">Внесите текст вопроса или предложения ...</string>
+
+    <!--notifications-->
+    <string name="notifications_show_text">Показать</string>
 
 </resources>

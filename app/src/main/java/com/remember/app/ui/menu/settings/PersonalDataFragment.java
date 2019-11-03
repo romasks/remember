@@ -1,12 +1,8 @@
 package com.remember.app.ui.menu.settings;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,9 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -36,7 +29,6 @@ import java.io.File;
 import java.io.IOException;
 
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,6 +40,9 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PersonalDataFragment extends MvpAppCompatFragment implements SettingView {
 
@@ -87,15 +82,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         presenter.settingsLiveData.observeForever(this::onReceivedInfo);
 
         if (Build.VERSION.SDK_INT >= 23) {
-            if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG, "Permission is granted");
-            } else {
-                Log.v(TAG, "Permission is revoked");
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        } else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG, "Permission is granted");
+            verifyStoragePermissions(this.getActivity());
         }
     }
 
@@ -131,14 +118,8 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 if (getContext() != null) {
-                    Glide.with(getContext())
-                            .load(resultUri)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(avatar);
-                    ColorMatrix colorMatrix = new ColorMatrix();
-                    colorMatrix.setSaturation(0);
-                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                    avatar.setColorFilter(filter);
+                    setGlideImage(getContext(), resultUri, avatar);
+                    setBlackWhite(avatar);
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
                         imageFile = saveBitmap(bitmap);
@@ -166,24 +147,12 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         if (responseSettings.getPicture() != null) {
             Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
             Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
-            Glide.with(this)
-                    .load(BASE_SERVICE_URL + responseSettings.getPicture())
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(avatar);
+            setGlideImage(getContext(), BASE_SERVICE_URL + responseSettings.getPicture(), avatar);
         } else {
-            Glide.with(this)
-                    .load(R.drawable.ic_unknown)
-                    .apply(RequestOptions.circleCropTransform())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(avatar);
+            setGlideImage(getContext(), R.drawable.ic_unknown, avatar);
         }
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-        avatar.setColorFilter(filter);
+        setBlackWhite(avatar);
+
         if (responseSettings.getSurname() != null) {
             surname.setText(responseSettings.getSurname());
         }

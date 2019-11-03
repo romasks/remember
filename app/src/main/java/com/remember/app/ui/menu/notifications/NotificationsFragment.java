@@ -7,11 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.EventNotificationModel;
@@ -22,6 +17,21 @@ import com.remember.app.ui.utils.DividerItemDecoration;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID_EVENT;
+import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
+import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_BIRTH;
+import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD;
+import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD_EVENT;
+import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_EVENT;
 
 public class NotificationsFragment extends MvpAppCompatFragment implements NotificationsView, NotificationListAdapter.NotificationClickListener {
 
@@ -121,26 +131,26 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     @Override
     public void onNotificationClick(NotificationModelNew notification) {
         switch (((EventNotificationModel) notification).getType()) {
-            case "event": {
+            case NOTIF_EVENT_TYPE_EVENT: {
                 Intent intent = new Intent(getContext(), EventFullActivity.class);
-                intent.putExtra("ID_EVENT", ((EventNotificationModel) notification).getEventId());
-                intent.putExtra("FROM_NOTIF", true);
+                intent.putExtra(INTENT_EXTRA_ID_EVENT, ((EventNotificationModel) notification).getEventId());
+                intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
                 startActivity(intent);
                 break;
             }
-            case "birth":
-            case "dead": {
+            case NOTIF_EVENT_TYPE_BIRTH:
+            case NOTIF_EVENT_TYPE_DEAD: {
                 Intent intent = new Intent(getContext(), EventFullActivity.class);
-                intent.putExtra("ID_EVENT", ((EventNotificationModel) notification).getPageId());
-                intent.putExtra("FROM_NOTIF", true);
+                intent.putExtra(INTENT_EXTRA_ID_EVENT, ((EventNotificationModel) notification).getPageId());
+                intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
                 startActivity(intent);
                 break;
             }
-            case "dead_event": {
+            case NOTIF_EVENT_TYPE_DEAD_EVENT: {
                 Intent intent = new Intent(getActivity(), ShowPageActivity.class);
-                intent.putExtra("PERSON", ((EventNotificationModel) notification).getPageName());
-                intent.putExtra("ID", ((EventNotificationModel) notification).getPageId());
-                intent.putExtra("IS_LIST", true);
+                intent.putExtra(INTENT_EXTRA_PERSON, ((EventNotificationModel) notification).getPageName());
+                intent.putExtra(INTENT_EXTRA_ID, ((EventNotificationModel) notification).getPageId());
+                intent.putExtra(INTENT_EXTRA_IS_LIST, true);
                 startActivity(intent);
                 break;
             }

@@ -1,10 +1,6 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +13,11 @@ import com.remember.app.ui.base.BaseViewHolder;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
+
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class HomeGridAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -62,10 +62,9 @@ public class HomeGridAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         private void loadImage(View view, ImageView imageView, String data) {
             if (!data.equals("")) {
                 String base64Image = data.split(",")[1];
-                ColorMatrix matrix = new ColorMatrix();
-                matrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-                imageView.setColorFilter(filter);
+
+                setBlackWhite(imageView);
+
                 byte[] decodedString;
                 try {
                     decodedString = Base64.decode(base64Image, Base64.DEFAULT);

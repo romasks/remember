@@ -2,16 +2,12 @@ package com.remember.app.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -32,6 +28,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -88,7 +86,7 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.comment)
         TextView comment;
 
-        public EventsDeceaseAdapterViewHolder(View itemView) {
+        EventsDeceaseAdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
@@ -100,20 +98,10 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 callback.openEvent(requestAddEvent.get(position).getId(), requestAddEvent.get(position).getPicture());
             });
             if (!requestAddEvent.get(position).getPicture().isEmpty()) {
-                Glide.with(itemView)
-                        .load(BASE_SERVICE_URL + requestAddEvent.get(position).getPicture())
-                        .apply(RequestOptions.circleCropTransform())
-                        .error(R.drawable.darth_vader)
-                        .into(avatarImage);
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                avatarImage.setColorFilter(filter);
+                setGlideImage(itemView.getContext(), BASE_SERVICE_URL + requestAddEvent.get(position).getPicture(), avatarImage);
+                setBlackWhite(avatarImage);
             } else {
-                Glide.with(itemView)
-                        .load(R.drawable.ic_round_camera)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(avatarImage);
+                setGlideImage(itemView.getContext(), R.drawable.ic_round_camera, avatarImage);
             }
             name.setText(requestAddEvent.get(position).getName());
             try {

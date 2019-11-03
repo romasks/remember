@@ -1,8 +1,6 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -27,10 +21,14 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -98,7 +96,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 callback.openPage(memoryPageModels.get(position));
             });
             try {
-                if (memoryPageModels.get(position).getPicture().contains("uploads")){
+                if (memoryPageModels.get(position).getPicture().contains("uploads")) {
                     Glide.with(context)
                             .load(BASE_SERVICE_URL + memoryPageModels.get(position).getPicture())
                             .listener(new RequestListener<Drawable>() {
@@ -122,16 +120,14 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                             .centerInside()
                             .into(imageView);
                 }
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 Glide.with(context)
                         .load(R.drawable.darth_vader)
                         .centerInside()
                         .into(imageView);
             }
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            imageView.setColorFilter(filter);
+            setBlackWhite(imageView);
+
             String nameString = memoryPageModels.get(position).getName() + " " + memoryPageModels.get(position).getSecondname();
             name.setText(nameString);
         }
