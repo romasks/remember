@@ -274,7 +274,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private void initTextName(MemoryPageModel memoryPageModel) {
         String textSecondName = memoryPageModel.getSecondname().substring(0, 1).toUpperCase() + memoryPageModel.getSecondname().substring(1);
         String textName = memoryPageModel.getName().substring(0, 1).toUpperCase() + memoryPageModel.getName().substring(1);
-        String textMiddleName = memoryPageModel.getThirtname().substring(0, 1).toUpperCase() + memoryPageModel.getThirtname().substring(1);
+        String textMiddleName;
+        if (!memoryPageModel.getThirtname().isEmpty()) {
+            textMiddleName = memoryPageModel.getThirtname().substring(0, 1).toUpperCase() + memoryPageModel.getThirtname().substring(1);
+        } else {
+            textMiddleName = "";
+        }
         String result = textSecondName + " " + textName + " " + textMiddleName;
         name.setText(result);
         description.setText(memoryPageModel.getComment());
