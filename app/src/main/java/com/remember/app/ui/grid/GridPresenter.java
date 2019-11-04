@@ -17,7 +17,7 @@ public class GridPresenter extends BasePresenter<GridView> {
     }
 
     void getImages(int count) {
-        Disposable subscription = getServiceNetwork().getImages(count)
+        Disposable subscription = getServiceNetwork().getImages(count, true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedImages,

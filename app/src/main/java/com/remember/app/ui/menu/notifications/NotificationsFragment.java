@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.NotificationModelNew;
@@ -25,13 +26,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
-import static com.remember.app.data.Constants.INTENT_EXTRA_ID_EVENT;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_BIRTH;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD_EVENT;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_EVENT;
+import static com.remember.app.data.Constants.PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS;
 
 public class NotificationsFragment extends MvpAppCompatFragment implements NotificationsView, NotificationListAdapter.NotificationClickListener {
 
@@ -124,7 +126,9 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
 
     @Override
     public void onNotificationsLoaded(List<? extends NotificationModelNew> notifications) {
-        adapter.setNotificationList(notifications);
+        if (Prefs.getBoolean(PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS, false)) {
+            adapter.setNotificationList(notifications);
+        }
         updateEmptyState(notifications.isEmpty());
     }
 
@@ -133,7 +137,7 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
         switch (((EventNotificationModel) notification).getType()) {
             case NOTIF_EVENT_TYPE_EVENT: {
                 Intent intent = new Intent(getContext(), EventFullActivity.class);
-                intent.putExtra(INTENT_EXTRA_ID_EVENT, ((EventNotificationModel) notification).getEventId());
+                intent.putExtra(INTENT_EXTRA_EVENT_ID, ((EventNotificationModel) notification).getEventId());
                 intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
                 startActivity(intent);
                 break;
@@ -141,7 +145,7 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
             case NOTIF_EVENT_TYPE_BIRTH:
             case NOTIF_EVENT_TYPE_DEAD: {
                 Intent intent = new Intent(getContext(), EventFullActivity.class);
-                intent.putExtra(INTENT_EXTRA_ID_EVENT, ((EventNotificationModel) notification).getPageId());
+                intent.putExtra(INTENT_EXTRA_EVENT_ID, ((EventNotificationModel) notification).getPageId());
                 intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
                 startActivity(intent);
                 break;

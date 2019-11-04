@@ -18,13 +18,13 @@ public class PageMenuPresenter extends BasePresenter<PageMenuView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public PageMenuPresenter() {
+    PageMenuPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
 
-    public void getImages(int pageNumber) {
-        Disposable subscription = serviceNetwork.getImages(pageNumber)
+    void getImages(int pageNumber) {
+        Disposable subscription = serviceNetwork.getImages(pageNumber, false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedPages,

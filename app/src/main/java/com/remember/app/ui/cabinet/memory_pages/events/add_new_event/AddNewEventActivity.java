@@ -20,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -44,14 +47,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
@@ -109,10 +112,10 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         setContentView(R.layout.activity_add_event);
         unbinder = ButterKnife.bind(this);
 
-        eventId = getIntent().getExtras().getInt("EVENT_ID");
+        eventId = getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID);
         eventName = getIntent().getExtras().getString("EVENT_NAME", "");
         eventDescription = getIntent().getExtras().getString("EVENT_DESCRIPTION", "");
-        imageUrl = getIntent().getExtras().getString("EVENT_IMAGE_URL", "");
+        imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
         dateString = getIntent().getExtras().getString("EVENT_DATE", "");
 
         Glide.with(this)
@@ -237,10 +240,10 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
 //        if (dateAndTime.after(today)) {
 //            Toast.makeText(this, "Дата не может быть больше текущей", Toast.LENGTH_LONG).show();
 //        } else {
-            @SuppressLint("SimpleDateFormat")
-            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-            String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
-            date.setText(requiredDate);
+        @SuppressLint("SimpleDateFormat")
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
+        date.setText(requiredDate);
 //        }
     }
 

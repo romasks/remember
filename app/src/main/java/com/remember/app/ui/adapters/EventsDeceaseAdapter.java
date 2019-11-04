@@ -35,6 +35,7 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     private Callback callback;
+    private boolean isOwnPage = true;
     private List<RequestAddEvent> requestAddEvent = new ArrayList<>();
 
     @NonNull
@@ -57,12 +58,22 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void setItems(List<RequestAddEvent> requestAddEvent) {
         this.requestAddEvent.clear();
-        this.requestAddEvent.addAll(requestAddEvent);
+        if (isOwnPage) {
+            this.requestAddEvent.addAll(requestAddEvent);
+        } else {
+            for (RequestAddEvent event : requestAddEvent) {
+                if (event.getFlag() == 1) this.requestAddEvent.add(event);
+            }
+        }
         notifyDataSetChanged();
     }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
+    }
+
+    public void setIsOwnPage(boolean isOwnPage) {
+        this.isOwnPage = isOwnPage;
     }
 
     public interface Callback {

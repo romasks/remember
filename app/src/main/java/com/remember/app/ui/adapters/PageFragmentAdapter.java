@@ -32,6 +32,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     private Callback callback;
+    private boolean isMainPages = false;
     private List<MemoryPageModel> memoryPageModelList = new ArrayList<>();
 
     @NonNull
@@ -53,7 +54,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItems(List<MemoryPageModel> memoryPageModelList) {
-        this.memoryPageModelList.clear();
+        if (!isMainPages) this.memoryPageModelList.clear();
         this.memoryPageModelList.addAll(memoryPageModelList);
         notifyDataSetChanged();
     }
@@ -66,6 +67,10 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void setCallback(Callback callback) {
         this.callback = callback;
+    }
+
+    public void setIsMainPages(boolean isMainPages) {
+        this.isMainPages = isMainPages;
     }
 
     public interface Callback {
