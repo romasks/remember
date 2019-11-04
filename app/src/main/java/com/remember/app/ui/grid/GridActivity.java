@@ -12,6 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -33,14 +40,10 @@ import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
 import com.remember.app.ui.utils.PopupPageScreen;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -51,6 +54,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
@@ -101,7 +105,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
+        setUpLoadMoreListener();
         presenter.getImages(pageNumber);
 
         showAll.setOnClickListener(v -> {
@@ -110,6 +114,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             presenter.getImages(pageNumber);
         });
 
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
         button_menu.setOnClickListener(k -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -206,6 +211,22 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         progressBar.setVisibility(View.GONE);
     }
 
+    private void setUpLoadMoreListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NotNull RecyclerView recyclerView,
+                                   int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (pageNumber < countSum) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    pageNumber++;
+                    presenter.getImages(pageNumber);
+                }
+            }
+        });
+    }
+
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
         PopupPageScreen popupWindowPage = new PopupPageScreen(
@@ -288,6 +309,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
         navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+
+        Prefs.putBoolean(PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS, responseSettings.getNotificationsEnabled() == 1);
     }
 
     @Override

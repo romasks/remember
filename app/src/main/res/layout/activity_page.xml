@@ -12,331 +12,336 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@id/bottom_navbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:id="@+id/avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/gradient" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/fio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/brown"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                tools:text="Фамилия Имя Отчество" />
-
-            <TextView
-                android:id="@+id/dates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textColor="@color/gray"
-                tools:text="13.07.1952 - 28.01.207" />
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.73"
-                    android:gravity="center_vertical">
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/imageButton"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="15dp"
-                        android:background="@drawable/ic_plus" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.27">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_slider"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/slider_photo" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="15dp"
-                android:paddingBottom="5dp"
-                android:text="@string/memory_page_burial_place_title"
-                android:textColor="#917b5a"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="305dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/panel_white"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="237dp"
+                <FrameLayout
+                    android:id="@+id/avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="300dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/gradient" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/fio"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="15dp"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:textColor="@color/brown"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="Фамилия Имя Отчество" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="7dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        android:text="@string/city"
-                        android:textAlignment="center" />
-
-                    <TextView
-                        android:id="@+id/city"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        tools:text="Минск" />
-
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/dates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/gray"
+                    tools:text="13.07.1952 - 28.01.207" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
                     android:baselineAligned="false"
-                    android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:weightSum="1">
 
                     <LinearLayout
-                        android:layout_width="100dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:textAlignment="center"
-                        android:weightSum="2">
+                        android:layout_weight="0.73"
+                        android:gravity="center_vertical">
 
-                        <TextView
-                            android:id="@+id/sec"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
-                            android:layout_weight="1"
-                            android:maxLines="2"
-                            android:text="@string/memory_page_sector_text" />
-
-                        <TextView
-                            android:id="@+id/sec_value"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:paddingTop="12dp"
-                            android:textStyle="bold"
-                            tools:text="6" />
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/imageButton"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginStart="15dp"
+                            android:background="@drawable/ic_plus" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="100dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:textAlignment="center"
-                        android:weightSum="2">
+                        android:layout_weight="0.27">
 
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="7dp"
-                            android:layout_weight="1"
-                            android:maxLines="2"
-                            android:text="@string/memory_page_row_text" />
-
-                        <TextView
-                            android:id="@+id/sector"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:paddingTop="12dp"
-                            android:textStyle="bold"
-                            tools:text="12" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_slider"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/slider_photo" />
 
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/memory_page_burial_place_title"
+                    android:textColor="#917b5a"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="305dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/panel_white"
+                    android:orientation="vertical">
+
                     <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:weightSum="2">
+                        android:layout_width="237dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="7dp"
                             android:layout_weight="1"
-                            android:text="@string/grave_number"
+                            android:singleLine="true"
+                            android:text="@string/city"
                             android:textAlignment="center" />
 
                         <TextView
-                            android:id="@+id/grave"
+                            android:id="@+id/city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginTop="12dp"
                             android:layout_weight="1"
-                            android:paddingTop="12dp"
                             android:textStyle="bold"
-                            tools:text="325" />
+                            tools:text="Минск" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="20dp"
+                        android:baselineAligned="false"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:textAlignment="center"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/sec"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:layout_weight="1"
+                                android:maxLines="2"
+                                android:text="@string/memory_page_sector_text" />
+
+                            <TextView
+                                android:id="@+id/sec_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="12dp"
+                                android:textStyle="bold"
+                                tools:text="6" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:textAlignment="center"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/textView12"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:layout_weight="1"
+                                android:maxLines="2"
+                                android:text="@string/memory_page_row_text" />
+
+                            <TextView
+                                android:id="@+id/sector"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="12dp"
+                                android:textStyle="bold"
+                                tools:text="12" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="7dp"
+                                android:layout_weight="1"
+                                android:text="@string/grave_number"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:id="@+id/grave"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="12dp"
+                                android:textStyle="bold"
+                                tools:text="325" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="7dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/cemetery" />
+
+                        <TextView
+                            android:id="@+id/crypt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|center_vertical"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:lines="3"
+                            android:maxLines="3"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            tools:text="Название кладбища" />
+
+                        <TextView
+                            android:id="@+id/description_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:paddingTop="5dp"
+                            android:text="@string/memory_page_show_description_text"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="16sp" />
+
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/description"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:visibility="gone"
+                    tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="7dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/cemetery" />
+                <Button
+                    android:id="@+id/map_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/button"
+                    android:text="@string/memory_page_button_show_on_map"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/crypt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|center_vertical"
-                        android:layout_marginTop="12dp"
-                        android:layout_weight="1"
-                        android:lines="3"
-                        android:maxLines="3"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        tools:text="Название кладбища" />
-
-                    <TextView
-                        android:id="@+id/description_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:paddingTop="5dp"
-                        android:text="@string/memory_page_show_description_text"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:visibility="gone"
-                tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
-
-            <Button
-                android:id="@+id/map_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/button"
-                android:text="@string/memory_page_button_show_on_map"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bottom_navbar"

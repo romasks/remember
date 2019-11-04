@@ -66,6 +66,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     TextView name;
     @BindView(R.id.image)
     ImageView image;
+    @BindView(R.id.title)
+    TextView title;
     @BindView(R.id.settings)
     ImageView settings;
     @BindView(R.id.dates)
@@ -111,6 +113,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         unbinder = ButterKnife.bind(this);
         Intent i = getIntent();
 
+        title.setText(R.string.memory_page_header_text);
+
         isList = i.getBooleanExtra(INTENT_EXTRA_IS_LIST, false);
         afterSave = i.getBooleanExtra(INTENT_EXTRA_AFTER_SAVE, false);
         isShow = i.getBooleanExtra(INTENT_EXTRA_SHOW, false);
@@ -120,6 +124,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             presenter.getImagesSlider(memoryPageModel.getId());
             id = memoryPageModel.getId();
             settings.setClickable(false);
+            settings.setVisibility(View.GONE);
             imageButton.setClickable(false);
             initAll();
         } else {

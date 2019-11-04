@@ -27,21 +27,28 @@
                 android:id="@+id/avatar"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="20dp" />
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
                 tools:text="25.05.1346" />
 
-            <TextView
+            <com.codesgood.views.JustifiedTextView
                 android:id="@+id/body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal" />
+                android:layout_margin="16dp"
+                tools:text="Пример длинного текста описания события для проверки выравнивания текста" />
+
+            <!--<TextView
+                android:id="@+id/body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp" />-->
 
         </LinearLayout>
 

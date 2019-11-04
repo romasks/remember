@@ -23,6 +23,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class EventFullActivity extends BaseActivity implements EventView {
 
@@ -49,7 +51,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
 
         if (getIntent().getExtras() != null) {
             if (getIntent().getExtras().getBoolean("FROM_NOTIF")) {
-                presenter.getEvent(getIntent().getExtras().getInt("ID_EVENT"));
+                presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
             } else {
                 ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
                 System.out.println();
@@ -97,6 +99,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
         } catch (Exception e) {
             setEventPicture(mDefaultBackground);
         }
+        setBlackWhite(avatarImage);
         title.setText(responseEvents.getName());
         date.setText(responseEvents.getPutdate());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
