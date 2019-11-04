@@ -68,7 +68,7 @@ public interface ServiceNetwork {
 
     Observable<Response<ResponseRegister>> registerLogin(String nickName, String email);
 
-    Observable<ResponsePages> getImages(int count);
+    Observable<ResponsePages> getImages(int count, boolean isStar);
 
     //    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
 //    Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile);

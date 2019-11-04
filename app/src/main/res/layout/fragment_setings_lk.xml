@@ -34,16 +34,14 @@
 
                 <Button
                     android:id="@+id/add_new_photo"
+                    style="@style/CustomAppButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
+                    android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
-                    android:background="@drawable/button"
-                    android:text="@string/settings_new_profile_photo"
-                    android:textAllCaps="false"
-                    android:textColor="#fcfcfc"
-                    android:textSize="18sp" />
+                    android:layout_marginBottom="0dp"
+                    android:text="@string/settings_new_profile_photo" />
             </LinearLayout>
 
 

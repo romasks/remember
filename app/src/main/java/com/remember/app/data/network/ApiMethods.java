@@ -168,7 +168,8 @@ public interface ApiMethods {
     @GET("pages")
     Observable<ResponsePages> getImages(@Query("page") int count,
                                         @Query("status") String status,
-                                        @Query("flag") boolean flag);
+                                        @Query("flag") boolean flag,
+                                        @Query("star") boolean star);
 
     @Multipart
     @POST("page/edit/{id}")

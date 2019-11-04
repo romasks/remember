@@ -253,6 +253,7 @@ public class MainActivity extends MvpAppCompatActivity
             @Override
             public void onPageSelected(int position) {
                 findViewById(R.id.add_plus).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+                findViewById(R.id.search).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
             }
 
             @Override

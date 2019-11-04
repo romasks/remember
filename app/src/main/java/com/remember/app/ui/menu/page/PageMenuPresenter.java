@@ -24,7 +24,7 @@ public class PageMenuPresenter extends BasePresenter<PageMenuView> {
 
 
     void getImages(int pageNumber) {
-        Disposable subscription = serviceNetwork.getImages(pageNumber)
+        Disposable subscription = serviceNetwork.getImages(pageNumber, false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedPages,

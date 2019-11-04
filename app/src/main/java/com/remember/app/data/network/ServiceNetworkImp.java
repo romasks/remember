@@ -232,8 +232,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponsePages> getImages(int count) {
-        return apiMethods.getImages(count, "Одобрено", true);
+    public Observable<ResponsePages> getImages(int count, boolean isStar) {
+        return apiMethods.getImages(count, "Одобрено", true, isStar);
     }
 
     @Override

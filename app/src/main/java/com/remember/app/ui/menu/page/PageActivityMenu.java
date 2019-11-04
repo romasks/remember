@@ -49,8 +49,6 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     Button showAll;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.load_more)
-    TextView loadMore;
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
@@ -75,7 +73,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
 
-        //setUpLoadMoreListener();
+        setUpLoadMoreListener();
         presenter.getImages(pageNumber);
     }
 
@@ -115,17 +113,6 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     @OnClick(R.id.search)
     public void searchOpen() {
         showEventScreen();
-    }
-
-    @OnClick(R.id.load_more)
-    public void loadMore() {
-        if (pageNumber < countSum) {
-            progressBar.setVisibility(View.VISIBLE);
-            pageNumber++;
-            presenter.getImages(pageNumber);
-        } else {
-            loadMore.setVisibility(View.GONE);
-        }
     }
 
     @Override
