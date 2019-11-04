@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class EventFullActivity extends BaseActivity implements EventView {
 
     @BindView(R.id.avatar)
     ImageView avatarImage;
+    @BindView(R.id.settings)
+    ImageView settingsImage;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.body)
@@ -53,9 +56,12 @@ public class EventFullActivity extends BaseActivity implements EventView {
                 setEventData(responseEvents);
             }
         }
+
+        settingsImage.setVisibility(View.INVISIBLE);
+        settingsImage.setEnabled(false);
     }
 
-    @OnClick(R.id.back)
+    @OnClick(R.id.back_button)
     public void back() {
         onBackPressed();
         finish();
