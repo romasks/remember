@@ -57,7 +57,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponseCemetery> getCemetery(int id) {
+    public Observable<List<ResponseCemetery>> getCemetery(int id) {
         return apiMethods.getCemetery(id);
     }
 

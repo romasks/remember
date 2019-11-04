@@ -35,7 +35,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseHandBook>> getCities();
 
-    Observable<ResponseCemetery> getCemetery(int id);
+    Observable<List<ResponseCemetery>> getCemetery(int id);
 
     Observable<ResponseCemetery> addPage(AddPageModel person, File imageUri);
 
