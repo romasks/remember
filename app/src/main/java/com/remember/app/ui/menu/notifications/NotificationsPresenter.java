@@ -46,7 +46,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEventNotifications)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onNotificationsLoaded, Throwable::printStackTrace);
+                .subscribe(getViewState()::onNotificationsLoaded, getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -55,7 +55,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEpitNotifications)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onNotificationsLoaded, Throwable::printStackTrace);
+                .subscribe(getViewState()::onNotificationsLoaded, getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 

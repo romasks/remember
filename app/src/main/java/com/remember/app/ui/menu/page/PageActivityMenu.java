@@ -28,6 +28,7 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.PopupPageScreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,6 +55,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     private PopupPageScreen popupWindowPage;
     private ProgressDialog progressDialog;
+    private List<MemoryPageModel> memoryPages = new ArrayList<>();
     private int pageNumber = 1;
     private int countSum = 0;
 
@@ -73,8 +75,9 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
 
-        setUpLoadMoreListener();
+//        setUpLoadMoreListener();
         presenter.getImages(pageNumber);
+//        presenter.getAllPages();
     }
 
     @Override
@@ -132,10 +135,17 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void onReceivedPages(ResponsePages responsePages) {
-        showAll.setVisibility(View.GONE);
-        pageFragmentAdapter.setItems(responsePages.getResult());
-        progressBar.setVisibility(View.GONE);
+        if (showAll.getVisibility() != View.GONE) showAll.setVisibility(View.GONE);
         countSum = responsePages.getPages();
+        memoryPages.addAll(responsePages.getResult());
+        pageFragmentAdapter.setItems(memoryPages);
+        if (pageNumber < countSum) {
+            progressBar.setVisibility(View.VISIBLE);
+            pageNumber++;
+            presenter.getImages(pageNumber);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override

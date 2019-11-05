@@ -126,10 +126,16 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
 
     @Override
     public void onNotificationsLoaded(List<? extends NotificationModelNew> notifications) {
-        if (Prefs.getBoolean(PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS, false)) {
+//        if (Prefs.getBoolean(PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS, false)) {
             adapter.setNotificationList(notifications);
-        }
+//        }
         updateEmptyState(notifications.isEmpty());
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        updateEmptyState(true);
+        throwable.printStackTrace();
     }
 
     @Override
