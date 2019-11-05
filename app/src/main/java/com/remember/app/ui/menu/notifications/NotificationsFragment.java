@@ -133,6 +133,12 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     }
 
     @Override
+    public void onError(Throwable throwable) {
+        updateEmptyState(true);
+        throwable.printStackTrace();
+    }
+
+    @Override
     public void onNotificationClick(NotificationModelNew notification) {
         switch (((EventNotificationModel) notification).getType()) {
             case NOTIF_EVENT_TYPE_EVENT: {

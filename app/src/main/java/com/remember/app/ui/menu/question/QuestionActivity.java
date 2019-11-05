@@ -34,7 +34,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        spinner.setItems("Вопросы", "Предложения");
+        spinner.setItems("Вопрос", "Предложение");
         spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item)
                 -> isQuestion = item.equals("Вопросы"));
     }
