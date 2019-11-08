@@ -5,18 +5,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
-
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
 
 public class SettingActivity extends BaseActivity implements SettingView {
 
@@ -27,11 +32,27 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @BindView(R.id.save_button)
     Button saveButton;
+    @BindView(R.id.back)
+    ImageView backArrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == 2) {
+            setTheme(R.style.AppTheme_Dark);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            setTheme(R.style.AppTheme);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         super.onCreate(savedInstanceState);
         presenter.getInfo();
+
+        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == 2) {
+            backArrow.setImageResource(R.drawable.ic_back_dark_theme);
+        } else {
+            backArrow.setImageResource(R.drawable.ic_back);
+        }
 
         ViewPager viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
@@ -41,14 +62,14 @@ public class SettingActivity extends BaseActivity implements SettingView {
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         onBackPressed();
         finish();
     }
 
-    public void setSaveButtonClickListener(View.OnClickListener listener) {
+    /*public void setSaveButtonClickListener(View.OnClickListener listener) {
         saveButton.setOnClickListener(listener);
-    }
+    }*/
 
     @Override
     protected int getContentView() {

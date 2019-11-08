@@ -18,6 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -51,6 +53,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
@@ -58,7 +61,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
@@ -69,18 +74,15 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     AddPagePresenter presenter;
 
     @BindView(R.id.last_name)
-//    AutoCompleteTextView lastName;
-            EditText lastName;
+    EditText lastName;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.image_layout)
     ConstraintLayout imageLayout;
     @BindView(R.id.middle_name)
-//    AutoCompleteTextView middleName;
-            EditText middleName;
+    EditText middleName;
     @BindView(R.id.name)
-//    AutoCompleteTextView name;
-            EditText name;
+    EditText name;
     @BindView(R.id.date_begin)
     AutoCompleteTextView dateBegin;
     @BindView(R.id.date_end)
@@ -120,9 +122,28 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_memory_page);
         ButterKnife.bind(this);
+
+        if (Utils.isThemeDark()) {
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            int textColorDark = getResources().getColor(R.color.colorWhiteDark);
+            name.setTextColor(textColorDark);
+            lastName.setTextColor(textColorDark);
+            middleName.setTextColor(textColorDark);
+            dateBegin.setTextColor(textColorDark);
+            dateEnd.setTextColor(textColorDark);
+            religion.setTextColor(textColorDark);
+            isFamous.setTextColor(textColorDark);
+            isPublic.setTextColor(textColorDark);
+            noPublic.setTextColor(textColorDark);
+            notFamous.setTextColor(textColorDark);
+            description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
+        }
+
         initiate();
         Intent i = getIntent();
         person = new AddPageModel();
@@ -478,8 +499,14 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     @Override
-    public void onGetedInfo(List<ResponseHandBook> responseHandBooks) {
+    public void onGettedInfo(List<ResponseHandBook> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
+
+        LinearLayout layout = popupView.findViewById(R.id.lay);
+        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_DARK) {
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+        }
+
         PopupReligion popupWindow = new PopupReligion(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,

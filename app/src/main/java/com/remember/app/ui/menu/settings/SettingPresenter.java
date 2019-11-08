@@ -1,5 +1,7 @@
 package com.remember.app.ui.menu.settings;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.models.RequestSettings;
@@ -8,7 +10,6 @@ import com.remember.app.ui.base.BasePresenter;
 
 import java.io.File;
 
-import androidx.lifecycle.MutableLiveData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;

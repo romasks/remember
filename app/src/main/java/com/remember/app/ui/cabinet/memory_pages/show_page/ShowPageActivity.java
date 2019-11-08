@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
@@ -25,6 +27,7 @@ import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PhotoDialog;
+import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -36,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,11 +52,13 @@ import butterknife.Unbinder;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
-import static com.remember.app.data.Constants.INTENT_EXTRA_ID_PAGE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
@@ -97,6 +103,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @BindView(R.id.recycler_slider)
     RecyclerView recyclerSlider;
 
+    @BindView(R.id.back_button)
+    ImageView backImg;
+    @BindView(R.id.panel)
+    LinearLayout panel;
+
     private Unbinder unbinder;
     private boolean isList = false;
     private boolean isShow = false;
@@ -108,13 +119,22 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
         unbinder = ButterKnife.bind(this);
-        Intent i = getIntent();
+
+        if (Utils.isThemeDark()) {
+            backImg.setImageResource(R.drawable.ic_back_dark_theme);
+            settings.setImageResource(R.drawable.setting_white);
+            panel.setBackground(getResources().getDrawable(R.drawable.panel_dark));
+//            view.setBackground(getResources().getDrawable(R.drawable.gradient_dark));
+        }
 
         title.setText(R.string.memory_page_header_text);
 
+        Intent i = getIntent();
         isList = i.getBooleanExtra(INTENT_EXTRA_IS_LIST, false);
         afterSave = i.getBooleanExtra(INTENT_EXTRA_AFTER_SAVE, false);
         isShow = i.getBooleanExtra(INTENT_EXTRA_SHOW, false);
@@ -138,7 +158,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             if (isShow) {
                 intent.putExtra(INTENT_EXTRA_SHOW, true);
             }
-            intent.putExtra(INTENT_EXTRA_ID_PAGE, memoryPageModel.getId());
+            intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
             startActivity(intent);
         });
 
@@ -148,7 +168,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                 intent.putExtra(INTENT_EXTRA_SHOW, true);
             }
             intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
-            intent.putExtra(INTENT_EXTRA_ID_PAGE, memoryPageModel.getId());
+            intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
             startActivity(intent);
         });
         image.setOnClickListener(n -> startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
@@ -237,6 +257,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
+        city.setText(memoryPageModel.getGorod());
+        crypt.setText(memoryPageModel.getNazvaklad());
+        sector.setText(memoryPageModel.getUchastok());
+        grave.setText(memoryPageModel.getNummogil());
+
         if (memoryPageModel.getGorod() == null || memoryPageModel.getGorod().isEmpty()) {
             city.setText("-");
         } else {
@@ -257,11 +282,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         } else {
             grave.setText(memoryPageModel.getNummogil());
         }
-        if (memoryPageModel.getSector() == null || memoryPageModel.getSector().isEmpty()) {
-            sectorPlace.setText("-");
-        } else {
-            sectorPlace.setText(memoryPageModel.getSector());
-        }
+//        if (memoryPageModel.getSector() == null || memoryPageModel.getSector().isEmpty()) {
+//            sectorPlace.setText("-");
+//        } else {
+//            sectorPlace.setText(memoryPageModel.getSector());
+//        }
+
     }
 
     @SuppressLint("SimpleDateFormat")

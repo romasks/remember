@@ -28,10 +28,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Response;
 
-import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
-import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
-import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-
 public class RegisterActivity extends MvpAppCompatActivity implements RegisterView, SuccessDialog.Callback {
 
     @InjectPresenter
@@ -108,9 +104,9 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
                     finish();
                 }
             } else {
-                Prefs.putString(PREFS_KEY_EMAIL, email.getText().toString());
-                Prefs.putString(PREFS_KEY_NAME_USER, nickName.getText().toString());
-                Prefs.putString(PREFS_KEY_USER_ID, String.valueOf(responseRegisterResponse.body().getId()));
+                Prefs.putString("EMAIL", email.getText().toString());
+                Prefs.putString("NAME_USER", nickName.getText().toString());
+                Prefs.putString("USER_ID", String.valueOf(responseRegisterResponse.body().getId()));
                 successDialog(responseRegisterResponse.body());
             }
         } else {

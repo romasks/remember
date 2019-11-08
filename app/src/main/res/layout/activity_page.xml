@@ -62,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
                     android:gravity="center_horizontal"
+                    android:text="-"
                     android:textColor="@color/brown"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -72,8 +73,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:text="-"
                     android:textColor="@color/gray"
-                    tools:text="13.07.1952 - 28.01.207" />
+                    tools:text="13.07.1952 - 28.01.2017" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -129,6 +131,7 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/panel"
                     android:layout_width="match_parent"
                     android:layout_height="305dp"
                     android:layout_marginStart="5dp"
@@ -153,7 +156,8 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="@string/city"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            android:textColor="@color/gray" />
 
                         <TextView
                             android:id="@+id/city"
@@ -162,11 +166,12 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="12dp"
                             android:layout_weight="1"
+                            android:text="-"
+                            android:textColor="@color/gray"
                             android:textStyle="bold"
                             tools:text="Минск" />
 
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -197,7 +202,8 @@
                                 android:layout_marginTop="7dp"
                                 android:layout_weight="1"
                                 android:maxLines="2"
-                                android:text="@string/memory_page_sector_text" />
+                                android:text="@string/memory_page_sector_text"
+                                android:textColor="@color/gray" />
 
                             <TextView
                                 android:id="@+id/sec_value"
@@ -206,6 +212,8 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:paddingTop="12dp"
+                                android:text="-"
+                                android:textColor="@color/gray"
                                 android:textStyle="bold"
                                 tools:text="6" />
 
@@ -228,7 +236,8 @@
                                 android:layout_marginTop="7dp"
                                 android:layout_weight="1"
                                 android:maxLines="2"
-                                android:text="@string/memory_page_row_text" />
+                                android:text="@string/memory_page_row_text"
+                                android:textColor="@color/gray" />
 
                             <TextView
                                 android:id="@+id/sector"
@@ -237,6 +246,8 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:paddingTop="12dp"
+                                android:text="-"
+                                android:textColor="@color/gray"
                                 android:textStyle="bold"
                                 tools:text="12" />
 
@@ -257,7 +268,8 @@
                                 android:layout_marginTop="7dp"
                                 android:layout_weight="1"
                                 android:text="@string/grave_number"
-                                android:textAlignment="center" />
+                                android:textAlignment="center"
+                                android:textColor="@color/gray" />
 
                             <TextView
                                 android:id="@+id/grave"
@@ -266,6 +278,8 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:paddingTop="12dp"
+                                android:text="-"
+                                android:textColor="@color/gray"
                                 android:textStyle="bold"
                                 tools:text="325" />
                         </LinearLayout>
@@ -285,7 +299,8 @@
                             android:layout_marginTop="7dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="@string/cemetery" />
+                            android:text="@string/cemetery"
+                            android:textColor="@color/gray" />
 
                         <TextView
                             android:id="@+id/crypt"
@@ -296,7 +311,9 @@
                             android:layout_weight="1"
                             android:lines="3"
                             android:maxLines="3"
+                            android:text="-"
                             android:textAlignment="center"
+                            android:textColor="@color/gray"
                             android:textStyle="bold"
                             tools:text="Название кладбища" />
 
@@ -321,7 +338,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:visibility="gone"
                     tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
 
@@ -397,6 +414,7 @@
                 android:layout_weight="1"
                 android:text="@string/memory_page_bottom_navbar_epitaphs"
                 android:textAlignment="center"
+                android:textColor="@color/gray"
                 android:textSize="14sp" />
 
             <TextView
@@ -405,6 +423,7 @@
                 android:layout_weight="1"
                 android:text="@string/memory_page_bottom_navbar_add_order"
                 android:textAlignment="center"
+                android:textColor="@color/gray"
                 android:textSize="14sp"
                 android:visibility="gone" />
 
@@ -415,6 +434,7 @@
                 android:paddingEnd="4dp"
                 android:text="@string/memory_page_bottom_navbar_events"
                 android:textAlignment="center"
+                android:textColor="@color/gray"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

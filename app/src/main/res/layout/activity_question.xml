@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/backgr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -38,7 +39,7 @@
                     android:layout_marginStart="15dp"
                     android:paddingEnd="20dp"
                     android:text="@string/questions_header_text"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -62,8 +63,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:ms_arrow_tint="@color/dark_gray"
-        app:ms_text_color="@color/dark_gray"
+        app:ms_arrow_tint="?android:attr/textColorHint"
+        app:ms_text_color="?android:attr/textColorHint"
         app:ms_padding_left="20dp"
         tools:text="Example"/>
 
@@ -74,6 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/questions_textarea_hint_text"
+        android:textColor="@color/gray"
+        android:textColorHint="@color/gray"
         app:layout_constraintBottom_toTopOf="@+id/pick"
         app:layout_constraintTop_toBottomOf="@+id/spinner"
         tools:ignore="RtlSymmetry" />

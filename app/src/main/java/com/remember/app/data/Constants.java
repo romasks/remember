@@ -11,14 +11,25 @@ public class Constants {
     public static final String PREFS_KEY_AVATAR = "AVATAR";
     public static final String PREFS_KEY_EMAIL = "EMAIL";
     public static final String PREFS_KEY_TOKEN = "TOKEN";
+    public static final String PREFS_KEY_IS_THEME = "IS_THEME";
 
+    public static final int THEME_LIGHT = 1;
+    public static final int THEME_DARK = 2;
+
+    public static final String INTENT_EXTRA_EVENT_DESCRIPTION = "EVENT_DESCRIPTION";
     public static final String INTENT_EXTRA_EVENT_IMAGE_URL = "EVENT_IMAGE_URL";
+    public static final String INTENT_EXTRA_EVENT_PERSON = "EVENT_PERSON";
+    public static final String INTENT_EXTRA_EVENT_NAME = "EVENT_NAME";
+    public static final String INTENT_EXTRA_EVENT_DATE = "EVENT_DATE";
+    public static final String INTENT_EXTRA_EVENT_ID = "EVENT_ID";
+
+    public static final String INTENT_EXTRA_IS_EVENT_EDITING = "IS_EVENT_EDITING";
+
     public static final String INTENT_EXTRA_PERSON_NAME = "PERSON_NAME";
     public static final String INTENT_EXTRA_AFTER_SAVE = "AFTER_SAVE";
     public static final String INTENT_EXTRA_FROM_NOTIF = "FROM_NOTIF";
-    public static final String INTENT_EXTRA_EVENT_ID = "EVENT_ID";
     public static final String INTENT_EXTRA_IS_LIST = "IS_LIST";
-    public static final String INTENT_EXTRA_ID_PAGE = "ID_PAGE";
+    public static final String INTENT_EXTRA_PAGE_ID = "PAGE_ID";
     public static final String INTENT_EXTRA_PERSON = "PERSON";
     public static final String INTENT_EXTRA_SHOW = "SHOW";
     public static final String INTENT_EXTRA_NAME = "NAME";

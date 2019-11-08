@@ -13,11 +13,21 @@ import com.remember.app.R;
 
 public class ImageUtils {
 
-    public static void setGlideImage(Context context, Object imageUrl, ImageView targetView) {
+    public static void setGlideSquareImage(Context context, Object imageUrl, ImageView targetView) {
         Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
         Glide.with(context)
                 .load(imageUrl)
                 .error(mDefaultBackground)
+                .apply(RequestOptions.circleCropTransform())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(targetView);
+    }
+
+    public static void setGlideImage(Context context, Object imageUrl, ImageView targetView) {
+        Glide.with(context)
+                .load(imageUrl)
+                .error(R.drawable.ic_unknown)
                 .apply(RequestOptions.circleCropTransform())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)

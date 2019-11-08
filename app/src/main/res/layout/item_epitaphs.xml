@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="20dp"
     android:layout_marginTop="10dp"
-    android:layout_marginEnd="20dp">
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="10dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/avatar"
@@ -36,7 +37,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:maxLines="5"
-        android:textColor="@android:color/black"
+        android:textColor="?android:attr/textColor"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/avatar"
@@ -62,7 +63,7 @@
         android:layout_marginEnd="30dp"
         android:text="@string/epitaphs_item_action_change"
         android:textColor="@color/brown"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/delete"
         app:layout_constraintTop_toBottomOf="@id/description" />
 
@@ -74,7 +75,7 @@
         android:layout_marginEnd="10dp"
         android:text="@string/epitaphs_item_action_delete"
         android:textColor="@color/brown"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description" />
 

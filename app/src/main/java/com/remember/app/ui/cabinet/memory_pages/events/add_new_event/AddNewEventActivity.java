@@ -20,19 +20,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -47,14 +46,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DESCRIPTION;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
+import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
@@ -76,8 +87,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     AutoCompleteTextView date;
     @BindView(R.id.for_one)
     AppCompatRadioButton forOne;
+    @BindView(R.id.not_for_one)
+    AppCompatRadioButton notForOne;
     @BindView(R.id.it_notification)
     AppCompatRadioButton isNeedNotification;
+    @BindView(R.id.not_notification)
+    AppCompatRadioButton notNeedNotification;
     @BindView(R.id.description)
     EditText description;
     @BindView(R.id.image_layout)
@@ -88,6 +103,8 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     Button saveButton;
     @BindView(R.id.eventHeaderName)
     TextView eventHeaderName;
+    @BindView(R.id.back)
+    ImageView backButton;
 
     private Unbinder unbinder;
     private String name;
@@ -108,21 +125,33 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
         unbinder = ButterKnife.bind(this);
 
+        if (Utils.isThemeDark()) {
+            backButton.setImageResource(R.drawable.ic_back_dark_theme);
+            description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
+            int textColorDark = getResources().getColor(R.color.colorWhiteDark);
+            forOne.setTextColor(textColorDark);
+            notForOne.setTextColor(textColorDark);
+            isNeedNotification.setTextColor(textColorDark);
+            notNeedNotification.setTextColor(textColorDark);
+        }
+
         eventId = getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID);
-        eventName = getIntent().getExtras().getString("EVENT_NAME", "");
-        eventDescription = getIntent().getExtras().getString("EVENT_DESCRIPTION", "");
+        eventName = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_NAME, "");
+        eventDescription = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_DESCRIPTION, "");
         imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
-        dateString = getIntent().getExtras().getString("EVENT_DATE", "");
+        dateString = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_DATE, "");
 
         Glide.with(this)
                 .load(BASE_SERVICE_URL + imageUrl)
                 .into(image);
 
-        if (getIntent().getBooleanExtra("IS_EVENT_EDITING", false)) {
+        if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_EVENT_EDITING, false)) {
             setBlackWhite(image);
 
             saveButton.setText(getString(R.string.change_event));
@@ -136,12 +165,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         }
 
         try {
-            name = getIntent().getExtras().getString("PERSON_NAME", "");
-            pageId = getIntent().getIntExtra("ID_PAGE", 1);
+            name = getIntent().getExtras().getString(INTENT_EXTRA_PERSON_NAME, "");
+            pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 1);
             if (pageId == 1) {
-                pageId = getIntent().getExtras().getInt("PAGE_ID", 1);
+                pageId = getIntent().getExtras().getInt(INTENT_EXTRA_PAGE_ID, 1);
             }
-            personName = getIntent().getExtras().getString("EVENT_PERSON", "");
+            personName = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_PERSON, "");
         } catch (NullPointerException ignored) {
         }
         if (!personName.isEmpty()) {
@@ -278,16 +307,8 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                 createEventRequest.setPageId(String.valueOf(pageId));
                 createEventRequest.setName(title.getText().toString());
                 createEventRequest.setDescription(description.getText().toString());
-                if (forOne.isChecked()) {
-                    createEventRequest.setFlag("1");
-                } else {
-                    createEventRequest.setFlag("0");
-                }
-                if (isNeedNotification.isChecked()) {
-                    createEventRequest.setUvShow("1");
-                } else {
-                    createEventRequest.setUvShow("0");
-                }
+                createEventRequest.setFlag(forOne.isChecked() ? "1" : "0");
+                createEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
                 createEventRequest.setDate(formatToServerDate(date.getText().toString()));
                 if (imageFile != null) {
                     presenter.saveEvent(createEventRequest, imageFile);
@@ -302,16 +323,8 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                 editEventRequest.setName(title.getText().toString());
                 editEventRequest.setDescription(description.getText().toString());
                 editEventRequest.setDate(formatToServerDate(date.getText().toString()));
-                if (forOne.isChecked()) {
-                    editEventRequest.setFlag("1");
-                } else {
-                    editEventRequest.setFlag("0");
-                }
-                if (isNeedNotification.isChecked()) {
-                    editEventRequest.setUvShow("1");
-                } else {
-                    editEventRequest.setUvShow("0");
-                }
+                editEventRequest.setFlag(forOne.isChecked() ? "1" : "0");
+                editEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
                 if (imageFile != null) {
                     presenter.editEvent(editEventRequest, imageFile);
                 } else {

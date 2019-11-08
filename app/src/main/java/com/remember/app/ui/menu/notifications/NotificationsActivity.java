@@ -1,20 +1,24 @@
 package com.remember.app.ui.menu.notifications;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
+import com.remember.app.R;
+import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.utils.Utils;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.remember.app.R;
-import com.remember.app.ui.base.BaseActivity;
-
 public class NotificationsActivity extends BaseActivity implements View.OnClickListener {
 
-    private View btnFilter;
+    private ImageView btnFilter;
+    private ViewPager viewPager;
+    private ImageView back;
+    private TextView title;
 
     private NotificationsFragment eventsFragment = NotificationsFragment.newInstance(NotificationsFragment.Type.EVENTS);
 
@@ -25,24 +29,26 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-
-        setupViewPager();
-
+        viewPager = findViewById(R.id.viewpager);
+        back = findViewById(R.id.back);
         btnFilter = findViewById(R.id.filter);
-
-        findViewById(R.id.back).setOnClickListener(this);
+        title = findViewById(R.id.title);
+        if (Utils.isThemeDark()) {
+            btnFilter.setImageResource(R.drawable.ic_search2);
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+        }
+        setupViewPager();
+        back.setOnClickListener(this);
         btnFilter.setOnClickListener(this);
     }
 
-    private void setupViewPager(){
+    private void setupViewPager() {
         NotificationsPagerAdapter adapter = new NotificationsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(eventsFragment, "События");
         adapter.addFragment(NotificationsFragment.newInstance(NotificationsFragment.Type.MESSAGES), "Сообщения");
-
-        ViewPager viewPager = findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
-
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -66,7 +72,7 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.back:
                 onBackPressed();
                 break;

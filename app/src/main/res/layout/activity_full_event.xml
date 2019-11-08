@@ -44,12 +44,6 @@
                 android:layout_margin="16dp"
                 tools:text="Пример длинного текста описания события для проверки выравнивания текста" />
 
-            <!--<TextView
-                android:id="@+id/body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp" />-->
-
         </LinearLayout>
 
     </ScrollView>

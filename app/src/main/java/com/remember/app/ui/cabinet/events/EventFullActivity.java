@@ -8,22 +8,27 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class EventFullActivity extends BaseActivity implements EventView {
@@ -41,16 +46,25 @@ public class EventFullActivity extends BaseActivity implements EventView {
     TextView body;
     @BindView(R.id.date)
     TextView date;
+    @BindView(R.id.back_button)
+    ImageView backButton;
 
     private Drawable mDefaultBackground;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
 
+        if (Utils.isThemeDark()) {
+            backButton.setImageResource(R.drawable.ic_back_dark_theme);
+            title.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+        }
+
         if (getIntent().getExtras() != null) {
-            if (getIntent().getExtras().getBoolean("FROM_NOTIF")) {
+            if (getIntent().getExtras().getBoolean(INTENT_EXTRA_FROM_NOTIF)) {
                 presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
             } else {
                 ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);

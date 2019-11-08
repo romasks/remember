@@ -47,7 +47,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="15dp"
                     android:layout_weight="1"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/avatar"
@@ -89,7 +89,7 @@
             app:tabIndicatorColor="#917b5a"
             app:tabSelectedTextColor="#917b5a"
             app:tabTextAppearance="@style/tab_text"
-            app:tabTextColor="@android:color/black" />
+            app:tabTextColor="?android:attr/textColor" />
 
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -63,9 +63,11 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.memory_pages.events.EventsActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.epitaphs.EpitaphsActivity"
@@ -93,6 +95,7 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
