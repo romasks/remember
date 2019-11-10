@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -61,13 +62,17 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (ActivityCompat.checkSelfPermission(getContentView().getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContentView().getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        googleMap.setMyLocationEnabled(true);
+
+
+
 
         LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -80,13 +85,24 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
             this.latitude = location.getLatitude();
             this.longitude = location.getLongitude();
             googleMap.addMarker(new MarkerOptions().position(myPosition).title("Start"));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 13));
         }
-
         googleMap.setOnMapClickListener(point -> {
             googleMap.clear();
             googleMap.setMyLocationEnabled(true);
             googleMap.addMarker(new MarkerOptions().position(point));
+            latitude = point.latitude;
+            longitude = point.longitude;
+        });
+        googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+
+                CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+                googleMap.moveCamera(center);
+                googleMap.animateCamera(zoom);
+
+            }
         });
     }
 
