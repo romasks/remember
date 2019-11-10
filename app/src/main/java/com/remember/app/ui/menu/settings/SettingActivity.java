@@ -44,10 +44,8 @@ public class SettingActivity extends BaseActivity implements SettingView {
             setTheme(R.style.AppTheme);
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-
         super.onCreate(savedInstanceState);
         presenter.getInfo();
-
         if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == 2) {
             backArrow.setImageResource(R.drawable.ic_back_dark_theme);
         } else {

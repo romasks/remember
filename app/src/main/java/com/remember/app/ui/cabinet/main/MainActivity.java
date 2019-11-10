@@ -173,8 +173,8 @@ public class MainActivity extends MvpAppCompatActivity
             }
         }
 
-//        setBlackWhite(imageViewBigAvatar);
-//        setBlackWhite(imageViewAvatar);
+        setBlackWhite(imageViewBigAvatar);
+        setBlackWhite(imageViewAvatar);
 
         imageViewBigAvatar.setOnClickListener(view -> {
             startActivity(new Intent(this, SettingActivity.class));

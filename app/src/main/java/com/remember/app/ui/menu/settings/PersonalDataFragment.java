@@ -39,6 +39,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -130,6 +131,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
             rgTheme.check(R.id.cb_theme_dark);
             lightTheme.setTextColor(getResources().getColor(R.color.colorWhiteDark));
             darkTheme.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+
         }
 
         getActivity().findViewById(R.id.save_button).setOnClickListener(v -> {
@@ -147,6 +149,8 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
             presenter.saveSettings();
             getActivity().onBackPressed();
         });*/
+
+
 
         return view;
     }
