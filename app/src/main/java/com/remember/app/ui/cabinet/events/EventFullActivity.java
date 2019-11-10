@@ -4,25 +4,37 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EventFullActivity extends BaseActivity {
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+
+public class EventFullActivity extends BaseActivity implements EventView {
+
+    @InjectPresenter
+    EventsPresenter presenter;
 
     @BindView(R.id.avatar)
     ImageView avatarImage;
+    @BindView(R.id.settings)
+    ImageView settingsImage;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.body)
@@ -30,42 +42,28 @@ public class EventFullActivity extends BaseActivity {
     @BindView(R.id.date)
     TextView date;
 
+    private Drawable mDefaultBackground;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
+
         if (getIntent().getExtras() != null) {
-            ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
-            System.out.println();
-            Drawable mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
-            try {
-                if (!responseEvents.getPicture().contains("upload")) {
-                    Glide.with(this)
-                            .load("http://помню.рус/uploads/" + responseEvents.getPicture())
-                            .error(mDefaultBackground)
-                            .into(avatarImage);
-                } else {
-                    Glide.with(this)
-                            .load(mDefaultBackground)
-                            .error(mDefaultBackground)
-                            .into(avatarImage);
-                }
-            } catch (Exception e) {
-                Glide.with(this)
-                        .load(mDefaultBackground)
-                        .error(mDefaultBackground)
-                        .into(avatarImage);
-            }
-            title.setText(responseEvents.getName());
-            date.setText(responseEvents.getPutdate());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                body.setText(Html.fromHtml(responseEvents.getBody(), Html.FROM_HTML_MODE_COMPACT));
+            if (getIntent().getExtras().getBoolean("FROM_NOTIF")) {
+                presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
             } else {
-                body.setText(Html.fromHtml(responseEvents.getBody()));
+                ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
+                System.out.println();
+                setEventData(responseEvents);
             }
         }
+
+        settingsImage.setVisibility(View.INVISIBLE);
+        settingsImage.setEnabled(false);
     }
 
-    @OnClick(R.id.back)
+    @OnClick(R.id.back_button)
     public void back() {
         onBackPressed();
         finish();
@@ -74,5 +72,47 @@ public class EventFullActivity extends BaseActivity {
     @Override
     protected int getContentView() {
         return R.layout.activity_full_event;
+    }
+
+    @Override
+    public void onReceivedEvents(List<ResponseEvents> responseEvents) {
+        // placeholder
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        // placeholder
+    }
+
+    @Override
+    public void onReceivedEvent(ResponseEvents responseEvents) {
+        setEventData(responseEvents);
+    }
+
+    private void setEventData(ResponseEvents responseEvents) {
+        try {
+            if (!responseEvents.getPicture().contains("upload")) {
+                setEventPicture(BASE_SERVICE_URL + "/uploads/" + responseEvents.getPicture());
+            } else {
+                setEventPicture(mDefaultBackground);
+            }
+        } catch (Exception e) {
+            setEventPicture(mDefaultBackground);
+        }
+        setBlackWhite(avatarImage);
+        title.setText(responseEvents.getName());
+        date.setText(responseEvents.getPutdate());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            body.setText(Html.fromHtml(responseEvents.getBody(), Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            body.setText(Html.fromHtml(responseEvents.getBody()));
+        }
+    }
+
+    private void setEventPicture(Object imageObj) {
+        Glide.with(this)
+                .load(imageObj)
+                .error(mDefaultBackground)
+                .into(avatarImage);
     }
 }

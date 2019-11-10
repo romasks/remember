@@ -10,6 +10,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.utils.QuestionSendDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,13 +34,13 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        spinner.setItems("Вопросы", "Предложения");
+        spinner.setItems("Вопрос", "Предложение");
         spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item)
                 -> isQuestion = item.equals("Вопросы"));
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         onBackPressed();
         finish();
     }
@@ -66,11 +67,17 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     @Override
     public void onReceived(Object o) {
         body.setText("");
-        Toast.makeText(this, "Ваша заявка успешно отправлена", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Ваша заявка успешно отправлена", Toast.LENGTH_LONG).show();
+        successDialog();
     }
 
     @Override
     public void error(Throwable throwable) {
         Toast.makeText(this, "Ошибка отправки", Toast.LENGTH_LONG).show();
+    }
+
+    private void successDialog() {
+        QuestionSendDialog dialog = new QuestionSendDialog();
+        dialog.show(getSupportFragmentManager().beginTransaction(), "successDialog");
     }
 }

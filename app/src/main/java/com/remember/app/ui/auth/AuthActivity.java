@@ -26,6 +26,7 @@ import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.RepairPasswordDialog;
+import com.remember.app.ui.utils.WrongEmailDialog;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
@@ -292,12 +293,12 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     }
 
     public void errorDialog(String text) {
-//        WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
-//        FragmentManager manager = getSupportFragmentManager();
-//        wrongEmailDialog.setDescription(text);
-//        FragmentTransaction transaction = manager.beginTransaction();
-//        wrongEmailDialog.show(transaction, "wrongEmailDialog");
-//        transaction.commitAllowingStateLoss();
+        WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
+        FragmentManager manager = getSupportFragmentManager();
+        wrongEmailDialog.setDescription(text);
+        FragmentTransaction transaction = manager.beginTransaction();
+        wrongEmailDialog.show(transaction, "wrongEmailDialog");
+        transaction.commitAllowingStateLoss();
     }
 
     @Override

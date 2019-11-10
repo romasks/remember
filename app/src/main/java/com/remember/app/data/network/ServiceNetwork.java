@@ -1,11 +1,12 @@
 package com.remember.app.data.network;
 
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.CreateEventRequest;
+import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
@@ -34,7 +35,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseHandBook>> getCities();
 
-    Observable<ResponseCemetery> getCemetery(int id);
+    Observable<List<ResponseCemetery>> getCemetery(int id);
 
     Observable<ResponseCemetery> addPage(AddPageModel person, File imageUri);
 
@@ -46,25 +47,30 @@ public interface ServiceNetwork {
 
     Observable<RequestAddEpitaphs> saveEpitaph(RequestAddEpitaphs requestAddEpitaphs);
 
-    Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent);
+    //    Observable<RequestAddEvent> saveEvent(RequestAddEvent requestAddEvent);
+    Observable<RequestAddEvent> saveEvent(CreateEventRequest createEventRequest, File image);
+
+    Observable<RequestAddEvent> editEvent(EditEventRequest editEventRequest, File image);
 
     Observable<List<RequestAddEvent>> getEventsForId(int pageId);
 
     Observable<List<ResponseEvents>> getEvents();
 
-    Observable<EventModel> getEvent(int id);
+    Observable<ResponseEvents> getEvent(int id);
 
-    Observable<List<EventNotificationModel>> getEventNotifications(String token, String type);
+    Observable<EventModel> getDeadEvent(int id);
 
-    Observable<List<EpitNotificationModel>> getEpitNotifications(String token);
+    Observable<List<EventNotificationModel>> getEventNotifications(String type);
+
+    Observable<List<EpitNotificationModel>> getEpitNotifications();
 
     Observable<ResponseAuth> singInAuth(String login, String password);
 
     Observable<Response<ResponseRegister>> registerLogin(String nickName, String email);
 
-    Observable<ResponsePages> getImages(int count);
+    Observable<ResponsePages> getImages(int count, boolean isStar);
 
-//    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
+    //    Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile);
 //    Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile);
     Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile);
 

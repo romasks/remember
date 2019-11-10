@@ -31,7 +31,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/brown</item>
     </style>
 

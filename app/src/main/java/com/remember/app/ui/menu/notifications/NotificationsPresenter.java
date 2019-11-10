@@ -42,20 +42,20 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
     void getEventNotification(NotificationFilterType filterType) {
 
-        Disposable subscription = serviceNetwork.getEventNotifications(Prefs.getString("TOKEN", ""), filterType.toString())
+        Disposable subscription = serviceNetwork.getEventNotifications(filterType.toString())
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEventNotifications)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onNotificationsLoaded, Throwable::printStackTrace);
+                .subscribe(getViewState()::onNotificationsLoaded, getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
     void getEpitNotifications(){
-        Disposable subscription = serviceNetwork.getEpitNotifications(Prefs.getString("TOKEN", ""))
+        Disposable subscription = serviceNetwork.getEpitNotifications()
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEpitNotifications)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onNotificationsLoaded, Throwable::printStackTrace);
+                .subscribe(getViewState()::onNotificationsLoaded, getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -103,16 +103,23 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
         int tmpPos = 0;
 
+        String daysStr;
+        if (event.getRemainDays() == 0) daysStr = "";
+        else if (event.getRemainDays() > 10 && event.getRemainDays() < 20) daysStr = "дней";
+        else if (event.getRemainDays() % 10 == 1) daysStr = "день";
+        else if (event.getRemainDays() % 10 >= 2 && event.getRemainDays() % 10 <= 4) daysStr = "дня";
+        else daysStr = "дней";
+
         switch (event.getType()){
             case "dead_event":
                 if (event.getRemainDays() == 0) {
-                    tmpTitle = "Сегодня " + event.getEventName();
+                    tmpTitle = "Сегодня " + event.getEventName() + " у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
                     addSpan(title, tmpTitle.indexOf(event.getEventName()), tmpTitle.length(), color, true);
                 }
                 else {
-                    tmpTitle = "Осталось " + event.getRemainDays() + " дней до " + event.getEventName() + " у " + event.getPageName();
+                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до " + event.getEventName() + " у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
@@ -136,7 +143,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                     addSpan(title, tmpTitle.indexOf(event.getPageName()), tmpTitle.length(), color, true);
                 }
                 else {
-                    tmpTitle = "Осталось " + event.getRemainDays() + " дней до Дня рождения у " + event.getPageName();
+                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня рождения у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
@@ -157,7 +164,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                     addSpan(title, tmpTitle.indexOf(event.getPageName()), tmpTitle.length(), color, true);
                 }
                 else {
-                    tmpTitle = "Осталось " + event.getRemainDays() + " дней до Годовщины смерти у " + event.getPageName();
+                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Годовщины смерти у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
@@ -178,7 +185,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                     addSpan(title, tmpTitle.indexOf(event.getEventName()), tmpTitle.length(), color, true);
                 }
                 else {
-                    tmpTitle = "Осталось " + event.getRemainDays() + " дней до " + event.getEventName();
+                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до " + event.getEventName();
 
                     title = new SpannableString(tmpTitle);
 

@@ -82,16 +82,12 @@
 
     <Button
         android:id="@+id/show_all"
+        style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/button"
-        android:text="Показать всех"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
+        android:text="@string/grid_show_all"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/app_bar" />
 

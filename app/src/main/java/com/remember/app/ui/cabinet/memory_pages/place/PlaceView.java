@@ -10,5 +10,5 @@ public interface PlaceView extends MvpView {
 
     void onUpdatedCities(List<ResponseHandBook> responseCities);
 
-    void onUpdatedCemetery(ResponseCemetery responseCemeteries);
+    void onUpdatedCemetery(List<ResponseCemetery> responseCemeteries);
 }

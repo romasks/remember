@@ -1,15 +1,28 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storePassword keystoreProperties['storePassword']
+            storeFile file(keystoreProperties['storeFile'])
+        }
+    }
     compileSdkVersion 29
     defaultConfig {
         multiDexEnabled true
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 18
-        versionName "1.3.103"
+        versionCode 32
+        versionName "1.4.0"
+        setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -18,11 +31,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            applicationVariants.all { variant ->
-                variant.outputs.all { output ->
-                    outputFileName = "Pomnyu-v${versionName}-debug.apk"
-                }
-            }
+            minifyEnabled false
         }
     }
     compileOptions {
@@ -114,6 +123,9 @@ dependencies {
 
     //pagination
     implementation 'com.github.omadahealth:swipy:1.2.3@aar'
+
+    //text
+    implementation 'com.codesgood:justifiedtextview:1.1.0'
 }
 
 android.defaultConfig.manifestPlaceholders = [

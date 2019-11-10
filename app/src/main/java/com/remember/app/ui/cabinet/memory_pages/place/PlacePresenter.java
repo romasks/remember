@@ -17,11 +17,11 @@ public class PlacePresenter extends BasePresenter<PlaceView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public PlacePresenter() {
+    PlacePresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getCities() {
+    void getCities() {
         Disposable subscription = serviceNetwork.getCities()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -29,7 +29,7 @@ public class PlacePresenter extends BasePresenter<PlaceView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void getCemetery(int id) {
+    void getCemetery(int id) {
         Disposable subscription = serviceNetwork.getCemetery(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

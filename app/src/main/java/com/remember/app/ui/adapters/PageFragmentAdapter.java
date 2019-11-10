@@ -1,20 +1,12 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -26,15 +18,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     private Callback callback;
+    private boolean isMainPages = false;
     private List<MemoryPageModel> memoryPageModelList = new ArrayList<>();
 
     @NonNull
@@ -56,7 +54,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItems(List<MemoryPageModel> memoryPageModelList) {
-        this.memoryPageModelList.clear();
+        if (!isMainPages) this.memoryPageModelList.clear();
         this.memoryPageModelList.addAll(memoryPageModelList);
         notifyDataSetChanged();
     }
@@ -69,6 +67,10 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void setCallback(Callback callback) {
         this.callback = callback;
+    }
+
+    public void setIsMainPages(boolean isMainPages) {
+        this.isMainPages = isMainPages;
     }
 
     public interface Callback {
@@ -92,7 +94,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.surname)
         TextView surname;
 
-        public PageFragmentAdapterViewHolder(View itemView) {
+        PageFragmentAdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
@@ -104,30 +106,18 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 callback.sendItem(memoryPageModelList.get(position));
             });
             try {
-                if (memoryPageModelList.get(position).getPicture().contains("uploads")){
-                    Glide.with(itemView)
-                            .load(BASE_SERVICE_URL + memoryPageModelList.get(position).getPicture())
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(avatarImage);
+                if (memoryPageModelList.get(position).getPicture().contains("uploads")) {
+                    setGlideImage(itemView.getContext(), BASE_SERVICE_URL + memoryPageModelList.get(position).getPicture(), avatarImage);
                 } else {
-                    Glide.with(context)
-                            .load(R.drawable.darth_vader)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(avatarImage);
+                    setGlideImage(context, R.drawable.darth_vader, avatarImage);
                 }
-            } catch (NullPointerException e){
-                Glide.with(context)
-                        .load(R.drawable.darth_vader)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(avatarImage);
+            } catch (NullPointerException e) {
+                setGlideImage(context, R.drawable.darth_vader, avatarImage);
             }
+            setBlackWhite(avatarImage);
 
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            avatarImage.setColorFilter(filter);
             String secondName = memoryPageModelList.get(position).getSecondname();
-            String fullName =   memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
+            String fullName = memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
             surname.setText(secondName);
             name.setText(fullName);
 

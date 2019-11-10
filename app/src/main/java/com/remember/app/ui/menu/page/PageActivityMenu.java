@@ -26,13 +26,18 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.PopupPageScreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
+import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 
 public class PageActivityMenu extends BaseActivity implements PageMenuView, PageFragmentAdapter.Callback, PopupPageScreen.Callback {
 
@@ -50,6 +55,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     private PopupPageScreen popupWindowPage;
     private ProgressDialog progressDialog;
+    private List<MemoryPageModel> memoryPages = new ArrayList<>();
     private int pageNumber = 1;
     private int countSum = 0;
 
@@ -61,14 +67,17 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         super.onCreate(savedInstanceState);
 
         pageFragmentAdapter = new PageFragmentAdapter();
+        pageFragmentAdapter.setCallback(this);
+        pageFragmentAdapter.setIsMainPages(true);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
-        pageFragmentAdapter.setCallback(this);
 
-        setUpLoadMoreListener();
+//        setUpLoadMoreListener();
         presenter.getImages(pageNumber);
+//        presenter.getAllPages();
     }
 
     @Override
@@ -105,16 +114,17 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     }
 
     @OnClick(R.id.search)
-    public void searchOpen(){
+    public void searchOpen() {
         showEventScreen();
     }
 
     @Override
     public void sendItem(MemoryPageModel person) {
         Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra("PERSON", person);
-        intent.putExtra("ID", person.getId());
-        intent.putExtra("IS_LIST", true);
+        intent.putExtra(INTENT_EXTRA_SHOW, true);
+        intent.putExtra(INTENT_EXTRA_PERSON, person);
+        intent.putExtra(INTENT_EXTRA_ID, person.getId());
+        intent.putExtra(INTENT_EXTRA_IS_LIST, true);
         startActivity(intent);
     }
 
@@ -125,17 +135,25 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void onReceivedPages(ResponsePages responsePages) {
-        showAll.setVisibility(View.GONE);
-        pageFragmentAdapter.setItems(responsePages.getResult());
-        progressBar.setVisibility(View.GONE);
+        if (showAll.getVisibility() != View.GONE) showAll.setVisibility(View.GONE);
+        countSum = responsePages.getPages();
+        memoryPages.addAll(responsePages.getResult());
+        pageFragmentAdapter.setItems(memoryPages);
+        if (pageNumber < countSum) {
+            progressBar.setVisibility(View.VISIBLE);
+            pageNumber++;
+            presenter.getImages(pageNumber);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
-        if(memoryPageModels.size()==0) {
+        if (memoryPageModels.size() == 0) {
             Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         }
-        if (memoryPageModels.isEmpty()){
+        if (memoryPageModels.isEmpty()) {
             showAll.setVisibility(View.VISIBLE);
         } else {
             showAll.setVisibility(View.GONE);

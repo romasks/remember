@@ -1,24 +1,15 @@
 package com.remember.app.ui.cabinet.memory_pages.add_page;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -30,11 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -43,11 +29,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.PageEditedResponse;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
-import com.remember.app.data.models.ResponsePages;
-import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
@@ -67,6 +50,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -74,6 +60,8 @@ import butterknife.OnClick;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
 
@@ -129,11 +117,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private ProgressDialog progressDialog;
     private File imageFile;
     private Bitmap bitmap;
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -143,16 +126,9 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         initiate();
         Intent i = getIntent();
         person = new AddPageModel();
+
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v("TAG", "Permission is granted");
-            } else {
-                Log.v("TAG", "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        } else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("TAG", "Permission is granted");
+            verifyStoragePermissions(this);
         }
 
         isEdit = i.getBooleanExtra("EDIT", false);
@@ -178,20 +154,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         });
         if (Build.VERSION.SDK_INT >= 23) {
             verifyStoragePermissions(this);
-        }
-    }
-
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
         }
     }
 
@@ -231,14 +193,14 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 //        dateBegin.setText(memoryPageModel.getDatarod());
 //        dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
+
         Glide.with(this)
                 .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
                 .error(R.drawable.darth_vader)
                 .into(image);
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-        image.setColorFilter(filter);
+
+        setBlackWhite(image);
+
         if (memoryPageModel.getStar().equals("true")) {
             isFamous.setChecked(true);
         } else {
@@ -447,10 +409,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 Glide.with(this)
                         .load(data.getData())
                         .into(image);
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                image.setColorFilter(filter);
+
+                setBlackWhite(image);
             }
         } else if (requestCode == 1) {
             DisplayMetrics dsMetrics = new DisplayMetrics();
@@ -469,10 +429,9 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                         .load(hah)
                         .apply(RequestOptions.circleCropTransform())
                         .into(image);
-                ColorMatrix colorMatrix = new ColorMatrix();
-                colorMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                image.setColorFilter(filter);
+
+                setBlackWhite(image);
+
             } catch (Exception e) {
                 Log.e("dsgsd", e.getMessage());
             }

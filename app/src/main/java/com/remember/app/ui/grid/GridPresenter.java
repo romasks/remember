@@ -17,10 +17,11 @@ public class GridPresenter extends BasePresenter<GridView> {
     }
 
     void getImages(int count) {
-        Disposable subscription = getServiceNetwork().getImages(count)
+        Disposable subscription = getServiceNetwork().getImages(count, true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedImages);
+                .subscribe(getViewState()::onReceivedImages,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -28,7 +29,8 @@ public class GridPresenter extends BasePresenter<GridView> {
         Disposable subscription = getServiceNetwork().searchPageAllDead(requestSearchPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSearchedPages);
+                .subscribe(getViewState()::onSearchedPages,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -36,7 +38,8 @@ public class GridPresenter extends BasePresenter<GridView> {
         Disposable subscription = getServiceNetwork().getInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedInfo);
+                .subscribe(getViewState()::onReceivedInfo,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 }

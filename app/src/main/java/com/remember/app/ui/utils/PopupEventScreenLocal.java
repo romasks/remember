@@ -2,10 +2,13 @@ package com.remember.app.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
@@ -21,12 +24,17 @@ public class PopupEventScreenLocal extends PopupWindow {
     private Callback callback;
     private MaterialSpinner spinner;
     private AutoCompleteTextView date;
+    private Context context;
 
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();
 
     public PopupEventScreenLocal(View contentView, int width, int height) {
         super(contentView, width, height);
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public void setUp(View contentView, List<String> responseHandBooks) {
@@ -50,8 +58,12 @@ public class PopupEventScreenLocal extends PopupWindow {
         spinner.setItems(responseHandBooks);
 
         popupView.findViewById(R.id.submit).setOnClickListener(v -> {
-            callback.search(date.getText().toString(), spinner.getSelectedIndex());
-            dismiss();
+//            if (date.getText().toString().isEmpty()) {
+//                Toast.makeText(context, "Выберите дату", Toast.LENGTH_SHORT).show();
+//            } else {
+                callback.search(date.getText().toString(), spinner.getSelectedIndex());
+                dismiss();
+//            }
         });
 
         date.setOnClickListener(this::setDateBegin);

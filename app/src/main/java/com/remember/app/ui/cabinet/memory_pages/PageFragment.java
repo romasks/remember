@@ -29,6 +29,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
+
 public class PageFragment extends MvpAppCompatFragment implements PageView, PageFragmentAdapter.Callback, MainActivity.CallbackPage {
 
     @InjectPresenter
@@ -117,9 +121,9 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     @Override
     public void sendItem(MemoryPageModel person) {
         Intent intent = new Intent(getActivity(), ShowPageActivity.class);
-        intent.putExtra("PERSON", person);
-        intent.putExtra("ID", person.getId());
-        intent.putExtra("IS_LIST", true);
+        intent.putExtra(INTENT_EXTRA_PERSON, person);
+        intent.putExtra(INTENT_EXTRA_ID, person.getId());
+        intent.putExtra(INTENT_EXTRA_IS_LIST, true);
         startActivity(intent);
     }
 

@@ -14,4 +14,6 @@ public interface GridView extends MvpView {
     void onSearchedPages(List<MemoryPageModel> memoryPageModels);
 
     void onReceivedInfo(ResponseSettings responseSettings);
+
+    void onError(Throwable throwable);
 }

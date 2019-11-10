@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
@@ -24,9 +22,18 @@ import com.remember.app.ui.utils.PopupEventScreen;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID_PAGE;
+import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 
 public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
 
@@ -55,6 +62,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     private EventsDeceaseAdapter eventsDeceaseAdapter;
     private int pageId;
     private boolean isShow;
+    private String imageUrl = "";
 
     private PopupEventScreen popupWindowEvent;
 
@@ -64,23 +72,30 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         unbinder = ButterKnife.bind(this);
-        isShow = getIntent().getBooleanExtra("SHOW", false);
+        isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
         try {
-            name = getIntent().getExtras().getString("NAME", "");
-            pageId = getIntent().getIntExtra("ID_PAGE", 1);
+            name = getIntent().getExtras().getString(INTENT_EXTRA_NAME, "");
+            pageId = getIntent().getIntExtra(INTENT_EXTRA_ID_PAGE, 1);
         } catch (NullPointerException ignored) {
         }
 
-        presenter.getEvents(pageId);
+//        presenter.getEvents(pageId);
 
         eventsDeceaseAdapter = new EventsDeceaseAdapter();
         eventsDeceaseAdapter.setCallback(this);
+        eventsDeceaseAdapter.setIsOwnPage(!isShow);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventsDeceaseAdapter);
 
         plus.setVisibility(isShow ? View.GONE : View.VISIBLE);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        if (isShow) search.setLayoutParams(params);
+
         plus.setOnClickListener(v -> {
             if (!isShow) {
                 openAddNewEventScreen();
@@ -100,6 +115,12 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getEvents(pageId);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
@@ -114,8 +135,9 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
 
     private void openAddNewEventScreen() {
         Intent intent = new Intent(this, AddNewEventActivity.class);
-        intent.putExtra("NAME", name);
-        intent.putExtra("ID_PAGE", pageId);
+        intent.putExtra(INTENT_EXTRA_PERSON_NAME, name);
+        intent.putExtra(INTENT_EXTRA_ID_PAGE, pageId);
+        intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, imageUrl);
         startActivity(intent);
     }
 
@@ -131,9 +153,15 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     }
 
     @Override
-    public void openEvent(Integer pageId) {
+    public void openEvent(Integer eventId, String imageUrl) {
         Intent intent = new Intent(this, CurrentEvent.class);
-        intent.putExtra("ID_EVENT", pageId);
+        if (isShow) {
+            intent.putExtra(INTENT_EXTRA_SHOW, true);
+        }
+        intent.putExtra(INTENT_EXTRA_EVENT_ID, eventId);
+        intent.putExtra(INTENT_EXTRA_PERSON_NAME, name);
+        intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, imageUrl);
+        intent.putExtra(INTENT_EXTRA_ID_PAGE, pageId);
         startActivity(intent);
     }
 }

@@ -2,8 +2,6 @@ package com.remember.app.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -29,8 +21,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -87,7 +86,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @BindView(R.id.comment)
         TextView comment;
 
-        public EventsFragmentAdapterViewHolder(View itemView) {
+        EventsFragmentAdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
@@ -100,24 +99,14 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             });
             Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
             try {
-                if (!responseEvents.get(position).getPicture().contains("upload")){
-                    Glide.with(itemView)
-                            .load("http://помню.рус/uploads/" + responseEvents.get(position).getPicture())
-                            .error(mDefaultBackground)
-                            .apply(RequestOptions.circleCropTransform())
-                            .into(avatarImage);
+                if (!responseEvents.get(position).getPicture().contains("upload")) {
+                    setGlideImage(itemView.getContext(), BASE_SERVICE_URL + "/uploads/" + responseEvents.get(position).getPicture(), avatarImage);
                 }
-            } catch (Exception e){
-                Glide.with(itemView)
-                        .load(mDefaultBackground)
-                        .error(mDefaultBackground)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(avatarImage);
+            } catch (Exception e) {
+                setGlideImage(itemView.getContext(), mDefaultBackground, avatarImage);
             }
-            ColorMatrix colorMatrix = new ColorMatrix();
-            colorMatrix.setSaturation(0);
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-            avatarImage.setColorFilter(filter);
+            setBlackWhite(avatarImage);
+
             amountDays.setVisibility(View.VISIBLE);
             String fullName = responseEvents.get(position).getName();
             name.setText(fullName);
@@ -135,7 +124,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             comment.setText("дней осталось");
         }
 
-        public long getDifferenceDays(String date) throws ParseException {
+        long getDifferenceDays(String date) throws ParseException {
             @SuppressLint("SimpleDateFormat")
             Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
             Calendar past = Calendar.getInstance();
@@ -143,9 +132,9 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             Calendar today = Calendar.getInstance();
             today.set(Calendar.YEAR, past.get(Calendar.YEAR));
             long diff = past.getTime().getTime() - today.getTime().getTime();
-            if (diff > 0){
+            if (diff > 0) {
                 return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            }else {
+            } else {
                 today.set(Calendar.YEAR, past.get(Calendar.YEAR));
                 past.add(Calendar.YEAR, 1);
                 diff = past.getTime().getTime() - today.getTime().getTime();

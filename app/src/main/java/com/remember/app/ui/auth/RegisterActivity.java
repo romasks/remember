@@ -102,7 +102,7 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
         if (responseRegisterResponse.isSuccessful()) {
             if (responseRegisterResponse.body().getUser() != null) {
                 if (responseRegisterResponse.body().getUser().equals("isset")) {
-                    errorDialog("Такой email существует");
+                    errorDialog("Такой E-mail существует");
                 } else {
                     startActivity(new Intent(this, MainActivity.class));
                     finish();
@@ -113,12 +113,16 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
                 Prefs.putString(PREFS_KEY_USER_ID, String.valueOf(responseRegisterResponse.body().getId()));
                 successDialog(responseRegisterResponse.body());
             }
+        } else {
+//            errorDialog(responseRegisterResponse.errorBody());
+            errorDialog("Неверный E-mail либо такой E-mail уже существует");
         }
     }
 
     @Override
     public void onError(Throwable throwable) {
-        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+        errorDialog(throwable.getMessage());
+//        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     private boolean checkEmail(String email) {

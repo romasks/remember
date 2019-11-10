@@ -47,7 +47,7 @@ public interface ApiMethods {
 
     //    @GET("numen/city/{id}")
     @GET("numen/{id}")
-    Observable<ResponseCemetery> getCemetery(@Path("id") int id);
+    Observable<List<ResponseCemetery>> getCemetery(@Path("id") int id);
 
 
     @GET("religia")
@@ -64,17 +64,44 @@ public interface ApiMethods {
     @POST("epit/add")
     Observable<RequestAddEpitaphs> saveEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs);
 
-    @Headers("Content-Type: application/json")
-    @POST("deadevent/add")
-    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token, @Body RequestAddEvent requestAddEvent);
+//    @Headers("Content-Type: application/json")
+//    @POST("deadevent/add")
+//    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token,
+//                                          @Body RequestAddEvent requestAddEvent);
+
+    @Multipart
+    @POST("deadevent")
+    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token,
+                                          @Part("page_id") RequestBody pageId,
+                                          @Part("date") RequestBody date,
+                                          @Part("name") RequestBody name,
+                                          @Part("flag") RequestBody flag,
+                                          @Part("uv_show") RequestBody uvShow,
+                                          @Part("description") RequestBody description,
+                                          @Part MultipartBody.Part image);
+
+    @Multipart
+    @PUT("deadevent/{eventId}")
+    Observable<RequestAddEvent> editEvent(@Header("Authorization") String token,
+                                          @Part("page_id") RequestBody pageId,
+                                          @Part("date") RequestBody date,
+                                          @Part("name") RequestBody name,
+                                          @Part("flag") RequestBody flag,
+                                          @Part("uv_show") RequestBody uvShow,
+                                          @Part("description") RequestBody description,
+                                          @Part MultipartBody.Part image,
+                                          @Path("eventId") int eventId);
 
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();
 
-    @GET("deadevent/{id}")
-    Observable<EventModel> getEvent(@Path("id") int id);
+    @GET("event/{id}")
+    Observable<ResponseEvents> getEvent(@Path("id") int id);
 
-    @GET("event/notifications")
+    @GET("deadevent/{id}")
+    Observable<EventModel> getDeadEvent(@Path("id") int id);
+
+    @GET("feed/notifications")
     Observable<List<EventNotificationModel>> getEventNotifications(@Header("Authorization") String token, @Query("filter_type") String filterType);
 
     @GET("epit/notification")
@@ -138,13 +165,11 @@ public interface ApiMethods {
                                          @Part MultipartBody.Part image
     );
 
-
-//    @GET("pages")
-//    Observable<ResponsePages> getImages(@Query("status") String status);
-
     @GET("pages")
     Observable<ResponsePages> getImages(@Query("page") int count,
-                                        @Query("status") String status);
+                                        @Query("status") String status,
+                                        @Query("flag") boolean flag,
+                                        @Query("star") boolean star);
 
     @Multipart
     @POST("page/edit/{id}")

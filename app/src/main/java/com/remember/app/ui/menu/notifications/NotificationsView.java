@@ -9,4 +9,5 @@ public interface NotificationsView extends MvpView {
 
     void onNotificationsLoaded(List<? extends NotificationModelNew> notifications);
 
+    void onError(Throwable throwable);
 }

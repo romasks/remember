@@ -1,9 +1,10 @@
 package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -17,6 +18,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 
 import java.text.Format;
 import java.text.ParseException;
@@ -24,8 +26,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID_PAGE;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
@@ -33,9 +42,11 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     CurrentEventPresenter presenter;
 
     @BindView(R.id.back_button)
-    ImageButton back;
-    @BindView(R.id.name)
-    TextView name;
+    ImageView back;
+    @BindView(R.id.settings)
+    ImageView settings;
+    @BindView(R.id.event_name)
+    TextView eventName;
     @BindView(R.id.pageAvatar)
     FrameLayout pageAvatar;
     @BindView(R.id.image_avatar)
@@ -46,8 +57,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     ImageView addPhoto;
     @BindView(R.id.date)
     TextView dateView;
-    @BindView(R.id.message)
-    TextView messageView;
+    @BindView(R.id.description)
+    TextView description;
     @BindView(R.id.video)
     VideoView videoView;
     @BindView(R.id.videos)
@@ -58,19 +69,36 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     RecyclerView comments;
 
     private Integer eventId = 0;
+    private String personName;
+    private String imageUrl = "";
+    private int pageId = 0;
+    private boolean isShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        eventId = getIntent().getExtras().getInt("ID_EVENT", 0);
+        if (getIntent().getExtras() != null) {
+            eventId = getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID, 0);
+            pageId = getIntent().getExtras().getInt(INTENT_EXTRA_ID_PAGE, 0);
+            personName = getIntent().getExtras().getString(INTENT_EXTRA_PERSON_NAME, "");
+            imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
+            isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
+        }
+
         photosView.setLayoutManager(new LinearLayoutManager(this));
         photosView.setAdapter(new EventStuffAdapter());
+
         videos.setLayoutManager(new LinearLayoutManager(this));
         videos.setAdapter(new EventStuffAdapter());
+
         comments.setLayoutManager(new LinearLayoutManager(this));
         comments.setAdapter(new EventStuffAdapter());
-        presenter.getEvent(eventId);
+
+//        presenter.getEvent(eventId);
+
+        settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
+
         back.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -82,21 +110,42 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getDeadEvent(eventId);
+    }
+
+    @Override
     public void onReceivedEvent(EventModel requestEvent) {
         setItems(requestEvent);
     }
 
     private void setItems(EventModel requestEvent) {
         try {
-            name.setText(requestEvent.getName());
             Glide.with(this)
                     .load(BASE_SERVICE_URL + requestEvent.getPicture())
                     .into(imageAvatar);
+            setBlackWhite(imageAvatar);
             dateView.setText(formatDate(requestEvent.getDate()));
-            messageView.setText(requestEvent.getName() + " - " + requestEvent.getDescription());
+            eventName.setText(requestEvent.getName());
+            description.setText(requestEvent.getDescription());
         } catch (Exception e) {
 
         }
+    }
+
+    @OnClick(R.id.settings)
+    public void onSettingsClicked() {
+        Intent intent = new Intent(this, AddNewEventActivity.class);
+        intent.putExtra(INTENT_EXTRA_EVENT_ID, eventId);
+        intent.putExtra("EVENT_NAME", eventName.getText().toString());
+        intent.putExtra("EVENT_PERSON", personName);
+        intent.putExtra("EVENT_DESCRIPTION", description.getText().toString());
+        intent.putExtra("EVENT_IMAGE_URL", imageUrl);
+        intent.putExtra("EVENT_DATE", dateView.getText().toString());
+        intent.putExtra("PAGE_ID", pageId);
+        intent.putExtra("IS_EVENT_EDITING", true);
+        startActivity(intent);
     }
 
     private String formatDate(String date) {
