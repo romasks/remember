@@ -199,6 +199,14 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
+    public Observable<List<ResponseEvents>> getEventsFeed() {
+        String token = "Bearer " + Prefs.getString("TOKEN", "");
+        String eventsType = "DEAD_EVENTS";
+//        String eventsType = "ALL";
+        return apiMethods.getEventsFeed(token, eventsType);
+    }
+
+    @Override
     public Observable<ResponseEvents> getEvent(int id) {
         return apiMethods.getEvent(id);
     }

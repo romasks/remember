@@ -95,6 +95,10 @@ public interface ApiMethods {
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();
 
+    @GET("feed/notifications")
+    Observable<List<ResponseEvents>> getEventsFeed(@Header("Authorization") String token,
+                                     @Query("filter_type") String filterType);
+
     @GET("event/{id}")
     Observable<ResponseEvents> getEvent(@Path("id") int id);
 

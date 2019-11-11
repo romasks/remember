@@ -16,7 +16,7 @@ public class EventsPresenter extends BasePresenter<EventView> {
     }
 
     void getEvents() {
-        Disposable subscription = getServiceNetwork().getEvents()
+        Disposable subscription = getServiceNetwork().getEventsFeed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedEvents,

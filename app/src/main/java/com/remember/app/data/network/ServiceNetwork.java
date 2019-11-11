@@ -56,6 +56,8 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseEvents>> getEvents();
 
+    Observable<List<ResponseEvents>> getEventsFeed();
+
     Observable<ResponseEvents> getEvent(int id);
 
     Observable<EventModel> getDeadEvent(int id);
