@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -447,7 +448,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
     @OnClick(R.id.imageView4)
     public void shareVk() {
-        sharing=1;
         VKAccessToken token = VKAccessToken.currentToken();
         if (token == null) {
             VKSdk.login(this, VKScope.FRIENDS,VKScope.WALL,VKScope.PHOTOS);
@@ -459,9 +459,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
     private class sendPostSocial extends AsyncTask<String,Void,Bitmap>{
 
+        @SuppressLint("WrongThread")
         @Override
         protected Bitmap doInBackground(String... strings) {
             try {
+
                 String u="https://помню.рус" + strings[0];
                 URL url = new URL(u);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -479,12 +481,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         }
         @Override
         protected void onPostExecute(Bitmap result) {
-            if(sharing==1){
                 VKShareDialogBuilder builder = new VKShareDialogBuilder();
+            builder.setAttachmentImages(new VKUploadImage[]{
+                    new VKUploadImage(result, VKImageParameters.pngImage())
+            });
                 builder.setText(getNameTitle(memoryPageModel));
-                builder.setAttachmentImages(new VKUploadImage[]{
-                        new VKUploadImage(result, VKImageParameters.pngImage())
-                });
                 builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню ", "https://play.google.com/store/apps/details?id=com.remember.app");
                 builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
                     @Override
@@ -492,11 +493,13 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                         // recycle bitmap if need
                         Toast.makeText(getApplicationContext(), "Запись опубликована", Toast.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void onVkShareCancel() {
                         // recycle bitmap if need
-                        Log.i(TAG,"shareVk error2");
+                        Log.i(TAG, "shareVk error2");
                     }
+
                     @Override
                     public void onVkShareError(VKError error) {
                         // recycle bitmap if need
@@ -504,7 +507,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                     }
                 });
                 builder.show(ShowPageActivity.this.getSupportFragmentManager(), "VK_SHARE_DIALOG");
-            }
+
 
         }
     }

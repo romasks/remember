@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
     private TextView navUserName;
-
+private DrawerLayout drawer;
     private int pageNumber = 1;
     private int theme_setting = 0;
     private int countSum = 0;
@@ -113,15 +114,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setHasFixedSize(true);
-
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
 
 //        setUpLoadMoreListener();
-        DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
+         drawer = findViewById(R.id.drawer_layout_2);
         presenter.getImages(pageNumber);
-
         showAll.setOnClickListener(v -> {
             showAll.setVisibility(View.GONE);
             pageNumber = 1;
@@ -142,6 +141,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         super.onResume();
         if (theme_setting == 1) {
             this.recreate();
+        }
+        if (Prefs.getString("USER_ID", "").equals("")) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        }else {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
         getInfoUser();
     }
