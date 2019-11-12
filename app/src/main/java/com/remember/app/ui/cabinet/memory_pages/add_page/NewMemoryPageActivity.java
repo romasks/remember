@@ -225,9 +225,16 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @OnClick(R.id.place_button)
     public void toPlace() {
         Intent intent = new Intent(this, BurialPlaceActivity.class);
+        intent.putExtra("COORDS", Prefs.getString("COORDS", ""));
+        intent.putExtra("CITY", Prefs.getString("CITY", ""));
+        intent.putExtra("CEMETERY", Prefs.getString("CEMETERY", ""));
+        intent.putExtra("SPOT_ID", Prefs.getString("SPOT_ID", ""));
+        intent.putExtra("GRAVE_ID", Prefs.getString("GRAVE_ID", ""));
+        intent.putExtra("SECTOR", Prefs.getString("SECTOR", ""));
         if (isEdit) {
             intent.putExtra("MODEL", memoryPageModel);
             intent.putExtra("EDIT", true);
+//            intent.putExtra("PERSON", person);
         }
         startActivityForResult(intent, GRAVE_INFO_RESULT);
     }
@@ -403,6 +410,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 person.setSpotId(data.getStringExtra("SPOT_ID"));
                 person.setGraveId(data.getStringExtra("GRAVE_ID"));
                 person.setSector(data.getStringExtra("SECTOR"));
+                Prefs.putString("COORDS", data.getStringExtra("COORDS"));
+                Prefs.putString("CITY", data.getStringExtra("CITY"));
+                Prefs.putString("CEMETERY", data.getStringExtra("CEMETERY"));
+                Prefs.putString("SPOT_ID", data.getStringExtra("SPOT_ID"));
+                Prefs.putString("GRAVE_ID", data.getStringExtra("GRAVE_ID"));
+                Prefs.putString("SECTOR", data.getStringExtra("SECTOR"));
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
