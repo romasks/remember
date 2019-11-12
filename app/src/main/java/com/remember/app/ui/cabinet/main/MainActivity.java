@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -33,6 +34,7 @@ import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.PopupPageScreen;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
@@ -49,6 +51,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
@@ -133,14 +136,18 @@ public class MainActivity extends MvpAppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
-        if (!Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
-            titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
-
-            setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewAvatar);
-            setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
-        } else {
-            if (!Prefs.getString(PREFS_KEY_TOKEN, "").isEmpty()) {
+        if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
+            if (!Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN) && !Utils.isEmptyPrefsKey(PREFS_KEY_EMAIL)) {
                 presenter.getInfo();
+            } else {
+                setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
+                setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+            }
+        } else {
+            if (!Utils.isEmptyPrefsKey(PREFS_KEY_AVATAR)) {
+                titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+                setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewAvatar);
+                setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
             } else {
                 setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
                 setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
@@ -189,6 +196,11 @@ public class MainActivity extends MvpAppCompatActivity
 
         setBlackWhite(imageViewAvatar);
         setBlackWhite(imageViewBigAvatar);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Snackbar.make(imageViewAvatar, "Неопределённая ошибка с сервера", Snackbar.LENGTH_SHORT).show();
     }
 
     public interface CallbackPage {
