@@ -39,6 +39,7 @@ import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
 import com.remember.app.ui.utils.PopupPageScreen;
+import com.remember.app.ui.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -85,6 +86,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
     private TextView navUserName;
+    private DrawerLayout drawer;
 
     private int pageNumber = 1;
     private int countSum = 0;
@@ -103,6 +105,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
+        imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
 
         setUpLoadMoreListener();
@@ -114,7 +117,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             presenter.getImages(pageNumber);
         });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
+        drawer = findViewById(R.id.drawer_layout_2);
         button_menu.setOnClickListener(k -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -127,11 +130,16 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onResume() {
         super.onResume();
+        drawer.setDrawerLockMode(
+                Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)
+                        ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+                        : DrawerLayout.LOCK_MODE_UNLOCKED
+        );
         getInfoUser();
     }
 
     private void getInfoUser() {
-        if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty()) {
+        if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             avatar_user.setVisibility(View.VISIBLE);
             button_menu.setVisibility(View.VISIBLE);
 
@@ -150,9 +158,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
             imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
-            String avatarStr = Prefs.getString(PREFS_KEY_AVATAR, "");
-            if (Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
-                if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty() && !Prefs.getString(PREFS_KEY_TOKEN, "").isEmpty()) {
+            if (Utils.isEmptyPrefsKey(PREFS_KEY_AVATAR)) {
+                if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) && !Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
                     presenter.getInfo();
                 } else {
                     setGlideImage(this, R.drawable.ic_unknown, avatar_user);

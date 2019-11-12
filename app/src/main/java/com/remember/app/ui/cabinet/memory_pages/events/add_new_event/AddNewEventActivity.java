@@ -24,8 +24,6 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
@@ -57,6 +55,8 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewEventView {
@@ -118,9 +118,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
         dateString = getIntent().getExtras().getString("EVENT_DATE", "");
 
-        Glide.with(this)
-                .load(BASE_SERVICE_URL + imageUrl)
-                .into(image);
+        glideLoadInto(this, BASE_SERVICE_URL + imageUrl, image);
 
         if (getIntent().getBooleanExtra("IS_EVENT_EDITING", false)) {
             setBlackWhite(image);
@@ -177,9 +175,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
-                Glide.with(this)
-                        .load(data.getData())
-                        .into(image);
+                glideLoadInto(this, data.getData(), image);
                 setBlackWhite(image);
             }
         } else if (requestCode == 1) {
@@ -194,11 +190,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             findViewById(R.id.add_white).setVisibility(View.GONE);
             imageLayout.setBackgroundColor(Color.TRANSPARENT);
             try {
-                Glide.with(this)
-                        .asBitmap()
-                        .load(hah)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(image);
+                glideLoadIntoAsBitmap(this, hah, image);
                 setBlackWhite(image);
             } catch (Exception e) {
                 Log.e("dsgsd", e.getMessage());
@@ -212,9 +204,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
                     progressDialog.dismiss();
-                    Glide.with(getApplicationContext())
-                            .load(result.getUri())
-                            .into(image);
+                    glideLoadInto(getApplicationContext(), result.getUri(), image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

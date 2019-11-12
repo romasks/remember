@@ -21,9 +21,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -50,9 +52,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -61,6 +60,9 @@ import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
@@ -194,10 +196,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 //        dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
 
-        Glide.with(this)
-                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
-                .error(R.drawable.darth_vader)
-                .into(image);
+        glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
 
         setBlackWhite(image);
 
@@ -406,10 +405,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
-                Glide.with(this)
-                        .load(data.getData())
-                        .into(image);
-
+                glideLoadInto(this, data.getData(), image);
                 setBlackWhite(image);
             }
         } else if (requestCode == 1) {
@@ -424,12 +420,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             findViewById(R.id.add_white).setVisibility(View.GONE);
             imageLayout.setBackgroundColor(Color.TRANSPARENT);
             try {
-                Glide.with(this)
-                        .asBitmap()
-                        .load(hah)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(image);
-
+                glideLoadIntoAsBitmap(this, hah, image);
                 setBlackWhite(image);
 
             } catch (Exception e) {
@@ -444,9 +435,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
                     progressDialog.dismiss();
-                    Glide.with(getApplicationContext())
-                            .load(result.getUri())
-                            .into(image);
+                    glideLoadInto(getApplicationContext(), result.getUri(), image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

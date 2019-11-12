@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
@@ -24,6 +23,7 @@ import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class EventFullActivity extends BaseActivity implements EventView {
@@ -94,10 +94,10 @@ public class EventFullActivity extends BaseActivity implements EventView {
             if (!responseEvents.getPicture().contains("upload")) {
                 setEventPicture(BASE_SERVICE_URL + "/uploads/" + responseEvents.getPicture());
             } else {
-                setEventPicture(mDefaultBackground);
+                glideLoadIntoWithError(this, mDefaultBackground, avatarImage);
             }
         } catch (Exception e) {
-            setEventPicture(mDefaultBackground);
+            glideLoadIntoWithError(this, mDefaultBackground, avatarImage);
         }
         setBlackWhite(avatarImage);
         title.setText(responseEvents.getName());
@@ -110,9 +110,6 @@ public class EventFullActivity extends BaseActivity implements EventView {
     }
 
     private void setEventPicture(Object imageObj) {
-        Glide.with(this)
-                .load(imageObj)
-                .error(mDefaultBackground)
-                .into(avatarImage);
+        glideLoadIntoWithError(this, imageObj, avatarImage);
     }
 }

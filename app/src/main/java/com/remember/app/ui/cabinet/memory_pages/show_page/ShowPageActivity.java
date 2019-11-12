@@ -13,8 +13,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -35,11 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -53,6 +53,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
@@ -105,6 +106,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private int id = 0;
     private MemoryPageModel memoryPageModel;
     private PhotoSliderAdapter photoSliderAdapter;
+    private boolean isSlider = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +153,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             intent.putExtra(INTENT_EXTRA_ID_PAGE, memoryPageModel.getId());
             startActivity(intent);
         });
-        image.setOnClickListener(n -> startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
-                .putExtra(INTENT_EXTRA_ID, id)));
+        image.setOnClickListener(v -> {
+            if (isSlider) {
+                startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                        .putExtra(INTENT_EXTRA_ID, id));
+            }
+        });
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
@@ -173,11 +179,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private void initAll() {
         if (memoryPageModel != null) {
             if (!afterSave) {
-                Glide.with(this)
-                        .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
-                        .error(R.drawable.darth_vader)
-                        .into(image);
-
+                glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
                 setBlackWhite(image);
             }
             initTextName(memoryPageModel);
@@ -327,11 +329,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     public void onReceivedImage(MemoryPageModel memoryPageModel) {
         this.memoryPageModel = memoryPageModel;
         initAll();
-        Glide.with(this)
-                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
-                .error(R.drawable.darth_vader)
-                .into(image);
-
+        glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
         setBlackWhite(image);
     }
 
@@ -352,6 +350,9 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @Override
     public void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders) {
         photoSliderAdapter.setItems(responseImagesSliders);
+        if (responseImagesSliders.size() > 0) {
+            isSlider = true;
+        }
     }
 
     @Override

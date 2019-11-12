@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
 import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
@@ -34,6 +33,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID_PAGE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView {
@@ -122,9 +122,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
     private void setItems(EventModel requestEvent) {
         try {
-            Glide.with(this)
-                    .load(BASE_SERVICE_URL + requestEvent.getPicture())
-                    .into(imageAvatar);
+            glideLoadIntoWithError(this, BASE_SERVICE_URL + requestEvent.getPicture(), imageAvatar);
             setBlackWhite(imageAvatar);
             dateView.setText(formatDate(requestEvent.getDate()));
             eventName.setText(requestEvent.getName());

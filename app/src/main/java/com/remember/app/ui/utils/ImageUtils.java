@@ -13,7 +13,16 @@ import com.remember.app.R;
 
 public class ImageUtils {
 
-    public static void setGlideImage(Context context, Object imageUrl, ImageView targetView) {
+    public static void setGlideImage(Context context, Object imageObj, ImageView targetView) {
+        Glide.with(context)
+                .load(imageObj)
+                .apply(RequestOptions.circleCropTransform())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(targetView);
+    }
+
+    public static void setGlideImageWithError(Context context, Object imageUrl, ImageView targetView) {
         Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
         Glide.with(context)
                 .load(imageUrl)
@@ -21,6 +30,34 @@ public class ImageUtils {
                 .apply(RequestOptions.circleCropTransform())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
+                .into(targetView);
+    }
+
+    public static void glideLoadInto(Context context, Object imageObj, ImageView targetView) {
+        Glide.with(context)
+                .load(imageObj)
+                .into(targetView);
+    }
+
+    public static void glideLoadIntoAsBitmap(Context context, Object imageObj, ImageView targetView) {
+        Glide.with(context)
+                .asBitmap()
+                .load(imageObj)
+                .apply(RequestOptions.circleCropTransform())
+                .into(targetView);
+    }
+
+    public static void glideLoadIntoCenterInside(Context context, Object imageObj, ImageView targetView) {
+        Glide.with(context)
+                .load(imageObj)
+                .centerInside()
+                .into(targetView);
+    }
+
+    public static void glideLoadIntoWithError(Context context, Object imageObj, ImageView targetView) {
+        Glide.with(context)
+                .load(imageObj)
+                .error(R.drawable.darth_vader)
                 .into(targetView);
     }
 
