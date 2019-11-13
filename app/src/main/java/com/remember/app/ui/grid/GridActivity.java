@@ -305,10 +305,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
         if (!responseSettings.getPicture().isEmpty()) {
-            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
+            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
 
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), avatar_user);
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewBigAvatar);
+            setGlideImage(this, responseSettings.getPicture(), avatar_user);
+            setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
         } else {
             setGlideImage(this, R.drawable.ic_unknown, avatar_user);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);

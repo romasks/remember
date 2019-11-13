@@ -2,6 +2,7 @@ package com.remember.app.data.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.remember.app.data.Constants;
 
 public class ResponseSettings {
 
@@ -92,7 +93,9 @@ public class ResponseSettings {
     }
 
     public String getPicture() {
-        return picture == null ? "" : picture;
+        return picture == null ? ""
+                : picture.contains("facebook") || picture.contains("userapi") ? picture
+                : Constants.BASE_SERVICE_URL + picture;
     }
 
     public void setPicture(String picture) {

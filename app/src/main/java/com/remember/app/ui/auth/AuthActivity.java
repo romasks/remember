@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.material.snackbar.Snackbar;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
 import com.pixplicity.easyprefs.library.Prefs;

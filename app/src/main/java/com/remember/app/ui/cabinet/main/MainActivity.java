@@ -182,11 +182,11 @@ public class MainActivity extends MvpAppCompatActivity
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
         if (!responseSettings.getPicture().isEmpty()) {
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewAvatar);
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewBigAvatar);
+            setGlideImage(this, responseSettings.getPicture(), imageViewAvatar);
+            setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
 
             navUsername.setText(responseSettings.getName() + " " + responseSettings.getSurname());
-            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
+            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
             Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
 
         } else {

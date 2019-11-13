@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
-import androidx.appcompat.widget.AppCompatEditText;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -30,13 +28,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.appcompat.widget.AppCompatEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
@@ -147,9 +145,9 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
         if (!responseSettings.getPicture().isEmpty()) {
-            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
+            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
             Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
-            setGlideImage(getContext(), BASE_SERVICE_URL + responseSettings.getPicture(), avatar);
+            setGlideImage(getContext(), responseSettings.getPicture(), avatar);
         } else {
             setGlideImage(getContext(), R.drawable.ic_unknown, avatar);
         }
