@@ -123,6 +123,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     View view;
     @BindView(R.id.imageView4)
     ImageView but_vk;
+    @BindView(R.id.lv_add)
+    LinearLayout imadd;
 
 
     private Unbinder unbinder;
@@ -148,6 +150,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
         unbinder = ButterKnife.bind(this);
+        if (Prefs.getString("USER_ID", "").equals("")){
+            imadd.setVisibility(View.GONE);
+            but_vk.setVisibility(View.GONE);
+            settings.setVisibility(View.GONE);
+        }
         if (Prefs.getInt("IS_THEME", 0) == 2) {
             backImg.setImageResource(R.drawable.ic_back_dark_theme);
             settings.setImageResource(R.drawable.setting_white);
