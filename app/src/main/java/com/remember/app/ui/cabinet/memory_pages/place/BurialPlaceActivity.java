@@ -19,6 +19,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
+import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
@@ -55,6 +56,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     private ResponseHandBook responseHandBook;
     private boolean isEdit;
     private MemoryPageModel memoryPageModel;
+    private AddPageModel person;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,10 +70,22 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         responseHandBook = new ResponseHandBook();
 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
+
+        coordinates.setText(getIntent().getStringExtra("COORDS"));
+        city.setText(getIntent().getStringExtra("CITY"));
+        cemetery.setText(getIntent().getStringExtra("CEMETERY"));
+        sector.setText(getIntent().getStringExtra("SPOT_ID"));
+        grave.setText(getIntent().getStringExtra("GRAVE_ID"));
+        sectorPlace.setText(getIntent().getStringExtra("SECTOR"));
+
         if (isEdit) {
             memoryPageModel = getIntent().getParcelableExtra("MODEL");
+//            person = getIntent().getParcelableExtra("PERSON");
             initEdit();
         }
+//        else {
+//            initCreate();
+//        }
 
         city.setOnClickListener(v -> presenter.getCities());
         cemetery.setOnClickListener(v -> {
@@ -82,6 +96,19 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
             }
         });
     }
+
+//    private void initCreate() {
+//        try {
+//            city.setText(person.getCity());
+//        } catch (NullPointerException e) {
+//            city.setText("");
+//        }
+//        try {
+//            cemetery.setText(person.getCemeteryName());
+//        } catch (NullPointerException e) {
+//            cemetery.setText("");
+//        }
+//    }
 
     private void initEdit() {
         try {
@@ -111,7 +138,7 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         }
         try {
             sectorPlace.setText(memoryPageModel.getSector());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             sectorPlace.setText("");
         }
     }
