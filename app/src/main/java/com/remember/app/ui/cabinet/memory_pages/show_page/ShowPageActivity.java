@@ -3,24 +3,23 @@ package com.remember.app.ui.cabinet.memory_pages.show_page;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
@@ -32,14 +31,30 @@ import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PhotoDialog;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKScope;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.photo.VKImageParameters;
+import com.vk.sdk.api.photo.VKUploadImage;
+import com.vk.sdk.dialogs.VKShareDialog;
+import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -97,6 +112,10 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     ScrollView scrollView;
     @BindView(R.id.recycler_slider)
     RecyclerView recyclerSlider;
+    @BindView(R.id.shareVk)
+    ImageView but_vk;
+    @BindView(R.id.lv_add)
+    LinearLayout imadd;
 
     private Unbinder unbinder;
     private boolean isList = false;
@@ -106,6 +125,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private int id = 0;
     private MemoryPageModel memoryPageModel;
     private PhotoSliderAdapter photoSliderAdapter;
+    private int sharing = 0;
     private boolean isSlider = false;
 
     @Override
@@ -113,6 +133,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
         unbinder = ButterKnife.bind(this);
+        if (Prefs.getString("USER_ID", "").equals("")) {
+            imadd.setVisibility(View.GONE);
+            but_vk.setVisibility(View.GONE);
+            settings.setVisibility(View.GONE);
+        }
         Intent i = getIntent();
 
         title.setText(R.string.memory_page_header_text);
@@ -165,6 +190,22 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         photoSliderAdapter.setClickListener(this);
         recyclerSlider.setAdapter(photoSliderAdapter);
 
+    }
+
+    private String getNameTitle(MemoryPageModel memoryPageModel) {
+        String textSecondName = memoryPageModel.getSecondname().substring(0, 1).toUpperCase() + memoryPageModel.getSecondname().substring(1);
+        String textName = memoryPageModel.getName().substring(0, 1).toUpperCase() + memoryPageModel.getName().substring(1);
+        String textMiddleName = memoryPageModel.getThirtname().substring(0, 1).toUpperCase() + memoryPageModel.getThirtname().substring(1);
+        String result = "Памятная страница. " + textSecondName + " " + textName + " " + textMiddleName;
+        try {
+            Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDatarod());
+            Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDatasmert());
+            DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
+            DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
+            return result + ". " + first.format(dateBegin) + " - " + second.format(dateEnd);
+        } catch (ParseException e) {
+            return result + ". " + memoryPageModel.getDatarod() + " - " + memoryPageModel.getDatasmert();
+        }
     }
 
     @OnClick(R.id.imageButton)
@@ -223,6 +264,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == Activity.RESULT_OK) {
             assert result != null;
@@ -378,6 +420,69 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     public void onItemClick(View view, int position) {
         startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
                 .putExtra("ID", id));
+    }
 
+    @OnClick(R.id.imageView4)
+    public void shareVk() {
+        sharing = 1;
+        VKAccessToken token = VKAccessToken.currentToken();
+        if (token == null) {
+            VKSdk.login(this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
+            Toast.makeText(getApplicationContext(), "Необходимо авторизоваться через ВКонтакте", Toast.LENGTH_SHORT).show();
+        } else {
+            new sendPostSocial().execute(memoryPageModel.getPicture());
+        }
+    }
+
+    private class sendPostSocial extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            try {
+                String u = "https://помню.рус" + strings[0];
+                URL url = new URL(u);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                Log.i(TAG, "Ok");
+                return myBitmap;
+            } catch (Exception e) {
+                Log.i(TAG, "Exception");
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            if (sharing == 1) {
+                VKShareDialogBuilder builder = new VKShareDialogBuilder();
+                builder.setText(getNameTitle(memoryPageModel));
+                builder.setAttachmentImages(new VKUploadImage[]{
+                        new VKUploadImage(result, VKImageParameters.pngImage())
+                });
+                builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню ", "https://play.google.com/store/apps/details?id=com.remember.app");
+                builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+                    @Override
+                    public void onVkShareComplete(int postId) {
+                        // recycle bitmap if need
+                        Toast.makeText(getApplicationContext(), "Запись опубликована", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onVkShareCancel() {
+                        // recycle bitmap if need
+                        Log.i(TAG, "shareVk error2");
+                    }
+
+                    @Override
+                    public void onVkShareError(VKError error) {
+                        // recycle bitmap if need
+                        Toast.makeText(getApplicationContext(), "Ошибка публикации", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show(ShowPageActivity.this.getSupportFragmentManager(), "VK_SHARE_DIALOG");
+            }
+        }
     }
 }
