@@ -69,8 +69,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     AutoCompleteTextView phone;
 
     private Unbinder unbinder;
-    private File imageFile;
-    private Bitmap bitmap;
     private ProgressDialog progressDialog;
 
     PersonalDataFragment(@NotNull SettingPresenter presenter) {
@@ -119,8 +117,8 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
                     setGlideImage(getContext(), resultUri, avatar);
                     setBlackWhite(avatar);
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
-                        imageFile = saveBitmap(bitmap);
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
+                        File imageFile = saveBitmap(bitmap);
                         presenter.saveImageSetting(imageFile);
                         progressDialog = LoadingPopupUtils.showLoadingDialog(getContext());
                     } catch (IOException e) {
@@ -129,20 +127,26 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+                Log.e(TAG, "Ошибка загрузки фото", error);
+                Snackbar.make(avatar, "Ошибка загрузки фото", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
 
     @OnClick(R.id.add_new_photo)
     void addNewPhoto() {
-        CropImage.activity()
-                .setCropShape(CropImageView.CropShape.OVAL)
-                .setFixAspectRatio(true)
-                .start(getContext(), this);
+        if (getContext() != null) {
+            CropImage.activity()
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .setFixAspectRatio(true)
+                    .start(getContext(), this);
+        } else {
+            Snackbar.make(avatar, "Внутренняя ошибка приложения", Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
-        if (responseSettings.getPicture() != null) {
+        if (!responseSettings.getPicture().isEmpty()) {
             Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
             Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
             setGlideImage(getContext(), BASE_SERVICE_URL + responseSettings.getPicture(), avatar);
@@ -151,25 +155,18 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         }
         setBlackWhite(avatar);
 
-        if (responseSettings.getSurname() != null) {
-            surname.setText(responseSettings.getSurname());
+        surname.setText(responseSettings.getSurname());
+        name.setText(responseSettings.getName());
+        middleName.setText(responseSettings.getThirdname());
+        phone.setText(responseSettings.getPhone());
+        nickname.setText(responseSettings.getNickname());
+        location.setText(responseSettings.getLocation());
+
+        if (getView() != null) {
+            getView().invalidate();
+        } else {
+            Snackbar.make(avatar, "Внутренняя ошибка приложения", Snackbar.LENGTH_SHORT).show();
         }
-        if (responseSettings.getName() != null) {
-            name.setText(responseSettings.getName());
-        }
-        if (responseSettings.getThirdname() != null) {
-            middleName.setText(responseSettings.getThirdname());
-        }
-        if (responseSettings.getPhone() != null) {
-            phone.setText(responseSettings.getPhone());
-        }
-        if (responseSettings.getNickname() != null) {
-            nickname.setText(responseSettings.getNickname());
-        }
-        if (responseSettings.getNickname() != null && !responseSettings.getNickname().equals("null")) {
-            location.setText(responseSettings.getLocation());
-        }
-        getView().invalidate();
     }
 
     @Override

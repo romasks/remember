@@ -181,7 +181,7 @@ public class MainActivity extends MvpAppCompatActivity
     @SuppressLint("SetTextI18n")
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        if (responseSettings.getPicture() != null) {
+        if (!responseSettings.getPicture().isEmpty()) {
             setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewAvatar);
             setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewBigAvatar);
 

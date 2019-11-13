@@ -27,12 +27,14 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @BindView(R.id.save_button)
     Button saveButton;
 
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.getInfo();
 
-        ViewPager viewPager = findViewById(R.id.container);
+        viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
 
         saveButton.setOnClickListener(v -> {
@@ -79,7 +81,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Override
     public void error(Throwable throwable) {
-        Log.e(TAG, throwable.getMessage());
+        Log.e(TAG, throwable.getMessage() != null ? throwable.getMessage() : "Ошибка загрузки данных");
         Snackbar.make(saveButton, "Ошибка загрузки данных", Snackbar.LENGTH_LONG).show();
     }
 
@@ -91,6 +93,6 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Override
     public void onSavedImage(Object o) {
-
+        ((PersonalDataFragment) ((FragmentPager) viewPager.getAdapter()).getItem(0)).onSavedImage(o);
     }
 }

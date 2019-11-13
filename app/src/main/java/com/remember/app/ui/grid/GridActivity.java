@@ -56,7 +56,6 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS;
-import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
@@ -165,8 +164,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 //                if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) && !Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
 //                    presenter.getInfo();
 //                } else {
-                    setGlideImage(this, R.drawable.ic_unknown, avatar_user);
-                    setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+                setGlideImage(this, R.drawable.ic_unknown, avatar_user);
+                setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
 //                }
             } else {
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), avatar_user);
@@ -305,7 +304,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        if (responseSettings.getPicture() != null) {
+        if (!responseSettings.getPicture().isEmpty()) {
             Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
 
             setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), avatar_user);

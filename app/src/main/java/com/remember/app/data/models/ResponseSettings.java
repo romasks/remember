@@ -44,7 +44,7 @@ public class ResponseSettings {
 
 
     public String getSurname() {
-        return surname;
+        return surname == null ? "" : surname;
     }
 
     public void setSurname(String surname) {
@@ -52,7 +52,7 @@ public class ResponseSettings {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -60,7 +60,7 @@ public class ResponseSettings {
     }
 
     public String getThirdname() {
-        return thirdname;
+        return thirdname == null ? "" : thirdname;
     }
 
     public void setThirdname(String thirdname) {
@@ -68,7 +68,7 @@ public class ResponseSettings {
     }
 
     public String getNickname() {
-        return nickname;
+        return nickname == null ? "" : nickname;
     }
 
     public void setNickname(String nickname) {
@@ -76,7 +76,7 @@ public class ResponseSettings {
     }
 
     public String getEmail() {
-        return email;
+        return email == null ? "" : email;
     }
 
     public void setEmail(String email) {
@@ -92,7 +92,7 @@ public class ResponseSettings {
     }
 
     public String getPicture() {
-        return picture;
+        return picture == null ? "" : picture;
     }
 
     public void setPicture(String picture) {
@@ -100,7 +100,7 @@ public class ResponseSettings {
     }
 
     public String getPhone() {
-        return phone;
+        return phone == null ? "" : phone;
     }
 
     public void setPhone(String phone) {
@@ -108,7 +108,7 @@ public class ResponseSettings {
     }
 
     public String getLocation() {
-        return location;
+        return location == null || "null".equals(location) ? "" : location;
     }
 
     public void setLocation(String location) {
