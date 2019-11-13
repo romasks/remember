@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
+import androidx.appcompat.widget.AppCompatEditText;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -28,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.appcompat.widget.AppCompatEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -86,22 +87,19 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setings_lk, container, false);
         unbinder = ButterKnife.bind(this, view);
         email.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
-
-        ((SettingActivity) getActivity()).setSaveButtonClickListener(v -> {
-            presenter.getRequestSettings()
-                    .name(name).surname(surname).middleName(middleName)
-                    .nickname(nickname).location(location).phone(phone);
-            presenter.saveSettings();
-        });
-
         return view;
+    }
+
+    void onSaveClick() {
+        presenter.getRequestSettings()
+                .name(name).surname(surname).middleName(middleName)
+                .nickname(nickname).location(location).phone(phone);
     }
 
     @Override

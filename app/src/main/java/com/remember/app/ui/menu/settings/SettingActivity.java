@@ -3,14 +3,13 @@ package com.remember.app.ui.menu.settings;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
-
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
@@ -36,18 +35,29 @@ public class SettingActivity extends BaseActivity implements SettingView {
         ViewPager viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
 
+        saveButton.setOnClickListener(v -> {
+            switch (viewPager.getCurrentItem()) {
+                case 0: {
+                    ((PersonalDataFragment) ((FragmentPager) viewPager.getAdapter()).getItem(0)).onSaveClick();
+                    break;
+                }
+                case 1: {
+                    ((NotificationFragment) ((FragmentPager) viewPager.getAdapter()).getItem(1)).onSaveClick();
+                    break;
+                }
+                default:
+            }
+            presenter.saveSettings();
+        });
+
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     @OnClick(R.id.back)
-    public void back(){
+    public void back() {
         onBackPressed();
         finish();
-    }
-
-    public void setSaveButtonClickListener(View.OnClickListener listener) {
-        saveButton.setOnClickListener(listener);
     }
 
     @Override

@@ -54,7 +54,8 @@ public class SettingPresenter extends BasePresenter<SettingView> {
         Disposable subscription = getServiceNetwork().saveImageSetting(imageFile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedImage);
+                .subscribe(getViewState()::onSavedImage,
+                        getViewState()::error);
         unsubscribeOnDestroy(subscription);
     }
 

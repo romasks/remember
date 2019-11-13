@@ -57,16 +57,14 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
         unbinder = ButterKnife.bind(this, view);
         days.setItems(daysArr);
         days.setSelectedIndex(0);
-
-        ((SettingActivity) getActivity()).setSaveButtonClickListener(v -> {
-            presenter.getRequestSettings()
-                    .enableNotifications(notifications.isChecked())
-                    .commemorationDays(getIdNotice())
-                    .amountDays(getAmountDays());
-            presenter.saveSettings();
-        });
-
         return view;
+    }
+
+    void onSaveClick() {
+        presenter.getRequestSettings()
+                .enableNotifications(notifications.isChecked())
+                .commemorationDays(getIdNotice())
+                .amountDays(getAmountDays());
     }
 
     @Override

@@ -82,6 +82,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     ImageView avatar_user;
     @BindView(R.id.menu_icon)
     ImageView button_menu;
+    @BindView(R.id.grid_sign_in)
+    Button signInButton;
 
     private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
@@ -142,6 +144,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             avatar_user.setVisibility(View.VISIBLE);
             button_menu.setVisibility(View.VISIBLE);
+            signInButton.setText("Перейти в кабинет");
 
             setSupportActionBar(findViewById(R.id.toolbar));
 
@@ -159,19 +162,19 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
             if (Utils.isEmptyPrefsKey(PREFS_KEY_AVATAR)) {
-                if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) && !Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
-                    presenter.getInfo();
-                } else {
+//                if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) && !Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
+//                    presenter.getInfo();
+//                } else {
                     setGlideImage(this, R.drawable.ic_unknown, avatar_user);
                     setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-                }
+//                }
             } else {
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), avatar_user);
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
-
-                setBlackWhite(avatar_user);
-                setBlackWhite(imageViewBigAvatar);
             }
+
+            setBlackWhite(avatar_user);
+            setBlackWhite(imageViewBigAvatar);
 
             imageViewBigAvatar.setOnClickListener(view -> {
                 startActivity(new Intent(this, SettingActivity.class));
