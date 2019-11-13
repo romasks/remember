@@ -233,7 +233,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         if (isEdit) {
             intent.putExtra("MODEL", memoryPageModel);
             intent.putExtra("EDIT", true);
-//            intent.putExtra("PERSON", person);
         }
         startActivityForResult(intent, GRAVE_INFO_RESULT);
     }
@@ -409,6 +408,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 person.setSpotId(data.getStringExtra("SPOT_ID"));
                 person.setGraveId(data.getStringExtra("GRAVE_ID"));
                 person.setSector(data.getStringExtra("SECTOR"));
+
                 Prefs.putString("COORDS", data.getStringExtra("COORDS"));
                 Prefs.putString("CITY", data.getStringExtra("CITY"));
                 Prefs.putString("CEMETERY", data.getStringExtra("CEMETERY"));

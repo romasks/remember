@@ -23,6 +23,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 @Module
 public class ApiModule {
 
@@ -73,8 +75,7 @@ public class ApiModule {
     @Provides
     @Singleton
     HttpUrl provideHttpUrl() {
-//        return HttpUrl.parse("http://помню.рус:3001/");
-        return HttpUrl.parse("http://pomnyu.ru:3001/");
+        return HttpUrl.parse(BASE_SERVICE_URL + ":3001/");
     }
 
     @Provides

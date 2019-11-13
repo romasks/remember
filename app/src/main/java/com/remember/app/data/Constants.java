@@ -2,8 +2,8 @@ package com.remember.app.data;
 
 public class Constants {
 
-//    public static final String BASE_SERVICE_URL = "http://помню.рус";
-    public static final String BASE_SERVICE_URL = "http://pomnyu.ru:3001";
+    public static final String BASE_SERVICE_URL = "http://помню.рус";
+    //public static final String BASE_SERVICE_URL = "http://pomnyu.ru";
 
     public static final String PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS = "SETTINGS_SHOW_NOTIFICATIONS";
     public static final String PREFS_KEY_ACCESS_TOKEN = "ACCESS_TOKEN";
