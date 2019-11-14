@@ -87,6 +87,33 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         TextView wrongPas = findViewById(R.id.wrong_password);
         register.setPaintFlags(register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+
+        /*PackageInfo info;
+        try {
+            info = getPackageManager().getPackageInfo("com.remember.app", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                //String something = new String(Base64.encodeBytes(md.digest()));
+                Log.e("hash key", something);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("name not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("no such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("exception", e.toString());
+        }*/
+
+
+
+        /*String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
+        for (String fingerprint : fingerprints) {
+            Log.e("fingerprint", fingerprint);
+        }*/
     }
 
     @OnClick(R.id.vk)
