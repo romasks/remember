@@ -122,6 +122,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     ImageView backImg;
     @BindView(R.id.panel)
     LinearLayout panel;
+    @BindView(R.id.gradient_img)
+    View view;
 
     private Unbinder unbinder;
     private boolean isList = false;
