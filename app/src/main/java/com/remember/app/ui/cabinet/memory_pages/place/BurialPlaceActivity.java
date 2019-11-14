@@ -17,14 +17,13 @@ import androidx.core.app.ActivityCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,6 +67,14 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         responseHandBook = new ResponseHandBook();
 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
+
+        coordinates.setText(getIntent().getStringExtra("COORDS"));
+        city.setText(getIntent().getStringExtra("CITY"));
+        cemetery.setText(getIntent().getStringExtra("CEMETERY"));
+        sector.setText(getIntent().getStringExtra("SPOT_ID"));
+        grave.setText(getIntent().getStringExtra("GRAVE_ID"));
+        sectorPlace.setText(getIntent().getStringExtra("SECTOR"));
+
         if (isEdit) {
             memoryPageModel = getIntent().getParcelableExtra("MODEL");
             initEdit();
@@ -75,45 +82,21 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
 
         city.setOnClickListener(v -> presenter.getCities());
         cemetery.setOnClickListener(v -> {
-            if (!city.getText().toString().equals("")) {
+            if (!city.getText().toString().isEmpty()) {
                 presenter.getCemetery(responseHandBook.getId());
             } else {
-                Snackbar.make(city, "Введите город", Snackbar.LENGTH_LONG).show();
+                Utils.showSnack(city, "Введите город");
             }
         });
     }
 
     private void initEdit() {
-        try {
-            coordinates.setText(memoryPageModel.getCoords());
-        } catch (NullPointerException e) {
-            coordinates.setText("");
-        }
-        try {
-            city.setText(memoryPageModel.getGorod());
-        } catch (NullPointerException e) {
-            city.setText("");
-        }
-        try {
-            cemetery.setText(memoryPageModel.getNazvaklad());
-        } catch (NullPointerException e) {
-            cemetery.setText("");
-        }
-        try {
-            sector.setText(memoryPageModel.getUchastok());
-        } catch (NullPointerException e) {
-            sector.setText("");
-        }
-        try {
-            grave.setText(memoryPageModel.getNummogil());
-        } catch (NullPointerException e) {
-            grave.setText("");
-        }
-        try {
-            sectorPlace.setText(memoryPageModel.getSector());
-        } catch (NullPointerException e){
-            sectorPlace.setText("");
-        }
+        coordinates.setText(memoryPageModel.getCoords());
+        city.setText(memoryPageModel.getGorod());
+        cemetery.setText(memoryPageModel.getNazvaklad());
+        sector.setText(memoryPageModel.getUchastok());
+        grave.setText(memoryPageModel.getNummogil());
+        sectorPlace.setText(memoryPageModel.getSector());
     }
 
     @OnClick(R.id.back)
@@ -137,10 +120,10 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
 
     @OnClick(R.id.submit)
     public void submit() {
-        if (city.getText().toString().equals("")) {
-            Snackbar.make(city, "Введите город", Snackbar.LENGTH_LONG).show();
-        } else if (cemetery.getText().toString().equals("")) {
-            Snackbar.make(city, "Введите название кладбища", Snackbar.LENGTH_LONG).show();
+        if (city.getText().toString().isEmpty()) {
+            Utils.showSnack(city, "Введите город");
+        } else if (cemetery.getText().toString().isEmpty()) {
+            Utils.showSnack(city, "Введите название кладбища");
         } else {
             onBackPressed();
         }
@@ -212,7 +195,6 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         this.responseHandBook.setName(responseHandBook.getName());
         city.setText(responseHandBook.getName());
     }
-
 
     @Override
     public void saveItem(ResponseCemetery responseCemetery) {

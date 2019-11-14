@@ -8,8 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -33,18 +40,15 @@ import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.PopupPageScreen;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
@@ -77,19 +81,33 @@ public class MainActivity extends MvpAppCompatActivity
     private ProgressDialog progressDialog;
     private PopupEventScreen popupWindowEvent;
     private PopupPageScreen popupWindowPage;
+
     private ImageView imageViewAvatar;
     private ImageView imageViewBigAvatar;
     private TextView navUsername;
+    private int theme_setting = 0;
+
+    View.OnClickListener onAvatarClickListener = view -> {
+        startActivity(new Intent(this, SettingActivity.class));
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
 
-        searchImg.setImageResource(R.drawable.ic_search);
-        addImg.setImageResource(R.drawable.ic_add_black);
-        viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
+        if (Utils.isThemeDark()) {
+            viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+            searchImg.setImageResource(R.drawable.ic_search_dark_theme);
+            addImg.setImageResource(R.drawable.ic_add_white);
+        } else {
+            searchImg.setImageResource(R.drawable.ic_search);
+            addImg.setImageResource(R.drawable.ic_add_black);
+            viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
+        }
 
         setSupportActionBar(findViewById(R.id.toolbar));
 
@@ -105,6 +123,9 @@ public class MainActivity extends MvpAppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
 
+        imageViewBigAvatar = headerView.findViewById(R.id.logo);
+        imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
+
         navUsername = headerView.findViewById(R.id.user_name);
         navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
@@ -112,6 +133,9 @@ public class MainActivity extends MvpAppCompatActivity
         navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        imageViewAvatar = drawer.findViewById(R.id.avatar);
+        imageViewAvatar.setOnClickListener(onAvatarClickListener);
+
         button_menu.setOnClickListener(i -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -124,37 +148,29 @@ public class MainActivity extends MvpAppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (theme_setting == 1) {
+            this.recreate();
+        }
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        imageViewAvatar = drawer.findViewById(R.id.avatar);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
-        if (!Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
+        if (!Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
+            presenter.getInfo();
+        } else {
+            navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
             titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
-            setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewAvatar);
-            setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
-        } else {
-            if (!Prefs.getString(PREFS_KEY_TOKEN, "").isEmpty()) {
-                presenter.getInfo();
-            } else {
-                setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
-                setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-            }
+            setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
+            setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+
+            setBlackWhite(imageViewBigAvatar);
+            setBlackWhite(imageViewAvatar);
         }
-
-        setBlackWhite(imageViewBigAvatar);
-        setBlackWhite(imageViewAvatar);
-
-        imageViewBigAvatar.setOnClickListener(view -> {
-            startActivity(new Intent(this, SettingActivity.class));
-        });
     }
-
 
     @OnClick(R.id.search)
     public void search() {
@@ -174,13 +190,15 @@ public class MainActivity extends MvpAppCompatActivity
     @SuppressLint("SetTextI18n")
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        if (responseSettings.getPicture() != null) {
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewAvatar);
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewBigAvatar);
+        String userName = responseSettings.getName() + " " + responseSettings.getSurname();
+        Prefs.putString(PREFS_KEY_NAME_USER, userName);
+        navUsername.setText(userName.trim());
+        titleUserName.setText(userName.trim());
 
-            navUsername.setText(responseSettings.getName() + " " + responseSettings.getSurname());
-            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
-            Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
+        if (!responseSettings.getPicture().isEmpty()) {
+            setGlideImage(this, responseSettings.getPicture(), imageViewAvatar);
+            setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
+            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
 
         } else {
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
@@ -191,12 +209,49 @@ public class MainActivity extends MvpAppCompatActivity
         setBlackWhite(imageViewBigAvatar);
     }
 
+    @Override
+    public void onError(Throwable throwable) {
+        Utils.showSnack(imageViewAvatar, "Неопределённая ошибка с сервера");
+        setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
+        setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+        setBlackWhite(imageViewAvatar);
+        setBlackWhite(imageViewBigAvatar);
+    }
+
     public interface CallbackPage {
         void sendItemsSearch(List<MemoryPageModel> result);
     }
 
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
+
+        ConstraintLayout layout = popupView.findViewById(R.id.cont);
+        Toolbar toolbar = popupView.findViewById(R.id.toolbar);
+        ImageView backImg = popupView.findViewById(R.id.back);
+        TextView textView = popupView.findViewById(R.id.textView2);
+        AutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
+        AutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
+        AutoCompleteTextView middleName = popupView.findViewById(R.id.father_name_value);
+        AutoCompleteTextView place = popupView.findViewById(R.id.live_place_value);
+        AutoCompleteTextView dateBegin = popupView.findViewById(R.id.date_begin_value);
+        AutoCompleteTextView dateEnd = popupView.findViewById(R.id.date_end_value);
+
+
+        if (Utils.isThemeDark()) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+            backImg.setImageResource(R.drawable.ic_back_dark_theme);
+
+            int textColorDark = getResources().getColor(R.color.colorWhiteDark);
+            textView.setTextColor(textColorDark);
+            name.setTextColor(textColorDark);
+            lastName.setTextColor(textColorDark);
+            middleName.setTextColor(textColorDark);
+            dateBegin.setTextColor(textColorDark);
+            dateEnd.setTextColor(textColorDark);
+            place.setTextColor(textColorDark);
+        }
+
         popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -274,6 +329,7 @@ public class MainActivity extends MvpAppCompatActivity
         }
         if (id == R.id.settings) {
             startActivity(new Intent(this, SettingActivity.class));
+            theme_setting = 1;
             return true;
         }
         if (id == R.id.event_calendar) {

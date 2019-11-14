@@ -13,7 +13,7 @@ public class NotificationsPagerAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> fragmentList = new ArrayList<>();
     private List<String> titleList = new ArrayList<>();
 
-    public NotificationsPagerAdapter(FragmentManager fm) {
+    NotificationsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

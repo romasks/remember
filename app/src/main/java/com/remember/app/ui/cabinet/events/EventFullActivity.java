@@ -11,11 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
@@ -24,6 +24,8 @@ import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class EventFullActivity extends BaseActivity implements EventView {
@@ -41,16 +43,25 @@ public class EventFullActivity extends BaseActivity implements EventView {
     TextView body;
     @BindView(R.id.date)
     TextView date;
+    @BindView(R.id.back_button)
+    ImageView backButton;
 
     private Drawable mDefaultBackground;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
 
+        if (Utils.isThemeDark()) {
+            backButton.setImageResource(R.drawable.ic_back_dark_theme);
+            title.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+        }
+
         if (getIntent().getExtras() != null) {
-            if (getIntent().getExtras().getBoolean("FROM_NOTIF")) {
+            if (getIntent().getExtras().getBoolean(INTENT_EXTRA_FROM_NOTIF)) {
                 presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
             } else {
                 ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
@@ -110,9 +121,6 @@ public class EventFullActivity extends BaseActivity implements EventView {
     }
 
     private void setEventPicture(Object imageObj) {
-        Glide.with(this)
-                .load(imageObj)
-                .error(mDefaultBackground)
-                .into(avatarImage);
+        glideLoadIntoWithError(this, imageObj, avatarImage);
     }
 }

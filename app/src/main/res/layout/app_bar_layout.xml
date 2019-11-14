@@ -44,7 +44,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/memory_page_event_header_text"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 

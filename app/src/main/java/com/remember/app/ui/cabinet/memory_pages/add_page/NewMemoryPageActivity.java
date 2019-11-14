@@ -18,13 +18,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
@@ -36,6 +38,7 @@ import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -50,17 +53,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
@@ -69,18 +74,15 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     AddPagePresenter presenter;
 
     @BindView(R.id.last_name)
-//    AutoCompleteTextView lastName;
-            EditText lastName;
+    EditText lastName;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.image_layout)
     ConstraintLayout imageLayout;
     @BindView(R.id.middle_name)
-//    AutoCompleteTextView middleName;
-            EditText middleName;
+    EditText middleName;
     @BindView(R.id.name)
-//    AutoCompleteTextView name;
-            EditText name;
+    EditText name;
     @BindView(R.id.date_begin)
     AutoCompleteTextView dateBegin;
     @BindView(R.id.date_end)
@@ -120,9 +122,28 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_memory_page);
         ButterKnife.bind(this);
+
+        if (Utils.isThemeDark()) {
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            int textColorDark = getResources().getColor(R.color.colorWhiteDark);
+            name.setTextColor(textColorDark);
+            lastName.setTextColor(textColorDark);
+            middleName.setTextColor(textColorDark);
+            dateBegin.setTextColor(textColorDark);
+            dateEnd.setTextColor(textColorDark);
+            religion.setTextColor(textColorDark);
+            isFamous.setTextColor(textColorDark);
+            isPublic.setTextColor(textColorDark);
+            noPublic.setTextColor(textColorDark);
+            notFamous.setTextColor(textColorDark);
+            description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
+        }
+
         initiate();
         Intent i = getIntent();
         person = new AddPageModel();
@@ -194,10 +215,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 //        dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
 
-        Glide.with(this)
-                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
-                .error(R.drawable.darth_vader)
-                .into(image);
+        glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
 
         setBlackWhite(image);
 
@@ -225,6 +243,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @OnClick(R.id.place_button)
     public void toPlace() {
         Intent intent = new Intent(this, BurialPlaceActivity.class);
+        intent.putExtra("COORDS", Prefs.getString("COORDS", ""));
+        intent.putExtra("CITY", Prefs.getString("CITY", ""));
+        intent.putExtra("CEMETERY", Prefs.getString("CEMETERY", ""));
+        intent.putExtra("SPOT_ID", Prefs.getString("SPOT_ID", ""));
+        intent.putExtra("GRAVE_ID", Prefs.getString("GRAVE_ID", ""));
+        intent.putExtra("SECTOR", Prefs.getString("SECTOR", ""));
         if (isEdit) {
             intent.putExtra("MODEL", memoryPageModel);
             intent.putExtra("EDIT", true);
@@ -323,7 +347,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             }
             if (endDate != null) {
                 if (dateAndTime.getTime().after(endDate)) {
-                    Snackbar.make(dateBegin, "Дата смерти не может быть перед датой рождения", Snackbar.LENGTH_LONG).show();
+                    Utils.showSnack(dateBegin, "Дата смерти не может быть перед датой рождения");
                 } else {
                     setInitialDateBegin();
                 }
@@ -347,7 +371,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             }
             if (startDate != null) {
                 if (startDate.after(dateAndTime.getTime())) {
-                    Snackbar.make(dateBegin, "Дата смерти не может быть перед датой рождения", Snackbar.LENGTH_LONG).show();
+                    Utils.showSnack(dateBegin, "Дата смерти не может быть перед датой рождения");
                 } else {
                     setInitialDateEnd();
                 }
@@ -403,13 +427,17 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 person.setSpotId(data.getStringExtra("SPOT_ID"));
                 person.setGraveId(data.getStringExtra("GRAVE_ID"));
                 person.setSector(data.getStringExtra("SECTOR"));
+
+                Prefs.putString("COORDS", data.getStringExtra("COORDS"));
+                Prefs.putString("CITY", data.getStringExtra("CITY"));
+                Prefs.putString("CEMETERY", data.getStringExtra("CEMETERY"));
+                Prefs.putString("SPOT_ID", data.getStringExtra("SPOT_ID"));
+                Prefs.putString("GRAVE_ID", data.getStringExtra("GRAVE_ID"));
+                Prefs.putString("SECTOR", data.getStringExtra("SECTOR"));
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
-                Glide.with(this)
-                        .load(data.getData())
-                        .into(image);
-
+                glideLoadInto(this, data.getData(), image);
                 setBlackWhite(image);
             }
         } else if (requestCode == 1) {
@@ -424,12 +452,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             findViewById(R.id.add_white).setVisibility(View.GONE);
             imageLayout.setBackgroundColor(Color.TRANSPARENT);
             try {
-                Glide.with(this)
-                        .asBitmap()
-                        .load(hah)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(image);
-
+                glideLoadIntoAsBitmap(this, hah, image);
                 setBlackWhite(image);
 
             } catch (Exception e) {
@@ -444,9 +467,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
                     progressDialog.dismiss();
-                    Glide.with(getApplicationContext())
-                            .load(result.getUri())
-                            .into(image);
+                    glideLoadInto(getApplicationContext(), result.getUri(), image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -478,8 +499,14 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     @Override
-    public void onGetedInfo(List<ResponseHandBook> responseHandBooks) {
+    public void onGettedInfo(List<ResponseHandBook> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
+
+        LinearLayout layout = popupView.findViewById(R.id.lay);
+        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_DARK) {
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+        }
+
         PopupReligion popupWindow = new PopupReligion(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -508,7 +535,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     public void error(Throwable throwable) {
-        Snackbar.make(image, "Ошибка сохранения", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(image, "Ошибка сохранения");
     }
 
     @Override

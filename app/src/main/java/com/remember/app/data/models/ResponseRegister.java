@@ -23,6 +23,9 @@ public class ResponseRegister {
     @SerializedName("user")
     @Expose
     private String user;
+    @SerializedName("token")
+    @Expose
+    private String token;
 
     public int getId() {
         return id;
@@ -70,5 +73,13 @@ public class ResponseRegister {
 
     public void setRealPassword(String realPassword) {
         this.realPassword = realPassword;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

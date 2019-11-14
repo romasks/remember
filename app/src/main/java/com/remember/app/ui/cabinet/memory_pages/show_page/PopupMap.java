@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,9 +21,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.remember.app.R;
-
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -62,7 +62,6 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (ActivityCompat.checkSelfPermission(getContentView().getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -70,9 +69,6 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
                 != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-
-
-
 
         LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -97,8 +93,8 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
             @Override
             public void onMyLocationChange(Location location) {
 
-                CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-                CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+                CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
                 googleMap.moveCamera(center);
                 googleMap.animateCamera(zoom);
 

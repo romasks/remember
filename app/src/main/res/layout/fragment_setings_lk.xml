@@ -49,12 +49,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/surname"
-                    style="@style/SettingsTextStyle"
+                    style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_surname" />
@@ -64,12 +64,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <AutoCompleteTextView
                     android:id="@+id/name"
-                    style="@style/SettingsTextStyle"
+                    style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_name" />
@@ -79,12 +79,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <AutoCompleteTextView
                     android:id="@+id/middleName"
-                    style="@style/SettingsTextStyle"
+                    style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_middle_name" />
@@ -95,12 +95,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <AutoCompleteTextView
                     android:id="@+id/nickname"
-                    style="@style/SettingsTextStyle"
+                    style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_nickname" />
@@ -111,11 +111,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:textColorHint="@color/dark_gray">
+                android:textColorHint="?android:attr/textColorHint">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
-                    style="@style/SettingsTextStyle"
+                    style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -126,12 +126,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <AutoCompleteTextView
                     android:id="@+id/location"
-                    style="@style/SettingsTextStyle"
+                    style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_locality" />
@@ -141,12 +141,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <AutoCompleteTextView
                     android:id="@+id/phone"
-                    style="@style/SettingsTextStyle"
+                    style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_name_phone"
@@ -170,16 +170,17 @@
                 android:visibility="gone" />
 
             <RadioGroup
-                android:id="@+id/theme"
+                android:id="@+id/rg_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/cb_theme_light"
                     style="@style/SettingsRadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,12 +189,12 @@
                     android:text="@string/settings_theme_light_rb" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/cb_theme_dark"
                     style="@style/SettingsRadioButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50dp"
                     android:layout_weight="2"
-                    android:enabled="false"
                     android:text="@string/settings_theme_dark_rb" />
             </RadioGroup>
         </LinearLayout>

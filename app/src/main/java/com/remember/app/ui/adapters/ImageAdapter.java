@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -21,13 +25,11 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -63,6 +65,10 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         this.callback = callback;
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     public void setItemsSearch(List<MemoryPageModel> memoryPageModels) {
         this.memoryPageModels.clear();
         this.memoryPageModels.addAll(memoryPageModels);
@@ -87,7 +93,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public ImageAdapterHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            context = itemView.getContext();
+            //context = itemView.getContext();
         }
 
         @Override
@@ -115,16 +121,10 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                             .error(R.drawable.darth_vader)
                             .into(imageView);
                 } else {
-                    Glide.with(context)
-                            .load(R.drawable.darth_vader)
-                            .centerInside()
-                            .into(imageView);
+                    glideLoadIntoCenterInside(context, R.drawable.darth_vader, imageView);
                 }
             } catch (NullPointerException e) {
-                Glide.with(context)
-                        .load(R.drawable.darth_vader)
-                        .centerInside()
-                        .into(imageView);
+                glideLoadIntoCenterInside(context, R.drawable.darth_vader, imageView);
             }
             setBlackWhite(imageView);
 

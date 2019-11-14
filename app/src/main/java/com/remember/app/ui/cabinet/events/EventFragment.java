@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_memory_pages, container, false);
         unbinder = ButterKnife.bind(this, v);
-        presenter.getEvents();
+//        presenter.getEvents();
         eventsFragmentAdapter = new EventsFragmentAdapter();
         eventsFragmentAdapter.setCallback(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(container.getContext());
@@ -56,6 +56,12 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventsFragmentAdapter);
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.getEvents();
     }
 
     @Override
@@ -86,7 +92,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
 
     @Override
     public void onError(Throwable throwable) {
-        Snackbar.make(recyclerView, "Ошибка получения события", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Ошибка получения события");
     }
 
     @Override

@@ -10,7 +10,7 @@
         android:id="@+id/text_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#707070"
+        android:textColor="@color/colorAccent"
         android:textSize="16sp"
         tools:text="Сегодня событие" />
 

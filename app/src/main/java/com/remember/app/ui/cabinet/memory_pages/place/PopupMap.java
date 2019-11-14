@@ -5,13 +5,13 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -68,7 +68,6 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
         }
 
 
-
         LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
@@ -92,8 +91,8 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
             @Override
             public void onMyLocationChange(Location location) {
 
-                CameraUpdate center= CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-                CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+                CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
                 googleMap.moveCamera(center);
                 googleMap.animateCamera(zoom);
 
@@ -103,13 +102,13 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
     }
 
 
-    interface Callback{
+    interface Callback {
 
         void setCoordinates(double latitude, double longitude);
 
     }
 
-    public void setCallback(Callback callback){
+    public void setCallback(Callback callback) {
         this.callback = callback;
     }
 }

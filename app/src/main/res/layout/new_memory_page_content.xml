@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Добавить фотографию"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorWhiteDark"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
                 <EditText
@@ -90,7 +90,7 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@+id/last_name_title">
 
                 <EditText
@@ -115,7 +115,7 @@
                 android:layout_marginTop="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@+id/name_title">
 
                 <EditText
@@ -141,7 +141,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@+id/middle_name_title">
 
                 <AutoCompleteTextView
@@ -168,7 +168,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@+id/date_begin_title">
 
                 <AutoCompleteTextView
@@ -210,7 +210,7 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
-                android:textColorHint="@color/dark_gray"
+                android:textColorHint="?android:attr/textColorHint"
                 app:layout_constraintTop_toBottomOf="@+id/place_button">
 
                 <AutoCompleteTextView
@@ -368,10 +368,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
                 android:background="@drawable/edit_text_with_border"
                 android:ems="10"
                 android:gravity="start"
@@ -381,12 +379,13 @@
                 android:paddingStart="20dp"
                 android:paddingLeft="20dp"
                 android:paddingTop="16dp"
+                android:paddingEnd="20dp"
+                android:textColor="?android:attr/textColor"
                 android:textColorHighlight="@color/gray"
                 android:textColorHint="@color/gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintTop_toBottomOf="@+id/title_description"
                 tools:ignore="RtlSymmetry" />
 

@@ -14,7 +14,7 @@
         android:textAlignment="center"
         android:layout_marginTop="15dp"
         android:text="Добавление фото"
-        android:textColor="#000000"
+        android:textColor="?android:attr/textColor"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Добавить фотографию"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorWhiteDark"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/edit_text_with_border"
         android:ems="10"
         android:gravity="start"
         android:hint="Описание..."
@@ -76,7 +76,9 @@
         android:minHeight="180dp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:textColorHint="#79303030"
+        android:textColor="?android:attr/textColor"
+        android:textColorHighlight="@color/gray"
+        android:textColorHint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -88,7 +90,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:text="Готово"
-        android:textColor="#000000"
+        android:textColor="?android:attr/textColor"
         android:textSize="16sp"
         android:textStyle="bold" />
 

@@ -1,7 +1,6 @@
 package com.remember.app.ui.menu.settings;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +12,14 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
+import com.remember.app.ui.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class NotificationFragment extends MvpAppCompatFragment implements SettingView {
@@ -33,12 +34,15 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
     RadioButton idNoticeTwo;
     @BindView(R.id.id_notice_three)
     RadioButton idNoticeThree;
-    @BindView(R.id.days)
+    @BindView(R.id.days_sp)
     MaterialSpinner days;
 
     private SettingPresenter presenter;
     private Unbinder unbinder;
     private String[] daysArr = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+
+    public NotificationFragment() {
+    }
 
     NotificationFragment(@NotNull SettingPresenter presenter) {
         this.presenter = presenter;
@@ -58,22 +62,31 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
         days.setItems(daysArr);
         days.setSelectedIndex(0);
 
-        ((SettingActivity) getActivity()).setSaveButtonClickListener(v -> {
-            presenter.getRequestSettings()
-                    .enableNotifications(notifications.isChecked())
-                    .commemorationDays(getIdNotice())
-                    .amountDays(getAmountDays());
-            presenter.saveSettings();
-        });
+        int textColor = Utils.isThemeDark()
+                ? getResources().getColor(R.color.colorWhiteDark)
+                : getResources().getColor(R.color.gray);
+
+        notifications.setTextColor(textColor);
+        idNoticeOne.setTextColor(textColor);
+        idNoticeTwo.setTextColor(textColor);
+        idNoticeThree.setTextColor(textColor);
+        days.setHintTextColor(textColor);
+        days.setTextColor(textColor);
 
         return view;
+    }
+
+    void onSaveClick() {
+        presenter.getRequestSettings()
+                .enableNotifications(notifications.isChecked())
+                .commemorationDays(getIdNotice())
+                .amountDays(getAmountDays());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-        Log.d("NotificationFragment", "onDestroy");
     }
 
     @OnCheckedChanged(R.id.notifications)
@@ -83,6 +96,24 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
         idNoticeTwo.setEnabled(notifications.isChecked());
         idNoticeThree.setEnabled(notifications.isChecked());
         days.setEnabled(notifications.isChecked());
+    }
+
+    @OnClick(R.id.id_notice_one)
+    void setNoticeOne() {
+        idNotice.check(R.id.id_notice_one);
+        presenter.getRequestSettings().commemorationDays(getIdNotice());
+    }
+
+    @OnClick(R.id.id_notice_two)
+    void setNoticeTwo() {
+        idNotice.check(R.id.id_notice_two);
+        presenter.getRequestSettings().commemorationDays(getIdNotice());
+    }
+
+    @OnClick(R.id.id_notice_three)
+    void setNoticeThree() {
+        idNotice.check(R.id.id_notice_three);
+        presenter.getRequestSettings().commemorationDays(getIdNotice());
     }
 
     private int getIdNotice() {
