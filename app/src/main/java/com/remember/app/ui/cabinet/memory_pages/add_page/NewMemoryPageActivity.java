@@ -22,10 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.AddPageModel;
@@ -52,10 +53,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,6 +63,9 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
@@ -215,10 +215,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 //        dateEnd.setText(memoryPageModel.getDatasmert());
         religion.setText(memoryPageModel.getReligiya());
 
-        Glide.with(this)
-                .load(BASE_SERVICE_URL + memoryPageModel.getPicture())
-                .error(R.drawable.darth_vader)
-                .into(image);
+        glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
 
         setBlackWhite(image);
 
@@ -246,6 +243,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @OnClick(R.id.place_button)
     public void toPlace() {
         Intent intent = new Intent(this, BurialPlaceActivity.class);
+        intent.putExtra("COORDS", Prefs.getString("COORDS", ""));
+        intent.putExtra("CITY", Prefs.getString("CITY", ""));
+        intent.putExtra("CEMETERY", Prefs.getString("CEMETERY", ""));
+        intent.putExtra("SPOT_ID", Prefs.getString("SPOT_ID", ""));
+        intent.putExtra("GRAVE_ID", Prefs.getString("GRAVE_ID", ""));
+        intent.putExtra("SECTOR", Prefs.getString("SECTOR", ""));
         if (isEdit) {
             intent.putExtra("MODEL", memoryPageModel);
             intent.putExtra("EDIT", true);
@@ -344,7 +347,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             }
             if (endDate != null) {
                 if (dateAndTime.getTime().after(endDate)) {
-                    Snackbar.make(dateBegin, "Дата смерти не может быть перед датой рождения", Snackbar.LENGTH_LONG).show();
+                    Utils.showSnack(dateBegin, "Дата смерти не может быть перед датой рождения");
                 } else {
                     setInitialDateBegin();
                 }
@@ -368,7 +371,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             }
             if (startDate != null) {
                 if (startDate.after(dateAndTime.getTime())) {
-                    Snackbar.make(dateBegin, "Дата смерти не может быть перед датой рождения", Snackbar.LENGTH_LONG).show();
+                    Utils.showSnack(dateBegin, "Дата смерти не может быть перед датой рождения");
                 } else {
                     setInitialDateEnd();
                 }
@@ -424,13 +427,17 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 person.setSpotId(data.getStringExtra("SPOT_ID"));
                 person.setGraveId(data.getStringExtra("GRAVE_ID"));
                 person.setSector(data.getStringExtra("SECTOR"));
+
+                Prefs.putString("COORDS", data.getStringExtra("COORDS"));
+                Prefs.putString("CITY", data.getStringExtra("CITY"));
+                Prefs.putString("CEMETERY", data.getStringExtra("CEMETERY"));
+                Prefs.putString("SPOT_ID", data.getStringExtra("SPOT_ID"));
+                Prefs.putString("GRAVE_ID", data.getStringExtra("GRAVE_ID"));
+                Prefs.putString("SECTOR", data.getStringExtra("SECTOR"));
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
-                Glide.with(this)
-                        .load(data.getData())
-                        .into(image);
-
+                glideLoadInto(this, data.getData(), image);
                 setBlackWhite(image);
             }
         } else if (requestCode == 1) {
@@ -445,12 +452,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             findViewById(R.id.add_white).setVisibility(View.GONE);
             imageLayout.setBackgroundColor(Color.TRANSPARENT);
             try {
-                Glide.with(this)
-                        .asBitmap()
-                        .load(hah)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(image);
-
+                glideLoadIntoAsBitmap(this, hah, image);
                 setBlackWhite(image);
 
             } catch (Exception e) {
@@ -465,9 +467,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
                     progressDialog.dismiss();
-                    Glide.with(getApplicationContext())
-                            .load(result.getUri())
-                            .into(image);
+                    glideLoadInto(getApplicationContext(), result.getUri(), image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -535,7 +535,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
     @Override
     public void error(Throwable throwable) {
-        Snackbar.make(image, "Ошибка сохранения", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(image, "Ошибка сохранения");
     }
 
     @Override

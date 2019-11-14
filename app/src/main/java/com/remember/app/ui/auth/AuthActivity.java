@@ -30,6 +30,7 @@ import com.remember.app.ui.utils.WrongEmailDialog;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
+import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
@@ -90,7 +91,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     @OnClick(R.id.vk)
     public void signInVk() {
-        VKSdk.login(this, "email");
+        VKSdk.login(this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
     }
 
     //

@@ -45,9 +45,8 @@ public interface ApiMethods {
     @GET("city")
     Observable<List<ResponseHandBook>> getCities();
 
-    //    @GET("numen/city/{id}")
-    @GET("numen/{id}")
-    Observable<List<ResponseCemetery>> getCemetery(@Path("id") int id);
+    @GET("numen")
+    Observable<List<ResponseCemetery>> getCemetery(@Query("city") int id);
 
 
     @GET("religia")

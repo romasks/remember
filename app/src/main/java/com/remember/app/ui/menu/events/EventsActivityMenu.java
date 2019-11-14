@@ -12,8 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
@@ -27,11 +32,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -121,7 +121,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
 
     @Override
     public void error(Throwable throwable) {
-        Snackbar.make(recyclerView, "Ошибка получения данных", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Ошибка получения данных");
     }
 
     @Override

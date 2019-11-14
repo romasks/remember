@@ -18,14 +18,13 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
-import com.bumptech.glide.Glide;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 
 import java.io.File;
 import java.io.IOException;
 
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 
 public class PhotoDialog extends DialogFragment {
 
@@ -56,19 +55,19 @@ public class PhotoDialog extends DialogFragment {
         editText = view.findViewById(R.id.description);
         done = view.findViewById(R.id.done);
         cancel = view.findViewById(R.id.cancel);
-        if (Prefs.getInt("IS_THEME", 0) == 2) {
+
+        if (Utils.isThemeDark()) {
             editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
             image.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
         }
+
         image.setOnClickListener(v -> {
             callback.showPhoto();
         });
         done.setOnClickListener(v -> {
             try {
-
                 bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
                 imageFile = saveBitmap(bitmap);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -87,9 +86,7 @@ public class PhotoDialog extends DialogFragment {
 
     public void setUri(Uri uri) {
         Log.i(TAG, "Url= " + uri.toString());
-        Glide.with(getContext())
-                .load(uri)
-                .into(imageView);
+        glideLoadInto(getContext(), uri, imageView);
         this.uri = uri;
     }
 

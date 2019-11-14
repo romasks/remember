@@ -122,7 +122,7 @@ public class MemoryPageModel implements Parcelable {
     }
 
     public String getCoords() {
-        return coords;
+        return coords == null ? "" : coords;
     }
 
     public void setCoords(String coords) {
@@ -146,7 +146,7 @@ public class MemoryPageModel implements Parcelable {
     }
 
     public String getGorod() {
-        return gorod;
+        return gorod == null ? "" : gorod;
     }
 
     public void setGorod(String gorod) {
@@ -154,7 +154,7 @@ public class MemoryPageModel implements Parcelable {
     }
 
     public String getNazvaklad() {
-        return nazvaklad;
+        return nazvaklad == null ? "" : nazvaklad;
     }
 
     public void setNazvaklad(String nazvaklad) {
@@ -162,7 +162,7 @@ public class MemoryPageModel implements Parcelable {
     }
 
     public String getUchastok() {
-        return uchastok;
+        return uchastok == null ? "" : uchastok;
     }
 
     public void setUchastok(String uchastok) {
@@ -170,11 +170,19 @@ public class MemoryPageModel implements Parcelable {
     }
 
     public String getNummogil() {
-        return nummogil;
+        return nummogil == null ? "" : nummogil;
     }
 
     public void setNummogil(String nummogil) {
         this.nummogil = nummogil;
+    }
+
+    public String getSector() {
+        return sector == null ? "" : sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
     public String getDatarod() {

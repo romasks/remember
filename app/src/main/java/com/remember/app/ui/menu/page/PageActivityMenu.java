@@ -14,8 +14,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
@@ -29,12 +35,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -146,7 +146,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void error(Throwable throwable) {
-        Snackbar.make(showAll, "Ошибка получения данных", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(showAll, "Ошибка получения данных");
     }
 
     @Override

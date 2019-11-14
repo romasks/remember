@@ -12,6 +12,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -38,17 +44,11 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
@@ -87,6 +87,10 @@ public class MainActivity extends MvpAppCompatActivity
     private TextView navUsername;
     private int theme_setting = 0;
 
+    View.OnClickListener onAvatarClickListener = view -> {
+        startActivity(new Intent(this, SettingActivity.class));
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
@@ -119,6 +123,9 @@ public class MainActivity extends MvpAppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
 
+        imageViewBigAvatar = headerView.findViewById(R.id.logo);
+        imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
+
         navUsername = headerView.findViewById(R.id.user_name);
         navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
@@ -126,6 +133,9 @@ public class MainActivity extends MvpAppCompatActivity
         navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        imageViewAvatar = drawer.findViewById(R.id.avatar);
+        imageViewAvatar.setOnClickListener(onAvatarClickListener);
+
         button_menu.setOnClickListener(i -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -147,31 +157,19 @@ public class MainActivity extends MvpAppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        imageViewAvatar = drawer.findViewById(R.id.avatar);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
-        if (!Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
+        if (!Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
+            presenter.getInfo();
+        } else {
+            navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
             titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
-            setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewAvatar);
-            setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
-        } else {
-            if (!Prefs.getString(PREFS_KEY_TOKEN, "").isEmpty()) {
-                presenter.getInfo();
-            } else {
-                setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
-                setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-            }
+            setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
+            setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+
+            setBlackWhite(imageViewBigAvatar);
+            setBlackWhite(imageViewAvatar);
         }
-
-        setBlackWhite(imageViewBigAvatar);
-        setBlackWhite(imageViewAvatar);
-
-        imageViewBigAvatar.setOnClickListener(view -> {
-            startActivity(new Intent(this, SettingActivity.class));
-        });
     }
 
     @OnClick(R.id.search)
@@ -192,19 +190,30 @@ public class MainActivity extends MvpAppCompatActivity
     @SuppressLint("SetTextI18n")
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        if (responseSettings.getPicture() != null) {
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewAvatar);
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewBigAvatar);
+        String userName = responseSettings.getName() + " " + responseSettings.getSurname();
+        Prefs.putString(PREFS_KEY_NAME_USER, userName);
+        navUsername.setText(userName.trim());
+        titleUserName.setText(userName.trim());
 
-            navUsername.setText(responseSettings.getName() + " " + responseSettings.getSurname());
-            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
-            Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
+        if (!responseSettings.getPicture().isEmpty()) {
+            setGlideImage(this, responseSettings.getPicture(), imageViewAvatar);
+            setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
+            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
 
         } else {
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
 
+        setBlackWhite(imageViewAvatar);
+        setBlackWhite(imageViewBigAvatar);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Utils.showSnack(imageViewAvatar, "Неопределённая ошибка с сервера");
+        setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
+        setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         setBlackWhite(imageViewAvatar);
         setBlackWhite(imageViewBigAvatar);
     }

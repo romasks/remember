@@ -7,25 +7,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseImagesSlider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class SlidePagerAdapterPhoto extends PagerAdapter {
 
-    Count count;
     Context context;
-    LayoutInflater layoutInflater;
+
+    private Count count;
+    private LayoutInflater layoutInflater;
     private List<ResponseImagesSlider> responseImagesSliders = new ArrayList<>();
     private int slide = 0;
     private static final String TAG = "SlidePagerAdapterPhoto";
@@ -59,9 +60,7 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
         TextView textView = view.findViewById(R.id.textView15);
         textView.setText(responseImagesSliders.get(position).getBody());
         count.getCountPage(String.valueOf(responseImagesSliders.size()));
-        Glide.with(context)
-                .load(BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture())
-                .into(imageView);
+        glideLoadInto(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
         setBlackWhite(imageView);
         container.addView(view);
 
@@ -69,8 +68,8 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup conteiner, int position, Object object) {
-        ViewPager vp = (ViewPager) conteiner;
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        ViewPager vp = (ViewPager) container;
         View view = (View) object;
         vp.removeView(view);
     }

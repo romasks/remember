@@ -13,9 +13,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -39,18 +47,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
@@ -58,7 +57,6 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS;
-import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
@@ -84,10 +82,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     ImageView avatar_user;
     @BindView(R.id.menu_icon)
     ImageView button_menu;
+    @BindView(R.id.grid_sign_in)
+    Button signInButton;
 
     private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
     private TextView navUserName;
+    private DrawerLayout drawer;
 
     private int pageNumber = 1;
     private int theme_setting = 0;
@@ -111,6 +112,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
+        imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
 
         setUpLoadMoreListener();
@@ -122,7 +124,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             presenter.getImages(pageNumber);
         });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout_2);
+        drawer = findViewById(R.id.drawer_layout_2);
         button_menu.setOnClickListener(k -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -138,13 +140,19 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (theme_setting == 1) {
             this.recreate();
         }
+        drawer.setDrawerLockMode(
+                Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)
+                        ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+                        : DrawerLayout.LOCK_MODE_UNLOCKED
+        );
         getInfoUser();
     }
 
     private void getInfoUser() {
-        if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty()) {
+        if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             avatar_user.setVisibility(View.VISIBLE);
             button_menu.setVisibility(View.VISIBLE);
+            signInButton.setText("Перейти в кабинет");
 
             setSupportActionBar(findViewById(R.id.toolbar));
 
@@ -161,20 +169,20 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
             imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
-            if (Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
-                if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty() && !Prefs.getString(PREFS_KEY_TOKEN, "").isEmpty()) {
-                    presenter.getInfo();
-                } else {
-                    setGlideImage(this, R.drawable.ic_unknown, avatar_user);
-                    setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-                }
+            if (Utils.isEmptyPrefsKey(PREFS_KEY_AVATAR)) {
+//                if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) && !Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
+//                    presenter.getInfo();
+//                } else {
+                setGlideImage(this, R.drawable.ic_unknown, avatar_user);
+                setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+//                }
             } else {
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), avatar_user);
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
-
-                setBlackWhite(avatar_user);
-                setBlackWhite(imageViewBigAvatar);
             }
+
+            setBlackWhite(avatar_user);
+            setBlackWhite(imageViewBigAvatar);
 
             imageViewBigAvatar.setOnClickListener(view -> {
                 startActivity(new Intent(this, SettingActivity.class));
@@ -332,11 +340,11 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void onReceivedInfo(ResponseSettings responseSettings) {
-        if (responseSettings.getPicture() != null) {
-            Prefs.putString(PREFS_KEY_AVATAR, BASE_SERVICE_URL + responseSettings.getPicture());
+        if (!responseSettings.getPicture().isEmpty()) {
+            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
 
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), avatar_user);
-            setGlideImage(this, BASE_SERVICE_URL + responseSettings.getPicture(), imageViewBigAvatar);
+            setGlideImage(this, responseSettings.getPicture(), avatar_user);
+            setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
         } else {
             setGlideImage(this, R.drawable.ic_unknown, avatar_user);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
@@ -352,6 +360,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void onError(Throwable throwable) {
-        Snackbar.make(recyclerView, "Ошибка получения плиток", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Ошибка получения плиток");
     }
 }

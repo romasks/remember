@@ -73,23 +73,14 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
         days.setHintTextColor(textColor);
         days.setTextColor(textColor);
 
-        /*getActivity().findViewById(R.id.save_button).setOnClickListener(v -> {
-            presenter.getRequestSettings()
-                    .enableNotifications(notifications.isChecked())
-                    .commemorationDays(getIdNotice())
-                    .amountDays(getAmountDays());
-            presenter.saveSettings();
-        });*/
-
-        /*((SettingActivity) getActivity()).setSaveButtonClickListener(v -> {
-            presenter.getRequestSettings()
-                    .enableNotifications(notifications.isChecked())
-                    .commemorationDays(getIdNotice())
-                    .amountDays(getAmountDays());
-            presenter.saveSettings();
-        });*/
-
         return view;
+    }
+
+    void onSaveClick() {
+        presenter.getRequestSettings()
+                .enableNotifications(notifications.isChecked())
+                .commemorationDays(getIdNotice())
+                .amountDays(getAmountDays());
     }
 
     @Override

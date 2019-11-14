@@ -10,8 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEpitaphs;
@@ -27,11 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -145,17 +145,17 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @Override
     public void onSavedEpitaphs(RequestAddEpitaphs requestAddEpitaphs) {
         presenter.getEpitaphs(pageId);
-        Snackbar.make(recyclerView, "Эпитафия добавлена", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Эпитафия добавлена");
     }
 
     @Override
     public void onErrorSavedEpitaphs(Throwable throwable) {
-        Snackbar.make(recyclerView, "Ошибка сохранения", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Ошибка сохранения");
     }
 
     @Override
     public void onErrorDeleteEpitaphs(Throwable throwable) {
-        Snackbar.make(recyclerView, "Ошибка удаления", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Ошибка удаления");
     }
 
     @Override

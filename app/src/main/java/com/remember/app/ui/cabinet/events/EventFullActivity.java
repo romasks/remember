@@ -8,10 +8,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
@@ -19,16 +19,13 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
-import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
-import static com.remember.app.data.Constants.THEME_DARK;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class EventFullActivity extends BaseActivity implements EventView {
@@ -124,9 +121,6 @@ public class EventFullActivity extends BaseActivity implements EventView {
     }
 
     private void setEventPicture(Object imageObj) {
-        Glide.with(this)
-                .load(imageObj)
-                .error(mDefaultBackground)
-                .into(avatarImage);
+        glideLoadIntoWithError(this, imageObj, avatarImage);
     }
 }
