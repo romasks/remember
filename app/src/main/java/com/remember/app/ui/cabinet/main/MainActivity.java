@@ -198,12 +198,11 @@ public class MainActivity extends MvpAppCompatActivity
         if (!responseSettings.getPicture().isEmpty()) {
             setGlideImage(this, responseSettings.getPicture(), imageViewAvatar);
             setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
-            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
-
         } else {
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
+        Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
 
         setBlackWhite(imageViewAvatar);
         setBlackWhite(imageViewBigAvatar);

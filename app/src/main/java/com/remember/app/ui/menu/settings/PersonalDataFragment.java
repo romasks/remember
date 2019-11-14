@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
@@ -93,7 +95,9 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter.settingsLiveData.observeForever(this::onReceivedInfo);
+        new Handler().postDelayed(() -> {
+            presenter.settingsLiveData.observeForever(this::onReceivedInfo);
+        }, 500);
 
         if (Build.VERSION.SDK_INT >= 23) {
             verifyStoragePermissions(this.getActivity());
@@ -180,14 +184,14 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     void setLightTheme() {
         rgTheme.check(R.id.cb_theme_light);
         Prefs.putInt(PREFS_KEY_IS_THEME, THEME_LIGHT);
-        Utils.setTheme((SettingActivity) this.getActivity());
+        getActivity().onBackPressed();
     }
 
     @OnClick(R.id.cb_theme_dark)
     void setDarkTheme() {
         rgTheme.check(R.id.cb_theme_dark);
         Prefs.putInt(PREFS_KEY_IS_THEME, THEME_DARK);
-        Utils.setTheme((SettingActivity) this.getActivity());
+        getActivity().onBackPressed();
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
