@@ -16,7 +16,9 @@ import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.utils.Utils;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class SettingActivity extends BaseActivity implements SettingView {
 
@@ -46,7 +48,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
         }
 
         viewPager = findViewById(R.id.container);
-        setupViewPager(viewPager);
+//        setupViewPager(viewPager);
 
         saveButton.setOnClickListener(v -> {
             switch (viewPager.getCurrentItem()) {
@@ -65,6 +67,12 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupViewPager(viewPager);
     }
 
     @OnClick(R.id.back)
