@@ -302,6 +302,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
             startActivity(intent);
             finish();
         }
+        Prefs.putString(PREFS_KEY_AVATAR, "");
     }
 
     @Override
