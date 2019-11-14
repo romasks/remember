@@ -2,6 +2,7 @@ package com.remember.app.ui.menu.question;
 
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -11,6 +12,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.QuestionSendDialog;
+import com.remember.app.ui.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,16 +29,28 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     MaterialSpinner spinner;
     @BindView(R.id.body)
     EditText body;
+    @BindView(R.id.back)
+    ImageView back;
 
     private boolean isQuestion = false;
+    private final String QUESTION = "Вопрос";
+    private final String PROPOSAL = "Предложение";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
 
-        spinner.setItems("Вопрос", "Предложение");
+        if (Utils.isThemeDark()) {
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            body.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
+            spinner.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+        }
+
+        spinner.setItems(QUESTION, PROPOSAL);
         spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item)
-                -> isQuestion = item.equals("Вопросы"));
+                -> isQuestion = item.equals(QUESTION));
     }
 
     @OnClick(R.id.back)
@@ -48,11 +62,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     @OnClick(R.id.pick)
     public void send() {
         RequestQuestion requestQuestion = new RequestQuestion();
-        if (isQuestion) {
-            requestQuestion.setType("question");
-        } else {
-            requestQuestion.setType("predlogenie");
-        }
+        requestQuestion.setType(isQuestion ? QUESTION : PROPOSAL);
         requestQuestion.setBody(body.getText().toString());
         requestQuestion.setName(Prefs.getString(PREFS_KEY_EMAIL, ""));
         requestQuestion.setUserId(Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "")));

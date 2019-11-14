@@ -35,6 +35,7 @@
                         android:id="@+id/menu_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
                     <TextView
@@ -43,7 +44,6 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
                         android:fontFamily="@font/round"
                         android:text="@string/grid_header"
                         android:textColor="@color/light_brown"
@@ -62,14 +62,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="20dp"
                             android:src="@drawable/ic_search" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/avatar_small_toolbar"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:layout_gravity="center_horizontal" />
+                            android:layout_gravity="center" />
 
                     </LinearLayout>
                 </FrameLayout>

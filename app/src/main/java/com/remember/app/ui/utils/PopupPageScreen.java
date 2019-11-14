@@ -35,6 +35,7 @@ public class PopupPageScreen extends PopupWindow {
         setFocusable(true);
         setOutsideTouchable(false);
         showAtLocation(contentView, Gravity.TOP, 0, 0);
+
         View popupView = getContentView();
         AutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
         AutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
@@ -43,14 +44,17 @@ public class PopupPageScreen extends PopupWindow {
         popupView.findViewById(R.id.back).setOnClickListener(v -> {
             dismiss();
         });
+
         /*dateBegin = popupView.findViewById(R.id.date_begin);
         dateEnd = popupView.findViewById(R.id.date_end);*/
         dateBeginVal = popupView.findViewById(R.id.date_begin_value);
         dateEndVal = popupView.findViewById(R.id.date_end_value);
         /*dateBegin.setOnClickListener(v -> setDate(v,1));
         dateEnd.setOnClickListener(v -> setDate(v,2));*/
-        dateBeginVal.setOnClickListener(v -> setDate(v,1));
-        dateEndVal.setOnClickListener(v -> setDate(v,2));
+
+        dateBeginVal.setOnClickListener(v -> setDate(v, 1));
+        dateEndVal.setOnClickListener(v -> setDate(v, 2));
+
         popupView.findViewById(R.id.submit).setOnClickListener(v -> {
             RequestSearchPage requestSearchPage = new RequestSearchPage();
             requestSearchPage.setName(name.getText().toString());
@@ -82,9 +86,9 @@ public class PopupPageScreen extends PopupWindow {
         @SuppressLint("SimpleDateFormat")
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
-        if(type==1)
-        dateBeginVal.setText(requiredDate);
-        else if(type==2)
+        if (type == 1)
+            dateBeginVal.setText(requiredDate);
+        else if (type == 2)
             dateEndVal.setText(requiredDate);
     }
 

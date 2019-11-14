@@ -13,4 +13,6 @@ public interface MainView extends MvpView {
     void onSearchedLastNames(List<MemoryPageModel> memoryPageModels);
 
     void onReceivedInfo(ResponseSettings responseSettings);
+
+    void onError(Throwable throwable);
 }

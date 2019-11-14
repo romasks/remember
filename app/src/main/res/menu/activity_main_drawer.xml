@@ -7,19 +7,24 @@
     <group android:id="@+id/group1">
         <item
             android:id="@+id/memory_pages"
+            android:textColor="?android:attr/textColor"
             android:title="@string/important_pages"
             />
         <item
             android:id="@+id/event_calendar"
+            android:textColor="?android:attr/textColor"
             android:title="@string/event_calendar" />
         <item
             android:id="@+id/notifications"
+            android:textColor="?android:attr/textColor"
             android:title="@string/notifications" />
         <item
             android:id="@+id/settings"
+            android:textColor="?android:attr/textColor"
             android:title="@string/settings" />
         <item
             android:id="@+id/questions"
+            android:textColor="?android:attr/textColor"
             android:title="@string/questions" />
 
     </group>
@@ -27,6 +32,7 @@
     <group android:id="@+id/group">
         <item
             android:id="@+id/exit"
+            android:textColor="?android:attr/textColor"
             android:title="@string/exit" />
     </group>
 

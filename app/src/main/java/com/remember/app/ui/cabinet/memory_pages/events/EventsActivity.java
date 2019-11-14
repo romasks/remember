@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.adapters.EventsDeceaseAdapter;
@@ -19,9 +20,11 @@ import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEvent
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -30,10 +33,12 @@ import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
-import static com.remember.app.data.Constants.INTENT_EXTRA_ID_PAGE;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.THEME_DARK;
 
 public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
 
@@ -69,13 +74,23 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
         unbinder = ButterKnife.bind(this);
+
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
+
+        if (Utils.isThemeDark()) {
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            search.setImageResource(R.drawable.ic_search2);
+            plus.setImageResource(R.drawable.ic_add2);
+        }
+
         try {
             name = getIntent().getExtras().getString(INTENT_EXTRA_NAME, "");
-            pageId = getIntent().getIntExtra(INTENT_EXTRA_ID_PAGE, 1);
+            pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 1);
         } catch (NullPointerException ignored) {
         }
 
@@ -136,7 +151,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     private void openAddNewEventScreen() {
         Intent intent = new Intent(this, AddNewEventActivity.class);
         intent.putExtra(INTENT_EXTRA_PERSON_NAME, name);
-        intent.putExtra(INTENT_EXTRA_ID_PAGE, pageId);
+        intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
         intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, imageUrl);
         startActivity(intent);
     }
@@ -161,7 +176,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         intent.putExtra(INTENT_EXTRA_EVENT_ID, eventId);
         intent.putExtra(INTENT_EXTRA_PERSON_NAME, name);
         intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, imageUrl);
-        intent.putExtra(INTENT_EXTRA_ID_PAGE, pageId);
+        intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
         startActivity(intent);
     }
 }

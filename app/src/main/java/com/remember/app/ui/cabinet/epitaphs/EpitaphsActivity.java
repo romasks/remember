@@ -5,12 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEpitaphs;
@@ -19,20 +25,19 @@ import com.remember.app.ui.adapters.EpitaphsAdapter;
 import com.remember.app.ui.utils.DeleteAlertDialog;
 import com.remember.app.ui.utils.DividerItemDecoration;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
 public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsView, PopupAddEpitaph.Callback,
@@ -60,20 +65,26 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_epitaphs);
         unbinder = ButterKnife.bind(this);
 
-        pageId = getIntent().getIntExtra("ID_PAGE", 1);
-        isShow = getIntent().getBooleanExtra("SHOW", false);
+        if (Utils.isThemeDark()) {
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            plus.setImageResource(R.drawable.ic_add2);
+        }
+
+        pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 1);
+        isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
         epitaphsAdapter = new EpitaphsAdapter(isShow);
         epitaphsAdapter.setCallback(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(
-                new DividerItemDecoration(this, R.drawable.divider));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         recyclerView.setAdapter(epitaphsAdapter);
 
         presenter.getEpitaphs(pageId);
@@ -94,6 +105,14 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
 
     private void showPopupAdd() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_epitaph, null);
+        ConstraintLayout layout = popupView.findViewById(R.id.addepi);
+        EditText editText = popupView.findViewById(R.id.text_epitaph);
+
+        if (Utils.isThemeDark()) {
+            editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+        }
+
         PopupAddEpitaph popupWindow = new PopupAddEpitaph(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -126,17 +145,17 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @Override
     public void onSavedEpitaphs(RequestAddEpitaphs requestAddEpitaphs) {
         presenter.getEpitaphs(pageId);
-        Snackbar.make(recyclerView, "Эпитафия добавлена", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Эпитафия добавлена");
     }
 
     @Override
     public void onErrorSavedEpitaphs(Throwable throwable) {
-        Snackbar.make(recyclerView, "Ошибка сохранения", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Ошибка сохранения");
     }
 
     @Override
     public void onErrorDeleteEpitaphs(Throwable throwable) {
-        Snackbar.make(recyclerView, "Ошибка удаления", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(recyclerView, "Ошибка удаления");
     }
 
     @Override
@@ -176,6 +195,14 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @Override
     public void change(ResponseEpitaphs responseEpitaphs) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_epitaph, null);
+        ConstraintLayout layout = popupView.findViewById(R.id.addepi);
+        EditText editText = popupView.findViewById(R.id.text_epitaph);
+
+        if (Utils.isThemeDark()) {
+            editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+        }
+
         PopupAddEpitaph popupWindow = new PopupAddEpitaph(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,

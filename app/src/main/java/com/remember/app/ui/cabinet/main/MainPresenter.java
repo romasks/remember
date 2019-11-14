@@ -9,7 +9,6 @@ import com.remember.app.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -31,7 +30,8 @@ public class MainPresenter extends BasePresenter<MainView> {
                 .flatMapIterable(list -> list)
                 .map(ResponseHandBook::getName)
                 .toList()
-                .subscribe(getViewState()::onReceivedReligions);
+                .subscribe(getViewState()::onReceivedReligions,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -39,7 +39,8 @@ public class MainPresenter extends BasePresenter<MainView> {
         Disposable subscription = serviceNetwork.searchPageAllDead(requestSearchPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSearchedLastNames);
+                .subscribe(getViewState()::onSearchedLastNames,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -47,7 +48,8 @@ public class MainPresenter extends BasePresenter<MainView> {
         Disposable subscription = getServiceNetwork().getInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedInfo);
+                .subscribe(getViewState()::onReceivedInfo,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 }

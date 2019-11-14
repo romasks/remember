@@ -28,8 +28,10 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Response;
 
+import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
 public class RegisterActivity extends MvpAppCompatActivity implements RegisterView, SuccessDialog.Callback {
@@ -111,6 +113,8 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
                 Prefs.putString(PREFS_KEY_EMAIL, email.getText().toString());
                 Prefs.putString(PREFS_KEY_NAME_USER, nickName.getText().toString());
                 Prefs.putString(PREFS_KEY_USER_ID, String.valueOf(responseRegisterResponse.body().getId()));
+                Prefs.putString(PREFS_KEY_TOKEN, responseRegisterResponse.body().getToken());
+                Prefs.putString(PREFS_KEY_AVATAR, "");
                 successDialog(responseRegisterResponse.body());
             }
         } else {

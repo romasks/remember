@@ -7,18 +7,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.material.snackbar.Snackbar;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
@@ -27,6 +30,7 @@ import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.PopupPageScreen;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +56,10 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     TextView title;
     @BindView(R.id.progress)
     ProgressBar progressBar;
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.search)
+    ImageView search;
 
     private PopupPageScreen popupWindowPage;
     private ProgressDialog progressDialog;
@@ -64,7 +72,15 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
+
+        if (Utils.isThemeDark()) {
+            title.setTextColor(getResources().getColor(R.color.colorWhiteDark));
+            back.setImageResource(R.drawable.ic_back_dark_theme);
+            search.setImageResource(R.drawable.ic_search2);
+        }
 
         pageFragmentAdapter = new PageFragmentAdapter();
         pageFragmentAdapter.setCallback(this);
@@ -130,7 +146,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void error(Throwable throwable) {
-        Snackbar.make(showAll, "Оибка получения данных", Snackbar.LENGTH_LONG).show();
+        Utils.showSnack(showAll, "Ошибка получения данных");
     }
 
     @Override
@@ -164,6 +180,32 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
+
+        ConstraintLayout layout = popupView.findViewById(R.id.cont);
+        Toolbar toolbar = popupView.findViewById(R.id.toolbar);
+        ImageView backImg = popupView.findViewById(R.id.back);
+        TextView textView = popupView.findViewById(R.id.textView2);
+        AutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
+        AutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
+        AutoCompleteTextView middleName = popupView.findViewById(R.id.father_name_value);
+        AutoCompleteTextView place = popupView.findViewById(R.id.live_place_value);
+        AutoCompleteTextView dateBegin = popupView.findViewById(R.id.date_begin_value);
+        AutoCompleteTextView dateEnd = popupView.findViewById(R.id.date_end_value);
+
+        if (Utils.isThemeDark()) {
+            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+            backImg.setImageResource(R.drawable.ic_back_dark_theme);
+            int textColorDark = getResources().getColor(R.color.colorWhiteDark);
+            textView.setTextColor(textColorDark);
+            name.setTextColor(textColorDark);
+            lastName.setTextColor(textColorDark);
+            middleName.setTextColor(textColorDark);
+            dateBegin.setTextColor(textColorDark);
+            dateEnd.setTextColor(textColorDark);
+            place.setTextColor(textColorDark);
+        }
+
         popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -172,7 +214,6 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);
         popupWindowPage.setUp(title);
-
     }
 
     @Override

@@ -33,13 +33,14 @@
                     android:src="@drawable/ic_back" />
 
                 <TextView
+                    android:id="@+id/titliepi"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:text="@string/epitaphs_header_text"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 

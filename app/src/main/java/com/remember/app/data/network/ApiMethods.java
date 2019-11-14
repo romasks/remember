@@ -45,9 +45,8 @@ public interface ApiMethods {
     @GET("city")
     Observable<List<ResponseHandBook>> getCities();
 
-    //    @GET("numen/city/{id}")
-    @GET("numen/{id}")
-    Observable<List<ResponseCemetery>> getCemetery(@Path("id") int id);
+    @GET("numen")
+    Observable<List<ResponseCemetery>> getCemetery(@Query("city") int id);
 
 
     @GET("religia")
@@ -117,28 +116,6 @@ public interface ApiMethods {
 
     @GET("deadevent/page/{id}")
     Observable<List<RequestAddEvent>> getEventsForId(@Path("id") int pageId);
-
-//    @Multipart
-//    @POST("page/add")
-//    Observable<ResponseCemetery> addPage(@Part("oblast") RequestBody oblast,
-//                                         @Part("datarod") RequestBody datarod,
-//                                         @Part("nazvaklad") RequestBody nazvaklad,
-//                                         @Part("gorod") RequestBody gorod,
-//                                         @Part("comment") RequestBody comment,
-//                                         @Part("coords") RequestBody coords,
-//                                         @Part("datasmert") RequestBody deathDate,
-//                                         @Part("rajon") RequestBody district,
-//                                         @Part("flag") RequestBody flag,
-//                                         @Part("nummogil") RequestBody graveId,
-//                                         @Part("name") RequestBody name,
-//                                         @Part("optradio") RequestBody optradio,
-//                                         @Part("religiya") RequestBody religion,
-//                                         @Part("secondname") RequestBody secondName,
-//                                         @Part("uchastok") RequestBody spotId,
-//                                         @Part("star") RequestBody star,
-//                                         @Part("thirtname") RequestBody thirdName,
-//                                         @Part("user_id") RequestBody userId,
-//                                         @Part MultipartBody.Part image);
 
     @Multipart
     @POST("page/add")

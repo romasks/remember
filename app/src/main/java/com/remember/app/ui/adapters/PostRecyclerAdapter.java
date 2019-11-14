@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolderPagination;
@@ -16,12 +18,12 @@ import com.remember.app.ui.base.BaseViewHolderPagination;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolderPagination> {
@@ -145,21 +147,12 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolderPagi
             });
             try {
                 if (memoryPageModels.get(position).getPicture().contains("uploads")) {
-                    Glide.with(context)
-                            .load(BASE_SERVICE_URL + memoryPageModels.get(position).getPicture())
-                            .error(R.drawable.darth_vader)
-                            .into(imageView);
+                    glideLoadIntoWithError(context, BASE_SERVICE_URL + memoryPageModels.get(position).getPicture(), imageView);
                 } else {
-                    Glide.with(context)
-                            .load(R.drawable.darth_vader)
-                            .centerInside()
-                            .into(imageView);
+                    glideLoadIntoCenterInside(context, R.drawable.darth_vader, imageView);
                 }
             } catch (NullPointerException e) {
-                Glide.with(context)
-                        .load(R.drawable.darth_vader)
-                        .centerInside()
-                        .into(imageView);
+                glideLoadIntoCenterInside(context, R.drawable.darth_vader, imageView);
             }
             setBlackWhite(imageView);
 
