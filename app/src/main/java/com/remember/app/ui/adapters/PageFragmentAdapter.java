@@ -116,20 +116,20 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
             setBlackWhite(avatarImage);
 
-            String secondName = memoryPageModelList.get(position).getSecondname();
-            String fullName = memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
+            String secondName = memoryPageModelList.get(position).getSecondName();
+            String fullName = memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirdName();
             surname.setText(secondName);
             name.setText(fullName);
 
             try {
-                Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModelList.get(position).getDatarod());
-                Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModelList.get(position).getDatasmert());
+                Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModelList.get(position).getDateBirth());
+                Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModelList.get(position).getDateDeath());
                 DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
                 DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
                 String textDate = first.format(dateBegin) + " - " + second.format(dateEnd);
                 date.setText(textDate);
             } catch (ParseException e) {
-                String textDate = memoryPageModelList.get(position).getDatarod() + " - " + memoryPageModelList.get(position).getDatasmert();
+                String textDate = memoryPageModelList.get(position).getDateBirth() + " - " + memoryPageModelList.get(position).getDateDeath();
                 date.setText(textDate);
             }
         }

@@ -41,4 +41,11 @@ public class Constants {
     public static final String NOTIF_EVENT_TYPE_DEAD = "dead";
     public static final String NOTIF_EVENT_TYPE_DEAD_EVENT = "dead_event";
 
+    public static final String BURIAL_PLACE_COORDS = "BURIAL_PLACE_COORDS";
+    public static final String BURIAL_PLACE_CITY = "BURIAL_PLACE_CITY";
+    public static final String BURIAL_PLACE_CEMETERY = "BURIAL_PLACE_CEMETERY";
+    public static final String BURIAL_PLACE_SECTOR = "BURIAL_PLACE_SECTOR";
+    public static final String BURIAL_PLACE_LINE = "BURIAL_PLACE_LINE";
+    public static final String BURIAL_PLACE_GRAVE = "BURIAL_PLACE_GRAVE";
+
 }

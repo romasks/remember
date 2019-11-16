@@ -46,7 +46,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     private ApiMethods apiMethods;
 
     @Inject
-    public ServiceNetworkImp(ApiMethods apiMethods) {
+    ServiceNetworkImp(ApiMethods apiMethods) {
         this.apiMethods = apiMethods;
     }
 
@@ -349,10 +349,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<Object> savePhoto(File imageFile, String string, Integer id) {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
+        MultipartBody.Part fileToUploadTransfer = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
         MultipartBody.Part imageCut = MultipartBody.Part.createFormData("picture_cut", imageFile.getName(), mFile);
         String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
-        return apiMethods.savePhoto(token, string, id, fileToUploadTranser, imageCut);
+        return apiMethods.savePhoto(token, string, id, fileToUploadTransfer, imageCut);
     }
 
     @Override
@@ -362,127 +362,29 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<ResponseCemetery> addPage(AddPageModel person, File imageFile) {
-        RequestBody area = null;
-        RequestBody birthDate = null;
-        RequestBody cemeteryName = null;
-        RequestBody city = null;
-        RequestBody comment = null;
-        RequestBody coords = null;
-        RequestBody deathDate = null;
-        RequestBody district = null;
-        RequestBody flag = null;
-        RequestBody grave = null;
-        RequestBody sector = null;
-        RequestBody name = null;
-        RequestBody optradio = null;
-        RequestBody religion = null;
-        RequestBody secondNam = null;
-        RequestBody spotId = null;
-        RequestBody star = null;
-        RequestBody thirdName = null;
-        RequestBody userId = null;
-        MultipartBody.Part fileToUploadTranser = null;
-        try {
-            area = RequestBody.create(MultipartBody.FORM, person.getArea());
-        } catch (Exception e) {
-            area = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            birthDate = RequestBody.create(MultipartBody.FORM, person.getBirthDate());
-        } catch (Exception e) {
-            birthDate = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            cemeteryName = RequestBody.create(MultipartBody.FORM, person.getCemeteryName());
-        } catch (Exception e) {
-            cemeteryName = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            city = RequestBody.create(MultipartBody.FORM, person.getCity());
-        } catch (Exception e) {
-            city = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            comment = RequestBody.create(MultipartBody.FORM, person.getComment());
-        } catch (Exception e) {
-            comment = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            coords = RequestBody.create(MultipartBody.FORM, person.getCoords());
-        } catch (Exception e) {
-            coords = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            deathDate = RequestBody.create(MultipartBody.FORM, person.getDeathDate());
-        } catch (Exception e) {
-            deathDate = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            district = RequestBody.create(MultipartBody.FORM, person.getDistrict());
-        } catch (Exception e) {
-            district = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            flag = RequestBody.create(MultipartBody.FORM, person.getFlag());
-        } catch (Exception e) {
-            flag = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            grave = RequestBody.create(MultipartBody.FORM, person.getGraveId());
-        } catch (Exception e) {
-            grave = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            name = RequestBody.create(MultipartBody.FORM, person.getName());
-        } catch (Exception e) {
-            name = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            optradio = RequestBody.create(MultipartBody.FORM, person.getOptradio());
-        } catch (Exception e) {
-            optradio = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            if (person.getReligion().isEmpty()) {
-                religion = RequestBody.create(MultipartBody.FORM, "Отсутствует");
-            } else {
-                religion = RequestBody.create(MultipartBody.FORM, person.getReligion());
-            }
-        } catch (Exception e) {
-            religion = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            secondNam = RequestBody.create(MultipartBody.FORM, person.getSecondName());
-        } catch (Exception e) {
-            secondNam = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            spotId = RequestBody.create(MultipartBody.FORM, person.getSpotId());
-        } catch (Exception e) {
-            spotId = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            star = RequestBody.create(MultipartBody.FORM, person.getStar());
-        } catch (Exception e) {
-            star = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            userId = RequestBody.create(MultipartBody.FORM, person.getUserId());
-        } catch (Exception e) {
-            userId = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            thirdName = RequestBody.create(MultipartBody.FORM, person.getThirdName());
-        } catch (Exception e) {
-            thirdName = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            sector = RequestBody.create(MultipartBody.FORM, person.getSector());
-        } catch (Exception e) {
-            sector = RequestBody.create(MultipartBody.FORM, "");
-        }
+        RequestBody area = RequestBody.create(MultipartBody.FORM, person.getArea());
+        RequestBody birthDate = RequestBody.create(MultipartBody.FORM, person.getBirthDate());
+        RequestBody cemeteryName = RequestBody.create(MultipartBody.FORM, person.getCemeteryName());
+        RequestBody city = RequestBody.create(MultipartBody.FORM, person.getCity());
+        RequestBody comment = RequestBody.create(MultipartBody.FORM, person.getComment());
+        RequestBody coords = RequestBody.create(MultipartBody.FORM, person.getCoords());
+        RequestBody deathDate = RequestBody.create(MultipartBody.FORM, person.getDeathDate());
+        RequestBody district = RequestBody.create(MultipartBody.FORM, person.getDistrict());
+        RequestBody flag = RequestBody.create(MultipartBody.FORM, person.getFlag());
+        RequestBody grave = RequestBody.create(MultipartBody.FORM, person.getGraveId());
+        RequestBody sector = RequestBody.create(MultipartBody.FORM, person.getSector());
+        RequestBody name = RequestBody.create(MultipartBody.FORM, person.getName());
+        RequestBody optradio = RequestBody.create(MultipartBody.FORM, person.getOptradio());
+        RequestBody religion = RequestBody.create(MultipartBody.FORM, person.getReligion());
+        RequestBody secondNam = RequestBody.create(MultipartBody.FORM, person.getSecondName());
+        RequestBody spotId = RequestBody.create(MultipartBody.FORM, person.getSpotId());
+        RequestBody star = RequestBody.create(MultipartBody.FORM, person.getStar());
+        RequestBody thirdName = RequestBody.create(MultipartBody.FORM, person.getThirdName());
+        RequestBody userId = RequestBody.create(MultipartBody.FORM, person.getUserId());
+        MultipartBody.Part fileToUploadTransfer = null;
+
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
+        fileToUploadTransfer = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
         String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
         return apiMethods.addPage(
                 token,
@@ -505,134 +407,37 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 star,
                 thirdName,
                 userId,
-                fileToUploadTranser
+                fileToUploadTransfer
         );
     }
 
-    //    @Override
-//    public Observable<ResponsePages> editPage(AddPageModel person, Integer id, File imageFile) {
-//    @Override
-//    public Observable<PageEditedResponse> editPage(AddPageModel person, Integer id, File imageFile) {
     @Override
     public Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile) {
-        RequestBody area = null;
-        RequestBody birthDate = null;
-        RequestBody cemeteryName = null;
-        RequestBody city = null;
-        RequestBody comment = null;
-        RequestBody coords = null;
-        RequestBody deathDate = null;
-        RequestBody district = null;
-        RequestBody flag = null;
-        RequestBody grave = null;
-        RequestBody name = null;
-        RequestBody optradio = null;
-        RequestBody religion = null;
-        RequestBody secondNam = null;
-        RequestBody spotId = null;
-        RequestBody star = null;
-        RequestBody thirdName = null;
-        RequestBody userId = null;
+        RequestBody area = RequestBody.create(MultipartBody.FORM, person.getArea());
+        RequestBody birthDate = RequestBody.create(MultipartBody.FORM, person.getBirthDate());
+        RequestBody cemeteryName = RequestBody.create(MultipartBody.FORM, person.getCemeteryName());
+        RequestBody city = RequestBody.create(MultipartBody.FORM, person.getCity());
+        RequestBody comment = RequestBody.create(MultipartBody.FORM, person.getComment());
+        RequestBody coords = RequestBody.create(MultipartBody.FORM, person.getCoords());
+        RequestBody deathDate = RequestBody.create(MultipartBody.FORM, person.getDeathDate());
+        RequestBody district = RequestBody.create(MultipartBody.FORM, person.getDistrict());
+        RequestBody flag = RequestBody.create(MultipartBody.FORM, person.getFlag());
+        RequestBody grave = RequestBody.create(MultipartBody.FORM, person.getGraveId());
+        RequestBody sector = RequestBody.create(MultipartBody.FORM, person.getSector());
+        RequestBody name = RequestBody.create(MultipartBody.FORM, person.getName());
+        RequestBody optradio = RequestBody.create(MultipartBody.FORM, person.getOptradio());
+        RequestBody religion = RequestBody.create(MultipartBody.FORM, person.getReligion());
+        RequestBody secondNam = RequestBody.create(MultipartBody.FORM, person.getSecondName());
+        RequestBody spotId = RequestBody.create(MultipartBody.FORM, person.getSpotId());
+        RequestBody star = RequestBody.create(MultipartBody.FORM, person.getStar());
+        RequestBody thirdName = RequestBody.create(MultipartBody.FORM, person.getThirdName());
+        RequestBody userId = RequestBody.create(MultipartBody.FORM, person.getUserId());
         RequestBody mFile = null;
-        MultipartBody.Part fileToUploadTranser = null;
-        try {
-            area = RequestBody.create(MultipartBody.FORM, person.getArea());
-        } catch (Exception e) {
-            area = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            birthDate = RequestBody.create(MultipartBody.FORM, person.getBirthDate());
-        } catch (Exception e) {
-            birthDate = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            cemeteryName = RequestBody.create(MultipartBody.FORM, person.getCemeteryName());
-        } catch (Exception e) {
-            cemeteryName = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            city = RequestBody.create(MultipartBody.FORM, person.getCity());
-        } catch (Exception e) {
-            city = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            comment = RequestBody.create(MultipartBody.FORM, person.getComment());
-        } catch (Exception e) {
-            comment = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            coords = RequestBody.create(MultipartBody.FORM, person.getCoords());
-        } catch (Exception e) {
-            coords = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            deathDate = RequestBody.create(MultipartBody.FORM, person.getDeathDate());
-        } catch (Exception e) {
-            deathDate = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            district = RequestBody.create(MultipartBody.FORM, person.getDistrict());
-        } catch (Exception e) {
-            district = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            flag = RequestBody.create(MultipartBody.FORM, person.getFlag());
-        } catch (Exception e) {
-            flag = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            grave = RequestBody.create(MultipartBody.FORM, person.getGraveId());
-        } catch (Exception e) {
-            grave = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            name = RequestBody.create(MultipartBody.FORM, person.getName());
-        } catch (Exception e) {
-            name = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            optradio = RequestBody.create(MultipartBody.FORM, person.getOptradio());
-        } catch (Exception e) {
-            optradio = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            religion = RequestBody.create(MultipartBody.FORM, person.getReligion());
-        } catch (Exception e) {
-            religion = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            secondNam = RequestBody.create(MultipartBody.FORM, person.getSecondName());
-        } catch (Exception e) {
-            secondNam = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            spotId = RequestBody.create(MultipartBody.FORM, person.getSpotId());
-        } catch (Exception e) {
-            spotId = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            star = RequestBody.create(MultipartBody.FORM, person.getStar());
-        } catch (Exception e) {
-            star = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            thirdName = RequestBody.create(MultipartBody.FORM, person.getThirdName());
-        } catch (Exception e) {
-            thirdName = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            userId = RequestBody.create(MultipartBody.FORM, person.getUserId());
-        } catch (Exception e) {
-            userId = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            userId = RequestBody.create(MultipartBody.FORM, person.getUserId());
-        } catch (Exception e) {
-            userId = RequestBody.create(MultipartBody.FORM, "");
-        }
+        MultipartBody.Part fileToUploadTransfer = null;
+
         if (imageFile != null) {
             mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-            fileToUploadTranser = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
+            fileToUploadTransfer = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
             String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
             return apiMethods.editPage(
                     token,
@@ -640,6 +445,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
                     birthDate,
                     cemeteryName,
                     city,
+                    sector,
                     comment,
                     coords,
                     deathDate,
@@ -654,7 +460,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
                     star,
                     thirdName,
                     userId,
-                    fileToUploadTranser,
+                    fileToUploadTransfer,
                     id
 
             );
@@ -666,6 +472,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
                     birthDate,
                     cemeteryName,
                     city,
+                    sector,
                     comment,
                     coords,
                     deathDate,
@@ -681,7 +488,6 @@ public class ServiceNetworkImp implements ServiceNetwork {
                     thirdName,
                     userId,
                     id
-
             );
         }
     }

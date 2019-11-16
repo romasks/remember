@@ -128,7 +128,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             }
             setBlackWhite(imageView);
 
-            String nameString = memoryPageModels.get(position).getName() + " " + memoryPageModels.get(position).getSecondname();
+            String nameString = memoryPageModels.get(position).getName() + " " + memoryPageModels.get(position).getSecondName();
             name.setText(nameString);
         }
     }

@@ -12,25 +12,18 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
-import com.remember.app.ui.cabinet.home.HomeActivity;
-import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.grid.GridActivity;
+import com.remember.app.ui.utils.Utils;
 
-public class SplashActivity extends AppCompatActivity implements SplashView{
+public class SplashActivity extends AppCompatActivity implements SplashView {
 
     @InjectPresenter
     SplashPresenter presenter;
-    private final String TAG="SplashActivity";
+    private final String TAG = "SplashActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (Prefs.getInt("IS_THEME",0)==2) {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            setTheme(R.style.AppTheme_Dark);
-        }else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            setTheme(R.style.AppTheme);
-        }
+        Utils.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
@@ -39,6 +32,6 @@ public class SplashActivity extends AppCompatActivity implements SplashView{
             finish();
         }, 2000);
 
-        Log.i(TAG,"Theme "+Prefs.getInt("IS_THEME",0));
+        Log.i(TAG, "Theme " + Prefs.getInt("IS_THEME", 0));
     }
 }

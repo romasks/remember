@@ -83,7 +83,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
 
-                android:id="@+id/cemetery_value"
+                android:id="@+id/cemetery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_activity_fields_margin"
@@ -93,34 +93,12 @@
                 android:textColorHint="@color/dark_gray">
 
                 <AutoCompleteTextView
-                    android:id="@+id/cemetery"
+                    android:id="@+id/cemetery_value"
                     style="@style/CustomInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:hint="@string/cemetery" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:id="@+id/sec"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_activity_fields_margin"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray"
-                android:visibility="gone">
-
-
-                <AutoCompleteTextView
-                    android:id="@+id/sec_value"
-                    style="@style/CustomInputTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Сектор"
-                    android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,12 +112,33 @@
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:textColorHint="@color/dark_gray">
 
+
                 <AutoCompleteTextView
                     android:id="@+id/sector_value"
                     style="@style/CustomInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/sector"
+                    android:inputType="textPersonName" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_activity_fields_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/default_activity_fields_margin"
+                android:textColorHint="@color/dark_gray">
+
+                <AutoCompleteTextView
+                    android:id="@+id/line_value"
+                    style="@style/CustomInputTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/row"
                     android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>

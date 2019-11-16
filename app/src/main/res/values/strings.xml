@@ -30,7 +30,8 @@
     <string name="live_place">Населённый пункт</string>
     <string name="city">Населенный пункт</string>
     <string name="cemetery">Название кладбища</string>
-    <string name="sector">Ряд</string>
+    <string name="sector">Сектор</string>
+    <string name="row">Ряд</string>
     <string name="grave">Место</string>
     <string name="grave_number">Место</string>
     <string name="coordinates">Координаты захоронения</string>

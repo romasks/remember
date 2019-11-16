@@ -58,9 +58,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
+import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
+import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
+import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
+import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
+import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
@@ -159,11 +163,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             textViewImage.setText("Изменить фотографию");
             memoryPageModel = i.getParcelableExtra("PERSON");
             initEdit();
-            person.setCity(getIntent().getExtras().getString("CITY", ""));
-            person.setSpotId(getIntent().getExtras().getString("SECTOR", ""));
-            person.setGraveId(getIntent().getExtras().getString("GRAVE", ""));
-            person.setCemeteryName(getIntent().getExtras().getString("CRYPT", ""));
-            person.setCoords(getIntent().getExtras().getString("COORD", ""));
+            person.setCoords(getIntent().getExtras().getString(BURIAL_PLACE_COORDS, ""));
+            person.setCity(getIntent().getExtras().getString(BURIAL_PLACE_CITY, ""));
+            person.setCemeteryName(getIntent().getExtras().getString(BURIAL_PLACE_CEMETERY, ""));
+            person.setSector(getIntent().getExtras().getString(BURIAL_PLACE_SECTOR, ""));
+            person.setSpotId(getIntent().getExtras().getString(BURIAL_PLACE_SECTOR, ""));
+            person.setGraveId(getIntent().getExtras().getString(BURIAL_PLACE_GRAVE, ""));
         }
 
         religion.setOnClickListener(v -> {
@@ -178,14 +183,11 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void initEdit() {
-        try {
-            lastName.setText(memoryPageModel.getSecondname());
-        } catch (Exception e) {
-            lastName.setText("");
-        }
+        lastName.setText(memoryPageModel.getSecondName());
         name.setText(memoryPageModel.getName());
-        middleName.setText(memoryPageModel.getThirtname());
+        middleName.setText(memoryPageModel.getThirdName());
         description.setText(memoryPageModel.getComment());
 
         DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
@@ -193,7 +195,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
         Date beginDate = null;
         try {
-            beginDate = dfRemote.parse(memoryPageModel.getDatarod());
+            beginDate = dfRemote.parse(memoryPageModel.getDateBirth());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -203,7 +205,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
 
         Date endDate = null;
         try {
-            endDate = dfRemote.parse(memoryPageModel.getDatasmert());
+            endDate = dfRemote.parse(memoryPageModel.getDateDeath());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -211,8 +213,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             dateEnd.setText(dfLocal.format(endDate));
         }
 
-//        dateBegin.setText(memoryPageModel.getDatarod());
-//        dateEnd.setText(memoryPageModel.getDatasmert());
+//        dateBegin.setText(memoryPageModel.getDateBirth());
+//        dateEnd.setText(memoryPageModel.getDateDeath());
         religion.setText(memoryPageModel.getReligiya());
 
         glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
@@ -243,12 +245,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @OnClick(R.id.place_button)
     public void toPlace() {
         Intent intent = new Intent(this, BurialPlaceActivity.class);
-        intent.putExtra("COORDS", Prefs.getString("COORDS", ""));
-        intent.putExtra("CITY", Prefs.getString("CITY", ""));
-        intent.putExtra("CEMETERY", Prefs.getString("CEMETERY", ""));
-        intent.putExtra("SPOT_ID", Prefs.getString("SPOT_ID", ""));
-        intent.putExtra("GRAVE_ID", Prefs.getString("GRAVE_ID", ""));
-        intent.putExtra("SECTOR", Prefs.getString("SECTOR", ""));
+        intent.putExtra(BURIAL_PLACE_COORDS, Prefs.getString(BURIAL_PLACE_COORDS, ""));
+        intent.putExtra(BURIAL_PLACE_CITY, Prefs.getString(BURIAL_PLACE_CITY, ""));
+        intent.putExtra(BURIAL_PLACE_CEMETERY, Prefs.getString(BURIAL_PLACE_CEMETERY, ""));
+        intent.putExtra(BURIAL_PLACE_SECTOR, Prefs.getString(BURIAL_PLACE_SECTOR, ""));
+        intent.putExtra(BURIAL_PLACE_LINE, Prefs.getString(BURIAL_PLACE_LINE, ""));
+        intent.putExtra(BURIAL_PLACE_GRAVE, Prefs.getString(BURIAL_PLACE_GRAVE, ""));
         if (isEdit) {
             intent.putExtra("MODEL", memoryPageModel);
             intent.putExtra("EDIT", true);
@@ -256,6 +258,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         startActivityForResult(intent, GRAVE_INFO_RESULT);
     }
 
+    @SuppressLint("SimpleDateFormat")
     @OnClick(R.id.save_button)
     public void savePage() {
         person.setSecondName(lastName.getText().toString());
@@ -330,6 +333,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void initiate() {
         dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
@@ -421,19 +425,19 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GRAVE_INFO_RESULT) {
             if (resultCode == RESULT_OK) {
-                person.setCoords(data.getStringExtra("COORDS"));
-                person.setCity(data.getStringExtra("CITY"));
-                person.setCemeteryName(data.getStringExtra("CEMETERY"));
-                person.setSpotId(data.getStringExtra("SPOT_ID"));
-                person.setGraveId(data.getStringExtra("GRAVE_ID"));
-                person.setSector(data.getStringExtra("SECTOR"));
+                person.setCoords(data.getStringExtra(BURIAL_PLACE_COORDS));
+                person.setCity(data.getStringExtra(BURIAL_PLACE_CITY));
+                person.setCemeteryName(data.getStringExtra(BURIAL_PLACE_CEMETERY));
+                person.setSector(data.getStringExtra(BURIAL_PLACE_SECTOR));
+                person.setSpotId(data.getStringExtra(BURIAL_PLACE_LINE));
+                person.setGraveId(data.getStringExtra(BURIAL_PLACE_GRAVE));
 
-                Prefs.putString("COORDS", data.getStringExtra("COORDS"));
-                Prefs.putString("CITY", data.getStringExtra("CITY"));
-                Prefs.putString("CEMETERY", data.getStringExtra("CEMETERY"));
-                Prefs.putString("SPOT_ID", data.getStringExtra("SPOT_ID"));
-                Prefs.putString("GRAVE_ID", data.getStringExtra("GRAVE_ID"));
-                Prefs.putString("SECTOR", data.getStringExtra("SECTOR"));
+                Prefs.putString(BURIAL_PLACE_COORDS, data.getStringExtra(BURIAL_PLACE_COORDS));
+                Prefs.putString(BURIAL_PLACE_CITY, data.getStringExtra(BURIAL_PLACE_CITY));
+                Prefs.putString(BURIAL_PLACE_CEMETERY, data.getStringExtra(BURIAL_PLACE_CEMETERY));
+                Prefs.putString(BURIAL_PLACE_SECTOR, data.getStringExtra(BURIAL_PLACE_SECTOR));
+                Prefs.putString(BURIAL_PLACE_LINE, data.getStringExtra(BURIAL_PLACE_LINE));
+                Prefs.putString(BURIAL_PLACE_GRAVE, data.getStringExtra(BURIAL_PLACE_GRAVE));
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
@@ -499,11 +503,11 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     @Override
-    public void onGettedInfo(List<ResponseHandBook> responseHandBooks) {
+    public void onGetInfo(List<ResponseHandBook> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
 
         LinearLayout layout = popupView.findViewById(R.id.lay);
-        if (Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_DARK) {
+        if (Utils.isThemeDark()) {
             layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
         }
 
@@ -534,7 +538,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     }
 
     @Override
-    public void error(Throwable throwable) {
+    public void onError(Throwable throwable) {
+        Utils.showSnack(image, "Ошибка получения данных");
+    }
+
+    @Override
+    public void onErrorSave(Throwable throwable) {
         Utils.showSnack(image, "Ошибка сохранения");
     }
 

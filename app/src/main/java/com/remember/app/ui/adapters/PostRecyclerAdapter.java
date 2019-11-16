@@ -156,7 +156,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolderPagi
             }
             setBlackWhite(imageView);
 
-            String nameString = memoryPageModels.get(position).getSecondname() + " " + memoryPageModels.get(position).getName();
+            String nameString = memoryPageModels.get(position).getSecondName() + " " + memoryPageModels.get(position).getName();
             name.setText(nameString);
         }
     }
