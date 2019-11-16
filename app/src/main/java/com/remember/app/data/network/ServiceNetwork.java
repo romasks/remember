@@ -24,6 +24,7 @@ import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseSocialAuth;
+import com.remember.app.data.models.ResponseUserInfo;
 
 import java.io.File;
 import java.util.List;
@@ -78,7 +79,9 @@ public interface ServiceNetwork {
 
     Observable<MemoryPageModel> getImageAfterSave(Integer id);
 
-    Observable<ResponseSettings> getInfo();
+    Observable<ResponseUserInfo> getInfo();
+
+    Observable<ResponseSettings> getUserSettings();
 
     Observable<Object> saveSettings(RequestSettings requestSettings);
 

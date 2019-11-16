@@ -29,7 +29,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
-import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseUserInfo;
 import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
@@ -145,6 +145,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                         ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
                         : DrawerLayout.LOCK_MODE_UNLOCKED
         );
+        /*if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) && !Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
+            presenter.getInfo();
+        }*/
         getInfoUser();
     }
 
@@ -170,12 +173,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
             if (Utils.isEmptyPrefsKey(PREFS_KEY_AVATAR)) {
-//                if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) && !Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
-//                    presenter.getInfo();
-//                } else {
                 setGlideImage(this, R.drawable.ic_unknown, avatar_user);
                 setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-//                }
             } else {
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), avatar_user);
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
@@ -339,12 +338,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
-    public void onReceivedInfo(ResponseSettings responseSettings) {
-        if (!responseSettings.getPicture().isEmpty()) {
-            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
+    public void onReceivedInfo(ResponseUserInfo responseSettings) {
+        if (!responseSettings.getSettings().getPicture().isEmpty()) {
+            Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getSettings().getPicture());
 
-            setGlideImage(this, responseSettings.getPicture(), avatar_user);
-            setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
+            setGlideImage(this, responseSettings.getSettings().getPicture(), avatar_user);
+            setGlideImage(this, responseSettings.getSettings().getPicture(), imageViewBigAvatar);
         } else {
             setGlideImage(this, R.drawable.ic_unknown, avatar_user);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
@@ -352,10 +351,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         setBlackWhite(avatar_user);
         setBlackWhite(imageViewBigAvatar);
 
-        Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSurname());
+        Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSettings().getSurname());
         navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
-        Prefs.putBoolean(PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS, responseSettings.getNotificationsEnabled() == 1);
+        Prefs.putBoolean(PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS, responseSettings.getSettings().getNotificationsEnabled() == 1);
     }
 
     @Override

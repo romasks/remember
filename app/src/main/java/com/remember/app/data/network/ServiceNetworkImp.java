@@ -26,6 +26,7 @@ import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseSocialAuth;
+import com.remember.app.data.models.ResponseUserInfo;
 
 import java.io.File;
 import java.util.List;
@@ -252,8 +253,13 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponseSettings> getInfo() {
+    public Observable<ResponseUserInfo> getInfo() {
         return apiMethods.getInfo("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""));
+    }
+
+    @Override
+    public Observable<ResponseSettings> getUserSettings() {
+        return apiMethods.getUserSettings("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""));
     }
 
     @Override

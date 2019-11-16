@@ -22,6 +22,7 @@ import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseSocialAuth;
+import com.remember.app.data.models.ResponseUserInfo;
 
 import java.util.List;
 
@@ -207,8 +208,11 @@ public interface ApiMethods {
     @GET("page/{id}")
     Observable<MemoryPageModel> getImageAfterSave(@Path("id") Integer id);
 
+    @GET("user")
+    Observable<ResponseUserInfo> getInfo(@Header("Authorization") String token);
+
     @GET("settings")
-    Observable<ResponseSettings> getInfo(@Header("Authorization") String token);
+    Observable<ResponseSettings> getUserSettings(@Header("Authorization") String token);
 
     @PUT("settings")
     Observable<Object> saveSettings(@Header("Authorization") String token,

@@ -25,7 +25,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
-import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseUserInfo;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
@@ -189,20 +189,20 @@ public class MainActivity extends MvpAppCompatActivity
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onReceivedInfo(ResponseSettings responseSettings) {
-        String userName = responseSettings.getName() + " " + responseSettings.getSurname();
+    public void onReceivedInfo(ResponseUserInfo responseSettings) {
+        String userName = responseSettings.getName() + " " + responseSettings.getSettings().getSurname();
         Prefs.putString(PREFS_KEY_NAME_USER, userName);
         navUsername.setText(userName.trim());
         titleUserName.setText(userName.trim());
 
-        if (!responseSettings.getPicture().isEmpty()) {
-            setGlideImage(this, responseSettings.getPicture(), imageViewAvatar);
-            setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
+        if (!responseSettings.getSettings().getPicture().isEmpty()) {
+            setGlideImage(this, responseSettings.getSettings().getPicture(), imageViewAvatar);
+            setGlideImage(this, responseSettings.getSettings().getPicture(), imageViewBigAvatar);
         } else {
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
-        Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
+        Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getSettings().getPicture());
 
         setBlackWhite(imageViewAvatar);
         setBlackWhite(imageViewBigAvatar);
