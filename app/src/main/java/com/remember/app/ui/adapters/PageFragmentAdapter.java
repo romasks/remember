@@ -25,7 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -114,7 +113,6 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             } catch (NullPointerException e) {
                 setGlideImage(context, R.drawable.darth_vader, avatarImage);
             }
-            setBlackWhite(avatarImage);
 
             String secondName = memoryPageModelList.get(position).getSecondName();
             String fullName = memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirdName();

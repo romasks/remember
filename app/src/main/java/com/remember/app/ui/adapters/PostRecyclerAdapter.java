@@ -8,9 +8,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolderPagination;
@@ -18,13 +15,14 @@ import com.remember.app.ui.base.BaseViewHolderPagination;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolderPagination> {
 
@@ -154,7 +152,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolderPagi
             } catch (NullPointerException e) {
                 glideLoadIntoCenterInside(context, R.drawable.darth_vader, imageView);
             }
-            setBlackWhite(imageView);
 
             String nameString = memoryPageModels.get(position).getSecondName() + " " + memoryPageModels.get(position).getName();
             name.setText(nameString);

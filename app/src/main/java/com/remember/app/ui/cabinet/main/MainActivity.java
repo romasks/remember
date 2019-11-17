@@ -12,12 +12,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -44,6 +38,11 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -53,7 +52,6 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class MainActivity extends MvpAppCompatActivity
@@ -166,9 +164,6 @@ public class MainActivity extends MvpAppCompatActivity
 
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-
-            setBlackWhite(imageViewBigAvatar);
-            setBlackWhite(imageViewAvatar);
         }
     }
 
@@ -190,7 +185,7 @@ public class MainActivity extends MvpAppCompatActivity
     @SuppressLint("SetTextI18n")
     @Override
     public void onReceivedInfo(ResponseUserInfo responseSettings) {
-        String userName = responseSettings.getName() + " " + responseSettings.getSettings().getSurname();
+        String userName = responseSettings.getSettings().getName() + " " + responseSettings.getSettings().getSurname();
         Prefs.putString(PREFS_KEY_NAME_USER, userName);
         navUsername.setText(userName.trim());
         titleUserName.setText(userName.trim());
@@ -203,9 +198,6 @@ public class MainActivity extends MvpAppCompatActivity
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
         Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getSettings().getPicture());
-
-        setBlackWhite(imageViewAvatar);
-        setBlackWhite(imageViewBigAvatar);
     }
 
     @Override
@@ -213,8 +205,6 @@ public class MainActivity extends MvpAppCompatActivity
         Utils.showSnack(imageViewAvatar, "Неопределённая ошибка с сервера");
         setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
         setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-        setBlackWhite(imageViewAvatar);
-        setBlackWhite(imageViewBigAvatar);
     }
 
     public interface CallbackPage {

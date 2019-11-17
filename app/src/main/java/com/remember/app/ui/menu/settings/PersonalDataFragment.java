@@ -17,10 +17,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatRadioButton;
-
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
@@ -35,6 +31,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,7 +47,6 @@ import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PersonalDataFragment extends MvpAppCompatFragment implements SettingView {
@@ -150,7 +147,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
                 Uri resultUri = result.getUri();
                 if (getContext() != null) {
                     setGlideImage(getContext(), resultUri, avatar);
-                    setBlackWhite(avatar);
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
                         File imageFile = saveBitmap(bitmap);
@@ -202,7 +198,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         } else {
             setGlideImage(getContext(), R.drawable.ic_unknown, avatar);
         }
-        setBlackWhite(avatar);
 
         surname.setText(responseSettings.getSurname());
         name.setText(responseSettings.getName());

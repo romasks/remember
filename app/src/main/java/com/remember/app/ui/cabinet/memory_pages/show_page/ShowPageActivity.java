@@ -16,12 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.utils.StringUtils;
 import com.remember.app.R;
@@ -55,6 +49,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -76,7 +75,6 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
 
@@ -239,7 +237,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (memoryPageModel != null) {
             if (!afterSave) {
                 glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
-                setBlackWhite(image);
             }
             initTextName(memoryPageModel);
             initDate(memoryPageModel);
@@ -364,7 +361,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         this.memoryPageModel = memoryPageModel;
         initAll();
         glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
-        setBlackWhite(image);
     }
 
     @Override

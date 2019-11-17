@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.ui.grid.GridActivity;
 import com.remember.app.ui.utils.Utils;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity implements SplashView {
 

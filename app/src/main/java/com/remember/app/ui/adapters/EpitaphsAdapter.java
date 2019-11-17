@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -139,8 +138,6 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 e.printStackTrace();
             }
             description.setText(responseEpitaphs.get(position).getBody());
-
-            setBlackWhite(avatar);
         }
     }
 

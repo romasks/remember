@@ -20,7 +20,7 @@
     <string name="middle_name">Отчество</string>
     <string name="date_begin">Дата рождения</string>
     <string name="date_end">Дата смерти</string>
-    <string name="burial_place">Укажите место захоронения..</string>
+    <string name="burial_place">Укажите место захоронения</string>
     <string name="celebrity">Знаменитость</string>
     <string name="for_all">Для всех</string>
     <string name="for_yourself">Для себя</string>

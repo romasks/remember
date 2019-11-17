@@ -118,7 +118,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     @OnClick(R.id.vk)
     public void signInVk() {
-        VKSdk.login(this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
+        VKSdk.login(this, VKScope.EMAIL, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
     }
 
     //

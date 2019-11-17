@@ -83,10 +83,17 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         line.setText(getIntent().getStringExtra(BURIAL_PLACE_LINE));
         grave.setText(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
 
-        if (isEdit) {
+        /*if (isEdit) {
             memoryPageModel = getIntent().getParcelableExtra("MODEL");
             initEdit();
-        }
+        } else {
+            coordinates.setText("");
+            city.setText("");
+            cemetery.setText("");
+            sector.setText("");
+            line.setText("");
+            grave.setText("");
+        }*/
 
         city.setOnClickListener(v -> presenter.getCities());
         cemetery.setOnClickListener(v -> {

@@ -9,9 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
@@ -25,6 +22,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -40,7 +39,6 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
@@ -107,7 +105,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         comments.setAdapter(new EventStuffAdapter());
 
 //        presenter.getEvent(eventId);
-        setBlackWhite(imageAvatar);
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
 
         back.setOnClickListener(v -> {
@@ -134,7 +131,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     private void setItems(EventModel requestEvent) {
         try {
             glideLoadIntoWithError(this, BASE_SERVICE_URL + requestEvent.getPicture(), imageAvatar);
-            setBlackWhite(imageAvatar);
             dateView.setText(formatDate(requestEvent.getDate()));
             eventName.setText(requestEvent.getName());
             description.setText(requestEvent.getDescription());

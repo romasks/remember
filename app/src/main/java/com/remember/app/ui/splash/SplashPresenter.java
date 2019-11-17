@@ -13,7 +13,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public SplashPresenter() {
+    SplashPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 

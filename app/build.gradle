@@ -81,10 +81,16 @@ dependencies {
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    implementation ('com.github.bumptech.glide:glide:4.10.0') {
+        exclude group: "com.android.support"
+    }
     implementation 'net.scarlettsystems.android:glide:0.1.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    annotationProcessor 'androidx.annotation:annotation:1.1.0'
+    implementation ("com.github.bumptech.glide:glide:4.10.0@aar") {
+        transitive = true
+    }
 
     // LeakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'

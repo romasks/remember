@@ -13,15 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -47,6 +38,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -58,7 +57,6 @@ import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
@@ -115,7 +113,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
 
-        setUpLoadMoreListener();
+        //setUpLoadMoreListener();
         presenter.getImages(pageNumber);
 
         showAll.setOnClickListener(v -> {
@@ -180,14 +178,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
             }
 
-            setBlackWhite(avatar_user);
-            setBlackWhite(imageViewBigAvatar);
-
             imageViewBigAvatar.setOnClickListener(view -> {
                 startActivity(new Intent(this, SettingActivity.class));
             });
         } else {
-
             avatar_user.setVisibility(View.GONE);
             button_menu.setVisibility(View.GONE);
         }
@@ -195,7 +189,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @OnClick(R.id.grid_sign_in)
     public void entry() {
-        if (!Prefs.getString(PREFS_KEY_USER_ID, "").isEmpty()) {
+        if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, AuthActivity.class));
@@ -212,18 +206,20 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter.setItems(responsePages.getResult());
         progressBar.setVisibility(View.GONE);
         countSum = responsePages.getPages();
+
+        if (pageNumber < countSum) {
+            progressBar.setVisibility(View.VISIBLE);
+            pageNumber++;
+            presenter.getImages(pageNumber);
+        }
     }
 
     @Override
     public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
-        if (memoryPageModels.size() == 0) {
-            Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
-        }
         if (memoryPageModels.isEmpty()) {
-            showAll.setVisibility(View.VISIBLE);
-        } else {
-            showAll.setVisibility(View.GONE);
+            Utils.showSnack(recyclerView, "Записи не найдены");
         }
+        showAll.setVisibility(memoryPageModels.isEmpty() ? View.VISIBLE : View.GONE);
         imageAdapter.setItemsSearch(memoryPageModels);
         progressBar.setVisibility(View.GONE);
     }
@@ -348,8 +344,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             setGlideImage(this, R.drawable.ic_unknown, avatar_user);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
-        setBlackWhite(avatar_user);
-        setBlackWhite(imageViewBigAvatar);
 
         Prefs.putString(PREFS_KEY_NAME_USER, responseSettings.getName() + " " + responseSettings.getSettings().getSurname());
         navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
