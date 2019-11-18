@@ -3,10 +3,12 @@ package com.remember.app.ui.utils;
 import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.GlideApp;
@@ -69,6 +71,20 @@ public class ImageUtils {
     }
 
     public static void glideLoadIntoWithError(Context context, Object imageObj, ImageView targetView) {
+        GlideApp.with(context)
+                .load(imageObj)
+                .error(R.drawable.darth_vader)
+                .into(targetView);
+        targetView.setColorFilter(blackWhiteFilter);
+    }
+
+    public static void glideLoadIntoGrid(Context context, Object imageObj, ImageView targetView) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        targetView.setMinimumHeight(size.x / 3);
+        targetView.setMaxHeight(size.x / 3);
         GlideApp.with(context)
                 .load(imageObj)
                 .error(R.drawable.darth_vader)

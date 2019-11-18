@@ -26,6 +26,7 @@ import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.RepairPasswordDialog;
+import com.remember.app.ui.utils.Utils;
 import com.remember.app.ui.utils.WrongEmailDialog;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
@@ -65,6 +66,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     @InjectPresenter
     AuthPresenter presenter;
+
     @BindView(R.id.login_value)
     AutoCompleteTextView login;
     @BindView(R.id.password_value)
@@ -168,9 +170,9 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 //            }
 //
 //            @Override
-//            public void onError(Throwable error) {
+//            public void onError(Throwable onError) {
 //                errorDialog("Ошибка авторизации");
-//                Log.e("TWITTER", error.getMessage());
+//                Log.e("TWITTER", onError.getMessage());
 //            }
 //
 //            @Override
@@ -183,14 +185,14 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
         if (login.getText().toString().equals("")) {
-            Toast.makeText(this, "Введите e-mail", Toast.LENGTH_LONG).show();
+            Utils.showSnack(login, "Введите e-mail");
         } else if (password.getText().toString().equals("")) {
-            Toast.makeText(this, "Введите пароль", Toast.LENGTH_LONG).show();
+            Utils.showSnack(login, "Введите пароль");
         } else {
             try {
                 presenter.singInAuth(login.getText().toString(), password.getText().toString());
             } catch (Exception e) {
-                Toast.makeText(this, "Произошла ошибка, проверьте введенные данные", Toast.LENGTH_LONG).show();
+                Utils.showSnack(login, "Произошла ошибка, проверьте введенные данные");
             }
         }
     }
@@ -277,13 +279,13 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     }
 
     @Override
-    public void error(Throwable throwable) {
-        Toast.makeText(this, "Неправильный логин или пароль", Toast.LENGTH_LONG).show();
-        try {
+    public void onError(Throwable throwable) {
+        Utils.showSnack(login, "Неправильный логин или пароль");
+        /*try {
             errorDialog("Неправильный логин или пароль");
         } catch (Exception e) {
             errorDialog("Неправильный логин или пароль");
-        }
+        }*/
     }
 
     @Override
@@ -311,14 +313,14 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         if (responseRestorePassword.getPage().equals("found")) {
             errorDialog("Новый пароль успешно отправлен на E-mail");
         } else {
-            errorDialog("Ошибка отправки");
+            Utils.showSnack(login, "Ошибка отправки");
         }
     }
 
     @Override
     public void errorRestored(Throwable throwable) {
         popupDialog.dismiss();
-        errorDialog("Ошибка отправки");
+        Utils.showSnack(login, "Ошибка отправки");
     }
 
     public void errorDialog(String text) {

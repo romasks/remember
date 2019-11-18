@@ -37,7 +37,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLogged,
-                        getViewState()::error);
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -73,7 +73,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
-                        getViewState()::error);
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -82,7 +82,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
-                        getViewState()::error);
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -97,7 +97,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
-                        getViewState()::error);
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 

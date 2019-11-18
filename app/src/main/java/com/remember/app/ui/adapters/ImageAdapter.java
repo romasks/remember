@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -15,14 +18,12 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoGrid;
 
 public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -85,7 +86,6 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ImageAdapterHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            //context = itemView.getContext();
         }
 
         @Override
@@ -95,28 +95,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
             try {
                 if (memoryPageModels.get(position).getPicture().contains("uploads")) {
-                    /*Log.d("ImageAdapter", "picture: " + memoryPageModels.get(position).getPicture());
-                    Glide.with(context)
-                            .load(BASE_SERVICE_URL + memoryPageModels.get(position).getPicture())
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    Log.e("ImageAdapter", "LOAD FAILED");
-                                    progress.setVisibility(View.GONE);
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    Log.i("ImageAdapter", "RESOURCE READY");
-                                    progress.setVisibility(View.GONE);
-                                    return false;
-                                }
-                            })
-                            .error(R.drawable.darth_vader)
-                            .into(imageView);
-                    imageView.setColorFilter(getBlackWhiteFilter());*/
-                    glideLoadIntoWithError(imageView.getContext(), BASE_SERVICE_URL + memoryPageModels.get(position).getPicture(), imageView);
+                    glideLoadIntoGrid(imageView.getContext(), BASE_SERVICE_URL + memoryPageModels.get(position).getPicture(), imageView);
                 } else {
                     glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
                 }

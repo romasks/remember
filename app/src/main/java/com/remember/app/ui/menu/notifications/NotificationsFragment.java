@@ -12,6 +12,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.NotificationModelNew;
 import com.remember.app.ui.cabinet.events.EventFullActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.DividerItemDecoration;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
@@ -139,6 +140,7 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
 
     @Override
     public void onNotificationClick(NotificationModelNew notification) {
+        Utils.showSnack(recyclerView, ((EventNotificationModel) notification).getType());
         switch (((EventNotificationModel) notification).getType()) {
             case NOTIF_EVENT_TYPE_EVENT: {
                 Intent intent = new Intent(getContext(), EventFullActivity.class);
@@ -149,17 +151,18 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
             }
             case NOTIF_EVENT_TYPE_BIRTH:
             case NOTIF_EVENT_TYPE_DEAD: {
-                Intent intent = new Intent(getContext(), EventFullActivity.class);
-                intent.putExtra(INTENT_EXTRA_EVENT_ID, ((EventNotificationModel) notification).getPageId());
-                intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
+                Intent intent = new Intent(getContext(), ShowPageActivity.class);
+                intent.putExtra(INTENT_EXTRA_ID, ((EventNotificationModel) notification).getPageId());
+                intent.putExtra(INTENT_EXTRA_PERSON, ((EventNotificationModel) notification).getPageName());
+                intent.putExtra(INTENT_EXTRA_IS_LIST, true);
                 startActivity(intent);
                 break;
             }
             case NOTIF_EVENT_TYPE_DEAD_EVENT: {
-                Intent intent = new Intent(getActivity(), ShowPageActivity.class);
+                Intent intent = new Intent(getActivity(), CurrentEvent.class);
+                intent.putExtra(INTENT_EXTRA_EVENT_ID, ((EventNotificationModel) notification).getEventId());
                 intent.putExtra(INTENT_EXTRA_PERSON, ((EventNotificationModel) notification).getPageName());
-                intent.putExtra(INTENT_EXTRA_ID, ((EventNotificationModel) notification).getPageId());
-                intent.putExtra(INTENT_EXTRA_IS_LIST, true);
+                intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
                 startActivity(intent);
                 break;
             }
