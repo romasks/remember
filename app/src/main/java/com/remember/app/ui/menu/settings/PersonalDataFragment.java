@@ -92,9 +92,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new Handler().postDelayed(() -> {
-            presenter.settingsLiveData.observeForever(this::onReceivedInfo);
-        }, 500);
+        presenter.settingsLiveData.observeForever(this::onReceivedInfo);
 
         if (Build.VERSION.SDK_INT >= 23) {
             verifyStoragePermissions(this.getActivity());

@@ -210,6 +210,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
                     public void onComplete(VKResponse response) {
                         VKApiUser user = ((VKList<VKApiUser>) response.parsedModel).get(0);
                         Prefs.putString(PREFS_KEY_AVATAR, user.photo_200);
+                        presenter.getInfoUser();
                     }
 
                     @Override
@@ -221,7 +222,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
                     public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
                     }
                 });
-                presenter.getInfoUser();
+                //presenter.getInfoUser();
             }
 
             @Override
