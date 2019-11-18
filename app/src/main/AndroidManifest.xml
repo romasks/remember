@@ -56,9 +56,6 @@
             android:name=".ui.auth.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.cabinet.home.HomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.cabinet.main.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

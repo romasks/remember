@@ -62,7 +62,7 @@ public class MainActivity extends MvpAppCompatActivity
     @InjectPresenter
     MainPresenter presenter;
 
-    @BindView(R.id.imageView6)
+    @BindView(R.id.button_menu)
     ImageView button_menu;
     @BindView(R.id.title_name)
     TextView titleUserName;

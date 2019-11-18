@@ -88,6 +88,8 @@ public class ImageUtils {
         GlideApp.with(context)
                 .load(imageObj)
                 .error(R.drawable.darth_vader)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
     }
