@@ -14,6 +14,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.GlideApp;
 import com.remember.app.R;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 public class ImageUtils {
 
     private static ColorMatrixColorFilter blackWhiteFilter;
@@ -25,20 +30,14 @@ public class ImageUtils {
     }
 
     public static void setGlideImage(Context context, Object imageObj, ImageView targetView) {
+        if (imageObj instanceof String) {
+            try {
+                imageObj = encodeImageUrl((String) imageObj);
+            } catch (MalformedURLException | URISyntaxException ignored) {
+            }
+        }
         GlideApp.with(context)
                 .load(imageObj)
-                .apply(RequestOptions.circleCropTransform())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(targetView);
-        targetView.setColorFilter(blackWhiteFilter);
-    }
-
-    public static void setGlideImageWithError(Context context, Object imageUrl, ImageView targetView) {
-        Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
-        GlideApp.with(context)
-                .load(imageUrl)
-                .error(mDefaultBackground)
                 .apply(RequestOptions.circleCropTransform())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
@@ -96,6 +95,12 @@ public class ImageUtils {
 
     public static ColorMatrixColorFilter getBlackWhiteFilter() {
         return blackWhiteFilter;
+    }
+
+    private static URL encodeImageUrl(String urlStr) throws MalformedURLException, URISyntaxException {
+        URL url = new URL(urlStr);
+        URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+        return uri.toURL();
     }
 
 }

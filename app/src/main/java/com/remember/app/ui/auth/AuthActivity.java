@@ -141,7 +141,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
                 Prefs.putString(PREFS_KEY_ACCESS_TOKEN, socialUser.accessToken);
                 String[] str = socialUser.fullName.split(" ");
                 Prefs.putString(PREFS_KEY_NAME_USER, str[0]);
-                Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
+                //Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
                 presenter.signInFacebook();
             }
 
@@ -204,7 +204,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
             public void onResult(VKAccessToken res) {
                 Prefs.putString(PREFS_KEY_EMAIL, res.email);
                 Prefs.putString(PREFS_KEY_ACCESS_TOKEN, res.accessToken);
-                VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200"));
+                /*VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200"));
                 request.executeWithListener(new VKRequest.VKRequestListener() {
                     @Override
                     public void onComplete(VKResponse response) {
@@ -221,8 +221,8 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
                     @Override
                     public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
                     }
-                });
-                //presenter.getInfoUser();
+                });*/
+                presenter.getInfoUser();
             }
 
             @Override

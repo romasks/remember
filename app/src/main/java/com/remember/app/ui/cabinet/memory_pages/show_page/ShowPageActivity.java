@@ -40,6 +40,7 @@ import com.vk.sdk.dialogs.VKShareDialog;
 import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -433,6 +434,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                try {
+                    input.reset();
+                } catch (IOException e) {
+                    return null;
+                }
                 Log.i(TAG, "Ok");
                 return myBitmap;
             } catch (Exception e) {

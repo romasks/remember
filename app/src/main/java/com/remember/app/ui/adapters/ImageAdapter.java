@@ -122,14 +122,14 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    Log.e("ImageAdapter", "LOAD FAILED");
+//                                    Log.e("ImageAdapter", "LOAD FAILED");
                                     progress.setVisibility(View.GONE);
                                     return false;
                                 }
 
                                 @Override
                                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    Log.i("ImageAdapter", "RESOURCE READY");
+//                                    Log.i("ImageAdapter", "RESOURCE READY");
                                     progress.setVisibility(View.GONE);
                                     return false;
                                 }

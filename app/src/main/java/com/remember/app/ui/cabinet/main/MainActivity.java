@@ -52,6 +52,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
+import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class MainActivity extends MvpAppCompatActivity
@@ -123,6 +124,7 @@ public class MainActivity extends MvpAppCompatActivity
 
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
         imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
+        imageViewBigAvatar.setColorFilter(getBlackWhiteFilter());
 
         navUsername = headerView.findViewById(R.id.user_name);
         navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
@@ -133,6 +135,7 @@ public class MainActivity extends MvpAppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         imageViewAvatar = drawer.findViewById(R.id.avatar);
         imageViewAvatar.setOnClickListener(onAvatarClickListener);
+        imageViewAvatar.setColorFilter(getBlackWhiteFilter());
 
         button_menu.setOnClickListener(i -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -224,7 +227,6 @@ public class MainActivity extends MvpAppCompatActivity
         AutoCompleteTextView place = popupView.findViewById(R.id.live_place_value);
         AutoCompleteTextView dateBegin = popupView.findViewById(R.id.date_begin_value);
         AutoCompleteTextView dateEnd = popupView.findViewById(R.id.date_end_value);
-
 
         if (Utils.isThemeDark()) {
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));

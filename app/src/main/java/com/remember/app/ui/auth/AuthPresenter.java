@@ -65,7 +65,6 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     void signInVk() {
         RequestSocialAuth request = new RequestSocialAuth(
                 Prefs.getString(PREFS_KEY_EMAIL, ""),
-                Prefs.getString(PREFS_KEY_AVATAR, ""),
                 Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
                 "vk"
         );
@@ -89,7 +88,6 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     void signInFacebook() {
         RequestSocialAuth request = new RequestSocialAuth(
                 Prefs.getString(PREFS_KEY_EMAIL, ""),
-                Prefs.getString(PREFS_KEY_AVATAR, ""),
                 Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
                 "fb"
         );

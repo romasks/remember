@@ -36,7 +36,7 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/photo"
+                    android:src="@drawable/ic_unknown"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
