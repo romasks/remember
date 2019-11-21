@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -31,8 +32,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,7 +45,6 @@ import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
-import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PersonalDataFragment extends MvpAppCompatFragment implements SettingView {
@@ -93,10 +91,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.settingsLiveData.observeForever(this::onReceivedInfo);
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            verifyStoragePermissions(this.getActivity());
-        }
     }
 
     @Override
@@ -123,12 +117,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         darkTheme.setTextColor(textColor);
 
         return view;
-    }
-
-    void onSaveClick() {
-        presenter.getRequestSettings()
-                .name(name).surname(surname).middleName(middleName)
-                .nickname(nickname).location(location).phone(phone);
     }
 
     @Override
@@ -186,6 +174,12 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         rgTheme.check(R.id.cb_theme_dark);
         Prefs.putInt(PREFS_KEY_IS_THEME, THEME_DARK);
         getActivity().onBackPressed();
+    }
+
+    void onSaveClick() {
+        presenter.getRequestSettings()
+                .name(name).surname(surname).middleName(middleName)
+                .nickname(nickname).location(location).phone(phone);
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
