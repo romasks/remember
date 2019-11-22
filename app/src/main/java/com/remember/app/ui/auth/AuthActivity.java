@@ -8,10 +8,6 @@ import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.AuthCallback;
@@ -33,23 +29,20 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKApi;
-import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.VKParameters;
-import com.vk.sdk.api.VKRequest;
-import com.vk.sdk.api.VKResponse;
-import com.vk.sdk.api.model.VKApiUser;
-import com.vk.sdk.api.model.VKList;
 
 import java.util.Collections;
 import java.util.List;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.ok.android.sdk.Odnoklassniki;
+import ru.ok.android.sdk.util.OkAuthType;
+import ru.ok.android.sdk.util.OkScope;
 
 import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
@@ -60,9 +53,9 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
 public class AuthActivity extends MvpAppCompatActivity implements AuthView, RepairPasswordDialog.Callback {
 
-    private static final String APP_ID = "CBAGJGDNEBABABABA";
-    private static final String APP_KEY = "A488208737DA4B970D6E3EB1";
-    private static final String REDIRECT_URL = "okauth://ok1278579968";
+    private static final String APP_ID = "512000155578";
+    private static final String APP_KEY = "CLLQFHJGDIHBABABA";
+    private static final String REDIRECT_URL = "okauth://ok512000155578";
 
     @InjectPresenter
     AuthPresenter presenter;
@@ -123,13 +116,12 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         VKSdk.login(this, VKScope.EMAIL, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
     }
 
-    //
-//    @OnClick(R.id.ok)
-//    public void signInOk() {
-//        odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
-//        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.LONG_ACCESS_TOKEN);
-//    }
-//
+    @OnClick(R.id.ok)
+    public void signInOk() {
+        odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
+        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.LONG_ACCESS_TOKEN);
+    }
+
     @OnClick(R.id.fb)
     public void signInFacebook() {
         List<String> scopes = Collections.singletonList("");
