@@ -36,11 +36,19 @@ import java.util.List;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.ok.android.sdk.Odnoklassniki;
+import ru.ok.android.sdk.OkListener;
+import ru.ok.android.sdk.SharedKt;
 import ru.ok.android.sdk.util.OkAuthType;
 import ru.ok.android.sdk.util.OkScope;
 
@@ -119,7 +127,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @OnClick(R.id.ok)
     public void signInOk() {
         odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
-        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.LONG_ACCESS_TOKEN);
+        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);
     }
 
     @OnClick(R.id.fb)
@@ -219,10 +227,27 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
             @Override
             public void onError(VKError error) {
-
+                Log.d("VK ActivityResult Error", error.errorMessage);
             }
         })) {
-            super.onActivityResult(requestCode, resultCode, data);
+            if (!odnoklassniki.onAuthActivityResult(requestCode, resultCode, data, new OkListener() {
+                @Override
+                public void onSuccess(@NotNull JSONObject jsonObject) {
+                    try {
+                        Prefs.putString(PREFS_KEY_ACCESS_TOKEN, String.valueOf(jsonObject.get(SharedKt.PARAM_ACCESS_TOKEN)));
+                        presenter.signInOk();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(@Nullable String s) {
+                    Log.d("OK ActivityResult Error", s);
+                }
+            })) {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 

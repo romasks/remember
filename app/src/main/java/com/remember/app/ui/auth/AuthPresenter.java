@@ -99,6 +99,20 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         unsubscribeOnDestroy(subscription);
     }
 
+    void signInOk() {
+        RequestSocialAuth request = new RequestSocialAuth(
+                "",
+                Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
+                "ok"
+        );
+        Disposable subscription = serviceNetwork.signInSocial(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onLoggedSocial,
+                        getViewState()::onError);
+        unsubscribeOnDestroy(subscription);
+    }
+
     void restorePassword(String email) {
         Disposable subscription = serviceNetwork.restorePassword(email)
                 .subscribeOn(Schedulers.io())

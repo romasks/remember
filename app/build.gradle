@@ -124,7 +124,7 @@ dependencies {
     //VK
     implementation 'com.vk:androidsdk:1.6.9'
     //OK
-    implementation 'ru.ok:odnoklassniki-android-sdk:2.0.3'
+    implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
 
     implementation 'com.jaychang:simpleauth:2.1.4'
     implementation 'com.jaychang:simpleauth-twitter:2.1.4'
