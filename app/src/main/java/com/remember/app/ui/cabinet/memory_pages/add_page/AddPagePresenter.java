@@ -1,7 +1,5 @@
 package com.remember.app.ui.cabinet.memory_pages.add_page;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.models.AddPageModel;
@@ -19,38 +17,37 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class AddPagePresenter extends BasePresenter<AddPageView> {
 
-    public AddPagePresenter() {
+    AddPagePresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public void addPage(AddPageModel person, File imageUri) {
+    void addPage(AddPageModel person, File imageUri) {
         Disposable subscription = serviceNetwork.addPage(person, imageUri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedPage);
+                .subscribe(getViewState()::onSavedPage,
+                        getViewState()::onErrorSave);
         unsubscribeOnDestroy(subscription);
     }
 
-    private void onError(Throwable throwable){
-        Log.e("AddPagePresenter", "exception", throwable);
-    }
-    public void getReligion() {
+    void getReligion() {
         Disposable subscription = serviceNetwork.getReligion()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onGettedInfo);
+                .subscribe(getViewState()::onGetInfo,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
-    public void editPage(AddPageModel person, Integer id, File imageFile) {
+    void editPage(AddPageModel person, Integer id, File imageFile) {
         Disposable subscription = serviceNetwork.editPage(person, id, imageFile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onEdited,
-                        getViewState()::error);
+                        getViewState()::onErrorSave);
         unsubscribeOnDestroy(subscription);
     }
 }

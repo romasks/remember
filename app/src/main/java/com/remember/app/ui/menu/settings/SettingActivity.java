@@ -1,11 +1,13 @@
 package com.remember.app.ui.menu.settings;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -16,9 +18,10 @@ import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.utils.Utils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
+
+import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
+import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 
 public class SettingActivity extends BaseActivity implements SettingView {
 
@@ -39,7 +42,6 @@ public class SettingActivity extends BaseActivity implements SettingView {
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        presenter.getInfo();
 
         if (Utils.isThemeDark()) {
             backArrow.setImageResource(R.drawable.ic_back_dark_theme);
@@ -47,8 +49,23 @@ public class SettingActivity extends BaseActivity implements SettingView {
             backArrow.setImageResource(R.drawable.ic_back);
         }
 
+        if (storagePermissionGranted(this) || Build.VERSION.SDK_INT < 23) {
+            setUp();
+        } else {
+            verifyStoragePermissions(this);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void setUp() {
+        presenter.getInfo();
+
         viewPager = findViewById(R.id.container);
-//        setupViewPager(viewPager);
+        setupViewPager(viewPager);
 
         saveButton.setOnClickListener(v -> {
             switch (viewPager.getCurrentItem()) {
@@ -69,12 +86,6 @@ public class SettingActivity extends BaseActivity implements SettingView {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setupViewPager(viewPager);
-    }
-
     @OnClick(R.id.back)
     public void back() {
         onBackPressed();
@@ -88,6 +99,12 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        setUp();
     }
 
     private void setupViewPager(ViewPager viewPager) {

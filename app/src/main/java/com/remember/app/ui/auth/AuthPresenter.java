@@ -37,7 +37,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLogged,
-                        getViewState()::error);
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -65,7 +65,6 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     void signInVk() {
         RequestSocialAuth request = new RequestSocialAuth(
                 Prefs.getString(PREFS_KEY_EMAIL, ""),
-                Prefs.getString(PREFS_KEY_AVATAR, ""),
                 Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
                 "vk"
         );
@@ -73,7 +72,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
-                        getViewState()::error);
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -82,14 +81,13 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
-                        getViewState()::error);
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
     void signInFacebook() {
         RequestSocialAuth request = new RequestSocialAuth(
                 Prefs.getString(PREFS_KEY_EMAIL, ""),
-                Prefs.getString(PREFS_KEY_AVATAR, ""),
                 Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
                 "fb"
         );
@@ -97,7 +95,21 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,
-                        getViewState()::error);
+                        getViewState()::onError);
+        unsubscribeOnDestroy(subscription);
+    }
+
+    void signInOk() {
+        RequestSocialAuth request = new RequestSocialAuth(
+                "",
+                Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
+                "ok"
+        );
+        Disposable subscription = serviceNetwork.signInSocial(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onLoggedSocial,
+                        getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 

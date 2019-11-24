@@ -7,19 +7,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseImagesSlider;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class SlidePagerAdapterPhoto extends PagerAdapter {
 
@@ -61,7 +60,6 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
         textView.setText(responseImagesSliders.get(position).getBody());
         count.getCountPage(String.valueOf(responseImagesSliders.size()));
         glideLoadInto(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
-        setBlackWhite(imageView);
         container.addView(view);
 
         return view;

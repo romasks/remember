@@ -46,4 +46,9 @@ public class FileUtils {
         }
     }
 
+    public static boolean storagePermissionGranted(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return permission == PackageManager.PERMISSION_GRANTED;
+    }
+
 }

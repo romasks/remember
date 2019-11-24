@@ -59,23 +59,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_activity_fields_margin"
-            android:layout_marginLeft="@dimen/default_activity_fields_margin"
             android:layout_marginTop="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
-            android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@color/dark_gray"
             app:layout_constraintTop_toBottomOf="@+id/name_value">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/name_value"
+                style="@style/CustomInputTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:hint="@string/nickname"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textAlignment="textStart"
-                android:textColor="@drawable/abc" />
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,22 +78,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_activity_fields_margin"
-            android:layout_marginLeft="@dimen/default_activity_fields_margin"
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
-            android:layout_marginRight="@dimen/default_activity_fields_margin"
-            android:textColorHint="@color/dark_gray"
             app:layout_constraintTop_toBottomOf="@+id/name_title">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/middle_name"
+                style="@style/CustomInputTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textAlignment="textStart"
-                android:textColor="@drawable/abc" />
+                android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

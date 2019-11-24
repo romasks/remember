@@ -28,7 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -105,7 +104,6 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             } catch (Exception e) {
                 setGlideImage(itemView.getContext(), mDefaultBackground, avatarImage);
             }
-            setBlackWhite(avatarImage);
 
             amountDays.setVisibility(View.VISIBLE);
             String fullName = responseEvents.get(position).getName();

@@ -15,15 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.jaychang.sa.utils.StringUtils;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
@@ -46,6 +40,7 @@ import com.vk.sdk.dialogs.VKShareDialog;
 import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -55,12 +50,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
+import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
+import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
+import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
+import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
+import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
 import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
@@ -70,7 +76,6 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
 
@@ -93,22 +98,22 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     TextView city;
     @BindView(R.id.crypt)
     TextView crypt;
-    @BindView(R.id.sector)
+    @BindView(R.id.sector_value)
     TextView sector;
+    @BindView(R.id.line_value)
+    TextView line;
+    @BindView(R.id.grave_value)
+    TextView grave;
     @BindView(R.id.description)
     TextView description;
     @BindView(R.id.description_title)
     TextView descriptionTitle;
-    @BindView(R.id.grave)
-    TextView grave;
     @BindView(R.id.events)
     ImageButton events;
     @BindView(R.id.epitButton)
-    ImageButton epitaphyButton;
+    ImageButton epitaphButton;
     @BindView(R.id.imageButton)
     ImageButton imageButton;
-    @BindView(R.id.sec_value)
-    TextView sectorPlace;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
     @BindView(R.id.recycler_slider)
@@ -176,20 +181,16 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             presenter.getImageAfterSave(id);
         }
 
-        epitaphyButton.setOnClickListener(v -> {
+        epitaphButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, EpitaphsActivity.class);
-            if (isShow) {
-                intent.putExtra(INTENT_EXTRA_SHOW, true);
-            }
+            intent.putExtra(INTENT_EXTRA_SHOW, isShow);
             intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
             startActivity(intent);
         });
 
         events.setOnClickListener(v -> {
             Intent intent = new Intent(this, EventsActivity.class);
-            if (isShow) {
-                intent.putExtra(INTENT_EXTRA_SHOW, true);
-            }
+            intent.putExtra(INTENT_EXTRA_SHOW, isShow);
             intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
             intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
             startActivity(intent);
@@ -205,22 +206,22 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         photoSliderAdapter = new PhotoSliderAdapter();
         photoSliderAdapter.setClickListener(this);
         recyclerSlider.setAdapter(photoSliderAdapter);
-
     }
 
+    @SuppressLint("SimpleDateFormat")
     private String getNameTitle(MemoryPageModel memoryPageModel) {
-        String textSecondName = memoryPageModel.getSecondname().substring(0, 1).toUpperCase() + memoryPageModel.getSecondname().substring(1);
-        String textName = memoryPageModel.getName().substring(0, 1).toUpperCase() + memoryPageModel.getName().substring(1);
-        String textMiddleName = memoryPageModel.getThirtname().substring(0, 1).toUpperCase() + memoryPageModel.getThirtname().substring(1);
-        String result = "Памятная страница. " + textSecondName + " " + textName + " " + textMiddleName;
+        String result = "Памятная страница."
+                + " " + StringUtils.capitalize(memoryPageModel.getSecondName())
+                + " " + StringUtils.capitalize(memoryPageModel.getName())
+                + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         try {
-            Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDatarod());
-            Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDatasmert());
+            Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDateBirth());
+            Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDateDeath());
             DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
             DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
             return result + ". " + first.format(dateBegin) + " - " + second.format(dateEnd);
         } catch (ParseException e) {
-            return result + ". " + memoryPageModel.getDatarod() + " - " + memoryPageModel.getDatasmert();
+            return result + ". " + memoryPageModel.getDateBirth() + " - " + memoryPageModel.getDateDeath();
         }
     }
 
@@ -237,7 +238,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (memoryPageModel != null) {
             if (!afterSave) {
                 glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
-                setBlackWhite(image);
             }
             initTextName(memoryPageModel);
             initDate(memoryPageModel);
@@ -264,9 +264,9 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
 
     @OnClick(R.id.map_button)
     public void showMap() {
-        Log.d("LOGS", memoryPageModel.getCoords());
-        if (memoryPageModel.getCoords().equals("")) {
-            Toast.makeText(this, "Координаты неизвестны", Toast.LENGTH_LONG).show();
+        Log.d(TAG, memoryPageModel.getCoords());
+        if (memoryPageModel.getCoords().isEmpty()) {
+            Utils.showSnack(image, "Координаты неизвестны");
         } else {
             View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
             PopupMap popupWindow = new PopupMap(
@@ -288,72 +288,40 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             Log.i(TAG, "RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             assert result != null;
-            Exception error = result.getError();
+            Log.e(TAG, result.getError().getMessage());
             Log.i(TAG, "CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
         } else {
             Log.i(TAG, "HZ");
-
         }
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
-        city.setText(memoryPageModel.getGorod());
-        crypt.setText(memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getUchastok());
-        grave.setText(memoryPageModel.getNummogil());
-
-        if (memoryPageModel.getGorod() == null || memoryPageModel.getGorod().isEmpty()) {
-            city.setText("-");
-        } else {
-            city.setText(memoryPageModel.getGorod());
-        }
-        if (memoryPageModel.getNazvaklad() == null || memoryPageModel.getNazvaklad().isEmpty()) {
-            crypt.setText("-");
-        } else {
-            crypt.setText(memoryPageModel.getNazvaklad());
-        }
-        if (memoryPageModel.getUchastok() == null || memoryPageModel.getUchastok().isEmpty()) {
-            sector.setText("-");
-        } else {
-            sector.setText(memoryPageModel.getUchastok());
-        }
-        if (memoryPageModel.getNummogil() == null || memoryPageModel.getNummogil().isEmpty()) {
-            grave.setText("-");
-        } else {
-            grave.setText(memoryPageModel.getNummogil());
-        }
-        if (memoryPageModel.getSector() == null || memoryPageModel.getSector().isEmpty()) {
-            sectorPlace.setText("-");
-        } else {
-            sectorPlace.setText(memoryPageModel.getSector());
-        }
+        city.setText(memoryPageModel.getGorod().isEmpty() ? "-" : memoryPageModel.getGorod());
+        crypt.setText(memoryPageModel.getNazvaklad().isEmpty() ? "-" : memoryPageModel.getNazvaklad());
+        sector.setText(memoryPageModel.getSector().isEmpty() ? "-" : memoryPageModel.getSector());
+        line.setText(memoryPageModel.getUchastok().isEmpty() ? "-" : memoryPageModel.getUchastok());
+        grave.setText(memoryPageModel.getNummogil().isEmpty() ? "-" : memoryPageModel.getNummogil());
     }
 
     @SuppressLint("SimpleDateFormat")
     private void initDate(MemoryPageModel memoryPageModel) {
         try {
-            Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDatarod());
-            Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDatasmert());
+            Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDateBirth());
+            Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDateDeath());
             DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
             DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
             String textDate = first.format(dateBegin) + " - " + second.format(dateEnd);
             date.setText(textDate);
         } catch (ParseException e) {
-            String textDate = memoryPageModel.getDatarod() + " - " + memoryPageModel.getDatasmert();
+            String textDate = memoryPageModel.getDateBirth() + " - " + memoryPageModel.getDateDeath();
             date.setText(textDate);
         }
     }
 
     private void initTextName(MemoryPageModel memoryPageModel) {
-        String textSecondName = memoryPageModel.getSecondname().substring(0, 1).toUpperCase() + memoryPageModel.getSecondname().substring(1);
-        String textName = memoryPageModel.getName().substring(0, 1).toUpperCase() + memoryPageModel.getName().substring(1);
-        String textMiddleName;
-        if (!memoryPageModel.getThirtname().isEmpty()) {
-            textMiddleName = memoryPageModel.getThirtname().substring(0, 1).toUpperCase() + memoryPageModel.getThirtname().substring(1);
-        } else {
-            textMiddleName = "";
-        }
-        String result = textSecondName + " " + textName + " " + textMiddleName;
+        String result = StringUtils.capitalize(memoryPageModel.getSecondName())
+                + " " + StringUtils.capitalize(memoryPageModel.getName())
+                + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         name.setText(result);
         description.setText(memoryPageModel.getComment());
     }
@@ -375,11 +343,12 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         intent.putExtra("PERSON", memoryPageModel);
         intent.putExtra("LIST", isList);
         intent.putExtra("EDIT", true);
-        intent.putExtra("CITY", city.getText().toString());
-        intent.putExtra("SECTOR", sector.getText().toString());
-        intent.putExtra("GRAVE", grave.getText().toString());
-        intent.putExtra("CRYPT", crypt.getText().toString());
-        intent.putExtra("COORD", memoryPageModel.getCoords());
+        intent.putExtra(BURIAL_PLACE_COORDS, memoryPageModel.getCoords());
+        intent.putExtra(BURIAL_PLACE_CITY, memoryPageModel.getGorod());
+        intent.putExtra(BURIAL_PLACE_CEMETERY, memoryPageModel.getNazvaklad());
+        intent.putExtra(BURIAL_PLACE_SECTOR, memoryPageModel.getSector());
+        intent.putExtra(BURIAL_PLACE_LINE, memoryPageModel.getUchastok());
+        intent.putExtra(BURIAL_PLACE_GRAVE, memoryPageModel.getNummogil());
         startActivity(intent);
     }
 
@@ -393,7 +362,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         this.memoryPageModel = memoryPageModel;
         initAll();
         glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
-        setBlackWhite(image);
     }
 
     @Override
@@ -449,7 +417,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         VKAccessToken token = VKAccessToken.currentToken();
         if (token == null) {
             VKSdk.login(this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
-            Toast.makeText(getApplicationContext(), "Необходимо авторизоваться через ВКонтакте", Toast.LENGTH_SHORT).show();
+            Utils.showSnack(image, "Необходимо авторизоваться через ВКонтакте");
         } else {
             new sendPostSocial().execute(memoryPageModel.getPicture());
         }
@@ -459,13 +427,18 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         @Override
         protected Bitmap doInBackground(String... strings) {
             try {
-                String u = "https://помню.рус" + strings[0];
+                String u = BASE_SERVICE_URL + strings[0];
                 URL url = new URL(u);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                try {
+                    input.reset();
+                } catch (IOException e) {
+                    return null;
+                }
                 Log.i(TAG, "Ok");
                 return myBitmap;
             } catch (Exception e) {
@@ -487,7 +460,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                     @Override
                     public void onVkShareComplete(int postId) {
                         // recycle bitmap if need
-                        Toast.makeText(getApplicationContext(), "Запись опубликована", Toast.LENGTH_SHORT).show();
+                        Utils.showSnack(image, "Запись опубликована");
                     }
 
                     @Override
@@ -499,7 +472,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                     @Override
                     public void onVkShareError(VKError error) {
                         // recycle bitmap if need
-                        Toast.makeText(getApplicationContext(), "Ошибка публикации", Toast.LENGTH_SHORT).show();
+                        Utils.showSnack(image, "Ошибка публикации");
                     }
                 });
                 builder.show(ShowPageActivity.this.getSupportFragmentManager(), "VK_SHARE_DIALOG");

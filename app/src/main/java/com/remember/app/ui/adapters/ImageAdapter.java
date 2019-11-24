@@ -1,23 +1,24 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.remember.app.GlideApp;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -25,12 +26,15 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -90,10 +94,9 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.progress)
         ProgressBar progress;
 
-        public ImageAdapterHolder(View itemView) {
+        ImageAdapterHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            //context = itemView.getContext();
         }
 
         @Override
@@ -103,32 +106,45 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
             try {
                 if (memoryPageModels.get(position).getPicture().contains("uploads")) {
-                    Glide.with(context)
+                    //glideLoadIntoGrid(imageView.getContext(), BASE_SERVICE_URL + memoryPageModels.get(position).getPicture(), imageView);
+                    WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                    if (wm != null) {
+                        Display display = wm.getDefaultDisplay();
+                        Point size = new Point();
+                        display.getSize(size);
+                        imageView.setMinimumHeight(size.x / 3);
+                        imageView.setMaxHeight(size.x / 3);
+                    }
+                    GlideApp.with(context)
                             .load(BASE_SERVICE_URL + memoryPageModels.get(position).getPicture())
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                                    Log.e("ImageAdapter", "LOAD FAILED");
                                     progress.setVisibility(View.GONE);
                                     return false;
                                 }
 
                                 @Override
                                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                                    Log.i("ImageAdapter", "RESOURCE READY");
                                     progress.setVisibility(View.GONE);
                                     return false;
                                 }
                             })
                             .error(R.drawable.darth_vader)
                             .into(imageView);
+                    imageView.setColorFilter(getBlackWhiteFilter());
                 } else {
-                    glideLoadIntoCenterInside(context, R.drawable.darth_vader, imageView);
+                    glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
                 }
             } catch (NullPointerException e) {
-                glideLoadIntoCenterInside(context, R.drawable.darth_vader, imageView);
+                glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
             }
-            setBlackWhite(imageView);
 
-            String nameString = memoryPageModels.get(position).getName() + " " + memoryPageModels.get(position).getSecondname();
+            String nameString = memoryPageModels.get(position).getName() + " " + memoryPageModels.get(position).getSecondName();
             name.setText(nameString);
         }
     }

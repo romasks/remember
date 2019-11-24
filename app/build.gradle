@@ -20,8 +20,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 35
-        versionName "1.4.4"
+        versionCode 38
+        versionName "1.4.403"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -81,10 +81,16 @@ dependencies {
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    implementation ('com.github.bumptech.glide:glide:4.10.0') {
+        exclude group: "com.android.support"
+    }
     implementation 'net.scarlettsystems.android:glide:0.1.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    annotationProcessor 'androidx.annotation:annotation:1.1.0'
+    implementation ("com.github.bumptech.glide:glide:4.10.0@aar") {
+        transitive = true
+    }
 
     // LeakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
@@ -118,7 +124,7 @@ dependencies {
     //VK
     implementation 'com.vk:androidsdk:1.6.9'
     //OK
-    implementation 'ru.ok:odnoklassniki-android-sdk:2.0.3'
+    implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
 
     implementation 'com.jaychang:simpleauth:2.1.4'
     implementation 'com.jaychang:simpleauth-twitter:2.1.4'

@@ -200,7 +200,7 @@
                             android:weightSum="2">
 
                             <TextView
-                                android:id="@+id/sec"
+                                android:id="@+id/sector"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="7dp"
@@ -210,7 +210,7 @@
                                 android:textColor="@color/gray" />
 
                             <TextView
-                                android:id="@+id/sec_value"
+                                android:id="@+id/sector_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -234,7 +234,7 @@
                             android:weightSum="2">
 
                             <TextView
-                                android:id="@+id/textView12"
+                                android:id="@+id/line"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="7dp"
@@ -244,7 +244,7 @@
                                 android:textColor="@color/gray" />
 
                             <TextView
-                                android:id="@+id/sector"
+                                android:id="@+id/line_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -265,7 +265,7 @@
                             android:weightSum="2">
 
                             <TextView
-                                android:id="@+id/textView11"
+                                android:id="@+id/grave"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -276,7 +276,7 @@
                                 android:textColor="@color/gray" />
 
                             <TextView
-                                android:id="@+id/grave"
+                                android:id="@+id/grave_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -453,7 +453,8 @@
                 android:text="@string/memory_page_bottom_navbar_events"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
     </LinearLayout>
 

@@ -10,7 +10,7 @@ public interface AuthView extends MvpView {
 
     void onLogged(ResponseAuth responseAuth);
 
-    void error(Throwable throwable);
+    void onError(Throwable throwable);
 
     void onReceivedInfo(ResponseVk response);
 

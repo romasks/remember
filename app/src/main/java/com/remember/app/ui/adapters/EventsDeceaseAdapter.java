@@ -28,7 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -110,7 +109,6 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
             if (!requestAddEvent.get(position).getPicture().isEmpty()) {
                 setGlideImage(itemView.getContext(), BASE_SERVICE_URL + requestAddEvent.get(position).getPicture(), avatarImage);
-                setBlackWhite(avatarImage);
             } else {
                 setGlideImage(itemView.getContext(), R.drawable.ic_round_camera, avatarImage);
             }

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.ImageViewHolder> {
@@ -51,7 +50,6 @@ public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.Im
         @Override
         public void onBind(int position) {
             setGlideImage(context, R.drawable.darth_vader, itemImage);
-            setBlackWhite(itemImage);
         }
     }
 }
