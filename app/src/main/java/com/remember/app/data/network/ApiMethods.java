@@ -228,8 +228,8 @@ public interface ApiMethods {
     @GET("page")
     Observable<List<MemoryPageModel>> getAllPages();
 
-    @GET("/user/restore/{email}")
-    Observable<ResponseRestorePassword> restorePassword(@Path("email") String email);
+    @GET("/user/restore")
+    Observable<ResponseRestorePassword> restorePassword(@Query("email") String email);
 
     @Multipart
     @POST("settings/picture")

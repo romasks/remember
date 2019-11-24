@@ -113,8 +113,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         email.setTextColor(textColor);
         location.setTextColor(textColor);
         phone.setTextColor(textColor);
-        lightTheme.setTextColor(textColor);
-        darkTheme.setTextColor(textColor);
 
         return view;
     }
