@@ -50,7 +50,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/last_name"
-        style="@style/FilterDialogFieldStyle"
+        style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout">
@@ -67,7 +67,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/first_name"
-        style="@style/FilterDialogFieldStyle"
+        style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/last_name">
@@ -84,7 +84,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/father_name"
-        style="@style/FilterDialogFieldStyle"
+        style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/first_name">
@@ -101,7 +101,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/live_place"
-        style="@style/FilterDialogFieldStyle"
+        style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/father_name">
@@ -118,7 +118,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/date_begin"
-        style="@style/FilterDialogFieldStyle"
+        style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"
@@ -141,7 +141,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/date_end"
-        style="@style/FilterDialogFieldStyle"
+        style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"

@@ -11,11 +11,13 @@ public interface AddPageView extends MvpView {
 
     void onSavedPage(ResponseCemetery response);
 
-    void onGettedInfo(List<ResponseHandBook> responseHandBooks);
+    void onGetInfo(List<ResponseHandBook> responseHandBooks);
 
     //    void onEdited(ResponsePages responsePages);
 //    void onEdited(PageEditedResponse responsePages);
     void onEdited(MemoryPageModel memoryPageModel);
 
-    void error(Throwable throwable);
+    void onError(Throwable throwable);
+
+    void onErrorSave(Throwable throwable);
 }

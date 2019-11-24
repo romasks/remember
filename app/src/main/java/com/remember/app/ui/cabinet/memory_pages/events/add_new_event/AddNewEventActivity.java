@@ -20,9 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
@@ -45,6 +42,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -64,7 +63,6 @@ import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 
 public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewEventView {
 
@@ -146,8 +144,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         glideLoadInto(this, BASE_SERVICE_URL + imageUrl, image);
 
         if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_EVENT_EDITING, false)) {
-            setBlackWhite(image);
-
             saveButton.setText(getString(R.string.change_event));
             eventHeaderName.setText(eventName);
         } else {
@@ -201,7 +197,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
                 glideLoadInto(this, data.getData(), image);
-                setBlackWhite(image);
             }
         } else if (requestCode == 1) {
             DisplayMetrics dsMetrics = new DisplayMetrics();
@@ -216,7 +211,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             imageLayout.setBackgroundColor(Color.TRANSPARENT);
             try {
                 glideLoadIntoAsBitmap(this, hah, image);
-                setBlackWhite(image);
             } catch (Exception e) {
                 Log.e("dsgsd", e.getMessage());
             }

@@ -19,7 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -78,7 +77,6 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         public void onBind(int position) {
             try {
                 setGlideImage(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
-                setBlackWhite(imageView);
                 imageView.setOnClickListener(this);
             } catch (Exception e) {
             }

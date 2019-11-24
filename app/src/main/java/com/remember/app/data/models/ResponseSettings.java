@@ -94,7 +94,7 @@ public class ResponseSettings {
 
     public String getPicture() {
         return picture == null ? ""
-                : picture.contains("facebook") || picture.contains("userapi") ? picture
+                : picture.contains("http") ? picture
                 : Constants.BASE_SERVICE_URL + picture;
     }
 

@@ -8,10 +8,6 @@ import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.AuthCallback;
@@ -26,29 +22,35 @@ import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.RepairPasswordDialog;
+import com.remember.app.ui.utils.Utils;
 import com.remember.app.ui.utils.WrongEmailDialog;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKApi;
-import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.VKParameters;
-import com.vk.sdk.api.VKRequest;
-import com.vk.sdk.api.VKResponse;
-import com.vk.sdk.api.model.VKApiUser;
-import com.vk.sdk.api.model.VKList;
 
 import java.util.Collections;
 import java.util.List;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.ok.android.sdk.Odnoklassniki;
+import ru.ok.android.sdk.OkListener;
+import ru.ok.android.sdk.SharedKt;
+import ru.ok.android.sdk.util.OkAuthType;
+import ru.ok.android.sdk.util.OkScope;
 
 import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
@@ -59,12 +61,13 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
 public class AuthActivity extends MvpAppCompatActivity implements AuthView, RepairPasswordDialog.Callback {
 
-    private static final String APP_ID = "CBAGJGDNEBABABABA";
-    private static final String APP_KEY = "A488208737DA4B970D6E3EB1";
-    private static final String REDIRECT_URL = "okauth://ok1278579968";
+    private static final String APP_ID = "512000155578";
+    private static final String APP_KEY = "CLLQFHJGDIHBABABA";
+    private static final String REDIRECT_URL = "okauth://ok512000155578";
 
     @InjectPresenter
     AuthPresenter presenter;
+
     @BindView(R.id.login_value)
     AutoCompleteTextView login;
     @BindView(R.id.password_value)
@@ -118,16 +121,15 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     @OnClick(R.id.vk)
     public void signInVk() {
-        VKSdk.login(this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
+        VKSdk.login(this, VKScope.EMAIL, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
     }
 
-    //
-//    @OnClick(R.id.ok)
-//    public void signInOk() {
-//        odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
-//        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.LONG_ACCESS_TOKEN);
-//    }
-//
+    @OnClick(R.id.ok)
+    public void signInOk() {
+        odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
+        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);
+    }
+
     @OnClick(R.id.fb)
     public void signInFacebook() {
         List<String> scopes = Collections.singletonList("");
@@ -139,7 +141,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
                 Prefs.putString(PREFS_KEY_ACCESS_TOKEN, socialUser.accessToken);
                 String[] str = socialUser.fullName.split(" ");
                 Prefs.putString(PREFS_KEY_NAME_USER, str[0]);
-                Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
+                //Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
                 presenter.signInFacebook();
             }
 
@@ -168,9 +170,9 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 //            }
 //
 //            @Override
-//            public void onError(Throwable error) {
+//            public void onError(Throwable onError) {
 //                errorDialog("Ошибка авторизации");
-//                Log.e("TWITTER", error.getMessage());
+//                Log.e("TWITTER", onError.getMessage());
 //            }
 //
 //            @Override
@@ -183,14 +185,14 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
         if (login.getText().toString().equals("")) {
-            Toast.makeText(this, "Введите e-mail", Toast.LENGTH_LONG).show();
+            Utils.showSnack(login, "Введите e-mail");
         } else if (password.getText().toString().equals("")) {
-            Toast.makeText(this, "Введите пароль", Toast.LENGTH_LONG).show();
+            Utils.showSnack(login, "Введите пароль");
         } else {
             try {
                 presenter.singInAuth(login.getText().toString(), password.getText().toString());
             } catch (Exception e) {
-                Toast.makeText(this, "Произошла ошибка, проверьте введенные данные", Toast.LENGTH_LONG).show();
+                Utils.showSnack(login, "Произошла ошибка, проверьте введенные данные");
             }
         }
     }
@@ -202,12 +204,13 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
             public void onResult(VKAccessToken res) {
                 Prefs.putString(PREFS_KEY_EMAIL, res.email);
                 Prefs.putString(PREFS_KEY_ACCESS_TOKEN, res.accessToken);
-                VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200"));
+                /*VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200"));
                 request.executeWithListener(new VKRequest.VKRequestListener() {
                     @Override
                     public void onComplete(VKResponse response) {
                         VKApiUser user = ((VKList<VKApiUser>) response.parsedModel).get(0);
                         Prefs.putString(PREFS_KEY_AVATAR, user.photo_200);
+                        presenter.getInfoUser();
                     }
 
                     @Override
@@ -218,16 +221,33 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
                     @Override
                     public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
                     }
-                });
+                });*/
                 presenter.getInfoUser();
             }
 
             @Override
             public void onError(VKError error) {
-
+                Log.d("VK ActivityResult Error", error.errorMessage);
             }
         })) {
-            super.onActivityResult(requestCode, resultCode, data);
+            if (!odnoklassniki.onAuthActivityResult(requestCode, resultCode, data, new OkListener() {
+                @Override
+                public void onSuccess(@NotNull JSONObject jsonObject) {
+                    try {
+                        Prefs.putString(PREFS_KEY_ACCESS_TOKEN, String.valueOf(jsonObject.get(SharedKt.PARAM_ACCESS_TOKEN)));
+                        presenter.signInOk();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(@Nullable String s) {
+                    Log.d("OK ActivityResult Error", s);
+                }
+            })) {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
@@ -277,13 +297,13 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     }
 
     @Override
-    public void error(Throwable throwable) {
-        Toast.makeText(this, "Неправильный логин или пароль", Toast.LENGTH_LONG).show();
-        try {
+    public void onError(Throwable throwable) {
+        Utils.showSnack(login, "Неправильный логин или пароль");
+        /*try {
             errorDialog("Неправильный логин или пароль");
         } catch (Exception e) {
             errorDialog("Неправильный логин или пароль");
-        }
+        }*/
     }
 
     @Override
@@ -311,14 +331,14 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         if (responseRestorePassword.getPage().equals("found")) {
             errorDialog("Новый пароль успешно отправлен на E-mail");
         } else {
-            errorDialog("Ошибка отправки");
+            Utils.showSnack(login, "Ошибка отправки");
         }
     }
 
     @Override
     public void errorRestored(Throwable throwable) {
         popupDialog.dismiss();
-        errorDialog("Ошибка отправки");
+        Utils.showSnack(login, "Ошибка отправки");
     }
 
     public void errorDialog(String text) {

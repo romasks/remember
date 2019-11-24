@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +15,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
@@ -48,8 +45,6 @@ import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
-import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PersonalDataFragment extends MvpAppCompatFragment implements SettingView {
@@ -95,13 +90,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new Handler().postDelayed(() -> {
-            presenter.settingsLiveData.observeForever(this::onReceivedInfo);
-        }, 500);
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            verifyStoragePermissions(this.getActivity());
-        }
+        presenter.settingsLiveData.observeForever(this::onReceivedInfo);
     }
 
     @Override
@@ -130,12 +119,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         return view;
     }
 
-    void onSaveClick() {
-        presenter.getRequestSettings()
-                .name(name).surname(surname).middleName(middleName)
-                .nickname(nickname).location(location).phone(phone);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -150,7 +133,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
                 Uri resultUri = result.getUri();
                 if (getContext() != null) {
                     setGlideImage(getContext(), resultUri, avatar);
-                    setBlackWhite(avatar);
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
                         File imageFile = saveBitmap(bitmap);
@@ -194,6 +176,12 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         getActivity().onBackPressed();
     }
 
+    void onSaveClick() {
+        presenter.getRequestSettings()
+                .name(name).surname(surname).middleName(middleName)
+                .nickname(nickname).location(location).phone(phone);
+    }
+
     private void onReceivedInfo(ResponseSettings responseSettings) {
         if (!responseSettings.getPicture().isEmpty()) {
             Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
@@ -202,7 +190,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         } else {
             setGlideImage(getContext(), R.drawable.ic_unknown, avatar);
         }
-        setBlackWhite(avatar);
 
         surname.setText(responseSettings.getSurname());
         name.setText(responseSettings.getName());

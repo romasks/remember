@@ -30,6 +30,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
+import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
+import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
+import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
+import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
+import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
+
 public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMap.Callback,
         PlaceView, PopupCity.Callback, PopupCemetery.Callback {
 
@@ -38,18 +45,19 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
 
     @BindView(R.id.pick)
     Button pick;
+
+    @BindView(R.id.coordinates_value)
+    AutoCompleteTextView coordinates;
     @BindView(R.id.city_value)
     AutoCompleteTextView city;
-    @BindView(R.id.cemetery)
+    @BindView(R.id.cemetery_value)
     AutoCompleteTextView cemetery;
     @BindView(R.id.sector_value)
     AutoCompleteTextView sector;
-    @BindView(R.id.sec_value)
-    AutoCompleteTextView sectorPlace;
+    @BindView(R.id.line_value)
+    AutoCompleteTextView line;
     @BindView(R.id.grave_value)
     AutoCompleteTextView grave;
-    @BindView(R.id.coordinates_value)
-    AutoCompleteTextView coordinates;
 
     private ResponseHandBook responseHandBook;
     private boolean isEdit;
@@ -68,17 +76,24 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
 
-        coordinates.setText(getIntent().getStringExtra("COORDS"));
-        city.setText(getIntent().getStringExtra("CITY"));
-        cemetery.setText(getIntent().getStringExtra("CEMETERY"));
-        sector.setText(getIntent().getStringExtra("SPOT_ID"));
-        grave.setText(getIntent().getStringExtra("GRAVE_ID"));
-        sectorPlace.setText(getIntent().getStringExtra("SECTOR"));
+        coordinates.setText(getIntent().getStringExtra(BURIAL_PLACE_COORDS));
+        city.setText(getIntent().getStringExtra(BURIAL_PLACE_CITY));
+        cemetery.setText(getIntent().getStringExtra(BURIAL_PLACE_CEMETERY));
+        sector.setText(getIntent().getStringExtra(BURIAL_PLACE_SECTOR));
+        line.setText(getIntent().getStringExtra(BURIAL_PLACE_LINE));
+        grave.setText(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
 
-        if (isEdit) {
+        /*if (isEdit) {
             memoryPageModel = getIntent().getParcelableExtra("MODEL");
             initEdit();
-        }
+        } else {
+            coordinates.setText("");
+            city.setText("");
+            cemetery.setText("");
+            sector.setText("");
+            line.setText("");
+            grave.setText("");
+        }*/
 
         city.setOnClickListener(v -> presenter.getCities());
         cemetery.setOnClickListener(v -> {
@@ -94,9 +109,9 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
         coordinates.setText(memoryPageModel.getCoords());
         city.setText(memoryPageModel.getGorod());
         cemetery.setText(memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getUchastok());
+        sector.setText(memoryPageModel.getSector());
+        line.setText(memoryPageModel.getUchastok());
         grave.setText(memoryPageModel.getNummogil());
-        sectorPlace.setText(memoryPageModel.getSector());
     }
 
     @OnClick(R.id.back)
@@ -107,12 +122,12 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        intent.putExtra("COORDS", coordinates.getText().toString());
-        intent.putExtra("CITY", city.getText().toString());
-        intent.putExtra("CEMETERY", cemetery.getText().toString());
-        intent.putExtra("SPOT_ID", sector.getText().toString());
-        intent.putExtra("GRAVE_ID", grave.getText().toString());
-        intent.putExtra("SECTOR", sectorPlace.getText().toString());
+        intent.putExtra(BURIAL_PLACE_COORDS, coordinates.getText().toString());
+        intent.putExtra(BURIAL_PLACE_CITY, city.getText().toString());
+        intent.putExtra(BURIAL_PLACE_CEMETERY, cemetery.getText().toString());
+        intent.putExtra(BURIAL_PLACE_SECTOR, sector.getText().toString());
+        intent.putExtra(BURIAL_PLACE_LINE, line.getText().toString());
+        intent.putExtra(BURIAL_PLACE_GRAVE, grave.getText().toString());
         setResult(Activity.RESULT_OK, intent);
         super.onBackPressed();
         finish();

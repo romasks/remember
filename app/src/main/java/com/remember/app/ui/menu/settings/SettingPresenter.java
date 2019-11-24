@@ -31,7 +31,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
     }
 
     void getInfo() {
-        Disposable subscription = getServiceNetwork().getInfo()
+        Disposable subscription = getServiceNetwork().getUserSettings()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(value -> {

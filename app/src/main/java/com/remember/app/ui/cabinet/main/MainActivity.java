@@ -12,12 +12,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -25,7 +19,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
-import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.data.models.ResponseUserInfo;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
@@ -44,6 +38,11 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -53,7 +52,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
-import static com.remember.app.ui.utils.ImageUtils.setBlackWhite;
+import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class MainActivity extends MvpAppCompatActivity
@@ -64,7 +63,7 @@ public class MainActivity extends MvpAppCompatActivity
     @InjectPresenter
     MainPresenter presenter;
 
-    @BindView(R.id.imageView6)
+    @BindView(R.id.button_menu)
     ImageView button_menu;
     @BindView(R.id.title_name)
     TextView titleUserName;
@@ -125,6 +124,7 @@ public class MainActivity extends MvpAppCompatActivity
 
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
         imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
+        imageViewBigAvatar.setColorFilter(getBlackWhiteFilter());
 
         navUsername = headerView.findViewById(R.id.user_name);
         navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
@@ -135,6 +135,7 @@ public class MainActivity extends MvpAppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         imageViewAvatar = drawer.findViewById(R.id.avatar);
         imageViewAvatar.setOnClickListener(onAvatarClickListener);
+        imageViewAvatar.setColorFilter(getBlackWhiteFilter());
 
         button_menu.setOnClickListener(i -> {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -166,9 +167,6 @@ public class MainActivity extends MvpAppCompatActivity
 
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-
-            setBlackWhite(imageViewBigAvatar);
-            setBlackWhite(imageViewAvatar);
         }
     }
 
@@ -189,23 +187,20 @@ public class MainActivity extends MvpAppCompatActivity
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onReceivedInfo(ResponseSettings responseSettings) {
-        String userName = responseSettings.getName() + " " + responseSettings.getSurname();
+    public void onReceivedInfo(ResponseUserInfo responseSettings) {
+        String userName = responseSettings.getSettings().getName() + " " + responseSettings.getSettings().getSurname();
         Prefs.putString(PREFS_KEY_NAME_USER, userName);
         navUsername.setText(userName.trim());
         titleUserName.setText(userName.trim());
 
-        if (!responseSettings.getPicture().isEmpty()) {
-            setGlideImage(this, responseSettings.getPicture(), imageViewAvatar);
-            setGlideImage(this, responseSettings.getPicture(), imageViewBigAvatar);
+        if (!responseSettings.getSettings().getPicture().isEmpty()) {
+            setGlideImage(this, responseSettings.getSettings().getPicture(), imageViewAvatar);
+            setGlideImage(this, responseSettings.getSettings().getPicture(), imageViewBigAvatar);
         } else {
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
-        Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getPicture());
-
-        setBlackWhite(imageViewAvatar);
-        setBlackWhite(imageViewBigAvatar);
+        Prefs.putString(PREFS_KEY_AVATAR, responseSettings.getSettings().getPicture());
     }
 
     @Override
@@ -213,8 +208,6 @@ public class MainActivity extends MvpAppCompatActivity
         Utils.showSnack(imageViewAvatar, "Неопределённая ошибка с сервера");
         setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
         setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
-        setBlackWhite(imageViewAvatar);
-        setBlackWhite(imageViewBigAvatar);
     }
 
     public interface CallbackPage {
@@ -234,7 +227,6 @@ public class MainActivity extends MvpAppCompatActivity
         AutoCompleteTextView place = popupView.findViewById(R.id.live_place_value);
         AutoCompleteTextView dateBegin = popupView.findViewById(R.id.date_begin_value);
         AutoCompleteTextView dateEnd = popupView.findViewById(R.id.date_end_value);
-
 
         if (Utils.isThemeDark()) {
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));

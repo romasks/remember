@@ -13,10 +13,10 @@ public class MemoryPageModel implements Parcelable {
     private Integer id;
     @SerializedName("secondname")
     @Expose
-    private String secondname;
+    private String secondName;
     @SerializedName("thirtname")
     @Expose
-    private String thirtname;
+    private String thirdName;
     @SerializedName("name")
     @Expose
     private String name;
@@ -49,10 +49,10 @@ public class MemoryPageModel implements Parcelable {
     private String sector;
     @SerializedName("datarod")
     @Expose
-    private String datarod;
+    private String dateBirth;
     @SerializedName("datasmert")
     @Expose
-    private String datasmert;
+    private String dateDeath;
     @SerializedName("optradio")
     @Expose
     private String optradio;
@@ -89,24 +89,24 @@ public class MemoryPageModel implements Parcelable {
         this.id = id;
     }
 
-    public String getSecondname() {
-        return secondname;
+    public String getSecondName() {
+        return secondName == null ? "" : secondName;
     }
 
-    public void setSecondname(String secondname) {
-        this.secondname = secondname;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
-    public String getThirtname() {
-        return thirtname;
+    public String getThirdName() {
+        return thirdName == null ? "" : thirdName;
     }
 
-    public void setThirtname(String thirtname) {
-        this.thirtname = thirtname;
+    public void setThirdName(String thirdName) {
+        this.thirdName = thirdName;
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -185,20 +185,20 @@ public class MemoryPageModel implements Parcelable {
         this.sector = sector;
     }
 
-    public String getDatarod() {
-        return datarod;
+    public String getDateBirth() {
+        return dateBirth;
     }
 
-    public void setDatarod(String datarod) {
-        this.datarod = datarod;
+    public void setDateBirth(String dateBirth) {
+        this.dateBirth = dateBirth;
     }
 
-    public String getDatasmert() {
-        return datasmert;
+    public String getDateDeath() {
+        return dateDeath;
     }
 
-    public void setDatasmert(String datasmert) {
-        this.datasmert = datasmert;
+    public void setDateDeath(String dateDeath) {
+        this.dateDeath = dateDeath;
     }
 
     public String getOptradio() {
@@ -278,8 +278,8 @@ public class MemoryPageModel implements Parcelable {
 
     public MemoryPageModel(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
-        secondname = in.readString();
-        thirtname = in.readString();
+        secondName = in.readString();
+        thirdName = in.readString();
         name = in.readString();
         comment = in.readString();
         coords = in.readString();
@@ -289,8 +289,8 @@ public class MemoryPageModel implements Parcelable {
         nazvaklad = in.readString();
         uchastok = in.readString();
         nummogil = in.readString();
-        datarod = in.readString();
-        datasmert = in.readString();
+        dateBirth = in.readString();
+        dateDeath = in.readString();
         optradio = in.readString();
         picture = in.readString();
         pictureCut = in.readString();
@@ -315,8 +315,8 @@ public class MemoryPageModel implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeInt(id);
         }
-        dest.writeString(secondname);
-        dest.writeString(thirtname);
+        dest.writeString(secondName);
+        dest.writeString(thirdName);
         dest.writeString(name);
         dest.writeString(comment);
         dest.writeString(coords);
@@ -326,8 +326,8 @@ public class MemoryPageModel implements Parcelable {
         dest.writeString(nazvaklad);
         dest.writeString(uchastok);
         dest.writeString(nummogil);
-        dest.writeString(datarod);
-        dest.writeString(datasmert);
+        dest.writeString(dateBirth);
+        dest.writeString(dateDeath);
         dest.writeString(optradio);
         dest.writeString(picture);
         dest.writeString(pictureCut);

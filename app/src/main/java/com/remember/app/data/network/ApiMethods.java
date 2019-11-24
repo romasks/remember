@@ -22,6 +22,7 @@ import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseSocialAuth;
+import com.remember.app.data.models.ResponseUserInfo;
 
 import java.util.List;
 
@@ -150,13 +151,12 @@ public interface ApiMethods {
 
     @Multipart
     @POST("page/edit/{id}")
-//    Observable<ResponsePages> editPage(@Header("Authorization") String token,
-//    Observable<PageEditedResponse> editPage(@Header("Authorization") String token,
     Observable<MemoryPageModel> editPage(@Header("Authorization") String token,
                                          @Part("oblast") RequestBody oblast,
                                          @Part("datarod") RequestBody datarod,
                                          @Part("nazvaklad") RequestBody nazvaklad,
                                          @Part("gorod") RequestBody gorod,
+                                         @Part("sector") RequestBody sector,
                                          @Part("comment") RequestBody comment,
                                          @Part("coords") RequestBody coords,
                                          @Part("datasmert") RequestBody deathDate,
@@ -183,13 +183,12 @@ public interface ApiMethods {
 
     @Multipart
     @POST("page/edit/{id}")
-//    Observable<ResponsePages> editPageWithoutImage(@Header("Authorization") String token,
-//    Observable<PageEditedResponse> editPageWithoutImage(@Header("Authorization") String token,
     Observable<MemoryPageModel> editPageWithoutImage(@Header("Authorization") String token,
                                                      @Part("oblast") RequestBody oblast,
                                                      @Part("datarod") RequestBody datarod,
                                                      @Part("nazvaklad") RequestBody nazvaklad,
                                                      @Part("gorod") RequestBody gorod,
+                                                     @Part("sector") RequestBody sector,
                                                      @Part("comment") RequestBody comment,
                                                      @Part("coords") RequestBody coords,
                                                      @Part("datasmert") RequestBody deathDate,
@@ -209,8 +208,11 @@ public interface ApiMethods {
     @GET("page/{id}")
     Observable<MemoryPageModel> getImageAfterSave(@Path("id") Integer id);
 
+    @GET("user")
+    Observable<ResponseUserInfo> getInfo(@Header("Authorization") String token);
+
     @GET("settings")
-    Observable<ResponseSettings> getInfo(@Header("Authorization") String token);
+    Observable<ResponseSettings> getUserSettings(@Header("Authorization") String token);
 
     @PUT("settings")
     Observable<Object> saveSettings(@Header("Authorization") String token,

@@ -49,7 +49,7 @@ public class AddPageModel implements Parcelable {
     private String pictureData;
 
     public String getSector() {
-        return sector;
+        return sector == null ? "" : sector;
     }
 
     public void setSector(String sector) {
@@ -76,7 +76,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getSecondName() {
-        return secondName;
+        return secondName == null ? "" : secondName;
     }
 
     public void setSecondName(String secondName) {
@@ -84,7 +84,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getThirdName() {
-        return thirdName;
+        return thirdName == null ? "" : thirdName;
     }
 
     public void setThirdName(String thirdName) {
@@ -92,7 +92,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -100,7 +100,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getComment() {
-        return comment;
+        return comment == null ? "" : comment;
     }
 
     public void setComment(String comment) {
@@ -108,7 +108,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getCoords() {
-        return coords;
+        return coords == null ? "" : coords;
     }
 
     public void setCoords(String coords) {
@@ -116,7 +116,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getArea() {
-        return area;
+        return area == null ? "" : area;
     }
 
     public void setArea(String area) {
@@ -124,7 +124,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getDistrict() {
-        return district;
+        return district == null ? "" : district;
     }
 
     public void setDistrict(String district) {
@@ -132,7 +132,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getCity() {
-        return city;
+        return city == null ? "" : city;
     }
 
     public void setCity(String city) {
@@ -140,7 +140,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getCemeteryName() {
-        return cemeteryName;
+        return cemeteryName == null ? "" : cemeteryName;
     }
 
     public void setCemeteryName(String cemeteryName) {
@@ -148,7 +148,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getSpotId() {
-        return spotId;
+        return spotId == null ? "" : spotId;
     }
 
     public void setSpotId(String spotId) {
@@ -156,7 +156,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getGraveId() {
-        return graveId;
+        return graveId == null ? "" : graveId;
     }
 
     public void setGraveId(String graveId) {
@@ -164,7 +164,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getBirthDate() {
-        return birthDate;
+        return birthDate == null ? "" : birthDate;
     }
 
     public void setBirthDate(String birthDate) {
@@ -172,7 +172,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getDeathDate() {
-        return deathDate;
+        return deathDate == null ? "" : deathDate;
     }
 
     public void setDeathDate(String deathDate) {
@@ -180,7 +180,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getOptradio() {
-        return optradio;
+        return optradio == null ? "" : optradio;
     }
 
     public void setOptradio(String optradio) {
@@ -188,7 +188,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getStar() {
-        return star;
+        return star == null ? "" : star;
     }
 
     public void setStar(String star) {
@@ -196,7 +196,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getFlag() {
-        return flag;
+        return flag == null ? "" : flag;
     }
 
     public void setFlag(String flag) {
@@ -204,7 +204,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getReligion() {
-        return religion;
+        return religion == null ? "" : religion;
     }
 
     public void setReligion(String religion) {
@@ -212,7 +212,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getUserId() {
-        return userId;
+        return userId == null ? "" : userId;
     }
 
     public void setUserId(String userId) {

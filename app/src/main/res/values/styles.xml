@@ -132,6 +132,12 @@
         <item name="android:textColorHint">@color/gray</item>
     </style>
 
+    <style name="CustomInputTextStyle" parent="InputTextFieldStyle">
+        <item name="android:layout_gravity">start</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textColorLink">@color/light_brown</item>
+    </style>
+
     <style name="SettingsNotificationBoldTextStyle">
         <item name="android:layout_marginTop">35dp</item>
         <item name="android:textColor">#917b5a</item>
@@ -205,22 +211,24 @@
         <item name="android:minHeight">200dp</item>
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingEnd">20dp</item>
         <item name="android:textColorHighlight">@color/dark_gray</item>
         <item name="android:textColorHint">@color/gray</item>
         <item name="android:textColorLink">@color/colorPrimary</item>
     </style>
 
-    <style name="FilterDialogFieldStyle">
+    <style name="CustomAppTextFieldStyle">
         <item name="android:layout_marginStart">@dimen/default_activity_fields_margin</item>
         <item name="android:layout_marginTop">@dimen/default_activity_fields_margin</item>
         <item name="android:layout_marginEnd">@dimen/default_activity_fields_margin</item>
         <item name="android:textColorHint">?android:attr/textColorHint</item>
     </style>
 
-    <style name="CustomInputTextStyle" parent="InputTextFieldStyle">
+    <style name="NewMemoryPageInputTextStyle">
         <item name="android:layout_gravity">start</item>
+        <item name="android:maxLines">1</item>
         <item name="android:textAlignment">textStart</item>
-        <item name="android:textColorLink">@color/light_brown</item>
+        <item name="android:textColor">@drawable/abc</item>
     </style>
 
 </resources>
