@@ -42,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
@@ -60,6 +61,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
@@ -135,6 +137,14 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             notNeedNotification.setTextColor(textColorDark);
         }
 
+        if (storagePermissionGranted(this) || Build.VERSION.SDK_INT < 23) {
+            setUp();
+        } else {
+            verifyStoragePermissions(this);
+        }
+    }
+
+    private void setUp() {
         eventId = getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID);
         eventName = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_NAME, "");
         eventDescription = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_DESCRIPTION, "");
@@ -148,10 +158,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             eventHeaderName.setText(eventName);
         } else {
             saveButton.setText(getString(R.string.create_event));
-        }
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            verifyStoragePermissions(this);
         }
 
         try {
@@ -186,9 +192,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         };
 
         date.setOnClickListener(this::setDate);
-        if (Build.VERSION.SDK_INT >= 23) {
-            verifyStoragePermissions(this);
-        }
     }
 
     @Override
@@ -234,6 +237,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                 progressDialog.dismiss();
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        setUp();
     }
 
     private void setDate(View view) {

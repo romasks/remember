@@ -49,6 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -65,6 +66,7 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
@@ -146,13 +148,17 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
         }
 
+        if (storagePermissionGranted(this) || Build.VERSION.SDK_INT < 23) {
+            setUp();
+        } else {
+            verifyStoragePermissions(this);
+        }
+    }
+
+    private void setUp() {
         initiate();
         Intent i = getIntent();
         person = new AddPageModel();
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            verifyStoragePermissions(this);
-        }
 
         isEdit = i.getBooleanExtra("EDIT", false);
 
@@ -176,9 +182,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             onBackPressed();
             finish();
         });
-        if (Build.VERSION.SDK_INT >= 23) {
-            verifyStoragePermissions(this);
-        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -465,16 +468,24 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                     imageFile = saveBitmap(bitmap);
                     progressDialog.dismiss();
                     glideLoadInto(getApplicationContext(), result.getUri(), image);
+                    Log.d("NewMemoryPageActivity", "OK");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+                Log.e("NewMemoryPageActivity", error.getLocalizedMessage());
                 progressDialog.dismiss();
             } else {
                 progressDialog.dismiss();
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        setUp();
     }
 
     @Override
