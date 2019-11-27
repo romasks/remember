@@ -8,6 +8,9 @@ public class ResponseRestorePassword {
     @SerializedName("page")
     @Expose
     private String page;
+    @SerializedName("response")
+    @Expose
+    private boolean response;
 
     public String getPage() {
         return page;
@@ -15,5 +18,13 @@ public class ResponseRestorePassword {
 
     public void setPage(String page) {
         this.page = page;
+    }
+
+    public boolean getResponse() {
+        return response;
+    }
+
+    public void setResponse(boolean response) {
+        this.response = response;
     }
 }

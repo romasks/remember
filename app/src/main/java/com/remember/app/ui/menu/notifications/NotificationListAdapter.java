@@ -61,7 +61,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             title = v.findViewById(R.id.text_event_title);
             date = v.findViewById(R.id.text_event_date);
 
-            v.findViewById(R.id.item_tile).setOnClickListener(view -> {
+            v.findViewById(R.id.text_show).setOnClickListener(view -> {
                 if (clickListener != null)
                     clickListener.onNotificationClick(notificationList.get(getAdapterPosition()));
             });

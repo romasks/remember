@@ -328,7 +328,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @Override
     public void onRestored(ResponseRestorePassword responseRestorePassword) {
         popupDialog.dismiss();
-        if (responseRestorePassword.getPage().equals("found")) {
+        if (responseRestorePassword.getResponse()) {
             errorDialog("Новый пароль успешно отправлен на E-mail");
         } else {
             Utils.showSnack(login, "Ошибка отправки");
