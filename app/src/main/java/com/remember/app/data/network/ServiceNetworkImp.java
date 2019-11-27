@@ -233,8 +233,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponsePages> getImages(int count, boolean isStar) {
-        return apiMethods.getImages(count, "Одобрено", true, isStar);
+    public Observable<ResponsePages> getImages(int count, boolean isStar, boolean flag, String status) {
+        return apiMethods.getImages(count, status, flag, isStar);
     }
 
     @Override
@@ -307,8 +307,16 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage) {
-        return apiMethods.searchPageAllDead(requestSearchPage.getName(), requestSearchPage.getSecondName(),
-                requestSearchPage.getThirdName(), requestSearchPage.getDateBegin(), requestSearchPage.getDateEnd(), requestSearchPage.getCity());
+        return apiMethods.searchPageAllDead(
+                requestSearchPage.getName(),
+                requestSearchPage.getSecondName(),
+                requestSearchPage.getThirdName(),
+                requestSearchPage.getDateBegin(),
+                requestSearchPage.getDateEnd(),
+                requestSearchPage.getCity(),
+                requestSearchPage.getStatus(),
+                requestSearchPage.isFlag()
+        );
     }
 
     @Override

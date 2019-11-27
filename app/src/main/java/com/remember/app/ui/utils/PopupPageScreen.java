@@ -16,6 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.remember.app.data.Constants.IMAGES_STATUS_APPROVED;
+import static com.remember.app.data.Constants.SEARCH_ON_GRID;
+import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
+
 public class PopupPageScreen extends PopupWindow {
 
     private Callback callback;
@@ -23,6 +27,8 @@ public class PopupPageScreen extends PopupWindow {
     private AutoCompleteTextView dateEndVal;
     private TextInputLayout dateBegin;
     private TextInputLayout dateEnd;
+    private String status;
+    private boolean flag;
 
     private DatePickerDialog.OnDateSetListener datePickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();
@@ -56,14 +62,16 @@ public class PopupPageScreen extends PopupWindow {
         dateEndVal.setOnClickListener(v -> setDate(v, 2));
 
         popupView.findViewById(R.id.submit).setOnClickListener(v -> {
-            RequestSearchPage requestSearchPage = new RequestSearchPage();
-            requestSearchPage.setName(name.getText().toString());
-            requestSearchPage.setSecondName(lastName.getText().toString());
-            requestSearchPage.setThirdName(middleName.getText().toString());
-            requestSearchPage.setDateBegin(dateBeginVal.getText().toString());
-            requestSearchPage.setDateEnd(dateEndVal.getText().toString());
-            requestSearchPage.setCity(city.getText().toString());
-            callback.search(requestSearchPage);
+            RequestSearchPage request = new RequestSearchPage();
+            request.setName(name.getText().toString());
+            request.setSecondName(lastName.getText().toString());
+            request.setThirdName(middleName.getText().toString());
+            request.setDateBegin(dateBeginVal.getText().toString());
+            request.setDateEnd(dateEndVal.getText().toString());
+            request.setCity(city.getText().toString());
+            request.setStatus(status);
+            request.setFlag(flag);
+            callback.search(request);
             dismiss();
         });
     }
@@ -100,5 +108,15 @@ public class PopupPageScreen extends PopupWindow {
 
     public void setCallback(Callback callback) {
         this.callback = callback;
+    }
+
+    public void setSourceType(String type) {
+        if (SEARCH_ON_GRID.equals(type)) {
+            status = IMAGES_STATUS_APPROVED;
+            flag = true;
+        } /*else if (SEARCH_ON_MAIN.equals(type)) {
+            status = "";
+            flag = false;
+        }*/
     }
 }

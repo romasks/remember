@@ -48,4 +48,9 @@ public class Constants {
     public static final String BURIAL_PLACE_LINE = "BURIAL_PLACE_LINE";
     public static final String BURIAL_PLACE_GRAVE = "BURIAL_PLACE_GRAVE";
 
+    public static final String IMAGES_STATUS_APPROVED = "Одобрено";
+
+    public static final String SEARCH_ON_GRID = "grid";
+    public static final String SEARCH_ON_MAIN = "main";
+
 }

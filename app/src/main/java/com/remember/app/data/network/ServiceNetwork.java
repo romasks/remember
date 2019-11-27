@@ -69,7 +69,7 @@ public interface ServiceNetwork {
 
     Observable<Response<ResponseRegister>> registerLogin(String nickName, String email);
 
-    Observable<ResponsePages> getImages(int count, boolean isStar);
+    Observable<ResponsePages> getImages(int count, boolean isStar, boolean flag, String status);
 
     Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile);
 

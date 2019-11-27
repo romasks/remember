@@ -42,6 +42,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
 
 public class PageActivityMenu extends BaseActivity implements PageMenuView, PageFragmentAdapter.Callback, PopupPageScreen.Callback {
 
@@ -213,6 +214,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);
+        popupWindowPage.setSourceType(SEARCH_ON_MAIN);
         popupWindowPage.setUp(title);
     }
 

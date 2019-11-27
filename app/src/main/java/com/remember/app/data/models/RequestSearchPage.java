@@ -23,6 +23,12 @@ public class RequestSearchPage {
     @SerializedName("gorod")
     @Expose
     private String city;
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("flag")
+    @Expose
+    private boolean flag;
 
     public String getName() {
         return name;
@@ -70,5 +76,21 @@ public class RequestSearchPage {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 }

@@ -61,9 +61,9 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
 public class AuthActivity extends MvpAppCompatActivity implements AuthView, RepairPasswordDialog.Callback {
 
-    private static final String APP_ID = "512000155578";
-    private static final String APP_KEY = "CLLQFHJGDIHBABABA";
-    private static final String REDIRECT_URL = "okauth://ok512000155578";
+    private static final String APP_ID = "1278579968";
+    private static final String APP_KEY = "CBAGJGDNEBABABABA";
+    private static final String REDIRECT_URL = "okauth://ok1278579968";
 
     @InjectPresenter
     AuthPresenter presenter;

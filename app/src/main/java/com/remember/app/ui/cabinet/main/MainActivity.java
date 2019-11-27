@@ -52,6 +52,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
+import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
@@ -250,6 +251,7 @@ public class MainActivity extends MvpAppCompatActivity
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);
+        popupWindowPage.setSourceType(SEARCH_ON_MAIN);
         popupWindowPage.setUp(titleUserName);
 
     }

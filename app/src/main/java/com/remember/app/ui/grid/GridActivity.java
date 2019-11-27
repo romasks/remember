@@ -57,6 +57,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.data.Constants.SEARCH_ON_GRID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
@@ -275,6 +276,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);
+        popupWindowPage.setSourceType(SEARCH_ON_GRID);
         popupWindowPage.setUp(title);
     }
 

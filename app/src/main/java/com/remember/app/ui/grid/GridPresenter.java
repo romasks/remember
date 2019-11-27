@@ -9,6 +9,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.remember.app.data.Constants.IMAGES_STATUS_APPROVED;
+
 @InjectViewState
 public class GridPresenter extends BasePresenter<GridView> {
 
@@ -17,7 +19,7 @@ public class GridPresenter extends BasePresenter<GridView> {
     }
 
     void getImages(int count) {
-        Disposable subscription = getServiceNetwork().getImages(count, true)
+        Disposable subscription = getServiceNetwork().getImages(count, true, true, IMAGES_STATUS_APPROVED)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedImages,
