@@ -16,6 +16,8 @@ import java.util.List;
 
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.ViewHolder> {
 
+    private NotificationsFragment.Type type;
+
     public interface NotificationClickListener {
         void onNotificationClick(NotificationModelNew notification);
     }
@@ -31,6 +33,10 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     void setClickListener(NotificationClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    void setType(NotificationsFragment.Type type) {
+        this.type = type;
     }
 
     @NonNull
@@ -61,6 +67,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             title = v.findViewById(R.id.text_event_title);
             date = v.findViewById(R.id.text_event_date);
 
+            v.findViewById(R.id.text_show).setVisibility(type == NotificationsFragment.Type.EVENTS ? View.VISIBLE : View.GONE);
             v.findViewById(R.id.text_show).setOnClickListener(view -> {
                 if (clickListener != null)
                     clickListener.onNotificationClick(notificationList.get(getAdapterPosition()));

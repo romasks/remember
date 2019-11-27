@@ -5,10 +5,8 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.Remember;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventNotificationModel;
@@ -50,7 +48,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    void getEpitNotifications(){
+    void getEpitNotifications() {
         Disposable subscription = serviceNetwork.getEpitNotifications()
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEpitNotifications)
@@ -67,7 +65,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
         Date date;
 
-        for (EventNotificationModel notification : notifications){
+        for (EventNotificationModel notification : notifications) {
             date = formatGMT.parse(notification.getNextDate().replaceAll("Z$", "+0000"));
             notification.setDisplayedDate(dateFormat.format(date));
 
@@ -85,7 +83,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
         Date date;
 
-        for (EpitNotificationModel notification : notifications){
+        for (EpitNotificationModel notification : notifications) {
             date = formatGMT.parse(notification.getCreatedAt().replaceAll("Z$", "+0000"));
             notification.setDisplayedDate(dateFormat.format(date));
 
@@ -95,7 +93,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
         return notifications;
     }
 
-    private SpannableString getEventTitle(EventNotificationModel event){
+    private SpannableString getEventTitle(EventNotificationModel event) {
         int color = Color.parseColor("#917b5a");
 
         SpannableString title;
@@ -107,18 +105,18 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
         if (event.getRemainDays() == 0) daysStr = "";
         else if (event.getRemainDays() > 10 && event.getRemainDays() < 20) daysStr = "дней";
         else if (event.getRemainDays() % 10 == 1) daysStr = "день";
-        else if (event.getRemainDays() % 10 >= 2 && event.getRemainDays() % 10 <= 4) daysStr = "дня";
+        else if (event.getRemainDays() % 10 >= 2 && event.getRemainDays() % 10 <= 4)
+            daysStr = "дня";
         else daysStr = "дней";
 
-        switch (event.getType()){
+        switch (event.getType()) {
             case "dead_event":
                 if (event.getRemainDays() == 0) {
                     tmpTitle = "Сегодня " + event.getEventName() + " у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
                     addSpan(title, tmpTitle.indexOf(event.getEventName()), tmpTitle.length(), color, true);
-                }
-                else {
+                } else {
                     tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до " + event.getEventName() + " у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
@@ -140,15 +138,19 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
                     title = new SpannableString(tmpTitle);
 
+                    addSpan(title, tmpTitle.indexOf("День рождения"), "День рождения".length(), color, true);
+
                     addSpan(title, tmpTitle.indexOf(event.getPageName()), tmpTitle.length(), color, true);
-                }
-                else {
+                } else {
                     tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня рождения у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
                     tmpPos = tmpTitle.indexOf(String.valueOf(event.getRemainDays()));
                     addSpan(title, tmpPos, tmpPos + String.valueOf(event.getRemainDays()).length(), color, true);
+
+                    tmpPos = tmpTitle.indexOf("Дня рождения");
+                    addSpan(title, tmpPos, tmpPos + "Дня рождения".length(), color, true);
 
                     tmpPos = tmpTitle.indexOf(event.getPageName());
                     addSpan(title, tmpPos, tmpTitle.length(), color, true);
@@ -157,19 +159,24 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
             case "dead":
                 if (event.getRemainDays() == 0) {
-                    tmpTitle = "Сегодня Годовщина смерти у " + event.getPageName();
+                    tmpTitle = "Сегодня День смерти у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
+                    tmpPos = tmpTitle.indexOf("Дня смерти");
+                    addSpan(title, tmpTitle.indexOf("День смерти"), tmpPos + "День смерти".length(), color, true);
+
                     addSpan(title, tmpTitle.indexOf(event.getPageName()), tmpTitle.length(), color, true);
-                }
-                else {
-                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Годовщины смерти у " + event.getPageName();
+                } else {
+                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня смерти у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
                     tmpPos = tmpTitle.indexOf(String.valueOf(event.getRemainDays()));
                     addSpan(title, tmpPos, tmpPos + String.valueOf(event.getRemainDays()).length(), color, true);
+
+                    tmpPos = tmpTitle.indexOf("Дня смерти");
+                    addSpan(title, tmpTitle.indexOf("Дня смерти"), tmpPos + "Дня смерти".length(), color, true);
 
                     tmpPos = tmpTitle.indexOf(event.getPageName());
                     addSpan(title, tmpPos, tmpTitle.length(), color, true);
@@ -183,8 +190,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                     title = new SpannableString(tmpTitle);
 
                     addSpan(title, tmpTitle.indexOf(event.getEventName()), tmpTitle.length(), color, true);
-                }
-                else {
+                } else {
                     tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до " + event.getEventName();
 
                     title = new SpannableString(tmpTitle);
@@ -204,10 +210,10 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
         return title;
     }
 
-    private SpannableString getEpitTitle(EpitNotificationModel epit){
+    private SpannableString getEpitTitle(EpitNotificationModel epit) {
         int color = Color.parseColor("#917b5a");
 
-        String tmpTitle = epit.getUserName() + " оставил эпитафию на странице " + epit.getPageName() + ": " + epit.getText();
+        String tmpTitle = epit.getUserName() + " оставил(а) эпитафию на странице " + epit.getPageName() + ": " + epit.getText();
 
         SpannableString title = new SpannableString(tmpTitle);
 
@@ -222,7 +228,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
         return title;
     }
 
-    private void addSpan(Spannable text, int start, int end, int color, boolean isBold){
+    private void addSpan(Spannable text, int start, int end, int color, boolean isBold) {
         text.setSpan(new ForegroundColorSpan(color), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
         if (isBold)
