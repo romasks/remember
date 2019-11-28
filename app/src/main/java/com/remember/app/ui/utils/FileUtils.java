@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
+import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,6 +33,7 @@ public class FileUtils {
         FileOutputStream fo = new FileOutputStream(f);
         fo.write(bytes.toByteArray());
         fo.close();
+        bytes.close();
         return f;
     }
 
@@ -49,6 +52,24 @@ public class FileUtils {
     public static boolean storagePermissionGranted(Activity activity) {
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         return permission == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void saveImageFromDrawableToFile(File file, ImageView imageView) {
+        try {
+            file.createNewFile();
+            imageView.invalidate();
+            BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+            byte[] bitmapdata = bos.toByteArray();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,8 +1,10 @@
 package com.remember.app.ui.menu.question;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -29,8 +31,12 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     MaterialSpinner spinner;
     @BindView(R.id.body)
     EditText body;
-    @BindView(R.id.back)
+    @BindView(R.id.back_button)
     ImageView back;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.settings)
+    ImageView settings;
 
     private boolean isQuestion = false;
     private final String QUESTION = "Вопрос";
@@ -41,6 +47,8 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
+        title.setText(R.string.questions_header_text);
+        settings.setVisibility(View.GONE);
 
         if (Utils.isThemeDark()) {
             back.setImageResource(R.drawable.ic_back_dark_theme);

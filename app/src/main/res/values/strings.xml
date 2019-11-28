@@ -120,6 +120,7 @@
 
     <!--memory_page-->
     <string name="memory_page_header_text">Памятная страница</string>
+    <string name="memory_page_new_header_text">Новая памятная страница</string>
     <string name="memory_page_burial_place_title">Место захоронения</string>
     <string name="memory_page_sector_text">Сектор</string>
     <string name="memory_page_row_text">Ряд</string>

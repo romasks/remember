@@ -7,51 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include
         android:id="@+id/app_bar"
+        layout="@layout/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        tools:ignore="MissingConstraints">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_back"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:paddingEnd="20dp"
-                    android:text="@string/questions_header_text"
-                    android:textColor="?android:attr/textColor"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="wrap_content" />
 
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/spinner"
@@ -64,9 +24,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:ms_arrow_tint="?android:attr/textColorHint"
-        app:ms_text_color="?android:attr/textColorHint"
         app:ms_padding_left="20dp"
-        tools:text="Example"/>
+        app:ms_text_color="?android:attr/textColorHint"
+        tools:text="Example" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/body"

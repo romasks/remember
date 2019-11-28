@@ -25,6 +25,7 @@ import com.remember.app.ui.adapters.PhotoSliderAdapter;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
+import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PhotoDialog;
 import com.remember.app.ui.utils.Utils;
@@ -44,10 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -215,11 +213,9 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
                 + " " + StringUtils.capitalize(memoryPageModel.getName())
                 + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         try {
-            Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDateBirth());
-            Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDateDeath());
-            DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
-            DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
-            return result + ". " + first.format(dateBegin) + " - " + second.format(dateEnd);
+            String textDate = DateUtils.convertToLocalFormat(memoryPageModel.getDateBirth())
+                    + " - " + DateUtils.convertToLocalFormat(memoryPageModel.getDateDeath());
+            return result + ". " + textDate;
         } catch (ParseException e) {
             return result + ". " + memoryPageModel.getDateBirth() + " - " + memoryPageModel.getDateDeath();
         }
@@ -306,11 +302,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @SuppressLint("SimpleDateFormat")
     private void initDate(MemoryPageModel memoryPageModel) {
         try {
-            Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDateBirth());
-            Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModel.getDateDeath());
-            DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
-            DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
-            String textDate = first.format(dateBegin) + " - " + second.format(dateEnd);
+            String textDate = DateUtils.convertToLocalFormat(memoryPageModel.getDateBirth())
+                    + " - " + DateUtils.convertToLocalFormat(memoryPageModel.getDateDeath());
             date.setText(textDate);
         } catch (ParseException e) {
             String textDate = memoryPageModel.getDateBirth() + " - " + memoryPageModel.getDateDeath();

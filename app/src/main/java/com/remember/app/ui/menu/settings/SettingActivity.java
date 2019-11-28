@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
@@ -32,8 +34,12 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @BindView(R.id.save_button)
     Button saveButton;
-    @BindView(R.id.back)
+    @BindView(R.id.back_button)
     ImageView backArrow;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.settings)
+    ImageView settings;
 
     private ViewPager viewPager;
 
@@ -42,6 +48,8 @@ public class SettingActivity extends BaseActivity implements SettingView {
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
+        title.setText(R.string.settings_header_text);
+        settings.setVisibility(View.GONE);
 
         if (Utils.isThemeDark()) {
             backArrow.setImageResource(R.drawable.ic_back_dark_theme);
