@@ -138,9 +138,11 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
                     title = new SpannableString(tmpTitle);
 
-                    addSpan(title, tmpTitle.indexOf("День рождения"), "День рождения".length(), color, true);
+                    tmpPos = tmpTitle.indexOf("День рождения");
+                    addSpan(title, tmpPos, tmpPos + "День рождения".length(), color, true);
 
-                    addSpan(title, tmpTitle.indexOf(event.getPageName()), tmpTitle.length(), color, true);
+                    tmpPos = tmpTitle.indexOf(event.getPageName());
+                    addSpan(title, tmpPos, tmpTitle.length(), color, true);
                 } else {
                     tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня рождения у " + event.getPageName();
 
@@ -163,10 +165,11 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
                     title = new SpannableString(tmpTitle);
 
-                    tmpPos = tmpTitle.indexOf("Дня смерти");
-                    addSpan(title, tmpTitle.indexOf("День смерти"), tmpPos + "День смерти".length(), color, true);
+                    tmpPos = tmpTitle.indexOf("День смерти");
+                    addSpan(title, tmpPos, tmpPos + "День смерти".length(), color, true);
 
-                    addSpan(title, tmpTitle.indexOf(event.getPageName()), tmpTitle.length(), color, true);
+                    tmpPos = tmpTitle.indexOf(event.getPageName());
+                    addSpan(title, tmpPos, tmpTitle.length(), color, true);
                 } else {
                     tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня смерти у " + event.getPageName();
 
@@ -176,7 +179,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                     addSpan(title, tmpPos, tmpPos + String.valueOf(event.getRemainDays()).length(), color, true);
 
                     tmpPos = tmpTitle.indexOf("Дня смерти");
-                    addSpan(title, tmpTitle.indexOf("Дня смерти"), tmpPos + "Дня смерти".length(), color, true);
+                    addSpan(title, tmpPos, tmpPos + "Дня смерти".length(), color, true);
 
                     tmpPos = tmpTitle.indexOf(event.getPageName());
                     addSpan(title, tmpPos, tmpTitle.length(), color, true);
