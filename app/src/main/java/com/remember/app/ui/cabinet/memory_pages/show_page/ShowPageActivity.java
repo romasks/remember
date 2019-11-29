@@ -1,6 +1,5 @@
 package com.remember.app.ui.cabinet.memory_pages.show_page;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +14,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.utils.StringUtils;
@@ -45,14 +50,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -206,19 +205,14 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         recyclerSlider.setAdapter(photoSliderAdapter);
     }
 
-    @SuppressLint("SimpleDateFormat")
     private String getNameTitle(MemoryPageModel memoryPageModel) {
         String result = "Памятная страница."
                 + " " + StringUtils.capitalize(memoryPageModel.getSecondName())
                 + " " + StringUtils.capitalize(memoryPageModel.getName())
                 + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
-        try {
-            String textDate = DateUtils.convertToLocalFormat(memoryPageModel.getDateBirth())
-                    + " - " + DateUtils.convertToLocalFormat(memoryPageModel.getDateDeath());
-            return result + ". " + textDate;
-        } catch (ParseException e) {
-            return result + ". " + memoryPageModel.getDateBirth() + " - " + memoryPageModel.getDateDeath();
-        }
+        String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
+                + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
+        return result + ". " + textDate;
     }
 
     @OnClick(R.id.imageButton)
@@ -299,16 +293,10 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         grave.setText(memoryPageModel.getNummogil().isEmpty() ? "-" : memoryPageModel.getNummogil());
     }
 
-    @SuppressLint("SimpleDateFormat")
     private void initDate(MemoryPageModel memoryPageModel) {
-        try {
-            String textDate = DateUtils.convertToLocalFormat(memoryPageModel.getDateBirth())
-                    + " - " + DateUtils.convertToLocalFormat(memoryPageModel.getDateDeath());
-            date.setText(textDate);
-        } catch (ParseException e) {
-            String textDate = memoryPageModel.getDateBirth() + " - " + memoryPageModel.getDateDeath();
-            date.setText(textDate);
-        }
+        String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
+                + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
+        date.setText(textDate);
     }
 
     private void initTextName(MemoryPageModel memoryPageModel) {

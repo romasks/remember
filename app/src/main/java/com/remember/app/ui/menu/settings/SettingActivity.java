@@ -94,7 +94,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @OnClick(R.id.back)
+    @OnClick(R.id.back_button)
     public void back() {
         onBackPressed();
     }

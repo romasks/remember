@@ -21,6 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -47,10 +52,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -199,18 +200,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         religion.setText(memoryPageModel.getReligiya());
         isFamous.setChecked(memoryPageModel.getStar().equals("true"));
 
-        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
-        DateFormat dfRemote = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date beginDate = DateUtils.parseDateWithFormat(memoryPageModel.getDateBirth(), dfRemote);
-        if (beginDate != null) {
-            dateBegin.setText(dfLocal.format(beginDate));
-        }
-
-        Date endDate = DateUtils.parseDateWithFormat(memoryPageModel.getDateDeath(), dfRemote);
-        if (endDate != null) {
-            dateEnd.setText(dfLocal.format(endDate));
-        }
+        dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
+        dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
 
         glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
 
@@ -254,18 +245,8 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setThirdName(middleName.getText().toString());
         person.setComment(description.getText().toString());
 
-        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date beginDate = DateUtils.parseDateWithFormat(dateBegin.getText().toString(), dfLocal);
-        if (beginDate != null) {
-            person.setBirthDate(df.format(beginDate));
-        }
-
-        Date endDate = DateUtils.parseDateWithFormat(dateEnd.getText().toString(), dfLocal);
-        if (endDate != null) {
-            person.setDeathDate(df.format(endDate));
-        }
+        person.setBirthDate(DateUtils.convertLocalToRemoteFormat(dateBegin.getText().toString()));
+        person.setDeathDate(DateUtils.convertLocalToRemoteFormat(dateEnd.getText().toString()));
 
         person.setUserId(Prefs.getString(PREFS_KEY_USER_ID, "0"));
 
@@ -299,8 +280,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date endDate = DateUtils.parseDateWithFormat(dateEnd.getText().toString(), simpleDateFormat);
+            Date endDate = DateUtils.parseRemoteFormat(dateEnd.getText().toString());
             if (endDate != null) {
                 if (dateAndTime.getTime().after(endDate)) {
                     Utils.showSnack(dateBegin, "Дата смерти не может быть перед датой рождения");
@@ -317,8 +297,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date startDate = DateUtils.parseDateWithFormat(dateBegin.getText().toString(), simpleDateFormat);
+            Date startDate = DateUtils.parseRemoteFormat(dateBegin.getText().toString());
             if (startDate != null) {
                 if (startDate.after(dateAndTime.getTime())) {
                     Utils.showSnack(dateBegin, "Дата смерти не может быть перед датой рождения");
@@ -369,11 +348,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
-            String itemName = getSupportFragmentManager().getBackStackEntryAt(i).getName();
-            Log.d(TAG, itemName);
-        }
-
         if (requestCode == GRAVE_INFO_RESULT) {
             if (resultCode == RESULT_OK) {
                 person.setCoords(data.getStringExtra(BURIAL_PLACE_COORDS));
@@ -408,18 +382,15 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             try {
                 glideLoadIntoAsBitmap(this, hah, image);
             } catch (Exception e) {
-                Log.e("dsgsd", e.getMessage());
+                Log.e(TAG, e.getMessage());
             }
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 progressDialog.dismiss();
                 try {
-                    Log.d(TAG, "RESULT URI: " + result.getUri().toString());
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
-                    Log.d(TAG, "BITMAP: " + bitmap);
                     imageFile = saveBitmap(bitmap);
-                    Log.d(TAG, "FILE: " + imageFile);
                     progressDialog.dismiss();
                     glideLoadInto(getApplicationContext(), result.getUri(), image);
                 } catch (IOException e) {
@@ -427,7 +398,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
-                Log.e("NewMemoryPageActivity", error.getLocalizedMessage());
+                Log.e(TAG, error.getLocalizedMessage());
                 progressDialog.dismiss();
             } else {
                 progressDialog.dismiss();

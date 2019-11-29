@@ -46,6 +46,7 @@ public class ImageUtils {
     }
 
     public static void glideLoadInto(Context context, Object imageObj, ImageView targetView) {
+        targetView.invalidate();
         GlideApp.with(context)
                 .load(imageObj)
                 .into(targetView);

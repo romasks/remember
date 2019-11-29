@@ -16,10 +16,6 @@ public class Remember extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            return;
-//        }
-//        LeakCanary.install(this);
         VKSdk.initialize(this);
 //        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         new Prefs.Builder()

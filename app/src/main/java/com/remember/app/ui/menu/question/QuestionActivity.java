@@ -61,7 +61,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
                 -> isQuestion = item.equals(QUESTION));
     }
 
-    @OnClick(R.id.back)
+    @OnClick(R.id.back_button)
     public void back() {
         onBackPressed();
         finish();

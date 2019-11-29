@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.EventNotificationModel;
@@ -19,11 +24,6 @@ import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
@@ -81,10 +81,11 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        recyclerView = view.findViewById(R.id.rv_notifications);
-        recyclerView.setBackgroundColor(getResources().getColor(
+        view.findViewById(R.id.notifications_screen).setBackgroundColor(getResources().getColor(
                 Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
         ));
+
+        recyclerView = view.findViewById(R.id.rv_notifications);
 
         textEmptyState = view.findViewById(R.id.text_empty_state);
         textEmptyState.setVisibility(View.GONE);
