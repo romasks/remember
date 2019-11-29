@@ -38,6 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.IMAGES_STATUS_APPROVED;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
@@ -230,6 +231,8 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void search(RequestSearchPage requestSearchPage) {
+        requestSearchPage.setFlag(true);
+        requestSearchPage.setStatus(IMAGES_STATUS_APPROVED);
         presenter.search(requestSearchPage);
     }
 }
