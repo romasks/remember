@@ -7,8 +7,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.textfield.TextInputLayout;
@@ -74,9 +72,9 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
 
     @OnClick(R.id.sign_in_btn)
     public void register() {
-        if (nickName.getText().toString().equals("")) {
+        if (nickName.getText().toString().isEmpty()) {
             Toast.makeText(this, "Введите Никнейм", Toast.LENGTH_LONG).show();
-        } else if (email.getText().toString().equals("")) {
+        } else if (email.getText().toString().isEmpty()) {
             Toast.makeText(this, "Введите Email", Toast.LENGTH_LONG).show();
         } else {
             if (checkEmail(email.getText().toString())) {
@@ -136,18 +134,14 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
     private void successDialog(ResponseRegister responseRegister) {
         SuccessDialog successDialog = new SuccessDialog();
         successDialog.setCallback(this);
-        FragmentManager manager = getSupportFragmentManager();
         successDialog.setDescription(responseRegister);
-        FragmentTransaction transaction = manager.beginTransaction();
-        successDialog.show(transaction, "wrongEmailDialog");
+        successDialog.show(getSupportFragmentManager().beginTransaction(), "wrongEmailDialog");
     }
 
     public void errorDialog(String text) {
         WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
-        FragmentManager manager = getSupportFragmentManager();
         wrongEmailDialog.setDescription(text);
-        FragmentTransaction transaction = manager.beginTransaction();
-        wrongEmailDialog.show(transaction, "wrongEmailDialog");
+        wrongEmailDialog.show(getSupportFragmentManager().beginTransaction(), "wrongEmailDialog");
     }
 
     @Override

@@ -6,12 +6,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -38,14 +43,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -243,32 +240,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
-
-        ConstraintLayout layout = popupView.findViewById(R.id.cont);
-        Toolbar toolbar = popupView.findViewById(R.id.toolbar);
-        ImageView backImg = popupView.findViewById(R.id.back);
-        TextView textView = popupView.findViewById(R.id.textView2);
-        AutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
-        AutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
-        AutoCompleteTextView middleName = popupView.findViewById(R.id.father_name_value);
-        AutoCompleteTextView place = popupView.findViewById(R.id.live_place_value);
-        AutoCompleteTextView dateBegin = popupView.findViewById(R.id.date_begin_value);
-        AutoCompleteTextView dateEnd = popupView.findViewById(R.id.date_end_value);
-
-        if (Utils.isThemeDark()) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
-            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
-            backImg.setImageResource(R.drawable.ic_back_dark_theme);
-            int textColorDark = getResources().getColor(R.color.colorWhiteDark);
-            textView.setTextColor(textColorDark);
-            name.setTextColor(textColorDark);
-            lastName.setTextColor(textColorDark);
-            middleName.setTextColor(textColorDark);
-            dateBegin.setTextColor(textColorDark);
-            dateEnd.setTextColor(textColorDark);
-            place.setTextColor(textColorDark);
-        }
-
         PopupPageScreen popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,

@@ -17,11 +17,11 @@ public class PagePresenter extends BasePresenter<PageView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public PagePresenter() {
+    PagePresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getPages() {
+    void getPages() {
         Disposable subscription = serviceNetwork.getPages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

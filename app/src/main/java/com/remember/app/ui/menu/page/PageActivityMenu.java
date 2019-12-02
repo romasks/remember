@@ -1,23 +1,17 @@
 package com.remember.app.ui.menu.page;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,7 +58,6 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     ImageView search;
 
     private PopupPageScreen popupWindowPage;
-    private ProgressDialog progressDialog;
     private List<MemoryPageModel> memoryPages = new ArrayList<>();
     private int pageNumber = 1;
     private int countSum = 0;
@@ -168,46 +161,16 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
-        if (memoryPageModels.size() == 0) {
-            Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
-        }
         if (memoryPageModels.isEmpty()) {
-            showAll.setVisibility(View.VISIBLE);
-        } else {
-            showAll.setVisibility(View.GONE);
+            Utils.showSnack(recyclerView, "Записи не найдены");
         }
+        showAll.setVisibility(memoryPageModels.isEmpty() ? View.VISIBLE : View.GONE);
         pageFragmentAdapter.setItemsSearched(memoryPageModels);
         progressBar.setVisibility(View.GONE);
     }
 
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
-
-        ConstraintLayout layout = popupView.findViewById(R.id.cont);
-        Toolbar toolbar = popupView.findViewById(R.id.toolbar);
-        ImageView backImg = popupView.findViewById(R.id.back);
-        TextView textView = popupView.findViewById(R.id.textView2);
-        AutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
-        AutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
-        AutoCompleteTextView middleName = popupView.findViewById(R.id.father_name_value);
-        AutoCompleteTextView place = popupView.findViewById(R.id.live_place_value);
-        AutoCompleteTextView dateBegin = popupView.findViewById(R.id.date_begin_value);
-        AutoCompleteTextView dateEnd = popupView.findViewById(R.id.date_end_value);
-
-        if (Utils.isThemeDark()) {
-            toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlack));
-            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
-            backImg.setImageResource(R.drawable.ic_back_dark_theme);
-            int textColorDark = getResources().getColor(R.color.colorWhiteDark);
-            textView.setTextColor(textColorDark);
-            name.setTextColor(textColorDark);
-            lastName.setTextColor(textColorDark);
-            middleName.setTextColor(textColorDark);
-            dateBegin.setTextColor(textColorDark);
-            dateEnd.setTextColor(textColorDark);
-            place.setTextColor(textColorDark);
-        }
-
         popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -221,7 +184,6 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (popupWindowPage != null && popupWindowPage.isShowing()) {
             popupWindowPage.dismiss();
         } else {

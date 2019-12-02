@@ -5,7 +5,12 @@ import android.app.DatePickerDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.remember.app.R;
@@ -18,7 +23,6 @@ import java.util.Date;
 
 import static com.remember.app.data.Constants.IMAGES_STATUS_APPROVED;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
-import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
 
 public class PopupPageScreen extends PopupWindow {
 
@@ -35,6 +39,32 @@ public class PopupPageScreen extends PopupWindow {
 
     public PopupPageScreen(View contentView, int width, int height) {
         super(contentView, width, height);
+
+        ConstraintLayout layout = contentView.findViewById(R.id.cont);
+        Toolbar toolbar = contentView.findViewById(R.id.toolbar);
+        ImageView backImg = contentView.findViewById(R.id.back);
+        TextView textView = contentView.findViewById(R.id.textView2);
+        AutoCompleteTextView lastName = contentView.findViewById(R.id.last_name_value);
+        AutoCompleteTextView name = contentView.findViewById(R.id.first_name_value);
+        AutoCompleteTextView middleName = contentView.findViewById(R.id.father_name_value);
+        AutoCompleteTextView place = contentView.findViewById(R.id.live_place_value);
+        AutoCompleteTextView dateBegin = contentView.findViewById(R.id.date_begin_value);
+        AutoCompleteTextView dateEnd = contentView.findViewById(R.id.date_end_value);
+
+        if (Utils.isThemeDark()) {
+            toolbar.setBackgroundColor(contentView.getResources().getColor(R.color.colorPrimaryBlack));
+            layout.setBackgroundColor(contentView.getResources().getColor(R.color.colorBlackDark));
+            backImg.setImageResource(R.drawable.ic_back_dark_theme);
+
+            int textColorDark = contentView.getResources().getColor(R.color.colorWhiteDark);
+            textView.setTextColor(textColorDark);
+            name.setTextColor(textColorDark);
+            lastName.setTextColor(textColorDark);
+            middleName.setTextColor(textColorDark);
+            dateBegin.setTextColor(textColorDark);
+            dateEnd.setTextColor(textColorDark);
+            place.setTextColor(textColorDark);
+        }
     }
 
     public void setUp(View contentView) {
@@ -51,12 +81,8 @@ public class PopupPageScreen extends PopupWindow {
             dismiss();
         });
 
-        /*dateBegin = popupView.findViewById(R.id.date_begin);
-        dateEnd = popupView.findViewById(R.id.date_end);*/
         dateBeginVal = popupView.findViewById(R.id.date_begin_value);
         dateEndVal = popupView.findViewById(R.id.date_end_value);
-        /*dateBegin.setOnClickListener(v -> setDate(v,1));
-        dateEnd.setOnClickListener(v -> setDate(v,2));*/
 
         dateBeginVal.setOnClickListener(v -> setDate(v, 1));
         dateEndVal.setOnClickListener(v -> setDate(v, 2));

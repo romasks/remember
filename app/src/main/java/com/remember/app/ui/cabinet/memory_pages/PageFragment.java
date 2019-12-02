@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -22,8 +24,6 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,9 +32,6 @@ import butterknife.Unbinder;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
-import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
-import static com.remember.app.data.Constants.THEME_DARK;
-import static com.remember.app.data.Constants.THEME_LIGHT;
 
 public class PageFragment extends MvpAppCompatFragment implements PageView, PageFragmentAdapter.Callback, MainActivity.CallbackPage {
 
@@ -60,22 +57,15 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_memory_pages, container, false);
         unbinder = ButterKnife.bind(this, v);
+
         pageFragmentAdapter = new PageFragmentAdapter();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(container.getContext());
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(pageFragmentAdapter);
         pageFragmentAdapter.setCallback(this);
 
-        if (Utils.isThemeDark()) {
-
-        } else {
-
-        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext(), RecyclerView.VERTICAL, false));
+        recyclerView.setAdapter(pageFragmentAdapter);
 
         return v;
     }
@@ -138,14 +128,10 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     @Override
     public void sendItemsSearch(List<MemoryPageModel> result) {
-        if (result.size() == 0) {
-            Toast.makeText(getActivity(), "Записи не найдены", Toast.LENGTH_SHORT).show();
-        }
         if (result.isEmpty()) {
-            showAll.setVisibility(View.VISIBLE);
-        } else {
-            showAll.setVisibility(View.GONE);
+            Utils.showSnack(recyclerView, "Записи не найдены");
         }
+        showAll.setVisibility(result.isEmpty() ? View.VISIBLE : View.GONE);
         pageFragmentAdapter.setItems(result);
         pageFragmentAdapter.notifyDataSetChanged();
 
