@@ -26,7 +26,8 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
         Disposable subscription = serviceNetwork.getEpitaphs(pageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedEpitaphs);
+                .subscribe(getViewState()::onReceivedEpitaphs,
+                        getViewState()::onErrorGetEpitaphs);
         unsubscribeOnDestroy(subscription);
     }
 

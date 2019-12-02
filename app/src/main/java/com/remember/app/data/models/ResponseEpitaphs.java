@@ -13,7 +13,7 @@ public class ResponseEpitaphs {
     private Integer pageId;
     @SerializedName("user_id")
     @Expose
-    private String userId;
+    private Integer userId;
     @SerializedName("parent_id")
     @Expose
     private Integer parentId;
@@ -22,7 +22,7 @@ public class ResponseEpitaphs {
     private String body;
     @SerializedName("candle")
     @Expose
-    private String candle;
+    private Integer candle;
     @SerializedName("status")
     @Expose
     private String status;
@@ -55,11 +55,11 @@ public class ResponseEpitaphs {
         this.pageId = pageId;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -79,11 +79,11 @@ public class ResponseEpitaphs {
         this.body = body;
     }
 
-    public String getCandle() {
+    public Integer getCandle() {
         return candle;
     }
 
-    public void setCandle(String candle) {
+    public void setCandle(Integer candle) {
         this.candle = candle;
     }
 

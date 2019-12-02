@@ -31,13 +31,16 @@ public class SettingModel {
     private String phone;
     @SerializedName("location")
     @Expose
-    private Integer location;
+    private String location;
     @SerializedName("id_notice")
     @Expose
     private Integer idNotice;
     @SerializedName("amount_days")
     @Expose
     private Integer amountDays;
+    @SerializedName("show_no")
+    @Expose
+    private Integer showNo;
 
     public Integer getId() {
         return id;
@@ -103,11 +106,11 @@ public class SettingModel {
         this.phone = phone;
     }
 
-    public Integer getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Integer location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -127,4 +130,11 @@ public class SettingModel {
         this.amountDays = amountDays;
     }
 
+    public Integer getShowNo() {
+        return showNo;
+    }
+
+    public void setShowNo(Integer showNo) {
+        this.showNo = showNo;
+    }
 }

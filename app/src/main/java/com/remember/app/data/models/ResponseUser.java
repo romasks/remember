@@ -3,13 +3,14 @@ package com.remember.app.data.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class ResponseUser {
 
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("role_id")
+    @Expose
+    private Integer roleId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -25,12 +26,9 @@ public class ResponseUser {
     @SerializedName("updated_at")
     @Expose
     private Object updatedAt;
-    @SerializedName("reali")
+    @SerializedName("setting")
     @Expose
-    private String reali;
-    @SerializedName("settings")
-    @Expose
-    private List<SettingModel> settings = null;
+    private SettingModel settings = null;
 
     public Integer getId() {
         return id;
@@ -38,6 +36,14 @@ public class ResponseUser {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public String getName() {
@@ -80,19 +86,11 @@ public class ResponseUser {
         this.updatedAt = updatedAt;
     }
 
-    public String getReali() {
-        return reali;
-    }
-
-    public void setReali(String reali) {
-        this.reali = reali;
-    }
-
-    public List<SettingModel> getSettings() {
+    public SettingModel getSettings() {
         return settings;
     }
 
-    public void setSettings(List<SettingModel> settings) {
+    public void setSettings(SettingModel settings) {
         this.settings = settings;
     }
 

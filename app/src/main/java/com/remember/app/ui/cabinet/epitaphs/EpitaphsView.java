@@ -19,4 +19,6 @@ public interface EpitaphsView extends MvpView {
     void onDeletedEpitaphs(Object o);
 
     void onErrorDeleteEpitaphs(Throwable throwable);
+
+    void onErrorGetEpitaphs(Throwable throwable);
 }

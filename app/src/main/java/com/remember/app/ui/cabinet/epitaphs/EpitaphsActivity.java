@@ -9,9 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -28,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -74,7 +73,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 1);
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
-        epitaphsAdapter = new EpitaphsAdapter(isShow);
+        epitaphsAdapter = new EpitaphsAdapter();
         epitaphsAdapter.setCallback(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -138,6 +137,11 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     }
 
     @Override
+    public void onErrorGetEpitaphs(Throwable throwable) {
+        Utils.showSnack(recyclerView, "Ошибка получения эпитафий");
+    }
+
+    @Override
     public void onEditedEpitaphs(RequestAddEpitaphs requestAddEpitaphs) {
         presenter.getEpitaphs(pageId);
     }
@@ -151,7 +155,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @Override
     public void saveEpitaph(String text) {
         @SuppressLint("SimpleDateFormat")
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         RequestAddEpitaphs requestAddEpitaphs = new RequestAddEpitaphs();
         requestAddEpitaphs.setBody(text);
         requestAddEpitaphs.setPageId(pageId);
@@ -164,10 +168,12 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @Override
     public void editEpitaph(String text, Integer id) {
         @SuppressLint("SimpleDateFormat")
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         RequestAddEpitaphs requestAddEpitaphs = new RequestAddEpitaphs();
         requestAddEpitaphs.setBody(text);
         requestAddEpitaphs.setPageId(pageId);
         requestAddEpitaphs.setUserId(Prefs.getString(PREFS_KEY_USER_ID, ""));
+        requestAddEpitaphs.setUpdated(df.format(new Date()));
         presenter.editEpitaph(requestAddEpitaphs, id);
     }
 

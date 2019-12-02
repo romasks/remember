@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -19,6 +18,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+
 public class ImageUtils {
 
     private static ColorMatrixColorFilter blackWhiteFilter;
@@ -27,6 +28,13 @@ public class ImageUtils {
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);
         blackWhiteFilter = new ColorMatrixColorFilter(matrix);
+    }
+
+    public static void setGlideImage(Object imageObj, ImageView targetView) {
+        if (imageObj instanceof String && ((String) imageObj).contains("uploads")) {
+            imageObj = BASE_SERVICE_URL + imageObj;
+        }
+        setGlideImage(targetView.getContext(), imageObj, targetView);
     }
 
     public static void setGlideImage(Context context, Object imageObj, ImageView targetView) {

@@ -157,7 +157,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         String result = "";
         try {
             @SuppressLint("SimpleDateFormat")
-            Date dateResult = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            Date dateResult = new SimpleDateFormat("`").parse(date);
             Format formatter = new SimpleDateFormat("dd.MM.yyyy");
             result = formatter.format(dateResult);
         } catch (ParseException e) {
