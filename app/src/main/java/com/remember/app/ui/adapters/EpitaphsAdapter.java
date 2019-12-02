@@ -11,6 +11,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.base.BaseViewHolder;
+import com.remember.app.ui.utils.Utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -98,7 +99,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            if (!responseEpitaphs.get(position).getUser().getName().equals("")) {
+            if (!responseEpitaphs.get(position).getUser().getName().isEmpty()) {
                 name.setText(responseEpitaphs.get(position).getUser().getName());
             } else {
                 name.setText("Неизвестный");
@@ -113,21 +114,18 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             } catch (Exception e) {
                 setGlideImage(itemView.getContext(), R.drawable.ic_user, avatar);
             }
+            // TODO: change this
             if (!isShow) {
                 if (responseEpitaphs.get(position).getUser().getId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"))) {
                     delete.setVisibility(View.VISIBLE);
                     change.setVisibility(View.VISIBLE);
-                    if (!Prefs.getString(PREFS_KEY_AVATAR, "").isEmpty()) {
+                    if (!Utils.isEmptyPrefsKey(PREFS_KEY_AVATAR)) {
                         setGlideImage(itemView.getContext(), Prefs.getString(PREFS_KEY_AVATAR, ""), avatar);
                     } else {
                         setGlideImage(itemView.getContext(), R.drawable.ic_user, avatar);
                     }
-                    delete.setOnClickListener(v -> {
-                        callback.delete(responseEpitaphs.get(position).getId());
-                    });
-                    change.setOnClickListener(v -> {
-                        callback.change(responseEpitaphs.get(position));
-                    });
+                    delete.setOnClickListener(v -> callback.delete(responseEpitaphs.get(position).getId()));
+                    change.setOnClickListener(v -> callback.change(responseEpitaphs.get(position)));
                 }
             } else {
                 setGlideImage(itemView.getContext(), R.drawable.ic_user, avatar);

@@ -5,14 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,7 +58,6 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     private int pageId;
     private boolean isShow;
 
-    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
@@ -81,38 +76,25 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
 
         epitaphsAdapter = new EpitaphsAdapter(isShow);
         epitaphsAdapter.setCallback(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         recyclerView.setAdapter(epitaphsAdapter);
 
         presenter.getEpitaphs(pageId);
-        plus.setOnClickListener(v -> {
-            if (!isShow) {
-                showPopupAdd();
-            }
-        });
+
+        plus.setVisibility(Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) ? View.INVISIBLE : View.VISIBLE);
+        plus.setOnClickListener(v -> showPopupAdd());
         btnCreateEvent.setOnClickListener(v -> {
             if (!isShow) {
                 showPopupAdd();
             }
         });
-        back.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        back.setOnClickListener(v -> onBackPressed());
     }
 
     private void showPopupAdd() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_epitaph, null);
-        ConstraintLayout layout = popupView.findViewById(R.id.addepi);
-        EditText editText = popupView.findViewById(R.id.text_epitaph);
-
-        if (Utils.isThemeDark()) {
-            editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
-            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
-        }
-
         PopupAddEpitaph popupWindow = new PopupAddEpitaph(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -136,10 +118,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     public void onClick(View view) {
         DeleteAlertDialog myDialogFragment = new DeleteAlertDialog();
         myDialogFragment.setCallback(this);
-        FragmentManager manager = getSupportFragmentManager();
-
-        FragmentTransaction transaction = manager.beginTransaction();
-        myDialogFragment.show(transaction, "dialog");
+        myDialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
     }
 
     @Override
@@ -195,14 +174,6 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     @Override
     public void change(ResponseEpitaphs responseEpitaphs) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_epitaph, null);
-        ConstraintLayout layout = popupView.findViewById(R.id.addepi);
-        EditText editText = popupView.findViewById(R.id.text_epitaph);
-
-        if (Utils.isThemeDark()) {
-            editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
-            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
-        }
-
         PopupAddEpitaph popupWindow = new PopupAddEpitaph(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -218,10 +189,7 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         DeleteAlertDialog myDialogFragment = new DeleteAlertDialog();
         myDialogFragment.setCallback(this);
         myDialogFragment.setEpitaphId(id);
-        FragmentManager manager = getSupportFragmentManager();
-
-        FragmentTransaction transaction = manager.beginTransaction();
-        myDialogFragment.show(transaction, "dialog");
+        myDialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
     }
 
     @Override
