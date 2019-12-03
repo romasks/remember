@@ -3,8 +3,12 @@ package com.remember.app.data.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.recyclerview.widget.DiffUtil;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Objects;
 
 public class MemoryPageModel implements Parcelable {
 
@@ -349,6 +353,78 @@ public class MemoryPageModel implements Parcelable {
         @Override
         public MemoryPageModel[] newArray(int size) {
             return new MemoryPageModel[size];
+        }
+    };
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                id,
+                secondName,
+                thirdName,
+                name,
+                comment,
+                coords,
+                oblast,
+                rajon,
+                gorod,
+                nazvaklad,
+                uchastok,
+                nummogil,
+                dateBirth,
+                dateDeath,
+                optradio,
+                picture,
+                pictureCut,
+                pictureData,
+                status,
+                star,
+                flag,
+                religiya,
+                userId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof MemoryPageModel)) {
+            return false;
+        }
+        MemoryPageModel memoryPageModel = (MemoryPageModel) obj;
+        return memoryPageModel.id.equals(id) &&
+                memoryPageModel.secondName.equals(secondName) &&
+                memoryPageModel.thirdName.equals(thirdName) &&
+                memoryPageModel.name.equals(name) &&
+                memoryPageModel.comment.equals(comment) &&
+                memoryPageModel.coords.equals(coords) &&
+                memoryPageModel.oblast.equals(oblast) &&
+                memoryPageModel.rajon.equals(rajon) &&
+                memoryPageModel.gorod.equals(gorod) &&
+                memoryPageModel.nazvaklad.equals(nazvaklad) &&
+                memoryPageModel.uchastok.equals(uchastok) &&
+                memoryPageModel.nummogil.equals(nummogil) &&
+                memoryPageModel.dateBirth.equals(dateBirth) &&
+                memoryPageModel.dateDeath.equals(dateDeath) &&
+                memoryPageModel.optradio.equals(optradio) &&
+                memoryPageModel.picture.equals(picture) &&
+                memoryPageModel.pictureCut.equals(pictureCut) &&
+                memoryPageModel.pictureData.equals(pictureData) &&
+                memoryPageModel.status.equals(status) &&
+                memoryPageModel.star.equals(star) &&
+                memoryPageModel.flag.equals(flag) &&
+                memoryPageModel.religiya.equals(religiya) &&
+                memoryPageModel.userId.equals(userId);
+    }
+
+    public static final DiffUtil.ItemCallback<MemoryPageModel> DIFF_MEMORY_PAGE_CALLBACK = new DiffUtil.ItemCallback<MemoryPageModel>() {
+        @Override
+        public boolean areItemsTheSame(MemoryPageModel oldItem, MemoryPageModel newItem) {
+            return oldItem.getId().equals(newItem.getId());
+        }
+
+        @Override
+        public boolean areContentsTheSame(MemoryPageModel oldItem, MemoryPageModel newItem) {
+            return oldItem.equals(newItem);
         }
     };
 }

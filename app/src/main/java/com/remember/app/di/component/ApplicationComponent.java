@@ -40,7 +40,7 @@ public interface ApplicationComponent {
     @ApplicationContext
     Context context();
 
-    ServiceNetwork serviceNewrok();
+    ServiceNetwork serviceNetwork();
 
     void inject(PagePresenter presenter);
 

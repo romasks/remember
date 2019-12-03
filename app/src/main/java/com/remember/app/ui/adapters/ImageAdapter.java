@@ -3,7 +3,6 @@ package com.remember.app.ui.adapters;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.paging.PagedListAdapter;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -23,12 +26,8 @@ import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,33 +35,26 @@ import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
 
-public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class ImageAdapter extends PagedListAdapter<MemoryPageModel, ImageAdapter.ImageAdapterHolder> {
 
     private Context context;
     private Callback callback;
-    private List<MemoryPageModel> memoryPageModels = new ArrayList<>();
+
+    public ImageAdapter() {
+        super(MemoryPageModel.DIFF_MEMORY_PAGE_CALLBACK);
+    }
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ImageAdapter.ImageAdapterHolder(
+    public ImageAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ImageAdapterHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_grid, parent, false)
         );
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ImageAdapterHolder holder, int position) {
         holder.onBind(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return memoryPageModels.size();
-    }
-
-    public void setItems(List<MemoryPageModel> memoryPageModels) {
-        this.memoryPageModels.addAll(memoryPageModels);
-        notifyDataSetChanged();
     }
 
     public void setCallback(Callback callback) {
@@ -74,9 +66,9 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItemsSearch(List<MemoryPageModel> memoryPageModels) {
-        this.memoryPageModels.clear();
-        this.memoryPageModels.addAll(memoryPageModels);
-        notifyDataSetChanged();
+        //this.memoryPageModels.clear();
+        //this.memoryPageModels.addAll(memoryPageModels);
+        //notifyDataSetChanged();
     }
 
     public interface Callback {
@@ -102,11 +94,10 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         public void onBind(int position) {
             imageView.setOnClickListener(v -> {
-                callback.openPage(memoryPageModels.get(position));
+                callback.openPage(getItem(position));
             });
             try {
-                if (memoryPageModels.get(position).getPicture().contains("uploads")) {
-                    //glideLoadIntoGrid(imageView.getContext(), BASE_SERVICE_URL + memoryPageModels.get(position).getPicture(), imageView);
+                if (getItem(position).getPicture().contains("uploads")) {
                     WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
                     if (wm != null) {
                         Display display = wm.getDefaultDisplay();
@@ -116,20 +107,18 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         imageView.setMaxHeight(size.x / 3);
                     }
                     GlideApp.with(context)
-                            .load(BASE_SERVICE_URL + memoryPageModels.get(position).getPicture())
+                            .load(BASE_SERVICE_URL + getItem(position).getPicture())
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                                    Log.e("ImageAdapter", "LOAD FAILED");
                                     progress.setVisibility(View.GONE);
                                     return false;
                                 }
 
                                 @Override
                                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                                    Log.i("ImageAdapter", "RESOURCE READY");
                                     progress.setVisibility(View.GONE);
                                     return false;
                                 }
@@ -144,7 +133,7 @@ public class ImageAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
             }
 
-            String nameString = memoryPageModels.get(position).getName() + " " + memoryPageModels.get(position).getSecondName();
+            String nameString = getItem(position).getName() + " " + getItem(position).getSecondName();
             name.setText(nameString);
         }
     }

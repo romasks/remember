@@ -27,6 +27,8 @@ import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseUserInfo;
+import com.remember.app.ui.adapters.ImagesDataFactory;
+import com.remember.app.ui.adapters.ImagesRepositoryPagedListConfig;
 
 import java.io.File;
 import java.util.List;
@@ -45,12 +47,19 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 public class ServiceNetworkImp implements ServiceNetwork {
 
     private ApiMethods apiMethods;
+    private ImagesRepositoryPagedListConfig imagesRepositoryPagedListConfig;
 
     @Inject
     ServiceNetworkImp(ApiMethods apiMethods) {
         this.apiMethods = apiMethods;
+        this.imagesRepositoryPagedListConfig = new ImagesRepositoryPagedListConfig(new ImagesDataFactory(this));
     }
 
+
+    @Override
+    public ImagesRepositoryPagedListConfig getImagesRepositoryPagedListConfig() {
+        return imagesRepositoryPagedListConfig;
+    }
 
     @Override
     public Observable<List<ResponseHandBook>> getCities() {
@@ -233,8 +242,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponsePages> getImages(int count, boolean isStar, boolean flag, String status) {
-        return apiMethods.getImages(count, status, flag, isStar);
+    public Observable<ResponsePages> getImages(int pageNumber, boolean isStar, boolean flag, String status) {
+        return apiMethods.getImages(pageNumber, status, flag, isStar);
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.remember.app.ui.grid;
 
+import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.ui.base.BasePresenter;
 
@@ -43,5 +47,9 @@ public class GridPresenter extends BasePresenter<GridView> {
                 .subscribe(getViewState()::onReceivedInfo,
                         getViewState()::onError);
         unsubscribeOnDestroy(subscription);
+    }
+
+    public LiveData<PagedList<MemoryPageModel>> getMemoryPageModel() {
+        return getServiceNetwork().getImagesRepositoryPagedListConfig().getMemoryPageModels();
     }
 }

@@ -112,7 +112,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         recyclerView.setAdapter(imageAdapter);
 
         //setUpLoadMoreListener();
-        presenter.getImages(pageNumber);
+        //presenter.getImages(pageNumber);
+
+//        presenter.setImagesRepositoryConfig(imagesRepositoryPagedListConfig);
+        presenter.getMemoryPageModel().observeForever(pagedList -> {
+            imageAdapter.submitList(pagedList);
+        });
 
         showAll.setOnClickListener(v -> {
             showAll.setVisibility(View.GONE);
@@ -201,7 +206,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
-        imageAdapter.setItems(responsePages.getResult());
+//        imageAdapter.setItems(responsePages.getResult());
+        imageAdapter.submitList(responsePages.getResult());
         progressBar.setVisibility(View.GONE);
         countSum = responsePages.getPages();
 

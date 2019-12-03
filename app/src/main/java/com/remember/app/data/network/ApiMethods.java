@@ -144,7 +144,7 @@ public interface ApiMethods {
     );
 
     @GET("pages")
-    Observable<ResponsePages> getImages(@Query("page") int count,
+    Observable<ResponsePages> getImages(@Query("page") int pageNumber,
                                         @Query("status") String status,
                                         @Query("flag") boolean flag,
                                         @Query("star") boolean star);

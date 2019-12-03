@@ -25,6 +25,7 @@ import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseUserInfo;
+import com.remember.app.ui.adapters.ImagesRepositoryPagedListConfig;
 
 import java.io.File;
 import java.util.List;
@@ -33,6 +34,8 @@ import io.reactivex.Observable;
 import retrofit2.Response;
 
 public interface ServiceNetwork {
+
+    ImagesRepositoryPagedListConfig getImagesRepositoryPagedListConfig();
 
     Observable<List<ResponseHandBook>> getCities();
 
@@ -69,7 +72,7 @@ public interface ServiceNetwork {
 
     Observable<Response<ResponseRegister>> registerLogin(String nickName, String email);
 
-    Observable<ResponsePages> getImages(int count, boolean isStar, boolean flag, String status);
+    Observable<ResponsePages> getImages(int pageNumber, boolean isStar, boolean flag, String status);
 
     Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile);
 
