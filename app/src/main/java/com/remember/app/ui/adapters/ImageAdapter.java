@@ -2,7 +2,6 @@ package com.remember.app.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.paging.PagedListAdapter;
 
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.remember.app.GlideApp;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -93,6 +87,7 @@ public class ImageAdapter extends PagedListAdapter<MemoryPageModel, ImageAdapter
 
         @Override
         public void onBind(int position) {
+            progress.setVisibility(View.GONE);
             imageView.setOnClickListener(v -> {
                 callback.openPage(getItem(position));
             });
@@ -108,9 +103,9 @@ public class ImageAdapter extends PagedListAdapter<MemoryPageModel, ImageAdapter
                     }
                     GlideApp.with(context)
                             .load(BASE_SERVICE_URL + getItem(position).getPicture())
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .listener(new RequestListener<Drawable>() {
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+//                            .skipMemoryCache(true)
+                            /*.listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                     progress.setVisibility(View.GONE);
@@ -122,7 +117,7 @@ public class ImageAdapter extends PagedListAdapter<MemoryPageModel, ImageAdapter
                                     progress.setVisibility(View.GONE);
                                     return false;
                                 }
-                            })
+                            })*/
                             .error(R.drawable.darth_vader)
                             .into(imageView);
                     imageView.setColorFilter(getBlackWhiteFilter());

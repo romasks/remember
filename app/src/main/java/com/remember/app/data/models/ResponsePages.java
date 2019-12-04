@@ -1,23 +1,23 @@
 package com.remember.app.data.models;
 
-import androidx.paging.PagedList;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class ResponsePages {
 
     @SerializedName("result")
-    private PagedList<MemoryPageModel> result;
+    private List<MemoryPageModel> result;
     @SerializedName("count")
     private int count;
     @SerializedName("pages")
     private int pages;
 
-    public PagedList<MemoryPageModel> getResult() {
+    public List<MemoryPageModel> getResult() {
         return result;
     }
 
-    public void setResult(PagedList<MemoryPageModel> result) {
+    public void setResult(List<MemoryPageModel> result) {
         this.result = result;
     }
 

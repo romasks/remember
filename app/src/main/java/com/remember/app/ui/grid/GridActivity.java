@@ -207,7 +207,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
 //        imageAdapter.setItems(responsePages.getResult());
-        imageAdapter.submitList(responsePages.getResult());
+        /*imageAdapter.submitList(responsePages.getResult());
         progressBar.setVisibility(View.GONE);
         countSum = responsePages.getPages();
 
@@ -215,7 +215,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             progressBar.setVisibility(View.VISIBLE);
             pageNumber++;
             presenter.getImages(pageNumber);
-        }
+        }*/
     }
 
     @Override
@@ -228,7 +228,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         progressBar.setVisibility(View.GONE);
     }
 
-    private void setUpLoadMoreListener() {
+    /*private void setUpLoadMoreListener() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NotNull RecyclerView recyclerView,
@@ -242,7 +242,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 }
             }
         });
-    }
+    }*/
 
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);

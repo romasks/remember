@@ -47,12 +47,14 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 public class ServiceNetworkImp implements ServiceNetwork {
 
     private ApiMethods apiMethods;
+    private ImagesDataFactory imagesDataFactory;
     private ImagesRepositoryPagedListConfig imagesRepositoryPagedListConfig;
 
     @Inject
     ServiceNetworkImp(ApiMethods apiMethods) {
         this.apiMethods = apiMethods;
-        this.imagesRepositoryPagedListConfig = new ImagesRepositoryPagedListConfig(new ImagesDataFactory(this));
+        this.imagesDataFactory = new ImagesDataFactory(this);
+        this.imagesRepositoryPagedListConfig = new ImagesRepositoryPagedListConfig(imagesDataFactory);
     }
 
 

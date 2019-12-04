@@ -11,12 +11,14 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+@Singleton
 public class ImagesRepositoryPagedListConfig {
 
     private final PagedList.Config config;
     private final ImagesDataFactory dataSourceFactory;
     private LiveData<PagedList<MemoryPageModel>> memoryPageModels;
 
+    @Inject
     public ImagesRepositoryPagedListConfig(ImagesDataFactory imagesDataFactory) {
         this.dataSourceFactory = imagesDataFactory;
 

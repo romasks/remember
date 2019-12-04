@@ -14,32 +14,34 @@ import javax.inject.Singleton;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.remember.app.data.Constants.IMAGES_STATUS_APPROVED;
 
+@Singleton
 public class ImagesDataSource extends PageKeyedDataSource<Integer, MemoryPageModel> {
 
     private ServiceNetwork serviceNetwork;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public ImagesDataSource(ServiceNetwork serviceNetwork) {
+    @Inject
+    ImagesDataSource(ServiceNetwork serviceNetwork) {
         this.serviceNetwork = serviceNetwork;
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, MemoryPageModel> callback) {
-        Disposable disposable = serviceNetwork.getImages(1, true, true, IMAGES_STATUS_APPROVED)
+//        Disposable disposable =
+        serviceNetwork.getImages(1, true, true, IMAGES_STATUS_APPROVED)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(responsePages -> {
-                    callback.onResult(responsePages.getResult(), 1, 2);
+                    callback.onResult(responsePages.getResult(), null, 2);
                 }, throwable -> {
                     Log.e("ImagesDataSource", throwable.getMessage());
                 });
-        compositeDisposable.add(disposable);
+//        compositeDisposable.add(disposable);
     }
 
     @Override
@@ -50,7 +52,8 @@ public class ImagesDataSource extends PageKeyedDataSource<Integer, MemoryPageMod
     @SuppressLint("CheckResult")
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, MemoryPageModel> callback) {
-        Disposable disposable = serviceNetwork.getImages(params.key, true, true, IMAGES_STATUS_APPROVED)
+//        Disposable disposable =
+        serviceNetwork.getImages(params.key, true, true, IMAGES_STATUS_APPROVED)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(responsePages -> {
@@ -58,6 +61,6 @@ public class ImagesDataSource extends PageKeyedDataSource<Integer, MemoryPageMod
                 }, throwable -> {
                     Log.e("ImagesDataSource", throwable.getMessage());
                 });
-        compositeDisposable.add(disposable);
+//        compositeDisposable.add(disposable);
     }
 }

@@ -117,7 +117,7 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     private void setupRV() {
         adapter = new NotificationListAdapter();
         adapter.setClickListener(this);
-        adapter.setType(Type.EVENTS);
+        adapter.setType(type);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
