@@ -20,8 +20,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 45
-        versionName "1.4.506"
+        versionCode 46
+        versionName "1.4.507"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
