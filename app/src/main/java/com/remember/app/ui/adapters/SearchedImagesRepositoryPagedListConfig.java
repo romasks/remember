@@ -24,9 +24,8 @@ public class SearchedImagesRepositoryPagedListConfig {
 
         config = (new PagedList.Config.Builder())
                 .setEnablePlaceholders(false)
-                .setInitialLoadSizeHint(15)
-                .setPageSize(15)
-                .setPrefetchDistance(9)
+                .setInitialLoadSizeHint(100)
+                .setPageSize(100)
                 .build();
 
         memoryPageModels = new LivePagedListBuilder<>(dataSourceFactory, config)

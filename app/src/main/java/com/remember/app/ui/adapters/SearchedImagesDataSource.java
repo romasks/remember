@@ -34,7 +34,7 @@ public class SearchedImagesDataSource extends PageKeyedDataSource<Integer, Memor
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(searchedMemoryPages -> {
-                    callback.onResult(searchedMemoryPages, null, 2);
+                    callback.onResult(searchedMemoryPages, null, null);
                 }, throwable -> {
                     Log.e("ImagesDataSource", throwable.getMessage());
                 });
@@ -48,13 +48,6 @@ public class SearchedImagesDataSource extends PageKeyedDataSource<Integer, Memor
     @SuppressLint("CheckResult")
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, MemoryPageModel> callback) {
-        serviceNetwork.searchPageAllDead(requestSearchPage)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(searchedMemoryPages -> {
-                    callback.onResult(searchedMemoryPages, params.key + 1);
-                }, throwable -> {
-                    Log.e("ImagesDataSource", throwable.getMessage());
-                });
+
     }
 }

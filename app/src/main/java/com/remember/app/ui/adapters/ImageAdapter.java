@@ -11,17 +11,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.paging.PagedListAdapter;
-
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.remember.app.GlideApp;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
 
-import java.util.List;
-
+import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -57,12 +54,6 @@ public class ImageAdapter extends PagedListAdapter<MemoryPageModel, ImageAdapter
 
     public void setContext(Context context) {
         this.context = context;
-    }
-
-    public void setItemsSearch(List<MemoryPageModel> memoryPageModels) {
-        //this.memoryPageModels.clear();
-        //this.memoryPageModels.addAll(memoryPageModels);
-        //notifyDataSetChanged();
     }
 
     public interface Callback {
@@ -104,20 +95,6 @@ public class ImageAdapter extends PagedListAdapter<MemoryPageModel, ImageAdapter
                     GlideApp.with(context)
                             .load(BASE_SERVICE_URL + getItem(position).getPicture())
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-//                            .skipMemoryCache(true)
-                            /*.listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    progress.setVisibility(View.GONE);
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    progress.setVisibility(View.GONE);
-                                    return false;
-                                }
-                            })*/
                             .error(R.drawable.darth_vader)
                             .into(imageView);
                     imageView.setColorFilter(getBlackWhiteFilter());
