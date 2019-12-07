@@ -26,6 +26,7 @@ import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseUserInfo;
 import com.remember.app.ui.adapters.ImagesRepositoryPagedListConfig;
+import com.remember.app.ui.adapters.SearchedImagesRepositoryPagedListConfig;
 
 import java.io.File;
 import java.util.List;
@@ -36,6 +37,8 @@ import retrofit2.Response;
 public interface ServiceNetwork {
 
     ImagesRepositoryPagedListConfig getImagesRepositoryPagedListConfig();
+
+    SearchedImagesRepositoryPagedListConfig getSearchedImagesRepositoryPagedListConfig(RequestSearchPage requestSearchPage);
 
     Observable<List<ResponseHandBook>> getCities();
 

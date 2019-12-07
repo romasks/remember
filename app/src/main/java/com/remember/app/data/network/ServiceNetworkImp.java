@@ -29,6 +29,8 @@ import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseUserInfo;
 import com.remember.app.ui.adapters.ImagesDataFactory;
 import com.remember.app.ui.adapters.ImagesRepositoryPagedListConfig;
+import com.remember.app.ui.adapters.SearchedImagesDataFactory;
+import com.remember.app.ui.adapters.SearchedImagesRepositoryPagedListConfig;
 
 import java.io.File;
 import java.util.List;
@@ -49,6 +51,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     private ApiMethods apiMethods;
     private ImagesDataFactory imagesDataFactory = null;
     private ImagesRepositoryPagedListConfig imagesRepositoryPagedListConfig = null;
+    private SearchedImagesRepositoryPagedListConfig searchedImagesRepositoryPagedListConfig = null;
 
     @Inject
     ServiceNetworkImp(ApiMethods apiMethods) {
@@ -65,6 +68,13 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public ImagesRepositoryPagedListConfig getImagesRepositoryPagedListConfig() {
         return imagesRepositoryPagedListConfig;
+    }
+
+    @Override
+    public SearchedImagesRepositoryPagedListConfig getSearchedImagesRepositoryPagedListConfig(RequestSearchPage requestSearchPage) {
+        return searchedImagesRepositoryPagedListConfig = new SearchedImagesRepositoryPagedListConfig(
+                new SearchedImagesDataFactory(this, requestSearchPage)
+        );
     }
 
     @Override
