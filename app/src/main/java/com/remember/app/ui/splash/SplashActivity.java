@@ -31,7 +31,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
         new Handler().postDelayed(() -> {
             startActivity(new Intent(this, GridActivity.class));
             finish();
-        }, 2000);
+        }, 1000);
 
         Log.i(TAG, "Theme " + Prefs.getInt("IS_THEME", 0));
     }
