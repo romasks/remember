@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
@@ -78,7 +79,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     }
 
     @Override
-    public void onReceivedEvents(List<ResponseEvents> responseEvents) {
+    public void onReceivedEvents(List<EventResponse> responseEvents) {
         if (responseEvents.size() == 0)
             Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsFragmentAdapter.setItems(responseEvents);
@@ -95,9 +96,9 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     }
 
     @Override
-    public void click(ResponseEvents events) {
+    public void click(EventResponse event) {
         Intent intent = new Intent(getActivity(), EventFullActivity.class);
-        String eventJson = new Gson().toJson(events);
+        String eventJson = new Gson().toJson(event);
         intent.putExtra("EVENTS", eventJson);
         startActivity(intent);
     }

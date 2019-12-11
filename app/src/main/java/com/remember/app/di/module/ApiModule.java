@@ -73,7 +73,8 @@ public class ApiModule {
     @Provides
     @Singleton
     HttpUrl provideHttpUrl() {
-        return HttpUrl.parse("http://помню.рус:3001/");
+//        return HttpUrl.parse("http://помню.рус:3001/");
+        return HttpUrl.parse("http://pomnyu.ru:3001/");
     }
 
     @Provides

@@ -7,6 +7,7 @@ import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
+import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -199,7 +200,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<List<ResponseEvents>> getEventsFeed() {
+    public Observable<List<EventResponse>> getEventsFeed() {
         String token = "Bearer " + Prefs.getString("TOKEN", "");
         String eventsType = "DEAD_EVENTS";
 //        String eventsType = "ALL";

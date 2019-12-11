@@ -14,6 +14,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.remember.app.R;
+import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
 
@@ -75,7 +76,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
     }
 
     @Override
-    public void onReceivedEvents(List<ResponseEvents> responseEvents) {
+    public void onReceivedEvents(List<EventResponse> responseEvents) {
         // placeholder
     }
 
@@ -93,6 +94,8 @@ public class EventFullActivity extends BaseActivity implements EventView {
         try {
             if (!responseEvents.getPicture().contains("upload")) {
                 setEventPicture(BASE_SERVICE_URL + "/uploads/" + responseEvents.getPicture());
+            } else if (!responseEvents.getPicture().isEmpty()) {
+                setEventPicture(BASE_SERVICE_URL + responseEvents.getPicture());
             } else {
                 setEventPicture(mDefaultBackground);
             }
@@ -102,10 +105,12 @@ public class EventFullActivity extends BaseActivity implements EventView {
         setBlackWhite(avatarImage);
         title.setText(responseEvents.getName());
         date.setText(responseEvents.getPutdate());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            body.setText(Html.fromHtml(responseEvents.getBody(), Html.FROM_HTML_MODE_COMPACT));
-        } else {
-            body.setText(Html.fromHtml(responseEvents.getBody()));
+        if (responseEvents.getBody() != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                body.setText(Html.fromHtml(responseEvents.getBody(), Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                body.setText(Html.fromHtml(responseEvents.getBody()));
+            }
         }
     }
 
