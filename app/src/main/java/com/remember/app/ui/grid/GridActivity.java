@@ -17,7 +17,9 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
+import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.ImageAdapter;
+import com.remember.app.ui.adapters.ImagePagedAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
@@ -49,7 +51,8 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
+public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, ImagePagedAdapter.Callback,
+        PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = GridActivity.class.getSimpleName();
 
@@ -58,6 +61,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @BindView(R.id.image_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.image_paged_rv)
+    RecyclerView pagedRecyclerView;
     @BindView(R.id.search)
     ImageView search;
     @BindView(R.id.title)
@@ -75,6 +80,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
+    private ImagePagedAdapter imagePagedAdapter;
     private TextView navUserName;
     private DrawerLayout drawer;
     private int theme_setting = 0;
@@ -92,17 +98,33 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
 
+        // 1st page (without pagination)
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setHasFixedSize(true);
+        recyclerView.setVisibility(View.VISIBLE);
 
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
         imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
 
+        presenter.getImages(1);
+
+        // >2nd page (with pagination)
+        pagedRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        pagedRecyclerView.setHasFixedSize(true);
+        pagedRecyclerView.setVisibility(View.GONE);
+
+        imagePagedAdapter = new ImagePagedAdapter();
+        imagePagedAdapter.setCallback(this);
+        imagePagedAdapter.setContext(this);
+        pagedRecyclerView.setAdapter(imagePagedAdapter);
+
         presenter.getMemoryPageModel().observeForever(pagedList -> {
-            imageAdapter.submitList(pagedList);
+            imagePagedAdapter.submitList(pagedList);
         });
+
+
 
         showAll.setOnClickListener(v -> {
             this.recreate();
@@ -208,10 +230,25 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
+    public void showMorePages() {
+        recyclerView.setVisibility(View.GONE);
+        pagedRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void openPageFromPagedAdapter(MemoryPageModel memoryPageModel) {
+        Intent intent = new Intent(this, ShowPageActivity.class);
+        intent.putExtra(INTENT_EXTRA_PERSON, memoryPageModel);
+        intent.putExtra(INTENT_EXTRA_IS_LIST, true);
+        intent.putExtra(INTENT_EXTRA_SHOW, true);
+        startActivity(intent);
+    }
+
+    @Override
     public void search(RequestSearchPage requestSearchPage) {
         presenter.getSearchedMemoryPageModel(requestSearchPage).observeForever(pagedList -> {
             showAll.setVisibility(View.VISIBLE);
-            imageAdapter.submitList(pagedList);
+            imagePagedAdapter.submitList(pagedList);
         });
     }
 
@@ -254,5 +291,16 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         drawer.closeDrawer(GravityCompat.START);
         return false;
+    }
+
+    @Override
+    public void onReceivedImages(ResponsePages responsePages) {
+        imageAdapter.setItems(responsePages.getResult());
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Utils.showSnack(recyclerView, "Ошибка получения плиток");
     }
 }
