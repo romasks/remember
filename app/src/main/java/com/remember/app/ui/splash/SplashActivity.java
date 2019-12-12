@@ -26,7 +26,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
 
-        presenter.initLoadImages();
+//        presenter.initLoadImages();
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(this, GridActivity.class));

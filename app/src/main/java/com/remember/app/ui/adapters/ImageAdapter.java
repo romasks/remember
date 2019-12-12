@@ -62,6 +62,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         notifyDataSetChanged();
     }
 
+    public List<MemoryPageModel> getItems() {
+        return memoryPageModels;
+    }
+
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
@@ -106,7 +110,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         public void onBind(int position) {
             progress.setVisibility(View.GONE);
 
-            if (position == 14) {
+            if (getItem(position).isShowMore()) {
                 layoutGrid.setBackgroundColor(context.getResources().getColor(
                         Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
                 ));

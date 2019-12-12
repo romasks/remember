@@ -1,5 +1,6 @@
 package com.remember.app.data.models;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -84,6 +85,9 @@ public class MemoryPageModel implements Parcelable {
     @SerializedName("user_id")
     @Expose
     private String userId;
+
+    @Expose
+    private boolean isShowMore = false;
 
     public Integer getId() {
         return id;
@@ -277,6 +281,14 @@ public class MemoryPageModel implements Parcelable {
         this.userId = userId;
     }
 
+    public boolean isShowMore() {
+        return isShowMore;
+    }
+
+    public void setShowMore(boolean showMore) {
+        isShowMore = showMore;
+    }
+
     public MemoryPageModel() {
     }
 
@@ -304,6 +316,11 @@ public class MemoryPageModel implements Parcelable {
         flag = in.readString();
         religiya = in.readString();
         userId = in.readString();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            isShowMore = in.readBoolean();
+        } else {
+            isShowMore = in.readInt() == 0;
+        }
     }
 
     @Override
@@ -341,6 +358,7 @@ public class MemoryPageModel implements Parcelable {
         dest.writeString(flag);
         dest.writeString(religiya);
         dest.writeString(userId);
+        dest.writeInt(isShowMore ? 1 : 0);
     }
 
     @SuppressWarnings("unused")
@@ -381,7 +399,8 @@ public class MemoryPageModel implements Parcelable {
                 star,
                 flag,
                 religiya,
-                userId);
+                userId,
+                isShowMore);
     }
 
     @Override
@@ -413,7 +432,8 @@ public class MemoryPageModel implements Parcelable {
                 memoryPageModel.star.equals(star) &&
                 memoryPageModel.flag.equals(flag) &&
                 memoryPageModel.religiya.equals(religiya) &&
-                memoryPageModel.userId.equals(userId);
+                memoryPageModel.userId.equals(userId) &&
+                memoryPageModel.isShowMore == isShowMore;
     }
 
     public static final DiffUtil.ItemCallback<MemoryPageModel> DIFF_MEMORY_PAGE_CALLBACK = new DiffUtil.ItemCallback<MemoryPageModel>() {

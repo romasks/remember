@@ -32,11 +32,13 @@ import com.remember.app.ui.menu.settings.SettingActivity;
 import com.remember.app.ui.utils.PopupPageScreen;
 import com.remember.app.ui.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -85,7 +87,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private TextView navUserName;
     private DrawerLayout drawer;
     private int theme_setting = 0;
-    private PagedList<MemoryPageModel> allMemoryPageModels;
+
+    private int pageNumber = 1;
+    private List<MemoryPageModel> allMemoryPageModels = new ArrayList<>();
 
     @Override
     protected int getContentView() {
@@ -110,10 +114,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
 
-        presenter.getImages(1);
+        presenter.getImages(pageNumber);
 
         // >2nd page (with pagination)
-        pagedRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        /*pagedRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         pagedRecyclerView.setHasFixedSize(true);
         pagedRecyclerView.setVisibility(View.GONE);
 
@@ -125,13 +129,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         presenter.getMemoryPageModel().observeForever(pagedList -> {
             allMemoryPageModels = pagedList;
             imagePagedAdapter.submitList(pagedList);
-        });
+        });*/
 
 
         showAll.setOnClickListener(v -> {
 //            this.recreate();
-            imagePagedAdapter.submitList(null);
-            imagePagedAdapter.submitList(allMemoryPageModels);
+            imageAdapter.setItems(allMemoryPageModels);
             showAll.setVisibility(View.GONE);
             showMorePages();
         });
@@ -236,8 +239,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void showMorePages() {
-        recyclerView.setVisibility(View.GONE);
-        pagedRecyclerView.setVisibility(View.VISIBLE);
+//        recyclerView.setVisibility(View.GONE);
+//        pagedRecyclerView.setVisibility(View.VISIBLE);
+        pageNumber++;
+        presenter.getImages(pageNumber);
     }
 
     @Override
@@ -251,43 +256,39 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void search(RequestSearchPage requestSearchPage) {
-        presenter.getSearchedMemoryPageModel(requestSearchPage).observeForever(pagedList -> {
-            showMorePages();
-            showAll.setVisibility(View.VISIBLE);
-            imagePagedAdapter.submitList(pagedList);
-        });
+        presenter.search(requestSearchPage);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int id = menuItem.getItemId();
-
-        if (id == R.id.settings) {
-            startActivity(new Intent(this, SettingActivity.class));
-            theme_setting = 1;
-            return true;
-        }
-        if (id == R.id.event_calendar) {
-            startActivity(new Intent(this, EventsActivityMenu.class));
-            return true;
-        }
-        if (id == R.id.memory_pages) {
-            startActivity(new Intent(this, PageActivityMenu.class));
-            return true;
-        }
-        if (id == R.id.questions) {
-            startActivity(new Intent(this, QuestionActivity.class));
-            return true;
-        }
-        if (id == R.id.exit) {
-            Prefs.clear();
-            startActivity(new Intent(this, GridActivity.class));
-            finish();
-            return true;
-        }
-        if (id == R.id.notifications) {
-            startActivity(new Intent(this, NotificationsActivity.class));
-            return true;
+        switch (menuItem.getItemId()) {
+            case R.id.settings: {
+                startActivity(new Intent(this, SettingActivity.class));
+//                theme_setting = 1;
+                return true;
+            }
+            case R.id.event_calendar: {
+                startActivity(new Intent(this, EventsActivityMenu.class));
+                return true;
+            }
+            case R.id.memory_pages: {
+                startActivity(new Intent(this, PageActivityMenu.class));
+                return true;
+            }
+            case R.id.questions: {
+                startActivity(new Intent(this, QuestionActivity.class));
+                return true;
+            }
+            case R.id.notifications: {
+                startActivity(new Intent(this, NotificationsActivity.class));
+                return true;
+            }
+            case R.id.exit: {
+                Prefs.clear();
+                startActivity(new Intent(this, GridActivity.class));
+                finish();
+                return true;
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -301,7 +302,26 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
-        imageAdapter.setItems(responsePages.getResult());
+        progressBar.setVisibility(View.GONE);
+        allMemoryPageModels.addAll(responsePages.getResult());
+        int lastIndex = allMemoryPageModels.size() - 1;
+        for (MemoryPageModel model : allMemoryPageModels) model.setShowMore(false);
+        if (pageNumber < responsePages.getCount()) {
+            allMemoryPageModels.get(lastIndex).setShowMore(true);
+        }
+        /*if (pageNumber > 1) {
+            allMemoryPageModels.get(lastIndex - responsePages.getResult().size()).setShowMore(false);
+        }*/
+        imageAdapter.setItems(allMemoryPageModels);
+    }
+
+    @Override
+    public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
+        if (memoryPageModels.isEmpty()) {
+            Utils.showSnack(recyclerView, "Записи не найдены");
+        }
+        showAll.setVisibility(memoryPageModels.isEmpty() ? View.VISIBLE : View.GONE);
+        imageAdapter.setItems(memoryPageModels);
         progressBar.setVisibility(View.GONE);
     }
 

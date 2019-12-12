@@ -21,8 +21,8 @@ public class GridPresenter extends BasePresenter<GridView> {
         Remember.getApplicationComponent().inject(this);
     }
 
-    void getImages(int count) {
-        Disposable subscription = getServiceNetwork().getImages(count, true, true, IMAGES_STATUS_APPROVED)
+    void getImages(int pageNumber) {
+        Disposable subscription = getServiceNetwork().getImages(pageNumber, true, true, IMAGES_STATUS_APPROVED)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onReceivedImages,
@@ -30,11 +30,20 @@ public class GridPresenter extends BasePresenter<GridView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public LiveData<PagedList<MemoryPageModel>> getMemoryPageModel() {
+    public void search(RequestSearchPage requestSearchPage) {
+        Disposable subscription = getServiceNetwork().searchPageAllDead(requestSearchPage)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getViewState()::onSearchedPages,
+                        getViewState()::onError);
+        unsubscribeOnDestroy(subscription);
+    }
+
+    /*public LiveData<PagedList<MemoryPageModel>> getMemoryPageModel() {
         return getServiceNetwork().getImagesRepositoryPagedListConfig().getMemoryPageModels();
     }
 
     public LiveData<PagedList<MemoryPageModel>> getSearchedMemoryPageModel(RequestSearchPage requestSearchPage) {
         return getServiceNetwork().getSearchedImagesRepositoryPagedListConfig(requestSearchPage).getMemoryPageModels();
-    }
+    }*/
 }
