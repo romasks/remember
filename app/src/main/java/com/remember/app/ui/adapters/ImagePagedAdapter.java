@@ -17,11 +17,8 @@ import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.paging.PagedListAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -29,11 +26,14 @@ import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapterHolder> {
+public class ImagePagedAdapter extends PagedListAdapter<MemoryPageModel, ImagePagedAdapter.ImageAdapterHolder> {
 
     private Context context;
     private Callback callback;
-    private List<MemoryPageModel> memoryPageModels = new ArrayList<>();
+
+    public ImagePagedAdapter() {
+        super(MemoryPageModel.DIFF_MEMORY_PAGE_CALLBACK);
+    }
 
     @NonNull
     @Override
@@ -48,16 +48,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         holder.onBind(position);
     }
 
-    @Override
-    public int getItemCount() {
-        return memoryPageModels.size();
-    }
-
-    public void setItems(List<MemoryPageModel> memoryPageModels) {
-        this.memoryPageModels.addAll(memoryPageModels);
-        notifyDataSetChanged();
-    }
-
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
@@ -67,13 +57,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
     }
 
     public interface Callback {
-        void openPage(MemoryPageModel memoryPageModel);
 
-        void showMorePages();
-    }
+        void openPageFromPagedAdapter(MemoryPageModel memoryPageModel);
 
-    private MemoryPageModel getItem(int position) {
-        return memoryPageModels.get(position);
     }
 
     public class ImageAdapterHolder extends BaseViewHolder {
@@ -93,19 +79,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         @Override
         public void onBind(int position) {
             progress.setVisibility(View.GONE);
-
-            if (position == 14) {
-                imageView.setOnClickListener(v -> {
-                    callback.showMorePages();
-                });
-                glideLoadIntoCenterInside(imageView.getContext(), R.drawable.show_more, imageView);
-                name.setVisibility(View.GONE);
-
-                return;
-            }
-
             imageView.setOnClickListener(v -> {
-                callback.openPage(getItem(position));
+                callback.openPageFromPagedAdapter(getItem(position));
             });
             try {
                 if (getItem(position).getPicture().contains("uploads")) {

@@ -94,6 +94,16 @@
             tools:layout_editor_absoluteX="0dp"
             tools:listitem="@layout/item_home_grid" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/image_paged_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/app_bar"
+            tools:itemCount="3"
+            tools:layout_editor_absoluteX="0dp"
+            tools:listitem="@layout/item_home_grid" />
+
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="50dp"
