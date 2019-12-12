@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
@@ -109,7 +110,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
             setEventPicture(mDefaultBackground);
         }
         title.setText(responseEvents.getName());
-        date.setText(responseEvents.getPutdate());
+        date.setText(DateUtils.convertRemoteToLocalFormat(responseEvents.getPutdate()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             body.setText(Html.fromHtml(responseEvents.getBody(), Html.FROM_HTML_MODE_COMPACT));
         } else {

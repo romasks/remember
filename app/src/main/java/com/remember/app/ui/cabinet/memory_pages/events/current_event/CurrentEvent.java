@@ -1,6 +1,5 @@
 package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,21 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
+import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;
 
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -131,7 +127,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     private void setItems(EventModel requestEvent) {
         try {
             glideLoadIntoWithError(this, BASE_SERVICE_URL + requestEvent.getPicture(), imageAvatar);
-            dateView.setText(formatDate(requestEvent.getDate()));
+            dateView.setText(DateUtils.convertRemoteToLocalFormat(requestEvent.getDate()));
             eventName.setText(requestEvent.getName());
             description.setText(requestEvent.getDescription());
         } catch (Exception e) {
@@ -151,18 +147,5 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
         intent.putExtra(INTENT_EXTRA_IS_EVENT_EDITING, true);
         startActivity(intent);
-    }
-
-    private String formatDate(String date) {
-        String result = "";
-        try {
-            @SuppressLint("SimpleDateFormat")
-            Date dateResult = new SimpleDateFormat("`").parse(date);
-            Format formatter = new SimpleDateFormat("dd.MM.yyyy");
-            result = formatter.format(dateResult);
-        } catch (ParseException e) {
-            result = date;
-        }
-        return result;
     }
 }
