@@ -11,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.remember.app.GlideApp;
 import com.remember.app.R;
@@ -20,8 +24,6 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -39,7 +41,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
     @Override
     public ImageAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ImageAdapterHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_grid, parent, false)
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_grid_static, parent, false)
         );
     }
 
@@ -78,12 +80,18 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
 
     public class ImageAdapterHolder extends BaseViewHolder {
 
+        @BindView(R.id.show_more)
+        ImageView ivShowMore;
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.name)
         TextView name;
         @BindView(R.id.progress)
         ProgressBar progress;
+        @BindView(R.id.show_more_layout)
+        ConstraintLayout layoutShowMore;
+        @BindView(R.id.grid_image_layout)
+        ConstraintLayout layoutGridImage;
 
         ImageAdapterHolder(View itemView) {
             super(itemView);
@@ -95,11 +103,23 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
             progress.setVisibility(View.GONE);
 
             if (position == 14) {
-                imageView.setOnClickListener(v -> {
+                layoutGridImage.setVisibility(View.GONE);
+                layoutShowMore.setVisibility(View.VISIBLE);
+
+                layoutShowMore.setOnClickListener(v -> {
                     callback.showMorePages();
                 });
-                glideLoadIntoCenterInside(imageView.getContext(), R.drawable.show_more, imageView);
-                name.setVisibility(View.GONE);
+                WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+                if (wm != null) {
+                    Display display = wm.getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    ivShowMore.setMinimumWidth(size.x / 9);
+                    ivShowMore.setMaxWidth(size.x / 9);
+                    ivShowMore.setMinimumHeight(size.x / 9);
+                    ivShowMore.setMaxHeight(size.x / 9);
+                    ivShowMore.setPadding(size.x / 9, 0, size.x / 9, 0);
+                }
 
                 return;
             }

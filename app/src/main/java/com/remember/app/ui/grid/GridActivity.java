@@ -36,6 +36,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -84,6 +85,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private TextView navUserName;
     private DrawerLayout drawer;
     private int theme_setting = 0;
+    private PagedList<MemoryPageModel> allMemoryPageModels;
 
     @Override
     protected int getContentView() {
@@ -121,14 +123,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         pagedRecyclerView.setAdapter(imagePagedAdapter);
 
         presenter.getMemoryPageModel().observeForever(pagedList -> {
+            allMemoryPageModels = pagedList;
             imagePagedAdapter.submitList(pagedList);
         });
 
 
-
         showAll.setOnClickListener(v -> {
-            this.recreate();
+//            this.recreate();
+            imagePagedAdapter.submitList(null);
+            imagePagedAdapter.submitList(allMemoryPageModels);
             showAll.setVisibility(View.GONE);
+            showMorePages();
         });
 
         drawer = findViewById(R.id.drawer_layout_2);
@@ -247,6 +252,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void search(RequestSearchPage requestSearchPage) {
         presenter.getSearchedMemoryPageModel(requestSearchPage).observeForever(pagedList -> {
+            showMorePages();
             showAll.setVisibility(View.VISIBLE);
             imagePagedAdapter.submitList(pagedList);
         });
