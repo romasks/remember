@@ -73,4 +73,8 @@ public class SettingPresenter extends BasePresenter<SettingView> {
                 .commemorationDays(value.getIdNotice())
                 .amountDays(value.getAmountDays());
     }
+
+    public MutableLiveData<ResponseSettings> getSettingsLiveData() {
+        return settingsLiveData;
+    }
 }

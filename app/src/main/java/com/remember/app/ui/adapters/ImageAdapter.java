@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.remember.app.GlideApp;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +58,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
     }
 
     public void setItems(List<MemoryPageModel> memoryPageModels) {
-        this.memoryPageModels.addAll(memoryPageModels);
+        this.memoryPageModels = memoryPageModels;
         notifyDataSetChanged();
     }
 
@@ -92,6 +94,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         ConstraintLayout layoutShowMore;
         @BindView(R.id.grid_image_layout)
         ConstraintLayout layoutGridImage;
+        @BindView(R.id.grid_layout)
+        GridLayout layoutGrid;
 
         ImageAdapterHolder(View itemView) {
             super(itemView);
@@ -103,6 +107,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
             progress.setVisibility(View.GONE);
 
             if (position == 14) {
+                layoutGrid.setBackgroundColor(context.getResources().getColor(
+                        Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
+                ));
+
                 layoutGridImage.setVisibility(View.GONE);
                 layoutShowMore.setVisibility(View.VISIBLE);
 
