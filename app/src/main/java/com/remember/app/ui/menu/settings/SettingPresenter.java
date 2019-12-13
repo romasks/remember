@@ -19,7 +19,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
 
     private RequestSettings requestSettings;
 
-    MutableLiveData<ResponseSettings> settingsLiveData = new MutableLiveData<>();
+    private MutableLiveData<ResponseSettings> settingsLiveData = new MutableLiveData<>();
 
     SettingPresenter() {
         Remember.getApplicationComponent().inject(this);
@@ -35,7 +35,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(value -> {
-                            settingsLiveData.postValue(value);
+                            settingsLiveData.setValue(value);
                             fillRequestSettings(value);
                         },
                         getViewState()::error);
@@ -74,7 +74,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
                 .amountDays(value.getAmountDays());
     }
 
-    public MutableLiveData<ResponseSettings> getSettingsLiveData() {
+    MutableLiveData<ResponseSettings> getSettingsLiveData() {
         return settingsLiveData;
     }
 }

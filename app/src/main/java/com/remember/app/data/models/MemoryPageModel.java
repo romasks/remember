@@ -89,6 +89,10 @@ public class MemoryPageModel implements Parcelable {
     @Expose
     private boolean isShowMore = false;
 
+    public String getFullName() {
+        return name + " " + secondName;
+    }
+
     public Integer getId() {
         return id;
     }

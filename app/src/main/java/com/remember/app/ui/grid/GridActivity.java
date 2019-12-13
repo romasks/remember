@@ -320,7 +320,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (memoryPageModels.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");
         }
-        showAll.setVisibility(memoryPageModels.isEmpty() ? View.VISIBLE : View.GONE);
+        showAll.setVisibility(View.VISIBLE);
         imageAdapter.setItems(memoryPageModels);
         progressBar.setVisibility(View.GONE);
     }

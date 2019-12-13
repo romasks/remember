@@ -51,7 +51,7 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter.settingsLiveData.observeForever(this::onReceivedInfo);
+        presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
     }
 
     @Override

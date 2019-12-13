@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +19,6 @@ import com.remember.app.GlideApp;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
-import com.remember.app.ui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,20 +83,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
 
     public class ImageAdapterHolder extends BaseViewHolder {
 
-        @BindView(R.id.show_more)
-        ImageView ivShowMore;
+        @BindView(R.id.item_grid_layout)
+        ConstraintLayout layoutGridItem;
+
+        @BindView(R.id.grid_image_layout)
+        ConstraintLayout layoutGridImage;
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.name)
         TextView name;
-        @BindView(R.id.progress)
-        ProgressBar progress;
+
         @BindView(R.id.show_more_layout)
         ConstraintLayout layoutShowMore;
-        @BindView(R.id.grid_image_layout)
-        ConstraintLayout layoutGridImage;
-        @BindView(R.id.grid_layout)
-        GridLayout layoutGrid;
+        @BindView(R.id.show_more)
+        ImageView ivShowMore;
 
         ImageAdapterHolder(View itemView) {
             super(itemView);
@@ -108,44 +105,39 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
 
         @Override
         public void onBind(int position) {
-            progress.setVisibility(View.GONE);
 
-            if (getItem(position).isShowMore()) {
-                layoutGrid.setBackgroundColor(context.getResources().getColor(
-                        Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
-                ));
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            Point size = null;
+            if (wm != null) {
+                Display display = wm.getDefaultDisplay();
+                size = new Point();
+                display.getSize(size);
 
-                layoutGridImage.setVisibility(View.GONE);
-                layoutShowMore.setVisibility(View.VISIBLE);
-
-                layoutShowMore.setOnClickListener(v -> {
-                    callback.showMorePages();
-                });
-                WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                if (wm != null) {
-                    Display display = wm.getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    ivShowMore.setMinimumWidth(size.x / 9);
-                    ivShowMore.setMaxWidth(size.x / 9);
-                    ivShowMore.setMinimumHeight(size.x / 9);
-                    ivShowMore.setMaxHeight(size.x / 9);
-                    ivShowMore.setPadding(size.x / 9, 0, size.x / 9, 0);
-                }
-
-                return;
+                layoutGridItem.setMinimumHeight(size.x / 3);
+                layoutGridItem.setMaxHeight(size.x / 3);
             }
 
+
+            // Show More btn
+            layoutShowMore.setOnClickListener(v -> {
+                callback.showMorePages();
+            });
+            if (size != null) {
+                ivShowMore.setMinimumWidth(size.x / 9);
+                ivShowMore.setMaxWidth(size.x / 9);
+                ivShowMore.setMinimumHeight(size.x / 9);
+                ivShowMore.setMaxHeight(size.x / 9);
+//                ivShowMore.setPadding(size.x / 9, 0, size.x / 9, 0);
+            }
+
+
+            // Image
             imageView.setOnClickListener(v -> {
                 callback.openPage(getItem(position));
             });
             try {
                 if (getItem(position).getPicture().contains("uploads")) {
-                    WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-                    if (wm != null) {
-                        Display display = wm.getDefaultDisplay();
-                        Point size = new Point();
-                        display.getSize(size);
+                    if (size != null) {
                         imageView.setMinimumHeight(size.x / 3);
                         imageView.setMaxHeight(size.x / 3);
                     }
@@ -161,9 +153,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
             } catch (NullPointerException e) {
                 glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
             }
+            name.setText(getItem(position).getFullName());
 
-            String nameString = getItem(position).getName() + " " + getItem(position).getSecondName();
-            name.setText(nameString);
+
+            if (getItem(position).isShowMore()) {
+                /*layoutGrid.setBackgroundColor(context.getResources().getColor(
+                        Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
+                ));*/
+                layoutGridImage.setVisibility(View.GONE);
+                layoutShowMore.setVisibility(View.VISIBLE);
+            } else {
+                layoutGridImage.setVisibility(View.VISIBLE);
+                layoutShowMore.setVisibility(View.GONE);
+            }
         }
     }
 }

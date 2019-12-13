@@ -150,5 +150,6 @@
 
     <!--notifications-->
     <string name="notifications_show_text">Показать</string>
+    <string name="grid_show_more">Показать ещё</string>
 
 </resources>
