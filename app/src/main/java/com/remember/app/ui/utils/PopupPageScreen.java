@@ -32,7 +32,7 @@ public class PopupPageScreen extends PopupWindow {
     private TextInputLayout dateBegin;
     private TextInputLayout dateEnd;
     private String status;
-    private boolean flag;
+    private Boolean flag;
 
     private DatePickerDialog.OnDateSetListener datePickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();

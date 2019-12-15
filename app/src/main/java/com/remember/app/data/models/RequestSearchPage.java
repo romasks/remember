@@ -28,7 +28,7 @@ public class RequestSearchPage {
     private String status;
     @SerializedName("flag")
     @Expose
-    private boolean flag;
+    private Boolean flag;
 
     public String getName() {
         return name;
@@ -86,11 +86,11 @@ public class RequestSearchPage {
         this.status = status;
     }
 
-    public boolean isFlag() {
+    public Boolean isFlag() {
         return flag;
     }
 
-    public void setFlag(boolean flag) {
+    public void setFlag(Boolean flag) {
         this.flag = flag;
     }
 }
