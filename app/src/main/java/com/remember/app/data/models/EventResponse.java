@@ -27,7 +27,7 @@ public class EventResponse {
 
     @SerializedName("type")
     @Expose
-    private String birth;
+    private String type;
 
     @SerializedName("remain_days")
     @Expose
@@ -82,12 +82,12 @@ public class EventResponse {
         this.pageId = pageId;
     }
 
-    public String getBirth() {
-        return birth;
+    public String getType() {
+        return type;
     }
 
-    public void setBirth(String birth) {
-        this.birth = birth;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getRemain_days() {

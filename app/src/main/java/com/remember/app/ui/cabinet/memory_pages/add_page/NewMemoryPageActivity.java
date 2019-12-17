@@ -53,6 +53,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -143,6 +144,22 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             person.setGraveId(getIntent().getExtras().getString("GRAVE", ""));
             person.setCemeteryName(getIntent().getExtras().getString("CRYPT", ""));
             person.setCoords(getIntent().getExtras().getString("COORD", ""));
+            if (person != null) {
+                if (person.getStar() != null) {
+                    if (person.getStar().equals("true")) {
+                        isFamous.setChecked(true);
+                    } else {
+                        notFamous.setChecked(false);
+                    }
+                }
+                if (person.getFlag() != null) {
+                    if (person.getFlag().equals("true")) {
+                        isPublic.setChecked(true);
+                    } else {
+                        noPublic.setChecked(false);
+                    }
+                }
+            }
         }
 
         religion.setOnClickListener(v -> {

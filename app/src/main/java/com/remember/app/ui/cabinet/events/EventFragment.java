@@ -19,6 +19,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.MvpAppCompatFragment;
 
 import java.util.List;
@@ -26,6 +27,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
+import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_BIRTH;
+import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD;
+import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD_EVENT;
 
 public class EventFragment extends MvpAppCompatFragment implements EventView, EventsFragmentAdapter.Callback {
 
@@ -97,9 +103,16 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
 
     @Override
     public void click(EventResponse event) {
-        Intent intent = new Intent(getActivity(), EventFullActivity.class);
-        String eventJson = new Gson().toJson(event);
-        intent.putExtra("EVENTS", eventJson);
-        startActivity(intent);
+        if (event.getType().equals(NOTIF_EVENT_TYPE_BIRTH) ||
+                event.getType().equals(NOTIF_EVENT_TYPE_DEAD)) {
+            Intent intent = new Intent(getActivity(), ShowPageActivity.class);
+            intent.putExtra(INTENT_EXTRA_ID, event.getPageId());
+            startActivity(intent);
+        } else if (event.getType().equals(NOTIF_EVENT_TYPE_DEAD_EVENT)){
+            Intent intent = new Intent(getActivity(), EventFullActivity.class);
+            String eventJson = new Gson().toJson(event);
+            intent.putExtra("EVENTS", eventJson);
+            startActivity(intent);
+        }
     }
 }

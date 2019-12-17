@@ -42,7 +42,7 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return new EventsDeceaseAdapter.EventsDeceaseAdapterViewHolder(
-                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_events, viewGroup, false)
+                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_dead_event, viewGroup, false)
         );
     }
 

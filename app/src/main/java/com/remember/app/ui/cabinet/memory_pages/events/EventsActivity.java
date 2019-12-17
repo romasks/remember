@@ -79,7 +79,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         } catch (NullPointerException ignored) {
         }
 
-//        presenter.getEvents(pageId);
+        presenter.getEvents(pageId);
 
         eventsDeceaseAdapter = new EventsDeceaseAdapter();
         eventsDeceaseAdapter.setCallback(this);

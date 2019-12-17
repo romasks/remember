@@ -88,6 +88,10 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     Button saveButton;
     @BindView(R.id.eventHeaderName)
     TextView eventHeaderName;
+    @BindView(R.id.not_for_one)
+    AppCompatRadioButton notForOne;
+    @BindView(R.id.not_notification)
+    AppCompatRadioButton notNotification;
 
     private Unbinder unbinder;
     private String name;
@@ -104,6 +108,8 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     private String eventDescription = "";
     private String imageUrl = "";
     private String dateString = "";
+    private String access = "";
+    private String flag = "";
 
 
     @Override
@@ -117,6 +123,8 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         eventDescription = getIntent().getExtras().getString("EVENT_DESCRIPTION", "");
         imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
         dateString = getIntent().getExtras().getString("EVENT_DATE", "");
+        flag = getIntent().getExtras().getString("IS_FOR_ONE", "0");
+        access = getIntent().getExtras().getString("ACCESS", "0");
 
         Glide.with(this)
                 .load(BASE_SERVICE_URL + imageUrl)
@@ -157,6 +165,22 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         }
         if (!dateString.isEmpty()) {
             date.setText(dateString);
+        }
+
+        if (flag.equals("1")){
+            forOne.setChecked(false);
+            notForOne.setChecked(true);
+        } else {
+            forOne.setChecked(true);
+            notForOne.setChecked(false);
+        }
+
+        if (access.equals("1")){
+            isNeedNotification.setChecked(true);
+            notNotification.setChecked(false);
+        } else {
+            isNeedNotification.setChecked(false);
+            notNotification.setChecked(true);
         }
 
         dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {

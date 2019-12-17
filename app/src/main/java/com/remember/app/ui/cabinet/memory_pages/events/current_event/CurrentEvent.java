@@ -73,6 +73,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     private String imageUrl = "";
     private int pageId = 0;
     private boolean isShow;
+    private EventModel eventModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
     @Override
     public void onReceivedEvent(EventModel requestEvent) {
+        eventModel = requestEvent;
         setItems(requestEvent);
     }
 
@@ -145,6 +147,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         intent.putExtra("EVENT_DATE", dateView.getText().toString());
         intent.putExtra("PAGE_ID", pageId);
         intent.putExtra("IS_EVENT_EDITING", true);
+        intent.putExtra("IS_FOR_ONE", eventModel.getFlag());
+        intent.putExtra("ACCESS", eventModel.getUv_show());
         startActivity(intent);
     }
 
