@@ -252,7 +252,7 @@ public interface ApiMethods {
                                                         @Query("datasmert") String dateEnd,
                                                         @Query("gorod") String city,
                                                         @Query("status") String status,
-                                                        @Query("flag") boolean flag);
+                                                        @Query("flag") Boolean flag);
 
     @GET("poisk/event")
     Observable<List<ResponseEvents>> searchEventReligios(@Query("date") String date,
