@@ -23,17 +23,17 @@
             android:src="@drawable/ic_round_camera"
             tools:ignore="MissingConstraints" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/amount_days"-->
-<!--            android:layout_width="35dp"-->
-<!--            android:layout_height="35dp"-->
-<!--            android:background="@drawable/circle_for_memory_pages"-->
-<!--            android:gravity="center"-->
-<!--            android:textColor="@android:color/white"-->
-<!--            android:visibility="visible"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/avatar_image"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/avatar_image"-->
-<!--            tools:text="233" />-->
+                <TextView
+                    android:id="@+id/amount_days"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/circle_for_memory_pages"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
+                    app:layout_constraintEnd_toEndOf="@+id/avatar_image"
+                    tools:text="233" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -56,29 +56,18 @@
             tools:text="Иванов Иван иванович Иванов Иван иванович" />
 
         <TextView
-            android:id="@+id/personName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:textSize="13sp"
-            android:layout_marginTop="4dp"
-            tools:text="Крылатов Сергей Витальевич"/>
-
-        <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:textColor="@color/gray"
             tools:text="02.04.1960" />
 
-        <TextView
-            android:id="@+id/comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:textColor="@color/gray"
-            tools:text="Дней осталось" />
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    tools:text="Дней осталось" />
 
     </LinearLayout>
 

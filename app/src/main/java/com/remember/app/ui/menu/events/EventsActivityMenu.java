@@ -23,7 +23,6 @@ import com.google.gson.Gson;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEvents;
-import com.remember.app.ui.adapters.EventsFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.events.EventFullActivity;
 import com.remember.app.ui.utils.PopupEventScreenLocal;
@@ -35,7 +34,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EventsActivityMenu extends BaseActivity implements EventsFragmentAdapter.Callback, EventsMenuView, PopupEventScreenLocal.Callback {
+public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapter.Callback, EventsMenuView, PopupEventScreenLocal.Callback {
 
     @InjectPresenter
     EventsMenuPresenter presenter;
@@ -53,7 +52,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     @BindView(R.id.search)
     ImageView search;
 
-    private EventsFragmentAdapter eventsFragmentAdapter;
+    private EventsMenuAdapter eventsMenuAdapter;
     private PopupEventScreenLocal popupWindowEvent;
 
     @SuppressLint("WrongConstant")
@@ -67,12 +66,12 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
             search.setImageResource(R.drawable.ic_search2);
         }
         presenter.getEvents();
-        eventsFragmentAdapter = new EventsFragmentAdapter();
-        eventsFragmentAdapter.setCallback(this);
+        eventsMenuAdapter = new EventsMenuAdapter();
+        eventsMenuAdapter.setCallback(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(eventsFragmentAdapter);
+        recyclerView.setAdapter(eventsMenuAdapter);
     }
 
     @OnClick(R.id.back)
@@ -115,7 +114,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsFragmentAd
     public void onReceivedEvents(List<ResponseEvents> responseEvents) {
         if (responseEvents.size() == 0)
             Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
-        eventsFragmentAdapter.setItems(responseEvents);
+        eventsMenuAdapter.setItems(responseEvents);
         noEvents.setVisibility(responseEvents.isEmpty() ? View.VISIBLE : View.GONE);
     }
 

@@ -1,4 +1,4 @@
-package com.remember.app.ui.adapters;
+package com.remember.app.ui.menu.events;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,9 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.remember.app.R;
-import com.remember.app.data.models.EventResponse;
+import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseViewHolder;
-import com.remember.app.ui.utils.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,19 +28,20 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     private Callback callback;
-    private List<EventResponse> responseEvents = new ArrayList<>();
+    private List<ResponseEvents> responseEvents = new ArrayList<>();
 
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new EventsFragmentAdapter.EventsFragmentAdapterViewHolder(
-                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_events, viewGroup, false)
+        return new EventsMenuAdapter.EventsFragmentAdapterViewHolder(
+                LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_events, viewGroup, false)
         );
     }
 
@@ -55,7 +55,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         return responseEvents.size();
     }
 
-    public void setItems(List<EventResponse> responseEvents) {
+    public void setItems(List<ResponseEvents> responseEvents) {
         this.responseEvents.clear();
         this.responseEvents.addAll(responseEvents);
         notifyDataSetChanged();
@@ -67,7 +67,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
     public interface Callback {
 
-        void click(EventResponse events);
+        void click(ResponseEvents events);
 
     }
 
@@ -77,12 +77,14 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         ConstraintLayout layout;
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
+        @BindView(R.id.amount_days)
+        TextView amountDays;
         @BindView(R.id.name)
         TextView name;
         @BindView(R.id.date)
         TextView date;
-        @BindView(R.id.personName)
-        TextView personName;
+        @BindView(R.id.comment)
+        TextView comment;
 
         EventsFragmentAdapterViewHolder(View itemView) {
             super(itemView);
@@ -92,21 +94,33 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
 
         @Override
         public void onBind(int position) {
-            EventResponse item = responseEvents.get(position);
             layout.setOnClickListener(v -> {
-                callback.click(item);
+                callback.click(responseEvents.get(position));
             });
             Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
             try {
-                setGlideImage(responseEvents.get(position).getPicture(), avatarImage);
+                if (!responseEvents.get(position).getPicture().contains("upload")) {
+                    setGlideImage(itemView.getContext(), BASE_SERVICE_URL + "/uploads/" + responseEvents.get(position).getPicture(), avatarImage);
+                }
             } catch (Exception e) {
                 setGlideImage(itemView.getContext(), mDefaultBackground, avatarImage);
             }
 
-            String fullName = item.getPageName();
-            name.setText(item.getEventName());
-            personName.setText(fullName);
-            date.setText(DateUtils.convertRemoteToLocalFormat(item.getOriginDate()));
+            amountDays.setVisibility(View.VISIBLE);
+            String fullName = responseEvents.get(position).getName();
+            name.setText(fullName);
+
+            String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+            String dateText = null;
+            try {
+                dateText = String.valueOf(getDifferenceDays(responseEvents.get(position).getPutdate() + "." + year));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            date.setText(responseEvents.get(position).getPutdate());
+            amountDays.setText(dateText);
+
+            comment.setText("дней осталось");
         }
 
         long getDifferenceDays(String date) throws ParseException {

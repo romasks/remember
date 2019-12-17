@@ -4,6 +4,7 @@ package com.remember.app.data.network;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
+import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -94,6 +95,10 @@ public interface ApiMethods {
 
     @GET("event")
     Observable<List<ResponseEvents>> getEvents();
+
+    @GET("feed/notifications")
+    Observable<List<EventResponse>> getEventsFeed(@Header("Authorization") String token,
+                                                  @Query("filter_type") String filterType);
 
     @GET("event/{id}")
     Observable<ResponseEvents> getEvent(@Path("id") int id);
