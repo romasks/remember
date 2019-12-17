@@ -47,7 +47,6 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     private Unbinder unbinder;
     private PageFragmentAdapter pageFragmentAdapter;
-    private int countPage = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +97,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
 
     @OnClick(R.id.show_all)
     void showAll() {
+        showAll.setVisibility(View.GONE);
         presenter.getPages();
     }
 
@@ -131,9 +131,7 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         if (result.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");
         }
-        showAll.setVisibility(result.isEmpty() ? View.VISIBLE : View.GONE);
-        pageFragmentAdapter.setItems(result);
-        pageFragmentAdapter.notifyDataSetChanged();
-
+        showAll.setVisibility(View.VISIBLE);
+        pageFragmentAdapter.setItemsSearched(result);
     }
 }

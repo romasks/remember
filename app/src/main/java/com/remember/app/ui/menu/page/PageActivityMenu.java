@@ -120,6 +120,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @OnClick(R.id.show_all)
     public void showAll() {
+        showAll.setVisibility(View.GONE);
         pageNumber = 1;
         presenter.getImages(pageNumber);
     }
@@ -164,7 +165,8 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         if (memoryPageModels.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");
         }
-        showAll.setVisibility(memoryPageModels.isEmpty() ? View.VISIBLE : View.GONE);
+//        showAll.setVisibility(memoryPageModels.isEmpty() ? View.VISIBLE : View.GONE);
+        showAll.setVisibility(View.VISIBLE);
         pageFragmentAdapter.setItemsSearched(memoryPageModels);
         progressBar.setVisibility(View.GONE);
     }

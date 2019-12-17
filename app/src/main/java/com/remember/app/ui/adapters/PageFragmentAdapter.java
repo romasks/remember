@@ -1,35 +1,30 @@
 package com.remember.app.ui.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.remember.app.R;
-import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.ui.base.BaseViewHolder;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.remember.app.R;
+import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.ui.base.BaseViewHolder;
+import com.remember.app.ui.utils.DateUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private Context context;
     private Callback callback;
     private boolean isMainPages = false;
     private List<MemoryPageModel> memoryPageModelList = new ArrayList<>();
@@ -59,8 +54,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItemsSearched(List<MemoryPageModel> memoryPageModelList) {
-        this.memoryPageModelList.clear();
-        this.memoryPageModelList.addAll(memoryPageModelList);
+        this.memoryPageModelList = memoryPageModelList;
         notifyDataSetChanged();
     }
 
@@ -96,7 +90,6 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         PageFragmentAdapterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            context = itemView.getContext();
         }
 
         @Override
@@ -106,12 +99,12 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             });
             try {
                 if (memoryPageModelList.get(position).getPicture().contains("uploads")) {
-                    setGlideImage(itemView.getContext(), BASE_SERVICE_URL + memoryPageModelList.get(position).getPicture(), avatarImage);
+                    setGlideImage(memoryPageModelList.get(position).getPicture(), avatarImage);
                 } else {
-                    setGlideImage(context, R.drawable.darth_vader, avatarImage);
+                    setGlideImage(R.drawable.darth_vader, avatarImage);
                 }
             } catch (NullPointerException e) {
-                setGlideImage(context, R.drawable.darth_vader, avatarImage);
+                setGlideImage(R.drawable.darth_vader, avatarImage);
             }
 
             String secondName = memoryPageModelList.get(position).getSecondName();
@@ -119,17 +112,10 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             surname.setText(secondName);
             name.setText(fullName);
 
-            try {
-                Date dateBegin = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModelList.get(position).getDateBirth());
-                Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(memoryPageModelList.get(position).getDateDeath());
-                DateFormat first = new SimpleDateFormat("dd.MM.yyyy");
-                DateFormat second = new SimpleDateFormat("dd.MM.yyyy");
-                String textDate = first.format(dateBegin) + " - " + second.format(dateEnd);
-                date.setText(textDate);
-            } catch (ParseException e) {
-                String textDate = memoryPageModelList.get(position).getDateBirth() + " - " + memoryPageModelList.get(position).getDateDeath();
-                date.setText(textDate);
-            }
+            String dateBirth = DateUtils.convertRemoteToLocalFormat(memoryPageModelList.get(position).getDateBirth());
+            String dateDeath = DateUtils.convertRemoteToLocalFormat(memoryPageModelList.get(position).getDateDeath());
+            String textDate = dateBirth + " - " + dateDeath;
+            date.setText(textDate);
         }
     }
 }
