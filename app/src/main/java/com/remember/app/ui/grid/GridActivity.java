@@ -81,6 +81,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     ImageView button_menu;
     @BindView(R.id.grid_sign_in)
     Button signInButton;
+    @BindView(R.id.splash_view)
+    TextView splash;
 
     private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
@@ -113,7 +115,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
 
-        presenter.getImages(pageNumber);
+        splash.postDelayed(() -> presenter.getImages(pageNumber), 500);
 
         showAll.setOnClickListener(v -> {
             imageAdapter.setItems(allMemoryPageModels);
@@ -290,6 +292,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             allMemoryPageModels.get(lastIndex).setShowMore(true);
         }
         imageAdapter.setItems(allMemoryPageModels);
+        splash.setVisibility(View.GONE);
     }
 
     @Override

@@ -87,6 +87,9 @@ public class MemoryPageModel implements Parcelable {
     private String userId;
 
     @Expose
+    private boolean isLoaded = false;
+
+    @Expose
     private boolean isShowMore = false;
 
     public String getFullName() {
@@ -293,6 +296,14 @@ public class MemoryPageModel implements Parcelable {
         isShowMore = showMore;
     }
 
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        isLoaded = loaded;
+    }
+
     public MemoryPageModel() {
     }
 
@@ -324,6 +335,11 @@ public class MemoryPageModel implements Parcelable {
             isShowMore = in.readBoolean();
         } else {
             isShowMore = in.readInt() == 0;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            isLoaded = in.readBoolean();
+        } else {
+            isLoaded = in.readInt() == 0;
         }
     }
 
@@ -363,6 +379,7 @@ public class MemoryPageModel implements Parcelable {
         dest.writeString(religiya);
         dest.writeString(userId);
         dest.writeInt(isShowMore ? 1 : 0);
+        dest.writeInt(isLoaded ? 1 : 0);
     }
 
     @SuppressWarnings("unused")
@@ -404,7 +421,8 @@ public class MemoryPageModel implements Parcelable {
                 flag,
                 religiya,
                 userId,
-                isShowMore);
+                isShowMore,
+                isLoaded);
     }
 
     @Override
@@ -437,7 +455,8 @@ public class MemoryPageModel implements Parcelable {
                 memoryPageModel.flag.equals(flag) &&
                 memoryPageModel.religiya.equals(religiya) &&
                 memoryPageModel.userId.equals(userId) &&
-                memoryPageModel.isShowMore == isShowMore;
+                memoryPageModel.isShowMore == isShowMore &&
+                memoryPageModel.isLoaded == isLoaded;
     }
 
     public static final DiffUtil.ItemCallback<MemoryPageModel> DIFF_MEMORY_PAGE_CALLBACK = new DiffUtil.ItemCallback<MemoryPageModel>() {

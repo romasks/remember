@@ -106,6 +106,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
 
         @Override
         public void onBind(int position) {
+            MemoryPageModel item = getItem(position);
 
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             Point size = null;
@@ -115,9 +116,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
                 display.getSize(size);
 
                 layoutGridItem.setMinimumHeight(size.x / 3);
-//                layoutGridItem.setMaxHeight(size.x / 3);
             }
-
 
             // Show More btn
             layoutShowMore.setOnClickListener(v -> {
@@ -128,22 +127,18 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
                 ivShowMore.setMaxWidth(size.x / 9);
                 ivShowMore.setMinimumHeight(size.x / 9);
                 ivShowMore.setMaxHeight(size.x / 9);
-//                ivShowMore.setPadding(size.x / 9, 0, size.x / 9, 0);
             }
 
-
             // Image
-            imageView.setOnClickListener(v -> {
-                callback.openPage(getItem(position));
-            });
+            imageView.setOnClickListener(v -> callback.openPage(item));
             try {
-                if (getItem(position).getPicture().contains("uploads")) {
+                if (item.getPicture().contains("uploads")) {
                     if (size != null) {
                         imageView.setMinimumHeight(size.x / 3);
                         imageView.setMaxHeight(size.x / 3);
                     }
                     GlideApp.with(context)
-                            .load(BASE_SERVICE_URL + getItem(position).getPicture())
+                            .load(BASE_SERVICE_URL + item.getPicture())
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                             .error(R.drawable.darth_vader)
                             .into(imageView);
@@ -154,13 +149,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
             } catch (NullPointerException e) {
                 glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
             }
-            name.setText(getItem(position).getFullName());
+            name.setText(item.getFullName());
+            item.setLoaded(true);
 
-
-            if (getItem(position).isShowMore()) {
-                /*layoutGrid.setBackgroundColor(context.getResources().getColor(
-                        Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
-                ));*/
+            if (item.isShowMore()) {
                 layoutGridImage.setVisibility(View.GONE);
                 layoutShowMore.setVisibility(View.VISIBLE);
             } else {
