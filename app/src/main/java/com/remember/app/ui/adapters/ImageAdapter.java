@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -87,7 +88,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         ConstraintLayout layoutGridItem;
 
         @BindView(R.id.grid_image_layout)
-        ConstraintLayout layoutGridImage;
+        LinearLayout layoutGridImage;
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.name)
@@ -114,7 +115,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
                 display.getSize(size);
 
                 layoutGridItem.setMinimumHeight(size.x / 3);
-                layoutGridItem.setMaxHeight(size.x / 3);
+//                layoutGridItem.setMaxHeight(size.x / 3);
             }
 
 

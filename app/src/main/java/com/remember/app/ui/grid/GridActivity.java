@@ -11,6 +11,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -35,12 +42,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -83,7 +84,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
-    private ImagePagedAdapter imagePagedAdapter;
     private TextView navUserName;
     private DrawerLayout drawer;
     private int theme_setting = 0;
@@ -104,7 +104,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
 
-        // 1st page (without pagination)
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setHasFixedSize(true);
         recyclerView.setVisibility(View.VISIBLE);
@@ -116,24 +115,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         presenter.getImages(pageNumber);
 
-        // >2nd page (with pagination)
-        /*pagedRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        pagedRecyclerView.setHasFixedSize(true);
-        pagedRecyclerView.setVisibility(View.GONE);
-
-        imagePagedAdapter = new ImagePagedAdapter();
-        imagePagedAdapter.setCallback(this);
-        imagePagedAdapter.setContext(this);
-        pagedRecyclerView.setAdapter(imagePagedAdapter);
-
-        presenter.getMemoryPageModel().observeForever(pagedList -> {
-            allMemoryPageModels = pagedList;
-            imagePagedAdapter.submitList(pagedList);
-        });*/
-
-
         showAll.setOnClickListener(v -> {
-//            this.recreate();
             imageAdapter.setItems(allMemoryPageModels);
             showAll.setVisibility(View.GONE);
             showMorePages();
@@ -239,8 +221,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void showMorePages() {
-//        recyclerView.setVisibility(View.GONE);
-//        pagedRecyclerView.setVisibility(View.VISIBLE);
         pageNumber++;
         presenter.getImages(pageNumber);
     }
@@ -309,9 +289,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (pageNumber < responsePages.getCount()) {
             allMemoryPageModels.get(lastIndex).setShowMore(true);
         }
-        /*if (pageNumber > 1) {
-            allMemoryPageModels.get(lastIndex - responsePages.getResult().size()).setShowMore(false);
-        }*/
         imageAdapter.setItems(allMemoryPageModels);
     }
 
