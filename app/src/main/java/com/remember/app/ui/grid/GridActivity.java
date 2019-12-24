@@ -84,9 +84,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @BindView(R.id.splash_view)
     TextView splash;
 
-    private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
-    private TextView navUserName;
     private DrawerLayout drawer;
     private int theme_setting = 0;
 
@@ -160,13 +158,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
             View headerView = navigationView.getHeaderView(0);
 
-            navUserName = headerView.findViewById(R.id.user_name);
+            TextView navUserName = headerView.findViewById(R.id.user_name);
             navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
             TextView navEmail = headerView.findViewById(R.id.user_email);
             navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
-            imageViewBigAvatar = headerView.findViewById(R.id.logo);
+            ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
             if (Utils.isEmptyPrefsKey(PREFS_KEY_AVATAR)) {
                 setGlideImage(this, R.drawable.ic_unknown, avatar_user);
