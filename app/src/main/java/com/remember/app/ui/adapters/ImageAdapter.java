@@ -5,15 +5,9 @@ import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -22,11 +16,15 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
 import static com.remember.app.ui.utils.ImageUtils.setGridImage;
+import static com.remember.app.ui.utils.Utils.getScreenWidth;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapterHolder> {
 
@@ -106,19 +104,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         public void onBind(int position) {
             MemoryPageModel item = getItem(position);
 
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            Point size = null;
-            if (wm != null) {
-                size = new Point();
-                wm.getDefaultDisplay().getSize(size);
-
+            Point size = getScreenWidth(context);
+            if (size != null) {
                 layoutGridItem.setMinimumHeight(size.x / 3);
             }
 
             // Show More btn
-            layoutShowMore.setOnClickListener(v -> {
-                callback.showMorePages();
-            });
+            layoutShowMore.setOnClickListener(v -> callback.showMorePages());
             if (size != null) {
                 ivShowMore.setMinimumWidth(size.x / 9);
                 ivShowMore.setMaxWidth(size.x / 9);

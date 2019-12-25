@@ -1,14 +1,17 @@
 package com.remember.app.ui.utils;
 
+import android.content.Context;
+import android.graphics.Point;
 import android.text.Html;
 import android.view.View;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
+import android.view.WindowManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
 import static com.remember.app.data.Constants.THEME_DARK;
@@ -37,6 +40,16 @@ public class Utils {
         Snackbar.make(view, Html.fromHtml("<font color=\"#ffffff\">" + message + "</font>"), Snackbar.LENGTH_SHORT)
                 .setActionTextColor(view.getResources().getColor(R.color.colorPrimary))
                 .show();
+    }
+
+    public static Point getScreenWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Point size = null;
+        if (wm != null) {
+            size = new Point();
+            wm.getDefaultDisplay().getSize(size);
+        }
+        return size;
     }
 
 }

@@ -11,13 +11,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -42,6 +35,11 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -65,8 +63,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @BindView(R.id.image_rv)
     RecyclerView recyclerView;
-    @BindView(R.id.image_paged_rv)
-    RecyclerView pagedRecyclerView;
     @BindView(R.id.search)
     ImageView search;
     @BindView(R.id.title)
@@ -104,31 +100,15 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setVisibility(View.VISIBLE);
-
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
         imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
+        recyclerView.setHasFixedSize(true);
 
         splash.postDelayed(() -> presenter.getImages(pageNumber), 500);
 
-        showAll.setOnClickListener(v -> {
-            imageAdapter.setItems(allMemoryPageModels);
-            showAll.setVisibility(View.GONE);
-            showMorePages();
-        });
-
         drawer = findViewById(R.id.drawer_layout_2);
-        button_menu.setOnClickListener(k -> {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
     }
 
     @Override
@@ -195,6 +175,22 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @OnClick(R.id.search)
     public void doSearch() {
         showEventScreen();
+    }
+
+    @OnClick(R.id.show_all)
+    public void showAll() {
+        imageAdapter.setItems(allMemoryPageModels);
+        showAll.setVisibility(View.GONE);
+        showMorePages();
+    }
+
+    @OnClick(R.id.menu_icon)
+    public void onMenuClick() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            drawer.openDrawer(GravityCompat.START);
+        }
     }
 
     private void showEventScreen() {
@@ -270,13 +266,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 return true;
             }
         }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
-        TextView navUserName = drawer.findViewById(R.id.user_name);
-        navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
-
-        drawer.closeDrawer(GravityCompat.START);
         return false;
     }
 

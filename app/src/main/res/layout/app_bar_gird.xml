@@ -15,7 +15,8 @@
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@color/colorAccent"
-        android:textSize="55sp" />
+        android:textSize="55sp"
+        tools:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,17 +102,9 @@
             android:layout_height="wrap_content"
             android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/app_bar"
-            tools:itemCount="3"
-            tools:layout_editor_absoluteX="0dp"
-            tools:listitem="@layout/item_home_grid" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/image_paged_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/app_bar"
-            tools:itemCount="3"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
+            tools:itemCount="15"
             tools:layout_editor_absoluteX="0dp"
             tools:listitem="@layout/item_home_grid" />
 
