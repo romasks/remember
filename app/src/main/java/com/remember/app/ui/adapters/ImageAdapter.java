@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -91,7 +92,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         TextView name;
 
         @BindView(R.id.show_more_layout)
-        ConstraintLayout layoutShowMore;
+        LinearLayout layoutShowMore;
         @BindView(R.id.show_more)
         ImageView ivShowMore;
 
@@ -112,6 +113,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
             // Show More btn
             layoutShowMore.setOnClickListener(v -> callback.showMorePages());
             if (size != null) {
+                layoutShowMore.setMinimumHeight(size.x / 3 + size.x / 25);
                 ivShowMore.setMinimumWidth(size.x / 9);
                 ivShowMore.setMaxWidth(size.x / 9);
                 ivShowMore.setMinimumHeight(size.x / 9);

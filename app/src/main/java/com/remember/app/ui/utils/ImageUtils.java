@@ -91,8 +91,9 @@ public class ImageUtils {
             imageObj = BASE_SERVICE_URL + imageObj;
 
             if (size != null) {
-                targetView.setMinimumHeight(size.x / 3);
-                targetView.setMaxHeight(size.x / 3);
+//                targetView.setMinimumHeight(size.x / 3);
+//                targetView.setMaxHeight(size.x / 3);
+                targetView.setMinimumWidth(size.x / 3);
             }
         }
         setGridImage(targetView.getContext(), imageObj, targetView);
