@@ -1,6 +1,7 @@
 package com.remember.app.ui.grid;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -79,6 +82,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     Button signInButton;
     @BindView(R.id.splash_view)
     TextView splash;
+    @BindView(R.id.videoView)
+    VideoView videoView;
+    @BindView(R.id.main_container)
+    LinearLayout mainContainer;
 
     private ImageAdapter imageAdapter;
     private DrawerLayout drawer;
@@ -107,8 +114,16 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         recyclerView.setHasFixedSize(true);
 
         splash.postDelayed(() -> presenter.getImages(pageNumber), 500);
+        //startVideo();
 
         drawer = findViewById(R.id.drawer_layout_2);
+    }
+
+    private void startVideo() {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_logo_animation);
+        videoView.setVideoURI(videoUri);
+        videoView.setOnCompletionListener(mp -> presenter.getImages(pageNumber));
+        videoView.start();
     }
 
     @Override
@@ -123,6 +138,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                         : DrawerLayout.LOCK_MODE_UNLOCKED
         );
         getInfoUser();
+    }
+
+    @Override
+    protected void onPause() {
+        //videoView.stopPlayback();
+        super.onPause();
     }
 
     private void getInfoUser() {
@@ -272,6 +293,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
         progressBar.setVisibility(View.GONE);
+
         allMemoryPageModels.addAll(responsePages.getResult());
         int lastIndex = allMemoryPageModels.size() - 1;
         for (MemoryPageModel model : allMemoryPageModels) model.setShowMore(false);
@@ -279,7 +301,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             allMemoryPageModels.get(lastIndex).setShowMore(true);
         }
         imageAdapter.setItems(allMemoryPageModels);
+
         splash.setVisibility(View.GONE);
+        videoView.setVisibility(View.GONE);
+        mainContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
