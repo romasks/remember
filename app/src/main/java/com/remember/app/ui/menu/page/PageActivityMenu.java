@@ -2,14 +2,15 @@ package com.remember.app.ui.menu.page;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,12 +51,12 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     Button showAll;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.progress)
-    ProgressBar progressBar;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.search)
     ImageView search;
+    @BindView(R.id.progressVideoView)
+    VideoView progressVideoView;
 
     private PopupPageScreen popupWindowPage;
     private List<MemoryPageModel> memoryPages = new ArrayList<>();
@@ -86,30 +87,26 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
 
-//        setUpLoadMoreListener();
+        startVideo();
         presenter.getImages(pageNumber);
 //        presenter.getAllPages();
+    }
+
+    private void startVideo() {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sand_clock_light);
+        progressVideoView.setVideoURI(videoUri);
+        progressVideoView.start();
+    }
+
+    @Override
+    protected void onPause() {
+        progressVideoView.stopPlayback();
+        super.onPause();
     }
 
     @Override
     protected int getContentView() {
         return R.layout.activity_page_menu;
-    }
-
-    private void setUpLoadMoreListener() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView,
-                                   int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if (pageNumber < countSum) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    pageNumber++;
-                    presenter.getImages(pageNumber);
-                }
-            }
-        });
     }
 
     @OnClick(R.id.back)
@@ -151,12 +148,16 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         countSum = responsePages.getPages();
         memoryPages.addAll(responsePages.getResult());
         pageFragmentAdapter.setItems(memoryPages);
+
         if (pageNumber < countSum) {
-            progressBar.setVisibility(View.VISIBLE);
             pageNumber++;
             presenter.getImages(pageNumber);
         } else {
-            progressBar.setVisibility(View.GONE);
+            progressVideoView.postDelayed(() -> {
+                progressVideoView.stopPlayback();
+                recyclerView.setVisibility(View.VISIBLE);
+                progressVideoView.setVisibility(View.GONE);
+            }, 1000);
         }
     }
 
@@ -165,10 +166,15 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         if (memoryPageModels.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");
         }
-//        showAll.setVisibility(memoryPageModels.isEmpty() ? View.VISIBLE : View.GONE);
-        showAll.setVisibility(View.VISIBLE);
+
         pageFragmentAdapter.setItemsSearched(memoryPageModels);
-        progressBar.setVisibility(View.GONE);
+
+        progressVideoView.postDelayed(() -> {
+            progressVideoView.stopPlayback();
+            showAll.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+            progressVideoView.setVisibility(View.GONE);
+        }, 1000);
     }
 
     private void showEventScreen() {

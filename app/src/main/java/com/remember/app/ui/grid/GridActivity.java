@@ -9,10 +9,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -38,11 +42,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -72,20 +71,14 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     TextView title;
     @BindView(R.id.show_all)
     Button showAll;
-    @BindView(R.id.progress)
-    ProgressBar progressBar;
     @BindView(R.id.avatar_small_toolbar)
     ImageView avatar_user;
     @BindView(R.id.menu_icon)
     ImageView button_menu;
     @BindView(R.id.grid_sign_in)
     Button signInButton;
-    @BindView(R.id.splash_view)
-    TextView splash;
-    @BindView(R.id.videoView)
-    VideoView videoView;
-    @BindView(R.id.main_container)
-    LinearLayout mainContainer;
+    @BindView(R.id.progressVideoView)
+    VideoView progressVideoView;
 
     private ImageAdapter imageAdapter;
     private DrawerLayout drawer;
@@ -113,17 +106,16 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         recyclerView.setAdapter(imageAdapter);
         recyclerView.setHasFixedSize(true);
 
-        splash.postDelayed(() -> presenter.getImages(pageNumber), 500);
-        //startVideo();
+        startVideo();
+        presenter.getImages(pageNumber);
 
         drawer = findViewById(R.id.drawer_layout_2);
     }
 
     private void startVideo() {
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_logo_animation);
-        videoView.setVideoURI(videoUri);
-        videoView.setOnCompletionListener(mp -> presenter.getImages(pageNumber));
-        videoView.start();
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sand_clock_light);
+        progressVideoView.setVideoURI(videoUri);
+        progressVideoView.start();
     }
 
     @Override
@@ -142,7 +134,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     protected void onPause() {
-        //videoView.stopPlayback();
+        progressVideoView.stopPlayback();
         super.onPause();
     }
 
@@ -292,8 +284,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
-        progressBar.setVisibility(View.GONE);
-
         allMemoryPageModels.addAll(responsePages.getResult());
         int lastIndex = allMemoryPageModels.size() - 1;
         for (MemoryPageModel model : allMemoryPageModels) model.setShowMore(false);
@@ -302,9 +292,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         }
         imageAdapter.setItems(allMemoryPageModels);
 
-        splash.setVisibility(View.GONE);
-        videoView.setVisibility(View.GONE);
-        mainContainer.setVisibility(View.VISIBLE);
+        progressVideoView.postDelayed(() -> {
+            progressVideoView.stopPlayback();
+            progressVideoView.setVisibility(View.GONE);
+        }, 1000);
     }
 
     @Override
@@ -314,7 +305,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         }
         showAll.setVisibility(View.VISIBLE);
         imageAdapter.setItems(memoryPageModels);
-        progressBar.setVisibility(View.GONE);
     }
 
     @Override
