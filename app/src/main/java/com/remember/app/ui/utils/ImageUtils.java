@@ -86,18 +86,24 @@ public class ImageUtils {
         targetView.setColorFilter(blackWhiteFilter);
     }
 
-    public static void glideLoadIntoGrid(Context context, Object imageObj, ImageView targetView) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        targetView.setMinimumHeight(size.x / 3);
-        targetView.setMaxHeight(size.x / 3);
+    public static void setGridImage(Object imageObj, ImageView targetView, Point size) {
+        if (imageObj instanceof String && ((String) imageObj).contains("uploads")) {
+            imageObj = BASE_SERVICE_URL + imageObj;
+
+            if (size != null) {
+                targetView.setMinimumHeight(size.x / 3 + size.x / 25);
+                targetView.setMaxHeight(size.x / 3 + size.x / 25);
+                targetView.setMinimumWidth(size.x / 3);
+            }
+        }
+        setGridImage(targetView.getContext(), imageObj, targetView);
+    }
+
+    private static void setGridImage(Context context, Object imageObj, ImageView targetView) {
         GlideApp.with(context)
                 .load(imageObj)
                 .error(R.drawable.darth_vader)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
     }

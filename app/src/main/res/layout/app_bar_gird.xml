@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -80,6 +80,7 @@
             style="@style/CustomAppButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/app_bar"
             android:text="@string/grid_show_all"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/app_bar" />
@@ -88,34 +89,26 @@
             android:id="@+id/image_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/show_all"
+            android:layout_alignParentBottom="true"
             android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/app_bar"
-            tools:itemCount="3"
+            app:spanCount="3"
+            tools:itemCount="15"
             tools:layout_editor_absoluteX="0dp"
             tools:listitem="@layout/item_home_grid" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/image_paged_rv"
+        <VideoView
+            android:id="@+id/progressVideoView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/app_bar"
+            android:layout_alignParentBottom="true"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/app_bar"
-            tools:itemCount="3"
-            tools:layout_editor_absoluteX="0dp"
-            tools:listitem="@layout/item_home_grid" />
+            tools:visibility="gone" />
 
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@android:color/white"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/grid_sign_in"

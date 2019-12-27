@@ -1,6 +1,7 @@
 package com.remember.app.ui.grid;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,8 +9,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -35,12 +42,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -64,27 +65,22 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @BindView(R.id.image_rv)
     RecyclerView recyclerView;
-    @BindView(R.id.image_paged_rv)
-    RecyclerView pagedRecyclerView;
     @BindView(R.id.search)
     ImageView search;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.show_all)
     Button showAll;
-    @BindView(R.id.progress)
-    ProgressBar progressBar;
     @BindView(R.id.avatar_small_toolbar)
     ImageView avatar_user;
     @BindView(R.id.menu_icon)
     ImageView button_menu;
     @BindView(R.id.grid_sign_in)
     Button signInButton;
+    @BindView(R.id.progressVideoView)
+    VideoView progressVideoView;
 
-    private ImageView imageViewBigAvatar;
     private ImageAdapter imageAdapter;
-    private ImagePagedAdapter imagePagedAdapter;
-    private TextView navUserName;
     private DrawerLayout drawer;
     private int theme_setting = 0;
 
@@ -104,49 +100,22 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
 
-        // 1st page (without pagination)
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setVisibility(View.VISIBLE);
-
         imageAdapter = new ImageAdapter();
         imageAdapter.setCallback(this);
         imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
+        recyclerView.setHasFixedSize(true);
 
+        startVideo();
         presenter.getImages(pageNumber);
 
-        // >2nd page (with pagination)
-        /*pagedRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        pagedRecyclerView.setHasFixedSize(true);
-        pagedRecyclerView.setVisibility(View.GONE);
-
-        imagePagedAdapter = new ImagePagedAdapter();
-        imagePagedAdapter.setCallback(this);
-        imagePagedAdapter.setContext(this);
-        pagedRecyclerView.setAdapter(imagePagedAdapter);
-
-        presenter.getMemoryPageModel().observeForever(pagedList -> {
-            allMemoryPageModels = pagedList;
-            imagePagedAdapter.submitList(pagedList);
-        });*/
-
-
-        showAll.setOnClickListener(v -> {
-//            this.recreate();
-            imageAdapter.setItems(allMemoryPageModels);
-            showAll.setVisibility(View.GONE);
-            showMorePages();
-        });
-
         drawer = findViewById(R.id.drawer_layout_2);
-        button_menu.setOnClickListener(k -> {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
+    }
+
+    private void startVideo() {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sand_clock_light);
+        progressVideoView.setVideoURI(videoUri);
+        progressVideoView.start();
     }
 
     @Override
@@ -163,6 +132,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         getInfoUser();
     }
 
+    @Override
+    protected void onPause() {
+        progressVideoView.stopPlayback();
+        super.onPause();
+    }
+
     private void getInfoUser() {
         if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             avatar_user.setVisibility(View.VISIBLE);
@@ -176,13 +151,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
             View headerView = navigationView.getHeaderView(0);
 
-            navUserName = headerView.findViewById(R.id.user_name);
+            TextView navUserName = headerView.findViewById(R.id.user_name);
             navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
             TextView navEmail = headerView.findViewById(R.id.user_email);
             navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
-            imageViewBigAvatar = headerView.findViewById(R.id.logo);
+            ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);
 
             if (Utils.isEmptyPrefsKey(PREFS_KEY_AVATAR)) {
                 setGlideImage(this, R.drawable.ic_unknown, avatar_user);
@@ -215,6 +190,22 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         showEventScreen();
     }
 
+    @OnClick(R.id.show_all)
+    public void showAll() {
+        imageAdapter.setItems(allMemoryPageModels);
+        showAll.setVisibility(View.GONE);
+        showMorePages();
+    }
+
+    @OnClick(R.id.menu_icon)
+    public void onMenuClick() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            drawer.openDrawer(GravityCompat.START);
+        }
+    }
+
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
         PopupPageScreen popupWindowPage = new PopupPageScreen(
@@ -239,8 +230,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void showMorePages() {
-//        recyclerView.setVisibility(View.GONE);
-//        pagedRecyclerView.setVisibility(View.VISIBLE);
         pageNumber++;
         presenter.getImages(pageNumber);
     }
@@ -290,29 +279,23 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 return true;
             }
         }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
-        TextView navUserName = drawer.findViewById(R.id.user_name);
-        navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
-
-        drawer.closeDrawer(GravityCompat.START);
         return false;
     }
 
     @Override
     public void onReceivedImages(ResponsePages responsePages) {
-        progressBar.setVisibility(View.GONE);
         allMemoryPageModels.addAll(responsePages.getResult());
         int lastIndex = allMemoryPageModels.size() - 1;
         for (MemoryPageModel model : allMemoryPageModels) model.setShowMore(false);
         if (pageNumber < responsePages.getCount()) {
             allMemoryPageModels.get(lastIndex).setShowMore(true);
         }
-        /*if (pageNumber > 1) {
-            allMemoryPageModels.get(lastIndex - responsePages.getResult().size()).setShowMore(false);
-        }*/
         imageAdapter.setItems(allMemoryPageModels);
+
+        progressVideoView.postDelayed(() -> {
+            progressVideoView.stopPlayback();
+            progressVideoView.setVisibility(View.GONE);
+        }, 1000);
     }
 
     @Override
@@ -322,7 +305,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         }
         showAll.setVisibility(View.VISIBLE);
         imageAdapter.setItems(memoryPageModels);
-        progressBar.setVisibility(View.GONE);
     }
 
     @Override

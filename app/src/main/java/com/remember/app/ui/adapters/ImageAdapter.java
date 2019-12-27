@@ -2,20 +2,14 @@ package com.remember.app.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.remember.app.GlideApp;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -23,12 +17,15 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
+import static com.remember.app.ui.utils.ImageUtils.setGridImage;
+import static com.remember.app.ui.utils.Utils.getScreenWidth;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapterHolder> {
 
@@ -55,7 +52,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
     }
 
     public void setItems(List<MemoryPageModel> memoryPageModels) {
-        this.memoryPageModels = memoryPageModels;
+        this.memoryPageModels.clear();
+        this.memoryPageModels.addAll(memoryPageModels);
         notifyDataSetChanged();
     }
 
@@ -87,14 +85,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         ConstraintLayout layoutGridItem;
 
         @BindView(R.id.grid_image_layout)
-        ConstraintLayout layoutGridImage;
+        RelativeLayout layoutGridImage;
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.name)
         TextView name;
 
         @BindView(R.id.show_more_layout)
-        ConstraintLayout layoutShowMore;
+        LinearLayout layoutShowMore;
         @BindView(R.id.show_more)
         ImageView ivShowMore;
 
@@ -105,61 +103,34 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
 
         @Override
         public void onBind(int position) {
+            MemoryPageModel item = getItem(position);
 
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            Point size = null;
-            if (wm != null) {
-                Display display = wm.getDefaultDisplay();
-                size = new Point();
-                display.getSize(size);
-
+            Point size = getScreenWidth(context);
+            if (size != null) {
                 layoutGridItem.setMinimumHeight(size.x / 3);
-                layoutGridItem.setMaxHeight(size.x / 3);
             }
 
-
             // Show More btn
-            layoutShowMore.setOnClickListener(v -> {
-                callback.showMorePages();
-            });
+            layoutShowMore.setOnClickListener(v -> callback.showMorePages());
             if (size != null) {
+                layoutShowMore.setMinimumHeight(size.x / 3 + size.x / 25);
                 ivShowMore.setMinimumWidth(size.x / 9);
                 ivShowMore.setMaxWidth(size.x / 9);
                 ivShowMore.setMinimumHeight(size.x / 9);
                 ivShowMore.setMaxHeight(size.x / 9);
-//                ivShowMore.setPadding(size.x / 9, 0, size.x / 9, 0);
             }
 
-
             // Image
-            imageView.setOnClickListener(v -> {
-                callback.openPage(getItem(position));
-            });
+            imageView.setOnClickListener(v -> callback.openPage(item));
             try {
-                if (getItem(position).getPicture().contains("uploads")) {
-                    if (size != null) {
-                        imageView.setMinimumHeight(size.x / 3);
-                        imageView.setMaxHeight(size.x / 3);
-                    }
-                    GlideApp.with(context)
-                            .load(BASE_SERVICE_URL + getItem(position).getPicture())
-                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                            .error(R.drawable.darth_vader)
-                            .into(imageView);
-                    imageView.setColorFilter(getBlackWhiteFilter());
-                } else {
-                    glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
-                }
+                setGridImage(item.getPicture(), imageView, size);
             } catch (NullPointerException e) {
                 glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
             }
-            name.setText(getItem(position).getFullName());
+            name.setText(item.getFullName());
+            //item.setLoaded(true);
 
-
-            if (getItem(position).isShowMore()) {
-                /*layoutGrid.setBackgroundColor(context.getResources().getColor(
-                        Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
-                ));*/
+            if (item.isShowMore()) {
                 layoutGridImage.setVisibility(View.GONE);
                 layoutShowMore.setVisibility(View.VISIBLE);
             } else {

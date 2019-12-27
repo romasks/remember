@@ -1,39 +1,39 @@
 package com.remember.app.ui.splash;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
+import android.widget.VideoView;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.grid.GridActivity;
 import com.remember.app.ui.utils.Utils;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
 
 public class SplashActivity extends BaseActivity implements SplashView {
 
-    private final String TAG = "SplashActivity";
-
-    @InjectPresenter
-    SplashPresenter presenter;
+    @BindView(R.id.videoView)
+    VideoView videoView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
 
-//        presenter.initLoadImages();
+        startVideo();
+    }
 
-        new Handler().postDelayed(() -> {
+    private void startVideo() {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_logo_animation);
+        videoView.setVideoURI(videoUri);
+        videoView.setOnCompletionListener(mp -> {
             startActivity(new Intent(this, GridActivity.class));
             finish();
-        }, 1000);
-
-        Log.i(TAG, "Theme " + Prefs.getInt("IS_THEME", 0));
+        });
+        videoView.start();
     }
 
     @Override
