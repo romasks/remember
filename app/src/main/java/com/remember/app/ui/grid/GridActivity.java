@@ -1,5 +1,7 @@
 package com.remember.app.ui.grid;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,12 +14,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -43,6 +39,11 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -82,7 +83,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     VideoView progressVideoView;
     @BindView(R.id.grid_splash)
     RelativeLayout gridSplashLayout;
-    @BindView(R.id.videoView)
+
+    @BindView(R.id.splashVideoView)
     VideoView splashVideoView;
     @BindView(R.id.grid_main_content)
     RelativeLayout gridMainContentLayout;
@@ -103,37 +105,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
-
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
+        setUpRecycler();
 
-        imageAdapter = new ImageAdapter();
-        imageAdapter.setCallback(this);
-        imageAdapter.setContext(this);
-        recyclerView.setAdapter(imageAdapter);
-        recyclerView.setHasFixedSize(true);
-
-//        startVideo();
-        startSplashVideo();
         presenter.getImages(pageNumber);
-
-        drawer = findViewById(R.id.drawer_layout_2);
-    }
-
-    private void startSplashVideo() {
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_text_animation);
-        splashVideoView.setVideoURI(videoUri);
+        setSplashVideo();
         splashVideoView.start();
-        splashVideoView.setOnCompletionListener(mp -> {
-            stopSplashVideo();
-        });
-    }
-
-    private void startVideo() {
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sand_clock_light);
-        progressVideoView.setVideoURI(videoUri);
-        progressVideoView.start();
     }
 
     @Override
@@ -142,6 +120,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (theme_setting == 1) {
             this.recreate();
         }
+        drawer = findViewById(R.id.drawer_layout_2);
         drawer.setDrawerLockMode(
                 Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)
                         ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -304,15 +283,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     public void onReceivedImages(ResponsePages responsePages) {
         allMemoryPageModels.addAll(responsePages.getResult());
         int lastIndex = allMemoryPageModels.size() - 1;
-        for (MemoryPageModel model : allMemoryPageModels) model.setShowMore(false);
+        for (MemoryPageModel model : allMemoryPageModels) {
+            model.setShowMore(false);
+        }
         if (pageNumber < responsePages.getCount()) {
             allMemoryPageModels.get(lastIndex).setShowMore(true);
         }
         imageAdapter.setItems(allMemoryPageModels);
 
-        isLoaded = true;
-        stopVideo();
-//        progressVideoView.postDelayed(this::stopVideo, 1000);
+//        isLoaded = true;
+//        stopProgressVideo();
+//        progressVideoView.postDelayed(this::stopProgressVideo, 1000);
     }
 
     @Override
@@ -328,21 +309,58 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onError(Throwable throwable) {
         Utils.showSnack(recyclerView, "Ошибка получения плиток");
-        stopVideo();
+        //stopProgressVideo();
     }
 
-    private void stopVideo() {
-        progressVideoView.stopPlayback();
-        progressVideoView.setVisibility(View.GONE);
+
+    private void setUpRecycler() {
+        imageAdapter = new ImageAdapter();
+        imageAdapter.setCallback(this);
+        imageAdapter.setContext(this);
+        recyclerView.setAdapter(imageAdapter);
+        recyclerView.setHasFixedSize(true);
+    }
+
+    private void setSplashVideo() {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_text_animation);
+        splashVideoView.setVideoURI(videoUri);
+        splashVideoView.setOnCompletionListener(mp -> stopSplashVideo());
+        splashVideoView.setVisibility(View.VISIBLE);
     }
 
     private void stopSplashVideo() {
         splashVideoView.stopPlayback();
-        gridSplashLayout.setVisibility(View.GONE);
-        gridMainContentLayout.setVisibility(View.VISIBLE);
 
-        if (!isLoaded) {
-            progressVideoView.setVisibility(View.VISIBLE);
-        }
+        gridSplashLayout.setAlpha(1.0f);
+        gridSplashLayout.animate()
+                .translationY(0)
+                .alpha(0.0f)
+                .setDuration(500)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        gridSplashLayout.setVisibility(View.GONE);
+
+                        gridMainContentLayout.setVisibility(View.VISIBLE);
+                        progressVideoView.setVisibility(View.VISIBLE);
+                        startProgressVideo();
+                    }
+                });
+
+//        if (!isLoaded) {
+//            progressVideoView.setVisibility(View.VISIBLE);
+//        }
+    }
+
+    private void startProgressVideo() {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sand_clock_light);
+        progressVideoView.setVideoURI(videoUri);
+        progressVideoView.start();
+    }
+
+    private void stopProgressVideo() {
+        progressVideoView.stopPlayback();
+        progressVideoView.setVisibility(View.GONE);
     }
 }

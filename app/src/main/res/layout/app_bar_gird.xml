@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView"
@@ -21,11 +21,13 @@
             android:src="@drawable/splash" />
 
         <VideoView
-            android:id="@+id/videoView"
+            android:id="@+id/splashVideoView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="50dp" />
+            android:layout_margin="50dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </RelativeLayout>
 
@@ -34,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <include
             android:id="@+id/app_bar_grid_layout"
@@ -58,11 +60,13 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/grid_sign_in"
             android:layout_below="@id/show_all"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3"
             tools:itemCount="15"
             tools:layout_editor_absoluteX="0dp"
-            tools:listitem="@layout/item_home_grid" />
+            tools:listitem="@layout/item_home_grid"
+            tools:visibility="visible" />
 
         <VideoView
             android:id="@+id/progressVideoView"
@@ -70,8 +74,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/grid_sign_in"
             android:layout_below="@id/app_bar_grid_layout"
-            android:visibility="visible"
-            tools:visibility="gone" />
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/grid_sign_in"
