@@ -155,6 +155,9 @@ dependencies {
 
     // text
     implementation 'com.codesgood:justifiedtextview:1.1.0'
+
+    // video
+    implementation 'com.alphamovie.library:alpha-movie:1.2.1'
 }
 
 android.defaultConfig.manifestPlaceholders = [

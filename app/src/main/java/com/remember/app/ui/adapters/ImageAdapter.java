@@ -85,7 +85,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         ConstraintLayout layoutGridItem;
 
         @BindView(R.id.grid_image_layout)
-        RelativeLayout layoutGridImage;
+        LinearLayout layoutGridImage;
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.name)
@@ -107,7 +107,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
 
             Point size = getScreenWidth(context);
             if (size != null) {
-                layoutGridItem.setMinimumHeight(size.x / 3);
+//                layoutGridItem.setMinimumHeight(size.x / 3 + size.x / 25);
             }
 
             // Show More btn

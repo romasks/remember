@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -79,10 +80,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     Button signInButton;
     @BindView(R.id.progressVideoView)
     VideoView progressVideoView;
+    @BindView(R.id.grid_splash)
+    RelativeLayout gridSplashLayout;
+    @BindView(R.id.videoView)
+    VideoView splashVideoView;
+    @BindView(R.id.grid_main_content)
+    RelativeLayout gridMainContentLayout;
 
     private ImageAdapter imageAdapter;
     private DrawerLayout drawer;
     private int theme_setting = 0;
+    private boolean isLoaded = false;
 
     private int pageNumber = 1;
     private List<MemoryPageModel> allMemoryPageModels = new ArrayList<>();
@@ -106,10 +114,20 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         recyclerView.setAdapter(imageAdapter);
         recyclerView.setHasFixedSize(true);
 
-        startVideo();
+//        startVideo();
+        startSplashVideo();
         presenter.getImages(pageNumber);
 
         drawer = findViewById(R.id.drawer_layout_2);
+    }
+
+    private void startSplashVideo() {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_text_animation);
+        splashVideoView.setVideoURI(videoUri);
+        splashVideoView.start();
+        splashVideoView.setOnCompletionListener(mp -> {
+            stopSplashVideo();
+        });
     }
 
     private void startVideo() {
@@ -292,10 +310,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         }
         imageAdapter.setItems(allMemoryPageModels);
 
-        progressVideoView.postDelayed(() -> {
-            progressVideoView.stopPlayback();
-            progressVideoView.setVisibility(View.GONE);
-        }, 1000);
+        isLoaded = true;
+        stopVideo();
+//        progressVideoView.postDelayed(this::stopVideo, 1000);
     }
 
     @Override
@@ -303,6 +320,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (memoryPageModels.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");
         }
+        isLoaded = true;
         showAll.setVisibility(View.VISIBLE);
         imageAdapter.setItems(memoryPageModels);
     }
@@ -310,5 +328,21 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onError(Throwable throwable) {
         Utils.showSnack(recyclerView, "Ошибка получения плиток");
+        stopVideo();
+    }
+
+    private void stopVideo() {
+        progressVideoView.stopPlayback();
+        progressVideoView.setVisibility(View.GONE);
+    }
+
+    private void stopSplashVideo() {
+        splashVideoView.stopPlayback();
+        gridSplashLayout.setVisibility(View.GONE);
+        gridMainContentLayout.setVisibility(View.VISIBLE);
+
+        if (!isLoaded) {
+            progressVideoView.setVisibility(View.VISIBLE);
+        }
     }
 }
