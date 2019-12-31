@@ -14,10 +14,14 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.remember.app.R;
+import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,6 +46,8 @@ public class EventFullActivity extends BaseActivity implements EventView {
     TextView body;
     @BindView(R.id.date)
     TextView date;
+    @BindView(R.id.eventName)
+    TextView eventName;
 
     private Drawable mDefaultBackground;
 
@@ -50,14 +56,16 @@ public class EventFullActivity extends BaseActivity implements EventView {
         super.onCreate(savedInstanceState);
         mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
 
+//        if (getIntent().getExtras() != null) {
+//            if (getIntent().getExtras().getBoolean("FROM_NOTIF")) {
+//                presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
+//            } else {
+//                ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
+//                System.out.println();
+//                setEventData(responseEvents);
+//            }
         if (getIntent().getExtras() != null) {
-            if (getIntent().getExtras().getBoolean("FROM_NOTIF")) {
-                presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
-            } else {
-                ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
-                System.out.println();
-                setEventData(responseEvents);
-            }
+            presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
         }
 
         settingsImage.setVisibility(View.INVISIBLE);
@@ -87,10 +95,16 @@ public class EventFullActivity extends BaseActivity implements EventView {
 
     @Override
     public void onReceivedEvent(ResponseEvents responseEvents) {
-        setEventData(responseEvents);
+//        setEventData(responseEvents);
     }
 
-    private void setEventData(ResponseEvents responseEvents) {
+    @Override
+    public void onReceivedDeadEvent(EventModel eventModel) {
+        setEventData(eventModel);
+    }
+
+    //    private void setEventData(ResponseEvents responseEvents) {
+    private void setEventData(EventModel responseEvents) {
         try {
             if (!responseEvents.getPicture().contains("upload")) {
                 setEventPicture(BASE_SERVICE_URL + "/uploads/" + responseEvents.getPicture());
@@ -104,14 +118,23 @@ public class EventFullActivity extends BaseActivity implements EventView {
         }
         setBlackWhite(avatarImage);
         title.setText(responseEvents.getName());
-        date.setText(responseEvents.getPutdate());
-        if (responseEvents.getBody() != null) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd.MM.yyyy");
+            Date parsedDate = inputFormat.parse(responseEvents.getDate());
+            String formattedDate = outputFormat.format(parsedDate);
+            date.setText(formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (responseEvents.getDescription() != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                body.setText(Html.fromHtml(responseEvents.getBody(), Html.FROM_HTML_MODE_COMPACT));
+                body.setText(Html.fromHtml(responseEvents.getDescription(), Html.FROM_HTML_MODE_COMPACT));
             } else {
-                body.setText(Html.fromHtml(responseEvents.getBody()));
+                body.setText(Html.fromHtml(responseEvents.getDescription()));
             }
         }
+        eventName.setText(responseEvents.getName());
     }
 
     private void setEventPicture(Object imageObj) {

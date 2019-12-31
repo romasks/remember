@@ -28,7 +28,7 @@ public class EventsPresenter extends BasePresenter<EventView> {
         Disposable subscription = getServiceNetwork().getEvent(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedEvent,
+                .subscribe(getViewState()::onReceivedDeadEvent,
                         getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
