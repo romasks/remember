@@ -162,7 +162,7 @@
             android:src="@mipmap/vk" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/twitter"
+            android:id="@+id/mailru"
             android:layout_width="110dp"
             android:layout_height="64dp"
             android:layout_gravity="bottom"

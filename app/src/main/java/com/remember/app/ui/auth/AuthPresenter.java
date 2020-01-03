@@ -19,7 +19,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
-import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 
 @InjectViewState
@@ -69,15 +68,6 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 "vk"
         );
         Disposable subscription = serviceNetwork.signInSocial(request)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onLoggedSocial,
-                        getViewState()::onError);
-        unsubscribeOnDestroy(subscription);
-    }
-
-    public void signInTwitter() {
-        Disposable subscription = serviceNetwork.signInVk(Prefs.getString(PREFS_KEY_EMAIL, ""))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getViewState()::onLoggedSocial,

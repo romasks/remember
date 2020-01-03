@@ -9,6 +9,8 @@ import com.remember.app.di.component.DaggerApplicationComponent;
 import com.remember.app.di.module.ApplicationModule;
 import com.vk.sdk.VKSdk;
 
+import ru.mail.auth.sdk.MailRuAuthSdk;
+
 public class Remember extends Application {
 
     private static ApplicationComponent applicationComponent;
@@ -17,6 +19,7 @@ public class Remember extends Application {
     public void onCreate() {
         super.onCreate();
         VKSdk.initialize(this);
+        MailRuAuthSdk.initialize(this);
 //        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         new Prefs.Builder()
                 .setContext(this)

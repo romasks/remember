@@ -140,15 +140,15 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
 
+    // Social auth
+    implementation "com.jaychang:simpleauth:$simpleauthVersion"
+    implementation "com.jaychang:simpleauth-facebook:$simpleauthVersion"
     // VK
     implementation 'com.vk:androidsdk:1.6.9'
     // OK
     implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
-
-    // Social auth
-    implementation "com.jaychang:simpleauth:$simpleauthVersion"
-    implementation "com.jaychang:simpleauth-twitter:$simpleauthVersion"
-    implementation "com.jaychang:simpleauth-facebook:$simpleauthVersion"
+    // Mail.ru
+    implementation 'ru.mail:auth-sdk-pub:10.7.0.27801'
 
     // pagination
     implementation 'com.github.omadahealth:swipy:1.2.3@aar'
@@ -158,13 +158,9 @@ dependencies {
 }
 
 android.defaultConfig.manifestPlaceholders = [
-        facebookAppId        : "2249045548726393",
-        googleWebClientId    : "your google web client id",
-        twitterConsumerKey   : "PT6uezLMteHqTsq2VO3qio3cT",
-        twitterConsumerSecret: "6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb",
-        instagramClientId    : "2194910250765470",
-        instagramClientSecret: "6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb",
-        instagramRedirectUrl : "your instagram redirect url"
+        facebookAppId            : "2249045548726393",
+        MailRuOAuthRedirectHost  : 'https://xn--l1acbd2f.xn--p1acf/social/mailru/callback',
+        MailRuOAuthRedirectScheme: 'https://xn--l1acbd2f.xn--p1acf'
 ]
 
 crashlytics {
