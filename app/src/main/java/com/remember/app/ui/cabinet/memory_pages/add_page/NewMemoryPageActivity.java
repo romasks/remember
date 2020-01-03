@@ -705,18 +705,18 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         image.setColorFilter(filter);
         if (memoryPageModel.getStar().equals("true")) {
             isFamous.setChecked(true);
+            notFamous.setChecked(false);
         } else {
             isFamous.setChecked(false);
+            notFamous.setChecked(true);
         }
-        if (memoryPageModel.getStatus() != null) {
-            if (memoryPageModel.getStatus().equals("true")) {
+            if (memoryPageModel.getFlag().equals("true")) {
                 isPublic.setChecked(true);
+                noPublic.setChecked(false);
             } else {
                 isPublic.setChecked(false);
+                noPublic.setChecked(true);
             }
-        } else {
-            isPublic.setChecked(false);
-        }
     }
 
     @OnClick(R.id.image_layout)

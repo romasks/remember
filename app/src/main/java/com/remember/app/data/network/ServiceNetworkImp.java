@@ -439,7 +439,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
             flag = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
-            grave = RequestBody.create(MultipartBody.FORM, person.getGraveId());
+            if (person.getGraveId().isEmpty() || person.getGraveId() == null) {
+                grave = RequestBody.create(MultipartBody.FORM, "null");
+            } else {
+                grave = RequestBody.create(MultipartBody.FORM, person.getGraveId());
+            }
         } catch (Exception e) {
             grave = RequestBody.create(MultipartBody.FORM, "");
         }
@@ -468,7 +472,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
             secondNam = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
-            spotId = RequestBody.create(MultipartBody.FORM, person.getSpotId());
+            if (person.getSpotId().isEmpty() || person.getSpotId() == null){
+                spotId = RequestBody.create(MultipartBody.FORM, "null");
+            } else {
+                spotId = RequestBody.create(MultipartBody.FORM, person.getSpotId());
+            }
         } catch (Exception e) {
             spotId = RequestBody.create(MultipartBody.FORM, "");
         }
@@ -488,7 +496,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
             thirdName = RequestBody.create(MultipartBody.FORM, "");
         }
         try {
-            sector = RequestBody.create(MultipartBody.FORM, person.getSector());
+            if (person.getSector().isEmpty() || person.getSector() == null){
+                sector = RequestBody.create(MultipartBody.FORM, "null");
+            } else {
+                sector = RequestBody.create(MultipartBody.FORM, person.getSector());
+            }
         } catch (Exception e) {
             sector = RequestBody.create(MultipartBody.FORM, "");
         }
