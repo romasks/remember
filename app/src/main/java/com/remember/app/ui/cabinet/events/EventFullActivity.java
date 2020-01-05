@@ -64,8 +64,19 @@ public class EventFullActivity extends BaseActivity implements EventView {
 //                System.out.println();
 //                setEventData(responseEvents);
 //            }
-        if (getIntent().getExtras() != null) {
+        if (getIntent().getExtras() != null && getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID) != 0) {
             presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
+        } else {
+            ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
+            EventModel eventModel = new EventModel();
+            eventModel.setId(responseEvents.getId());
+            eventModel.setPage_id(String.valueOf(responseEvents.getPageId()));
+            eventModel.setDate(responseEvents.getPutdate());
+            eventModel.setName(responseEvents.getName());
+            eventModel.setFlag(responseEvents.getFlag().toString());
+            eventModel.setDescription(responseEvents.getBody());
+            eventModel.setPicture(responseEvents.getPicture());
+            setEventData(eventModel);
         }
 
         settingsImage.setVisibility(View.INVISIBLE);
