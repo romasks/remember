@@ -143,7 +143,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         intent.putExtra("EVENT_NAME", eventName.getText().toString());
         intent.putExtra("EVENT_PERSON", personName);
         intent.putExtra("EVENT_DESCRIPTION", description.getText().toString());
-        intent.putExtra("EVENT_IMAGE_URL", imageUrl);
+//        intent.putExtra("EVENT_IMAGE_URL", imageUrl);
+        intent.putExtra("EVENT_IMAGE_URL", eventModel.getPicture());
         intent.putExtra("EVENT_DATE", dateView.getText().toString());
         intent.putExtra("PAGE_ID", pageId);
         intent.putExtra("IS_EVENT_EDITING", true);
