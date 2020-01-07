@@ -152,4 +152,10 @@
     <string name="notifications_show_text">Показать</string>
     <string name="grid_show_more">Показать ещё</string>
 
+    <!--auth-->
+    <string name="mailru_oauth_url">https://o2.mail.ru/login</string>
+    <string name="mailru_oauth_scope">userinfo</string>
+    <string name="mailru_oauth_client_id">767875</string>
+    <string name="mailru_oauth_redirect_url">https://помню.рус/social/mailru/callback</string>
+
 </resources>
