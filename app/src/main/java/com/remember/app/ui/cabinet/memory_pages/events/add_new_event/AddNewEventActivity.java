@@ -117,6 +117,8 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     private String eventDescription = "";
     private String imageUrl = "";
     private String dateString = "";
+    private String access = "";
+    private String flag = "";
 
 
     @Override
@@ -150,6 +152,8 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         eventDescription = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_DESCRIPTION, "");
         imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
         dateString = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_DATE, "");
+        flag = getIntent().getExtras().getString("IS_FOR_ONE", "0");
+        access = getIntent().getExtras().getString("ACCESS", "0");
 
         glideLoadInto(this, BASE_SERVICE_URL + imageUrl, image);
 
@@ -182,6 +186,22 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         }
         if (!dateString.isEmpty()) {
             date.setText(dateString);
+        }
+
+        if (flag.equals("1")){
+            forOne.setChecked(false);
+            notForOne.setChecked(true);
+        } else {
+            forOne.setChecked(true);
+            notForOne.setChecked(false);
+        }
+
+        if (access.equals("1")){
+            isNeedNotification.setChecked(true);
+            notNeedNotification.setChecked(false);
+        } else {
+            isNeedNotification.setChecked(false);
+            notNeedNotification.setChecked(true);
         }
 
         dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
@@ -372,10 +392,10 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         onBackPressed();
     }
 
+    @SuppressLint("SimpleDateFormat")
     private String formatToServerDate(String date) {
         String result = "";
         try {
-            @SuppressLint("SimpleDateFormat")
             Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
             Format formatter = new SimpleDateFormat("yyyy-MM-dd");
             result = formatter.format(dateResult);

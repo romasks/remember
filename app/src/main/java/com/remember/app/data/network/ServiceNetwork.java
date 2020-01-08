@@ -6,6 +6,7 @@ import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
+import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -63,7 +64,10 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseEvents>> getEvents();
 
-    Observable<ResponseEvents> getEvent(int id);
+    Observable<List<EventResponse>> getEventsFeed();
+
+//    Observable<ResponseEvents> getEvent(int id);
+    Observable<EventModel> getEvent(int id);
 
     Observable<EventModel> getDeadEvent(int id);
 

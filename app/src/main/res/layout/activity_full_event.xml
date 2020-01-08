@@ -30,6 +30,17 @@
                 android:layout_marginTop="20dp" />
 
             <TextView
+                android:id="@+id/eventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/brown"
+                tools:text="Заголовок события"/>
+
+            <TextView
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
