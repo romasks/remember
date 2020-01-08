@@ -180,6 +180,22 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             person.setSector(getIntent().getExtras().getString(BURIAL_PLACE_SECTOR, ""));
             person.setSpotId(getIntent().getExtras().getString(BURIAL_PLACE_LINE, ""));
             person.setGraveId(getIntent().getExtras().getString(BURIAL_PLACE_GRAVE, ""));
+            if (person != null) {
+                if (person.getStar() != null) {
+                    if (person.getStar().equals("true")) {
+                        isFamous.setChecked(true);
+                    } else {
+                        notFamous.setChecked(false);
+                    }
+                }
+                if (person.getFlag() != null) {
+                    if (person.getFlag().equals("true")) {
+                        isPublic.setChecked(true);
+                    } else {
+                        noPublic.setChecked(false);
+                    }
+                }
+            }
         }
 
         religion.setOnClickListener(v -> {
@@ -199,17 +215,14 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         description.setText(memoryPageModel.getComment());
         religion.setText(memoryPageModel.getReligiya());
         isFamous.setChecked(memoryPageModel.getStar().equals("true"));
+        notFamous.setChecked(!memoryPageModel.getStar().equals("true"));
+        isPublic.setChecked(memoryPageModel.getFlag().equals("true"));
+        noPublic.setChecked(!memoryPageModel.getFlag().equals("true"));
 
         dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
         dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
 
         glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
-
-//        if (memoryPageModel.getStatus().equals("true")){
-//            isPublic.setChecked(true);
-//        } else {
-//            isPublic.setChecked(false);
-//        }
     }
 
     @OnClick(R.id.image_layout)
@@ -237,7 +250,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         startActivityForResult(intent, GRAVE_INFO_RESULT);
     }
 
-    @SuppressLint("SimpleDateFormat")
     @OnClick(R.id.save_button)
     public void savePage() {
         person.setSecondName(lastName.getText().toString());
@@ -273,7 +285,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
     private void initiate() {
         dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
