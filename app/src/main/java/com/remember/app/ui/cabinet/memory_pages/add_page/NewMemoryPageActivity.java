@@ -214,10 +214,25 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         middleName.setText(memoryPageModel.getThirdName());
         description.setText(memoryPageModel.getComment());
         religion.setText(memoryPageModel.getReligiya());
-        isFamous.setChecked(memoryPageModel.getStar().equals("true"));
-        notFamous.setChecked(!memoryPageModel.getStar().equals("true"));
-        isPublic.setChecked(memoryPageModel.getFlag().equals("true"));
-        noPublic.setChecked(!memoryPageModel.getFlag().equals("true"));
+//        isFamous.setChecked(memoryPageModel.getStar().equals("true"));
+//        notFamous.setChecked(!memoryPageModel.getStar().equals("true"));
+//        isPublic.setChecked(memoryPageModel.getFlag().equals("true"));
+//        noPublic.setChecked(!memoryPageModel.getFlag().equals("true"));
+
+        if (memoryPageModel.getStar().equals("true")) {
+            isFamous.setChecked(true);
+            notFamous.setChecked(false);
+        } else {
+            isFamous.setChecked(false);
+            notFamous.setChecked(true);
+        }
+        if (memoryPageModel.getFlag().equals("true")) {
+            isPublic.setChecked(true);
+            noPublic.setChecked(false);
+        } else {
+            isPublic.setChecked(false);
+            noPublic.setChecked(true);
+        }
 
         dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
         dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
@@ -431,6 +446,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         intent.putExtra("ID", response.getId());
         intent.putExtra("AFTER_SAVE", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Prefs.putString(BURIAL_PLACE_COORDS, "");
+        Prefs.putString(BURIAL_PLACE_CITY, "");
+        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
+        Prefs.putString(BURIAL_PLACE_SECTOR, "");
+        Prefs.putString(BURIAL_PLACE_LINE, "");
+        Prefs.putString(BURIAL_PLACE_GRAVE, "");
         startActivity(intent);
         finish();
     }
@@ -472,6 +493,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         intent.putExtra("ID", memoryPageModel.getId());
         intent.putExtra("AFTER_SAVE", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Prefs.putString(BURIAL_PLACE_COORDS, "");
+        Prefs.putString(BURIAL_PLACE_CITY, "");
+        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
+        Prefs.putString(BURIAL_PLACE_SECTOR, "");
+        Prefs.putString(BURIAL_PLACE_LINE, "");
+        Prefs.putString(BURIAL_PLACE_GRAVE, "");
         startActivity(intent);
         finish();
     }
