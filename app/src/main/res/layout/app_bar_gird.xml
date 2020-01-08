@@ -1,10 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/app_bar_grid_layout"
+        layout="@layout/app_bar_grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:visibility="visible"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/show_all"
+        style="@style/CustomAppButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar_grid_layout"
+        android:text="@string/grid_show_all"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/image_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/grid_sign_in"
+        android:layout_below="@id/show_all"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:itemCount="15"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/item_home_grid"
+        tools:visibility="visible" />
+
+    <VideoView
+        android:id="@+id/progressVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/grid_sign_in"
+        android:layout_below="@id/app_bar_grid_layout"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/grid_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_brown"
+        android:text="@string/grid_login"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:visibility="visible" />
 
     <RelativeLayout
         android:id="@+id/grid_splash"
@@ -26,68 +80,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="50dp"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:visibility="visible" />
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/grid_main_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:visibility="gone">
-
-        <include
-            android:id="@+id/app_bar_grid_layout"
-            layout="@layout/app_bar_grid_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" />
-
-        <Button
-            android:id="@+id/show_all"
-            style="@style/CustomAppButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_bar_grid_layout"
-            android:text="@string/grid_show_all"
-            android:visibility="gone" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/image_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/grid_sign_in"
-            android:layout_below="@id/show_all"
-            android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="3"
-            tools:itemCount="15"
-            tools:layout_editor_absoluteX="0dp"
-            tools:listitem="@layout/item_home_grid"
-            tools:visibility="visible" />
-
-        <VideoView
-            android:id="@+id/progressVideoView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/grid_sign_in"
-            android:layout_below="@id/app_bar_grid_layout"
-            android:visibility="visible" />
-
-        <Button
-            android:id="@+id/grid_sign_in"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/light_brown"
-            android:text="@string/grid_login"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            tools:layout_editor_absoluteX="-16dp" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>
