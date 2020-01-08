@@ -49,7 +49,7 @@ public class AddPageModel implements Parcelable {
     private String pictureData;
 
     public String getSector() {
-        return sector == null ? "" : sector;
+        return sector == null ? "null" : sector;
     }
 
     public void setSector(String sector) {
@@ -148,7 +148,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getSpotId() {
-        return spotId == null ? "" : spotId;
+        return spotId == null ? "null" : spotId;
     }
 
     public void setSpotId(String spotId) {
@@ -156,7 +156,7 @@ public class AddPageModel implements Parcelable {
     }
 
     public String getGraveId() {
-        return graveId == null ? "" : graveId;
+        return graveId == null ? "null" : graveId;
     }
 
     public void setGraveId(String graveId) {

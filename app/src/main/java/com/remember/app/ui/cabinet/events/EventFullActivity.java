@@ -8,24 +8,27 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.gson.Gson;
 import com.remember.app.R;
+import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
-import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
 public class EventFullActivity extends BaseActivity implements EventView {
@@ -45,7 +48,10 @@ public class EventFullActivity extends BaseActivity implements EventView {
     TextView date;
     @BindView(R.id.back_button)
     ImageView backButton;
+    @BindView(R.id.eventName)
+    TextView eventName;
 
+    private boolean isEventReligion = false;
     private Drawable mDefaultBackground;
 
     @Override
@@ -60,14 +66,30 @@ public class EventFullActivity extends BaseActivity implements EventView {
             title.setTextColor(getResources().getColor(R.color.colorWhiteDark));
         }
 
-        if (getIntent().getExtras() != null) {
-            if (getIntent().getExtras().getBoolean(INTENT_EXTRA_FROM_NOTIF)) {
-                presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
-            } else {
-                ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
-                System.out.println();
-                setEventData(responseEvents);
-            }
+//        if (getIntent().getExtras() != null) {
+//            if (getIntent().getExtras().getBoolean(INTENT_EXTRA_FROM_NOTIF)) {
+//                presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
+//            } else {
+//                ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
+//                System.out.println();
+//                setEventData(responseEvents);
+//            }
+//        }
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID) != 0) {
+            presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
+        } else {
+            isEventReligion = true;
+            ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
+            EventModel eventModel = new EventModel();
+            eventModel.setId(responseEvents.getId());
+            eventModel.setPage_id(String.valueOf(responseEvents.getPageId()));
+            eventModel.setDate(responseEvents.getPutdate());
+            eventModel.setName(responseEvents.getName());
+            eventModel.setFlag(String.valueOf(responseEvents.getFlag()));
+            eventModel.setDescription(responseEvents.getBody());
+            eventModel.setPicture(responseEvents.getPicture());
+            setEventData(eventModel);
         }
 
         settingsImage.setVisibility(View.INVISIBLE);
@@ -97,10 +119,16 @@ public class EventFullActivity extends BaseActivity implements EventView {
 
     @Override
     public void onReceivedEvent(ResponseEvents responseEvents) {
-        setEventData(responseEvents);
+//        setEventData(responseEvents);
     }
 
-    private void setEventData(ResponseEvents responseEvents) {
+    @Override
+    public void onReceivedDeadEvent(EventModel eventModel) {
+        setEventData(eventModel);
+    }
+
+    //    private void setEventData(ResponseEvents responseEvents) {
+    private void setEventData(EventModel responseEvents) {
         try {
             if (!responseEvents.getPicture().contains("upload")) {
                 setEventPicture(BASE_SERVICE_URL + "/uploads/" + responseEvents.getPicture());
@@ -113,14 +141,30 @@ public class EventFullActivity extends BaseActivity implements EventView {
             setEventPicture(mDefaultBackground);
         }
         title.setText(responseEvents.getName());
-        date.setText(DateUtils.convertRemoteToLocalFormat(responseEvents.getPutdate()));
-        if (responseEvents.getBody() != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                body.setText(Html.fromHtml(responseEvents.getBody(), Html.FROM_HTML_MODE_COMPACT));
+        try {
+            SimpleDateFormat inputFormat;
+            SimpleDateFormat outputFormat;
+            if (isEventReligion) {
+                inputFormat = new SimpleDateFormat("MM.dd");
+                outputFormat = new SimpleDateFormat("dd.MM");
             } else {
-                body.setText(Html.fromHtml(responseEvents.getBody()));
+                inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                outputFormat = new SimpleDateFormat("dd.MM.yyyy");
+            }
+            Date parsedDate = inputFormat.parse(responseEvents.getDate());
+            String formattedDate = outputFormat.format(parsedDate);
+            date.setText(formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (responseEvents.getDescription() != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                body.setText(Html.fromHtml(responseEvents.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                body.setText(Html.fromHtml(responseEvents.getDescription()));
             }
         }
+        eventName.setText(responseEvents.getName());
     }
 
     private void setEventPicture(Object imageObj) {

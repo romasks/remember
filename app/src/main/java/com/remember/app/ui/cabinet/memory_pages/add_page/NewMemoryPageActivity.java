@@ -52,10 +52,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -219,17 +215,14 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         description.setText(memoryPageModel.getComment());
         religion.setText(memoryPageModel.getReligiya());
         isFamous.setChecked(memoryPageModel.getStar().equals("true"));
+        notFamous.setChecked(!memoryPageModel.getStar().equals("true"));
+        isPublic.setChecked(memoryPageModel.getFlag().equals("true"));
+        noPublic.setChecked(!memoryPageModel.getFlag().equals("true"));
 
         dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
         dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
 
         glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
-
-//        if (memoryPageModel.getStatus().equals("true")){
-//            isPublic.setChecked(true);
-//        } else {
-//            isPublic.setChecked(false);
-//        }
     }
 
     @OnClick(R.id.image_layout)
@@ -257,7 +250,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         startActivityForResult(intent, GRAVE_INFO_RESULT);
     }
 
-    @SuppressLint("SimpleDateFormat")
     @OnClick(R.id.save_button)
     public void savePage() {
         person.setSecondName(lastName.getText().toString());
@@ -293,7 +285,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
     private void initiate() {
         dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);

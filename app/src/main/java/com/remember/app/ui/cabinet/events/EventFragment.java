@@ -15,6 +15,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
@@ -28,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_BIRTH;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD;
@@ -107,6 +109,11 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     }
 
     @Override
+    public void onReceivedDeadEvent(EventModel eventModel) {
+        // placeholder
+    }
+
+    @Override
     public void click(EventResponse event) {
         if (event.getType().equals(NOTIF_EVENT_TYPE_BIRTH) ||
                 event.getType().equals(NOTIF_EVENT_TYPE_DEAD)) {
@@ -117,6 +124,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
             Intent intent = new Intent(getActivity(), EventFullActivity.class);
             String eventJson = new Gson().toJson(event);
             intent.putExtra("EVENTS", eventJson);
+            intent.putExtra(INTENT_EXTRA_EVENT_ID, event.getEventId());
             startActivity(intent);
         }
     }

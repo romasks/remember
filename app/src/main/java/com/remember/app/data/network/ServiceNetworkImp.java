@@ -234,8 +234,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<ResponseEvents> getEvent(int id) {
-        return apiMethods.getEvent(id);
+//    public Observable<ResponseEvents> getEvent(int id) {
+    public Observable<EventModel> getEvent(int id) {
+//        return apiMethods.getEvent(id);
+        return apiMethods.getDeadEvent(id);
     }
 
     @Override
