@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -69,8 +70,14 @@ public class SettingActivity extends BaseActivity implements SettingView {
         super.onResume();
     }
 
-    private void setUp() {
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         presenter.getInfo();
+    }
+
+    private void setUp() {
+//        presenter.getInfo();
 
         viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
@@ -112,7 +119,9 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        setUp();
+        if (requestCode == 1) {
+            setUp();
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {

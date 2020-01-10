@@ -13,6 +13,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseRestorePassword;
@@ -91,6 +92,10 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         register.setPaintFlags(register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+        if (BuildConfig.DEBUG){
+//            login.setText("admin@ya.ru");
+//            password.setText("11111111");
+        }
 
         /*PackageInfo info;
         try {
