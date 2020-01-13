@@ -286,11 +286,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
-        city.setText(memoryPageModel.getGorod().isEmpty() ? "-" : memoryPageModel.getGorod());
-        crypt.setText(memoryPageModel.getNazvaklad().isEmpty() ? "-" : memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getSector().isEmpty() ? "-" : memoryPageModel.getSector());
-        line.setText(memoryPageModel.getUchastok().isEmpty() ? "-" : memoryPageModel.getUchastok());
-        grave.setText(memoryPageModel.getNummogil().isEmpty() ? "-" : memoryPageModel.getNummogil());
+        city.setText(memoryPageModel.getGorod().isEmpty() || memoryPageModel.getGorod().equals("null") ? "-" : memoryPageModel.getGorod());
+        crypt.setText(memoryPageModel.getNazvaklad().isEmpty() || memoryPageModel.getNazvaklad().equals("null") ? "-" : memoryPageModel.getNazvaklad());
+        sector.setText(memoryPageModel.getSector().isEmpty() || memoryPageModel.getSector().equals("null") ? "-" : memoryPageModel.getSector());
+        line.setText(memoryPageModel.getUchastok().isEmpty() || memoryPageModel.getUchastok().equals("null") ? "-" : memoryPageModel.getUchastok());
+        grave.setText(memoryPageModel.getNummogil().isEmpty() || memoryPageModel.getNummogil().equals("null") ? "-" : memoryPageModel.getNummogil());
     }
 
     private void initDate(MemoryPageModel memoryPageModel) {
