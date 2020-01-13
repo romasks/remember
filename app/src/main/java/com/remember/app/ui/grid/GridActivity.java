@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -23,7 +22,6 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.ImageAdapter;
-import com.remember.app.ui.adapters.ImagePagedAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
@@ -57,7 +55,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, ImagePagedAdapter.Callback,
+public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
         PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = GridActivity.class.getSimpleName();
@@ -65,8 +63,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @InjectPresenter
     GridPresenter presenter;
 
-    @BindView(R.id.splashVideoView)
-    VideoView splashVideoView;
+    @BindView(R.id.splash_video)
+    VideoView splashVideo;
 
     @BindView(R.id.menu_icon)
     ImageView button_menu;
@@ -83,11 +81,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     RecyclerView recyclerView;
     @BindView(R.id.grid_sign_in)
     Button signInButton;
-
-    @BindView(R.id.progressVideoView)
-    VideoView progressVideoView;
-    @BindView(R.id.grid_splash)
-    RelativeLayout gridSplashLayout;
 
     private ImageAdapter imageAdapter;
     private DrawerLayout drawer;
@@ -111,14 +104,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
         presenter.getImages(pageNumber);
         setSplashVideo();
-        setProgressVideo();
-        splashVideoView.start();
+        splashVideo.start();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        progressVideoView.start();
         if (theme_setting == 1) {
             this.recreate();
         }
@@ -133,7 +124,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     protected void onPause() {
-        progressVideoView.stopPlayback();
+        splashVideo.stopPlayback();
         super.onPause();
     }
 
@@ -234,15 +225,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
-    public void openPageFromPagedAdapter(MemoryPageModel memoryPageModel) {
-        Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra(INTENT_EXTRA_PERSON, memoryPageModel);
-        intent.putExtra(INTENT_EXTRA_IS_LIST, true);
-        intent.putExtra(INTENT_EXTRA_SHOW, true);
-        startActivity(intent);
-    }
-
-    @Override
     public void search(RequestSearchPage requestSearchPage) {
         presenter.search(requestSearchPage);
     }
@@ -311,7 +293,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onError(Throwable throwable) {
         Utils.showSnack(recyclerView, "Ошибка получения плиток");
-        //stopProgressVideo();
     }
 
 
@@ -324,22 +305,16 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     private void setSplashVideo() {
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_text_animation);
-        splashVideoView.setVideoURI(videoUri);
-        splashVideoView.setOnCompletionListener(mp -> hideSplashVideo());
-        splashVideoView.setZOrderOnTop(true);
-    }
-
-    private void setProgressVideo() {
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sand_clock_light);
-        progressVideoView.setVideoURI(videoUri);
-        progressVideoView.setOnCompletionListener(mp -> progressVideoView.start());
-        progressVideoView.setZOrderOnTop(true);
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_logo_animation);
+        splashVideo.setVideoURI(videoUri);
+        splashVideo.setOnCompletionListener(mp -> hideSplashVideo());
+        splashVideo.setZOrderOnTop(true);
     }
 
     private void hideSplashVideo() {
-        gridSplashLayout.setAlpha(1.0f);
-        gridSplashLayout.animate()
+        showMainContent();
+        splashVideo.setAlpha(1.0f);
+        splashVideo.animate()
                 .translationY(0)
                 .alpha(0.0f)
                 .setDuration(500)
@@ -347,35 +322,15 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        gridSplashLayout.setVisibility(View.GONE);
-                        showMainContent();
+                        splashVideo.setVisibility(View.GONE);
                     }
                 });
-
-//        if (!isLoaded) {
-//            progressVideoView.setVisibility(View.VISIBLE);
-//        }
     }
 
     private void showMainContent() {
-//        findViewById(R.id.app_bar_grid_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.app_bar_grid_layout).setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
         signInButton.setVisibility(View.VISIBLE);
-        progressVideoView.start();
-        showProgressVideo();
     }
 
-    private void showProgressVideo() {
-        progressVideoView.setAlpha(0.0f);
-        progressVideoView.animate()
-                .translationY(0)
-                .alpha(1.0f)
-                .setDuration(500)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        progressVideoView.setVisibility(View.VISIBLE);
-                    }
-                });
-    }
 }
