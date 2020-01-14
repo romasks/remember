@@ -85,7 +85,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         ConstraintLayout layoutGridItem;
 
         @BindView(R.id.grid_image_layout)
-        LinearLayout layoutGridImage;
+        RelativeLayout layoutGridImage;
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.name)
