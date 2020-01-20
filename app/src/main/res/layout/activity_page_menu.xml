@@ -94,7 +94,8 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
@@ -102,8 +103,9 @@
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
             android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_events" />
+            app:layout_constraintTop_toBottomOf="@id/show_all"
+            tools:listitem="@layout/item_events"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

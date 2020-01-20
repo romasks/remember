@@ -24,7 +24,7 @@
             android:background="@color/app_bar"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,10 +53,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
-        android:layout_marginLeft="@dimen/default_activity_fields_margin"
         android:layout_marginTop="@dimen/default_activity_fields_margin"
         android:layout_marginEnd="@dimen/default_activity_fields_margin"
-        android:layout_marginRight="@dimen/default_activity_fields_margin"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
@@ -82,51 +80,53 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <!--<com.google.android.material.textfield.TextInputLayout
         android:id="@+id/type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
-        android:layout_marginLeft="@dimen/default_activity_fields_margin"
         android:layout_marginTop="@dimen/default_activity_fields_margin"
         android:layout_marginEnd="@dimen/default_activity_fields_margin"
-        android:layout_marginRight="@dimen/default_activity_fields_margin"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
         android:textColorHint="?android:attr/textColorHint"
-        app:layout_constraintTop_toBottomOf="@+id/date">
+        app:layout_constraintTop_toBottomOf="@+id/date">-->
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="ФИО усопшего"
-            android:textColorHint="?android:attr/textColorHint"
-            android:textSize="18sp"
-            app:ms_arrow_tint="?android:attr/textColorHint"
-            app:ms_background_color="@android:color/transparent"
-            app:ms_hint="Религия"
-            app:ms_hint_color="?android:attr/textColorHint"
-            app:ms_padding_left="5dp"
-            app:ms_text_color="?android:attr/textColorHint" />
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_fields_margin"
+        android:layout_marginTop="@dimen/default_activity_fields_margin"
+        android:layout_marginEnd="@dimen/default_activity_fields_margin"
+        android:hint="Религия"
+        android:textColorHint="@color/gray"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/date"
+        app:ms_arrow_tint="@color/gray"
+        app:ms_background_color="@android:color/transparent"
+        app:ms_background_selector="@android:color/white"
+        app:ms_dropdown_height="200dp"
+        app:ms_padding_left="4dp"
+        app:ms_padding_right="4dp"
+        app:ms_popup_padding_left="10dp"
+        app:ms_text_color="@color/gray"
+        tools:hint="Религия" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <Button
         android:id="@+id/submit"
+        style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="40dp"
-        android:layout_marginRight="15dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button"
         android:text="@string/search"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/type"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
         tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

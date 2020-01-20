@@ -6,9 +6,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
@@ -61,8 +59,8 @@ public class PopupEventScreenLocal extends PopupWindow {
 //            if (date.getText().toString().isEmpty()) {
 //                Toast.makeText(context, "Выберите дату", Toast.LENGTH_SHORT).show();
 //            } else {
-                callback.search(date.getText().toString(), spinner.getSelectedIndex());
-                dismiss();
+            callback.search(date.getText().toString(), spinner.getSelectedIndex());
+            dismiss();
 //            }
         });
 
