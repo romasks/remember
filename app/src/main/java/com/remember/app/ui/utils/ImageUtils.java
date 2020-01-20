@@ -78,6 +78,13 @@ public class ImageUtils {
         targetView.setColorFilter(blackWhiteFilter);
     }
 
+    public static void glideLoadIntoWithError(Object imageObj, ImageView targetView) {
+        if (imageObj instanceof String && ((String) imageObj).contains("uploads")) {
+            imageObj = BASE_SERVICE_URL + imageObj;
+        }
+        glideLoadIntoWithError(targetView.getContext(), imageObj, targetView);
+    }
+
     public static void glideLoadIntoWithError(Context context, Object imageObj, ImageView targetView) {
         GlideApp.with(context)
                 .load(imageObj)
@@ -91,8 +98,8 @@ public class ImageUtils {
             imageObj = BASE_SERVICE_URL + imageObj;
 
             if (size != null) {
-                targetView.setMinimumHeight(size.x / 3 + size.x / 25);
-                targetView.setMaxHeight(size.x / 3 + size.x / 25);
+                targetView.setMinimumHeight(size.x / 3);
+                targetView.setMaxHeight(size.x / 3);
                 targetView.setMinimumWidth(size.x / 3);
             }
         }
@@ -103,7 +110,7 @@ public class ImageUtils {
         GlideApp.with(context)
                 .load(imageObj)
                 .error(R.drawable.darth_vader)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)   // Automatic by default
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
     }

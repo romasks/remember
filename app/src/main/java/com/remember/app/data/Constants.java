@@ -4,6 +4,7 @@ public class Constants {
 
     public static final String BASE_SERVICE_URL = "http://помню.рус";
 //    public static final String BASE_SERVICE_URL = "http://pomnyu.ru";
+    public static final String PLAY_MARKET_LINK = "https://play.google.com/store/apps/details?id=com.remember.app";
 
     public static final String PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS = "SETTINGS_SHOW_NOTIFICATIONS";
     public static final String PREFS_KEY_ACCESS_TOKEN = "ACCESS_TOKEN";

@@ -107,7 +107,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
 
             Point size = getScreenWidth(context);
             if (size != null) {
-                layoutGridItem.setMinimumHeight(size.x / 3);
+//                layoutGridItem.setMinimumHeight(size.x / 3 + size.x / 25);
             }
 
             // Show More btn

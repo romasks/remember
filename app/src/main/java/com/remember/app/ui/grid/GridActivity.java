@@ -1,8 +1,11 @@
 package com.remember.app.ui.grid;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +13,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
+import com.alphamovie.lib.AlphaMovieView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -26,7 +23,6 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.ImageAdapter;
-import com.remember.app.ui.adapters.ImagePagedAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
@@ -42,6 +38,11 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -55,7 +56,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback, ImagePagedAdapter.Callback,
+public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
         PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = GridActivity.class.getSimpleName();
@@ -63,22 +64,24 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @InjectPresenter
     GridPresenter presenter;
 
-    @BindView(R.id.image_rv)
-    RecyclerView recyclerView;
-    @BindView(R.id.search)
-    ImageView search;
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.show_all)
-    Button showAll;
-    @BindView(R.id.avatar_small_toolbar)
-    ImageView avatar_user;
+    @BindView(R.id.splash_video)
+    AlphaMovieView splashVideo;
+
     @BindView(R.id.menu_icon)
     ImageView button_menu;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.search)
+    ImageView search;
+    @BindView(R.id.avatar_small_toolbar)
+    ImageView avatar_user;
+
+    @BindView(R.id.show_all)
+    Button showAll;
+    @BindView(R.id.image_rv)
+    RecyclerView recyclerView;
     @BindView(R.id.grid_sign_in)
     Button signInButton;
-    @BindView(R.id.progressVideoView)
-    VideoView progressVideoView;
 
     private ImageAdapter imageAdapter;
     private DrawerLayout drawer;
@@ -95,27 +98,14 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
-
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
+        setUpRecycler();
 
-        imageAdapter = new ImageAdapter();
-        imageAdapter.setCallback(this);
-        imageAdapter.setContext(this);
-        recyclerView.setAdapter(imageAdapter);
-        recyclerView.setHasFixedSize(true);
-
-        startVideo();
         presenter.getImages(pageNumber);
-
-        drawer = findViewById(R.id.drawer_layout_2);
-    }
-
-    private void startVideo() {
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sand_clock_light);
-        progressVideoView.setVideoURI(videoUri);
-        progressVideoView.start();
+        setSplashVideo();
+        splashVideo.start();
+        new Handler().postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
     }
 
     @Override
@@ -124,6 +114,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (theme_setting == 1) {
             this.recreate();
         }
+        drawer = findViewById(R.id.drawer_layout_2);
         drawer.setDrawerLockMode(
                 Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)
                         ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -134,7 +125,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     protected void onPause() {
-        progressVideoView.stopPlayback();
+        splashVideo.onPause();
         super.onPause();
     }
 
@@ -235,15 +226,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     @Override
-    public void openPageFromPagedAdapter(MemoryPageModel memoryPageModel) {
-        Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra(INTENT_EXTRA_PERSON, memoryPageModel);
-        intent.putExtra(INTENT_EXTRA_IS_LIST, true);
-        intent.putExtra(INTENT_EXTRA_SHOW, true);
-        startActivity(intent);
-    }
-
-    @Override
     public void search(RequestSearchPage requestSearchPage) {
         presenter.search(requestSearchPage);
     }
@@ -286,16 +268,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     public void onReceivedImages(ResponsePages responsePages) {
         allMemoryPageModels.addAll(responsePages.getResult());
         int lastIndex = allMemoryPageModels.size() - 1;
-        for (MemoryPageModel model : allMemoryPageModels) model.setShowMore(false);
+        for (MemoryPageModel model : allMemoryPageModels) {
+            model.setShowMore(false);
+        }
         if (pageNumber < responsePages.getCount()) {
             allMemoryPageModels.get(lastIndex).setShowMore(true);
         }
         imageAdapter.setItems(allMemoryPageModels);
-
-        progressVideoView.postDelayed(() -> {
-            progressVideoView.stopPlayback();
-            progressVideoView.setVisibility(View.GONE);
-        }, 1000);
     }
 
     @Override
@@ -311,4 +290,44 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     public void onError(Throwable throwable) {
         Utils.showSnack(recyclerView, "Ошибка получения плиток");
     }
+
+
+    private void setUpRecycler() {
+        imageAdapter = new ImageAdapter();
+        imageAdapter.setCallback(this);
+        imageAdapter.setContext(this);
+        recyclerView.setAdapter(imageAdapter);
+        recyclerView.setHasFixedSize(true);
+    }
+
+    private void setSplashVideo() {
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_logo_animation_new);
+        splashVideo.setVideoFromUri(this, videoUri);
+        splashVideo.setLooping(false);
+        splashVideo.setOnVideoEndedListener(this::hideSplashVideo);
+
+    }
+
+    private void hideSplashVideo() {
+        showMainContent();
+        splashVideo.setAlpha(1.0f);
+        splashVideo.animate()
+                .translationY(0)
+                .alpha(0.0f)
+                .setDuration(500)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        splashVideo.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void showMainContent() {
+        findViewById(R.id.app_bar_grid_layout).setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+        signInButton.setVisibility(View.VISIBLE);
+    }
+
 }

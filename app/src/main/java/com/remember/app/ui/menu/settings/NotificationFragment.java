@@ -8,6 +8,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
@@ -51,9 +54,9 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (presenter != null) {
-            presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
-        }
+//        if (presenter != null) {
+//            presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
+//        }
     }
 
     @Override
@@ -76,6 +79,14 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
         days.setTextColor(textColor);
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (presenter != null) {
+            presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
+        }
     }
 
     void onSaveClick() {

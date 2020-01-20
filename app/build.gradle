@@ -20,8 +20,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 57
-        versionName "1.4.6.004"
+        versionCode 61
+        versionName "1.4.6.008"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -155,6 +155,9 @@ dependencies {
 
     // text
     implementation 'com.codesgood:justifiedtextview:1.1.0'
+
+    // video
+    implementation 'com.alphamovie.library:alpha-movie:1.2.1'
 }
 
 android.defaultConfig.manifestPlaceholders = [

@@ -15,9 +15,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
+import com.bumptech.glide.Glide;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
@@ -90,9 +93,9 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (presenter != null) {
-            presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
-        }
+//        if (presenter != null) {
+//            presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
+//        }
     }
 
     @Override
@@ -117,6 +120,14 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         phone.setTextColor(textColor);
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (presenter != null) {
+            presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
+        }
     }
 
     @Override
