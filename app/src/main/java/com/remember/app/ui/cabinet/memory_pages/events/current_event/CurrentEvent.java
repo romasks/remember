@@ -16,6 +16,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.OnEventChangedActionListener;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;

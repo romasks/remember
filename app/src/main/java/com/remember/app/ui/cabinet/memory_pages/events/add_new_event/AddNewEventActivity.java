@@ -24,7 +24,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
+import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.RequestAddEvent;
+import com.remember.app.ui.cabinet.memory_pages.events.OnEventChangedActionListener;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.Utils;
@@ -45,6 +47,7 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -188,7 +191,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             date.setText(dateString);
         }
 
-        if (flag.equals("1")){
+        if (flag.equals("1")) {
             forOne.setChecked(false);
             notForOne.setChecked(true);
         } else {
@@ -196,7 +199,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             notForOne.setChecked(false);
         }
 
-        if (access.equals("1")){
+        if (access.equals("1")) {
             isNeedNotification.setChecked(true);
             notNeedNotification.setChecked(false);
         } else {
@@ -332,7 +335,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                 editEventRequest.setName(title.getText().toString());
                 editEventRequest.setDescription(description.getText().toString());
                 editEventRequest.setDate(formatToServerDate(date.getText().toString()));
-                editEventRequest.setFlag(forOne.isChecked() ? "1" : "0");
+                editEventRequest.setFlag(forOne.isChecked() ? "0" : "1");
                 editEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
                 if (imageFile != null) {
                     presenter.editEvent(editEventRequest, imageFile);

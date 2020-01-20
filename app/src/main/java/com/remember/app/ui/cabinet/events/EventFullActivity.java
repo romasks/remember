@@ -1,5 +1,6 @@
 package com.remember.app.ui.cabinet.events;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.utils.Utils;
 
 import java.text.ParseException;
@@ -28,7 +30,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DESCRIPTION;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
+import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
+import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
 public class EventFullActivity extends BaseActivity implements EventView {
@@ -53,6 +62,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
 
     private boolean isEventReligion = false;
     private Drawable mDefaultBackground;
+    private EventModel eventModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +91,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
         } else {
             isEventReligion = true;
             ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
-            EventModel eventModel = new EventModel();
+            eventModel = new EventModel();
             eventModel.setId(responseEvents.getId());
             eventModel.setPage_id(String.valueOf(responseEvents.getPageId()));
             eventModel.setDate(responseEvents.getPutdate());
@@ -92,8 +102,13 @@ public class EventFullActivity extends BaseActivity implements EventView {
             setEventData(eventModel);
         }
 
-        settingsImage.setVisibility(View.INVISIBLE);
-        settingsImage.setEnabled(false);
+        if (isEventReligion) {
+            settingsImage.setVisibility(View.INVISIBLE);
+            settingsImage.setEnabled(false);
+        } else {
+            settingsImage.setVisibility(View.VISIBLE);
+            settingsImage.setEnabled(true);
+        }
     }
 
     @OnClick(R.id.back_button)
@@ -124,6 +139,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
 
     @Override
     public void onReceivedDeadEvent(EventModel eventModel) {
+        this.eventModel = eventModel;
         setEventData(eventModel);
     }
 
@@ -140,7 +156,12 @@ public class EventFullActivity extends BaseActivity implements EventView {
         } catch (Exception e) {
             setEventPicture(mDefaultBackground);
         }
-        title.setText(responseEvents.getName());
+        if (isEventReligion) {
+            title.setText("Религиозное событие");
+        } else {
+//            title.setText(responseEvents.getName());
+            title.setText("Памятное событие");
+        }
         try {
             SimpleDateFormat inputFormat;
             SimpleDateFormat outputFormat;
@@ -169,5 +190,21 @@ public class EventFullActivity extends BaseActivity implements EventView {
 
     private void setEventPicture(Object imageObj) {
         glideLoadIntoWithError(this, imageObj, avatarImage);
+    }
+
+    @OnClick(R.id.settings)
+    public void onSettingsClicked() {
+        Intent intent = new Intent(this, AddNewEventActivity.class);
+        intent.putExtra(INTENT_EXTRA_EVENT_ID, eventModel.getId());
+        intent.putExtra(INTENT_EXTRA_EVENT_NAME, eventName.getText().toString());
+        intent.putExtra(INTENT_EXTRA_EVENT_PERSON, eventModel.getName());
+        intent.putExtra(INTENT_EXTRA_EVENT_DESCRIPTION, eventModel.getDescription());
+        intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, eventModel.getPicture());
+        intent.putExtra(INTENT_EXTRA_EVENT_DATE, eventModel.getDate());
+        intent.putExtra(INTENT_EXTRA_PAGE_ID, eventModel.getPage_id());
+        intent.putExtra(INTENT_EXTRA_IS_EVENT_EDITING, true);
+        intent.putExtra("IS_FOR_ONE", eventModel.getFlag());
+        intent.putExtra("ACCESS", eventModel.getUv_show());
+        startActivity(intent);
     }
 }
