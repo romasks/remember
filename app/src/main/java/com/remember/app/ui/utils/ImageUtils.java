@@ -78,6 +78,13 @@ public class ImageUtils {
         targetView.setColorFilter(blackWhiteFilter);
     }
 
+    public static void glideLoadIntoWithError(Object imageObj, ImageView targetView) {
+        if (imageObj instanceof String && ((String) imageObj).contains("uploads")) {
+            imageObj = BASE_SERVICE_URL + imageObj;
+        }
+        glideLoadIntoWithError(targetView.getContext(), imageObj, targetView);
+    }
+
     public static void glideLoadIntoWithError(Context context, Object imageObj, ImageView targetView) {
         GlideApp.with(context)
                 .load(imageObj)

@@ -111,7 +111,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onResume() {
         super.onResume();
-        splashVideo.onResume();
         if (theme_setting == 1) {
             this.recreate();
         }
@@ -302,7 +301,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     private void setSplashVideo() {
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_logo_animation);
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.pomnyu_logo_animation_new);
         splashVideo.setVideoFromUri(this, videoUri);
         splashVideo.setLooping(false);
         splashVideo.setOnVideoEndedListener(this::hideSplashVideo);

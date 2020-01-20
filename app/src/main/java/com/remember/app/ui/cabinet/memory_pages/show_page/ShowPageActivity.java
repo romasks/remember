@@ -2,11 +2,13 @@ package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -14,12 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.utils.StringUtils;
@@ -46,18 +42,18 @@ import com.vk.sdk.dialogs.VKShareDialog;
 import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
@@ -71,6 +67,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
@@ -85,6 +82,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     TextView name;
     @BindView(R.id.image)
     ImageView image;
+    @BindView(R.id.sharedImage)
+    ImageView sharedImage;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.settings)
@@ -227,7 +226,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     private void initAll() {
         if (memoryPageModel != null) {
             if (!afterSave) {
-                glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
+                glideLoadIntoWithError(memoryPageModel.getPicture(), image);
+                glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
             }
             initTextName(memoryPageModel);
             initDate(memoryPageModel);
@@ -342,7 +342,8 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     public void onReceivedImage(MemoryPageModel memoryPageModel) {
         this.memoryPageModel = memoryPageModel;
         initAll();
-        glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
+        glideLoadIntoWithError(memoryPageModel.getPicture(), image);
+        glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
     }
 
     @Override
@@ -400,64 +401,57 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             VKSdk.login(this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
             Utils.showSnack(image, "Необходимо авторизоваться через ВКонтакте");
         } else {
-            new sendPostSocial().execute(memoryPageModel.getPicture());
+            sharePageToVk();
         }
     }
 
-    private class sendPostSocial extends AsyncTask<String, Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            try {
-                String u = BASE_SERVICE_URL + strings[0];
-                URL url = new URL(u);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                try {
-                    input.reset();
-                } catch (IOException e) {
-                    return null;
+    private void sharePageToVk() {
+        if (sharing == 1) {
+            VKShareDialogBuilder builder = new VKShareDialogBuilder();
+            builder.setText(getNameTitle(memoryPageModel));
+            builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(), VKImageParameters.pngImage())});
+            builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню ", PLAY_MARKET_LINK);
+            builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+                @Override
+                public void onVkShareComplete(int postId) {
+                    Utils.showSnack(image, "Запись опубликована");
                 }
-                Log.i(TAG, "Ok");
-                return myBitmap;
-            } catch (Exception e) {
-                Log.i(TAG, "Exception");
-                return null;
-            }
+
+                @Override
+                public void onVkShareCancel() {
+                    Log.i(TAG, "shareVk error2");
+                }
+
+                @Override
+                public void onVkShareError(VKError error) {
+                    Utils.showSnack(image, "Ошибка публикации");
+                }
+            });
+            builder.show(ShowPageActivity.this.getSupportFragmentManager(), "VK_SHARE_DIALOG");
         }
+    }
 
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            if (sharing == 1) {
-                VKShareDialogBuilder builder = new VKShareDialogBuilder();
-                builder.setText(getNameTitle(memoryPageModel));
-                builder.setAttachmentImages(new VKUploadImage[]{
-                        new VKUploadImage(result, VKImageParameters.pngImage())
-                });
-                builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню ", "https://play.google.com/store/apps/details?id=com.remember.app");
-                builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
-                    @Override
-                    public void onVkShareComplete(int postId) {
-                        // recycle bitmap if need
-                        Utils.showSnack(image, "Запись опубликована");
-                    }
+    public Bitmap createBitmapFromView() {
+        View view = sharedImage;
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(convertDpToPixels(view.getWidth()), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(convertDpToPixels(view.getHeight()), View.MeasureSpec.EXACTLY)
+        );
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
 
-                    @Override
-                    public void onVkShareCancel() {
-                        // recycle bitmap if need
-                        Log.i(TAG, "shareVk error2");
-                    }
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Drawable background = view.getBackground();
 
-                    @Override
-                    public void onVkShareError(VKError error) {
-                        // recycle bitmap if need
-                        Utils.showSnack(image, "Ошибка публикации");
-                    }
-                });
-                builder.show(ShowPageActivity.this.getSupportFragmentManager(), "VK_SHARE_DIALOG");
-            }
+        if (background != null) {
+            background.draw(canvas);
         }
+        view.draw(canvas);
+
+        return bitmap;
+    }
+
+    public int convertDpToPixels(float dp) {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics()));
     }
 }
