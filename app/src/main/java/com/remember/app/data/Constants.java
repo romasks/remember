@@ -18,6 +18,8 @@ public class Constants {
     public static final int THEME_LIGHT = 1;
     public static final int THEME_DARK = 2;
 
+    public static final String INTENT_EXTRA_IS_LAUNCH_MODE = "IS_LAUNCH_MODE";
+
     public static final String INTENT_EXTRA_EVENT_DESCRIPTION = "EVENT_DESCRIPTION";
     public static final String INTENT_EXTRA_EVENT_IMAGE_URL = "EVENT_IMAGE_URL";
     public static final String INTENT_EXTRA_EVENT_PERSON = "EVENT_PERSON";

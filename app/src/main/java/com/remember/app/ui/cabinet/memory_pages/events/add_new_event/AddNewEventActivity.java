@@ -18,15 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
-import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.RequestAddEvent;
-import com.remember.app.ui.cabinet.memory_pages.events.OnEventChangedActionListener;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.Utils;
@@ -47,7 +44,6 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -322,11 +318,11 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                 createEventRequest.setFlag(forOne.isChecked() ? "1" : "0");
                 createEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
                 createEventRequest.setDate(formatToServerDate(date.getText().toString()));
-                if (imageFile != null) {
-                    presenter.saveEvent(createEventRequest, imageFile);
-                } else {
-                    Toast.makeText(this, "Необходимо добавить фото", Toast.LENGTH_SHORT).show();
-                }
+//                if (imageFile != null) {
+                presenter.saveEvent(createEventRequest, imageFile);
+//                } else {
+//                    Toast.makeText(this, "Необходимо добавить фото", Toast.LENGTH_SHORT).show();
+//                }
             } else {
                 EditEventRequest editEventRequest = new EditEventRequest();
                 editEventRequest.setEventId(eventId);

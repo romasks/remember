@@ -283,13 +283,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setPictureData("");
 
         if (!isEdit) {
-            if (imageFile != null) {
+//            if (imageFile != null) {
                 presenter.addPage(person, imageFile);
-            } else {
-                Toast.makeText(this, "Необходимо загрузить фото", Toast.LENGTH_LONG).show();
-            }
+//            } else {
+//                Toast.makeText(this, "Необходимо загрузить фото", Toast.LENGTH_LONG).show();
+//            }
         } else {
-
             if (imageFile != null) {
                 presenter.editPage(person, memoryPageModel.getId(), imageFile);
             } else {

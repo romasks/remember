@@ -3,37 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-
     <group android:id="@+id/group1">
         <item
-            android:id="@+id/memory_pages"
+            android:id="@+id/menu_cabinet"
             android:textColor="?android:attr/textColor"
-            android:title="@string/important_pages"
-            />
+            android:title="@string/menu_cabinet" />
         <item
-            android:id="@+id/event_calendar"
+            android:id="@+id/menu_gallery"
             android:textColor="?android:attr/textColor"
-            android:title="@string/event_calendar" />
+            android:title="@string/menu_gallery" />
         <item
-            android:id="@+id/notifications"
+            android:id="@+id/menu_memory_pages"
             android:textColor="?android:attr/textColor"
-            android:title="@string/notifications" />
+            android:title="@string/menu_memory_pages" />
         <item
-            android:id="@+id/settings"
+            android:id="@+id/menu_event_calendar"
             android:textColor="?android:attr/textColor"
-            android:title="@string/settings" />
+            android:title="@string/menu_event_calendar" />
         <item
-            android:id="@+id/questions"
+            android:id="@+id/menu_notifications"
             android:textColor="?android:attr/textColor"
-            android:title="@string/questions" />
-
+            android:title="@string/menu_notifications" />
+        <item
+            android:id="@+id/menu_settings"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_settings" />
+        <item
+            android:id="@+id/menu_questions"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_questions" />
     </group>
 
     <group android:id="@+id/group">
         <item
-            android:id="@+id/exit"
+            android:id="@+id/menu_exit"
             android:textColor="?android:attr/textColor"
-            android:title="@string/exit" />
+            android:title="@string/menu_exit" />
     </group>
 
 </menu>

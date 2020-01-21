@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
-                    android:text="@string/important_pages"
+                    android:text="@string/main_pages_header_text"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -70,29 +70,18 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <VideoView
-            android:id="@+id/progressVideoView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
-
-        <Button
+        <TextView
             android:id="@+id/show_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/button"
-            android:text="Показать всех"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:text="@string/grid_show_all"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
             android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
@@ -102,10 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
-            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/show_all"
-            tools:listitem="@layout/item_events"
-            tools:visibility="visible" />
+            tools:listitem="@layout/item_events" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

@@ -11,10 +11,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -42,6 +38,9 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -226,7 +225,6 @@ public class MainActivity extends MvpAppCompatActivity
         popupWindowPage.setCallback(this);
         popupWindowPage.setSourceType(SEARCH_ON_MAIN);
         popupWindowPage.setUp(titleUserName);
-
     }
 
     private void showPageScreen() {
@@ -286,35 +284,42 @@ public class MainActivity extends MvpAppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.notifications) {
-            startActivity(new Intent(this, NotificationsActivity.class));
-            return true;
-        }
-        if (id == R.id.settings) {
-            startActivity(new Intent(this, SettingActivity.class));
-            theme_setting = 1;
-            return true;
-        }
-        if (id == R.id.event_calendar) {
-            startActivity(new Intent(this, EventsActivityMenu.class));
-            return true;
-        }
-        if (id == R.id.memory_pages) {
-            startActivity(new Intent(this, PageActivityMenu.class));
-            return true;
-        }
-        if (id == R.id.questions) {
-            startActivity(new Intent(this, QuestionActivity.class));
-            return true;
-        }
-        if (id == R.id.exit) {
-            Prefs.clear();
-            startActivity(new Intent(this, GridActivity.class));
-            finish();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.menu_cabinet: {
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            }
+            case R.id.menu_gallery: {
+                startActivity(new Intent(this, GridActivity.class));
+                return true;
+            }
+            case R.id.menu_memory_pages: {
+                startActivity(new Intent(this, PageActivityMenu.class));
+                return true;
+            }
+            case R.id.menu_event_calendar: {
+                startActivity(new Intent(this, EventsActivityMenu.class));
+                return true;
+            }
+            case R.id.menu_notifications: {
+                startActivity(new Intent(this, NotificationsActivity.class));
+                return true;
+            }
+            case R.id.menu_settings: {
+                startActivity(new Intent(this, SettingActivity.class));
+//                theme_setting = 1;
+                return true;
+            }
+            case R.id.menu_questions: {
+                startActivity(new Intent(this, QuestionActivity.class));
+                return true;
+            }
+            case R.id.menu_exit: {
+                Prefs.clear();
+                startActivity(new Intent(this, GridActivity.class));
+                finish();
+                return true;
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

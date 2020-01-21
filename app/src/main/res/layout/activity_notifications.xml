@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:paddingEnd="20dp"
-                    android:text="@string/notifications"
+                    android:text="@string/notifications_header_text"
                     android:textColor="?android:attr/textColor"
                     android:textSize="20sp"
                     android:textStyle="bold"

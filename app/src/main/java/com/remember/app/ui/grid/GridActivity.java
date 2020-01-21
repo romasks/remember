@@ -46,6 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
@@ -76,8 +77,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @BindView(R.id.avatar_small_toolbar)
     ImageView avatar_user;
 
-    @BindView(R.id.show_all)
-    Button showAll;
     @BindView(R.id.image_rv)
     RecyclerView recyclerView;
     @BindView(R.id.grid_sign_in)
@@ -103,14 +102,21 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         setUpRecycler();
 
         presenter.getImages(pageNumber);
-        setSplashVideo();
-        splashVideo.start();
-        new Handler().postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
+        if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_LAUNCH_MODE, false)) {
+            setSplashVideo();
+            splashVideo.start();
+            new Handler().postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
+        } else {
+            showMainContent();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        splashVideo.setVisibility(View.GONE);
+        showMainContent();
+
         if (theme_setting == 1) {
             this.recreate();
         }
@@ -133,7 +139,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             avatar_user.setVisibility(View.VISIBLE);
             button_menu.setVisibility(View.VISIBLE);
-            signInButton.setText("Перейти в кабинет");
+            signInButton.setText(getResources().getString(R.string.grid_go_to_cabinet));
 
             setSupportActionBar(findViewById(R.id.toolbar));
 
@@ -169,10 +175,14 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @OnClick(R.id.grid_sign_in)
     public void entry() {
-        if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
-            startActivity(new Intent(this, MainActivity.class));
+        if (signInButton.getText().equals(getResources().getString(R.string.grid_show_all))) {
+            showAll();
         } else {
-            startActivity(new Intent(this, AuthActivity.class));
+            if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
+                startActivity(new Intent(this, MainActivity.class));
+            } else {
+                startActivity(new Intent(this, AuthActivity.class));
+            }
         }
     }
 
@@ -181,10 +191,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         showEventScreen();
     }
 
-    @OnClick(R.id.show_all)
-    public void showAll() {
+    private void showAll() {
+        if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
+            signInButton.setText(getResources().getString(R.string.grid_go_to_cabinet));
+        } else {
+            signInButton.setText(getResources().getString(R.string.grid_login));
+        }
         imageAdapter.setItems(allMemoryPageModels);
-        showAll.setVisibility(View.GONE);
         showMorePages();
     }
 
@@ -233,28 +246,36 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.settings: {
+            case R.id.menu_cabinet: {
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            }
+            case R.id.menu_gallery: {
+                startActivity(new Intent(this, GridActivity.class));
+                return true;
+            }
+            case R.id.menu_memory_pages: {
+                startActivity(new Intent(this, PageActivityMenu.class));
+                return true;
+            }
+            case R.id.menu_event_calendar: {
+                startActivity(new Intent(this, EventsActivityMenu.class));
+                return true;
+            }
+            case R.id.menu_notifications: {
+                startActivity(new Intent(this, NotificationsActivity.class));
+                return true;
+            }
+            case R.id.menu_settings: {
                 startActivity(new Intent(this, SettingActivity.class));
 //                theme_setting = 1;
                 return true;
             }
-            case R.id.event_calendar: {
-                startActivity(new Intent(this, EventsActivityMenu.class));
-                return true;
-            }
-            case R.id.memory_pages: {
-                startActivity(new Intent(this, PageActivityMenu.class));
-                return true;
-            }
-            case R.id.questions: {
+            case R.id.menu_questions: {
                 startActivity(new Intent(this, QuestionActivity.class));
                 return true;
             }
-            case R.id.notifications: {
-                startActivity(new Intent(this, NotificationsActivity.class));
-                return true;
-            }
-            case R.id.exit: {
+            case R.id.menu_exit: {
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
                 finish();
@@ -282,8 +303,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (memoryPageModels.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");
         }
-        showAll.setVisibility(View.VISIBLE);
         imageAdapter.setItems(memoryPageModels);
+        signInButton.setText(getResources().getString(R.string.grid_show_all));
     }
 
     @Override

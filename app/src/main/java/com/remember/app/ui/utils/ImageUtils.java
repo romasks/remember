@@ -4,11 +4,8 @@ import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
-import android.view.Display;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.GlideApp;
 import com.remember.app.R;
@@ -47,8 +44,6 @@ public class ImageUtils {
         GlideApp.with(context)
                 .load(imageObj)
                 .apply(RequestOptions.circleCropTransform())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
     }
