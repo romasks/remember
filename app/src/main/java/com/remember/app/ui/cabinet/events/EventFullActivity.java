@@ -17,11 +17,9 @@ import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
+import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -29,10 +27,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DESCRIPTION;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IS_FOR_ONE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
@@ -155,28 +155,16 @@ public class EventFullActivity extends BaseActivity implements EventView {
         } catch (Exception e) {
             setEventPicture(mDefaultBackground);
         }
+
         if (isEventReligion) {
-            title.setText("Религиозное событие");
+            title.setText(R.string.events_calendar_header_text);
+            date.setText(DateUtils.convertReligiousEventServerFormat(responseEvents.getDate()));
         } else {
 //            title.setText(responseEvents.getName());
-            title.setText("Памятное событие");
+            title.setText(R.string.memory_page_event_header_text);
+            date.setText(DateUtils.convertRemoteToLocalFormat(responseEvents.getDate()));
         }
-        try {
-            SimpleDateFormat inputFormat;
-            SimpleDateFormat outputFormat;
-            if (isEventReligion) {
-                inputFormat = new SimpleDateFormat("MM.dd");
-                outputFormat = new SimpleDateFormat("dd.MM");
-            } else {
-                inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                outputFormat = new SimpleDateFormat("dd.MM.yyyy");
-            }
-            Date parsedDate = inputFormat.parse(responseEvents.getDate());
-            String formattedDate = outputFormat.format(parsedDate);
-            date.setText(formattedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
         if (responseEvents.getDescription() != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 body.setText(Html.fromHtml(responseEvents.getDescription(), Html.FROM_HTML_MODE_COMPACT));
@@ -184,6 +172,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
                 body.setText(Html.fromHtml(responseEvents.getDescription()));
             }
         }
+
         eventName.setText(responseEvents.getName());
     }
 
@@ -202,8 +191,8 @@ public class EventFullActivity extends BaseActivity implements EventView {
         intent.putExtra(INTENT_EXTRA_EVENT_DATE, eventModel.getDate());
         intent.putExtra(INTENT_EXTRA_PAGE_ID, eventModel.getPage_id());
         intent.putExtra(INTENT_EXTRA_IS_EVENT_EDITING, true);
-        intent.putExtra("IS_FOR_ONE", eventModel.getFlag());
-        intent.putExtra("ACCESS", eventModel.getUv_show());
+        intent.putExtra(INTENT_EXTRA_EVENT_IS_FOR_ONE, eventModel.getFlag());
+        intent.putExtra(INTENT_EXTRA_EVENT_ACCESS, eventModel.getUv_show());
         startActivity(intent);
     }
 }

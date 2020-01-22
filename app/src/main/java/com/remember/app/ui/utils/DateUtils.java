@@ -43,6 +43,10 @@ public class DateUtils {
         return date;
     }
 
+    public static String convertReligiousEventServerFormat(String dateStr) {
+        return convertFormats(dateStr, "MM.dd", "dd.MM");
+    }
+
     public static String convertRemoteToLocalFormat(String dateStr) {
         return convertFormats(dateStr, "yyyy-MM-dd", "dd.MM.yyyy");
     }

@@ -26,6 +26,8 @@ public class Constants {
     public static final String INTENT_EXTRA_EVENT_NAME = "EVENT_NAME";
     public static final String INTENT_EXTRA_EVENT_DATE = "EVENT_DATE";
     public static final String INTENT_EXTRA_EVENT_ID = "EVENT_ID";
+    public static final String INTENT_EXTRA_EVENT_IS_FOR_ONE = "IS_FOR_ONE";
+    public static final String INTENT_EXTRA_EVENT_ACCESS = "ACCESS";
 
     public static final String INTENT_EXTRA_IS_EVENT_EDITING = "IS_EVENT_EDITING";
 

@@ -25,10 +25,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DESCRIPTION;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IS_FOR_ONE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
@@ -149,8 +151,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         intent.putExtra(INTENT_EXTRA_EVENT_DATE, dateView.getText().toString());
         intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
         intent.putExtra(INTENT_EXTRA_IS_EVENT_EDITING, true);
-        intent.putExtra("IS_FOR_ONE", eventModel.getFlag());
-        intent.putExtra("ACCESS", eventModel.getUv_show());
+        intent.putExtra(INTENT_EXTRA_EVENT_IS_FOR_ONE, eventModel.getFlag());
+        intent.putExtra(INTENT_EXTRA_EVENT_ACCESS, eventModel.getUv_show());
         startActivity(intent);
     }
 }

@@ -19,12 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -52,6 +46,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -165,6 +163,7 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private void setUp() {
         initiate();
         Intent i = getIntent();
+        Bundle bundle = i.getExtras();
         person = new AddPageModel();
 
         isEdit = i.getBooleanExtra("EDIT", false);
@@ -174,12 +173,12 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             textViewImage.setText("Изменить фотографию");
             memoryPageModel = i.getParcelableExtra("PERSON");
             initEdit();
-            person.setCoords(getIntent().getExtras().getString(BURIAL_PLACE_COORDS, ""));
-            person.setCity(getIntent().getExtras().getString(BURIAL_PLACE_CITY, ""));
-            person.setCemeteryName(getIntent().getExtras().getString(BURIAL_PLACE_CEMETERY, ""));
-            person.setSector(getIntent().getExtras().getString(BURIAL_PLACE_SECTOR, ""));
-            person.setSpotId(getIntent().getExtras().getString(BURIAL_PLACE_LINE, ""));
-            person.setGraveId(getIntent().getExtras().getString(BURIAL_PLACE_GRAVE, ""));
+            person.setCoords(bundle.getString(BURIAL_PLACE_COORDS, ""));
+            person.setCity(bundle.getString(BURIAL_PLACE_CITY, ""));
+            person.setCemeteryName(bundle.getString(BURIAL_PLACE_CEMETERY, ""));
+            person.setSector(bundle.getString(BURIAL_PLACE_SECTOR, ""));
+            person.setSpotId(bundle.getString(BURIAL_PLACE_LINE, ""));
+            person.setGraveId(bundle.getString(BURIAL_PLACE_GRAVE, ""));
 //            if (person != null) {
 //                if (person.getStar() != null) {
 //                    if (person.getStar().equals("true")) {
@@ -283,11 +282,11 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         person.setPictureData("");
 
         if (!isEdit) {
-//            if (imageFile != null) {
+            if (isFamous.isChecked() && imageFile == null) {
+                Utils.showSnack(image, "Необходимо загрузить фото");
+            } else {
                 presenter.addPage(person, imageFile);
-//            } else {
-//                Toast.makeText(this, "Необходимо загрузить фото", Toast.LENGTH_LONG).show();
-//            }
+            }
         } else {
             if (imageFile != null) {
                 presenter.editPage(person, memoryPageModel.getId(), imageFile);
@@ -305,10 +304,10 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            Date endDate = DateUtils.parseRemoteFormat(dateEnd.getText().toString());
+            Date endDate = DateUtils.parseLocalFormat(dateEnd.getText().toString());
             if (endDate != null) {
                 if (dateAndTime.getTime().after(endDate)) {
-                    Utils.showSnack(dateBegin, "Дата смерти не может быть перед датой рождения");
+                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
                 } else {
                     setInitialDateBegin();
                 }
@@ -322,10 +321,10 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            Date startDate = DateUtils.parseRemoteFormat(dateBegin.getText().toString());
+            Date startDate = DateUtils.parseLocalFormat(dateBegin.getText().toString());
             if (startDate != null) {
                 if (startDate.after(dateAndTime.getTime())) {
-                    Utils.showSnack(dateBegin, "Дата смерти не может быть перед датой рождения");
+                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
                 } else {
                     setInitialDateEnd();
                 }

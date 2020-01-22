@@ -24,6 +24,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.RequestAddEvent;
+import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.Utils;
@@ -35,8 +36,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.Format;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,10 +49,12 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DESCRIPTION;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
+import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IS_FOR_ONE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
@@ -107,17 +108,16 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     private Calendar dateAndTime = Calendar.getInstance();
     private int pageId;
     private ProgressDialog progressDialog;
-    private String imageUri;
     private Bitmap bitmap;
     private File imageFile;
     private int eventId = 0;
     private String personName = "";
     private String eventName = "";
-    private String eventDescription = "";
+    private String eventDesc = "";
     private String imageUrl = "";
     private String dateString = "";
     private String access = "";
-    private String flag = "";
+    private String oneFlag = "";
 
 
     @Override
@@ -146,13 +146,16 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     }
 
     private void setUp() {
-        eventId = getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID);
-        eventName = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_NAME, "");
-        eventDescription = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_DESCRIPTION, "");
-        imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
-        dateString = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_DATE, "");
-        flag = getIntent().getExtras().getString("IS_FOR_ONE", "0");
-        access = getIntent().getExtras().getString("ACCESS", "0");
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) return;
+
+        eventId = bundle.getInt(INTENT_EXTRA_EVENT_ID);
+        eventDesc = bundle.getString(INTENT_EXTRA_EVENT_DESCRIPTION, "");
+        eventName = bundle.getString(INTENT_EXTRA_EVENT_NAME, "");
+        dateString = bundle.getString(INTENT_EXTRA_EVENT_DATE, "");
+        imageUrl = bundle.getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
+        access = bundle.getString(INTENT_EXTRA_EVENT_ACCESS, "0");
+        oneFlag = bundle.getString(INTENT_EXTRA_EVENT_IS_FOR_ONE, "0");
 
         glideLoadInto(this, BASE_SERVICE_URL + imageUrl, image);
 
@@ -164,12 +167,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         }
 
         try {
-            name = getIntent().getExtras().getString(INTENT_EXTRA_PERSON_NAME, "");
+            name = bundle.getString(INTENT_EXTRA_PERSON_NAME, "");
             pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 1);
             if (pageId == 1) {
-                pageId = getIntent().getExtras().getInt(INTENT_EXTRA_PAGE_ID, 1);
+                pageId = bundle.getInt(INTENT_EXTRA_PAGE_ID, 1);
             }
-            personName = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_PERSON, "");
+            personName = bundle.getString(INTENT_EXTRA_EVENT_PERSON, "");
         } catch (NullPointerException ignored) {
         }
         if (!personName.isEmpty()) {
@@ -180,14 +183,14 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         if (!eventName.isEmpty()) {
             title.setText(eventName);
         }
-        if (!eventDescription.isEmpty()) {
-            description.setText(eventDescription);
+        if (!eventDesc.isEmpty()) {
+            description.setText(eventDesc);
         }
         if (!dateString.isEmpty()) {
             date.setText(dateString);
         }
 
-        if (flag.equals("1")) {
+        if (oneFlag.equals("1")) {
             forOne.setChecked(false);
             notForOne.setChecked(true);
         } else {
@@ -240,7 +243,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 progressDialog.dismiss();
-                imageUri = String.valueOf(result.getUri());
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
@@ -250,7 +252,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
                     e.printStackTrace();
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
                 progressDialog.dismiss();
             } else {
                 progressDialog.dismiss();
@@ -311,13 +312,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
 //            RequestAddEvent requestAddEvent = new RequestAddEvent();
             if (eventId == 0) {
                 CreateEventRequest createEventRequest = new CreateEventRequest();
-                createEventRequest.setName(title.getText().toString());
                 createEventRequest.setPageId(String.valueOf(pageId));
                 createEventRequest.setName(title.getText().toString());
-                createEventRequest.setDescription(description.getText().toString());
+                createEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
                 createEventRequest.setFlag(forOne.isChecked() ? "1" : "0");
                 createEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
-                createEventRequest.setDate(formatToServerDate(date.getText().toString()));
+                createEventRequest.setDescription(description.getText().toString());
 //                if (imageFile != null) {
                 presenter.saveEvent(createEventRequest, imageFile);
 //                } else {
@@ -326,13 +326,12 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
             } else {
                 EditEventRequest editEventRequest = new EditEventRequest();
                 editEventRequest.setEventId(eventId);
-                editEventRequest.setName(title.getText().toString());
                 editEventRequest.setPageId(String.valueOf(pageId));
                 editEventRequest.setName(title.getText().toString());
-                editEventRequest.setDescription(description.getText().toString());
-                editEventRequest.setDate(formatToServerDate(date.getText().toString()));
+                editEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
                 editEventRequest.setFlag(forOne.isChecked() ? "0" : "1");
                 editEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
+                editEventRequest.setDescription(description.getText().toString());
                 if (imageFile != null) {
                     presenter.editEvent(editEventRequest, imageFile);
                 } else {
@@ -389,19 +388,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
 //        startActivity(intent);
 //        finish();
         onBackPressed();
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private String formatToServerDate(String date) {
-        String result = "";
-        try {
-            Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
-            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-            result = formatter.format(dateResult);
-        } catch (ParseException e) {
-            result = date;
-        }
-        return result;
     }
 
     @Override
