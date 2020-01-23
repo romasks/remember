@@ -123,8 +123,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
         } catch (Exception e) {
             description = RequestBody.create(MultipartBody.FORM, "");
         }
-        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        fileToUploadTransfer = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
+        if (imageFile != null) {
+            RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+            fileToUploadTransfer = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
+        }
         String token = "Bearer " + Prefs.getString("TOKEN", "");
         return apiMethods.saveEvent(token,
                 pageId,
