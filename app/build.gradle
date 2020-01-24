@@ -20,8 +20,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 65
-        versionName "1.4.6.012"
+        versionCode 66
+        versionName "1.4.6.013"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -147,7 +147,6 @@ dependencies {
 
     // Social auth
     implementation "com.jaychang:simpleauth:$simpleauthVersion"
-    implementation "com.jaychang:simpleauth-twitter:$simpleauthVersion"
     implementation "com.jaychang:simpleauth-facebook:$simpleauthVersion"
 
     // pagination
@@ -162,12 +161,7 @@ dependencies {
 
 android.defaultConfig.manifestPlaceholders = [
         facebookAppId        : "2249045548726393",
-        googleWebClientId    : "your google web client id",
-        twitterConsumerKey   : "PT6uezLMteHqTsq2VO3qio3cT",
-        twitterConsumerSecret: "6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb",
-        instagramClientId    : "2194910250765470",
-        instagramClientSecret: "6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb",
-        instagramRedirectUrl : "your instagram redirect url"
+        googleWebClientId    : "your google web client id"
 ]
 
 crashlytics {

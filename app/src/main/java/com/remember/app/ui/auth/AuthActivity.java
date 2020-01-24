@@ -25,24 +25,22 @@ import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.RepairPasswordDialog;
 import com.remember.app.ui.utils.Utils;
 import com.remember.app.ui.utils.WrongEmailDialog;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
-import java.util.Collections;
-import java.util.List;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
+import java.util.List;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -77,7 +75,6 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     ImageButton vk;
 
     private Unbinder unbinder;
-    private TwitterAuthClient client;
     private Odnoklassniki odnoklassniki;
     private ProgressDialog popupDialog;
 
@@ -86,13 +83,12 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
         unbinder = ButterKnife.bind(this);
-        client = new TwitterAuthClient();
         TextView register = findViewById(R.id.register);
         TextView wrongPas = findViewById(R.id.wrong_password);
         register.setPaintFlags(register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
 //            login.setText("admin@ya.ru");
 //            password.setText("11111111");
         }
@@ -161,31 +157,6 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
             }
         });
     }
-//
-//    @OnClick(R.id.twitter)
-//    public void signInTwitter() {
-//        SimpleAuth.connectTwitter(new AuthCallback() {
-//            @Override
-//            public void onSuccess(SocialUser socialUser) {
-//                Prefs.putString(PREFS_KEY_EMAIL, socialUser.email);
-//                String[] str = socialUser.fullName.split(" ");
-//                Prefs.putString(PREFS_KEY_NAME_USER, str[0]);
-//                Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
-//                presenter.signInTwitter();
-//            }
-//
-//            @Override
-//            public void onError(Throwable onError) {
-//                errorDialog("Ошибка авторизации");
-//                Log.e("TWITTER", onError.getMessage());
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//
-//            }
-//        });
-//    }
 
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
