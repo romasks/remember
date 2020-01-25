@@ -7,6 +7,14 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--auth-->
+    <string name="auth_enter_email">Введите e-mail</string>
+    <string name="auth_enter_password">Введите пароль</string>
+    <string name="auth_error_data_enter">Произошла ошибка, проверьте введенные данные</string>
+    <string name="auth_wrong_login_or_pwd">Неправильный логин или пароль</string>
+    <string name="restore_pwd_successfully_send">Новый пароль успешно отправлен на E-mail</string>
+    <string name="restore_pwd_error_send">Ошибка отправки</string>
+
     <!--menu-->
     <string name="menu_cabinet">Кабинет</string>
     <string name="menu_gallery">Галерея знаменитостей</string>

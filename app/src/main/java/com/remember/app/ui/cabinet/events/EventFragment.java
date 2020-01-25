@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.widget.LinearLayout;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.gson.Gson;
@@ -25,6 +22,8 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -42,14 +41,11 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
 
     @BindView(R.id.rv)
     RecyclerView recyclerView;
+    @BindView(R.id.no_events)
+    LinearLayout noEventsLayout;
 
     private Unbinder unbinder;
     private EventsFragmentAdapter eventsFragmentAdapter;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @SuppressLint("WrongConstant")
     @Override
@@ -93,8 +89,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
 
     @Override
     public void onReceivedEvents(List<EventResponse> responseEvents) {
-        if (responseEvents.size() == 0)
-            Toast.makeText(getContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
+        noEventsLayout.setVisibility(responseEvents.isEmpty() ? View.VISIBLE : View.GONE);
         eventsFragmentAdapter.setItems(responseEvents);
     }
 
@@ -120,7 +115,7 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
             Intent intent = new Intent(getActivity(), ShowPageActivity.class);
             intent.putExtra(INTENT_EXTRA_ID, event.getPageId());
             startActivity(intent);
-        } else if (event.getType().equals(NOTIF_EVENT_TYPE_DEAD_EVENT)){
+        } else if (event.getType().equals(NOTIF_EVENT_TYPE_DEAD_EVENT)) {
             Intent intent = new Intent(getActivity(), EventFullActivity.class);
             String eventJson = new Gson().toJson(event);
             intent.putExtra("EVENTS", eventJson);

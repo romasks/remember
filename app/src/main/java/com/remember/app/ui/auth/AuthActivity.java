@@ -77,6 +77,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     private Unbinder unbinder;
     private Odnoklassniki odnoklassniki;
     private ProgressDialog popupDialog;
+    private boolean isSuccessRestored = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,14 +162,14 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
         if (login.getText().toString().equals("")) {
-            Utils.showSnack(login, "Введите e-mail");
+            Utils.showSnack(login, getResources().getString(R.string.auth_enter_email));
         } else if (password.getText().toString().equals("")) {
-            Utils.showSnack(login, "Введите пароль");
+            Utils.showSnack(login, getResources().getString(R.string.auth_enter_password));
         } else {
             try {
                 presenter.singInAuth(login.getText().toString(), password.getText().toString());
             } catch (Exception e) {
-                Utils.showSnack(login, "Произошла ошибка, проверьте введенные данные");
+                Utils.showSnack(login, getResources().getString(R.string.auth_error_data_enter));
             }
         }
     }
@@ -274,7 +275,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
 
     @Override
     public void onError(Throwable throwable) {
-        Utils.showSnack(login, "Неправильный логин или пароль");
+        Utils.showSnack(login, getResources().getString(R.string.auth_wrong_login_or_pwd));
         /*try {
             errorDialog("Неправильный логин или пароль");
         } catch (Exception e) {
@@ -304,17 +305,20 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @Override
     public void onRestored(ResponseRestorePassword responseRestorePassword) {
         popupDialog.dismiss();
+        isSuccessRestored = true;
         if (responseRestorePassword.getResponse()) {
-            errorDialog("Новый пароль успешно отправлен на E-mail");
+            errorDialog(getResources().getString(R.string.restore_pwd_successfully_send));
         } else {
-            Utils.showSnack(login, "Ошибка отправки");
+            Utils.showSnack(login, getResources().getString(R.string.restore_pwd_error_send));
         }
     }
 
     @Override
     public void errorRestored(Throwable throwable) {
-        popupDialog.dismiss();
-        Utils.showSnack(login, "Ошибка отправки");
+        if (!isSuccessRestored) {
+            popupDialog.dismiss();
+            Utils.showSnack(login, getResources().getString(R.string.restore_pwd_error_send));
+        }
     }
 
     public void errorDialog(String text) {

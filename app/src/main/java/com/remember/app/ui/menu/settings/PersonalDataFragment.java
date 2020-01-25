@@ -15,12 +15,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatRadioButton;
-
-import com.bumptech.glide.Glide;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
@@ -35,6 +29,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,7 +40,6 @@ import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
-import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.THEME_DARK;
@@ -91,19 +88,10 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (presenter != null) {
-//            presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
-//        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setings_lk, container, false);
         unbinder = ButterKnife.bind(this, view);
-        email.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
         ColorStateList textColor = Utils.isThemeDark()
                 ? getResources().getColorStateList(R.color.abc_dark)
@@ -208,6 +196,7 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         phone.setText(responseSettings.getPhone());
         nickname.setText(responseSettings.getNickname());
         location.setText(responseSettings.getLocation());
+        email.setText(responseSettings.getEmail());
 
         if (getView() != null) {
             getView().invalidate();
