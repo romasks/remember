@@ -128,6 +128,23 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyChaINz3Z-zpj3LXh-9AMcJqYvwhBqSU_o" />
+
+        <receiver android:name=".UpdateBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <data android:scheme="package"  />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <data android:scheme="package"  />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <data android:scheme="package"  />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

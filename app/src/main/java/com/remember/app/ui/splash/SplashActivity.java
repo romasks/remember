@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.VideoView;
 
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.grid.GridActivity;
@@ -18,6 +19,10 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     @BindView(R.id.videoView)
     VideoView videoView;
+
+    public static void clearPrefs() {
+        Prefs.clear();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
