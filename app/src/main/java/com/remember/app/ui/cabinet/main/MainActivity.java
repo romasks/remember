@@ -19,6 +19,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponseUserInfo;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
@@ -30,7 +31,6 @@ import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.PopupPageScreen;
 import com.remember.app.ui.utils.Utils;
@@ -42,9 +42,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
@@ -55,7 +53,7 @@ import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class MainActivity extends MvpAppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
 
     private static String TAG = MainActivity.class.getSimpleName();
@@ -74,7 +72,6 @@ public class MainActivity extends MvpAppCompatActivity
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
-    private Unbinder unbinder;
     private PageFragment pageFragment;
     private CallbackPage callbackPage;
     private ProgressDialog progressDialog;
@@ -91,12 +88,15 @@ public class MainActivity extends MvpAppCompatActivity
     };
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        unbinder = ButterKnife.bind(this);
 
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
@@ -236,12 +236,6 @@ public class MainActivity extends MvpAppCompatActivity
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);
         popupWindowEvent.setUp(titleUserName);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

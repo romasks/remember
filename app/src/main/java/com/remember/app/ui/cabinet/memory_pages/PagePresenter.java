@@ -22,6 +22,7 @@ public class PagePresenter extends BasePresenter<PageView> {
     }
 
     void getPages() {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getPages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

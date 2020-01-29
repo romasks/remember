@@ -22,6 +22,7 @@ public class PlacePresenter extends BasePresenter<PlaceView> {
     }
 
     void getCities() {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getCities()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -30,6 +31,7 @@ public class PlacePresenter extends BasePresenter<PlaceView> {
     }
 
     void getCemetery(int id) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getCemetery(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

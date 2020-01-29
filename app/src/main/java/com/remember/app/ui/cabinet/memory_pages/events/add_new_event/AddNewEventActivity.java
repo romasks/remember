@@ -24,9 +24,9 @@ import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.RequestAddEvent;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -44,9 +44,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
@@ -66,7 +64,7 @@ import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 
-public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewEventView {
+public class AddNewEventActivity extends BaseActivity implements AddNewEventView {
 
     private final String TAG = AddNewEventActivity.class.getSimpleName();
 
@@ -102,7 +100,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     @BindView(R.id.back)
     ImageView backButton;
 
-    private Unbinder unbinder;
     private String name;
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();
@@ -125,8 +122,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event);
-        unbinder = ButterKnife.bind(this);
 
         if (Utils.isThemeDark()) {
             backButton.setImageResource(R.drawable.ic_back_dark_theme);
@@ -143,6 +138,11 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         } else {
             verifyStoragePermissions(this);
         }
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_add_event;
     }
 
     private void setUp() {
@@ -362,12 +362,6 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
         super.onPause();
         if (progressDialog != null)
             progressDialog.dismiss();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

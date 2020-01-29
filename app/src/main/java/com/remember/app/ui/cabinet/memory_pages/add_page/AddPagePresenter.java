@@ -25,6 +25,7 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
     ServiceNetwork serviceNetwork;
 
     void addPage(AddPageModel person, File imageUri) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.addPage(person, imageUri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -34,6 +35,7 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
     }
 
     void getReligion() {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getReligion()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -43,6 +45,7 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
     }
 
     void editPage(AddPageModel person, Integer id, File imageFile) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.editPage(person, id, imageFile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

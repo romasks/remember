@@ -22,6 +22,7 @@ public class EventsPresenter extends BasePresenter<EventsView> {
     }
 
     void getEvents(int pageId) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEventsForId(pageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

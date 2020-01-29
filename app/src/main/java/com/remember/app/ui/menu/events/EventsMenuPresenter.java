@@ -17,11 +17,12 @@ public class EventsMenuPresenter extends BasePresenter<EventsMenuView> {
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public EventsMenuPresenter() {
+    EventsMenuPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void getEvents() {
+    void getEvents() {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -30,7 +31,8 @@ public class EventsMenuPresenter extends BasePresenter<EventsMenuView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void searchEventReligios(String date, int selectedIndex) {
+    void searchEventReligios(String date, int selectedIndex) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.searchEventReligios(date, selectedIndex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

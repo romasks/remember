@@ -13,7 +13,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.adapters.PhotoSliderAdapter;
 import com.remember.app.ui.adapters.SlidePagerAdapterPhoto;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
@@ -22,10 +22,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPageView, SlidePagerAdapterPhoto.Count, PhotoSliderAdapter.ItemClickListener {
+public class SlidePhotoActivity extends BaseActivity
+        implements ShowPageView, SlidePagerAdapterPhoto.Count, PhotoSliderAdapter.ItemClickListener {
 
     @InjectPresenter
     ShowPagePresenter presenter;
@@ -43,7 +42,6 @@ public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPage
 
     private int id = 0;
     private PhotoSliderAdapter photoSliderAdapter;
-    private Unbinder unbinder;
     private SlidePagerAdapterPhoto slidePagerAdapterPhoto;
     private final static String TAG = "SlidePhotoActivity";
     private int position;
@@ -54,8 +52,6 @@ public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPage
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slide_photo);
-        unbinder = ButterKnife.bind(this);
 
         im_back.setImageResource(Utils.isThemeDark() ? R.drawable.ic_back_dark_theme : R.drawable.ic_back);
 
@@ -77,8 +73,12 @@ public class SlidePhotoActivity extends MvpAppCompatActivity implements ShowPage
     }
 
     @Override
-    public void onReceivedImage(MemoryPageModel memoryPageModel) {
+    protected int getContentView() {
+        return R.layout.activity_slide_photo;
+    }
 
+    @Override
+    public void onReceivedImage(MemoryPageModel memoryPageModel) {
 
     }
 

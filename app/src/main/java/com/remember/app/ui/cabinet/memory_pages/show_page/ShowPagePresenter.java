@@ -24,6 +24,7 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
     }
 
     void getImageAfterSave(Integer id) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getImageAfterSave(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -33,6 +34,7 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
     }
 
     void savePhoto(File imageFile, String string, Integer id) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.savePhoto(imageFile, string, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -42,6 +44,7 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
     }
 
     void getImagesSlider(Integer id) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getImagesSlider(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

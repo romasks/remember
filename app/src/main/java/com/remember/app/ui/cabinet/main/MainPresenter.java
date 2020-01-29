@@ -1,6 +1,7 @@
 package com.remember.app.ui.cabinet.main;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.remember.app.NetworkStatus;
 import com.remember.app.Remember;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponseHandBook;
@@ -24,6 +25,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     void getReligion() {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getReligion()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -36,6 +38,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     void searchLastName(RequestSearchPage requestSearchPage) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.searchPageAllDead(requestSearchPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -45,6 +48,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     void getInfo() {
+        if (isOffline()) return;
         Disposable subscription = getServiceNetwork().getInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

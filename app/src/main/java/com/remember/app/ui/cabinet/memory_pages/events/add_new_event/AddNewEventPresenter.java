@@ -25,8 +25,8 @@ public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
         Remember.getApplicationComponent().inject(this);
     }
 
-    //    public void saveEvent(RequestAddEvent requestAddEvent) {
-    public void saveEvent(CreateEventRequest createEventRequest, File image) {
+    void saveEvent(CreateEventRequest createEventRequest, File image) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.saveEvent(createEventRequest, image)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -35,7 +35,8 @@ public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    public void editEvent(EditEventRequest editEventRequest, File image) {
+    void editEvent(EditEventRequest editEventRequest, File image) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.editEvent(editEventRequest, image)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

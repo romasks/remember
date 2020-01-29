@@ -27,13 +27,13 @@ import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.FileUtils;
 import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -51,9 +51,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
@@ -70,7 +68,7 @@ import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
-public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPageView, PopupReligion.Callback {
+public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback {
 
     private static final String TAG = NewMemoryPageActivity.class.getSimpleName();
 
@@ -125,15 +123,13 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
     private MemoryPageModel memoryPageModel;
     private ProgressDialog progressDialog;
     private File imageFile;
-    private Unbinder unbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_memory_page);
-        unbinder = ButterKnife.bind(this);
+
         title.setText(R.string.memory_page_new_header_text);
         settings.setVisibility(View.GONE);
 
@@ -158,6 +154,11 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         } else {
             verifyStoragePermissions(this);
         }
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_new_memory_page;
     }
 
     private void setUp() {
@@ -452,12 +453,6 @@ public class NewMemoryPageActivity extends MvpAppCompatActivity implements AddPa
         Prefs.putString(BURIAL_PLACE_GRAVE, "");
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

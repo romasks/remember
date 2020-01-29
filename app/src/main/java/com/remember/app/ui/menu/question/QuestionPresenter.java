@@ -15,15 +15,15 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class QuestionPresenter extends BasePresenter<QuestionView> {
 
-
     @Inject
     ServiceNetwork serviceNetwork;
 
-    public QuestionPresenter() {
+    QuestionPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
 
-    public void send(RequestQuestion requestQuestion) {
+    void send(RequestQuestion requestQuestion) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.send(requestQuestion)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -6,11 +6,28 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.FragmentManager;
 
-public class WrongEmailDialog extends AppCompatDialogFragment {
+public class ErrorDialog extends AppCompatDialogFragment {
 
+    private FragmentManager fragmentManager;
     private String message = "";
     private String neutral = "Ok";
+    private String tag = "errorDialog";
+
+    public ErrorDialog() {
+    }
+
+    public ErrorDialog(FragmentManager fragmentManager, String message) {
+        this.fragmentManager = fragmentManager;
+        this.message = message;
+    }
+
+    public ErrorDialog(FragmentManager fragmentManager, String message, String tag) {
+        this.fragmentManager = fragmentManager;
+        this.message = message;
+        this.tag = tag;
+    }
 
     @NonNull
     @Override
@@ -25,6 +42,10 @@ public class WrongEmailDialog extends AppCompatDialogFragment {
 
     public void setDescription(String text) {
         message = text;
+    }
+
+    public void show() {
+        super.show(fragmentManager.beginTransaction(), tag);
     }
 
 }

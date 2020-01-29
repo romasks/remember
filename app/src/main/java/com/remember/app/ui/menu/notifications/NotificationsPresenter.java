@@ -39,7 +39,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
     }
 
     void getEventNotification(NotificationFilterType filterType) {
-
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEventNotifications(filterType.toString())
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEventNotifications)
@@ -49,6 +49,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
     }
 
     void getEpitNotifications() {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEpitNotifications()
                 .subscribeOn(Schedulers.io())
                 .map(this::prepareEpitNotifications)

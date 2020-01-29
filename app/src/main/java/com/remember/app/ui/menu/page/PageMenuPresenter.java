@@ -22,8 +22,8 @@ public class PageMenuPresenter extends BasePresenter<PageMenuView> {
         Remember.getApplicationComponent().inject(this);
     }
 
-
     void getImages(int pageNumber) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getImages(pageNumber, false, false, "")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -33,6 +33,7 @@ public class PageMenuPresenter extends BasePresenter<PageMenuView> {
     }
 
     public void search(RequestSearchPage requestSearchPage) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.searchPageAllDead(requestSearchPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

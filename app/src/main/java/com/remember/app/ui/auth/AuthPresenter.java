@@ -32,6 +32,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     void singInAuth(String login, String password) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.singInAuth(login, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -41,6 +42,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     void getInfoUser() {
+        if (isOffline()) return;
         VKRequest request = new VKRequest("account.getProfileInfo");
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
@@ -62,6 +64,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     void signInVk() {
+        if (isOffline()) return;
         RequestSocialAuth request = new RequestSocialAuth(
                 Prefs.getString(PREFS_KEY_EMAIL, ""),
                 Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
@@ -76,6 +79,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     void signInFacebook() {
+        if (isOffline()) return;
         RequestSocialAuth request = new RequestSocialAuth(
                 Prefs.getString(PREFS_KEY_EMAIL, ""),
                 Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
@@ -90,6 +94,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     void signInOk() {
+        if (isOffline()) return;
         RequestSocialAuth request = new RequestSocialAuth(
                 "",
                 Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
@@ -104,6 +109,7 @@ public class AuthPresenter extends BasePresenter<AuthView> {
     }
 
     void restorePassword(String email) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.restorePassword(email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -15,9 +15,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.adapters.EventsDeceaseAdapter;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.Utils;
 
@@ -26,8 +26,6 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
@@ -36,7 +34,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 
-public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
+public class EventsActivity extends BaseActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
 
     private final String TAG = EventsActivity.class.getSimpleName();
 
@@ -58,7 +56,6 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @BindView(R.id.btn_create_event)
     Button btnCreateEvent;
 
-    private Unbinder unbinder;
     private String name;
     private EventsDeceaseAdapter eventsDeceaseAdapter;
     private int pageId;
@@ -73,8 +70,6 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
-        unbinder = ButterKnife.bind(this);
 
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
@@ -126,15 +121,14 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.getEvents(pageId);
+    protected int getContentView() {
+        return R.layout.activity_event;
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
+    protected void onResume() {
+        super.onResume();
+        presenter.getEvents(pageId);
     }
 
     @Override

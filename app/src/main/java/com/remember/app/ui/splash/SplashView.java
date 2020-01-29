@@ -1,6 +1,6 @@
 package com.remember.app.ui.splash;
 
-import com.arellomobile.mvp.MvpView;
+import com.remember.app.ui.base.BaseView;
 
-public interface SplashView extends MvpView {
+interface SplashView extends BaseView {
 }

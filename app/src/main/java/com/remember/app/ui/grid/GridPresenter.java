@@ -2,12 +2,9 @@ package com.remember.app.ui.grid;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
-import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.ui.base.BasePresenter;
 
-import androidx.lifecycle.LiveData;
-import androidx.paging.PagedList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -22,6 +19,7 @@ public class GridPresenter extends BasePresenter<GridView> {
     }
 
     void getImages(int pageNumber) {
+        if (isOffline()) return;
         Disposable subscription = getServiceNetwork().getImages(pageNumber, true, true, IMAGES_STATUS_APPROVED)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -31,6 +29,7 @@ public class GridPresenter extends BasePresenter<GridView> {
     }
 
     public void search(RequestSearchPage requestSearchPage) {
+        if (isOffline()) return;
         Disposable subscription = getServiceNetwork().searchPageAllDead(requestSearchPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -38,12 +37,4 @@ public class GridPresenter extends BasePresenter<GridView> {
                         getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
-
-    /*public LiveData<PagedList<MemoryPageModel>> getMemoryPageModel() {
-        return getServiceNetwork().getImagesRepositoryPagedListConfig().getMemoryPageModels();
-    }
-
-    public LiveData<PagedList<MemoryPageModel>> getSearchedMemoryPageModel(RequestSearchPage requestSearchPage) {
-        return getServiceNetwork().getSearchedImagesRepositoryPagedListConfig(requestSearchPage).getMemoryPageModels();
-    }*/
 }

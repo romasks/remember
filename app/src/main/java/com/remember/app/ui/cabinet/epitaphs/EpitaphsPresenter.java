@@ -23,6 +23,7 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
     }
 
     void getEpitaphs(int pageId) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEpitaphs(pageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -32,6 +33,7 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
     }
 
     void saveEpitaph(RequestAddEpitaphs requestAddEpitaphs) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.saveEpitaph(requestAddEpitaphs)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -41,6 +43,7 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
     }
 
     void editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.editEpitaph(requestAddEpitaphs, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,6 +53,7 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
     }
 
     void deleteEpitaph(Integer id) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.deleteEpitaph(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

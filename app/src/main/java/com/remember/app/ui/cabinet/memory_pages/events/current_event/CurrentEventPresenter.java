@@ -22,6 +22,7 @@ public class CurrentEventPresenter extends BasePresenter<CurrentEventView> {
     }
 
     void getDeadEvent(int id) {
+        if (isOffline()) return;
         Disposable subscription = serviceNetwork.getDeadEvent(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

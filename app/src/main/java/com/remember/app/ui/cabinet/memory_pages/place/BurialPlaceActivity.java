@@ -12,22 +12,19 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
@@ -37,7 +34,7 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
 
-public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMap.Callback,
+public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callback,
         PlaceView, PopupCity.Callback, PopupCemetery.Callback {
 
     @InjectPresenter
@@ -66,10 +63,6 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_burial_place);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragment);
-        ButterKnife.bind(this);
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         responseHandBook = new ResponseHandBook();
@@ -103,6 +96,11 @@ public class BurialPlaceActivity extends MvpAppCompatActivity implements PopupMa
                 Utils.showSnack(city, "Введите город");
             }
         });
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_burial_place;
     }
 
     private void initEdit() {

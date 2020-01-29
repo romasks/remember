@@ -1,14 +1,15 @@
 package com.remember.app.ui.base;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 
+import com.remember.app.ui.utils.ErrorDialog;
 import com.remember.app.ui.utils.MvpAppCompatActivity;
 
+import androidx.annotation.Nullable;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseActivity extends MvpAppCompatActivity {
+public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
     private Unbinder unbinder;
 
@@ -25,6 +26,11 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
     protected void onDestroy() {
         unbinder.unbind();
         super.onDestroy();
+    }
+
+    @Override
+    public void onErrorOffline() {
+        new ErrorDialog(getSupportFragmentManager(), "Проверьте подключение к сети", "errorOfflineDialog");
     }
 
 }

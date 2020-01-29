@@ -16,6 +16,7 @@ public class EventsPresenter extends BasePresenter<EventView> {
     }
 
     void getEvents() {
+        if (isOffline()) return;
         Disposable subscription = getServiceNetwork().getEventsFeed()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -25,6 +26,7 @@ public class EventsPresenter extends BasePresenter<EventView> {
     }
 
     void getEvent(int id) {
+        if (isOffline()) return;
         Disposable subscription = getServiceNetwork().getEvent(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

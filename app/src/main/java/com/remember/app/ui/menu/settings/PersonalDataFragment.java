@@ -8,9 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -18,8 +16,8 @@ import android.widget.RadioGroup;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -34,9 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
@@ -47,7 +43,7 @@ import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class PersonalDataFragment extends MvpAppCompatFragment implements SettingView {
+public class PersonalDataFragment extends BaseFragment implements SettingView {
 
     private final String TAG = PersonalDataFragment.class.getSimpleName();
 
@@ -77,7 +73,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     @BindView(R.id.cb_theme_dark)
     AppCompatRadioButton darkTheme;
 
-    private Unbinder unbinder;
     private ProgressDialog progressDialog;
 
     public PersonalDataFragment() {
@@ -88,11 +83,12 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_setings_lk, container, false);
-        unbinder = ButterKnife.bind(this, view);
+    protected int getContentView() {
+        return R.layout.fragment_setings_lk;
+    }
 
+    @Override
+    protected void setUp() {
         ColorStateList textColor = Utils.isThemeDark()
                 ? getResources().getColorStateList(R.color.abc_dark)
                 : getResources().getColorStateList(R.color.abc_light);
@@ -106,8 +102,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         email.setTextColor(textColor);
         location.setTextColor(textColor);
         phone.setTextColor(textColor);
-
-        return view;
     }
 
     @Override
@@ -116,12 +110,6 @@ public class PersonalDataFragment extends MvpAppCompatFragment implements Settin
         if (presenter != null) {
             presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

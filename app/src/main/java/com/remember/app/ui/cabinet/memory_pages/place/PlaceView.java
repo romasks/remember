@@ -1,12 +1,12 @@
 package com.remember.app.ui.cabinet.memory_pages.place;
 
-import com.arellomobile.mvp.MvpView;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
+import com.remember.app.ui.base.BaseView;
 
 import java.util.List;
 
-public interface PlaceView extends MvpView {
+public interface PlaceView extends BaseView {
 
     void onUpdatedCities(List<ResponseHandBook> responseCities);
 

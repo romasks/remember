@@ -19,12 +19,12 @@ import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseVk;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.utils.ErrorDialog;
 import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.RepairPasswordDialog;
 import com.remember.app.ui.utils.Utils;
-import com.remember.app.ui.utils.WrongEmailDialog;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
@@ -39,12 +39,8 @@ import org.json.JSONObject;
 import java.util.Collections;
 import java.util.List;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import ru.ok.android.sdk.Odnoklassniki;
 import ru.ok.android.sdk.OkListener;
 import ru.ok.android.sdk.SharedKt;
@@ -58,7 +54,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
-public class AuthActivity extends MvpAppCompatActivity implements AuthView, RepairPasswordDialog.Callback {
+public class AuthActivity extends BaseActivity implements AuthView, RepairPasswordDialog.Callback {
 
     private static final String APP_ID = "512000155578";
     private static final String APP_KEY = "CLLQFHJGDIHBABABA";
@@ -74,7 +70,6 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @BindView(R.id.vk)
     ImageButton vk;
 
-    private Unbinder unbinder;
     private Odnoklassniki odnoklassniki;
     private ProgressDialog popupDialog;
     private boolean isSuccessRestored = false;
@@ -82,8 +77,6 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auth);
-        unbinder = ButterKnife.bind(this);
         TextView register = findViewById(R.id.register);
         TextView wrongPas = findViewById(R.id.wrong_password);
         register.setPaintFlags(register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -119,6 +112,11 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         for (String fingerprint : fingerprints) {
             Log.e("fingerprint", fingerprint);
         }*/
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_auth;
     }
 
     @OnClick(R.id.vk)
@@ -239,9 +237,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
         try {
             RepairPasswordDialog repairPasswordDialog = new RepairPasswordDialog();
             repairPasswordDialog.setCallback(this);
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            repairPasswordDialog.show(transaction, "repairPasswordDialog");
+            repairPasswordDialog.show(getSupportFragmentManager().beginTransaction(), "repairPasswordDialog");
         } catch (Exception e) {
         }
 
@@ -251,12 +247,6 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     public void back() {
         onBackPressed();
         finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override
@@ -322,12 +312,7 @@ public class AuthActivity extends MvpAppCompatActivity implements AuthView, Repa
     }
 
     public void errorDialog(String text) {
-        WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
-        FragmentManager manager = getSupportFragmentManager();
-        wrongEmailDialog.setDescription(text);
-        FragmentTransaction transaction = manager.beginTransaction();
-        wrongEmailDialog.show(transaction, "wrongEmailDialog");
-        transaction.commitAllowingStateLoss();
+        new ErrorDialog(getSupportFragmentManager(), text);
     }
 
     @Override

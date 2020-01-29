@@ -23,11 +23,11 @@ import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.adapters.PhotoSliderAdapter;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.DateUtils;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PhotoDialog;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -50,9 +50,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
@@ -71,7 +69,7 @@ import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
+public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
 
     private final String TAG = ShowPageActivity.class.getSimpleName();
 
@@ -124,7 +122,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @BindView(R.id.panel)
     LinearLayout panel;
 
-    private Unbinder unbinder;
     private boolean isList = false;
     private boolean isShow = false;
     private boolean afterSave = false;
@@ -140,8 +137,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_page);
-        unbinder = ButterKnife.bind(this);
 
         if (Utils.isThemeDark()) {
             backImg.setImageResource(R.drawable.ic_back_dark_theme);
@@ -202,6 +197,11 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         photoSliderAdapter = new PhotoSliderAdapter();
         photoSliderAdapter.setClickListener(this);
         recyclerSlider.setAdapter(photoSliderAdapter);
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_page;
     }
 
     private String getNameTitle(MemoryPageModel memoryPageModel) {
@@ -310,12 +310,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @OnClick(R.id.settings)

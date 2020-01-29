@@ -1,14 +1,12 @@
 package com.remember.app.ui.cabinet.memory_pages.events;
 
-import com.arellomobile.mvp.MvpView;
 import com.remember.app.data.models.RequestAddEvent;
+import com.remember.app.ui.base.BaseView;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+public interface EventsView extends BaseView {
 
-public interface EventsView extends MvpView {
-
-    void onReceivedEvent( List<RequestAddEvent> requestAddEvent);
+    void onReceivedEvent(List<RequestAddEvent> requestAddEvent);
 
 }
