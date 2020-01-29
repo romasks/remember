@@ -122,6 +122,22 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".ui.service.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_remember" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="com.remember.app" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7ac28b26f9adbec5e15c86d2820f825947e74f53" />
