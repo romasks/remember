@@ -121,11 +121,13 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
 
     @OnClick(R.id.vk)
     public void signInVk() {
+        if (presenter.isOffline()) return;
         VKSdk.login(this, VKScope.EMAIL, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
     }
 
     @OnClick(R.id.ok)
     public void signInOk() {
+        if (presenter.isOffline()) return;
         odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
         odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);
     }
@@ -134,6 +136,7 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
     public void signInFacebook() {
         List<String> scopes = Collections.singletonList("");
 
+        if (presenter.isOffline()) return;
         com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
             @Override
             public void onSuccess(SocialUser socialUser) {

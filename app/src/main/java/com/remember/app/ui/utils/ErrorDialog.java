@@ -45,7 +45,7 @@ public class ErrorDialog extends AppCompatDialogFragment {
     }
 
     public void show() {
-        super.show(fragmentManager.beginTransaction(), tag);
+        show(fragmentManager.beginTransaction(), tag);
     }
 
 }

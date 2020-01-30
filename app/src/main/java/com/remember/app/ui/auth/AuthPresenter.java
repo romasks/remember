@@ -117,4 +117,9 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                         getViewState()::errorRestored);
         unsubscribeOnDestroy(subscription);
     }
+
+    @Override
+    public boolean isOffline() {
+        return super.isOffline();
+    }
 }

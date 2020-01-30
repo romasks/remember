@@ -30,7 +30,11 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
 
     @Override
     public void onErrorOffline() {
-        new ErrorDialog(getSupportFragmentManager(), "Проверьте подключение к сети", "errorOfflineDialog");
+        new ErrorDialog(
+                getSupportFragmentManager(),
+                "Проверьте подключение к сети",
+                "errorOfflineDialog"
+        ).show();
     }
 
 }
