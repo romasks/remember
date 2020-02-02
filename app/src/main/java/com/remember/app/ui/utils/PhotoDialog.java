@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,13 +66,17 @@ public class PhotoDialog extends DialogFragment {
             callback.showPhoto();
         });
         done.setOnClickListener(v -> {
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                imageFile = saveBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (uri == null) {
+                Toast.makeText(getActivity(), "Выберите фото", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                    imageFile = saveBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                callback.sendPhoto(imageFile, editText.getText().toString());
             }
-            callback.sendPhoto(imageFile, editText.getText().toString());
         });
         cancel.setOnClickListener(v -> {
             dismiss();
