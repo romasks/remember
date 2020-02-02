@@ -84,12 +84,6 @@ public class PageFragment extends BaseFragment
         presenter.getPages();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
     @OnClick(R.id.show_all)
     void showAll() {
         showAll.setVisibility(View.GONE);

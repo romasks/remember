@@ -43,12 +43,14 @@ public class SettingActivity extends BaseActivity implements SettingView {
     ImageView settings;
 
     private ViewPager viewPager;
+    private int theme_setting = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
+
         title.setText(R.string.settings_header_text);
         settings.setVisibility(View.GONE);
 
@@ -65,15 +67,20 @@ public class SettingActivity extends BaseActivity implements SettingView {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void changeTheme() {
+        Utils.setTheme(this);
+        theme_setting = 1;
+        this.recreate();
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        presenter.getInfo();
+        if (theme_setting == 0) {
+            presenter.getInfo();
+        } else {
+            theme_setting = 0;
+        }
     }
 
     private void setUp() {

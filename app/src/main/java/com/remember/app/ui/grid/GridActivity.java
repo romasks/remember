@@ -97,17 +97,23 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
+
         super.onCreate(savedInstanceState);
+
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
         setUpRecycler();
 
-        presenter.getImages(pageNumber);
-        if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_LAUNCH_MODE, false)) {
-            setSplashVideo();
-            splashVideo.start();
-            new Handler().postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
+        if (theme_setting == 0) {
+            presenter.getImages(pageNumber);
+            if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_LAUNCH_MODE, false)) {
+                setSplashVideo();
+                splashVideo.start();
+                new Handler().postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
+            } else {
+                showMainContent();
+            }
         } else {
-            showMainContent();
+            theme_setting = 0;
         }
     }
 
@@ -116,6 +122,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         super.onResume();
         if (theme_setting == 1) {
             this.recreate();
+        } else {
+            getInfoUser();
         }
         drawer = findViewById(R.id.drawer_layout_2);
         drawer.setDrawerLockMode(
@@ -123,7 +131,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                         ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
                         : DrawerLayout.LOCK_MODE_UNLOCKED
         );
-        getInfoUser();
     }
 
     @Override
@@ -265,7 +272,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             }
             case R.id.menu_settings: {
                 startActivity(new Intent(this, SettingActivity.class));
-//                theme_setting = 1;
+                theme_setting = 1;
                 return true;
             }
             case R.id.menu_questions: {

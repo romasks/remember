@@ -89,11 +89,15 @@ public class PersonalDataFragment extends BaseFragment implements SettingView {
 
     @Override
     protected void setUp() {
+        setTheme();
+
+        rgTheme.check(Utils.isThemeDark() ? R.id.cb_theme_dark : R.id.cb_theme_light);
+    }
+
+    private void setTheme() {
         ColorStateList textColor = Utils.isThemeDark()
                 ? getResources().getColorStateList(R.color.abc_dark)
                 : getResources().getColorStateList(R.color.abc_light);
-
-        rgTheme.check(Utils.isThemeDark() ? R.id.cb_theme_dark : R.id.cb_theme_light);
 
         surname.setTextColor(textColor);
         name.setTextColor(textColor);
@@ -153,20 +157,21 @@ public class PersonalDataFragment extends BaseFragment implements SettingView {
     void setLightTheme() {
         rgTheme.check(R.id.cb_theme_light);
         Prefs.putInt(PREFS_KEY_IS_THEME, THEME_LIGHT);
-        getActivity().onBackPressed();
     }
 
     @OnClick(R.id.cb_theme_dark)
     void setDarkTheme() {
         rgTheme.check(R.id.cb_theme_dark);
         Prefs.putInt(PREFS_KEY_IS_THEME, THEME_DARK);
-        getActivity().onBackPressed();
     }
 
     void onSaveClick() {
         presenter.getRequestSettings()
                 .name(name).surname(surname).middleName(middleName)
                 .nickname(nickname).location(location).phone(phone);
+
+        setTheme();
+        ((SettingActivity) requireActivity()).changeTheme();
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {

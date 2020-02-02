@@ -108,6 +108,14 @@ public class MainActivity extends BaseActivity
             viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
         }
 
+        if (theme_setting == 0) {
+            setUp();
+        } else {
+            theme_setting = 0;
+        }
+    }
+
+    private void setUp() {
         setSupportActionBar(findViewById(R.id.toolbar));
 
         pageFragment = new PageFragment();
@@ -152,21 +160,21 @@ public class MainActivity extends BaseActivity
 
         if (theme_setting == 1) {
             this.recreate();
+        } else {
+            if (!Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
+                presenter.getInfo();
+            } else {
+                navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+                titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
+
+                setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
+                setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }
-
-        if (!Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
-            presenter.getInfo();
-        } else {
-            navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
-            titleUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
-
-            setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
-            setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
     }
 
@@ -301,7 +309,7 @@ public class MainActivity extends BaseActivity
             }
             case R.id.menu_settings: {
                 startActivity(new Intent(this, SettingActivity.class));
-//                theme_setting = 1;
+                theme_setting = 1;
                 return true;
             }
             case R.id.menu_questions: {

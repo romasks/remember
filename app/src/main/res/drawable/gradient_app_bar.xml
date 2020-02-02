@@ -3,6 +3,6 @@
     <padding android:top="120dp" />
     <gradient
         android:angle="90"
-        android:endColor="#DDD"
-        android:startColor="#FFF" />
+        android:endColor="?attr/colorPrimaryDark"
+        android:startColor="?attr/colorPrimary" />
 </shape>

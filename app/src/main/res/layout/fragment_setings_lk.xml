@@ -57,7 +57,8 @@
                     style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/settings_hint_surname" />
+                    android:hint="@string/settings_hint_surname"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +73,8 @@
                     style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/settings_hint_name" />
+                    android:hint="@string/settings_hint_name"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +89,8 @@
                     style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/settings_hint_middle_name" />
+                    android:hint="@string/settings_hint_middle_name"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +106,8 @@
                     style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/settings_hint_nickname" />
+                    android:hint="@string/settings_hint_nickname"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,7 +138,8 @@
                     style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/settings_hint_locality" />
+                    android:hint="@string/settings_hint_locality"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
