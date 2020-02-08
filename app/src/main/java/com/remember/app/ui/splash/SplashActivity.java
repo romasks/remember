@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.VideoView;
 
+import androidx.annotation.Nullable;
+
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.grid.GridActivity;
 import com.remember.app.ui.utils.Utils;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LAUNCH_MODE;
@@ -23,6 +24,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
+
 
         Intent intent = new Intent(this, GridActivity.class);
         intent.putExtra(INTENT_EXTRA_IS_LAUNCH_MODE, true);

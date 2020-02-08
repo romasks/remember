@@ -33,7 +33,7 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
-                    android:src="@drawable/ic_back"
+                    app:srcCompat="@drawable/ic_back"
                     tools:ignore="RtlSymmetry" />
 
                 <TextView
@@ -47,7 +47,7 @@
                     android:text="@string/memory_page_event_header_text"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColor"
-                    android:textSize="20sp"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatImageView

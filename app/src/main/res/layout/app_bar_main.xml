@@ -36,7 +36,7 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_unknown"
+                    app:srcCompat="@drawable/ic_unknown"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +48,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_weight="1"
                     android:textColor="?android:attr/textColor"
-                    android:textSize="15sp"
+                    android:textSize="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/avatar"
                     app:layout_constraintTop_toTopOf="parent"
@@ -61,7 +61,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_search"
+                    app:srcCompat="@drawable/ic_search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +71,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_add_black"
+                    app:srcCompat="@drawable/ic_add_black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
@@ -84,7 +84,7 @@
             android:clickable="true"
             android:focusable="true"
             android:textAllCaps="false"
-            android:textSize="16sp"
+            android:textSize="16dp"
             app:tabGravity="fill"
             app:tabIndicatorColor="#917b5a"
             app:tabSelectedTextColor="#917b5a"

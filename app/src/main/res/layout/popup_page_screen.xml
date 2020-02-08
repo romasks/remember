@@ -28,7 +28,7 @@
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_back" />
+                app:srcCompat="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -37,7 +37,7 @@
                 android:layout_gravity="center"
                 android:text="@string/search"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -61,7 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/last_name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="18dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,7 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="18dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,7 +97,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/middle_name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="18dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +115,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/live_place"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="18dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +139,8 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/date_begin"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="18dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,7 +162,8 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/date_end"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textSize="18dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,6 +173,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/search"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

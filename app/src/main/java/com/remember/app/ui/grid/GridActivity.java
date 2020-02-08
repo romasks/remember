@@ -14,6 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alphamovie.lib.AlphaMovieView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -38,11 +44,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -105,7 +106,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_LAUNCH_MODE, false)) {
             setSplashVideo();
             splashVideo.start();
-            new Handler().postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
+            new Handler().postDelayed(() -> findViewById(R.id.image_rv).setVisibility(View.VISIBLE), 1500);
         } else {
             showMainContent();
         }

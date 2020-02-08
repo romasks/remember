@@ -17,7 +17,7 @@
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:padding="4dp"
-            android:src="@drawable/ic_round_camera"
+            app:srcCompat="@drawable/ic_round_camera"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -27,6 +27,7 @@
             android:background="@drawable/circle_for_memory_pages"
             android:gravity="center"
             android:textColor="@android:color/white"
+            android:textSize="14dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
             app:layout_constraintEnd_toEndOf="@+id/avatar_image"
@@ -48,7 +49,7 @@
             android:layout_marginEnd="10dp"
             android:gravity="start"
             android:textColor="@color/brown"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold"
             tools:text="Иванов Иван иванович Иванов Иван иванович" />
 
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textColor="@color/gray"
+            android:textSize="14dp"
             tools:text="02.04.1960" />
 
         <TextView
@@ -66,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:textColor="@color/gray"
+            android:textSize="14dp"
             tools:text="Дней осталось" />
 
     </LinearLayout>
