@@ -13,7 +13,6 @@ import com.remember.app.ui.utils.Utils;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 
-import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;
 
 public class SplashActivity extends BaseActivity implements SplashView {
@@ -39,5 +38,4 @@ public class SplashActivity extends BaseActivity implements SplashView {
     protected int getContentView() {
         return R.layout.activity_splash;
     }
-
 }

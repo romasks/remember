@@ -118,7 +118,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false);
             setSplashVideo();
             splashVideo.start();
-            new Handler().postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
+            recyclerView.postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
         } else {
             showMainContent();
         }
@@ -341,7 +341,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         splashVideo.setVideoFromUri(this, videoUri);
         splashVideo.setLooping(false);
         splashVideo.setOnVideoEndedListener(this::hideSplashVideo);
-
     }
 
     private void hideSplashVideo() {
