@@ -9,10 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
@@ -20,6 +16,9 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.utils.Utils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -43,7 +42,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
     ImageView settings;
 
     private ViewPager viewPager;
-    private int theme_setting = 0;
+    private boolean isThemeChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,19 +66,19 @@ public class SettingActivity extends BaseActivity implements SettingView {
         }
     }
 
-    public void changeTheme() {
+    /*public void changeTheme() {
         Utils.setTheme(this);
-        theme_setting = 1;
+        isThemeChanged = true;
         this.recreate();
-    }
+    }*/
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (theme_setting == 0) {
+        if (!isThemeChanged) {
             presenter.getInfo();
         } else {
-            theme_setting = 0;
+            isThemeChanged = false;
         }
     }
 
@@ -90,17 +89,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
         setupViewPager(viewPager);
 
         saveButton.setOnClickListener(v -> {
-            switch (viewPager.getCurrentItem()) {
-                case 0: {
-                    ((PersonalDataFragment) ((FragmentPager) viewPager.getAdapter()).getItem(0)).onSaveClick();
-                    break;
-                }
-                case 1: {
-                    ((NotificationFragment) ((FragmentPager) viewPager.getAdapter()).getItem(1)).onSaveClick();
-                    break;
-                }
-                default:
-            }
+            getFragmentInViewPager(viewPager.getCurrentItem()).onSaveClick();
             presenter.saveSettings();
         });
 
@@ -132,10 +121,16 @@ public class SettingActivity extends BaseActivity implements SettingView {
     }
 
     private void setupViewPager(ViewPager viewPager) {
+        if (isThemeChanged) return;
+        Log.d("CHECK", "SettingActivity setupViewPager");
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
         adapter.addFragment(new PersonalDataFragment(presenter), "Личные данные");
         adapter.addFragment(new NotificationFragment(presenter), "Уведомления");
         viewPager.setAdapter(adapter);
+    }
+
+    private SettingsBaseFragment getFragmentInViewPager(int position) {
+        return (SettingsBaseFragment) ((FragmentPager) viewPager.getAdapter()).getItem(position);
     }
 
     @Override

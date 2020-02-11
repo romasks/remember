@@ -13,14 +13,14 @@ import com.remember.app.R;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME;
 import static com.remember.app.data.Constants.THEME_DARK;
 import static com.remember.app.data.Constants.THEME_LIGHT;
 
 public class Utils {
 
     public static boolean isThemeDark() {
-        return Prefs.getInt(PREFS_KEY_IS_THEME, THEME_LIGHT) == THEME_DARK;
+        return Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT) == THEME_DARK;
     }
 
     public static void setTheme(AppCompatActivity activity) {

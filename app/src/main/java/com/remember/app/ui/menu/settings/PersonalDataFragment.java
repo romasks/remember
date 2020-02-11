@@ -16,7 +16,6 @@ import android.widget.RadioGroup;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -36,14 +35,13 @@ import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
-import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
-import static com.remember.app.data.Constants.THEME_DARK;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME;
 import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class PersonalDataFragment extends BaseFragment implements SettingView {
+public class PersonalDataFragment extends SettingsBaseFragment implements SettingView {
 
     private final String TAG = PersonalDataFragment.class.getSimpleName();
 
@@ -74,6 +72,8 @@ public class PersonalDataFragment extends BaseFragment implements SettingView {
     AppCompatRadioButton darkTheme;
 
     private ProgressDialog progressDialog;
+    private boolean savedTheme = Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT);
+//    private int selectedTheme = savedTheme;
 
     public PersonalDataFragment() {
     }
@@ -153,25 +153,26 @@ public class PersonalDataFragment extends BaseFragment implements SettingView {
         }
     }
 
-    @OnClick(R.id.cb_theme_light)
+    /*@OnClick(R.id.cb_theme_light)
     void setLightTheme() {
         rgTheme.check(R.id.cb_theme_light);
-        Prefs.putInt(PREFS_KEY_IS_THEME, THEME_LIGHT);
+        selectedTheme = THEME_LIGHT;
     }
 
     @OnClick(R.id.cb_theme_dark)
     void setDarkTheme() {
         rgTheme.check(R.id.cb_theme_dark);
-        Prefs.putInt(PREFS_KEY_IS_THEME, THEME_DARK);
-    }
+        selectedTheme = THEME_DARK;
+    }*/
 
     void onSaveClick() {
         presenter.getRequestSettings()
                 .name(name).surname(surname).middleName(middleName)
                 .nickname(nickname).location(location).phone(phone);
 
-        setTheme();
-        ((SettingActivity) requireActivity()).changeTheme();
+        /*if (selectedTheme != savedTheme) {
+            ((SettingActivity) requireActivity()).changeTheme();
+        }*/
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
