@@ -291,7 +291,7 @@ public class AddNewEventActivity extends MvpAppCompatActivity implements AddNewE
     @OnClick(R.id.back)
     public void back() {
         onBackPressed();
-        finish();
+//        finish();
     }
 
     @OnClick(R.id.image_layout)

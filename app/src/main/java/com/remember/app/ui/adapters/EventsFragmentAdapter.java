@@ -104,7 +104,11 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             }
 
             String fullName = item.getPageName();
-            name.setText(item.getEventName());
+            if (item.getEventName().equals("День смерти")){
+                name.setText("День утраты");
+            } else {
+                name.setText(item.getEventName());
+            }
             personName.setText(fullName);
             date.setText(DateUtils.convertRemoteToLocalFormat(item.getOriginDate()));
         }
