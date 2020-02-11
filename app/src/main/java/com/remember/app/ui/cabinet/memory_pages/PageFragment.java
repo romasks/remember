@@ -99,6 +99,8 @@ public class PageFragment extends BaseFragment
     public void onReceivedPages(List<MemoryPageModel> memoryPageModels) {
         if (!memoryPageModels.isEmpty()) {
             showAll.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.GONE);
             pageFragmentAdapter.setItems(memoryPageModels);
         } else {
             emptyLayout.setVisibility(View.VISIBLE);
