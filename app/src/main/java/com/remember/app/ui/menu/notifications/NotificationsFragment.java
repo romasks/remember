@@ -19,8 +19,10 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -61,12 +63,9 @@ public class NotificationsFragment extends BaseFragment
 
     static NotificationsFragment newInstance(Type type) {
         NotificationsFragment fragment = new NotificationsFragment();
-
         Bundle args = new Bundle();
         args.putSerializable(KEY_TYPE, type);
-
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -89,12 +88,11 @@ public class NotificationsFragment extends BaseFragment
 
     @Override
     protected void setUp() {
-        notificationsScreen.setBackgroundColor(getResources().getColor(
-                Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
-        ));
+        @ColorRes int backgroundColor = Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white;
+        notificationsScreen.setBackgroundColor(ContextCompat.getColor(requireContext(), backgroundColor));
 
-        textEmptyState.setVisibility(View.GONE);
         textEmptyState.setText(type == Type.EVENTS ? "Событий нет" : "Сообщений нет");
+        textEmptyState.setVisibility(View.GONE);
     }
 
     @Override
@@ -113,7 +111,6 @@ public class NotificationsFragment extends BaseFragment
         NotificationFilterDialog.show(getFragmentManager(), filterType.ordinal()).setClickListener(filterType -> {
             NotificationsFragment.this.filterType = filterType;
             presenter.getEventNotification(filterType);
-
         });
     }
 
