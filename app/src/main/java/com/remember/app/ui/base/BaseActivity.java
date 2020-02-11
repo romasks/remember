@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import umairayub.madialog.MaDialog;
-import umairayub.madialog.MaDialogListener;
 
 public abstract class BaseActivity extends MvpAppCompatActivity implements BaseView {
 
@@ -38,12 +37,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseV
                 .setPositiveButtonText("ok")
                 .setImage(R.drawable.ic_no_internet)
                 .setCancelableOnOutsideTouch(false)
-                .setPositiveButtonListener(new MaDialogListener() {
-                    @Override
-                    public void onClick() {
-                        finish();
-                    }
-                })
+                .setPositiveButtonListener(this::finish)
                 .build();
     }
 

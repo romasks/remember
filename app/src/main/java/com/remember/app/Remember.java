@@ -17,7 +17,6 @@ public class Remember extends Application {
     public void onCreate() {
         super.onCreate();
         VKSdk.initialize(this);
-//        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         new Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)
