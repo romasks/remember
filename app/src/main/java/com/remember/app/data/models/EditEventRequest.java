@@ -28,7 +28,7 @@ public class EditEventRequest {
     private String description;
 
     public String getPageId() {
-        return pageId;
+        return pageId == null ? "" : pageId;
     }
 
     public void setPageId(String pageId) {
@@ -36,7 +36,7 @@ public class EditEventRequest {
     }
 
     public String getDate() {
-        return date;
+        return date == null ? "" : date;
     }
 
     public void setDate(String date) {
@@ -44,7 +44,7 @@ public class EditEventRequest {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -52,7 +52,7 @@ public class EditEventRequest {
     }
 
     public String getFlag() {
-        return flag;
+        return flag == null ? "" : flag;
     }
 
     public void setFlag(String flag) {
@@ -60,7 +60,7 @@ public class EditEventRequest {
     }
 
     public String getUvShow() {
-        return uvShow;
+        return uvShow == null ? "" : uvShow;
     }
 
     public void setUvShow(String uvShow) {
@@ -68,7 +68,7 @@ public class EditEventRequest {
     }
 
     public String getDescription() {
-        return description;
+        return description == null ? "" : description;
     }
 
     public void setDescription(String description) {

@@ -1,23 +1,24 @@
 package com.remember.app.ui.base;
 
+import androidx.annotation.NonNull;
+
 import com.arellomobile.mvp.MvpPresenter;
 import com.remember.app.NetworkStatus;
 import com.remember.app.data.network.ServiceNetwork;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 public class BasePresenter<V extends BaseView> extends MvpPresenter<V> {
 
     @Inject
-    ServiceNetwork serviceNetwork;
+    protected ServiceNetwork serviceNetwork;
 
     private CompositeDisposable compositeSubscription = new CompositeDisposable();
 
-    public void unsubscribeOnDestroy(@NonNull Disposable subscription) {
+    protected void unsubscribeOnDestroy(@NonNull Disposable subscription) {
         compositeSubscription.add(subscription);
     }
 
@@ -27,7 +28,7 @@ public class BasePresenter<V extends BaseView> extends MvpPresenter<V> {
         compositeSubscription.clear();
     }
 
-    public ServiceNetwork getServiceNetwork() {
+    protected ServiceNetwork getServiceNetwork() {
         return serviceNetwork;
     }
 

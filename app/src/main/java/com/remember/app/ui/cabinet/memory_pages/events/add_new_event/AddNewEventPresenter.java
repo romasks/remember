@@ -4,22 +4,14 @@ import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
-import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
 
 import java.io.File;
 
-import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
-
-    @Inject
-    ServiceNetwork serviceNetwork;
 
     AddNewEventPresenter() {
         Remember.getApplicationComponent().inject(this);
@@ -28,20 +20,20 @@ public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
     void saveEvent(CreateEventRequest createEventRequest, File image) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.saveEvent(createEventRequest, image)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedEvent,
-                        getViewState()::onError);
+            .subscribe(
+                getViewState()::onSavedEvent,
+                getViewState()::onError
+            );
         unsubscribeOnDestroy(subscription);
     }
 
     void editEvent(EditEventRequest editEventRequest, File image) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.editEvent(editEventRequest, image)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedEvent,
-                        getViewState()::onError);
+            .subscribe(
+                getViewState()::onSavedEvent,
+                getViewState()::onError
+            );
         unsubscribeOnDestroy(subscription);
     }
 }

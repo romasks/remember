@@ -16,7 +16,6 @@ import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.cabinet.memory_pages.events.OnEventChangedActionListener;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;
@@ -87,13 +86,11 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
             back.setImageResource(R.drawable.ic_back_dark_theme);
         }
 
-        if (getIntent().getExtras() != null) {
-            eventId = getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID, 0);
-            pageId = getIntent().getExtras().getInt(INTENT_EXTRA_PAGE_ID, 0);
-            personName = getIntent().getExtras().getString(INTENT_EXTRA_PERSON_NAME, "");
-            imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
-            isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
-        }
+        eventId = getIntent().getIntExtra(INTENT_EXTRA_EVENT_ID, 0);
+        pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 0);
+        personName = getIntent().getStringExtra(INTENT_EXTRA_PERSON_NAME);
+        imageUrl = getIntent().getStringExtra(INTENT_EXTRA_EVENT_IMAGE_URL);
+        isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
         photosView.setLayoutManager(new LinearLayoutManager(this));
         photosView.setAdapter(new EventStuffAdapter());
@@ -135,8 +132,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
             dateView.setText(DateUtils.convertRemoteToLocalFormat(requestEvent.getDate()));
             eventName.setText(requestEvent.getName());
             description.setText(requestEvent.getDescription());
-        } catch (Exception e) {
-
+        } catch (Exception ignored) {
         }
     }
 

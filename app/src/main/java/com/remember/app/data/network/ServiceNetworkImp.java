@@ -45,180 +45,122 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
+    private RxSchedulers rxSchedulers;
     private ApiMethods apiMethods;
 
     @Inject
-    ServiceNetworkImp(ApiMethods apiMethods) {
+    ServiceNetworkImp(RxSchedulers rxSchedulers, ApiMethods apiMethods) {
+        this.rxSchedulers = rxSchedulers;
         this.apiMethods = apiMethods;
     }
 
     @Override
     public Observable<List<ResponseHandBook>> getCities() {
-        return apiMethods.getCities();
+        return apiMethods.getCities()
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<ResponseCemetery>> getCemetery(int id) {
-        return apiMethods.getCemetery(id);
+        return apiMethods.getCemetery(id)
+            .compose(rxSchedulers.applySchedulers());
     }
-
 
     @Override
     public Observable<List<ResponseHandBook>> getReligion() {
-        return apiMethods.getReligion();
+        return apiMethods.getReligion()
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<MemoryPageModel>> getPages() {
-        return apiMethods.getPages(Prefs.getString(PREFS_KEY_USER_ID, "0"));
+        return apiMethods.getPages(Prefs.getString(PREFS_KEY_USER_ID, "0"))
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<ResponseEpitaphs>> getEpitaphs(int pageId) {
-        return apiMethods.getEpitaphs(pageId);
+        return apiMethods.getEpitaphs(pageId)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<RequestAddEpitaphs> saveEpitaph(RequestAddEpitaphs requestAddEpitaphs) {
-        return apiMethods.saveEpitaph(requestAddEpitaphs);
+        return apiMethods.saveEpitaph(requestAddEpitaphs)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<RequestAddEvent> saveEvent(CreateEventRequest createEventRequest, File imageFile) {
-//        return apiMethods.saveEvent(token, requestAddEvent);
-        RequestBody pageId = null;
-        RequestBody date = null;
-        RequestBody name = null;
-        RequestBody flag = null;
-        RequestBody uvShow = null;
-        RequestBody description = null;
+        RequestBody pageId = RequestBody.create(MultipartBody.FORM, createEventRequest.getPageId());
+        RequestBody date = RequestBody.create(MultipartBody.FORM, createEventRequest.getDate());
+        RequestBody name = RequestBody.create(MultipartBody.FORM, createEventRequest.getName());
+        RequestBody flag = RequestBody.create(MultipartBody.FORM, createEventRequest.getFlag());
+        RequestBody uvShow = RequestBody.create(MultipartBody.FORM, createEventRequest.getUvShow());
+        RequestBody description = RequestBody.create(MultipartBody.FORM, createEventRequest.getDescription());
+
         MultipartBody.Part fileToUploadTransfer = null;
-        try {
-            pageId = RequestBody.create(MultipartBody.FORM, createEventRequest.getPageId());
-        } catch (Exception e) {
-            pageId = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            date = RequestBody.create(MultipartBody.FORM, createEventRequest.getDate());
-        } catch (Exception e) {
-            date = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            name = RequestBody.create(MultipartBody.FORM, createEventRequest.getName());
-        } catch (Exception e) {
-            name = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            flag = RequestBody.create(MultipartBody.FORM, createEventRequest.getFlag());
-        } catch (Exception e) {
-            flag = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            uvShow = RequestBody.create(MultipartBody.FORM, createEventRequest.getUvShow());
-        } catch (Exception e) {
-            uvShow = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            description = RequestBody.create(MultipartBody.FORM, createEventRequest.getDescription());
-        } catch (Exception e) {
-            description = RequestBody.create(MultipartBody.FORM, "");
-        }
         if (imageFile != null) {
             RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
             fileToUploadTransfer = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
         }
+
         String token = "Bearer " + Prefs.getString("TOKEN", "");
-        return apiMethods.saveEvent(token,
-                pageId,
-                date,
-                name,
-                flag,
-                uvShow,
-                description,
-                fileToUploadTransfer);
+
+        return apiMethods.saveEvent(token, pageId, date, name, flag, uvShow, description, fileToUploadTransfer)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<RequestAddEvent> editEvent(EditEventRequest editEventRequest, File image) {
-        RequestBody pageId = null;
-        RequestBody date = null;
-        RequestBody name = null;
-        RequestBody flag = null;
-        RequestBody uvShow = null;
-        RequestBody description = null;
+        RequestBody pageId = RequestBody.create(MultipartBody.FORM, editEventRequest.getPageId());
+        RequestBody date = RequestBody.create(MultipartBody.FORM, editEventRequest.getDate());
+        RequestBody name = RequestBody.create(MultipartBody.FORM, editEventRequest.getName());
+        RequestBody flag = RequestBody.create(MultipartBody.FORM, editEventRequest.getFlag());
+        RequestBody uvShow = RequestBody.create(MultipartBody.FORM, editEventRequest.getUvShow());
+        RequestBody description = RequestBody.create(MultipartBody.FORM, editEventRequest.getDescription());
+
         MultipartBody.Part fileToUploadTransfer = null;
-        try {
-            pageId = RequestBody.create(MultipartBody.FORM, editEventRequest.getPageId());
-        } catch (Exception e) {
-            pageId = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            date = RequestBody.create(MultipartBody.FORM, editEventRequest.getDate());
-        } catch (Exception e) {
-            date = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            name = RequestBody.create(MultipartBody.FORM, editEventRequest.getName());
-        } catch (Exception e) {
-            name = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            flag = RequestBody.create(MultipartBody.FORM, editEventRequest.getFlag());
-        } catch (Exception e) {
-            flag = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            uvShow = RequestBody.create(MultipartBody.FORM, editEventRequest.getUvShow());
-        } catch (Exception e) {
-            uvShow = RequestBody.create(MultipartBody.FORM, "");
-        }
-        try {
-            description = RequestBody.create(MultipartBody.FORM, editEventRequest.getDescription());
-        } catch (Exception e) {
-            description = RequestBody.create(MultipartBody.FORM, "");
-        }
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), image);
         fileToUploadTransfer = MultipartBody.Part.createFormData("picture", image.getName(), mFile);
+
         String token = "Bearer " + Prefs.getString("TOKEN", "");
-        return apiMethods.editEvent(token,
-                pageId,
-                date,
-                name,
-                flag,
-                uvShow,
-                description,
-                fileToUploadTransfer,
-                editEventRequest.getEventId());
+        return apiMethods.editEvent(token, pageId, date, name, flag, uvShow, description, fileToUploadTransfer,
+            editEventRequest.getEventId()
+        )
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<RequestAddEvent>> getEventsForId(int pageId) {
-        return apiMethods.getEventsForId(pageId);
+        return apiMethods.getEventsForId(pageId)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<ResponseEvents>> getEvents() {
-        return apiMethods.getEvents();
+        return apiMethods.getEvents()
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<EventResponse>> getEventsFeed() {
         String token = "Bearer " + Prefs.getString("TOKEN", "");
         String eventsType = "DEAD_EVENTS";
-//        String eventsType = "ALL";
-        return apiMethods.getEventsFeed(token, eventsType);
+        return apiMethods.getEventsFeed(token, eventsType)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
-//    public Observable<ResponseEvents> getEvent(int id) {
     public Observable<EventModel> getEvent(int id) {
-//        return apiMethods.getEvent(id);
-        return apiMethods.getDeadEvent(id);
+        return apiMethods.getDeadEvent(id)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<EventModel> getDeadEvent(int id) {
-        return apiMethods.getDeadEvent(id);
+        return apiMethods.getDeadEvent(id)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
@@ -233,7 +175,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
 
     @Override
     public Observable<ResponseAuth> singInAuth(String email, String password) {
-        return apiMethods.singInAuth(email, password);
+        return apiMethods.singInAuth(email, password)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
@@ -241,98 +184,111 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestRegister requestRegister = new RequestRegister();
         requestRegister.setEmail(email);
         requestRegister.setName(nickName);
-        return apiMethods.registerLogin(requestRegister);
+        return apiMethods.registerLogin(requestRegister)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<ResponsePages> getImages(int pageNumber, boolean isStar, boolean flag, String status) {
-        return apiMethods.getImages(pageNumber, status, flag, isStar);
+        return apiMethods.getImages(pageNumber, status, flag, isStar)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<MemoryPageModel>> searchLastName(String lastName) {
-        return apiMethods.searchLastName(lastName);
+        return apiMethods.searchLastName(lastName)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<Object> send(RequestQuestion requestQuestion) {
-        return apiMethods.send(requestQuestion);
+        return apiMethods.send(requestQuestion)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<MemoryPageModel> getImageAfterSave(Integer id) {
-        return apiMethods.getImageAfterSave(id);
+        return apiMethods.getImageAfterSave(id)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<ResponseUserInfo> getInfo() {
-        return apiMethods.getInfo("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""));
+        return apiMethods.getInfo("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""))
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<ResponseSettings> getUserSettings() {
-        return apiMethods.getUserSettings("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""));
+        return apiMethods.getUserSettings("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""))
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<Object> saveSettings(RequestSettings requestSettings) {
-        return apiMethods.saveSettings("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), requestSettings);
-    }
-
-    @Override
-    public Observable<ResponseSocialAuth> signInVk(String email) {
-        String name = Prefs.getString("USER_NAME", "");
-        return apiMethods.signInVk(email, name);
+        return apiMethods.saveSettings("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), requestSettings)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<ResponseSocialAuth> signInSocial(RequestSocialAuth request) {
-        return apiMethods.signInSocial(request);
+        return apiMethods.signInSocial(request)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<MemoryPageModel>> getAllPages() {
-        return apiMethods.getAllPages();
+        return apiMethods.getAllPages()
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<Object> saveImageSetting(File imageFile) {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        MultipartBody.Part fileToUploadTranser = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
-        return apiMethods.savePhotoSettings(fileToUploadTranser, "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""));
+        MultipartBody.Part fileToUploadTransfer = MultipartBody.Part.createFormData(
+            "picture",
+            imageFile.getName(),
+            mFile
+        );
+        return apiMethods.savePhotoSettings(fileToUploadTransfer, "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""))
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
-        return apiMethods.editEpitaph(requestAddEpitaphs, id);
+        return apiMethods.editEpitaph(requestAddEpitaphs, id)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<Object> deleteEpitaph(Integer id) {
-        return apiMethods.deleteEpitaph("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id);
+        return apiMethods.deleteEpitaph("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<ResponseRestorePassword> restorePassword(String email) {
-        return apiMethods.restorePassword(email);
+        return apiMethods.restorePassword(email)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage) {
         return apiMethods.searchPageAllDead(
-                requestSearchPage.getName(),
-                requestSearchPage.getSecondName(),
-                requestSearchPage.getThirdName(),
-                requestSearchPage.getDateBegin(),
-                requestSearchPage.getDateEnd(),
-                requestSearchPage.getCity(),
-                requestSearchPage.getStatus(),
-                requestSearchPage.isFlag()
-        );
+            requestSearchPage.getName(),
+            requestSearchPage.getSecondName(),
+            requestSearchPage.getThirdName(),
+            requestSearchPage.getDateBegin(),
+            requestSearchPage.getDateEnd(),
+            requestSearchPage.getCity(),
+            requestSearchPage.getStatus(),
+            requestSearchPage.isFlag()
+        )
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
-    public Observable<List<ResponseEvents>> searchEventReligios(String date, int selectedIndex) {
+    public Observable<List<ResponseEvents>> searchEventReligious(String date, int selectedIndex) {
         String religia;
         switch (selectedIndex) {
             case 0:
@@ -357,8 +313,6 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 religia = "Другая религия";
                 break;
             case 7:
-                religia = "Отсутствует";
-                break;
             default:
                 religia = "Отсутствует";
                 break;
@@ -369,21 +323,28 @@ public class ServiceNetworkImp implements ServiceNetwork {
         } else {
             resultDate = "";
         }
-        return apiMethods.searchEventReligios(resultDate, religia);
+        return apiMethods.searchEventReligios(resultDate, religia)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<Object> savePhoto(File imageFile, String string, Integer id) {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        MultipartBody.Part fileToUploadTransfer = MultipartBody.Part.createFormData("picture", imageFile.getName(), mFile);
+        MultipartBody.Part fileToUploadTransfer = MultipartBody.Part.createFormData(
+            "picture",
+            imageFile.getName(),
+            mFile
+        );
         MultipartBody.Part imageCut = MultipartBody.Part.createFormData("picture_cut", imageFile.getName(), mFile);
         String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
-        return apiMethods.savePhoto(token, string, id, fileToUploadTransfer, imageCut);
+        return apiMethods.savePhoto(token, string, id, fileToUploadTransfer, imageCut)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
     public Observable<List<ResponseImagesSlider>> getImagesSlider(Integer id) {
-        return apiMethods.getAllPhotosForPage(id);
+        return apiMethods.getAllPhotosForPage(id)
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
@@ -414,29 +375,11 @@ public class ServiceNetworkImp implements ServiceNetwork {
             fileToUploadTransfer = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
         }
         String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
-        return apiMethods.addPage(
-                token,
-                area,
-                birthDate,
-                cemeteryName,
-                city,
-                sector,
-                comment,
-                coords,
-                deathDate,
-                district,
-                flag,
-                grave,
-                name,
-                optradio,
-                religion,
-                secondNam,
-                spotId,
-                star,
-                thirdName,
-                userId,
-                fileToUploadTransfer
-        );
+        return apiMethods.addPage(token, area, birthDate, cemeteryName, city, sector, comment, coords, deathDate,
+            district, flag, grave, name, optradio, religion, secondNam, spotId, star, thirdName, userId,
+            fileToUploadTransfer
+        )
+            .compose(rxSchedulers.applySchedulers());
     }
 
     @Override
@@ -460,6 +403,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
         RequestBody star = RequestBody.create(MultipartBody.FORM, person.getStar());
         RequestBody thirdName = RequestBody.create(MultipartBody.FORM, person.getThirdName());
         RequestBody userId = RequestBody.create(MultipartBody.FORM, person.getUserId());
+
         RequestBody mFile = null;
         MultipartBody.Part fileToUploadTransfer = null;
 
@@ -467,56 +411,18 @@ public class ServiceNetworkImp implements ServiceNetwork {
             mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
             fileToUploadTransfer = MultipartBody.Part.createFormData("picture_data", imageFile.getName(), mFile);
             String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
-            return apiMethods.editPage(
-                    token,
-                    area,
-                    birthDate,
-                    cemeteryName,
-                    city,
-                    sector,
-                    comment,
-                    coords,
-                    deathDate,
-                    district,
-                    flag,
-                    grave,
-                    name,
-                    optradio,
-                    religion,
-                    secondNam,
-                    spotId,
-                    star,
-                    thirdName,
-                    userId,
-                    fileToUploadTransfer,
-                    id
-
-            );
+            return apiMethods.editPage(token, area, birthDate, cemeteryName, city, sector, comment, coords, deathDate,
+                district, flag, grave, name, optradio, religion, secondNam, spotId, star, thirdName, userId,
+                fileToUploadTransfer, id
+            )
+                .compose(rxSchedulers.applySchedulers());
         } else {
             String token = "Bearer " + Prefs.getString(PREFS_KEY_TOKEN, "");
-            return apiMethods.editPageWithoutImage(
-                    token,
-                    area,
-                    birthDate,
-                    cemeteryName,
-                    city,
-                    sector,
-                    comment,
-                    coords,
-                    deathDate,
-                    district,
-                    flag,
-                    grave,
-                    name,
-                    optradio,
-                    religion,
-                    secondNam,
-                    spotId,
-                    star,
-                    thirdName,
-                    userId,
-                    id
-            );
+            return apiMethods.editPageWithoutImage(token, area, birthDate, cemeteryName, city, sector, comment, coords,
+                deathDate, district, flag, grave, name, optradio, religion, secondNam, spotId, star, thirdName,
+                userId, id
+            )
+                .compose(rxSchedulers.applySchedulers());
         }
     }
 }

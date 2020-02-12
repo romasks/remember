@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
@@ -23,8 +26,6 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
@@ -68,7 +69,6 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
 
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
@@ -80,7 +80,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
         }
 
         try {
-            name = getIntent().getExtras().getString(INTENT_EXTRA_NAME, "");
+            name = getIntent().getStringExtra(INTENT_EXTRA_NAME);
             pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 1);
         } catch (NullPointerException ignored) {
         }
