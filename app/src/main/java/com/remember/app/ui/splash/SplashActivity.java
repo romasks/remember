@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.VideoView;
 
+import androidx.annotation.Nullable;
+
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.grid.GridActivity;
 import com.remember.app.ui.utils.Utils;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 
 import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;

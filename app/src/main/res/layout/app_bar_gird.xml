@@ -37,7 +37,7 @@
         android:text="@string/grid_login"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:visibility="gone"
         tools:layout_editor_absoluteX="-16dp"
         tools:visibility="visible" />

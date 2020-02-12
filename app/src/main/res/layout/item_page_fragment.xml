@@ -23,7 +23,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/brown"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toTopOf="@id/avatar_image"
@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/gray"
+        android:textSize="14dp"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="02.04.1960 - 02.05.2019" />
@@ -45,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/gray"
+        android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         tools:text="осталось" />
@@ -56,6 +58,7 @@
         android:background="@drawable/circle_for_memory_pages"
         android:gravity="center"
         android:textColor="@android:color/white"
+        android:textSize="14dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
         app:layout_constraintEnd_toEndOf="@+id/avatar_image" />
@@ -67,7 +70,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:textColor="@color/brown"
-        android:textSize="16sp"
+        android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toTopOf="@id/avatar_image"

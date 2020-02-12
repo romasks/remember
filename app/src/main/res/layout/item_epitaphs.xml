@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:textColor="@color/brown"
-        android:textSize="15sp"
+        android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@id/avatar"
@@ -38,7 +38,7 @@
         android:layout_marginTop="5dp"
         android:maxLines="5"
         android:textColor="?android:attr/textColor"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@+id/name_user"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textColor="@color/gray"
-        android:textSize="12sp"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="@id/description"
         app:layout_constraintTop_toBottomOf="@id/description"
         tools:text="Сегодня в 16:59" />
@@ -63,6 +63,7 @@
         android:layout_marginEnd="30dp"
         android:text="@string/epitaphs_item_action_change"
         android:textColor="@color/brown"
+        android:textSize="14dp"
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/delete"
         app:layout_constraintTop_toBottomOf="@id/description" />
@@ -75,6 +76,7 @@
         android:layout_marginEnd="10dp"
         android:text="@string/epitaphs_item_action_delete"
         android:textColor="@color/brown"
+        android:textSize="14dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description" />

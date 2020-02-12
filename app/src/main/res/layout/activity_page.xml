@@ -79,7 +79,7 @@
                     android:gravity="center_horizontal"
                     android:text="-"
                     android:textColor="@color/brown"
-                    android:textSize="24sp"
+                    android:textSize="24dp"
                     android:textStyle="bold"
                     tools:text="Фамилия Имя Отчество" />
 
@@ -90,6 +90,7 @@
                     android:gravity="center_horizontal"
                     android:text="-"
                     android:textColor="@color/gray"
+                    android:textSize="14dp"
                     tools:text="13.07.1952 - 28.01.2017" />
 
                 <LinearLayout
@@ -143,7 +144,7 @@
                     android:paddingBottom="5dp"
                     android:text="@string/memory_page_burial_place_title"
                     android:textColor="#917b5a"
-                    android:textSize="18sp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -173,7 +174,8 @@
                             android:singleLine="true"
                             android:text="@string/city"
                             android:textAlignment="center"
-                            android:textColor="@color/gray" />
+                            android:textColor="@color/gray"
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/city"
@@ -184,6 +186,7 @@
                             android:layout_weight="1"
                             android:text="-"
                             android:textColor="@color/gray"
+                            android:textSize="14dp"
                             android:textStyle="bold"
                             tools:text="Минск" />
 
@@ -219,7 +222,8 @@
                                 android:layout_weight="1"
                                 android:maxLines="2"
                                 android:text="@string/memory_page_sector_text"
-                                android:textColor="@color/gray" />
+                                android:textColor="@color/gray"
+                                android:textSize="14dp" />
 
                             <TextView
                                 android:id="@+id/sector_value"
@@ -230,6 +234,7 @@
                                 android:paddingTop="12dp"
                                 android:text="-"
                                 android:textColor="@color/gray"
+                                android:textSize="14dp"
                                 android:textStyle="bold"
                                 tools:text="6" />
 
@@ -253,7 +258,8 @@
                                 android:layout_weight="1"
                                 android:maxLines="2"
                                 android:text="@string/memory_page_row_text"
-                                android:textColor="@color/gray" />
+                                android:textColor="@color/gray"
+                                android:textSize="14dp" />
 
                             <TextView
                                 android:id="@+id/line_value"
@@ -264,6 +270,7 @@
                                 android:paddingTop="12dp"
                                 android:text="-"
                                 android:textColor="@color/gray"
+                                android:textSize="14dp"
                                 android:textStyle="bold"
                                 tools:text="12" />
 
@@ -285,7 +292,8 @@
                                 android:layout_weight="1"
                                 android:text="@string/grave_number"
                                 android:textAlignment="center"
-                                android:textColor="@color/gray" />
+                                android:textColor="@color/gray"
+                                android:textSize="14dp" />
 
                             <TextView
                                 android:id="@+id/grave_value"
@@ -296,6 +304,7 @@
                                 android:paddingTop="12dp"
                                 android:text="-"
                                 android:textColor="@color/gray"
+                                android:textSize="14dp"
                                 android:textStyle="bold"
                                 tools:text="325" />
                         </LinearLayout>
@@ -316,7 +325,8 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="@string/cemetery"
-                            android:textColor="@color/gray" />
+                            android:textColor="@color/gray"
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/crypt"
@@ -330,6 +340,7 @@
                             android:text="-"
                             android:textAlignment="center"
                             android:textColor="@color/gray"
+                            android:textSize="14dp"
                             android:textStyle="bold"
                             tools:text="Название кладбища" />
 
@@ -343,7 +354,7 @@
                             android:paddingTop="5dp"
                             android:text="@string/memory_page_show_description_text"
                             android:textColor="@color/colorAccent"
-                            android:textSize="16sp" />
+                            android:textSize="16dp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -355,6 +366,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:textColor="?android:attr/textColor"
+                    android:textSize="14dp"
                     android:visibility="gone"
                     tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
 
@@ -369,7 +381,7 @@
                     android:text="@string/memory_page_button_show_on_map"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -445,7 +457,7 @@
                 android:text="@string/memory_page_bottom_navbar_epitaphs"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -454,7 +466,7 @@
                 android:text="@string/memory_page_bottom_navbar_add_order"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:visibility="gone" />
 
             <TextView
@@ -465,7 +477,7 @@
                 android:text="@string/memory_page_bottom_navbar_events"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
     </LinearLayout>

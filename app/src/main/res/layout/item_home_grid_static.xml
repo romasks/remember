@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_grid_layout"
     android:layout_width="match_parent"
@@ -41,7 +42,7 @@
                     android:background="@drawable/bg_grid_image_name"
                     android:gravity="center"
                     android:textColor="@color/brown"
-                    android:textSize="11sp"
+                    android:textSize="11dp"
                     android:textStyle="bold"
                     tools:text="Name Surname" />
 
@@ -61,7 +62,7 @@
                     android:id="@+id/show_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_show_more"
+                    app:srcCompat="@drawable/ic_show_more"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -72,7 +73,7 @@
                     android:gravity="center_horizontal"
                     android:text="@string/grid_show_more"
                     android:textColor="@color/brown"
-                    android:textSize="17sp"
+                    android:textSize="17dp"
                     android:textStyle="bold" />
 
             </LinearLayout>

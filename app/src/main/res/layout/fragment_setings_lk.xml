@@ -41,7 +41,8 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    android:text="@string/settings_new_profile_photo" />
+                    android:text="@string/settings_new_profile_photo"
+                    android:textSize="18dp" />
             </LinearLayout>
 
 
@@ -58,7 +59,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_surname"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionNext"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +76,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_name"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionNext"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +93,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_middle_name"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionNext"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +111,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_nickname"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionNext"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,7 +128,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="@string/settings_hint_email" />
+                    android:hint="@string/settings_hint_email"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,7 +145,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_locality"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionNext"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -155,7 +162,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_name_phone"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
             <!-- ЭТО ПОЛЕ ДОЛЖНО БУДЕТ БЫТЬ СПИННЕРОМ -->
@@ -172,6 +180,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 android:text="@string/settings_theme_text"
+                android:textSize="18dp"
                 android:visibility="gone" />
 
             <RadioGroup
@@ -191,7 +200,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:text="@string/settings_theme_light_rb" />
+                    android:text="@string/settings_theme_light_rb"
+                    android:textSize="16dp" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/cb_theme_dark"
@@ -200,7 +210,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50dp"
                     android:layout_weight="2"
-                    android:text="@string/settings_theme_dark_rb" />
+                    android:text="@string/settings_theme_dark_rb"
+                    android:textSize="16dp" />
             </RadioGroup>
         </LinearLayout>
     </ScrollView>

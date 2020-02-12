@@ -20,7 +20,7 @@
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:padding="4dp"
-            android:src="@drawable/ic_round_camera"
+            app:srcCompat="@drawable/ic_round_camera"
             tools:ignore="MissingConstraints" />
 
 <!--        <TextView-->
@@ -51,7 +51,7 @@
             android:layout_marginEnd="10dp"
             android:gravity="start"
             android:textColor="@color/brown"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold"
             tools:text="Иванов Иван иванович Иванов Иван иванович" />
 
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:textSize="13sp"
+            android:textSize="13dp"
             android:layout_marginTop="4dp"
             tools:text="Крылатов Сергей Витальевич"/>
 
@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textColor="@color/gray"
+            android:textSize="14dp"
             tools:text="02.04.1960" />
 
         <TextView
@@ -78,6 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:textColor="@color/gray"
+            android:textSize="14dp"
             tools:text="Дней осталось" />
 
     </LinearLayout>

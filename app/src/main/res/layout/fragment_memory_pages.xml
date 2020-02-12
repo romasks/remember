@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <TextView
@@ -14,7 +13,7 @@
         android:gravity="center_horizontal"
         android:text="@string/grid_show_all"
         android:textColor="@color/colorAccent"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:visibility="gone"
         tools:visibility="visible" />
 
@@ -33,14 +32,16 @@
             style="@style/EmptyListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/memory_page_no_page_title" />
+            android:text="@string/memory_page_no_page_title"
+            android:textSize="24dp" />
 
         <Button
             android:id="@+id/go_to_add"
             style="@style/EmptyListButtonStyle"
             android:layout_width="290dp"
             android:layout_height="55dp"
-            android:text="@string/memory_page_create_page_button" />
+            android:text="@string/memory_page_create_page_button"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
@@ -58,7 +59,8 @@
             style="@style/EmptyListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/events_no_events_title" />
+            android:text="@string/events_no_events_title"
+            android:textSize="24dp" />
 
     </LinearLayout>
 

@@ -45,7 +45,7 @@
                         android:text="@string/burial_place_value"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp"
+                        android:textSize="20dp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -77,7 +77,8 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:hint="@string/city"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +99,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="@string/cemetery" />
+                    android:hint="@string/cemetery"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,7 +121,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/sector"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,7 +142,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/row"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,7 +163,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/grave_number"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,7 +184,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/coordinates"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,7 +196,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
-                android:text="@string/show_map" />
+                android:text="@string/show_map"
+                android:textSize="18dp" />
         </LinearLayout>
 
     </ScrollView>
@@ -203,6 +210,7 @@
         android:layout_marginStart="@dimen/default_activity_fields_margin"
         android:layout_marginEnd="@dimen/default_activity_fields_margin"
         android:text="@string/save"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
