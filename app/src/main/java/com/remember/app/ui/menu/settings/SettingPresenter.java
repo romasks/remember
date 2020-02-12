@@ -8,11 +8,14 @@ import com.remember.app.ui.base.BasePresenter;
 
 import java.io.File;
 
+import javax.inject.Singleton;
+
 import androidx.lifecycle.MutableLiveData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+@Singleton
 @InjectViewState
 public class SettingPresenter extends BasePresenter<SettingView> {
 

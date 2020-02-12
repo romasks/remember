@@ -30,6 +30,13 @@
             {
               "client_id": "524184805737-terflrg8hosagbkpql4tjjt2nd8qfgjn.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "524184805737-tc83qnti4lu9vji6j4r3j4qcak54jgju.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ru.remember.ritual"
+              }
             }
           ]
         }

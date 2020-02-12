@@ -12,10 +12,8 @@ import com.remember.app.ui.utils.Utils;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
-import umairayub.madialog.MaDialog;
-import umairayub.madialog.MaDialogListener;
 
-import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LAUNCH_MODE;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;
 
 public class SplashActivity extends BaseActivity implements SplashView {
 
@@ -31,9 +29,8 @@ public class SplashActivity extends BaseActivity implements SplashView {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(this, GridActivity.class);
-        intent.putExtra(INTENT_EXTRA_IS_LAUNCH_MODE, true);
-        startActivity(intent);
+        Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, true);
+        startActivity(new Intent(this, GridActivity.class));
         finish();
     }
 

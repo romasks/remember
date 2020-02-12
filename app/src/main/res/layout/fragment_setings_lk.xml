@@ -182,7 +182,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/cb_theme_light"

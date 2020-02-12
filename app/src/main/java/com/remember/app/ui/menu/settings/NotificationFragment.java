@@ -9,7 +9,6 @@ import android.widget.Switch;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +19,7 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class NotificationFragment extends BaseFragment implements SettingView {
+public class NotificationFragment extends SettingsBaseFragment implements SettingView {
 
     @BindView(R.id.notifications)
     Switch notifications;

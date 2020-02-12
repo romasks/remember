@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.alphamovie.lib.AlphaMovieView;
@@ -46,15 +47,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME_CHANGED;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
+import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
@@ -70,25 +74,22 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @BindView(R.id.menu_icon)
     ImageView button_menu;
-
     @BindView(R.id.title)
     TextView title;
-
     @BindView(R.id.search)
     ImageView search;
-
     @BindView(R.id.avatar_small_toolbar)
     ImageView avatar_user;
 
     @BindView(R.id.image_rv)
     RecyclerView recyclerView;
-
     @BindView(R.id.grid_sign_in)
     Button signInButton;
 
+    @BindView(R.id.drawer_layout_2)
+    DrawerLayout drawer;
+
     private ImageAdapter imageAdapter;
-    private DrawerLayout drawer;
-    private int theme_setting = 0;
 
     private int pageNumber = 1;
     private List<MemoryPageModel> allMemoryPageModels = new ArrayList<>();
@@ -107,29 +108,26 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
         setUpRecycler();
 
-        if (theme_setting == 0) {
-            presenter.getImages(pageNumber);
-            if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_LAUNCH_MODE, false)) {
-                setSplashVideo();
-                splashVideo.start();
-                recyclerView.postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
-            } else {
-                showMainContent();
-            }
+        if (Prefs.getBoolean(PREFS_KEY_THEME_CHANGED, false)) {
+            Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, false);
+            return;
+        }
+
+        presenter.getImages(pageNumber);
+        if (Prefs.getBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)) {
+            Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false);
+            setSplashVideo();
+            splashVideo.start();
+            recyclerView.postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
         } else {
-            theme_setting = 0;
+            showMainContent();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (theme_setting == 1) {
-            this.recreate();
-        } else {
-            getInfoUser();
-        }
-        drawer = findViewById(R.id.drawer_layout_2);
+        getInfoUser();
         drawer.setDrawerLockMode(
                 Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)
                         ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -140,6 +138,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onPause() {
         splashVideo.onPause();
+        showMainContent();
         super.onPause();
     }
 
@@ -215,6 +214,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             drawer.closeDrawer(GravityCompat.START);
         } else {
             drawer.openDrawer(GravityCompat.START);
+
+            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         }
     }
 
@@ -276,11 +278,16 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             }
             case R.id.menu_settings: {
                 startActivity(new Intent(this, SettingActivity.class));
-                theme_setting = 1;
                 return true;
             }
             case R.id.menu_questions: {
                 startActivity(new Intent(this, QuestionActivity.class));
+                return true;
+            }
+            case R.id.menu_theme: {
+                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+                changeTheme();
                 return true;
             }
             case R.id.menu_exit: {
@@ -356,5 +363,20 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         findViewById(R.id.app_bar_grid_layout).setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
         signInButton.setVisibility(View.VISIBLE);
+    }
+
+    public void changeTheme() {
+        Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
+        Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+        this.recreate();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
