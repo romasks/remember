@@ -288,7 +288,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     @OnClick(R.id.back)
     public void back() {
         onBackPressed();
-        finish();
+//        finish();
     }
 
     @OnClick(R.id.image_layout)
