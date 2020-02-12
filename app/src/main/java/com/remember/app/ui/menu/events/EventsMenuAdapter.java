@@ -131,12 +131,12 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             today.set(Calendar.YEAR, past.get(Calendar.YEAR));
             long diff = past.getTime().getTime() - today.getTime().getTime();
             if (diff > 0) {
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
             } else {
                 today.set(Calendar.YEAR, past.get(Calendar.YEAR));
                 past.add(Calendar.YEAR, 1);
                 diff = past.getTime().getTime() - today.getTime().getTime();
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
             }
         }
 

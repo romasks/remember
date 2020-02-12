@@ -311,7 +311,7 @@
                 android:id="@+id/description"
                 style="@style/TextAreaStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:hint="Описание..."
                 android:textColor="?android:attr/textColor"
                 android:textColorHighlight="@color/gray"

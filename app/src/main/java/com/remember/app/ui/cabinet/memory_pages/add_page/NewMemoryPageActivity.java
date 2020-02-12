@@ -163,23 +163,21 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     private void setUp() {
         initiate();
-        Intent i = getIntent();
-        Bundle bundle = i.getExtras();
         person = new AddPageModel();
 
-        isEdit = i.getBooleanExtra("EDIT", false);
+        isEdit = getIntent().getBooleanExtra("EDIT", false);
 
         if (isEdit) {
             saveButton.setText("Сохранить изменения");
             textViewImage.setText("Изменить фотографию");
-            memoryPageModel = i.getParcelableExtra("PERSON");
+            memoryPageModel = getIntent().getParcelableExtra("PERSON");
             initEdit();
-            person.setCoords(bundle.getString(BURIAL_PLACE_COORDS, ""));
-            person.setCity(bundle.getString(BURIAL_PLACE_CITY, ""));
-            person.setCemeteryName(bundle.getString(BURIAL_PLACE_CEMETERY, ""));
-            person.setSector(bundle.getString(BURIAL_PLACE_SECTOR, ""));
-            person.setSpotId(bundle.getString(BURIAL_PLACE_LINE, ""));
-            person.setGraveId(bundle.getString(BURIAL_PLACE_GRAVE, ""));
+            person.setCoords(getIntent().getStringExtra(BURIAL_PLACE_COORDS));
+            person.setCity(getIntent().getStringExtra(BURIAL_PLACE_CITY));
+            person.setCemeteryName(getIntent().getStringExtra(BURIAL_PLACE_CEMETERY));
+            person.setSector(getIntent().getStringExtra(BURIAL_PLACE_SECTOR));
+            person.setSpotId(getIntent().getStringExtra(BURIAL_PLACE_LINE));
+            person.setGraveId(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
 //            if (person != null) {
 //                if (person.getStar() != null) {
 //                    if (person.getStar().equals("true")) {
@@ -268,12 +266,8 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     @OnClick(R.id.save_button)
     public void savePage() {
         person.setSecondName(lastName.getText().toString());
-        person.setName(name.getText().toString());
         person.setThirdName(middleName.getText().toString());
         person.setComment(description.getText().toString());
-
-        person.setBirthDate(DateUtils.convertLocalToRemoteFormat(dateBegin.getText().toString()));
-        person.setDeathDate(DateUtils.convertLocalToRemoteFormat(dateEnd.getText().toString()));
 
         person.setUserId(Prefs.getString(PREFS_KEY_USER_ID, "0"));
 
@@ -281,6 +275,19 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         person.setFlag(String.valueOf(isPublic.isChecked()));
         person.setReligion(religion.getText().toString());
         person.setPictureData("");
+
+        if (name.getText().toString().isEmpty()) {
+            Utils.showSnack(image, "Введите имя усопшего");
+            return;
+        }
+        person.setName(name.getText().toString());
+
+        if (dateBegin.getText().toString().isEmpty() || dateEnd.getText().toString().isEmpty()) {
+            Utils.showSnack(image, "Заполните дату рождения и смерти");
+            return;
+        }
+        person.setBirthDate(DateUtils.convertLocalToRemoteFormat(dateBegin.getText().toString()));
+        person.setDeathDate(DateUtils.convertLocalToRemoteFormat(dateEnd.getText().toString()));
 
         if (!isEdit) {
             if (isFamous.isChecked() && imageFile == null) {

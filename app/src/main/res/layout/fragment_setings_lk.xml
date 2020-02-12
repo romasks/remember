@@ -163,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_name_phone"
                     android:inputType="phone"
+                    android:maxLength="15"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>

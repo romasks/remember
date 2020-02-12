@@ -72,8 +72,6 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     AppCompatRadioButton darkTheme;
 
     private ProgressDialog progressDialog;
-    private boolean savedTheme = Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT);
-//    private int selectedTheme = savedTheme;
 
     public PersonalDataFragment() {
     }
@@ -153,26 +151,10 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         }
     }
 
-    /*@OnClick(R.id.cb_theme_light)
-    void setLightTheme() {
-        rgTheme.check(R.id.cb_theme_light);
-        selectedTheme = THEME_LIGHT;
-    }
-
-    @OnClick(R.id.cb_theme_dark)
-    void setDarkTheme() {
-        rgTheme.check(R.id.cb_theme_dark);
-        selectedTheme = THEME_DARK;
-    }*/
-
     void onSaveClick() {
         presenter.getRequestSettings()
                 .name(name).surname(surname).middleName(middleName)
                 .nickname(nickname).location(location).phone(phone);
-
-        /*if (selectedTheme != savedTheme) {
-            ((SettingActivity) requireActivity()).changeTheme();
-        }*/
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {

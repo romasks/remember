@@ -66,12 +66,6 @@ public class SettingActivity extends BaseActivity implements SettingView {
         }
     }
 
-    /*public void changeTheme() {
-        Utils.setTheme(this);
-        isThemeChanged = true;
-        this.recreate();
-    }*/
-
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
