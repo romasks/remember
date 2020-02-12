@@ -163,6 +163,6 @@ public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapte
     @Override
     public void search(String date, int selectedIndex) {
         showAll.setVisibility(View.VISIBLE);
-        presenter.searchEventReligios(date, selectedIndex);
+        presenter.searchEventReligious(date, selectedIndex);
     }
 }

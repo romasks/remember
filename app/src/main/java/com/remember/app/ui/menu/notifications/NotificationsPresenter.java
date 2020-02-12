@@ -10,7 +10,6 @@ import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventNotificationModel;
-import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
 
 import java.text.ParseException;
@@ -19,8 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -31,9 +28,6 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
     enum NotificationFilterType {ALL, RELIGIOUS_EVENTS, DEAD_EVENTS}
 
-    @Inject
-    ServiceNetwork serviceNetwork;
-
     NotificationsPresenter() {
         Remember.getApplicationComponent().inject(this);
     }
@@ -41,20 +35,20 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
     void getEventNotification(NotificationFilterType filterType) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEventNotifications(filterType.toString())
-                .subscribeOn(Schedulers.io())
-                .map(this::prepareEventNotifications)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onNotificationsLoaded, getViewState()::onError);
+            .subscribeOn(Schedulers.io())
+            .map(this::prepareEventNotifications)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(getViewState()::onNotificationsLoaded, getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
     void getEpitNotifications() {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEpitNotifications()
-                .subscribeOn(Schedulers.io())
-                .map(this::prepareEpitNotifications)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onNotificationsLoaded, getViewState()::onError);
+            .subscribeOn(Schedulers.io())
+            .map(this::prepareEpitNotifications)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(getViewState()::onNotificationsLoaded, getViewState()::onError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -118,7 +112,8 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                     title = new SpannableString(tmpTitle);
                     addSpan(title, tmpTitle.indexOf(event.getEventName()), tmpTitle.length(), color, true);
                 } else {
-                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до " + event.getEventName() + " у " + event.getPageName();
+                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до " + event.getEventName() +
+                        " у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
@@ -145,7 +140,8 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                     tmpPos = tmpTitle.indexOf(event.getPageName());
                     addSpan(title, tmpPos, tmpTitle.length(), color, true);
                 } else {
-                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня рождения у " + event.getPageName();
+                    tmpTitle =
+                        "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня рождения у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
@@ -172,7 +168,8 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
                     tmpPos = tmpTitle.indexOf(event.getPageName());
                     addSpan(title, tmpPos, tmpTitle.length(), color, true);
                 } else {
-                    tmpTitle = "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня смерти у " + event.getPageName();
+                    tmpTitle =
+                        "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня смерти у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
@@ -217,7 +214,8 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
     private SpannableString getEpitTitle(EpitNotificationModel epit) {
         int color = Color.parseColor("#917b5a");
 
-        String tmpTitle = epit.getUserName() + " оставил(а) эпитафию на странице " + epit.getPageName() + ": " + epit.getText();
+        String tmpTitle =
+            epit.getUserName() + " оставил(а) эпитафию на странице " + epit.getPageName() + ": " + epit.getText();
 
         SpannableString title = new SpannableString(tmpTitle);
 

@@ -89,8 +89,6 @@ public interface ServiceNetwork {
 
     Observable<Object> saveSettings(RequestSettings requestSettings);
 
-    Observable<ResponseSocialAuth> signInVk(String email);
-
     Observable<ResponseSocialAuth> signInSocial(RequestSocialAuth request);
 
     Observable<List<MemoryPageModel>> getAllPages();
@@ -105,7 +103,7 @@ public interface ServiceNetwork {
 
     Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage);
 
-    Observable<List<ResponseEvents>> searchEventReligios(String date, int selectedIndex);
+    Observable<List<ResponseEvents>> searchEventReligious(String date, int selectedIndex);
 
     Observable<Object> savePhoto(File imageFile, String string, Integer id);
 

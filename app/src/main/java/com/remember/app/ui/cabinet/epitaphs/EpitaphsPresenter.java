@@ -3,20 +3,12 @@ package com.remember.app.ui.cabinet.epitaphs;
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.models.RequestAddEpitaphs;
-import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.ui.base.BasePresenter;
 
-import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
-
-    @Inject
-    ServiceNetwork serviceNetwork;
 
     EpitaphsPresenter() {
         Remember.getApplicationComponent().inject(this);
@@ -25,40 +17,40 @@ public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
     void getEpitaphs(int pageId) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEpitaphs(pageId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onReceivedEpitaphs,
-                        getViewState()::onErrorGetEpitaphs);
+            .subscribe(
+                getViewState()::onReceivedEpitaphs,
+                getViewState()::onErrorGetEpitaphs
+            );
         unsubscribeOnDestroy(subscription);
     }
 
     void saveEpitaph(RequestAddEpitaphs requestAddEpitaphs) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.saveEpitaph(requestAddEpitaphs)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onSavedEpitaphs,
-                        getViewState()::onErrorSavedEpitaphs);
+            .subscribe(
+                getViewState()::onSavedEpitaphs,
+                getViewState()::onErrorSavedEpitaphs
+            );
         unsubscribeOnDestroy(subscription);
     }
 
     void editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.editEpitaph(requestAddEpitaphs, id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onEditedEpitaphs,
-                        getViewState()::onErrorSavedEpitaphs);
+            .subscribe(
+                getViewState()::onEditedEpitaphs,
+                getViewState()::onErrorSavedEpitaphs
+            );
         unsubscribeOnDestroy(subscription);
     }
 
     void deleteEpitaph(Integer id) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.deleteEpitaph(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getViewState()::onDeletedEpitaphs,
-                        getViewState()::onErrorDeleteEpitaphs);
+            .subscribe(
+                getViewState()::onDeletedEpitaphs,
+                getViewState()::onErrorDeleteEpitaphs
+            );
         unsubscribeOnDestroy(subscription);
     }
 }
