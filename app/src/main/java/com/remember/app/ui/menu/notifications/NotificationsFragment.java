@@ -83,7 +83,7 @@ public class NotificationsFragment extends BaseFragment
 
     @Override
     protected int getContentView() {
-        return R.id.notifications_screen;
+        return R.layout.fragment_notifications;
     }
 
     @Override
