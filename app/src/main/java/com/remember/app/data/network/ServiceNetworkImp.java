@@ -201,18 +201,31 @@ public class ServiceNetworkImp implements ServiceNetwork {
         } catch (Exception e) {
             description = RequestBody.create(MultipartBody.FORM, "");
         }
-        RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), image);
-        fileToUploadTransfer = MultipartBody.Part.createFormData("picture", image.getName(), mFile);
         String token = "Bearer " + Prefs.getString("TOKEN", "");
-        return apiMethods.editEvent(token,
-                pageId,
-                date,
-                name,
-                flag,
-                uvShow,
-                description,
-                fileToUploadTransfer,
-                editEventRequest.getEventId());
+        if (image != null) {
+            RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), image);
+            fileToUploadTransfer = MultipartBody.Part.createFormData("picture", image.getName(), mFile);
+
+            return apiMethods.editEvent(token,
+                    pageId,
+                    date,
+                    name,
+                    flag,
+                    uvShow,
+                    description,
+                    fileToUploadTransfer,
+                    editEventRequest.getEventId());
+        } else {
+            return apiMethods.editEvent(token,
+                    pageId,
+                    date,
+                    name,
+                    flag,
+                    uvShow,
+                    description,
+                    null,
+                    editEventRequest.getEventId());
+        }
     }
 
     @Override
