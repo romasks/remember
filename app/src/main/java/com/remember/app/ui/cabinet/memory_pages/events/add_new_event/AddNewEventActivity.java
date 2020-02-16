@@ -335,23 +335,27 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 if (imageFile != null) {
                     presenter.editEvent(editEventRequest, imageFile);
                 } else {
-                    File file = new File(this.getCacheDir(), "image");
-                    try {
-                        file.createNewFile();
-                        image.invalidate();
-                        BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
-                        Bitmap bitmap = drawable.getBitmap();
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
-                        byte[] bitmapdata = bos.toByteArray();
-                        FileOutputStream fos = new FileOutputStream(file);
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (image.getDrawable() != null) {
+                        File file = new File(this.getCacheDir(), "image");
+                        try {
+                            file.createNewFile();
+                            image.invalidate();
+                            BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+                            Bitmap bitmap = drawable.getBitmap();
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                            byte[] bitmapdata = bos.toByteArray();
+                            FileOutputStream fos = new FileOutputStream(file);
+                            fos.write(bitmapdata);
+                            fos.flush();
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        presenter.editEvent(editEventRequest, file);
+                    } else {
+                        presenter.editEvent(editEventRequest, null);
                     }
-                    presenter.editEvent(editEventRequest, file);
                 }
             }
         }
