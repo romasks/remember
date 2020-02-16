@@ -168,6 +168,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
 
         if (isEdit) {
+            title.setText("Редактирование");
             saveButton.setText("Сохранить изменения");
             textViewImage.setText("Изменить фотографию");
             memoryPageModel = getIntent().getParcelableExtra("PERSON");
@@ -195,14 +196,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 //                }
 //            }
         }
-
-        religion.setOnClickListener(v -> {
-            presenter.getReligion();
-        });
-        back.setOnClickListener(v -> {
-            onBackPressed();
-            finish();
-        });
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -304,6 +297,17 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
                 presenter.editPage(person, memoryPageModel.getId(), file);
             }
         }
+    }
+
+    @OnClick(R.id.religion_value)
+    public void onSelectReligiousClick() {
+        presenter.getReligion();
+    }
+
+    @OnClick(R.id.back_button)
+    public void onBackClick() {
+        onBackPressed();
+        finish();
     }
 
     private void initiate() {

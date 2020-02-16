@@ -1,6 +1,5 @@
 package com.remember.app.ui.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +11,9 @@ import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.base.BaseViewHolder;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,6 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.DateUtils.convertRemoteToLocalFormat;
+import static com.remember.app.ui.utils.DateUtils.getDifferenceDays;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -113,67 +109,23 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 setGlideImage(itemView.getContext(), R.drawable.ic_round_camera, avatarImage);
             }
             name.setText(requestAddEvent.get(position).getName());
-            try {
-                String days = String.valueOf(getDifferenceDays(requestAddEvent.get(position).getDate()));
-                amountDays.setText(days.replace("-", ""));
-            } catch (ParseException ignored) {
-                try {
-                    String days = String.valueOf(getDifferenceDaysOtherDate(requestAddEvent.get(position).getDate()));
-                    amountDays.setText(days.replace("-", ""));
-                } catch (Exception e) {
-                }
-            }
-
-            DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
-            DateFormat dfRemote = new SimpleDateFormat("yyyy-MM-dd");
-
-            Date serverDate = null;
-            try {
-                serverDate = dfRemote.parse(requestAddEvent.get(position).getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (serverDate != null) {
-                date.setText(dfLocal.format(serverDate));
-            }
-
-//            date.setText(requestAddEvent.get(position).getDate());
+            amountDays.setText(getAmountDays(requestAddEvent.get(position).getDate()));
+            date.setText(convertRemoteToLocalFormat(requestAddEvent.get(position).getDate()));
             comment.setText("дней осталось");
         }
 
-        long getDifferenceDaysOtherDate(String date) throws ParseException {
-            @SuppressLint("SimpleDateFormat")
-            Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
-            Calendar past = Calendar.getInstance();
-            past.setTime(dateResult);
-            Calendar today = Calendar.getInstance();
-            today.set(Calendar.YEAR, past.get(Calendar.YEAR));
-            if (!today.after(past)) {
-                long diff = today.getTime().getTime() - past.getTime().getTime();
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            } else {
-                today.set(Calendar.YEAR, past.get(Calendar.YEAR) - 1);
-                long diff = past.getTime().getTime() - today.getTime().getTime();
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        String getAmountDays(String data) {
+            long diffs;
+            try {
+                diffs = getDifferenceDays(data, "REMOTE");
+            } catch (ParseException e) {
+                try {
+                    diffs = getDifferenceDays(data, "LOCAL");
+                } catch (Exception ex) {
+                    diffs = 0;
+                }
             }
+            return String.valueOf(diffs).replace("-", "");
         }
-
-        long getDifferenceDays(String date) throws ParseException {
-            @SuppressLint("SimpleDateFormat")
-            Date dateResult = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            Calendar past = Calendar.getInstance();
-            past.setTime(dateResult);
-            Calendar today = Calendar.getInstance();
-            today.set(Calendar.YEAR, past.get(Calendar.YEAR));
-            if (!today.after(past)) {
-                long diff = today.getTime().getTime() - past.getTime().getTime();
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            } else {
-                today.set(Calendar.YEAR, past.get(Calendar.YEAR) - 1);
-                long diff = past.getTime().getTime() - today.getTime().getTime();
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            }
-        }
-
     }
 }
