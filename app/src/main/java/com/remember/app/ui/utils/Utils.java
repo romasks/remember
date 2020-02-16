@@ -1,8 +1,10 @@
 package com.remember.app.ui.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -51,5 +53,9 @@ public class Utils {
             wm.getDefaultDisplay().getSize(size);
         }
         return size;
+    }
+
+    public static int convertDpToPixels(float dp) {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics()));
     }
 }

@@ -2,15 +2,14 @@ package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,6 +67,8 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
+import static com.remember.app.ui.utils.StringUtils.getStringFromField;
+import static com.remember.app.ui.utils.Utils.convertDpToPixels;
 
 public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
 
@@ -102,20 +103,20 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     TextView description;
     @BindView(R.id.description_title)
     TextView descriptionTitle;
-    @BindView(R.id.events)
-    ImageButton events;
+    @BindView(R.id.eventsButton)
+    ImageButton eventsBtn;
     @BindView(R.id.epitButton)
-    ImageButton epitaphButton;
-    @BindView(R.id.imageButton)
-    ImageButton imageButton;
+    ImageButton epitaphBtn;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
     @BindView(R.id.recycler_slider)
     RecyclerView recyclerSlider;
     @BindView(R.id.shareVk)
     ImageView but_vk;
-    @BindView(R.id.lv_add)
-    LinearLayout imadd;
+    @BindView(R.id.addPhotoToSliderBtn_layout)
+    LinearLayout addPhotoToSliderBtn_layout;
+    @BindView(R.id.map_button)
+    Button mapButton;
 
     @BindView(R.id.back_button)
     ImageView backImg;
@@ -146,7 +147,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         }
 
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
-            imadd.setVisibility(View.GONE);
+            addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             but_vk.setVisibility(View.GONE);
             settings.setVisibility(View.GONE);
         }
@@ -164,7 +165,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             id = memoryPageModel.getId();
             settings.setClickable(false);
             settings.setVisibility(View.GONE);
-            imageButton.setClickable(false);
+//            addPhotoToSliderBtn.setClickable(false);
+            addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             initAll();
         } else {
             id = i.getIntExtra(INTENT_EXTRA_ID, 0);
@@ -172,30 +174,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             presenter.getImageAfterSave(id);
         }
 
-        epitaphButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EpitaphsActivity.class);
-            intent.putExtra(INTENT_EXTRA_SHOW, isShow);
-            intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
-            startActivity(intent);
-        });
-
-        events.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EventsActivity.class);
-            intent.putExtra(INTENT_EXTRA_SHOW, isShow);
-            intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
-            intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
-            startActivity(intent);
-        });
-        image.setOnClickListener(v -> {
-            if (isSlider) {
-                startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
-                        .putExtra(INTENT_EXTRA_ID, id));
-            }
-        });
-
-        recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
         photoSliderAdapter.setClickListener(this);
+
+        recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerSlider.setAdapter(photoSliderAdapter);
     }
 
@@ -214,13 +196,38 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         return result + ". " + textDate;
     }
 
-    @OnClick(R.id.imageButton)
+    @OnClick(R.id.addPhotoToSliderBtn)
     public void pickImage() {
         photoDialog = new PhotoDialog();
         photoDialog.setCallback(this);
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         photoDialog.show(transaction, "photoDialog");
+    }
+
+    @OnClick(R.id.image)
+    public void onMainImageClick() {
+        if (isSlider) {
+            startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                    .putExtra(INTENT_EXTRA_ID, id));
+        }
+    }
+
+    @OnClick(R.id.epitButton)
+    public void onEpitaphButtonClick() {
+        Intent intent = new Intent(this, EpitaphsActivity.class);
+        intent.putExtra(INTENT_EXTRA_SHOW, isShow);
+        intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.eventsButton)
+    public void onEventButtonClick() {
+        Intent intent = new Intent(this, EventsActivity.class);
+        intent.putExtra(INTENT_EXTRA_SHOW, isShow);
+        intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
+        intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
+        startActivity(intent);
     }
 
     private void initAll() {
@@ -232,6 +239,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             initTextName(memoryPageModel);
             initDate(memoryPageModel);
             initInfo(memoryPageModel);
+            mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -286,11 +294,11 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     }
 
     private void initInfo(MemoryPageModel memoryPageModel) {
-        city.setText(memoryPageModel.getGorod().isEmpty() || memoryPageModel.getGorod().equals("null") ? "-" : memoryPageModel.getGorod());
-        crypt.setText(memoryPageModel.getNazvaklad().isEmpty() || memoryPageModel.getNazvaklad().equals("null") ? "-" : memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getSector().isEmpty() || memoryPageModel.getSector().equals("null") ? "-" : memoryPageModel.getSector());
-        line.setText(memoryPageModel.getUchastok().isEmpty() || memoryPageModel.getUchastok().equals("null") ? "-" : memoryPageModel.getUchastok());
-        grave.setText(memoryPageModel.getNummogil().isEmpty() || memoryPageModel.getNummogil().equals("null") ? "-" : memoryPageModel.getNummogil());
+        city.setText(getStringFromField(memoryPageModel.getGorod()));
+        crypt.setText(getStringFromField(memoryPageModel.getNazvaklad()));
+        sector.setText(getStringFromField(memoryPageModel.getSector()));
+        line.setText(getStringFromField(memoryPageModel.getUchastok()));
+        grave.setText(getStringFromField(memoryPageModel.getNummogil()));
     }
 
     private void initDate(MemoryPageModel memoryPageModel) {
@@ -443,9 +451,5 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         view.draw(canvas);
 
         return bitmap;
-    }
-
-    public int convertDpToPixels(float dp) {
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics()));
     }
 }
