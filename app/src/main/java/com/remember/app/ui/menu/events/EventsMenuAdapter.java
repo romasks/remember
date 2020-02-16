@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.remember.app.R;
@@ -84,6 +85,8 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView date;
         @BindView(R.id.comment)
         TextView comment;
+        @BindView(R.id.llEvent)
+        LinearLayout llEvent;
 
         EventsFragmentAdapterViewHolder(View itemView) {
             super(itemView);
@@ -93,7 +96,10 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         @Override
         public void onBind(int position) {
-            layout.setOnClickListener(v -> {
+            /*layout.setOnClickListener(v -> {
+                callback.click(responseEvents.get(position));
+            });*/
+            llEvent.setOnClickListener(v -> {
                 callback.click(responseEvents.get(position));
             });
             Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
