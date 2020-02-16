@@ -171,9 +171,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
             }
 
-            imageViewBigAvatar.setOnClickListener(view -> {
-                startActivity(new Intent(this, SettingActivity.class));
-            });
+            imageViewBigAvatar.setOnClickListener(view -> goToSettingsPage());
         } else {
             avatar_user.setVisibility(View.GONE);
             button_menu.setVisibility(View.GONE);
@@ -218,6 +216,11 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
             themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         }
+    }
+
+    @OnClick(R.id.avatar_small_toolbar)
+    public void onSmallAvatarClick() {
+        goToSettingsPage();
     }
 
     private void showEventScreen() {
@@ -277,7 +280,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 return true;
             }
             case R.id.menu_settings: {
-                startActivity(new Intent(this, SettingActivity.class));
+                goToSettingsPage();
                 return true;
             }
             case R.id.menu_questions: {
@@ -378,5 +381,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void goToSettingsPage() {
+        startActivity(new Intent(this, SettingActivity.class));
     }
 }
