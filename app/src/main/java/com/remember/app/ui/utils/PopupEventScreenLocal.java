@@ -57,7 +57,7 @@ public class PopupEventScreenLocal extends PopupWindow {
 
         popupView.findViewById(R.id.submit).setOnClickListener(v -> {
 //            if (date.getText().toString().isEmpty()) {
-//                Toast.makeText(context, "Выберите дату", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Выберите дату", Toast.LENGTH_SHORT).showKeyboard();
 //            } else {
             callback.search(date.getText().toString(), spinner.getSelectedIndex());
             dismiss();

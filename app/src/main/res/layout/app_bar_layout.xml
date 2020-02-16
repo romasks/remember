@@ -50,14 +50,15 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/settings"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginEnd="5dp"
-                    app:srcCompat="@mipmap/settings" />
+                    app:srcCompat="@mipmap/settings"
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>

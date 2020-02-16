@@ -1,9 +1,6 @@
 package com.remember.app.ui.adapters;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +11,12 @@ import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseViewHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,6 +28,7 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private List<ResponseHandBook> filteredList = new ArrayList<>();
 
     public HandBookAdapter(List<ResponseHandBook> responseHandBooks) {
+        Collections.sort(responseHandBooks, (o1, o2) -> o1.getName().compareTo(o2.getName()));
         this.filteredList.addAll(responseHandBooks);
         this.responseHandBooks.addAll(responseHandBooks);
         notifyDataSetChanged();
@@ -50,11 +52,11 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return filteredList.size();
     }
 
-    public void setCallback(Callback callback){
+    public void setCallback(Callback callback) {
         this.callback = callback;
     }
 
-    public interface Callback{
+    public interface Callback {
 
         void saveItem(ResponseHandBook name);
 
@@ -62,12 +64,12 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void filter(String text) {
         filteredList.clear();
-        if(text.isEmpty()){
+        if (text.isEmpty()) {
             filteredList.addAll(this.responseHandBooks);
-        } else{
+        } else {
             text = text.toLowerCase();
-            for(ResponseHandBook item: this.responseHandBooks){
-                if(item.getName().toLowerCase().contains(text)){
+            for (ResponseHandBook item : this.responseHandBooks) {
+                if (item.getName().toLowerCase().contains(text)) {
                     filteredList.add(item);
                 }
             }

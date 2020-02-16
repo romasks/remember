@@ -37,7 +37,7 @@
     <string name="for_yourself">Для себя</string>
     <string name="pick_level">Выберите уровень доступа</string>
     <string name="create_page">Создать памятную страницу</string>
-    <string name="burial_place_value">Место захоронения</string>
+    <string name="burial_place_header_text">Место захоронения</string>
     <string name="live_place">Населённый пункт</string>
     <string name="city">Населенный пункт</string>
     <string name="cemetery">Название кладбища</string>
