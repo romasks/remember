@@ -12,7 +12,7 @@ import io.reactivex.disposables.Disposable;
 public class MainPresenter extends BasePresenter<MainView> {
 
     MainPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getReligion() {

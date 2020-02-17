@@ -29,7 +29,7 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
     enum NotificationFilterType {ALL, RELIGIOUS_EVENTS, DEAD_EVENTS}
 
     NotificationsPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getEventNotification(NotificationFilterType filterType) {

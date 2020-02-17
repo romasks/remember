@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable;
 public class PageMenuPresenter extends BasePresenter<PageMenuView> {
 
     PageMenuPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getImages(int pageNumber) {

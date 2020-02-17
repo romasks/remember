@@ -102,10 +102,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
-
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
+
         setUpRecycler();
 
         if (Prefs.getBoolean(PREFS_KEY_THEME_CHANGED, false)) {

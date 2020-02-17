@@ -13,7 +13,7 @@ import static com.remember.app.data.Constants.IMAGES_STATUS_APPROVED;
 public class GridPresenter extends BasePresenter<GridView> {
 
     GridPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getImages(int pageNumber) {

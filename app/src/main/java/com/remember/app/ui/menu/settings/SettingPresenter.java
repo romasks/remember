@@ -25,7 +25,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
     private MutableLiveData<ResponseSettings> settingsLiveData = new MutableLiveData<>();
 
     SettingPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
         requestSettings = new RequestSettings();
     }
 

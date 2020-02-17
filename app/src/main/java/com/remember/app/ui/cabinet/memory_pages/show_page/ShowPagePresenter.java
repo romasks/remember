@@ -12,7 +12,7 @@ import io.reactivex.disposables.Disposable;
 public class ShowPagePresenter extends BasePresenter<ShowPageView> {
 
     ShowPagePresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getImageAfterSave(Integer id) {
