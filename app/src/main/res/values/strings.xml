@@ -95,6 +95,7 @@
     <!--grid-->
     <string name="grid_header">Помню</string>
     <string name="grid_show_all">Показать всех</string>
+    <string name="grid_show_all_event">Показать все события</string>
     <string name="grid_go_to_cabinet">Перейти в кабинет</string>
     <string name="grid_login">Войти</string>
 
