@@ -48,8 +48,8 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
     ImageView plus;
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.search)
-    ImageView search;
+    /*@BindView(R.id.search)
+    ImageView search;*///temporarily comment
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.no_events)
@@ -75,7 +75,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
 
         if (Utils.isThemeDark()) {
             back.setImageResource(R.drawable.ic_back_dark_theme);
-            search.setImageResource(R.drawable.ic_search2);
+            //search.setImageResource(R.drawable.ic_search2);//temporarily comment
             plus.setImageResource(R.drawable.ic_add2);
         }
 
@@ -100,7 +100,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_END);
-        if (isShow) search.setLayoutParams(params);
+        //if (isShow) search.setLayoutParams(params); //temporarily comment
 
         plus.setOnClickListener(v -> {
             if (!isShow) {
@@ -112,9 +112,9 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
                 openAddNewEventScreen();
             }
         });
-        search.setOnClickListener(v -> {
+        /*search.setOnClickListener(v -> {
             showPageScreen();
-        });
+        });*/ //temporarily comment
         back.setOnClickListener(v -> {
             onBackPressed();
         });

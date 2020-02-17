@@ -158,26 +158,26 @@ public class NotificationsPresenter extends BasePresenter<NotificationsView> {
 
             case "dead":
                 if (event.getRemainDays() == 0) {
-                    tmpTitle = "Сегодня День смерти у " + event.getPageName();
+                    tmpTitle = "Сегодня День памяти у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
-                    tmpPos = tmpTitle.indexOf("День смерти");
-                    addSpan(title, tmpPos, tmpPos + "День смерти".length(), color, true);
+                    tmpPos = tmpTitle.indexOf("День памяти");
+                    addSpan(title, tmpPos, tmpPos + "День памяти".length(), color, true);
 
                     tmpPos = tmpTitle.indexOf(event.getPageName());
                     addSpan(title, tmpPos, tmpTitle.length(), color, true);
                 } else {
                     tmpTitle =
-                        "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня смерти у " + event.getPageName();
+                        "Осталось " + event.getRemainDays() + " " + daysStr + " до Дня памяти у " + event.getPageName();
 
                     title = new SpannableString(tmpTitle);
 
                     tmpPos = tmpTitle.indexOf(String.valueOf(event.getRemainDays()));
                     addSpan(title, tmpPos, tmpPos + String.valueOf(event.getRemainDays()).length(), color, true);
 
-                    tmpPos = tmpTitle.indexOf("Дня смерти");
-                    addSpan(title, tmpPos, tmpPos + "Дня смерти".length(), color, true);
+                    tmpPos = tmpTitle.indexOf("Дня памяти");
+                    addSpan(title, tmpPos, tmpPos + "Дня памяти".length(), color, true);
 
                     tmpPos = tmpTitle.indexOf(event.getPageName());
                     addSpan(title, tmpPos, tmpTitle.length(), color, true);

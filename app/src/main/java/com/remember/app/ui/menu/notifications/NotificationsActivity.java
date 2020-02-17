@@ -27,8 +27,8 @@ public class NotificationsActivity extends BaseActivity implements Notifications
     ImageView back;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.filter)
-    ImageView btnFilter;
+    /*@BindView(R.id.filter)
+    ImageView btnFilter;*/ //temporarily comment
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
@@ -45,7 +45,7 @@ public class NotificationsActivity extends BaseActivity implements Notifications
         super.onCreate(savedInstanceState);
 
         if (Utils.isThemeDark()) {
-            btnFilter.setImageResource(R.drawable.ic_search2);
+            //btnFilter.setImageResource(R.drawable.ic_search2); //temporarily comment
             back.setImageResource(R.drawable.ic_back_dark_theme);
         }
         setupViewPager();
@@ -80,7 +80,7 @@ public class NotificationsActivity extends BaseActivity implements Notifications
 
     @OnPageChange(value = R.id.viewpager, callback = PAGE_SELECTED)
     public void onPageSelected(int position) {
-        btnFilter.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+        //btnFilter.setVisibility(position == 0 ? View.VISIBLE : View.GONE); //temporarily comment
     }
 
     @OnClick(R.id.back)
@@ -88,10 +88,10 @@ public class NotificationsActivity extends BaseActivity implements Notifications
         onBackPressed();
     }
 
-    @OnClick(R.id.filter)
+    /*@OnClick(R.id.filter)
     public void onFilterButtonClick() {
         eventsFragment.showFilterDialog();
-    }
+    }*/ //temporarily comment
 
     @Override
     public void onNotificationsLoaded(List<? extends NotificationModelNew> notifications) {
