@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEpitaphs;
@@ -16,8 +19,6 @@ import com.remember.app.ui.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -83,7 +84,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ImageView avatar;
 
         EpitaphsAdapterViewHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
         }
 

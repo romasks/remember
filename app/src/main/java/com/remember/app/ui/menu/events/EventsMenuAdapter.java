@@ -89,7 +89,7 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         LinearLayout llEvent;
 
         EventsFragmentAdapterViewHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }
