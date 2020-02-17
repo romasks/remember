@@ -207,10 +207,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.image)
     public void onMainImageClick() {
-        if (isSlider) {
+        /*if (isSlider) {
             startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
                     .putExtra(INTENT_EXTRA_ID, id));
-        }
+        }*///temporarily block onImageClick
     }
 
     @OnClick(R.id.epitButton)
