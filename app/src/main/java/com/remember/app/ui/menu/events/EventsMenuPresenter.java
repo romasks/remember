@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 public class EventsMenuPresenter extends BasePresenter<EventsMenuView> {
 
     EventsMenuPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getEvents() {

@@ -14,7 +14,7 @@ import io.reactivex.disposables.Disposable;
 public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
 
     AddNewEventPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void saveEvent(CreateEventRequest createEventRequest, File image) {

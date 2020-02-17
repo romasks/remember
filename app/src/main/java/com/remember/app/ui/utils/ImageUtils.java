@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.GlideApp;
 import com.remember.app.R;
@@ -134,7 +135,7 @@ public class ImageUtils {
         GlideApp.with(context)
                 .load(imageObj)
                 .error(R.drawable.darth_vader)
-//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)   // Automatic by default
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
     }

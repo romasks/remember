@@ -1,4 +1,4 @@
-package com.remember.app.ui.base;
+package com.remember.app.ui.base
 
 import android.os.Bundle
 import butterknife.ButterKnife

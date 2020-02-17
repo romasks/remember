@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable;
 public class QuestionPresenter extends BasePresenter<QuestionView> {
 
     QuestionPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void send(RequestQuestion requestQuestion) {

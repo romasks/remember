@@ -13,7 +13,7 @@ import io.reactivex.disposables.Disposable;
 public class AddPagePresenter extends BasePresenter<AddPageView> {
 
     AddPagePresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void addPage(AddPageModel person, File imageUri) {

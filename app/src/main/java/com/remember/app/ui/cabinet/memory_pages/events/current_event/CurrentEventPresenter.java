@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 public class CurrentEventPresenter extends BasePresenter<CurrentEventView> {
 
     CurrentEventPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getDeadEvent(int id) {

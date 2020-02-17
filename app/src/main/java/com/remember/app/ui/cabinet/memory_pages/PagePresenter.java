@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 public class PagePresenter extends BasePresenter<PageView> {
 
     PagePresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getPages() {

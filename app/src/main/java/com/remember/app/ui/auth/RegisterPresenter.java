@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 public class RegisterPresenter extends BasePresenter<RegisterView> {
 
     RegisterPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void registerLogin(String nickName, String email) {
