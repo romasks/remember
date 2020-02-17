@@ -53,7 +53,9 @@
         style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+        android:nextFocusForward="@id/first_name"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        tools:layout_editor_absoluteX="20dp">
 
         <AutoCompleteTextView
             android:id="@+id/last_name_value"
@@ -62,7 +64,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/last_name"
             android:inputType="textPersonName"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:maxLines="1"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,7 +85,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/name"
             android:inputType="textPersonName"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:maxLines="1"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +106,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/middle_name"
             android:inputType="textPersonName"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:maxLines="1"
+            android:imeOptions="actionNext"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,7 +127,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/live_place"
             android:inputType="textPersonName"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -163,7 +177,7 @@
             android:focusable="false"
             android:hint="@string/date_end"
             android:inputType="textPersonName"
-            android:textSize="18dp" />
+            android:textSize="18dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
