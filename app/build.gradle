@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -55,7 +56,7 @@ ext {
     glideVersion = '4.11.0'
     moxyVersion = '1.5.5'
     butterknifeVersion = '10.2.1'
-    leakcanaryVersion = '2.0-beta-4'
+    leakcanaryVersion = '2.1'
     simpleauthVersion = '2.1.4'
 }
 
