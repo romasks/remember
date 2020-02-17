@@ -35,8 +35,7 @@
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:textColorHint="@color/dark_gray">
+                android:focusable="false">
 
                 <AutoCompleteTextView
                     android:id="@+id/city_value"
@@ -54,8 +53,7 @@
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:textColorHint="@color/dark_gray">
+                android:focusableInTouchMode="false">
 
                 <AutoCompleteTextView
                     android:id="@+id/cemetery_value"
@@ -72,8 +70,7 @@
                 android:id="@+id/sector"
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray">
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/sector_value"
@@ -89,8 +86,7 @@
                 android:id="@+id/line"
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray">
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/line_value"
@@ -106,8 +102,7 @@
                 android:id="@+id/grave"
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray">
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/grave_value"
@@ -123,8 +118,7 @@
                 android:id="@+id/coordinates"
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_gray">
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/coordinates_value"
