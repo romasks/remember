@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -23,8 +26,6 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -41,6 +42,8 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     @InjectPresenter
     PlacePresenter presenter;
 
+    @BindView(R.id.back_button)
+    ImageView back;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.settings)
@@ -63,31 +66,34 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     Button pick;
 
     private ResponseHandBook responseHandBook;
-    private boolean isEdit;
-    private MemoryPageModel memoryPageModel;
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_burial_place;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Utils.setTheme(this);
         super.onCreate(savedInstanceState);
+
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         responseHandBook = new ResponseHandBook();
 
-        isEdit = getIntent().getBooleanExtra("EDIT", false);
-
         title.setText(getString(R.string.burial_place_header_text));
         settingsBtn.setVisibility(View.GONE);
 
-        coordinates.setText(getIntent().getStringExtra(BURIAL_PLACE_COORDS));
         city.setText(getIntent().getStringExtra(BURIAL_PLACE_CITY));
         cemetery.setText(getIntent().getStringExtra(BURIAL_PLACE_CEMETERY));
         sector.setText(getIntent().getStringExtra(BURIAL_PLACE_SECTOR));
         line.setText(getIntent().getStringExtra(BURIAL_PLACE_LINE));
         grave.setText(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
+        coordinates.setText(getIntent().getStringExtra(BURIAL_PLACE_COORDS));
 
-        /*if (isEdit) {
+        /*if (getIntent().getBooleanExtra("EDIT", false)) {
             memoryPageModel = getIntent().getParcelableExtra("MODEL");
-            initEdit();
+            initEdit(memoryPageModel);
         } else {
             coordinates.setText("");
             city.setText("");
@@ -96,39 +102,6 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
             line.setText("");
             grave.setText("");
         }*/
-    }
-
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_burial_place;
-    }
-
-    private void initEdit() {
-        coordinates.setText(memoryPageModel.getCoords());
-        city.setText(memoryPageModel.getGorod());
-        cemetery.setText(memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getSector());
-        line.setText(memoryPageModel.getUchastok());
-        grave.setText(memoryPageModel.getNummogil());
-    }
-
-    @OnClick(R.id.back_button)
-    public void back() {
-        onBackPressed();
-    }
-
-    @OnClick(R.id.city_value)
-    public void onCityClick() {
-        presenter.getCities();
-    }
-
-    @OnClick(R.id.cemetery_value)
-    public void onCemeteryClick() {
-        if (!city.getText().toString().isEmpty()) {
-            presenter.getCemetery(responseHandBook.getId());
-        } else {
-            Utils.showSnack(city, "Введите город");
-        }
     }
 
     @Override
@@ -144,33 +117,6 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         super.onBackPressed();
         finish();
     }
-
-    @OnClick(R.id.submit)
-    public void submit() {
-        if (city.getText().toString().isEmpty()) {
-            Utils.showSnack(city, "Введите город");
-        } else if (cemetery.getText().toString().isEmpty()) {
-            Utils.showSnack(city, "Введите название кладбища");
-        } else {
-            onBackPressed();
-        }
-    }
-
-    @OnClick(R.id.pick)
-    public void openMap() {
-        PopupMap popupWindow;
-        try {
-            View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
-            popupWindow = new PopupMap(
-                    popupView,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            popupWindow.setCallback(this);
-            popupWindow.setUp(pick, getSupportFragmentManager());
-        } catch (Exception ignored) {
-        }
-    }
-
 
     @Override
     public void setCoordinates(double latitude, double longitude) {
@@ -218,5 +164,71 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     @Override
     public void saveItem(ResponseCemetery responseCemetery) {
         cemetery.setText(responseCemetery.getName());
+    }
+
+    @OnClick(R.id.back_button)
+    public void back() {
+        onBackPressed();
+    }
+
+    @OnClick(R.id.city_value)
+    public void onCityClick() {
+        presenter.getCities();
+    }
+
+    @OnClick(R.id.cemetery_value)
+    public void onCemeteryClick() {
+        if (!city.getText().toString().isEmpty()) {
+            presenter.getCemetery(responseHandBook.getId());
+        } else {
+            Utils.showSnack(city, "Введите город");
+        }
+    }
+
+    @OnClick(R.id.submit)
+    public void submit() {
+        if (city.getText().toString().isEmpty()) {
+            Utils.showSnack(city, "Введите город");
+        } else if (cemetery.getText().toString().isEmpty()) {
+            Utils.showSnack(city, "Введите название кладбища");
+        } else {
+            onBackPressed();
+        }
+    }
+
+    @OnClick(R.id.pick)
+    public void openMap() {
+        PopupMap popupWindow;
+        try {
+            View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
+            popupWindow = new PopupMap(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+            popupWindow.setCallback(this);
+            popupWindow.setUp(pick, getSupportFragmentManager());
+        } catch (Exception ignored) {
+        }
+    }
+
+    @Override
+    protected void setViewsInDarkTheme() {
+        back.setImageResource(R.drawable.ic_back_dark_theme);
+        int textColorDark = getResources().getColor(R.color.colorWhiteDark);
+        city.setTextColor(textColorDark);
+        cemetery.setTextColor(textColorDark);
+        sector.setTextColor(textColorDark);
+        line.setTextColor(textColorDark);
+        grave.setTextColor(textColorDark);
+        coordinates.setTextColor(textColorDark);
+    }
+
+    private void initEdit(MemoryPageModel memoryPageModel) {
+        city.setText(memoryPageModel.getGorod());
+        cemetery.setText(memoryPageModel.getNazvaklad());
+        sector.setText(memoryPageModel.getSector());
+        line.setText(memoryPageModel.getUchastok());
+        grave.setText(memoryPageModel.getNummogil());
+        coordinates.setText(memoryPageModel.getCoords());
     }
 }

@@ -7,9 +7,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
+
+    public static DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
 
     public static Date parseDateWithFormat(String dateStr, DateFormat dateFormat) {
         Date date = null;

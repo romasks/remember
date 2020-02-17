@@ -20,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -40,16 +45,10 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -61,6 +60,8 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.DateUtils.dfLocal;
+import static com.remember.app.ui.utils.DateUtils.parseLocalFormat;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
@@ -125,29 +126,17 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     private File imageFile;
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_new_memory_page;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
 
         title.setText(R.string.memory_page_new_header_text);
         settings.setVisibility(View.GONE);
-
-        if (Utils.isThemeDark()) {
-            back.setImageResource(R.drawable.ic_back_dark_theme);
-            int textColorDark = getResources().getColor(R.color.colorWhiteDark);
-            name.setTextColor(textColorDark);
-            lastName.setTextColor(textColorDark);
-            middleName.setTextColor(textColorDark);
-            dateBegin.setTextColor(textColorDark);
-            dateEnd.setTextColor(textColorDark);
-            religion.setTextColor(textColorDark);
-            isFamous.setTextColor(textColorDark);
-            isPublic.setTextColor(textColorDark);
-            noPublic.setTextColor(textColorDark);
-            notFamous.setTextColor(textColorDark);
-            description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
-        }
 
         if (storagePermissionGranted(this) || Build.VERSION.SDK_INT < 23) {
             setUp();
@@ -157,78 +146,77 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     }
 
     @Override
-    protected int getContentView() {
-        return R.layout.activity_new_memory_page;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        setUp();
     }
 
-    private void setUp() {
-        initiate();
-        person = new AddPageModel();
-
-        isEdit = getIntent().getBooleanExtra("EDIT", false);
-
-        if (isEdit) {
-            title.setText("Редактирование");
-            saveButton.setText("Сохранить изменения");
-            textViewImage.setText("Изменить фотографию");
-            memoryPageModel = getIntent().getParcelableExtra("PERSON");
-            initEdit();
-            person.setCoords(getIntent().getStringExtra(BURIAL_PLACE_COORDS));
-            person.setCity(getIntent().getStringExtra(BURIAL_PLACE_CITY));
-            person.setCemeteryName(getIntent().getStringExtra(BURIAL_PLACE_CEMETERY));
-            person.setSector(getIntent().getStringExtra(BURIAL_PLACE_SECTOR));
-            person.setSpotId(getIntent().getStringExtra(BURIAL_PLACE_LINE));
-            person.setGraveId(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
-//            if (person != null) {
-//                if (person.getStar() != null) {
-//                    if (person.getStar().equals("true")) {
-//                        isFamous.setChecked(true);
-//                    } else {
-//                        notFamous.setChecked(false);
-//                    }
-//                }
-//                if (person.getFlag() != null) {
-//                    if (person.getFlag().equals("true")) {
-//                        isPublic.setChecked(true);
-//                    } else {
-//                        noPublic.setChecked(false);
-//                    }
-//                }
-//            }
-        }
+    @Override
+    public void onSavedPage(ResponseCemetery response) {
+        Intent intent = new Intent(this, ShowPageActivity.class);
+        intent.putExtra("PERSON", person);
+        intent.putExtra("IMAGE", imageFile);
+        intent.putExtra("ID", response.getId());
+        intent.putExtra("AFTER_SAVE", true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Prefs.putString(BURIAL_PLACE_COORDS, "");
+        Prefs.putString(BURIAL_PLACE_CITY, "");
+        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
+        Prefs.putString(BURIAL_PLACE_SECTOR, "");
+        Prefs.putString(BURIAL_PLACE_LINE, "");
+        Prefs.putString(BURIAL_PLACE_GRAVE, "");
+        startActivity(intent);
+        finish();
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private void initEdit() {
-        lastName.setText(memoryPageModel.getSecondName());
-        name.setText(memoryPageModel.getName());
-        middleName.setText(memoryPageModel.getThirdName());
-        description.setText(memoryPageModel.getComment());
-        religion.setText(memoryPageModel.getReligiya());
-//        isFamous.setChecked(memoryPageModel.getStar().equals("true"));
-//        notFamous.setChecked(!memoryPageModel.getStar().equals("true"));
-//        isPublic.setChecked(memoryPageModel.getFlag().equals("true"));
-//        noPublic.setChecked(!memoryPageModel.getFlag().equals("true"));
+    @Override
+    public void onGetInfo(List<ResponseHandBook> responseHandBooks) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
 
-        if (memoryPageModel.getStar().equals("true")) {
-            isFamous.setChecked(true);
-            notFamous.setChecked(false);
-        } else {
-            isFamous.setChecked(false);
-            notFamous.setChecked(true);
-        }
-        if (memoryPageModel.getFlag().equals("true")) {
-            isPublic.setChecked(true);
-            noPublic.setChecked(false);
-        } else {
-            isPublic.setChecked(false);
-            noPublic.setChecked(true);
+        LinearLayout layout = popupView.findViewById(R.id.lay);
+        if (Utils.isThemeDark()) {
+            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
         }
 
-        dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
-        dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
+        PopupReligion popupWindow = new PopupReligion(
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setCallback(this);
+        popupWindow.setUp(lastName, responseHandBooks);
+    }
 
-        glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
+    @Override
+    public void onEdited(MemoryPageModel memoryPageModel) {
+        Intent intent = new Intent(this, ShowPageActivity.class);
+        intent.putExtra("PERSON", person);
+        intent.putExtra("IMAGE", imageFile);
+        intent.putExtra("ID", memoryPageModel.getId());
+        intent.putExtra("AFTER_SAVE", true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Prefs.putString(BURIAL_PLACE_COORDS, "");
+        Prefs.putString(BURIAL_PLACE_CITY, "");
+        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
+        Prefs.putString(BURIAL_PLACE_SECTOR, "");
+        Prefs.putString(BURIAL_PLACE_LINE, "");
+        Prefs.putString(BURIAL_PLACE_GRAVE, "");
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Utils.showSnack(image, "Ошибка получения данных");
+    }
+
+    @Override
+    public void onErrorSave(Throwable throwable) {
+        Utils.showSnack(image, "Ошибка сохранения");
+    }
+
+    @Override
+    public void saveItem(ResponseHandBook responseHandBook) {
+        religion.setText(responseHandBook.getName());
     }
 
     @OnClick(R.id.image_layout)
@@ -310,45 +298,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         finish();
     }
 
-    private void initiate() {
-        dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
-            dateAndTime.set(Calendar.YEAR, year);
-            dateAndTime.set(Calendar.MONTH, monthOfYear);
-            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-            Date endDate = DateUtils.parseLocalFormat(dateEnd.getText().toString());
-            if (endDate != null) {
-                if (dateAndTime.getTime().after(endDate)) {
-                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
-                } else {
-                    setInitialDateBegin();
-                }
-            } else {
-                setInitialDateBegin();
-            }
-        };
-
-        dateEndPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
-            dateAndTime.set(Calendar.YEAR, year);
-            dateAndTime.set(Calendar.MONTH, monthOfYear);
-            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-            Date startDate = DateUtils.parseLocalFormat(dateBegin.getText().toString());
-            if (startDate != null) {
-                if (startDate.after(dateAndTime.getTime())) {
-                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
-                } else {
-                    setInitialDateEnd();
-                }
-            } else {
-                setInitialDateEnd();
-            }
-        };
-
-        dateBegin.setOnClickListener(this::setDateBegin);
-        dateEnd.setOnClickListener(this::setDateEnd);
-    }
-
     public void setDateBegin(View v) {
         DatePickerDialog dialog = new DatePickerDialog(this, dateBeginPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
@@ -365,20 +314,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
                 dateAndTime.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMaxDate(new Date().getTime());
         dialog.show();
-    }
-
-    private void setInitialDateBegin() {
-        @SuppressLint("SimpleDateFormat")
-        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
-        String requiredDate = dfLocal.format(new Date(dateAndTime.getTimeInMillis()));
-        dateBegin.setText(requiredDate);
-    }
-
-    private void setInitialDateEnd() {
-        @SuppressLint("SimpleDateFormat")
-        DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy");
-        String requiredDate = dfLocal.format(new Date(dateAndTime.getTimeInMillis()));
-        dateEnd.setText(requiredDate);
     }
 
     @Override
@@ -433,8 +368,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
                     e.printStackTrace();
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-                Log.e(TAG, error.getLocalizedMessage());
+                Log.e(TAG, result.getError().getLocalizedMessage());
                 progressDialog.dismiss();
             } else {
                 progressDialog.dismiss();
@@ -443,83 +377,128 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        setUp();
+    protected void setViewsInDarkTheme() {
+        back.setImageResource(R.drawable.ic_back_dark_theme);
+        int textColorDark = getResources().getColor(R.color.colorWhiteDark);
+        name.setTextColor(textColorDark);
+        lastName.setTextColor(textColorDark);
+        middleName.setTextColor(textColorDark);
+        dateBegin.setTextColor(textColorDark);
+        dateEnd.setTextColor(textColorDark);
+        religion.setTextColor(textColorDark);
+        isFamous.setTextColor(textColorDark);
+        isPublic.setTextColor(textColorDark);
+        noPublic.setTextColor(textColorDark);
+        notFamous.setTextColor(textColorDark);
+        description.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
     }
 
-    @Override
-    public void onSavedPage(ResponseCemetery response) {
-        Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra("PERSON", person);
-        intent.putExtra("IMAGE", imageFile);
-        intent.putExtra("ID", response.getId());
-        intent.putExtra("AFTER_SAVE", true);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Prefs.putString(BURIAL_PLACE_COORDS, "");
-        Prefs.putString(BURIAL_PLACE_CITY, "");
-        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
-        Prefs.putString(BURIAL_PLACE_SECTOR, "");
-        Prefs.putString(BURIAL_PLACE_LINE, "");
-        Prefs.putString(BURIAL_PLACE_GRAVE, "");
-        startActivity(intent);
-        finish();
+    private void setUp() {
+        initiate();
+        person = new AddPageModel();
+
+        isEdit = getIntent().getBooleanExtra("EDIT", false);
+
+        if (isEdit) {
+            title.setText("Редактирование");
+            saveButton.setText("Сохранить изменения");
+            textViewImage.setText("Изменить фотографию");
+            memoryPageModel = getIntent().getParcelableExtra("PERSON");
+            initEdit();
+            person.setCoords(getIntent().getStringExtra(BURIAL_PLACE_COORDS));
+            person.setCity(getIntent().getStringExtra(BURIAL_PLACE_CITY));
+            person.setCemeteryName(getIntent().getStringExtra(BURIAL_PLACE_CEMETERY));
+            person.setSector(getIntent().getStringExtra(BURIAL_PLACE_SECTOR));
+            person.setSpotId(getIntent().getStringExtra(BURIAL_PLACE_LINE));
+            person.setGraveId(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
+//            if (person != null) {
+//                if (person.getStar() != null) {
+//                    if (person.getStar().equals("true")) {
+//                        isFamous.setChecked(true);
+//                    } else {
+//                        notFamous.setChecked(false);
+//                    }
+//                }
+//                if (person.getFlag() != null) {
+//                    if (person.getFlag().equals("true")) {
+//                        isPublic.setChecked(true);
+//                    } else {
+//                        noPublic.setChecked(false);
+//                    }
+//                }
+//            }
+        }
     }
 
-    @Override
-    public void onGetInfo(List<ResponseHandBook> responseHandBooks) {
-        View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
+    @SuppressLint("SimpleDateFormat")
+    private void initEdit() {
+        lastName.setText(memoryPageModel.getSecondName());
+        name.setText(memoryPageModel.getName());
+        middleName.setText(memoryPageModel.getThirdName());
+        description.setText(memoryPageModel.getComment());
+        religion.setText(memoryPageModel.getReligiya());
+//        isFamous.setChecked(memoryPageModel.getStar().equals("true"));
+//        notFamous.setChecked(!memoryPageModel.getStar().equals("true"));
+//        isPublic.setChecked(memoryPageModel.getFlag().equals("true"));
+//        noPublic.setChecked(!memoryPageModel.getFlag().equals("true"));
 
-        LinearLayout layout = popupView.findViewById(R.id.lay);
-        if (Utils.isThemeDark()) {
-            layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+        if (memoryPageModel.getStar().equals("true")) {
+            isFamous.setChecked(true);
+            notFamous.setChecked(false);
+        } else {
+            isFamous.setChecked(false);
+            notFamous.setChecked(true);
+        }
+        if (memoryPageModel.getFlag().equals("true")) {
+            isPublic.setChecked(true);
+            noPublic.setChecked(false);
+        } else {
+            isPublic.setChecked(false);
+            noPublic.setChecked(true);
         }
 
-        PopupReligion popupWindow = new PopupReligion(
-                popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setCallback(this);
-        popupWindow.setUp(lastName, responseHandBooks);
+        dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
+        dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
+
+        glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
     }
 
-    @Override
-//    public void onEdited(ResponsePages responsePages) {
-    public void onEdited(MemoryPageModel memoryPageModel) {
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.putExtra("PERSON", person);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
-//        Toast.makeText(this, "Данные сохранены", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra("PERSON", person);
-        intent.putExtra("IMAGE", imageFile);
-        intent.putExtra("ID", memoryPageModel.getId());
-        intent.putExtra("AFTER_SAVE", true);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Prefs.putString(BURIAL_PLACE_COORDS, "");
-        Prefs.putString(BURIAL_PLACE_CITY, "");
-        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
-        Prefs.putString(BURIAL_PLACE_SECTOR, "");
-        Prefs.putString(BURIAL_PLACE_LINE, "");
-        Prefs.putString(BURIAL_PLACE_GRAVE, "");
-        startActivity(intent);
-        finish();
+    private void initiate() {
+        dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            Date endDate = parseLocalFormat(dateEnd.getText().toString());
+            if (endDate != null && dateAndTime.getTime().after(endDate)) {
+                Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+            } else {
+                setInitialDateBegin();
+            }
+        };
+
+        dateEndPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            Date startDate = parseLocalFormat(dateBegin.getText().toString());
+            if (startDate != null && startDate.after(dateAndTime.getTime())) {
+                Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+            } else {
+                setInitialDateEnd();
+            }
+        };
+
+        dateBegin.setOnClickListener(this::setDateBegin);
+        dateEnd.setOnClickListener(this::setDateEnd);
     }
 
-    @Override
-    public void onError(Throwable throwable) {
-        Utils.showSnack(image, "Ошибка получения данных");
+    private void setInitialDateBegin() {
+        dateBegin.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
     }
 
-    @Override
-    public void onErrorSave(Throwable throwable) {
-        Utils.showSnack(image, "Ошибка сохранения");
+    private void setInitialDateEnd() {
+        dateEnd.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
     }
-
-    @Override
-    public void saveItem(ResponseHandBook responseHandBook) {
-        religion.setText(responseHandBook.getName());
-    }
-
 }
