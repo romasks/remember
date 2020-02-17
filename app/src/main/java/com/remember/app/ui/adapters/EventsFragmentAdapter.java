@@ -1,6 +1,5 @@
 package com.remember.app.ui.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -18,13 +17,8 @@ import com.remember.app.data.models.EventResponse;
 import com.remember.app.ui.base.BaseViewHolder;
 import com.remember.app.ui.utils.DateUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,7 +79,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         TextView personName;
 
         EventsFragmentAdapterViewHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }
@@ -112,24 +106,5 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             personName.setText(fullName);
             date.setText(DateUtils.convertRemoteToLocalFormat(item.getOriginDate()));
         }
-
-        long getDifferenceDays(String date) throws ParseException {
-            @SuppressLint("SimpleDateFormat")
-            Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
-            Calendar past = Calendar.getInstance();
-            past.setTime(dateResult);
-            Calendar today = Calendar.getInstance();
-            today.set(Calendar.YEAR, past.get(Calendar.YEAR));
-            long diff = past.getTime().getTime() - today.getTime().getTime();
-            if (diff > 0) {
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            } else {
-                today.set(Calendar.YEAR, past.get(Calendar.YEAR));
-                past.add(Calendar.YEAR, 1);
-                diff = past.getTime().getTime() - today.getTime().getTime();
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            }
-        }
-
     }
 }

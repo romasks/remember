@@ -10,6 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -17,9 +21,6 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -97,18 +98,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         ImageView ivShowMore;
 
         ImageAdapterHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
         }
 
         @Override
         public void onBind(int position) {
             MemoryPageModel item = getItem(position);
-
             Point size = getScreenWidth(context);
-            if (size != null) {
-//                layoutGridItem.setMinimumHeight(size.x / 3 + size.x / 25);
-            }
 
             // Show More btn
             layoutShowMore.setOnClickListener(v -> callback.showMorePages());
@@ -128,7 +125,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
                 glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
             }
             name.setText(item.getFullName());
-            //item.setLoaded(true);
 
             if (item.isShowMore()) {
                 layoutGridImage.setVisibility(View.GONE);

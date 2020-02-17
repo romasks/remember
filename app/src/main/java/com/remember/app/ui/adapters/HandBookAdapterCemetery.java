@@ -89,7 +89,7 @@ public class HandBookAdapterCemetery extends RecyclerView.Adapter<BaseViewHolder
         ConstraintLayout layout;
 
         HandBookAdapterCemeteryViewHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }

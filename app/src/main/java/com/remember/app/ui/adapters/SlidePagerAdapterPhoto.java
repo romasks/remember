@@ -7,29 +7,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.remember.app.R;
-import com.remember.app.data.models.ResponseImagesSlider;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.remember.app.R;
+import com.remember.app.data.models.ResponseImagesSlider;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 
 public class SlidePagerAdapterPhoto extends PagerAdapter {
 
-    Context context;
-
+    private Context context;
     private Count count;
-    private LayoutInflater layoutInflater;
     private List<ResponseImagesSlider> responseImagesSliders = new ArrayList<>();
-    private int slide = 0;
     private static final String TAG = "SlidePagerAdapterPhoto";
-
 
     public SlidePagerAdapterPhoto(Context context) {
         this.context = context;
@@ -51,13 +49,16 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
         return container == object;
     }
 
+    @NotNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+    public Object instantiateItem(@NotNull ViewGroup container, int position) {
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slide_layout_photo, container, false);
+
         ImageView imageView = view.findViewById(R.id.imageView2);
         TextView textView = view.findViewById(R.id.textView15);
         textView.setText(responseImagesSliders.get(position).getBody());
+
         count.getCountPage(String.valueOf(responseImagesSliders.size()));
         glideLoadInto(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
         container.addView(view);
@@ -66,12 +67,11 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NotNull ViewGroup container, int position, @NotNull Object object) {
         ViewPager vp = (ViewPager) container;
         View view = (View) object;
         vp.removeView(view);
     }
-
 
     public void setCount(Count count) {
         this.count = count;
@@ -80,5 +80,4 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
     public interface Count {
         void getCountPage(String i1);
     }
-
 }

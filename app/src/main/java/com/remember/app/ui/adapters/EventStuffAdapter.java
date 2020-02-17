@@ -43,7 +43,7 @@ public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.Im
         ImageView itemImage;
 
         ImageViewHolder(@NonNull View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }

@@ -88,7 +88,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView surname;
 
         PageFragmentAdapterViewHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
         }
 
