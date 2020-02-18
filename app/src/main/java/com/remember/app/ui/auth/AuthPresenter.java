@@ -20,7 +20,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 public class AuthPresenter extends BasePresenter<AuthView> {
 
     AuthPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void singInAuth(String login, String password) {

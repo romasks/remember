@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 public class PlacePresenter extends BasePresenter<PlaceView> {
 
     PlacePresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getCities() {

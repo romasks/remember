@@ -1,11 +1,16 @@
 package com.remember.app.ui.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.GlideApp;
 import com.remember.app.R;
@@ -16,6 +21,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.ui.utils.Utils.convertDpToPixels;
 
 public class ImageUtils {
 
@@ -101,17 +107,37 @@ public class ImageUtils {
         setGridImage(targetView.getContext(), imageObj, targetView);
     }
 
+    public static ColorMatrixColorFilter getBlackWhiteFilter() {
+        return blackWhiteFilter;
+    }
+
+    public static Bitmap createBitmapFromView(ImageView sharedImage) {
+        View view = sharedImage;
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(convertDpToPixels(view.getWidth()), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(convertDpToPixels(view.getHeight()), View.MeasureSpec.EXACTLY)
+        );
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Drawable background = view.getBackground();
+
+        if (background != null) {
+            background.draw(canvas);
+        }
+        view.draw(canvas);
+
+        return bitmap;
+    }
+
     private static void setGridImage(Context context, Object imageObj, ImageView targetView) {
         GlideApp.with(context)
                 .load(imageObj)
                 .error(R.drawable.darth_vader)
-//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)   // Automatic by default
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
-    }
-
-    public static ColorMatrixColorFilter getBlackWhiteFilter() {
-        return blackWhiteFilter;
     }
 
     private static URL encodeImageUrl(String urlStr) throws MalformedURLException, URISyntaxException {

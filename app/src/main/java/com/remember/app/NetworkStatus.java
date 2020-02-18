@@ -19,7 +19,7 @@ public class NetworkStatus {
 
     private static Status currentStatus = Status.OFFLINE;
 
-    private static Context appContext = Remember.getApplicationComponent().context();
+    private static Context appContext = Remember.applicationComponent.context();
 
     private static boolean isAirplane() {
         return Settings.Global.getInt(appContext.getContentResolver(),

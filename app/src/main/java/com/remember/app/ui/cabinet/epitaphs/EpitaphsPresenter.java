@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable;
 public class EpitaphsPresenter extends BasePresenter<EpitaphsView> {
 
     EpitaphsPresenter() {
-        Remember.getApplicationComponent().inject(this);
+        Remember.applicationComponent.inject(this);
     }
 
     void getEpitaphs(int pageId) {
