@@ -47,8 +47,8 @@ public class EpitaphsActivity extends BaseActivity implements EpitaphsView, Popu
     ImageView back;
     @BindView(R.id.no_events)
     LinearLayout noEvents;
-    @BindView(R.id.btn_create_event)
-    Button btnCreateEvent;
+    /*@BindView(R.id.btn_create_event)
+    Button btnCreateEvent;*///temporarily comment
 
     private EpitaphsAdapter epitaphsAdapter;
     private int pageId;
@@ -79,11 +79,11 @@ public class EpitaphsActivity extends BaseActivity implements EpitaphsView, Popu
 
         plus.setVisibility(Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) ? View.INVISIBLE : View.VISIBLE);
         plus.setOnClickListener(v -> showPopupAdd());
-        btnCreateEvent.setOnClickListener(v -> {
+        /*btnCreateEvent.setOnClickListener(v -> {
             if (!isShow) {
                 showPopupAdd();
             }
-        });
+        });*/
         back.setOnClickListener(v -> onBackPressed());
     }
 
