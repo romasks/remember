@@ -90,12 +90,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:text="Готово"
         android:textColor="?android:attr/textColor"
         android:textSize="16dp"
         android:textStyle="bold" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,7 +105,7 @@
         android:layout_marginBottom="10dp"
         android:text="Отмена"
         android:textColor="@color/brown"
-        android:textSize="16dp" />
+        android:textSize="16dp" />temporarily comment-->
 
 
 </LinearLayout>

@@ -236,6 +236,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @Override
     public void showPhoto() {
         CropImage.activity()
+                .setMinCropResultSize(400,400)
+                .setMaxCropResultSize(7000, 7000)//TODO
                 .setFixAspectRatio(true)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .start(this);

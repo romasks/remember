@@ -295,6 +295,8 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     public void pickImage() {
         progressDialog = LoadingPopupUtils.showLoadingDialog(this);
         CropImage.activity()
+                .setMinCropResultSize(400,400)
+                .setMaxCropResultSize(7000, 7000)//TODO
                 .setFixAspectRatio(true)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .start(this);

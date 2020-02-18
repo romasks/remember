@@ -34,7 +34,7 @@ public class PhotoDialog extends DialogFragment {
     private ImageView imageView;
     private EditText editText;
     private TextView done;
-    private TextView cancel;
+    //private TextView cancel; //temporarily comment
     private Uri uri;
     private Bitmap bitmap;
     private File imageFile;
@@ -55,7 +55,7 @@ public class PhotoDialog extends DialogFragment {
         imageView = view.findViewById(R.id.image);
         editText = view.findViewById(R.id.description);
         done = view.findViewById(R.id.done);
-        cancel = view.findViewById(R.id.cancel);
+        //cancel = view.findViewById(R.id.cancel); //temporarily comment
 
         if (Utils.isThemeDark()) {
             editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
@@ -78,9 +78,9 @@ public class PhotoDialog extends DialogFragment {
                 callback.sendPhoto(imageFile, editText.getText().toString());
             }
         });
-        cancel.setOnClickListener(v -> {
+        /*cancel.setOnClickListener(v -> {
             dismiss();
-        });
+        });*/ //temporarily comment
         builder.setView(view);
         return builder.create();
     }

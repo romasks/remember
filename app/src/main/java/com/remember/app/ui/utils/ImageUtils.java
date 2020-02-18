@@ -7,6 +7,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -120,6 +121,8 @@ public class ImageUtils {
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
 
         Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Log.d("MYLOG","qqqqq");
+        //Bitmap bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Drawable background = view.getBackground();
 

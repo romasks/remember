@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -77,6 +78,8 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         TextView date;
         @BindView(R.id.personName)
         TextView personName;
+        @BindView(R.id.global_layout)
+        LinearLayout globalLayout;
 
         EventsFragmentAdapterViewHolder(View itemView) {
             super(itemView, 0);
@@ -87,7 +90,10 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @Override
         public void onBind(int position) {
             EventResponse item = responseEvents.get(position);
-            layout.setOnClickListener(v -> {
+            /*layout.setOnClickListener(v -> {
+                callback.click(item);
+            });*/
+            globalLayout.setOnClickListener(v -> {
                 callback.click(item);
             });
             Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);

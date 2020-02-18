@@ -143,6 +143,8 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     void addNewPhoto() {
         if (getContext() != null) {
             CropImage.activity()
+                    .setMinCropResultSize(400,400)
+                    .setMaxCropResultSize(7000, 7000)//TODO
                     .setCropShape(CropImageView.CropShape.OVAL)
                     .setFixAspectRatio(true)
                     .start(getContext(), this);

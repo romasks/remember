@@ -221,8 +221,11 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @OnClick(R.id.image_layout)
     public void pickImage() {
+        Log.d("MYLOG", "adsdasdasdadsdas");
         progressDialog = LoadingPopupUtils.showLoadingDialog(this);
         CropImage.activity()
+                .setMinCropResultSize(400,400)
+                .setMaxCropResultSize(7000, 7000)//TODO
                 .setFixAspectRatio(true)
                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                 .start(this);
@@ -344,7 +347,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             getWindowManager().getDefaultDisplay().getMetrics(dsMetrics);
             Bitmap hah = null;
             if (data != null) {
-                hah = Bitmap.createScaledBitmap(data.getParcelableExtra("bitmap"),
+                hah = Bitmap.createScaledBitmap(data.getParcelableExtra("bitmap"),//TODO
                         dsMetrics.widthPixels, dsMetrics.heightPixels, false);
             }
             findViewById(R.id.text_image).setVisibility(View.GONE);
@@ -357,9 +360,12 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             }
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            Log.d("MYLOG", "YES1");
             if (resultCode == RESULT_OK) {
                 progressDialog.dismiss();
+                Log.d("MYLOG", "YES2");
                 try {
+                    Log.d("MYLOG", "YES3");
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
                     progressDialog.dismiss();
@@ -368,9 +374,11 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
                     e.printStackTrace();
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Log.d("MYLOG", "YES4");
                 Log.e(TAG, result.getError().getLocalizedMessage());
                 progressDialog.dismiss();
             } else {
+                Log.d("MYLOG", "YES5");
                 progressDialog.dismiss();
             }
         }
