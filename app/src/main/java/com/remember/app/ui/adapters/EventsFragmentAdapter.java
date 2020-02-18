@@ -1,12 +1,12 @@
 package com.remember.app.ui.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,13 +18,8 @@ import com.remember.app.data.models.EventResponse;
 import com.remember.app.ui.base.BaseViewHolder;
 import com.remember.app.ui.utils.DateUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,9 +78,11 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         TextView date;
         @BindView(R.id.personName)
         TextView personName;
+        @BindView(R.id.global_layout)
+        LinearLayout globalLayout;
 
         EventsFragmentAdapterViewHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }
@@ -93,7 +90,10 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @Override
         public void onBind(int position) {
             EventResponse item = responseEvents.get(position);
-            layout.setOnClickListener(v -> {
+            /*layout.setOnClickListener(v -> {
+                callback.click(item);
+            });*/
+            globalLayout.setOnClickListener(v -> {
                 callback.click(item);
             });
             Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
@@ -104,28 +104,13 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             }
 
             String fullName = item.getPageName();
-            name.setText(item.getEventName());
+            if (item.getEventName().equals("День смерти")){
+                name.setText("День утраты");
+            } else {
+                name.setText(item.getEventName());
+            }
             personName.setText(fullName);
             date.setText(DateUtils.convertRemoteToLocalFormat(item.getOriginDate()));
         }
-
-        long getDifferenceDays(String date) throws ParseException {
-            @SuppressLint("SimpleDateFormat")
-            Date dateResult = new SimpleDateFormat("dd.MM.yyyy").parse(date);
-            Calendar past = Calendar.getInstance();
-            past.setTime(dateResult);
-            Calendar today = Calendar.getInstance();
-            today.set(Calendar.YEAR, past.get(Calendar.YEAR));
-            long diff = past.getTime().getTime() - today.getTime().getTime();
-            if (diff > 0) {
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            } else {
-                today.set(Calendar.YEAR, past.get(Calendar.YEAR));
-                past.add(Calendar.YEAR, 1);
-                diff = past.getTime().getTime() - today.getTime().getTime();
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            }
-        }
-
     }
 }

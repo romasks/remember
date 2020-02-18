@@ -11,23 +11,22 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.adapters.EventsDeceaseAdapter;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
@@ -36,7 +35,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 
-public class EventsActivity extends MvpAppCompatActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
+public class EventsActivity extends BaseActivity implements EventsView, EventsDeceaseAdapter.Callback, PopupEventScreen.Callback {
 
     private final String TAG = EventsActivity.class.getSimpleName();
 
@@ -49,8 +48,8 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     ImageView plus;
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.search)
-    ImageView search;
+    /*@BindView(R.id.search)
+    ImageView search;*///temporarily comment
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.no_events)
@@ -58,7 +57,6 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @BindView(R.id.btn_create_event)
     Button btnCreateEvent;
 
-    private Unbinder unbinder;
     private String name;
     private EventsDeceaseAdapter eventsDeceaseAdapter;
     private int pageId;
@@ -71,21 +69,18 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
-        unbinder = ButterKnife.bind(this);
 
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
         if (Utils.isThemeDark()) {
             back.setImageResource(R.drawable.ic_back_dark_theme);
-            search.setImageResource(R.drawable.ic_search2);
+            //search.setImageResource(R.drawable.ic_search2);//temporarily comment
             plus.setImageResource(R.drawable.ic_add2);
         }
 
         try {
-            name = getIntent().getExtras().getString(INTENT_EXTRA_NAME, "");
+            name = getIntent().getStringExtra(INTENT_EXTRA_NAME);
             pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 1);
         } catch (NullPointerException ignored) {
         }
@@ -105,7 +100,7 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_END);
-        if (isShow) search.setLayoutParams(params);
+        //if (isShow) search.setLayoutParams(params); //temporarily comment
 
         plus.setOnClickListener(v -> {
             if (!isShow) {
@@ -117,24 +112,23 @@ public class EventsActivity extends MvpAppCompatActivity implements EventsView, 
                 openAddNewEventScreen();
             }
         });
-        search.setOnClickListener(v -> {
+        /*search.setOnClickListener(v -> {
             showPageScreen();
-        });
+        });*/ //temporarily comment
         back.setOnClickListener(v -> {
             onBackPressed();
         });
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.getEvents(pageId);
+    protected int getContentView() {
+        return R.layout.activity_event;
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
+    protected void onResume() {
+        super.onResume();
+        presenter.getEvents(pageId);
     }
 
     @Override

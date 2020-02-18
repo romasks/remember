@@ -1,11 +1,11 @@
 package com.remember.app.ui.menu.notifications;
 
-import com.arellomobile.mvp.MvpView;
 import com.remember.app.data.models.NotificationModelNew;
+import com.remember.app.ui.base.BaseView;
 
 import java.util.List;
 
-public interface NotificationsView extends MvpView {
+public interface NotificationsView extends BaseView {
 
     void onNotificationsLoaded(List<? extends NotificationModelNew> notifications);
 

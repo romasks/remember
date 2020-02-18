@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -13,8 +16,6 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -68,7 +69,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ImageView imageView;
 
         PhotoSliderAdapterHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }
@@ -78,7 +79,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             try {
                 setGlideImage(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
                 imageView.setOnClickListener(this);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
 
@@ -90,7 +91,6 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
-
     }
 
     public interface ItemClickListener {

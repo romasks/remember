@@ -59,6 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_surname"
+                    android:imeOptions="actionNext"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -75,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_name"
+                    android:imeOptions="actionNext"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -91,6 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_middle_name"
+                    android:imeOptions="actionNext"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -108,6 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_nickname"
+                    android:imeOptions="actionNext"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -141,6 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_locality"
+                    android:imeOptions="actionNext"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -158,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_name_phone"
                     android:inputType="phone"
+                    android:maxLength="15"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -186,7 +192,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/cb_theme_light"

@@ -15,9 +15,9 @@ import com.remember.app.R;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.adapters.EpitaphsAdapter;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.DeleteAlertDialog;
 import com.remember.app.ui.utils.DividerItemDecoration;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.Utils;
 
 import java.text.DateFormat;
@@ -28,14 +28,12 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
-public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsView, PopupAddEpitaph.Callback,
+public class EpitaphsActivity extends BaseActivity implements EpitaphsView, PopupAddEpitaph.Callback,
         EpitaphsAdapter.Callback, DeleteAlertDialog.Callback {
 
     @InjectPresenter
@@ -49,10 +47,9 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
     ImageView back;
     @BindView(R.id.no_events)
     LinearLayout noEvents;
-    @BindView(R.id.btn_create_event)
-    Button btnCreateEvent;
+    /*@BindView(R.id.btn_create_event)
+    Button btnCreateEvent;*///temporarily comment
 
-    private Unbinder unbinder;
     private EpitaphsAdapter epitaphsAdapter;
     private int pageId;
     private boolean isShow;
@@ -62,8 +59,6 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_epitaphs);
-        unbinder = ButterKnife.bind(this);
 
         if (Utils.isThemeDark()) {
             back.setImageResource(R.drawable.ic_back_dark_theme);
@@ -84,12 +79,17 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
 
         plus.setVisibility(Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID) ? View.INVISIBLE : View.VISIBLE);
         plus.setOnClickListener(v -> showPopupAdd());
-        btnCreateEvent.setOnClickListener(v -> {
+        /*btnCreateEvent.setOnClickListener(v -> {
             if (!isShow) {
                 showPopupAdd();
             }
-        });
+        });*/
         back.setOnClickListener(v -> onBackPressed());
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_epitaphs;
     }
 
     private void showPopupAdd() {
@@ -100,12 +100,6 @@ public class EpitaphsActivity extends MvpAppCompatActivity implements EpitaphsVi
                 ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setCallback(this);
         popupWindow.setUp(recyclerView, "");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

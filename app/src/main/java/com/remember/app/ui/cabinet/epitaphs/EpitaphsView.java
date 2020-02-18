@@ -1,12 +1,12 @@
 package com.remember.app.ui.cabinet.epitaphs;
 
-import com.arellomobile.mvp.MvpView;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.ResponseEpitaphs;
+import com.remember.app.ui.base.BaseView;
 
 import java.util.List;
 
-public interface EpitaphsView extends MvpView {
+public interface EpitaphsView extends BaseView {
 
     void onReceivedEpitaphs(List<ResponseEpitaphs> responseEpitaphs);
 

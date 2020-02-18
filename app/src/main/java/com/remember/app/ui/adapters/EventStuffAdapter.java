@@ -6,11 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.remember.app.R;
 import com.remember.app.ui.base.BaseViewHolder;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -42,7 +43,7 @@ public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.Im
         ImageView itemImage;
 
         ImageViewHolder(@NonNull View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }

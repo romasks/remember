@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -20,8 +22,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 67
-        versionName "1.4.7"
+        versionCode 73
+        versionName "1.4.7.008"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -36,8 +38,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -49,36 +51,36 @@ repositories {
 }
 
 ext {
-    retrofitVersion = '2.5.0'
-    okhttpVersion = '3.12.1'
-    daggerVersion = '2.25.2'
-    glideVersion = '4.10.0'
+    retrofitVersion = '2.7.1'
+    okhttpVersion = '3.14.6'
+    daggerVersion = '2.25.4'
+    glideVersion = '4.11.0'
     moxyVersion = '1.5.5'
     butterknifeVersion = '10.2.1'
-    leakcanaryVersion = '2.0-beta-4'
+    leakcanaryVersion = '2.1'
     simpleauthVersion = '2.1.4'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation "androidx.paging:paging-runtime:2.1.1"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
 
     // network and data
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     // LOGS RETROFIT
     implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
@@ -87,13 +89,15 @@ dependencies {
     // DI
     implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     // code generation
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+    kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     // preferences
@@ -110,15 +114,11 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:$glideVersion@aar") {
         transitive = true
     }
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+    kapt 'androidx.annotation:annotation:1.1.0'
 
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
-
-    // Fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
-        transitive = true
-    }
-    implementation 'com.crashlytics.sdk.android:crashlytics-ndk:2.1.1'
 
     // Image
     implementation 'com.github.nekoloop:Base64Image:0.1.0'
@@ -130,6 +130,7 @@ dependencies {
     implementation "com.arello-mobile:moxy-android:$moxyVersion"
     implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
+    kapt "com.arello-mobile:moxy-compiler:$moxyVersion"
 
     // spinner
     implementation 'com.jaredrummler:material-spinner:1.3.1'
@@ -138,6 +139,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
+    // Crashlytics
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.crashlytics.sdk.android:crashlytics-ndk:2.1.1'
 
     // maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
@@ -160,6 +164,9 @@ dependencies {
 
     // video
     implementation 'com.alphamovie.library:alpha-movie:1.2.1'
+
+    // dialog
+    implementation 'com.github.umairayub79:MaDialog:1.3'
 }
 
 android.defaultConfig.manifestPlaceholders = [

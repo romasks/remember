@@ -2,28 +2,30 @@ package com.remember.app.ui.menu.notifications;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.NotificationModelNew;
+import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.events.EventFullActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.DividerItemDecoration;
-import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
@@ -35,7 +37,8 @@ import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD_EVENT;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_EVENT;
 
-public class NotificationsFragment extends MvpAppCompatFragment implements NotificationsView, NotificationListAdapter.NotificationClickListener {
+public class NotificationsFragment extends BaseFragment
+        implements NotificationsView, NotificationListAdapter.NotificationClickListener {
 
     public enum Type {EVENTS, MESSAGES}
 
@@ -44,8 +47,6 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
 
     private Type type;
 
-    private RecyclerView recyclerView;
-    private TextView textEmptyState;
     private NotificationListAdapter adapter;
 
     private NotificationsPresenter.NotificationFilterType filterType = NotificationsPresenter.NotificationFilterType.ALL;
@@ -53,14 +54,18 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
     @InjectPresenter
     NotificationsPresenter presenter;
 
+    @BindView(R.id.notifications_screen)
+    FrameLayout notificationsScreen;
+    @BindView(R.id.rv_notifications)
+    RecyclerView recyclerView;
+    @BindView(R.id.text_empty_state)
+    TextView textEmptyState;
+
     static NotificationsFragment newInstance(Type type) {
         NotificationsFragment fragment = new NotificationsFragment();
-
         Bundle args = new Bundle();
         args.putSerializable(KEY_TYPE, type);
-
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -76,22 +81,18 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+    protected int getContentView() {
+        return R.layout.fragment_notifications;
+    }
 
-        view.findViewById(R.id.notifications_screen).setBackgroundColor(getResources().getColor(
-                Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white
-        ));
+    @Override
+    protected void setUp() {
+        @ColorRes int backgroundColor = Utils.isThemeDark() ? R.color.colorBlackDark : android.R.color.white;
+        notificationsScreen.setBackgroundColor(ContextCompat.getColor(requireContext(), backgroundColor));
 
-        recyclerView = view.findViewById(R.id.rv_notifications);
-
-        textEmptyState = view.findViewById(R.id.text_empty_state);
-        textEmptyState.setVisibility(View.GONE);
         textEmptyState.setText(type == Type.EVENTS ? "Событий нет" : "Сообщений нет");
-
-        return view;
+        textEmptyState.setVisibility(View.GONE);
     }
 
     @Override
@@ -110,7 +111,6 @@ public class NotificationsFragment extends MvpAppCompatFragment implements Notif
         NotificationFilterDialog.show(getFragmentManager(), filterType.ordinal()).setClickListener(filterType -> {
             NotificationsFragment.this.filterType = filterType;
             presenter.getEventNotification(filterType);
-
         });
     }
 

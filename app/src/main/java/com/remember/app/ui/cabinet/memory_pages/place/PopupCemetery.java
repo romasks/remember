@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.ui.adapters.HandBookAdapterCemetery;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class PopupCemetery extends PopupWindow implements HandBookAdapterCemeter
         setOutsideTouchable(true);
         showAtLocation(contentView, Gravity.TOP, 0, 0);
         View popupView = getContentView();
+        if (Utils.isThemeDark()) {
+            popupView.findViewById(R.id.lay).setBackgroundColor(popupView.getContext().getResources().getColor(R.color.colorBlackDark));
+        }
         recyclerView = popupView.findViewById(R.id.rv_city);
         SearchView search = popupView.findViewById(R.id.search_city);
         handBookAdapter = new HandBookAdapterCemetery(responseHandBooks);

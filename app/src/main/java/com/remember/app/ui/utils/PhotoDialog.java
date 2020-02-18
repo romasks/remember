@@ -12,16 +12,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.DialogFragment;
+import android.widget.Toast;
 
 import com.remember.app.R;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
@@ -33,7 +34,6 @@ public class PhotoDialog extends DialogFragment {
     private ImageView imageView;
     private EditText editText;
     private TextView done;
-    private TextView cancel;
     private Uri uri;
     private Bitmap bitmap;
     private File imageFile;
@@ -54,7 +54,6 @@ public class PhotoDialog extends DialogFragment {
         imageView = view.findViewById(R.id.image);
         editText = view.findViewById(R.id.description);
         done = view.findViewById(R.id.done);
-        cancel = view.findViewById(R.id.cancel);
 
         if (Utils.isThemeDark()) {
             editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
@@ -65,16 +64,17 @@ public class PhotoDialog extends DialogFragment {
             callback.showPhoto();
         });
         done.setOnClickListener(v -> {
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                imageFile = saveBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (uri == null) {
+                Toast.makeText(getActivity(), "Выберите фото", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                    imageFile = saveBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                callback.sendPhoto(imageFile, editText.getText().toString());
             }
-            callback.sendPhoto(imageFile, editText.getText().toString());
-        });
-        cancel.setOnClickListener(v -> {
-            dismiss();
         });
         builder.setView(view);
         return builder.create();

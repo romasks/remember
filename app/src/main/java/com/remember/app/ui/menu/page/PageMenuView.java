@@ -1,12 +1,12 @@
 package com.remember.app.ui.menu.page;
 
-import com.arellomobile.mvp.MvpView;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponsePages;
+import com.remember.app.ui.base.BaseView;
 
 import java.util.List;
 
-public interface PageMenuView extends MvpView {
+public interface PageMenuView extends BaseView {
 
     void error(Throwable throwable);
 

@@ -2,9 +2,7 @@ package com.remember.app.ui.cabinet.memory_pages;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,10 +11,10 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
+import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
@@ -24,15 +22,14 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 
-public class PageFragment extends MvpAppCompatFragment implements PageView, PageFragmentAdapter.Callback, MainActivity.CallbackPage {
+public class PageFragment extends BaseFragment
+        implements PageView, PageFragmentAdapter.Callback, MainActivity.CallbackPage {
 
     @InjectPresenter
     PagePresenter presenter;
@@ -44,7 +41,6 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     @BindView(R.id.not_page)
     LinearLayout emptyLayout;
 
-    private Unbinder unbinder;
     private PageFragmentAdapter pageFragmentAdapter;
 
     @Override
@@ -55,17 +51,17 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_memory_pages, container, false);
-        unbinder = ButterKnife.bind(this, v);
+    protected int getContentView() {
+        return R.layout.fragment_memory_pages;
+    }
 
+    @Override
+    protected void setUp() {
         pageFragmentAdapter = new PageFragmentAdapter();
         pageFragmentAdapter.setCallback(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext(), RecyclerView.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(pageFragmentAdapter);
-
-        return v;
     }
 
     @Override
@@ -88,12 +84,6 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
         presenter.getPages();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
     @OnClick(R.id.show_all)
     void showAll() {
         showAll.setVisibility(View.GONE);
@@ -109,6 +99,8 @@ public class PageFragment extends MvpAppCompatFragment implements PageView, Page
     public void onReceivedPages(List<MemoryPageModel> memoryPageModels) {
         if (!memoryPageModels.isEmpty()) {
             showAll.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.GONE);
             pageFragmentAdapter.setItems(memoryPageModels);
         } else {
             emptyLayout.setVisibility(View.VISIBLE);

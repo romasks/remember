@@ -40,9 +40,9 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="2dp"
                     android:layout_marginStart="45dp"
                     android:layout_marginEnd="45dp"
+                    android:layout_marginBottom="2dp"
                     android:gravity="center_vertical"
                     android:text="@string/memory_page_event_header_text"
                     android:textAlignment="center"
@@ -50,14 +50,15 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/settings"
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginEnd="5dp"
-                    app:srcCompat="@mipmap/settings" />
+                    app:srcCompat="@mipmap/settings"
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -66,6 +67,6 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@drawable/gradient_app_bar"/>
+        android:background="@drawable/gradient_app_bar" />
 
 </LinearLayout>

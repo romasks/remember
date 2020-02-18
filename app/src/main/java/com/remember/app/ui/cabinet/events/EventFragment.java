@@ -1,11 +1,7 @@
 package com.remember.app.ui.cabinet.events;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -16,8 +12,8 @@ import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
+import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
@@ -25,8 +21,6 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
@@ -34,7 +28,7 @@ import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_BIRTH;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD;
 import static com.remember.app.data.Constants.NOTIF_EVENT_TYPE_DEAD_EVENT;
 
-public class EventFragment extends MvpAppCompatFragment implements EventView, EventsFragmentAdapter.Callback {
+public class EventFragment extends BaseFragment implements EventView, EventsFragmentAdapter.Callback {
 
     @InjectPresenter
     EventsPresenter presenter;
@@ -44,22 +38,21 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
     @BindView(R.id.no_events)
     LinearLayout noEventsLayout;
 
-    private Unbinder unbinder;
     private EventsFragmentAdapter eventsFragmentAdapter;
 
-    @SuppressLint("WrongConstant")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_memory_pages, container, false);
-        unbinder = ButterKnife.bind(this, v);
+    protected int getContentView() {
+        return R.layout.fragment_memory_pages;
+    }
+
+    @Override
+    protected void setUp() {
         eventsFragmentAdapter = new EventsFragmentAdapter();
         eventsFragmentAdapter.setCallback(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(container.getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(eventsFragmentAdapter);
-        return v;
     }
 
     @Override
@@ -79,12 +72,6 @@ public class EventFragment extends MvpAppCompatFragment implements EventView, Ev
             Prefs.putBoolean("EVENT_FRAGMENT", false);
             Prefs.putBoolean("PAGE_FRAGMENT", true);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

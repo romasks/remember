@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:text="@string/grid_show_all"
         android:textColor="@color/colorAccent"

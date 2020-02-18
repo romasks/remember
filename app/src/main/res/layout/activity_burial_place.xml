@@ -1,74 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/margin_bottom_scroll_burial_place">
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_bottom_scroll_burial_place"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/app_bar"
-                android:theme="@style/AppTheme.AppBarOverlay"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/app_bar"
-                    app:popupTheme="@style/AppTheme.PopupOverlay">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/back"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_back" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/burial_place_value"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:textSize="20dp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteX="148dp"
-                        tools:layout_editor_absoluteY="186dp" />
-                </androidx.appcompat.widget.Toolbar>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp" />
-            </com.google.android.material.appbar.AppBarLayout>
-
             <com.google.android.material.textfield.TextInputLayout
-
                 android:id="@+id/city"
+                style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_activity_fields_margin"
-                android:layout_marginTop="@dimen/default_activity_fields_margin"
-                android:layout_marginEnd="@dimen/default_activity_fields_margin"
-                android:focusable="false"
-                android:textColorHint="@color/dark_gray">
+                android:focusable="false">
 
                 <AutoCompleteTextView
                     android:id="@+id/city_value"
@@ -78,20 +45,15 @@
                     android:focusable="false"
                     android:hint="@string/city"
                     android:inputType="textPersonName"
-                    android:textSize="18dp" />
-
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:id="@+id/cemetery"
+                style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_activity_fields_margin"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/default_activity_fields_margin"
-                android:focusableInTouchMode="false"
-                android:textColorHint="@color/dark_gray">
+                android:focusableInTouchMode="false">
 
                 <AutoCompleteTextView
                     android:id="@+id/cemetery_value"
@@ -100,20 +62,15 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:hint="@string/cemetery"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:id="@+id/sector"
+                style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_activity_fields_margin"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray">
-
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/sector_value"
@@ -122,19 +79,14 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/sector"
                     android:inputType="textPersonName"
-                    android:textSize="18dp" />
-
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:id="@+id/line"
+                style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_activity_fields_margin"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray">
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/line_value"
@@ -143,19 +95,14 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/row"
                     android:inputType="textPersonName"
-                    android:textSize="18dp" />
-
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:id="@+id/grave"
+                style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_activity_fields_margin"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray">
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/grave_value"
@@ -164,19 +111,14 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/grave_number"
                     android:inputType="number"
-                    android:textSize="18dp" />
-
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:id="@+id/coordinates"
+                style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_activity_fields_margin"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/default_activity_fields_margin"
-                android:textColorHint="@color/dark_gray">
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/coordinates_value"
@@ -185,8 +127,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/coordinates"
                     android:inputType="textPersonName"
-                    android:textSize="18dp" />
-
+                    android:textSize="18dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -197,7 +138,7 @@
                 android:layout_marginStart="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:text="@string/show_map"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
         </LinearLayout>
 
     </ScrollView>
@@ -208,11 +149,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
+        android:layout_marginTop="@dimen/default_activity_fields_margin"
         android:layout_marginEnd="@dimen/default_activity_fields_margin"
         android:text="@string/save"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

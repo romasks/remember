@@ -8,19 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.cabinet.memory_pages.events.OnEventChangedActionListener;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -85,15 +83,14 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
         if (Utils.isThemeDark()) {
             back.setImageResource(R.drawable.ic_back_dark_theme);
+            settings.setImageResource(R.drawable.setting_white);
         }
 
-        if (getIntent().getExtras() != null) {
-            eventId = getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID, 0);
-            pageId = getIntent().getExtras().getInt(INTENT_EXTRA_PAGE_ID, 0);
-            personName = getIntent().getExtras().getString(INTENT_EXTRA_PERSON_NAME, "");
-            imageUrl = getIntent().getExtras().getString(INTENT_EXTRA_EVENT_IMAGE_URL, "");
-            isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
-        }
+        eventId = getIntent().getIntExtra(INTENT_EXTRA_EVENT_ID, 0);
+        pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 0);
+        personName = getIntent().getStringExtra(INTENT_EXTRA_PERSON_NAME);
+        imageUrl = getIntent().getStringExtra(INTENT_EXTRA_EVENT_IMAGE_URL);
+        isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
         photosView.setLayoutManager(new LinearLayoutManager(this));
         photosView.setAdapter(new EventStuffAdapter());
@@ -106,10 +103,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
 //        presenter.getEvent(eventId);
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
-
-        back.setOnClickListener(v -> {
-            onBackPressed();
-        });
     }
 
     @Override
@@ -135,8 +128,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
             dateView.setText(DateUtils.convertRemoteToLocalFormat(requestEvent.getDate()));
             eventName.setText(requestEvent.getName());
             description.setText(requestEvent.getDescription());
-        } catch (Exception e) {
-
+        } catch (Exception ignored) {
         }
     }
 
@@ -154,5 +146,10 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         intent.putExtra(INTENT_EXTRA_EVENT_IS_FOR_ONE, eventModel.getFlag());
         intent.putExtra(INTENT_EXTRA_EVENT_ACCESS, eventModel.getUv_show());
         startActivity(intent);
+    }
+
+    @OnClick(R.id.back_button)
+    public void onBackClick() {
+        onBackPressed();
     }
 }

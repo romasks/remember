@@ -1,8 +1,8 @@
 package com.remember.app.ui.menu.settings;
 
-import com.arellomobile.mvp.MvpView;
+import com.remember.app.ui.base.BaseView;
 
-public interface SettingView extends MvpView {
+public interface SettingView extends BaseView {
 
     void error(Throwable throwable);
 

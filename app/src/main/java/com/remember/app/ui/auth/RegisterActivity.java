@@ -6,24 +6,21 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatEditText;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.textfield.TextInputLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseRegister;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
+import com.remember.app.ui.utils.ErrorDialog;
 import com.remember.app.ui.utils.SuccessDialog;
-import com.remember.app.ui.utils.WrongEmailDialog;
 
 import java.util.regex.Pattern;
 
+import androidx.appcompat.widget.AppCompatEditText;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import retrofit2.Response;
 
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
@@ -32,7 +29,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 
-public class RegisterActivity extends MvpAppCompatActivity implements RegisterView, SuccessDialog.Callback {
+public class RegisterActivity extends BaseActivity implements RegisterView, SuccessDialog.Callback {
 
     @InjectPresenter
     RegisterPresenter presenter;
@@ -46,7 +43,6 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
     @BindView(R.id.middle_name)
     AppCompatEditText email;
 
-    private Unbinder unbinder;
     private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
@@ -61,13 +57,16 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        unbinder = ButterKnife.bind(this);
 
         loginScreen.setOnClickListener(v -> {
             startActivity(new Intent(this, AuthActivity.class));
             finish();
         });
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_register;
     }
 
     @OnClick(R.id.sign_in_btn)
@@ -89,12 +88,6 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
     public void back() {
         onBackPressed();
         finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @Override
@@ -124,7 +117,6 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
     @Override
     public void onError(Throwable throwable) {
         errorDialog(throwable.getMessage());
-//        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     private boolean checkEmail(String email) {
@@ -135,13 +127,11 @@ public class RegisterActivity extends MvpAppCompatActivity implements RegisterVi
         SuccessDialog successDialog = new SuccessDialog();
         successDialog.setCallback(this);
         successDialog.setDescription(responseRegister);
-        successDialog.show(getSupportFragmentManager().beginTransaction(), "wrongEmailDialog");
+        successDialog.show(getSupportFragmentManager().beginTransaction(), "successDialog");
     }
 
     public void errorDialog(String text) {
-        WrongEmailDialog wrongEmailDialog = new WrongEmailDialog();
-        wrongEmailDialog.setDescription(text);
-        wrongEmailDialog.show(getSupportFragmentManager().beginTransaction(), "wrongEmailDialog");
+        new ErrorDialog(getSupportFragmentManager(), text, "errorDialog").show();
     }
 
     @Override

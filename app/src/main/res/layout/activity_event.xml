@@ -44,20 +44,20 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="6dp"
-                    android:text="@string/events"
-                    android:textColor="?android:attr/textColor"
+                    android:text="@string/memorable_events"
                     android:textAlignment="center"
+                    android:textColor="?android:attr/textColor"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <!--<androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_toStartOf="@id/new_event"
                     android:padding="10dp"
-                    android:src="@drawable/ic_search" />
+                    android:src="@drawable/ic_search" />temporarily comment-->
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/new_event"

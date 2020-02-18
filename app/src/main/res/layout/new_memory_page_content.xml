@@ -67,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/last_name"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:textSize="18dp" />
 
@@ -85,6 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:textSize="18dp" />
 
@@ -123,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:hint="@string/date_begin"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName"
                     android:textSize="18dp" />
 
@@ -308,7 +311,7 @@
                 android:id="@+id/description"
                 style="@style/TextAreaStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:hint="Описание..."
                 android:textColor="?android:attr/textColor"
                 android:textColorHighlight="@color/gray"

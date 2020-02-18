@@ -7,18 +7,30 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
+import com.remember.app.data.models.NotificationModelNew;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.Utils;
 
+import java.util.List;
+
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
+import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnPageChange;
 
-public class NotificationsActivity extends BaseActivity implements View.OnClickListener {
+import static butterknife.OnPageChange.Callback.PAGE_SELECTED;
 
-    private ImageView btnFilter;
-    private ViewPager viewPager;
-    private ImageView back;
-    private TextView title;
+public class NotificationsActivity extends BaseActivity implements NotificationsView {
+
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.title)
+    TextView title;
+    /*@BindView(R.id.filter)
+    ImageView btnFilter;*/ //temporarily comment
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
 
     private NotificationsFragment eventsFragment = NotificationsFragment.newInstance(NotificationsFragment.Type.EVENTS);
 
@@ -31,17 +43,12 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-        viewPager = findViewById(R.id.viewpager);
-        back = findViewById(R.id.back);
-        btnFilter = findViewById(R.id.filter);
-        title = findViewById(R.id.title);
+
         if (Utils.isThemeDark()) {
-            btnFilter.setImageResource(R.drawable.ic_search2);
+            //btnFilter.setImageResource(R.drawable.ic_search2); //temporarily comment
             back.setImageResource(R.drawable.ic_back_dark_theme);
         }
         setupViewPager();
-        back.setOnClickListener(this);
-        btnFilter.setOnClickListener(this);
     }
 
     private void setupViewPager() {
@@ -49,10 +56,11 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
         adapter.addFragment(eventsFragment, "События");
         adapter.addFragment(NotificationsFragment.newInstance(NotificationsFragment.Type.MESSAGES), "Сообщения");
         viewPager.setAdapter(adapter);
+
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        /*viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -67,19 +75,31 @@ public class NotificationsActivity extends BaseActivity implements View.OnClickL
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
+    }
+
+    @OnPageChange(value = R.id.viewpager, callback = PAGE_SELECTED)
+    public void onPageSelected(int position) {
+        //btnFilter.setVisibility(position == 0 ? View.VISIBLE : View.GONE); //temporarily comment
+    }
+
+    @OnClick(R.id.back)
+    public void onBackArrowClick() {
+        onBackPressed();
+    }
+
+    /*@OnClick(R.id.filter)
+    public void onFilterButtonClick() {
+        eventsFragment.showFilterDialog();
+    }*/ //temporarily comment
+
+    @Override
+    public void onNotificationsLoaded(List<? extends NotificationModelNew> notifications) {
+        // not implemented
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.back:
-                onBackPressed();
-                break;
-
-            case R.id.filter:
-                eventsFragment.showFilterDialog();
-                break;
-        }
+    public void onError(Throwable throwable) {
+        // not implemented
     }
 }

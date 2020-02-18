@@ -2,15 +2,11 @@ package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,18 +16,18 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.utils.StringUtils;
 import com.remember.app.R;
+import com.remember.app.data.Constants;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.adapters.PhotoSliderAdapter;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.DateUtils;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PhotoDialog;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
@@ -50,9 +46,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
@@ -69,9 +63,12 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
+import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
+import static com.remember.app.ui.utils.StringUtils.getStringFromField;
 
-public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
+public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
 
     private final String TAG = ShowPageActivity.class.getSimpleName();
 
@@ -104,54 +101,48 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
     TextView description;
     @BindView(R.id.description_title)
     TextView descriptionTitle;
-    @BindView(R.id.events)
-    ImageButton events;
+    @BindView(R.id.eventsButton)
+    ImageButton eventsBtn;
     @BindView(R.id.epitButton)
-    ImageButton epitaphButton;
-    @BindView(R.id.imageButton)
-    ImageButton imageButton;
+    ImageButton epitaphBtn;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
     @BindView(R.id.recycler_slider)
     RecyclerView recyclerSlider;
     @BindView(R.id.shareVk)
     ImageView but_vk;
-    @BindView(R.id.lv_add)
-    LinearLayout imadd;
+    @BindView(R.id.addPhotoToSliderBtn_layout)
+    LinearLayout addPhotoToSliderBtn_layout;
+    @BindView(R.id.map_button)
+    Button mapButton;
 
     @BindView(R.id.back_button)
     ImageView backImg;
     @BindView(R.id.panel)
     LinearLayout panel;
 
-    private Unbinder unbinder;
+    private PhotoDialog photoDialog;
+    private MemoryPageModel memoryPageModel;
+    private PhotoSliderAdapter photoSliderAdapter;
+
     private boolean isList = false;
     private boolean isShow = false;
     private boolean afterSave = false;
-    private PhotoDialog photoDialog;
     private int id = 0;
-    private MemoryPageModel memoryPageModel;
-    private PhotoSliderAdapter photoSliderAdapter;
     private int sharing = 0;
-    private boolean isSlider = false;
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_page;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_page);
-        unbinder = ButterKnife.bind(this);
-
-        if (Utils.isThemeDark()) {
-            backImg.setImageResource(R.drawable.ic_back_dark_theme);
-            settings.setImageResource(R.drawable.setting_white);
-            panel.setBackground(getResources().getDrawable(R.drawable.panel_dark));
-//            view.setBackground(getResources().getDrawable(R.drawable.gradient_dark));
-        }
 
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
-            imadd.setVisibility(View.GONE);
+            addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             but_vk.setVisibility(View.GONE);
             settings.setVisibility(View.GONE);
         }
@@ -169,7 +160,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             id = memoryPageModel.getId();
             settings.setClickable(false);
             settings.setVisibility(View.GONE);
-            imageButton.setClickable(false);
+            addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             initAll();
         } else {
             id = i.getIntExtra(INTENT_EXTRA_ID, 0);
@@ -177,44 +168,97 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
             presenter.getImageAfterSave(id);
         }
 
-        epitaphButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EpitaphsActivity.class);
-            intent.putExtra(INTENT_EXTRA_SHOW, isShow);
-            intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
-            startActivity(intent);
-        });
-
-        events.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EventsActivity.class);
-            intent.putExtra(INTENT_EXTRA_SHOW, isShow);
-            intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
-            intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
-            startActivity(intent);
-        });
-        image.setOnClickListener(v -> {
-            if (isSlider) {
-                startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
-                        .putExtra(INTENT_EXTRA_ID, id));
-            }
-        });
-
-        recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         photoSliderAdapter = new PhotoSliderAdapter();
         photoSliderAdapter.setClickListener(this);
+
+        recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerSlider.setAdapter(photoSliderAdapter);
     }
 
-    private String getNameTitle(MemoryPageModel memoryPageModel) {
-        String result = "Памятная страница."
-                + " " + StringUtils.capitalize(memoryPageModel.getSecondName())
-                + " " + StringUtils.capitalize(memoryPageModel.getName())
-                + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
-        String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
-                + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
-        return result + ". " + textDate;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        CropImage.ActivityResult result = CropImage.getActivityResult(data);
+        if (resultCode == Activity.RESULT_OK) {
+            assert result != null;
+            photoDialog.setUri(result.getUri());
+            Log.i(TAG, "RESULT_OK");
+        } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            assert result != null;
+            Log.e(TAG, result.getError().getMessage());
+            Log.i(TAG, "CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
+        } else {
+            Log.i(TAG, "HZ");
+        }
     }
 
-    @OnClick(R.id.imageButton)
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    public void setCoordinates(double latitude, double longitude) {
+
+    }
+
+    @Override
+    public void onReceivedImage(MemoryPageModel memoryPageModel) {
+        this.memoryPageModel = memoryPageModel;
+        initAll();
+        glideLoadIntoWithError(memoryPageModel.getPicture(), image);
+        glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
+    }
+
+    @Override
+    public void error(Throwable throwable) {
+        Utils.showSnack(image, "Ошибка загрузки изображения");
+    }
+
+    @Override
+    public void onSavedImage(Object o) {
+        photoDialog.dismiss();
+        Utils.showSnack(image, "Успешно");
+        presenter.getImagesSlider(memoryPageModel.getId());
+
+    }
+
+    @Override
+    public void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders) {
+        photoSliderAdapter.setItems(responseImagesSliders);
+    }
+
+    @Override
+    public void showPhoto() {
+        cropImage(this);
+    }
+
+    @Override
+    public void sendPhoto(File imageFile, String string) {
+        if (memoryPageModel.getId() != null) {
+            presenter.savePhoto(imageFile, string, memoryPageModel.getId());
+        } else {
+            presenter.savePhoto(imageFile, string, id);
+        }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        startActivity(
+                new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                        .putExtra(Constants.INTENT_EXTRA_ID, id)
+                        .putExtra(Constants.INTENT_EXTRA_POSITION_IN_SLIDER, position)
+        );
+    }
+
+    @Override
+    protected void setViewsInDarkTheme() {
+        backImg.setImageResource(R.drawable.ic_back_dark_theme);
+        settings.setImageResource(R.drawable.setting_white);
+        panel.setBackground(getResources().getDrawable(R.drawable.panel_dark));
+    }
+
+    @OnClick(R.id.addPhotoToSliderBtn)
     public void pickImage() {
         photoDialog = new PhotoDialog();
         photoDialog.setCallback(this);
@@ -223,16 +267,29 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         photoDialog.show(transaction, "photoDialog");
     }
 
-    private void initAll() {
-        if (memoryPageModel != null) {
-            if (!afterSave) {
-                glideLoadIntoWithError(memoryPageModel.getPicture(), image);
-                glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
-            }
-            initTextName(memoryPageModel);
-            initDate(memoryPageModel);
-            initInfo(memoryPageModel);
-        }
+    @OnClick(R.id.image)
+    public void onMainImageClick() {
+        /*if (isSlider) {
+            startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                    .putExtra(INTENT_EXTRA_ID, id));
+        }*///temporarily block onImageClick
+    }
+
+    @OnClick(R.id.epitButton)
+    public void onEpitaphButtonClick() {
+        Intent intent = new Intent(this, EpitaphsActivity.class);
+        intent.putExtra(INTENT_EXTRA_SHOW, isShow);
+        intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.eventsButton)
+    public void onEventButtonClick() {
+        Intent intent = new Intent(this, EventsActivity.class);
+        intent.putExtra(INTENT_EXTRA_SHOW, isShow);
+        intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
+        intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
+        startActivity(intent);
     }
 
     @OnClick(R.id.description_title)
@@ -268,56 +325,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        CropImage.ActivityResult result = CropImage.getActivityResult(data);
-        if (resultCode == Activity.RESULT_OK) {
-            assert result != null;
-            photoDialog.setUri(result.getUri());
-            Log.i(TAG, "RESULT_OK");
-        } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-            assert result != null;
-            Log.e(TAG, result.getError().getMessage());
-            Log.i(TAG, "CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE");
-        } else {
-            Log.i(TAG, "HZ");
-        }
-    }
-
-    private void initInfo(MemoryPageModel memoryPageModel) {
-        city.setText(memoryPageModel.getGorod().isEmpty() || memoryPageModel.getGorod().equals("null") ? "-" : memoryPageModel.getGorod());
-        crypt.setText(memoryPageModel.getNazvaklad().isEmpty() || memoryPageModel.getNazvaklad().equals("null") ? "-" : memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getSector().isEmpty() || memoryPageModel.getSector().equals("null") ? "-" : memoryPageModel.getSector());
-        line.setText(memoryPageModel.getUchastok().isEmpty() || memoryPageModel.getUchastok().equals("null") ? "-" : memoryPageModel.getUchastok());
-        grave.setText(memoryPageModel.getNummogil().isEmpty() || memoryPageModel.getNummogil().equals("null") ? "-" : memoryPageModel.getNummogil());
-    }
-
-    private void initDate(MemoryPageModel memoryPageModel) {
-        String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
-                + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
-        date.setText(textDate);
-    }
-
-    private void initTextName(MemoryPageModel memoryPageModel) {
-        String result = StringUtils.capitalize(memoryPageModel.getSecondName())
-                + " " + StringUtils.capitalize(memoryPageModel.getName())
-                + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
-        name.setText(result);
-        description.setText(memoryPageModel.getComment());
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
     @OnClick(R.id.settings)
     public void editPage() {
         Intent intent = new Intent(this, NewMemoryPageActivity.class);
@@ -331,66 +338,6 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         intent.putExtra(BURIAL_PLACE_LINE, memoryPageModel.getUchastok());
         intent.putExtra(BURIAL_PLACE_GRAVE, memoryPageModel.getNummogil());
         startActivity(intent);
-    }
-
-    @Override
-    public void setCoordinates(double latitude, double longitude) {
-
-    }
-
-    @Override
-    public void onReceivedImage(MemoryPageModel memoryPageModel) {
-        this.memoryPageModel = memoryPageModel;
-        initAll();
-        glideLoadIntoWithError(memoryPageModel.getPicture(), image);
-        glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
-    }
-
-    @Override
-    public void error(Throwable throwable) {
-        Log.i(TAG, "throwable= " + throwable.toString());
-        Utils.showSnack(image, "Ошибка загрузки изображения");
-    }
-
-    @Override
-    public void onSavedImage(Object o) {
-        photoDialog.dismiss();
-        Utils.showSnack(image, "Успешно");
-        presenter.getImagesSlider(memoryPageModel.getId());
-
-    }
-
-    @Override
-    public void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders) {
-        photoSliderAdapter.setItems(responseImagesSliders);
-        if (responseImagesSliders.size() > 0) {
-            isSlider = true;
-        }
-    }
-
-    @Override
-    public void showPhoto() {
-        CropImage.activity()
-                .setFixAspectRatio(true)
-                .setCropShape(CropImageView.CropShape.RECTANGLE)
-                .start(this);
-    }
-
-    @Override
-    public void sendPhoto(File imageFile, String string) {
-        if (memoryPageModel.getId() != null) {
-            Log.i(TAG, "!= null" + imageFile.toString() + "  string= " + string + "  " + memoryPageModel.getId());
-            presenter.savePhoto(imageFile, string, memoryPageModel.getId());
-        } else {
-            Log.i(TAG, "== null");
-            presenter.savePhoto(imageFile, string, id);
-        }
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
-                .putExtra("ID", id));
     }
 
     @OnClick(R.id.shareVk)
@@ -409,7 +356,7 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         if (sharing == 1) {
             VKShareDialogBuilder builder = new VKShareDialogBuilder();
             builder.setText(getNameTitle(memoryPageModel));
-            builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(), VKImageParameters.pngImage())});
+            builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
             builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню ", PLAY_MARKET_LINK);
             builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
                 @Override
@@ -431,27 +378,48 @@ public class ShowPageActivity extends MvpAppCompatActivity implements PopupMap.C
         }
     }
 
-    public Bitmap createBitmapFromView() {
-        View view = sharedImage;
-        view.measure(
-                View.MeasureSpec.makeMeasureSpec(convertDpToPixels(view.getWidth()), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(convertDpToPixels(view.getHeight()), View.MeasureSpec.EXACTLY)
-        );
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-
-        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Drawable background = view.getBackground();
-
-        if (background != null) {
-            background.draw(canvas);
-        }
-        view.draw(canvas);
-
-        return bitmap;
+    private String getNameTitle(MemoryPageModel memoryPageModel) {
+        String result = "Памятная страница."
+                + " " + StringUtils.capitalize(memoryPageModel.getSecondName())
+                + " " + StringUtils.capitalize(memoryPageModel.getName())
+                + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
+        String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
+                + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
+        return result + ". " + textDate;
     }
 
-    public int convertDpToPixels(float dp) {
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics()));
+    private void initAll() {
+        if (memoryPageModel != null) {
+            if (!afterSave) {
+                glideLoadIntoWithError(memoryPageModel.getPicture(), image);
+                glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
+            }
+            initTextName(memoryPageModel);
+            initDate(memoryPageModel);
+            initInfo(memoryPageModel);
+            mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    private void initInfo(MemoryPageModel memoryPageModel) {
+        city.setText(getStringFromField(memoryPageModel.getGorod()));
+        crypt.setText(getStringFromField(memoryPageModel.getNazvaklad()));
+        sector.setText(getStringFromField(memoryPageModel.getSector()));
+        line.setText(getStringFromField(memoryPageModel.getUchastok()));
+        grave.setText(getStringFromField(memoryPageModel.getNummogil()));
+    }
+
+    private void initDate(MemoryPageModel memoryPageModel) {
+        String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
+                + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
+        date.setText(textDate);
+    }
+
+    private void initTextName(MemoryPageModel memoryPageModel) {
+        String result = StringUtils.capitalize(memoryPageModel.getSecondName())
+                + " " + StringUtils.capitalize(memoryPageModel.getName())
+                + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
+        name.setText(result);
+        description.setText(memoryPageModel.getComment());
     }
 }

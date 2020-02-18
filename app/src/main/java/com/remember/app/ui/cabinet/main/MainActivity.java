@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -19,6 +20,7 @@ import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponseUserInfo;
+import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
@@ -30,7 +32,6 @@ import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.MvpAppCompatActivity;
 import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.PopupPageScreen;
 import com.remember.app.ui.utils.Utils;
@@ -42,20 +43,21 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME_CHANGED;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
+import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class MainActivity extends MvpAppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
 
     private static String TAG = MainActivity.class.getSimpleName();
@@ -63,8 +65,6 @@ public class MainActivity extends MvpAppCompatActivity
     @InjectPresenter
     MainPresenter presenter;
 
-    @BindView(R.id.button_menu)
-    ImageView button_menu;
     @BindView(R.id.title_name)
     TextView titleUserName;
     @BindView(R.id.search)
@@ -73,8 +73,9 @@ public class MainActivity extends MvpAppCompatActivity
     ImageView addImg;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
 
-    private Unbinder unbinder;
     private PageFragment pageFragment;
     private CallbackPage callbackPage;
     private ProgressDialog progressDialog;
@@ -84,19 +85,21 @@ public class MainActivity extends MvpAppCompatActivity
     private ImageView imageViewAvatar;
     private ImageView imageViewBigAvatar;
     private TextView navUsername;
-    private int theme_setting = 0;
 
     View.OnClickListener onAvatarClickListener = view -> {
         startActivity(new Intent(this, SettingActivity.class));
     };
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        unbinder = ButterKnife.bind(this);
 
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
@@ -108,6 +111,14 @@ public class MainActivity extends MvpAppCompatActivity
             viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
         }
 
+        if (Prefs.getBoolean(PREFS_KEY_THEME_CHANGED, false)) {
+            Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, false);
+//            return;
+        }
+        setUp();
+    }
+
+    private void setUp() {
         setSupportActionBar(findViewById(R.id.toolbar));
 
         pageFragment = new PageFragment();
@@ -132,32 +143,14 @@ public class MainActivity extends MvpAppCompatActivity
         TextView navEmail = headerView.findViewById(R.id.user_email);
         navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         imageViewAvatar = drawer.findViewById(R.id.avatar);
         imageViewAvatar.setOnClickListener(onAvatarClickListener);
         imageViewAvatar.setColorFilter(getBlackWhiteFilter());
-
-        button_menu.setOnClickListener(i -> {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (theme_setting == 1) {
-            this.recreate();
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
 
         if (!Utils.isEmptyPrefsKey(PREFS_KEY_TOKEN)) {
             presenter.getInfo();
@@ -167,6 +160,18 @@ public class MainActivity extends MvpAppCompatActivity
 
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
+        }
+    }
+
+    @OnClick(R.id.menu_icon)
+    public void onMenuClick() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            drawer.openDrawer(GravityCompat.START);
+
+            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         }
     }
 
@@ -239,14 +244,7 @@ public class MainActivity extends MvpAppCompatActivity
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
-    @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (popupWindowEvent != null && popupWindowEvent.isShowing()) {
             popupWindowEvent.dismiss();
         } else if (popupWindowPage != null && popupWindowPage.isShowing()) {
@@ -307,11 +305,16 @@ public class MainActivity extends MvpAppCompatActivity
             }
             case R.id.menu_settings: {
                 startActivity(new Intent(this, SettingActivity.class));
-//                theme_setting = 1;
                 return true;
             }
             case R.id.menu_questions: {
                 startActivity(new Intent(this, QuestionActivity.class));
+                return true;
+            }
+            case R.id.menu_theme: {
+                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+                changeTheme();
                 return true;
             }
             case R.id.menu_exit: {
@@ -321,12 +324,7 @@ public class MainActivity extends MvpAppCompatActivity
                 return true;
             }
         }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        TextView userName = drawer.findViewById(R.id.user_name);
-        userName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
     @Override
@@ -354,5 +352,11 @@ public class MainActivity extends MvpAppCompatActivity
 
     public void setCallback(CallbackPage callback) {
         this.callbackPage = callback;
+    }
+
+    public void changeTheme() {
+        Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
+        Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+        this.recreate();
     }
 }

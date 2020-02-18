@@ -1,31 +1,25 @@
 package com.remember.app.ui.menu.settings;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.ui.utils.MvpAppCompatFragment;
 import com.remember.app.ui.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
-public class NotificationFragment extends MvpAppCompatFragment implements SettingView {
+public class NotificationFragment extends SettingsBaseFragment implements SettingView {
 
     @BindView(R.id.notifications)
     Switch notifications;
@@ -41,7 +35,6 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
     MaterialSpinner days;
 
     private SettingPresenter presenter;
-    private Unbinder unbinder;
     private String[] daysArr = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 
     public NotificationFragment() {
@@ -60,10 +53,12 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings_notifications, container, false);
-        unbinder = ButterKnife.bind(this, view);
+    protected int getContentView() {
+        return R.layout.fragment_settings_notifications;
+    }
+
+    @Override
+    protected void setUp() {
         days.setItems(daysArr);
         days.setSelectedIndex(0);
 
@@ -77,8 +72,6 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
         idNoticeThree.setTextColor(textColor);
         days.setHintTextColor(textColor);
         days.setTextColor(textColor);
-
-        return view;
     }
 
     @Override
@@ -94,12 +87,6 @@ public class NotificationFragment extends MvpAppCompatFragment implements Settin
                 .enableNotifications(notifications.isChecked())
                 .commemorationDays(getIdNotice())
                 .amountDays(getAmountDays());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @OnCheckedChanged(R.id.notifications)

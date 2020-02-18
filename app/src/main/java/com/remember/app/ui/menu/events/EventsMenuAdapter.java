@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.remember.app.R;
@@ -84,16 +85,21 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         TextView date;
         @BindView(R.id.comment)
         TextView comment;
+        @BindView(R.id.llEvent)
+        LinearLayout llEvent;
 
         EventsFragmentAdapterViewHolder(View itemView) {
-            super(itemView);
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }
 
         @Override
         public void onBind(int position) {
-            layout.setOnClickListener(v -> {
+            /*layout.setOnClickListener(v -> {
+                callback.click(responseEvents.get(position));
+            });*/
+            llEvent.setOnClickListener(v -> {
                 callback.click(responseEvents.get(position));
             });
             Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
@@ -131,12 +137,12 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             today.set(Calendar.YEAR, past.get(Calendar.YEAR));
             long diff = past.getTime().getTime() - today.getTime().getTime();
             if (diff > 0) {
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
             } else {
                 today.set(Calendar.YEAR, past.get(Calendar.YEAR));
                 past.add(Calendar.YEAR, 1);
                 diff = past.getTime().getTime() - today.getTime().getTime();
-                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+                return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
             }
         }
 

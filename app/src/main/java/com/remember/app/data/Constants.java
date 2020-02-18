@@ -1,5 +1,7 @@
 package com.remember.app.data;
 
+import com.theartofdev.edmodo.cropper.CropImageView;
+
 public class Constants {
 
     public static final String BASE_SERVICE_URL = "http://помню.рус";
@@ -7,16 +9,18 @@ public class Constants {
     public static final String PLAY_MARKET_LINK = "https://play.google.com/store/apps/details?id=com.remember.app";
 
     public static final String PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS = "SETTINGS_SHOW_NOTIFICATIONS";
+    public static final String PREFS_KEY_IS_LAUNCH_MODE = "IS_LAUNCH_MODE";
     public static final String PREFS_KEY_ACCESS_TOKEN = "ACCESS_TOKEN";
     public static final String PREFS_KEY_NAME_USER = "NAME_USER";
     public static final String PREFS_KEY_USER_ID = "USER_ID";
     public static final String PREFS_KEY_AVATAR = "AVATAR";
     public static final String PREFS_KEY_EMAIL = "EMAIL";
     public static final String PREFS_KEY_TOKEN = "TOKEN";
-    public static final String PREFS_KEY_IS_THEME = "IS_THEME";
+    public static final String PREFS_KEY_THEME_CHANGED = "THEME_CHANGED";
+    public static final String PREFS_KEY_THEME = "THEME";
 
-    public static final int THEME_LIGHT = 1;
-    public static final int THEME_DARK = 2;
+    public static final boolean THEME_LIGHT = false;
+    public static final boolean THEME_DARK = true;
 
     public static final String INTENT_EXTRA_IS_LAUNCH_MODE = "IS_LAUNCH_MODE";
 
@@ -41,6 +45,8 @@ public class Constants {
     public static final String INTENT_EXTRA_NAME = "NAME";
     public static final String INTENT_EXTRA_ID = "ID";
 
+    public static final String INTENT_EXTRA_POSITION_IN_SLIDER = "POSITION_IN_SLIDER";
+
     public static final String NOTIF_EVENT_TYPE_EVENT = "event";
     public static final String NOTIF_EVENT_TYPE_BIRTH = "birth";
     public static final String NOTIF_EVENT_TYPE_DEAD = "dead";
@@ -58,4 +64,6 @@ public class Constants {
     public static final String SEARCH_ON_GRID = "grid";
     public static final String SEARCH_ON_MAIN = "main";
 
+    public static final CropImageView.CropShape CROP_IMAGE_OVAL = CropImageView.CropShape.OVAL;
+    public static final CropImageView.CropShape CROP_IMAGE_RECT = CropImageView.CropShape.RECTANGLE;
 }

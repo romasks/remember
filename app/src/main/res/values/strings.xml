@@ -23,6 +23,7 @@
     <string name="menu_notifications">Уведомления</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_questions">Обратная связь</string>
+    <string name="menu_theme">Сменить тему оформления</string>
     <string name="menu_exit">Выйти</string>
 
     <string name="last_name">Фамилия</string>
@@ -36,7 +37,7 @@
     <string name="for_yourself">Для себя</string>
     <string name="pick_level">Выберите уровень доступа</string>
     <string name="create_page">Создать памятную страницу</string>
-    <string name="burial_place_value">Место захоронения</string>
+    <string name="burial_place_header_text">Место захоронения</string>
     <string name="live_place">Населённый пункт</string>
     <string name="city">Населенный пункт</string>
     <string name="cemetery">Название кладбища</string>
@@ -88,12 +89,14 @@
     <string name="CONSUMER_KEY">PT6uezLMteHqTsq2VO3qio3cT </string>
     <string name="CONSUMER_SECRET">6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb </string>
     <string name="events">События</string>
+    <string name="memorable_events">Памятные события</string>
     <string name="wrong_registration"><u>Забыли пароль</u></string>
     <string name="pick_email">Укажите E-mail</string>
 
     <!--grid-->
     <string name="grid_header">Помню</string>
     <string name="grid_show_all">Показать всех</string>
+    <string name="grid_show_all_event">Показать все события</string>
     <string name="grid_go_to_cabinet">Перейти в кабинет</string>
     <string name="grid_login">Войти</string>
 

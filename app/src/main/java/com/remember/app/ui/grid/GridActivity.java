@@ -5,13 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,15 +47,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME_CHANGED;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
+import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
@@ -83,9 +86,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @BindView(R.id.grid_sign_in)
     Button signInButton;
 
+    @BindView(R.id.drawer_layout_2)
+    DrawerLayout drawer;
+
     private ImageAdapter imageAdapter;
-    private DrawerLayout drawer;
-    private int theme_setting = 0;
 
     private int pageNumber = 1;
     private List<MemoryPageModel> allMemoryPageModels = new ArrayList<>();
@@ -100,13 +104,20 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
+
         setUpRecycler();
 
+        if (Prefs.getBoolean(PREFS_KEY_THEME_CHANGED, false)) {
+            Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, false);
+            return;
+        }
+
         presenter.getImages(pageNumber);
-        if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_LAUNCH_MODE, false)) {
+        if (Prefs.getBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)) {
+            Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false);
             setSplashVideo();
             splashVideo.start();
-            new Handler().postDelayed(() -> findViewById(R.id.image_rv).setVisibility(View.VISIBLE), 1500);
+            recyclerView.postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
         } else {
             showMainContent();
         }
@@ -115,21 +126,18 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onResume() {
         super.onResume();
-        if (theme_setting == 1) {
-            this.recreate();
-        }
-        drawer = findViewById(R.id.drawer_layout_2);
+        getInfoUser();
         drawer.setDrawerLockMode(
                 Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)
                         ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
                         : DrawerLayout.LOCK_MODE_UNLOCKED
         );
-        getInfoUser();
     }
 
     @Override
     protected void onPause() {
         splashVideo.onPause();
+        showMainContent();
         super.onPause();
     }
 
@@ -162,9 +170,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 setGlideImage(this, Prefs.getString(PREFS_KEY_AVATAR, ""), imageViewBigAvatar);
             }
 
-            imageViewBigAvatar.setOnClickListener(view -> {
-                startActivity(new Intent(this, SettingActivity.class));
-            });
+            imageViewBigAvatar.setOnClickListener(view -> goToSettingsPage());
         } else {
             avatar_user.setVisibility(View.GONE);
             button_menu.setVisibility(View.GONE);
@@ -205,7 +211,15 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             drawer.closeDrawer(GravityCompat.START);
         } else {
             drawer.openDrawer(GravityCompat.START);
+
+            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         }
+    }
+
+    @OnClick(R.id.avatar_small_toolbar)
+    public void onSmallAvatarClick() {
+        goToSettingsPage();
     }
 
     private void showEventScreen() {
@@ -265,12 +279,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 return true;
             }
             case R.id.menu_settings: {
-                startActivity(new Intent(this, SettingActivity.class));
-//                theme_setting = 1;
+                goToSettingsPage();
                 return true;
             }
             case R.id.menu_questions: {
                 startActivity(new Intent(this, QuestionActivity.class));
+                return true;
+            }
+            case R.id.menu_theme: {
+                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+                changeTheme();
                 return true;
             }
             case R.id.menu_exit: {
@@ -324,7 +343,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         splashVideo.setVideoFromUri(this, videoUri);
         splashVideo.setLooping(false);
         splashVideo.setOnVideoEndedListener(this::hideSplashVideo);
-
     }
 
     private void hideSplashVideo() {
@@ -349,4 +367,22 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         signInButton.setVisibility(View.VISIBLE);
     }
 
+    public void changeTheme() {
+        Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
+        Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+        this.recreate();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void goToSettingsPage() {
+        startActivity(new Intent(this, SettingActivity.class));
+    }
 }

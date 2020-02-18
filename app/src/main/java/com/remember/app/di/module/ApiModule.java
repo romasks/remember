@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.remember.app.BuildConfig;
 import com.remember.app.data.network.ApiMethods;
+import com.remember.app.data.network.RxSchedulers;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.data.network.ServiceNetworkImp;
 
@@ -36,6 +37,12 @@ public class ApiModule {
 
     @Provides
     @Singleton
+    RxSchedulers provideRxSchedulers() {
+        return new RxSchedulers();
+    }
+
+    @Provides
+    @Singleton
     ApiMethods provideApiMethodsService(Retrofit retrofit) {
         return retrofit.create(ApiMethods.class);
     }
@@ -53,14 +60,13 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public Converter.Factory provideGsonConverterFactory(Gson gson) {
+    Converter.Factory provideGsonConverterFactory(Gson gson) {
         return GsonConverterFactory.create(gson);
     }
 
     @Singleton
     @Provides
-    public Gson provideGson() {
-
+    Gson provideGson() {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
@@ -68,7 +74,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public CallAdapter.Factory provideRxJavaCallAdapterFactory() {
+    CallAdapter.Factory provideRxJavaCallAdapterFactory() {
         return RxJava2CallAdapterFactory.create();
     }
 
@@ -80,7 +86,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideOkHttpClient() {
+    OkHttpClient provideOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.readTimeout(100, TimeUnit.SECONDS).writeTimeout(100, TimeUnit.SECONDS).connectTimeout(100, TimeUnit.SECONDS);
         if (BuildConfig.DEBUG) {

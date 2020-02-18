@@ -1,8 +1,10 @@
 package com.remember.app.ui.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -13,13 +15,14 @@ import com.remember.app.R;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import static com.remember.app.data.Constants.PREFS_KEY_IS_THEME;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME;
 import static com.remember.app.data.Constants.THEME_DARK;
+import static com.remember.app.data.Constants.THEME_LIGHT;
 
 public class Utils {
 
     public static boolean isThemeDark() {
-        return Prefs.getInt(PREFS_KEY_IS_THEME, 0) == THEME_DARK;
+        return Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT) == THEME_DARK;
     }
 
     public static void setTheme(AppCompatActivity activity) {
@@ -52,4 +55,7 @@ public class Utils {
         return size;
     }
 
+    public static int convertDpToPixels(float dp) {
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics()));
+    }
 }

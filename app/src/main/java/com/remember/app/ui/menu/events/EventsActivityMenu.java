@@ -43,9 +43,9 @@ public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapte
     @BindView(R.id.rel_event)
     TextView relEvent;
     @BindView(R.id.show_all)
-    Button showAll;
-    @BindView(R.id.no_events)
-    LinearLayout noEvents;
+    TextView showAll;
+    /*@BindView(R.id.no_events)
+    LinearLayout noEvents;*/
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.search)
@@ -114,7 +114,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapte
         if (responseEvents.size() == 0)
             Toast.makeText(getApplicationContext(), "Записи не найдены", Toast.LENGTH_SHORT).show();
         eventsMenuAdapter.setItems(responseEvents);
-        noEvents.setVisibility(responseEvents.isEmpty() ? View.VISIBLE : View.GONE);
+        //noEvents.setVisibility(responseEvents.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -163,6 +163,6 @@ public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapte
     @Override
     public void search(String date, int selectedIndex) {
         showAll.setVisibility(View.VISIBLE);
-        presenter.searchEventReligios(date, selectedIndex);
+        presenter.searchEventReligious(date, selectedIndex);
     }
 }
