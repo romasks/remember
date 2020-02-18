@@ -1,5 +1,7 @@
 package com.remember.app.data;
 
+import com.theartofdev.edmodo.cropper.CropImageView;
+
 public class Constants {
 
     public static final String BASE_SERVICE_URL = "http://помню.рус";
@@ -62,4 +64,6 @@ public class Constants {
     public static final String SEARCH_ON_GRID = "grid";
     public static final String SEARCH_ON_MAIN = "main";
 
+    public static final CropImageView.CropShape CROP_IMAGE_OVAL = CropImageView.CropShape.OVAL;
+    public static final CropImageView.CropShape CROP_IMAGE_RECT = CropImageView.CropShape.RECTANGLE;
 }

@@ -14,15 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.DialogFragment;
-
 import com.remember.app.R;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
@@ -34,7 +34,6 @@ public class PhotoDialog extends DialogFragment {
     private ImageView imageView;
     private EditText editText;
     private TextView done;
-    //private TextView cancel; //temporarily comment
     private Uri uri;
     private Bitmap bitmap;
     private File imageFile;
@@ -55,7 +54,6 @@ public class PhotoDialog extends DialogFragment {
         imageView = view.findViewById(R.id.image);
         editText = view.findViewById(R.id.description);
         done = view.findViewById(R.id.done);
-        //cancel = view.findViewById(R.id.cancel); //temporarily comment
 
         if (Utils.isThemeDark()) {
             editText.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
@@ -78,9 +76,6 @@ public class PhotoDialog extends DialogFragment {
                 callback.sendPhoto(imageFile, editText.getText().toString());
             }
         });
-        /*cancel.setOnClickListener(v -> {
-            dismiss();
-        });*/ //temporarily comment
         builder.setView(view);
         return builder.create();
     }

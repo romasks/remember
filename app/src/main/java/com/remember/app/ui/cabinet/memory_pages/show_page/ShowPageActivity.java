@@ -28,7 +28,6 @@ import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.PhotoDialog;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
@@ -65,6 +64,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
+import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.StringUtils.getStringFromField;
 
@@ -121,15 +121,15 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.panel)
     LinearLayout panel;
 
+    private PhotoDialog photoDialog;
+    private MemoryPageModel memoryPageModel;
+    private PhotoSliderAdapter photoSliderAdapter;
+
     private boolean isList = false;
     private boolean isShow = false;
     private boolean afterSave = false;
-    private PhotoDialog photoDialog;
     private int id = 0;
-    private MemoryPageModel memoryPageModel;
-    private PhotoSliderAdapter photoSliderAdapter;
     private int sharing = 0;
-    private boolean isSlider = false;
 
     @Override
     protected int getContentView() {
@@ -160,7 +160,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             id = memoryPageModel.getId();
             settings.setClickable(false);
             settings.setVisibility(View.GONE);
-//            addPhotoToSliderBtn.setClickable(false);
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             initAll();
         } else {
@@ -213,7 +212,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void error(Throwable throwable) {
-        Log.i(TAG, "throwable= " + throwable.toString());
         Utils.showSnack(image, "Ошибка загрузки изображения");
     }
 
@@ -228,28 +226,18 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @Override
     public void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders) {
         photoSliderAdapter.setItems(responseImagesSliders);
-        if (responseImagesSliders.size() > 0) {
-            isSlider = true;
-        }
     }
 
     @Override
     public void showPhoto() {
-        CropImage.activity()
-                .setMinCropResultSize(400,400)
-                .setMaxCropResultSize(7000, 7000)//TODO
-                .setFixAspectRatio(true)
-                .setCropShape(CropImageView.CropShape.RECTANGLE)
-                .start(this);
+        cropImage(this);
     }
 
     @Override
     public void sendPhoto(File imageFile, String string) {
         if (memoryPageModel.getId() != null) {
-            Log.i(TAG, "!= null" + imageFile.toString() + "  string= " + string + "  " + memoryPageModel.getId());
             presenter.savePhoto(imageFile, string, memoryPageModel.getId());
         } else {
-            Log.i(TAG, "== null");
             presenter.savePhoto(imageFile, string, id);
         }
     }
@@ -268,7 +256,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         backImg.setImageResource(R.drawable.ic_back_dark_theme);
         settings.setImageResource(R.drawable.setting_white);
         panel.setBackground(getResources().getDrawable(R.drawable.panel_dark));
-//            view.setBackground(getResources().getDrawable(R.drawable.gradient_dark));
     }
 
     @OnClick(R.id.addPhotoToSliderBtn)

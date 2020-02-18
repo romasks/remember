@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -36,9 +35,8 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
-import static com.remember.app.data.Constants.PREFS_KEY_THEME;
-import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
+import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PersonalDataFragment extends SettingsBaseFragment implements SettingView {
@@ -132,8 +130,6 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
                     }
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-                Log.e(TAG, "Ошибка загрузки фото", error);
                 Utils.showSnack(avatar, "Ошибка загрузки фото");
             }
         }
@@ -142,12 +138,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     @OnClick(R.id.add_new_photo)
     void addNewPhoto() {
         if (getContext() != null) {
-            CropImage.activity()
-                    .setMinCropResultSize(400,400)
-                    .setMaxCropResultSize(7000, 7000)//TODO
-                    .setCropShape(CropImageView.CropShape.OVAL)
-                    .setFixAspectRatio(true)
-                    .start(getContext(), this);
+            cropImage(this, CropImageView.CropShape.OVAL);
         } else {
             Utils.showSnack(avatar, "Внутренняя ошибка приложения");
         }

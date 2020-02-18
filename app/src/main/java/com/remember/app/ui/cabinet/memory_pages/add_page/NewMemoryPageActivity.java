@@ -8,9 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -19,11 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -41,7 +34,6 @@ import com.remember.app.ui.utils.FileUtils;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,9 +41,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.provider.MediaStore.Images.Media.getBitmap;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
@@ -65,6 +62,7 @@ import static com.remember.app.ui.utils.DateUtils.parseLocalFormat;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
@@ -72,6 +70,11 @@ import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback {
 
     private static final String TAG = NewMemoryPageActivity.class.getSimpleName();
+
+    private static final int SELECT_PICTURE = 451;
+    private static final int GRAVE_INFO_RESULT = 646;
+
+    private Calendar dateAndTime = Calendar.getInstance();
 
     @InjectPresenter
     AddPagePresenter presenter;
@@ -113,17 +116,13 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     @BindView(R.id.text_image)
     TextView textViewImage;
 
-    private static final int SELECT_PICTURE = 451;
-    private static final int GRAVE_INFO_RESULT = 646;
-
-    private Calendar dateAndTime = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private DatePickerDialog.OnDateSetListener dateEndPickerDialog;
-    private AddPageModel person;
-    private boolean isEdit;
-    private MemoryPageModel memoryPageModel;
     private ProgressDialog progressDialog;
+    private MemoryPageModel memoryPageModel;
+    private AddPageModel person;
     private File imageFile;
+    private boolean isEdit;
 
     @Override
     protected int getContentView() {
@@ -179,9 +178,9 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         }
 
         PopupReligion popupWindow = new PopupReligion(
-            popupView,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT);
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setCallback(this);
         popupWindow.setUp(lastName, responseHandBooks);
     }
@@ -221,14 +220,8 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @OnClick(R.id.image_layout)
     public void pickImage() {
-        Log.d("MYLOG", "adsdasdasdadsdas");
         progressDialog = LoadingPopupUtils.showLoadingDialog(this);
-        CropImage.activity()
-                .setMinCropResultSize(400,400)
-                .setMaxCropResultSize(7000, 7000)//TODO
-                .setFixAspectRatio(true)
-                .setCropShape(CropImageView.CropShape.RECTANGLE)
-                .start(this);
+        cropImage(this);
     }
 
     @OnClick(R.id.place_button)
@@ -301,24 +294,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         finish();
     }
 
-    public void setDateBegin(View v) {
-        DatePickerDialog dialog = new DatePickerDialog(this, dateBeginPickerDialog,
-                dateAndTime.get(Calendar.YEAR),
-                dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH));
-        dialog.getDatePicker().setMaxDate(new Date().getTime());
-        dialog.show();
-    }
-
-    public void setDateEnd(View v) {
-        DatePickerDialog dialog = new DatePickerDialog(this, dateEndPickerDialog,
-                dateAndTime.get(Calendar.YEAR),
-                dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH));
-        dialog.getDatePicker().setMaxDate(new Date().getTime());
-        dialog.show();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -340,7 +315,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
-                glideLoadInto(this, data.getData(), image);
+                glideLoadInto(data.getData(), image);
             }
         } else if (requestCode == 1) {
             DisplayMetrics dsMetrics = new DisplayMetrics();
@@ -354,33 +329,22 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             findViewById(R.id.add_white).setVisibility(View.GONE);
             imageLayout.setBackgroundColor(Color.TRANSPARENT);
             try {
-                glideLoadIntoAsBitmap(this, hah, image);
+                glideLoadIntoAsBitmap(hah, image);
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                e.printStackTrace();
             }
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            Log.d("MYLOG", "YES1");
             if (resultCode == RESULT_OK) {
-                progressDialog.dismiss();
-                Log.d("MYLOG", "YES2");
                 try {
-                    Log.d("MYLOG", "YES3");
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUri());
+                    Bitmap bitmap = getBitmap(getContentResolver(), result.getUri());
                     imageFile = saveBitmap(bitmap);
-                    progressDialog.dismiss();
-                    glideLoadInto(getApplicationContext(), result.getUri(), image);
+                    glideLoadInto(result.getUri(), image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Log.d("MYLOG", "YES4");
-                Log.e(TAG, result.getError().getLocalizedMessage());
-                progressDialog.dismiss();
-            } else {
-                Log.d("MYLOG", "YES5");
-                progressDialog.dismiss();
             }
+            progressDialog.dismiss();
         }
     }
 
@@ -419,22 +383,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             person.setSector(getIntent().getStringExtra(BURIAL_PLACE_SECTOR));
             person.setSpotId(getIntent().getStringExtra(BURIAL_PLACE_LINE));
             person.setGraveId(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
-//            if (person != null) {
-//                if (person.getStar() != null) {
-//                    if (person.getStar().equals("true")) {
-//                        isFamous.setChecked(true);
-//                    } else {
-//                        notFamous.setChecked(false);
-//                    }
-//                }
-//                if (person.getFlag() != null) {
-//                    if (person.getFlag().equals("true")) {
-//                        isPublic.setChecked(true);
-//                    } else {
-//                        noPublic.setChecked(false);
-//                    }
-//                }
-//            }
         }
     }
 
@@ -445,10 +393,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         middleName.setText(memoryPageModel.getThirdName());
         description.setText(memoryPageModel.getComment());
         religion.setText(memoryPageModel.getReligiya());
-//        isFamous.setChecked(memoryPageModel.getStar().equals("true"));
-//        notFamous.setChecked(!memoryPageModel.getStar().equals("true"));
-//        isPublic.setChecked(memoryPageModel.getFlag().equals("true"));
-//        noPublic.setChecked(!memoryPageModel.getFlag().equals("true"));
 
         if (memoryPageModel.getStar().equals("true")) {
             isFamous.setChecked(true);
@@ -468,7 +412,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
         dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
 
-        glideLoadIntoWithError(this, BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
+        glideLoadIntoWithError(BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
     }
 
     private void initiate() {
@@ -508,5 +452,23 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     private void setInitialDateEnd() {
         dateEnd.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
+    }
+
+    private void setDateBegin(View v) {
+        DatePickerDialog dialog = new DatePickerDialog(this, dateBeginPickerDialog,
+                dateAndTime.get(Calendar.YEAR),
+                dateAndTime.get(Calendar.MONTH),
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(new Date().getTime());
+        dialog.show();
+    }
+
+    private void setDateEnd(View v) {
+        DatePickerDialog dialog = new DatePickerDialog(this, dateEndPickerDialog,
+                dateAndTime.get(Calendar.YEAR),
+                dateAndTime.get(Calendar.MONTH),
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(new Date().getTime());
+        dialog.show();
     }
 }

@@ -1,5 +1,6 @@
 package com.remember.app.ui.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,7 +8,6 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,13 +15,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.remember.app.GlideApp;
 import com.remember.app.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import androidx.fragment.app.Fragment;
+
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.CROP_IMAGE_RECT;
 import static com.remember.app.ui.utils.Utils.convertDpToPixels;
 
 public class ImageUtils {
@@ -35,7 +40,7 @@ public class ImageUtils {
     }
 
     public static void setGlideImage(Object imageObj, ImageView targetView) {
-        if (imageObj instanceof String && ((String) imageObj).contains("uploads")) {
+        if (isUploadedImage(imageObj)) {
             imageObj = BASE_SERVICE_URL + imageObj;
         }
         setGlideImage(targetView.getContext(), imageObj, targetView);
@@ -55,16 +60,19 @@ public class ImageUtils {
         targetView.setColorFilter(blackWhiteFilter);
     }
 
+    public static void glideLoadInto(Object imageObj, ImageView targetView) {
+        glideLoadInto(targetView.getContext(), imageObj, targetView);
+    }
+
     public static void glideLoadInto(Context context, Object imageObj, ImageView targetView) {
-        targetView.invalidate();
         GlideApp.with(context)
                 .load(imageObj)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
     }
 
-    public static void glideLoadIntoAsBitmap(Context context, Object imageObj, ImageView targetView) {
-        GlideApp.with(context)
+    public static void glideLoadIntoAsBitmap(Object imageObj, ImageView targetView) {
+        GlideApp.with(targetView.getContext())
                 .asBitmap()
                 .load(imageObj)
                 .apply(RequestOptions.circleCropTransform())
@@ -81,7 +89,7 @@ public class ImageUtils {
     }
 
     public static void glideLoadIntoWithError(Object imageObj, ImageView targetView) {
-        if (imageObj instanceof String && ((String) imageObj).contains("uploads")) {
+        if (isUploadedImage(imageObj)) {
             imageObj = BASE_SERVICE_URL + imageObj;
         }
         glideLoadIntoWithError(targetView.getContext(), imageObj, targetView);
@@ -96,7 +104,7 @@ public class ImageUtils {
     }
 
     public static void setGridImage(Object imageObj, ImageView targetView, Point size) {
-        if (imageObj instanceof String && ((String) imageObj).contains("uploads")) {
+        if (isUploadedImage(imageObj)) {
             imageObj = BASE_SERVICE_URL + imageObj;
 
             if (size != null) {
@@ -121,8 +129,6 @@ public class ImageUtils {
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
 
         Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Log.d("MYLOG","qqqqq");
-        //Bitmap bitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Drawable background = view.getBackground();
 
@@ -132,6 +138,28 @@ public class ImageUtils {
         view.draw(canvas);
 
         return bitmap;
+    }
+
+    public static void cropImage(Activity activity) {
+        cropImage(activity, CROP_IMAGE_RECT);
+    }
+
+    public static void cropImage(Activity activity, CropImageView.CropShape cropShape) {
+        CropImage.activity()
+                .setMinCropResultSize(400, 400)
+                .setMaxCropResultSize(7000, 7000)
+                .setFixAspectRatio(true)
+                .setCropShape(cropShape)
+                .start(activity);
+    }
+
+    public static void cropImage(Fragment fragment, CropImageView.CropShape cropShape) {
+        CropImage.activity()
+                .setMinCropResultSize(400, 400)
+                .setMaxCropResultSize(7000, 7000)
+                .setFixAspectRatio(true)
+                .setCropShape(cropShape)
+                .start(fragment.getContext(), fragment);
     }
 
     private static void setGridImage(Context context, Object imageObj, ImageView targetView) {
@@ -147,6 +175,10 @@ public class ImageUtils {
         URL url = new URL(urlStr);
         URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
         return uri.toURL();
+    }
+
+    private static boolean isUploadedImage(Object imageObj) {
+        return imageObj instanceof String && ((String) imageObj).contains("uploads") && !((String) imageObj).contains(BASE_SERVICE_URL);
     }
 
 }
