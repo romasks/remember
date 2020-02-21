@@ -1,5 +1,6 @@
 package com.remember.app.ui.cabinet.memory_pages.events.add_new_event;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -25,14 +27,19 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
+import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRadioButton;
@@ -42,6 +49,7 @@ import butterknife.OnClick;
 
 import static android.provider.MediaStore.Images.Media.getBitmap;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DESCRIPTION;
@@ -105,6 +113,9 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     private int eventId = 0;
     private String name;
     private String personName = "";
+    private String birthDate = "";
+    private long pickedDateTime = 0;
+    private Calendar calendar = Calendar.getInstance();
 
     @Override
     protected int getContentView() {
@@ -301,6 +312,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
             personName = bundle.getString(INTENT_EXTRA_EVENT_PERSON, "");
         } catch (NullPointerException ignored) {
         }
+        birthDate = getIntent().getStringExtra(BIRTH_DATE);
         if (!personName.isEmpty()) {
             nameDeceased.setText(personName);
         } else if (!name.isEmpty()) {
@@ -341,10 +353,34 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     }
 
     private void setDate() {
-        new DatePickerDialog(this, dateBeginPickerDialog,
+        /*new DatePickerDialog(this, dateBeginPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH))
-                .show();
+                .show();*/
+        @SuppressLint("SimpleDateFormat")
+        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            calendar.setTime(Objects.requireNonNull(df.parse(birthDate)));
+            Log.d("myLog", "year=" + calendar.get(Calendar.YEAR));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                pickedDateTime = dateAndTime.getTimeInMillis();
+                if (pickedDateTime > calendar.getTimeInMillis()) {
+                    date.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
+                } else {
+                    Utils.showSnack(date, getResources().getString(R.string.error_event_date_before_date_birth));
+                }
+            }
+        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        dialog.setMaxDate(new Date().getTime());
+        dialog.show(getSupportFragmentManager(), "tag");
     }
 }

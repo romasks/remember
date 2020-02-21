@@ -40,6 +40,7 @@ public class Constants {
     public static final String INTENT_EXTRA_FROM_NOTIF = "FROM_NOTIF";
     public static final String INTENT_EXTRA_IS_LIST = "IS_LIST";
     public static final String INTENT_EXTRA_PAGE_ID = "PAGE_ID";
+    public static final String BIRTH_DATE = "BIRTH_DATE";
     public static final String INTENT_EXTRA_PERSON = "PERSON";
     public static final String INTENT_EXTRA_SHOW = "SHOW";
     public static final String INTENT_EXTRA_NAME = "NAME";

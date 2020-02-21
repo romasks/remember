@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -33,6 +34,7 @@ import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.FileUtils;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
+import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
@@ -123,6 +125,8 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     private AddPageModel person;
     private File imageFile;
     private boolean isEdit;
+    public long startDate = 0;
+    public long endDate = 0;
 
     @Override
     protected int getContentView() {
@@ -455,20 +459,63 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     }
 
     private void setDateBegin(View v) {
-        DatePickerDialog dialog = new DatePickerDialog(this, dateBeginPickerDialog,
+        /*DatePickerDialog dialog = new DatePickerDialog(this, dateBeginPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMaxDate(new Date().getTime());
-        dialog.show();
+        dialog.show();*/
+        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                startDate = dateAndTime.getTimeInMillis();
+                Date endDate = parseLocalFormat(dateEnd.getText().toString());
+                if (endDate != null && dateAndTime.getTime().after(endDate)) {
+                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+                } else {
+                    setInitialDateBegin();
+                }
+            }
+        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        dialog.setMaxDate(new Date().getTime());
+        dialog.show(getSupportFragmentManager(), "tag");
+
+    }
+
+    private void myCustomSetInitialDateBegin(int dayOfMonth, int monthOfYear, int year) {
+        dateBegin.setText(dayOfMonth + "." + monthOfYear +"." + year);
+    }
+
+    private void myCustomSetInitialDateEnd(int dayOfMonth, int monthOfYear, int year) {
+        dateEnd.setText(dayOfMonth + "." + monthOfYear +"." + year);
     }
 
     private void setDateEnd(View v) {
-        DatePickerDialog dialog = new DatePickerDialog(this, dateEndPickerDialog,
+        /*DatePickerDialog dialog = new DatePickerDialog(this, dateEndPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH));
         dialog.getDatePicker().setMaxDate(new Date().getTime());
-        dialog.show();
+        dialog.show();*/
+        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                endDate = dateAndTime.getTimeInMillis();
+                Date startDate = parseLocalFormat(dateBegin.getText().toString());
+                if (startDate != null && startDate.after(dateAndTime.getTime())) {
+                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+                } else {
+                    setInitialDateEnd();
+                }
+            }
+        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        dialog.setMaxDate(new Date().getTime());
+        dialog.show(getSupportFragmentManager(), "tag");
     }
 }

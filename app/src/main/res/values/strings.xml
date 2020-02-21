@@ -162,7 +162,8 @@
     <string name="new_event_hint_description">Описание...</string>
     <string name="memory_page_event_header_text">Памятное событие</string>
     <string name="event_header_text">Событие</string>
-    <string name="events_error_date_death_before_date_birth">Дата смерти не может быть перед датой рождения</string>
+    <string name="events_error_date_death_before_date_birth">Дата рождения не может быть после даты смерти</string>
+    <string name="error_event_date_before_date_birth">Событие не может быть раньше даты рождения</string>
 
     <!--questions-->
     <string name="questions_header_text">Обратная связь</string>

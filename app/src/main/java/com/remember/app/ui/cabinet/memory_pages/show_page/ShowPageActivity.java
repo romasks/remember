@@ -48,6 +48,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
@@ -289,6 +290,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
         intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
         intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
+        intent.putExtra(BIRTH_DATE, memoryPageModel.getDateBirth());
         startActivity(intent);
     }
 

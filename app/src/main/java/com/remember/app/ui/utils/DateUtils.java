@@ -2,6 +2,8 @@ package com.remember.app.ui.utils;
 
 import android.annotation.SuppressLint;
 
+import com.remember.app.R;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,9 @@ import java.util.concurrent.TimeUnit;
 public class DateUtils {
 
     public static DateFormat dfLocal = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+    /*public static long startDate = 0;
+    public static long endDate = 0;
+    public static Calendar dateAndTime = Calendar.getInstance();*/
 
     public static Date parseDateWithFormat(String dateStr, DateFormat dateFormat) {
         Date date = null;
@@ -104,4 +109,26 @@ public class DateUtils {
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) - 1;
     }
 
+    /*public static void compareDates(int year, int monthOfYear, int dayOfMonth, String identificator) {
+        switch (identificator) {
+            case "start":
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                startDate = dateAndTime.getTimeInMillis();
+                Date end = parseLocalFormat(endDate.getText().toString());
+                if (endDate != null && dateAndTime.getTime().after(endDate)) {
+                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+                } else {
+                    setInitialDateBegin();
+                }
+                break;
+            case "end":
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                endDate = dateAndTime.getTimeInMillis();
+                break;
+        }
+    }*/
 }

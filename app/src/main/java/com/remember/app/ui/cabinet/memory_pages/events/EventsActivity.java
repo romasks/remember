@@ -28,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
@@ -143,6 +144,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
         intent.putExtra(INTENT_EXTRA_PERSON_NAME, name);
         intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
         intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, imageUrl);
+        intent.putExtra(BIRTH_DATE, getIntent().getStringExtra(BIRTH_DATE));
         startActivity(intent);
     }
 
