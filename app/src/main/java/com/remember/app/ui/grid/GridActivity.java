@@ -286,12 +286,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 startActivity(new Intent(this, QuestionActivity.class));
                 return true;
             }
-            case R.id.menu_theme: {
+            /*case R.id.menu_theme: {
                 Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
                 themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
                 changeTheme();
                 return true;
-            }
+            }*/
             case R.id.menu_exit: {
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
@@ -367,11 +367,11 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         signInButton.setVisibility(View.VISIBLE);
     }
 
-    public void changeTheme() {
+    /*public void changeTheme() {
         Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         this.recreate();
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

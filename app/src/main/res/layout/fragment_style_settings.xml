@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Switch
+        android:id="@+id/change_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/settings_change_theme"
+        android:textColor="#8a8a8a"
+        android:textColorHighlight="#8a8a8a"
+        android:textColorLink="#8a8a8a"
+        android:textSize="18dp"
+        android:theme="@style/SwitchRemember" />
+
+</FrameLayout>

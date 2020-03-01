@@ -120,6 +120,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
         adapter.addFragment(new PersonalDataFragment(presenter), "Личные данные");
         adapter.addFragment(new NotificationFragment(presenter), "Уведомления");
+        adapter.addFragment(new StyleSettingsFragment(), "Оформление");
         viewPager.setAdapter(adapter);
     }
 
@@ -142,5 +143,10 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @Override
     public void onSavedImage(Object o) {
         ((PersonalDataFragment) ((FragmentPager) viewPager.getAdapter()).getItem(0)).onSavedImage(o);
+    }
+
+    public void recreateSettings() {
+        finish();
+        startActivity(new Intent(this, SettingActivity.class));
     }
 }
