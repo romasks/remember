@@ -1,5 +1,7 @@
 package com.remember.app.ui.menu.settings;
 
+import android.os.Handler;
+
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 
@@ -30,6 +32,12 @@ public class StyleSettingsFragment extends SettingsBaseFragment {
     void onChangeTheme() {
         Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-        ((SettingActivity) getActivity()).recreateSettings();
+        new Handler().postDelayed(this::recreateSettings, 100);
+    }
+
+    private void recreateSettings() {
+        if (getActivity() != null) {
+            ((SettingActivity) getActivity()).recreateSettings();
+        }
     }
 }

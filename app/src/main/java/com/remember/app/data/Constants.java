@@ -47,6 +47,7 @@ public class Constants {
     public static final String INTENT_EXTRA_ID = "ID";
 
     public static final String INTENT_EXTRA_POSITION_IN_SLIDER = "POSITION_IN_SLIDER";
+    public static final String INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE = "SETTINGS_FRAGMENT_PAGER_STATE";
 
     public static final String NOTIF_EVENT_TYPE_EVENT = "event";
     public static final String NOTIF_EVENT_TYPE_BIRTH = "birth";

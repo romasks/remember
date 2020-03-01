@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,11 +53,9 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
-import static com.remember.app.data.Constants.PREFS_KEY_THEME;
 import static com.remember.app.data.Constants.PREFS_KEY_THEME_CHANGED;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
-import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
@@ -211,9 +208,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             drawer.closeDrawer(GravityCompat.START);
         } else {
             drawer.openDrawer(GravityCompat.START);
-
-            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         }
     }
 

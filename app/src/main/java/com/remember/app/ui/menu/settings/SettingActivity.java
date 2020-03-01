@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.ViewPager;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
@@ -16,12 +19,10 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.utils.Utils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 
@@ -42,12 +43,10 @@ public class SettingActivity extends BaseActivity implements SettingView {
     ImageView settings;
 
     private ViewPager viewPager;
-    private boolean isThemeChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
 
         title.setText(R.string.settings_header_text);
@@ -67,18 +66,12 @@ public class SettingActivity extends BaseActivity implements SettingView {
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        if (!isThemeChanged) {
-            presenter.getInfo();
-        } else {
-            isThemeChanged = false;
-        }
+    protected void onResume() {
+        super.onResume();
+        presenter.getInfo();
     }
 
     private void setUp() {
-//        presenter.getInfo();
-
         viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
 
@@ -115,13 +108,13 @@ public class SettingActivity extends BaseActivity implements SettingView {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        if (isThemeChanged) return;
         Log.d("CHECK", "SettingActivity setupViewPager");
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
         adapter.addFragment(new PersonalDataFragment(presenter), "Личные данные");
         adapter.addFragment(new NotificationFragment(presenter), "Уведомления");
         adapter.addFragment(new StyleSettingsFragment(), "Оформление");
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(getIntent().getIntExtra(INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE, 0));
     }
 
     private SettingsBaseFragment getFragmentInViewPager(int position) {
@@ -147,6 +140,8 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     public void recreateSettings() {
         finish();
-        startActivity(new Intent(this, SettingActivity.class));
+        Intent intent = new Intent(this, SettingActivity.class);
+        intent.putExtra(INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE, 2);
+        startActivity(intent);
     }
 }
