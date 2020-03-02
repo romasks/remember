@@ -212,8 +212,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         } else {
             drawer.openDrawer(GravityCompat.START);
 
-            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+//            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+//            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+            //TODO
         }
     }
 
@@ -286,12 +287,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 startActivity(new Intent(this, QuestionActivity.class));
                 return true;
             }
-            case R.id.menu_theme: {
-                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-                changeTheme();
-                return true;
-            }
+//            case R.id.menu_theme: {
+//                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+//                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+//                changeTheme();
+//                return true;
+//            }
             case R.id.menu_exit: {
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -51,8 +52,11 @@ public class PopupAddEpitaph extends PopupWindow {
             });
         } else {
             saveButton.setOnClickListener(v -> {
+                if (text.getText().toString().trim().length()>0){
                 callback.saveEpitaph(text.getText().toString());
                 dismiss();
+                }
+                else Toast.makeText(getContentView().getContext(), "Введите текст эпитафии", Toast.LENGTH_SHORT).show();
             });
         }
     }

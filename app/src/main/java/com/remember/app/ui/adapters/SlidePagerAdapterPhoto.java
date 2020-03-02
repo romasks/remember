@@ -57,7 +57,9 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
 
         ImageView imageView = view.findViewById(R.id.imageView2);
         TextView textView = view.findViewById(R.id.textView15);
-        textView.setText(responseImagesSliders.get(position).getBody());
+        if (responseImagesSliders.get(position).getBody() != null && responseImagesSliders.get(position).getBody().length()>2)
+            textView.setText(responseImagesSliders.get(position).getBody());
+
 
         count.getCountPage(String.valueOf(responseImagesSliders.size()));
         glideLoadInto(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);

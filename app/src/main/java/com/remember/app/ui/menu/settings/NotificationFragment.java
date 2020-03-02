@@ -89,6 +89,11 @@ public class NotificationFragment extends SettingsBaseFragment implements Settin
                 .amountDays(getAmountDays());
     }
 
+    @Override
+    String getPhone() {
+        return null;
+    }
+
     @OnCheckedChanged(R.id.notifications)
     void switchNotifications() {
         idNotice.setEnabled(notifications.isChecked());

@@ -170,8 +170,8 @@ public class MainActivity extends BaseActivity
         } else {
             drawer.openDrawer(GravityCompat.START);
 
-            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+//            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+//            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         }
     }
 
@@ -311,12 +311,13 @@ public class MainActivity extends BaseActivity
                 startActivity(new Intent(this, QuestionActivity.class));
                 return true;
             }
-            case R.id.menu_theme: {
-                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-                changeTheme();
-                return true;
-            }
+//            case R.id.menu_theme: {
+//                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
+//                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
+//                changeTheme();
+//                return true;
+//            }
+                //TODO
             case R.id.menu_exit: {
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));

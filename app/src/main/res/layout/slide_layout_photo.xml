@@ -21,7 +21,6 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:gravity="center_horizontal"
-        android:text="TextView"
         android:textColor="@color/brown"
         android:textSize="16dp"
         android:textStyle="bold|italic" />
