@@ -37,11 +37,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -52,6 +47,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_THEME_CHANGED;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;

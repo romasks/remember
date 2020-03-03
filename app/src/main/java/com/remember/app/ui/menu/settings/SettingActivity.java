@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.ViewPager;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
@@ -23,6 +26,7 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 
@@ -116,7 +120,9 @@ public class SettingActivity extends BaseActivity implements SettingView {
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
         adapter.addFragment(new PersonalDataFragment(presenter), "Личные данные");
         adapter.addFragment(new NotificationFragment(presenter), "Уведомления");
+        adapter.addFragment(new StyleSettingsFragment(), "Оформление");
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(getIntent().getIntExtra(INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE, 0));
     }
 
     private SettingsBaseFragment getFragmentInViewPager(int position) {
@@ -138,5 +144,12 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @Override
     public void onSavedImage(Object o) {
         ((PersonalDataFragment) ((FragmentPager) viewPager.getAdapter()).getItem(0)).onSavedImage(o);
+    }
+
+    public void recreateSettings() {
+        finish();
+        Intent intent = new Intent(this, SettingActivity.class);
+        intent.putExtra(INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE, 2);
+        startActivity(intent);
     }
 }

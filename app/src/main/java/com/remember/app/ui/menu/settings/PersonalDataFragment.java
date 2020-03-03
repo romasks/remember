@@ -12,6 +12,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatRadioButton;
+
 import com.pixplicity.easyprefs.library.Prefs;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy;
@@ -29,10 +34,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
