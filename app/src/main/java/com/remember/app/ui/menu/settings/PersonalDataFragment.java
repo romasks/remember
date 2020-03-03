@@ -92,7 +92,6 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     @Override
     protected void setUp() {
         setTheme();
-
         rgTheme.check(Utils.isThemeDark() ? R.id.cb_theme_dark : R.id.cb_theme_light);
     }
 

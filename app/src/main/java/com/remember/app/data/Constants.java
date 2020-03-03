@@ -16,7 +16,6 @@ public class Constants {
     public static final String PREFS_KEY_AVATAR = "AVATAR";
     public static final String PREFS_KEY_EMAIL = "EMAIL";
     public static final String PREFS_KEY_TOKEN = "TOKEN";
-    public static final String PREFS_KEY_THEME_CHANGED = "THEME_CHANGED";
     public static final String PREFS_KEY_THEME = "THEME";
 
     public static final boolean THEME_LIGHT = false;

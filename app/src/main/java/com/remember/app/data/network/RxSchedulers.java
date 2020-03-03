@@ -20,7 +20,7 @@ public class RxSchedulers {
         androidScheduler = AndroidSchedulers.mainThread();
     }
 
-    public <T> ObservableTransformer<T, T> applySchedulers() {
+    <T> ObservableTransformer<T, T> applySchedulers() {
         return observable -> observable.subscribeOn(ioScheduler).observeOn(androidScheduler);
     }
 

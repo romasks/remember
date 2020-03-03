@@ -72,7 +72,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.getInfo();
+        //presenter.getInfo();
     }
 
     private void setUp() {
@@ -120,7 +120,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
         adapter.addFragment(new PersonalDataFragment(presenter), "Личные данные");
         adapter.addFragment(new NotificationFragment(presenter), "Уведомления");
-        adapter.addFragment(new StyleSettingsFragment(), "Оформление");
+        adapter.addFragment(new StyleSettingsFragment(presenter), "Оформление");
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(getIntent().getIntExtra(INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE, 0));
     }
