@@ -161,8 +161,8 @@
                     style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="phone"
                     android:digits="1234567890+() -"
+                    android:inputType="phone"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseImagesSlider;
 
@@ -19,15 +15,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 
 public class SlidePagerAdapterPhoto extends PagerAdapter {
 
+    private static final String TAG = SlidePagerAdapterPhoto.class.getSimpleName();
+
     private Context context;
     private Count count;
     private List<ResponseImagesSlider> responseImagesSliders = new ArrayList<>();
-    private static final String TAG = "SlidePagerAdapterPhoto";
 
     public SlidePagerAdapterPhoto(Context context) {
         this.context = context;
@@ -57,9 +58,9 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
 
         ImageView imageView = view.findViewById(R.id.imageView2);
         TextView textView = view.findViewById(R.id.textView15);
-        if (responseImagesSliders.get(position).getBody() != null && responseImagesSliders.get(position).getBody().length()>2)
+        if (responseImagesSliders.get(position).getBody() != null && responseImagesSliders.get(position).getBody().length() > 2) {
             textView.setText(responseImagesSliders.get(position).getBody());
-
+        }
 
         count.getCountPage(String.valueOf(responseImagesSliders.size()));
         glideLoadInto(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);

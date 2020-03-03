@@ -10,13 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -44,7 +40,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -54,12 +49,9 @@ import butterknife.OnClick;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
-import static com.remember.app.data.Constants.PREFS_KEY_THEME;
-import static com.remember.app.data.Constants.PREFS_KEY_THEME_CHANGED;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
-import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
@@ -104,9 +96,9 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
         subscribeToTopic();
+
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
             searchImg.setImageResource(R.drawable.ic_search_dark_theme);
@@ -117,10 +109,6 @@ public class MainActivity extends BaseActivity
             viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
         }
 
-        if (Prefs.getBoolean(PREFS_KEY_THEME_CHANGED, false)) {
-            Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, false);
-//            return;
-        }
         setUp();
     }
 
@@ -175,9 +163,6 @@ public class MainActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             drawer.openDrawer(GravityCompat.START);
-
-//            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-//            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         }
     }
 
@@ -285,7 +270,6 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -317,13 +301,6 @@ public class MainActivity extends BaseActivity
                 startActivity(new Intent(this, QuestionActivity.class));
                 return true;
             }
-//            case R.id.menu_theme: {
-//                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-//                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-//                changeTheme();
-//                return true;
-//            }
-                //TODO
             case R.id.menu_exit: {
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
@@ -361,13 +338,7 @@ public class MainActivity extends BaseActivity
         this.callbackPage = callback;
     }
 
-    public void changeTheme() {
-        Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
-        Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-        this.recreate();
-    }
-
-    private void subscribeToTopic(){
+    private void subscribeToTopic() {
         FirebaseMessaging.getInstance().subscribeToTopic("/topics/user-1")
                 .addOnCompleteListener(task -> {
                     String msg = "subscr";

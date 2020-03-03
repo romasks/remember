@@ -8,11 +8,11 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.utils.Utils;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class PopupAddEpitaph extends PopupWindow {
 
@@ -52,11 +52,12 @@ public class PopupAddEpitaph extends PopupWindow {
             });
         } else {
             saveButton.setOnClickListener(v -> {
-                if (text.getText().toString().trim().length()>0){
-                callback.saveEpitaph(text.getText().toString());
-                dismiss();
+                if (text.getText().toString().trim().length() > 0) {
+                    callback.saveEpitaph(text.getText().toString());
+                    dismiss();
+                } else {
+                    Toast.makeText(getContentView().getContext(), "Введите текст эпитафии", Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(getContentView().getContext(), "Введите текст эпитафии", Toast.LENGTH_SHORT).show();
             });
         }
     }

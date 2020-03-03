@@ -1,7 +1,5 @@
 package com.remember.app.ui.menu.settings;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.models.RequestSettings;
@@ -12,9 +10,8 @@ import java.io.File;
 
 import javax.inject.Singleton;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 @InjectViewState
@@ -84,8 +81,8 @@ public class SettingPresenter extends BasePresenter<SettingView> {
         return settingsLiveData;
     }
 
-    void updateSettingsData(String phone){
+    void updateSettingsData(String phone) {
         requestSettings
-                .phone(phone);
+            .phone(phone);
     }
 }

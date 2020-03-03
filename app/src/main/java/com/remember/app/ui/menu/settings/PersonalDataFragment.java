@@ -11,12 +11,6 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
@@ -35,6 +29,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -48,7 +46,6 @@ import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 public class PersonalDataFragment extends SettingsBaseFragment implements SettingView {
 
     private final String TAG = PersonalDataFragment.class.getSimpleName();
-    String formattedNumber = "";
 
     private SettingPresenter presenter;
 
@@ -77,6 +74,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     AppCompatRadioButton darkTheme;
 
     private ProgressDialog progressDialog;
+    private String formattedNumber = "";
 
     public PersonalDataFragment() {
     }
@@ -153,13 +151,13 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     }
 
     void onSaveClick() {
-            String phone = "+7" + formattedNumber;
-            presenter.getRequestSettings()
-                    .name(name).surname(surname).middleName(middleName)
-                    .nickname(nickname).location(location).phone(phone);
+        String phone = "+7" + formattedNumber;
+        presenter.getRequestSettings()
+                .name(name).surname(surname).middleName(middleName)
+                .nickname(nickname).location(location).phone(phone);
     }
 
-    String getPhone(){
+    String getPhone() {
         return "+7" + formattedNumber;
     }
 
@@ -179,7 +177,9 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         nickname.setText(responseSettings.getNickname());
         location.setText(responseSettings.getLocation());
         email.setText(responseSettings.getEmail());
+
         setupPrefixSample();
+
         if (getView() != null) {
             getView().invalidate();
         } else {
