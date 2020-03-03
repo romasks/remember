@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -39,6 +44,7 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -100,7 +106,7 @@ public class MainActivity extends BaseActivity
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-
+        subscribeToTopic();
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
             searchImg.setImageResource(R.drawable.ic_search_dark_theme);
@@ -359,5 +365,16 @@ public class MainActivity extends BaseActivity
         Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         this.recreate();
+    }
+
+    private void subscribeToTopic(){
+        FirebaseMessaging.getInstance().subscribeToTopic("/topics/user-1")
+                .addOnCompleteListener(task -> {
+                    String msg = "subscr";
+                    if (!task.isSuccessful()) {
+                        msg = "not subscr";
+                    }
+                    Log.d(TAG, msg);
+                });
     }
 }
