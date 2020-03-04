@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <ImageView
+                            android:id="@+id/sharedImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:src="@drawable/darth_vader"
+                            tools:ignore="ContentDescription" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/gradient" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/fio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center_horizontal"
+                    android:text="-"
+                    android:textColor="@color/brown"
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    tools:text="Фамилия Имя Отчество" />
+
+                <TextView
+                    android:id="@+id/dates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="-"
+                    android:textColor="@color/gray"
+                    android:textSize="14dp"
+                    tools:text="13.07.1952 - 28.01.2017" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:id="@+id/addPhotoToSliderBtn_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.73"
+                        android:gravity="center_vertical">
+
+                        <ImageButton
+                            android:id="@+id/addPhotoToSliderBtn"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginStart="15dp"
+                            android:background="@drawable/ic_plus"
+                            tools:ignore="ContentDescription" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.27">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_slider"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/slider_photo" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/memory_page_burial_place_title"
+                    android:textColor="#917b5a"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="305dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/panel_white"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="237dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="7dp"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="@string/city"
+                            android:textAlignment="center"
+                            android:textColor="@color/gray"
+                            android:textSize="14dp" />
+
+                        <TextView
+                            android:id="@+id/city"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:text="-"
+                            android:textColor="@color/gray"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            tools:text="Минск" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="20dp"
+                        android:baselineAligned="false"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:textAlignment="center"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/sector"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:layout_weight="1"
+                                android:maxLines="2"
+                                android:text="@string/memory_page_sector_text"
+                                android:textColor="@color/gray"
+                                android:textSize="14dp" />
+
+                            <TextView
+                                android:id="@+id/sector_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="12dp"
+                                android:text="-"
+                                android:textColor="@color/gray"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                tools:text="6" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:textAlignment="center"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/line"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="7dp"
+                                android:layout_weight="1"
+                                android:maxLines="2"
+                                android:text="@string/memory_page_row_text"
+                                android:textColor="@color/gray"
+                                android:textSize="14dp" />
+
+                            <TextView
+                                android:id="@+id/line_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="12dp"
+                                android:text="-"
+                                android:textColor="@color/gray"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                tools:text="12" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/grave"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="7dp"
+                                android:layout_weight="1"
+                                android:text="@string/grave_number"
+                                android:textAlignment="center"
+                                android:textColor="@color/gray"
+                                android:textSize="14dp" />
+
+                            <TextView
+                                android:id="@+id/grave_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="12dp"
+                                android:text="-"
+                                android:textColor="@color/gray"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                tools:text="325" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="7dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/cemetery"
+                            android:textColor="@color/gray"
+                            android:textSize="14dp" />
+
+                        <TextView
+                            android:id="@+id/crypt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|center_vertical"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:lines="3"
+                            android:maxLines="3"
+                            android:text="-"
+                            android:textAlignment="center"
+                            android:textColor="@color/gray"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            tools:text="Название кладбища" />
+
+                        <TextView
+                            android:id="@+id/description_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:paddingTop="5dp"
+                            android:text="@string/memory_page_show_description_text"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textColor="?android:attr/textColor"
+                    android:textSize="14dp"
+                    android:visibility="gone"
+                    tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
+
+                <Button
+                    android:id="@+id/map_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/button"
+                    android:text="@string/memory_page_button_show_on_map"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="40dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/shareVk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@mipmap/ic_vk" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_navbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="2dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/epitButton"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_detailed_candle_icon"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/add_us"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_plus_icon"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/eventsButton"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_calendar_icon"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text="@string/memory_page_bottom_navbar_epitaphs"
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="14dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text="@string/memory_page_bottom_navbar_add_order"
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="14dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:paddingEnd="4dp"
+                android:text="@string/memory_page_bottom_navbar_events"
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="14dp"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

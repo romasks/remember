@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fcfcfc</color>
+    <color name="colorPrimaryDark">#b1a28c</color>
+    <color name="colorAccent">#b1a28c</color>
+
+    <color name="brown">#917B5A</color>
+    <color name="light_brown">#b1a28c</color>
+    <color name="dark_gray">#444440</color>
+    <color name="gray">#8a8a8a</color>
+    <color name="app_bar">#fcfcfc</color>
+    <color name="notif_gray">#707070</color>
+
+    <color name="colorPrimaryBlack">#22211F</color>
+    <color name="colorWhiteDark">#E6E0E0</color>
+    <color name="colorBlackDark">#272624</color>
+
+</resources>

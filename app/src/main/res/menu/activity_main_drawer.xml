@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group android:id="@+id/group1">
+        <item
+            android:id="@+id/menu_cabinet"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_cabinet" />
+        <item
+            android:id="@+id/menu_gallery"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_gallery" />
+        <item
+            android:id="@+id/menu_memory_pages"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_memory_pages" />
+        <item
+            android:id="@+id/menu_event_calendar"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_event_calendar" />
+        <item
+            android:id="@+id/menu_notifications"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_notifications" />
+        <item
+            android:id="@+id/menu_settings"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_settings" />
+        <item
+            android:id="@+id/menu_questions"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_questions" />
+    </group>
+
+    <group android:id="@+id/group2">
+        <item
+            android:id="@+id/menu_theme"
+            android:textColor="?android:attr/textColor"
+            android:enabled="true"
+            android:title="@string/menu_theme"
+            app:actionLayout="@layout/layout_switch_theme"/>
+    </group>
+
+    <group android:id="@+id/group">
+        <item
+            android:id="@+id/menu_exit"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_exit" />
+    </group>
+
+</menu>

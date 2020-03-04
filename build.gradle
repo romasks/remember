@@ -1,0 +1,42 @@
+ext {
+    var = 'pomnyu$123'
+    storePassword = var
+    keyAlias = 'pomnyu'
+    storePassword = 'pomnyu$123'
+    var1 = keyAlias
+    var2 = keyAlias
+    keyPassword = 'pomnyu$123'
+}
+buildscript {
+    repositories {
+        google()
+
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
+
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'io.fabric.tools:gradle:1.31.2'
+        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+        maven {
+            name 'Sonatype SNAPSHOTs'
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
