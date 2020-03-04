@@ -30,7 +30,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         manifestPlaceholders = [
-                facebookAppId: "2249045548726393"
+                facebookAppId: "661338814675848"
         ]
     }
     buildTypes {
@@ -143,7 +143,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:1.7.25'
 
     // VK
-    implementation 'com.vk:androidsdk:1.6.9'
+    implementation 'com.vk:androidsdk:1.6.7'
     // OK
     implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
 

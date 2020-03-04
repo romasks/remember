@@ -144,7 +144,7 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
                 Prefs.putString(PREFS_KEY_ACCESS_TOKEN, socialUser.accessToken);
                 String[] str = socialUser.fullName.split(" ");
                 Prefs.putString(PREFS_KEY_NAME_USER, str[0]);
-                //Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
+                Prefs.putString(PREFS_KEY_AVATAR, socialUser.profilePictureUrl);
                 presenter.signInFacebook();
             }
 
