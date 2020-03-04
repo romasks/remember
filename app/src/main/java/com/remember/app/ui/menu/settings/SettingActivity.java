@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
+import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.utils.Utils;
@@ -24,6 +26,7 @@ import butterknife.OnClick;
 
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static java.security.AccessController.getContext;
 
 public class SettingActivity extends BaseActivity implements SettingView {
 
@@ -83,8 +86,13 @@ public class SettingActivity extends BaseActivity implements SettingView {
         setupViewPager(viewPager);
 
         saveButton.setOnClickListener(v -> {
-            getFragmentInViewPager(viewPager.getCurrentItem()).onSaveClick();
-            presenter.saveSettings();
+            if (getFragmentInViewPager(viewPager.getCurrentItem()).getPhone().length()>11){
+                presenter.updateSettingsData(getFragmentInViewPager(viewPager.getCurrentItem()).getPhone());
+                getFragmentInViewPager(viewPager.getCurrentItem()).onSaveClick();
+                presenter.saveSettings();
+            }
+            else
+                Toast.makeText(this, "Введите коректный номер", Toast.LENGTH_LONG).show();
         });
 
         TabLayout tabLayout = findViewById(R.id.tabs);

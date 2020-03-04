@@ -35,14 +35,14 @@
             android:title="@string/menu_questions" />
     </group>
 
-    <group android:id="@+id/group2">
+   <!-- <group android:id="@+id/group2">
         <item
             android:id="@+id/menu_theme"
             android:textColor="?android:attr/textColor"
             android:enabled="true"
             android:title="@string/menu_theme"
             app:actionLayout="@layout/layout_switch_theme"/>
-    </group>
+    </group> -->
 
     <group android:id="@+id/group">
         <item

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:hint="@string/text_epitaph"
-        android:maxLength="128"
+        android:maxLength="1024"
         android:textColor="?android:attr/textColor"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"

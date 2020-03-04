@@ -11,8 +11,16 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.pixplicity.easyprefs.library.Prefs;
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
+import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.utils.LoadingPopupUtils;
@@ -24,11 +32,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -42,6 +48,7 @@ import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 public class PersonalDataFragment extends SettingsBaseFragment implements SettingView {
 
     private final String TAG = PersonalDataFragment.class.getSimpleName();
+    String formattedNumber = "";
 
     private SettingPresenter presenter;
 
@@ -108,6 +115,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (presenter != null) {
+            presenter.getInfo();
             presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
         }
     }
@@ -145,9 +153,14 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     }
 
     void onSaveClick() {
-        presenter.getRequestSettings()
-                .name(name).surname(surname).middleName(middleName)
-                .nickname(nickname).location(location).phone(phone);
+            String phone = "+7" + formattedNumber;
+            presenter.getRequestSettings()
+                    .name(name).surname(surname).middleName(middleName)
+                    .nickname(nickname).location(location).phone(phone);
+    }
+
+    String getPhone(){
+        return "+7" + formattedNumber;
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
@@ -166,7 +179,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         nickname.setText(responseSettings.getNickname());
         location.setText(responseSettings.getLocation());
         email.setText(responseSettings.getEmail());
-
+        setupPrefixSample();
         if (getView() != null) {
             getView().invalidate();
         } else {
@@ -188,5 +201,25 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     public void onSavedImage(Object o) {
         Utils.showSnack(avatar, "Фото успешно сохранено");
         progressDialog.dismiss();
+    }
+
+    private void setupPrefixSample() {
+        final List<String> affineFormats = new ArrayList<>();
+        affineFormats.add("8 ([000]) [000]-[00]-[00]");
+
+        final MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(
+                phone,
+                "+7 ([000]) [000]-[00]-[00]",
+                affineFormats,
+                AffinityCalculationStrategy.PREFIX,
+                new MaskedTextChangedListener.ValueListener() {
+                    @Override
+                    public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue, @NonNull String formattedText) {
+                        formattedNumber = extractedValue.replace("(", "").replace(")", "").trim();
+                    }
+                }
+        );
+
+        phone.setHint(listener.placeholder());
     }
 }

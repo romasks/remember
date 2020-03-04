@@ -69,7 +69,7 @@ public class NotificationsFragment extends BaseFragment
         return fragment;
     }
 
-    private NotificationsFragment() {
+    public NotificationsFragment() {
     }
 
     @Override

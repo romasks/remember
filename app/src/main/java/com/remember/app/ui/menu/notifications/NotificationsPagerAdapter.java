@@ -14,7 +14,7 @@ public class NotificationsPagerAdapter extends FragmentStatePagerAdapter {
     private List<String> titleList = new ArrayList<>();
 
     NotificationsPagerAdapter(FragmentManager fm) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     void addFragment(Fragment fragment, String title){
