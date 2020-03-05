@@ -88,4 +88,6 @@ public class SettingPresenter extends BasePresenter<SettingView> {
         requestSettings
                 .phone(phone);
     }
+
+
 }

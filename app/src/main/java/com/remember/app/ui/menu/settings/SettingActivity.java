@@ -10,23 +10,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
-import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.utils.Utils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static java.security.AccessController.getContext;
 
 public class SettingActivity extends BaseActivity implements SettingView {
 
@@ -86,13 +85,16 @@ public class SettingActivity extends BaseActivity implements SettingView {
         setupViewPager(viewPager);
 
         saveButton.setOnClickListener(v -> {
-            if (getFragmentInViewPager(viewPager.getCurrentItem()).getPhone().length()>11){
-                presenter.updateSettingsData(getFragmentInViewPager(viewPager.getCurrentItem()).getPhone());
+            if (getFragmentInViewPager(viewPager.getCurrentItem()) instanceof NotificationFragment) {
                 getFragmentInViewPager(viewPager.getCurrentItem()).onSaveClick();
                 presenter.saveSettings();
+            } else if (getFragmentInViewPager(viewPager.getCurrentItem()) instanceof PersonalDataFragment) {
+                if (presenter.getRequestSettings().getPhone().equals("") || presenter.getRequestSettings().getPhone().length()>10) {
+                    getFragmentInViewPager(viewPager.getCurrentItem()).onSaveClick();
+                    presenter.saveSettings();
+                } else
+                    Toast.makeText(this, "Введите коректный номер", Toast.LENGTH_LONG).show();
             }
-            else
-                Toast.makeText(this, "Введите коректный номер", Toast.LENGTH_LONG).show();
         });
 
         TabLayout tabLayout = findViewById(R.id.tabs);

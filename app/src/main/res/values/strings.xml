@@ -173,5 +173,6 @@
     <string name="notifications_header_text">Уведомления</string>
     <string name="notifications_show_text">Показать</string>
     <string name="grid_show_more">Показать ещё</string>
+    <string name="_7_xxx_xxx_xx_xx">+7 (XXX) XXX-XX-XX</string>
 
 </resources>
