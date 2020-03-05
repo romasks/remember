@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="0.dp"
+        android:layout_height="0.dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar_layout"
@@ -13,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constrainedHeight="true"
@@ -58,8 +66,8 @@
                             android:id="@+id/image"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:src="@drawable/darth_vader"
-                            tools:ignore="ContentDescription" />
+                            tools:ignore="ContentDescription"
+                            tools:src="@drawable/darth_vader" />
                     </RelativeLayout>
 
                     <View
@@ -393,11 +401,27 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/shareVk"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:srcCompat="@mipmap/ic_vk" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/shareFb"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        app:srcCompat="@mipmap/ic_fc" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/shareOk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        app:srcCompat="@mipmap/ic_ok" />
+
                 </LinearLayout>
+
 
             </LinearLayout>
         </ScrollView>

@@ -1,8 +1,11 @@
 package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.jaychang.sa.utils.StringUtils;
 import com.remember.app.R;
 import com.remember.app.data.Constants;
@@ -38,9 +50,12 @@ import com.vk.sdk.dialogs.VKShareDialog;
 import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -122,6 +137,12 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.panel)
     LinearLayout panel;
 
+    @BindView(R.id.shareFb)
+    AppCompatImageView shareFbButton;
+
+    @BindView(R.id.login_button)
+    LoginButton loginButton;
+
     private PhotoDialog photoDialog;
     private MemoryPageModel memoryPageModel;
     private PhotoSliderAdapter photoSliderAdapter;
@@ -137,11 +158,58 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         return R.layout.activity_page;
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
 
+        loginButton.setPublishPermissions("manage_pages");
+        loginButton.setPublishPermissions("publish_pages");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+            }
+
+            @Override //magnetism.ru@gmail.com
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+
+            }
+        });
+        callbackManager = CallbackManager.Factory.create();
+
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        LoginManager.getInstance().logInWithPublishPermissions(
+                                getParent(),
+                                Arrays.asList("publish_actions"));//////////////
+                        ShareLinkContent content = new ShareLinkContent.Builder()
+                                .setContentTitle(getNameTitle(memoryPageModel))
+                                .setContentUrl(Uri.parse(PLAY_MARKET_LINK))
+                                .build();
+                        Log.e(TAG, "onSuccess: ");
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.e(TAG, "onCancel: ");
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Log.e(TAG, "onError: ");
+                    }
+                });
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             but_vk.setVisibility(View.GONE);
@@ -181,8 +249,12 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         super.onActivityResult(requestCode, resultCode, data);
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == Activity.RESULT_OK) {
-            assert result != null;
-            photoDialog.setUri(result.getUri());
+            //assert result != null;
+            if(result != null) {
+                photoDialog.setUri(result.getUri());
+            }else
+                Log.e(TAG,"RESULT IS NULL!!!");
+
             Log.i(TAG, "RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             assert result != null;
@@ -349,10 +421,39 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         if (token == null) {
             VKSdk.login(this, VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS);
             Utils.showSnack(image, "Необходимо авторизоваться через ВКонтакте");
+            sharePageToVk();
         } else {
             sharePageToVk();
         }
     }
+
+    @OnClick(R.id.shareFb)
+    public void shareFb() {
+        LoginFb();
+
+
+
+    }
+
+    @OnClick(R.id.shareOk)
+    public void shareOk() {
+
+    }
+    CallbackManager callbackManager = CallbackManager.Factory.create();
+
+    private void LoginFb(){
+
+
+
+
+
+       /* ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                .build();
+        Log.e(TAG, "sharePageToFb: ");*/
+    }
+
+
 
     private void sharePageToVk() {
         if (sharing == 1) {

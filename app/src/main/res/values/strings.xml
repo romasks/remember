@@ -174,4 +174,9 @@
     <string name="notifications_show_text">Показать</string>
     <string name="grid_show_more">Показать ещё</string>
 
+
+    <string name="facebook_app_id">661338814675848</string>
+    <string name="fb_login_protocol_scheme">fb661338814675848</string>
+
+
 </resources>

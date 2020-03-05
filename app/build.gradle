@@ -43,6 +43,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion = '29.0.0'
 }
 
 ext {
@@ -143,6 +144,8 @@ dependencies {
     implementation 'com.vk:androidsdk:1.6.7'
     // OK
     implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
+
+
 
     // Social auth
     implementation "com.jaychang:simpleauth:$simpleauthVersion"
