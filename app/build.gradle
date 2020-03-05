@@ -4,17 +4,13 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 android {
     signingConfigs {
-        config {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storePassword keystoreProperties['storePassword']
-            storeFile file(keystoreProperties['storeFile'])
+        release {
+            keyAlias 'pomnyu'
+            keyPassword 'pomnyu$123'
+            storePassword 'pomnyu$123'
+            storeFile file('keystore\\pomnyu.jks')
         }
     }
     compileSdkVersion 29
@@ -23,15 +19,16 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 76
-        versionName "1.4.91"
+        versionCode 77
+        versionName "1.4.92"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
         manifestPlaceholders = [
-                facebookAppId: "2249045548726393"
+                facebookAppId: "661338814675848"
         ]
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
@@ -144,7 +141,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:1.7.25'
 
     // VK
-    implementation 'com.vk:androidsdk:1.6.9'
+    implementation 'com.vk:androidsdk:1.6.7'
     // OK
     implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
 
