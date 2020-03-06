@@ -325,6 +325,8 @@ public class MainActivity extends BaseActivity
 //            }
                 //TODO
             case R.id.menu_exit: {
+                //TODO
+                unsubscribeToTopic();
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
                 finish();
@@ -368,11 +370,25 @@ public class MainActivity extends BaseActivity
     }
 
     private void subscribeToTopic(){
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/user-1")
+
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener(task -> {
                     String msg = "subscr";
                     if (!task.isSuccessful()) {
                         msg = "not subscr";
+                    }
+                    Log.d(TAG, msg);
+                });
+    }
+
+    private void unsubscribeToTopic(){
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+                .addOnCompleteListener(task -> {
+                    String msg = "unsubscr";
+                    if (!task.isSuccessful()) {
+                        msg = "not unsubscr";
                     }
                     Log.d(TAG, msg);
                 });

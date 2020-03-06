@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:maxLength="11"
-                    android:hint="7-XXX-XXX-XX-XX"
+                    android:hint="+7-XXX-XXX-XX-XX"
                     android:digits="1234567890+() -"
                     android:textSize="18dp" />
 
