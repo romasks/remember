@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -49,6 +51,7 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.http.Body;
 
 import static android.provider.MediaStore.Images.Media.getBitmap;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
@@ -68,6 +71,7 @@ import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
+
 
 public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback {
 
@@ -215,6 +219,17 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     @Override
     public void onErrorSave(Throwable throwable) {
         Utils.showSnack(image, "Ошибка сохранения");
+    }
+
+    @Override
+    public void onDeletePage(Object response) {
+       //onBackClick();
+        //TODO show ask dialog
+    }
+
+    @Override
+    public void onDeletePageError(Throwable throwable) {
+            Utils.showSnack(image, "Ошибка удаления, попробуйте позже");
     }
 
     @Override
@@ -376,6 +391,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
 
         if (isEdit) {
+            initToolbar();
             title.setText("Редактирование");
             saveButton.setText("Сохранить изменения");
             textViewImage.setText("Изменить фотографию");
@@ -517,5 +533,17 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         dialog.setMaxDate(new Date().getTime());
         dialog.show(getSupportFragmentManager(), "tag");
+    }
+
+    @OnClick(R.id.settings)
+    public void deletePage() {
+        int s = memoryPageModel.getId();
+        presenter.deletePage(s);
+        Log.d("TAG", "dd");
+    }
+
+    private void initToolbar(){
+        settings.setVisibility(View.VISIBLE);
+        settings.setImageResource(R.drawable.delete);
     }
 }

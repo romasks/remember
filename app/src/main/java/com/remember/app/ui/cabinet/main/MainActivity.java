@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        subscribeToTopic();
+
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
             searchImg.setImageResource(R.drawable.ic_search_dark_theme);
@@ -365,16 +365,5 @@ public class MainActivity extends BaseActivity
         Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         this.recreate();
-    }
-
-    private void subscribeToTopic(){
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/user-1")
-                .addOnCompleteListener(task -> {
-                    String msg = "subscr";
-                    if (!task.isSuccessful()) {
-                        msg = "not subscr";
-                    }
-                    Log.d(TAG, msg);
-                });
     }
 }
