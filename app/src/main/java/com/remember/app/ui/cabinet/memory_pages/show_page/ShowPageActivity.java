@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +27,10 @@ import com.facebook.login.widget.LoginButton;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.jaychang.sa.AuthCallback;
+import com.jaychang.sa.SocialUser;
 import com.jaychang.sa.utils.StringUtils;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.Constants;
 import com.remember.app.data.models.MemoryPageModel;
@@ -51,6 +55,7 @@ import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -78,6 +83,10 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
+import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
+import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
+import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
+import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
@@ -90,7 +99,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @InjectPresenter
     ShowPagePresenter presenter;
-
+    @BindView(R.id.share_LinLayout)     //Необходимы для сокрытия кнопок решаринга при закрытом или необоренной анкете.
+    LinearLayout share_LinLayout;       //
+    @BindView(R.id.mainLinLayout)       //
+    LinearLayout mainLinLayout;         //
     @BindView(R.id.fio)
     TextView name;
     @BindView(R.id.image)
@@ -164,7 +176,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-
+/*
         loginButton.setPublishPermissions("manage_pages");
         loginButton.setPublishPermissions("publish_pages");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -209,7 +221,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
                     public void onError(FacebookException exception) {
                         Log.e(TAG, "onError: ");
                     }
-                });
+                });*/
+
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             but_vk.setVisibility(View.GONE);
@@ -242,7 +255,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerSlider.setAdapter(photoSliderAdapter);
-    }
+
+}
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -286,6 +301,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @Override
     public void error(Throwable throwable) {
         Utils.showSnack(image, "Ошибка загрузки изображения");
+        mainLinLayout.removeView(share_LinLayout);
+
     }
 
     @Override
@@ -445,23 +462,39 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
 
 
+        List<String> scopes = Collections.singletonList("");
+        com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
+            @Override
+            public void onSuccess(SocialUser socialUser) {
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                        .build();
+            }
 
+            @Override
+            public void onError(Throwable error) {
 
-       /* ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                .build();
-        Log.e(TAG, "sharePageToFb: ");*/
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 
 
 
     private void sharePageToVk() {
+
         if (sharing == 1) {
             VKShareDialogBuilder builder = new VKShareDialogBuilder();
-            builder.setText(getNameTitle(memoryPageModel));
-            builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
-            builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню ", PLAY_MARKET_LINK);
-            builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+            builder.setText("ᅠ ");
+            //builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
+            final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+            builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню", generatedByIDLink);
+
+             builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
                 @Override
                 public void onVkShareComplete(int postId) {
                     Utils.showSnack(image, "Запись опубликована");
@@ -501,6 +534,19 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             initDate(memoryPageModel);
             initInfo(memoryPageModel);
             mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
+
+
+
+            if((memoryPageModel.getFlag() == null && memoryPageModel.getStatus() == null))
+                mainLinLayout.removeView(share_LinLayout);
+            else
+            if (!(memoryPageModel.getFlag().equals("true")  && memoryPageModel.getStatus().toString().equals("Одобрено"))){
+                mainLinLayout.removeView(share_LinLayout);
+                Log.e(TAG, "initAll: DELETED");
+            }
+
+            Log.e(TAG, "onCreateFLAG: "+memoryPageModel.getFlag());
+            Log.e(TAG, "onCreate:STATUS "+memoryPageModel.getStatus() );
         }
     }
 
@@ -523,6 +569,14 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
                 + " " + StringUtils.capitalize(memoryPageModel.getName())
                 + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         name.setText(result);
-        description.setText(memoryPageModel.getComment());
+        Log.e(TAG, "initTextName: "+memoryPageModel.getComment());
+            if(memoryPageModel.getComment().equals("")){
+                description.setVisibility(View.GONE);
+                descriptionTitle.setVisibility(View.GONE);
+            }else{
+            description.setText(memoryPageModel.getComment());
+                descriptionTitle.setVisibility(View.VISIBLE);
+            description.setVisibility(View.VISIBLE);
+            }
     }
 }
