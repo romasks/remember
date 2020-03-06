@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy;
@@ -48,7 +49,6 @@ import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 public class PersonalDataFragment extends SettingsBaseFragment implements SettingView {
 
     private final String TAG = PersonalDataFragment.class.getSimpleName();
-    String formattedNumber = "";
 
     private SettingPresenter presenter;
 
@@ -68,6 +68,8 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     AutoCompleteTextView email;
     @BindView(R.id.phone)
     AutoCompleteTextView phone;
+    @BindView(R.id.phoneLayout)
+    TextInputLayout phoneLayout;
 
     @BindView(R.id.rg_theme)
     RadioGroup rgTheme;
@@ -117,6 +119,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         if (presenter != null) {
             presenter.getInfo();
             presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
+            v();
         }
     }
 
@@ -153,14 +156,9 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     }
 
     void onSaveClick() {
-            String phone = "+7" + formattedNumber;
             presenter.getRequestSettings()
                     .name(name).surname(surname).middleName(middleName)
                     .nickname(nickname).location(location).phone(phone);
-    }
-
-    String getPhone(){
-        return "+7" + formattedNumber;
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
@@ -179,7 +177,6 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         nickname.setText(responseSettings.getNickname());
         location.setText(responseSettings.getLocation());
         email.setText(responseSettings.getEmail());
-        setupPrefixSample();
         if (getView() != null) {
             getView().invalidate();
         } else {
@@ -203,23 +200,12 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         progressDialog.dismiss();
     }
 
-    private void setupPrefixSample() {
-        final List<String> affineFormats = new ArrayList<>();
-        affineFormats.add("8 ([000]) [000]-[00]-[00]");
-
-        final MaskedTextChangedListener listener = MaskedTextChangedListener.Companion.installOn(
-                phone,
-                "+7 ([000]) [000]-[00]-[00]",
-                affineFormats,
-                AffinityCalculationStrategy.PREFIX,
-                new MaskedTextChangedListener.ValueListener() {
-                    @Override
-                    public void onTextChanged(boolean maskFilled, @NonNull final String extractedValue, @NonNull String formattedText) {
-                        formattedNumber = extractedValue.replace("(", "").replace(")", "").trim();
-                    }
-                }
-        );
-
-        phone.setHint(listener.placeholder());
+    private void v (){
+        phone.setOnFocusChangeListener((v, hasFocus) -> {
+            phoneLayout.setHint("Телефон");
+            if (!hasFocus && (phone.getText().length()==0)){
+                phone.setText(null);
+            }
+        });
     }
 }

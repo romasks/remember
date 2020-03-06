@@ -86,14 +86,9 @@ public class SettingActivity extends BaseActivity implements SettingView {
         setupViewPager(viewPager);
 
         saveButton.setOnClickListener(v -> {
-            if (getFragmentInViewPager(viewPager.getCurrentItem()).getPhone().length()>11){
-                presenter.updateSettingsData(getFragmentInViewPager(viewPager.getCurrentItem()).getPhone());
                 getFragmentInViewPager(viewPager.getCurrentItem()).onSaveClick();
                 presenter.saveSettings();
-            }
-            else
-                Toast.makeText(this, "Введите коректный номер", Toast.LENGTH_LONG).show();
-        });
+            });
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
