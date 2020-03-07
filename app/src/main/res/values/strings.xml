@@ -1,4 +1,14 @@
 <resources>
+
+    <!--mail-->
+    <string name="mailru_oauth_url">https://o2.mail.ru/login</string>
+    <string name="mailru_oauth_scope">userinfo</string>
+    <string name="mailru_oauth_client_id">be42602c4c314cd4aa1d049c63019997</string>
+    <string name="mailru_oauth_redirect_url">ritualapp://authorize</string>
+    <string name="mailru_oauth_network_error">There was a network error</string>
+    <string name="mailru_oauth_user_cancelled">Operation was cancelled</string>
+    <string name="mailru_oauth_user_denied">Access denied</string>
+
     <string name="app_name">Помню</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

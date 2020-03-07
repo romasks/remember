@@ -30,7 +30,9 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         manifestPlaceholders = [
-                facebookAppId: "661338814675848"
+                facebookAppId: "661338814675848",
+                'MailRuOAuthRedirectHost' : 'authorize',
+                'MailRuOAuthRedirectScheme' : 'ritualapp'
         ]
     }
     buildTypes {
@@ -144,8 +146,12 @@ dependencies {
 
     // VK
     implementation 'com.vk:androidsdk:1.6.7'
+
     // OK
     implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
+
+    // Mail
+    implementation ('ru.mail:auth-sdk-pub:11.3.0.28375')
 
     // Social auth
     implementation "com.jaychang:simpleauth:$simpleauthVersion"

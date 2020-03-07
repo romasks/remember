@@ -7,6 +7,7 @@ import com.remember.app.di.component.ApplicationComponent
 import com.remember.app.di.component.DaggerApplicationComponent
 import com.remember.app.di.module.ApplicationModule
 import com.vk.sdk.VKSdk
+import ru.mail.auth.sdk.MailRuAuthSdk
 
 class Remember : Application() {
 
@@ -17,6 +18,7 @@ class Remember : Application() {
     override fun onCreate() {
         super.onCreate()
         VKSdk.initialize(this)
+        MailRuAuthSdk.initialize(this)
         Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)
