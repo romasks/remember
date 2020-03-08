@@ -20,7 +20,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 77
-        versionName "1.4.95"
+        versionName "1.4.96"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

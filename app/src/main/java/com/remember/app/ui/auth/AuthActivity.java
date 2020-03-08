@@ -164,10 +164,13 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
 
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
+
         if (login.getText().toString().equals("")) {
             Utils.showSnack(login, getResources().getString(R.string.auth_enter_email));
+            logined = true;
         } else if (password.getText().toString().equals("")) {
             Utils.showSnack(login, getResources().getString(R.string.auth_enter_password));
+            logined = true;
         } else {
             try {
                 presenter.singInAuth(login.getText().toString(), password.getText().toString());

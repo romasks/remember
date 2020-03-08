@@ -107,19 +107,18 @@
         <activity
             android:name="ru.ok.android.sdk.OkAuthActivity"
             android:configChanges="orientation|screenSize"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
                     android:host="ok512000155578"
-                    android:scheme="okauth" />
+                    android:scheme="okauth"/>
             </intent-filter>
         </activity>
-
         <service
             android:name=".ui.service.FCMService"
             android:exported="false">

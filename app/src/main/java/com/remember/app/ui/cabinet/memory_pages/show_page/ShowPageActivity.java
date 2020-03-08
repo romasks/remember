@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.util.AttributeSet;
@@ -161,6 +162,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     LinearLayout addPhotoToSliderBtn_layout;
     @BindView(R.id.map_button)
     Button mapButton;
+    @BindView(R.id.arow_tv)
+    TextView arow_tv;
 
     @BindView(R.id.back_button)
     ImageView backImg;
@@ -363,10 +366,12 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
             descriptionTitle.setText(R.string.memory_page_show_description_text);
+            arow_tv.setText( " ꓦ");
         } else {
             description.setVisibility(View.VISIBLE);
             descriptionTitle.setText(R.string.memory_page_hide_description_text);
             scrollView.scrollTo(0, scrollView.getBottom() + 1500);
+            arow_tv.setText( " ꓥ");
         }
     }
 
@@ -431,15 +436,19 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.shareOk)
     public void shareOk() {
-        Odnoklassniki odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
+            Odnoklassniki odnoklassniki = Odnoklassniki.createInstance(this, "512000155578", "ED4051FB2B4EC9C1433BEF94");
         if(odnoklassniki.getMAccessToken()==null){
         odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);}
         postOk(odnoklassniki);
 
     }
 
-    private void postOk(Odnoklassniki odnoklassniki) {
-        odnoklassniki.performPosting(this,"{\"media\":[{\"type\":\"text\",\"text\":\"hello world!\"}]}",false,null);
+    private void postOk(Odnoklassniki odnoklassniki){
+        final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+        odnoklassniki.setMAccessToken("tkn10jGMF0EKID1wfBbyu37MvtO54JTrGLqGABytcvfAAl7OT6kLZLYIOv6k2AT2wr7Ko");
+        odnoklassniki.setMSessionSecretKey("c1e8ee51261c458ef614fb4d293abefe");
+        odnoklassniki.performPosting(this,"{\"media\":[{\"type\":\"text\",\"text\":\""+generatedByIDLink+"\"}]}",
+                false, null);
         Log.d(TAG, "shareOk: ЗАПОСТИЛОСЬ В ОК");
 
     }
