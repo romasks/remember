@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alphamovie.lib.AlphaMovieView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
@@ -294,6 +296,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 //                return true;
 //            }
             case R.id.menu_exit: {
+                unsubscribeToTopic();
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
                 finish();
@@ -385,5 +388,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     private void goToSettingsPage() {
         startActivity(new Intent(this, SettingActivity.class));
+    }
+
+    private void unsubscribeToTopic(){
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+                .addOnCompleteListener(task -> {
+                    String msg = "unsubscr";
+                    if (!task.isSuccessful()) {
+                        msg = "not unsubscr";
+                    }
+                    Log.d(TAG, msg);
+                });
     }
 }

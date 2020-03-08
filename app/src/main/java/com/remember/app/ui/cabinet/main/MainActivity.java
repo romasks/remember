@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-
+        subscribeToTopic();
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
             searchImg.setImageResource(R.drawable.ic_search_dark_theme);
@@ -325,6 +325,8 @@ public class MainActivity extends BaseActivity
 //            }
                 //TODO
             case R.id.menu_exit: {
+                //TODO
+                unsubscribeToTopic();
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
                 finish();
@@ -365,5 +367,29 @@ public class MainActivity extends BaseActivity
         Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         this.recreate();
+    }
+    private void subscribeToTopic(){
+
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+                .addOnCompleteListener(task -> {
+                    String msg = "subscr";
+                    if (!task.isSuccessful()) {
+                        msg = "not subscr";
+                    }
+                    Log.d(TAG, msg);
+                });
+    }
+
+    private void unsubscribeToTopic(){
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+                .addOnCompleteListener(task -> {
+                    String msg = "unsubscr";
+                    if (!task.isSuccessful()) {
+                        msg = "not unsubscr";
+                    }
+                    Log.d(TAG, msg);
+                });
     }
 }

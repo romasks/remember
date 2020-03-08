@@ -83,9 +83,4 @@ public class SettingPresenter extends BasePresenter<SettingView> {
     MutableLiveData<ResponseSettings> getSettingsLiveData() {
         return settingsLiveData;
     }
-
-    void updateSettingsData(String phone){
-        requestSettings
-                .phone(phone);
-    }
 }
