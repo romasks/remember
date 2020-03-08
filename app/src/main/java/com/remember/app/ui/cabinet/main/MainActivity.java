@@ -107,6 +107,7 @@ public class MainActivity extends BaseActivity
 
         super.onCreate(savedInstanceState);
         subscribeToTopic();
+        //TODO в настройках есть "вкл уведомления" узнать как должно работать
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
             searchImg.setImageResource(R.drawable.ic_search_dark_theme);
