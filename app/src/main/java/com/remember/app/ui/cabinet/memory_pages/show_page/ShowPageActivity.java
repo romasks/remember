@@ -170,8 +170,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.shareFb)
     AppCompatImageView shareFbButton;
 
-    @BindView(R.id.login_button)
-    LoginButton loginButton;
+
 
     private PhotoDialog photoDialog;
     private MemoryPageModel memoryPageModel;
@@ -531,14 +530,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
                 + " " + StringUtils.capitalize(memoryPageModel.getName())
                 + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         name.setText(result);
-        Log.e(TAG, "initTextName: "+memoryPageModel.getComment());
-            if(memoryPageModel.getComment().equals("")){
-                description.setVisibility(View.GONE);
-                descriptionTitle.setVisibility(View.GONE);
-            }else{
-            description.setText(memoryPageModel.getComment());
-                descriptionTitle.setVisibility(View.VISIBLE);
-            description.setVisibility(View.VISIBLE);
-            }
+        Log.d(TAG, "initTextName: " + memoryPageModel.getComment());
+        if (memoryPageModel.getComment().equals(""))
+            descriptionTitle.setVisibility(View.GONE);
+        description.setText(memoryPageModel.getComment());
     }
 }
