@@ -20,7 +20,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 77
-        versionName "1.4.94"
+        versionName "1.4.95"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -169,6 +169,8 @@ dependencies {
 
     // phone mask
     implementation 'com.redmadrobot:input-mask-android:5.0.0'
+    implementation fileTree(dir: 'C:\\Users\\GOD_PC\\AndroidStudioProjects\\Android-Simple-Social-Sharing\\Jar', include: ['*.aar', '*.jar'], exclude: [])
+    implementation files('C:\\Users\\GOD_PC\\AndroidStudioProjects\\Android-Simple-Social-Sharing\\Jar\\simple-social-sharing-1.0.1.jar')
 }
 
 repositories {

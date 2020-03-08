@@ -74,6 +74,8 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
     private ProgressDialog popupDialog;
     private boolean isSuccessRestored = false;
 
+    public static boolean logined = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,8 +85,8 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         if (BuildConfig.DEBUG) {
-//            login.setText("admin@ya.ru");
-//            password.setText("11111111");
+           //login.setText("admin@ya.ru");
+         //  password.setText("11111111");
         }
 
         /*PackageInfo info;
@@ -169,10 +171,12 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         } else {
             try {
                 presenter.singInAuth(login.getText().toString(), password.getText().toString());
+                logined = true;
             } catch (Exception e) {
                 Utils.showSnack(login, getResources().getString(R.string.auth_error_data_enter));
             }
-        }
+
+    }
     }
 
     @Override

@@ -5,12 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="0.dp"
-        android:layout_height="0.dp"
-        android:layout_gravity="center_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+
 
     <include
         android:id="@+id/app_bar"
@@ -409,24 +404,26 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/shareFb"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@mipmap/ic_fc" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/shareVk"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:srcCompat="@mipmap/ic_vk" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/shareFb"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        app:srcCompat="@mipmap/ic_fc" />
+
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/shareOk"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0"
+                        android:layout_weight="1"
                         app:srcCompat="@mipmap/ic_ok" />
 
                 </LinearLayout>

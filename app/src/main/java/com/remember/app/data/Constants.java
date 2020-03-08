@@ -8,6 +8,7 @@ public class Constants {
 //    public static final String BASE_SERVICE_URL = "http://pomnyu.ru";
     public static final String PLAY_MARKET_LINK = "https://play.google.com/store/apps/details?id=com.remember.app";
    // public static final String SIMPLE_PAGE_LINK = "http://pomnyu.ru/page/"; //Для определения адресса конкретной анкеты, для репоста
+    public static final String FACEBOOK_APP_ID = "661338814675848";
 
     public static final String PREFS_KEY_SETTINGS_SHOW_NOTIFICATIONS = "SETTINGS_SHOW_NOTIFICATIONS";
     public static final String PREFS_KEY_IS_LAUNCH_MODE = "IS_LAUNCH_MODE";

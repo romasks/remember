@@ -115,7 +115,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="ok1278579968"
+                    android:host="ok512000155578"
                     android:scheme="okauth" />
             </intent-filter>
         </activity>
@@ -135,7 +135,9 @@
             <category android:name="android.intent.category.DEFAULT" /> <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="@string/fb_login_protocol_scheme" /> </intent-filter>
         </activity>
-
+        <activity android:name="ru.ok.android.sdk.OkPostingActivity"/>
+        <activity android:name="ru.ok.android.sdk.OkAppInviteActivity"/>
+        <activity android:name="ru.ok.android.sdk.OkAppSuggestActivity"/>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

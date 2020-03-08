@@ -18,9 +18,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -29,7 +31,10 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
+import com.jaychang.sa.facebook.FacebookAuthActivity;
 import com.jaychang.sa.utils.StringUtils;
+import com.nostra13.socialsharing.common.AuthListener;
+import com.nostra13.socialsharing.facebook.FacebookFacade;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.Constants;
@@ -65,9 +70,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import ru.ok.android.sdk.OKRestHelper;
+import ru.ok.android.sdk.Odnoklassniki;
+import ru.ok.android.sdk.OkAuthListener;
+import ru.ok.android.sdk.OkListener;
+import ru.ok.android.sdk.util.OkAuthType;
+import ru.ok.android.sdk.util.OkScope;
 
+import static android.provider.UserDictionary.Words.APP_ID;
 import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
@@ -75,6 +91,7 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
 import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
+import static com.remember.app.data.Constants.FACEBOOK_APP_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
@@ -88,6 +105,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.auth.AuthActivity.logined;
 import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
@@ -165,6 +183,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     private int id = 0;
     private int sharing = 0;
 
+    private static final String APP_ID = "512000155578";
+    private static final String APP_KEY = "CLLQFHJGDIHBABABA";
+    private static final String REDIRECT_URL = "okauth://ok512000155578";
+
     @Override
     protected int getContentView() {
         return R.layout.activity_page;
@@ -176,52 +198,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-/*
-        loginButton.setPublishPermissions("manage_pages");
-        loginButton.setPublishPermissions("publish_pages");
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-            }
-
-            @Override //magnetism.ru@gmail.com
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-
-            }
-        });
-        callbackManager = CallbackManager.Factory.create();
-
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        LoginManager.getInstance().logInWithPublishPermissions(
-                                getParent(),
-                                Arrays.asList("publish_actions"));//////////////
-                        ShareLinkContent content = new ShareLinkContent.Builder()
-                                .setContentTitle(getNameTitle(memoryPageModel))
-                                .setContentUrl(Uri.parse(PLAY_MARKET_LINK))
-                                .build();
-                        Log.e(TAG, "onSuccess: ");
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Log.e(TAG, "onCancel: ");
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        Log.e(TAG, "onError: ");
-                    }
-                });*/
 
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
@@ -446,52 +422,38 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.shareFb)
     public void shareFb() {
-        LoginFb();
+        final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
 
-
-
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(generatedByIDLink))
+                .build();
+        ShareDialog.show(this,content);
     }
 
     @OnClick(R.id.shareOk)
     public void shareOk() {
+        Odnoklassniki odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
+        if(odnoklassniki.getMAccessToken()==null){
+        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);}
+        postOk(odnoklassniki);
 
     }
-    CallbackManager callbackManager = CallbackManager.Factory.create();
 
-    private void LoginFb(){
+    private void postOk(Odnoklassniki odnoklassniki) {
+        odnoklassniki.performPosting(this,"{\"media\":[{\"type\":\"text\",\"text\":\"hello world!\"}]}",false,null);
+        Log.d(TAG, "shareOk: ЗАПОСТИЛОСЬ В ОК");
 
-
-
-        List<String> scopes = Collections.singletonList("");
-        com.jaychang.sa.facebook.SimpleAuth.connectFacebook(scopes, new AuthCallback() {
-            @Override
-            public void onSuccess(SocialUser socialUser) {
-                ShareLinkContent content = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                        .build();
-            }
-
-            @Override
-            public void onError(Throwable error) {
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
     }
 
 
-
-    private void sharePageToVk() {
+    private void sharePageToVk(){
 
         if (sharing == 1) {
             VKShareDialogBuilder builder = new VKShareDialogBuilder();
             builder.setText("ᅠ ");
             //builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
             final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+
             builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню", generatedByIDLink);
 
              builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
@@ -514,7 +476,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         }
     }
 
-    private String getNameTitle(MemoryPageModel memoryPageModel) {
+    /*private String getNameTitle(MemoryPageModel memoryPageModel) {
         String result = "Памятная страница."
                 + " " + StringUtils.capitalize(memoryPageModel.getSecondName())
                 + " " + StringUtils.capitalize(memoryPageModel.getName())
@@ -523,7 +485,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
                 + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
         return result + ". " + textDate;
     }
-
+*/
     private void initAll() {
         if (memoryPageModel != null) {
             if (!afterSave) {
@@ -537,7 +499,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
 
 
-            if((memoryPageModel.getFlag() == null && memoryPageModel.getStatus() == null))
+            if((memoryPageModel.getFlag() == null && memoryPageModel.getStatus() == null)|| !logined)
                 mainLinLayout.removeView(share_LinLayout);
             else
             if (!(memoryPageModel.getFlag().equals("true")  && memoryPageModel.getStatus().toString().equals("Одобрено"))){
