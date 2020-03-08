@@ -29,10 +29,12 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.DateUtils;
+import com.remember.app.ui.utils.DeletePageDialog;
 import com.remember.app.ui.utils.FileUtils;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
@@ -73,7 +75,7 @@ import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
 
-public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback {
+public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback, DeletePageDialog.Callback {
 
     private static final String TAG = NewMemoryPageActivity.class.getSimpleName();
 
@@ -223,13 +225,22 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @Override
     public void onDeletePage(Object response) {
-       //onBackClick();
-        //TODO show ask dialog
+        Toast.makeText(getApplicationContext(),"Страница удалена", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override
     public void onDeletePageError(Throwable throwable) {
             Utils.showSnack(image, "Ошибка удаления, попробуйте позже");
+    }
+
+    public void showDeleteDialog() {
+        DeletePageDialog myDialogFragment = new DeletePageDialog();
+        myDialogFragment.setCallback(this);
+        myDialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
     }
 
     @Override
@@ -537,13 +548,18 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @OnClick(R.id.settings)
     public void deletePage() {
-        int s = memoryPageModel.getId();
-        presenter.deletePage(s);
-        Log.d("TAG", "dd");
+        showDeleteDialog();
     }
 
     private void initToolbar(){
         settings.setVisibility(View.VISIBLE);
         settings.setImageResource(R.drawable.delete);
+    }
+
+    @Override
+    public void onDeletePage() {
+        int s = memoryPageModel.getId();
+        presenter.deletePage(s);
+        Log.d("TAG", "dd");
     }
 }
