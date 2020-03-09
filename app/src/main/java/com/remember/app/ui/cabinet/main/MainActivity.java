@@ -55,6 +55,7 @@ import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 import static com.remember.app.ui.utils.LoadingPopupUtils.setLoadingDialog;
+import static com.remember.app.ui.auth.AuthActivity.logined;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
@@ -98,6 +99,7 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
+        logined = true;
         subscribeToTopic();
 
         if (Utils.isThemeDark()) {
@@ -303,6 +305,8 @@ public class MainActivity extends BaseActivity
                 return true;
             }
             case R.id.menu_exit: {
+                // TODO
+                unsubscribeToTopic();
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
                 finish();
@@ -341,11 +345,24 @@ public class MainActivity extends BaseActivity
     }
 
     private void subscribeToTopic() {
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/user-1")
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener(task -> {
                     String msg = "subscr";
                     if (!task.isSuccessful()) {
                         msg = "not subscr";
+                    }
+                    Log.d(TAG, msg);
+                });
+    }
+
+    private void unsubscribeToTopic() {
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+                .addOnCompleteListener(task -> {
+                    String msg = "unsubscr";
+                    if (!task.isSuccessful()) {
+                        msg = "not unsubscr";
                     }
                     Log.d(TAG, msg);
                 });

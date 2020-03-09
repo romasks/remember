@@ -429,4 +429,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
                     .compose(rxSchedulers.applySchedulers());
         }
     }
+
+    @Override
+    public Observable<Object> deletePage(Integer id){
+        return apiMethods.deletePage("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
 }

@@ -249,6 +249,9 @@ public interface ApiMethods {
     @POST("epit/remove/{id}")
     Observable<Object> deleteEpitaph(@Header("Authorization") String token, @Path("id") Integer id);
 
+    @GET("page/delete/{id}")
+    Observable<Object> deletePage(@Header("Authorization") String token, @Path("id") Integer id);
+
     @GET("poisk/page")
     Observable<List<MemoryPageModel>> searchPageAllDead(@Query("name") String name,
                                                         @Query("secondname") String secondName,

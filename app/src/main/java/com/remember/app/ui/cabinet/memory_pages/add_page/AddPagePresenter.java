@@ -45,4 +45,14 @@ public class AddPagePresenter extends BasePresenter<AddPageView> {
             );
         unsubscribeOnDestroy(subscription);
     }
+
+    void deletePage(Integer id){
+        if (isOffline()) return;
+        Disposable subscription = serviceNetwork.deletePage(id)
+                .subscribe(
+                        getViewState()::onDeletePage,
+                        getViewState()::onDeletePageError
+                );
+        unsubscribeOnDestroy(subscription);
+    }
 }

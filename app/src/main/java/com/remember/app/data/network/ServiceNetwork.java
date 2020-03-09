@@ -108,4 +108,6 @@ public interface ServiceNetwork {
     Observable<Object> savePhoto(File imageFile, String string, Integer id);
 
     Observable<List<ResponseImagesSlider>> getImagesSlider(Integer id);
+
+    Observable<Object> deletePage(Integer id);
 }

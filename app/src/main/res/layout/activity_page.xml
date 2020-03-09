@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar_layout"
@@ -13,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constrainedHeight="true"
@@ -31,6 +34,7 @@
             android:layout_marginRight="8dp">
 
             <LinearLayout
+                android:id="@+id/mainLinLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -152,7 +156,7 @@
                 <LinearLayout
                     android:id="@+id/panel"
                     android:layout_width="match_parent"
-                    android:layout_height="305dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/panel_white"
@@ -313,7 +317,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
@@ -345,31 +349,58 @@
                             android:textStyle="bold"
                             tools:text="Название кладбища" />
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/description_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:paddingTop="5dp"
+                                android:text="@string/memory_page_show_description_text"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="18dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/arow_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text=" ꓦ"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/description_title"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <TextView
-                            android:id="@+id/description_title"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/description"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:layout_weight="1"
-                            android:paddingTop="5dp"
-                            android:text="@string/memory_page_show_description_text"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="18dp" />
+                            android:gravity="center|center_vertical"
+                            android:text="йцуййцуйцуйцу"
+                            android:textColor="?android:attr/textColor"
+                            android:textSize="14dp"
+                            android:visibility="gone"
+                            tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
+
 
                     </LinearLayout>
-                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:textColor="?android:attr/textColor"
-                    android:textSize="14dp"
-                    android:visibility="gone"
-                    tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/map_button"
@@ -385,6 +416,7 @@
                     android:textSize="18dp" />
 
                 <LinearLayout
+                    android:id="@+id/share_LinLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -392,12 +424,29 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/shareFb"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@mipmap/ic_fc" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/shareVk"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:srcCompat="@mipmap/ic_vk" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/shareOk"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="0"
+                        app:srcCompat="@mipmap/ic_ok" />
+
                 </LinearLayout>
+
 
             </LinearLayout>
         </ScrollView>
