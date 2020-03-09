@@ -35,11 +35,6 @@ public class StyleSettingsFragment extends SettingsBaseFragment {
 
     }
 
-    @Override
-    String getPhone() {
-        return null;
-    }
-
     @OnClick(R.id.change_theme)
     void onChangeTheme() {
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));

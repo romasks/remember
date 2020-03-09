@@ -1,13 +1,9 @@
 package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,24 +15,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.jaychang.sa.AuthCallback;
-import com.jaychang.sa.SocialUser;
-import com.jaychang.sa.facebook.FacebookAuthActivity;
 import com.jaychang.sa.utils.StringUtils;
-import com.nostra13.socialsharing.common.AuthListener;
-import com.nostra13.socialsharing.facebook.FacebookFacade;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.Constants;
 import com.remember.app.data.models.MemoryPageModel;
@@ -54,37 +35,24 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.photo.VKImageParameters;
-import com.vk.sdk.api.photo.VKUploadImage;
 import com.vk.sdk.dialogs.VKShareDialog;
 import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import ru.ok.android.sdk.OKRestHelper;
 import ru.ok.android.sdk.Odnoklassniki;
-import ru.ok.android.sdk.OkAuthListener;
-import ru.ok.android.sdk.OkListener;
 import ru.ok.android.sdk.util.OkAuthType;
 import ru.ok.android.sdk.util.OkScope;
 
-import static android.provider.UserDictionary.Words.APP_ID;
 import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
@@ -92,7 +60,6 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
 import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
-import static com.remember.app.data.Constants.FACEBOOK_APP_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
@@ -100,14 +67,8 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
-import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
-import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
-import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
-import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
-import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.auth.AuthActivity.logined;
-import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.StringUtils.getStringFromField;
@@ -118,10 +79,13 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @InjectPresenter
     ShowPagePresenter presenter;
-    @BindView(R.id.share_LinLayout)     //Необходимы для сокрытия кнопок решаринга при закрытом или необоренной анкете.
-    LinearLayout share_LinLayout;       //
-    @BindView(R.id.mainLinLayout)       //
-    LinearLayout mainLinLayout;         //
+
+    // Необходимы для сокрытия кнопок решаринга при закрытом или необоренной анкете
+    @BindView(R.id.share_LinLayout)
+    LinearLayout share_LinLayout;
+    @BindView(R.id.mainLinLayout)
+    LinearLayout mainLinLayout;
+
     @BindView(R.id.fio)
     TextView name;
     @BindView(R.id.image)
@@ -162,8 +126,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     LinearLayout addPhotoToSliderBtn_layout;
     @BindView(R.id.map_button)
     Button mapButton;
-    @BindView(R.id.arow_tv)
-    TextView arow_tv;
+    @BindView(R.id.arrow_tv)
+    TextView arrow_tv;
 
     @BindView(R.id.back_button)
     ImageView backImg;
@@ -172,7 +136,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @BindView(R.id.shareFb)
     AppCompatImageView shareFbButton;
-
 
 
     private PhotoDialog photoDialog;
@@ -193,7 +156,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     protected int getContentView() {
         return R.layout.activity_page;
     }
-
 
 
     @Override
@@ -233,8 +195,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerSlider.setAdapter(photoSliderAdapter);
-
-}
+    }
 
 
     @Override
@@ -242,12 +203,11 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         super.onActivityResult(requestCode, resultCode, data);
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == Activity.RESULT_OK) {
-            //assert result != null;
-            if(result != null) {
+            if (result != null) {
                 photoDialog.setUri(result.getUri());
-            }else
-                Log.e(TAG,"RESULT IS NULL!!!");
-
+            } else {
+                Log.e(TAG, "RESULT IS NULL!!!");
+            }
             Log.i(TAG, "RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             assert result != null;
@@ -366,12 +326,12 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
             descriptionTitle.setText(R.string.memory_page_show_description_text);
-            arow_tv.setText( " ꓦ");
+            arrow_tv.setText(" ꓦ");
         } else {
             description.setVisibility(View.VISIBLE);
             descriptionTitle.setText(R.string.memory_page_hide_description_text);
             scrollView.scrollTo(0, scrollView.getBottom() + 1500);
-            arow_tv.setText( " ꓥ");
+            arrow_tv.setText(" ꓥ");
         }
     }
 
@@ -426,45 +386,48 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.shareFb)
     public void shareFb() {
-        final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+        // Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+        final String generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel.getId().toString();
 
         ShareLinkContent content = new ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse(generatedByIDLink))
                 .build();
-        ShareDialog.show(this,content);
+        ShareDialog.show(this, content);
     }
 
     @OnClick(R.id.shareOk)
     public void shareOk() {
-            Odnoklassniki odnoklassniki = Odnoklassniki.createInstance(this, "512000155578", "ED4051FB2B4EC9C1433BEF94");
-        if(odnoklassniki.getMAccessToken()==null){
-        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);}
+        Odnoklassniki odnoklassniki = Odnoklassniki.createInstance(this, "512000155578", "ED4051FB2B4EC9C1433BEF94");
+        if (odnoklassniki.getMAccessToken() == null) {
+            odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);
+        }
         postOk(odnoklassniki);
-
     }
 
-    private void postOk(Odnoklassniki odnoklassniki){
-        final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+    private void postOk(Odnoklassniki odnoklassniki) {
+        // Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+        final String generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel.getId().toString();
+
         odnoklassniki.setMAccessToken("tkn10jGMF0EKID1wfBbyu37MvtO54JTrGLqGABytcvfAAl7OT6kLZLYIOv6k2AT2wr7Ko");
         odnoklassniki.setMSessionSecretKey("c1e8ee51261c458ef614fb4d293abefe");
-        odnoklassniki.performPosting(this,"{\"media\":[{\"type\":\"text\",\"text\":\""+generatedByIDLink+"\"}]}",
+        odnoklassniki.performPosting(this, "{\"media\":[{\"type\":\"text\",\"text\":\"" + generatedByIDLink + "\"}]}",
                 false, null);
         Log.d(TAG, "shareOk: ЗАПОСТИЛОСЬ В ОК");
-
     }
 
 
-    private void sharePageToVk(){
-
+    private void sharePageToVk() {
         if (sharing == 1) {
             VKShareDialogBuilder builder = new VKShareDialogBuilder();
             builder.setText("ᅠ ");
-            //builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
-            final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+            // builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
+
+            // Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+            final String generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel.getId().toString();
 
             builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню", generatedByIDLink);
 
-             builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+            builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
                 @Override
                 public void onVkShareComplete(int postId) {
                     Utils.showSnack(image, "Запись опубликована");
@@ -492,8 +455,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
                 + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
         return result + ". " + textDate;
-    }
-*/
+    }*/
+
     private void initAll() {
         if (memoryPageModel != null) {
             if (!afterSave) {
@@ -505,18 +468,15 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             initInfo(memoryPageModel);
             mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
 
-
-
-            if((memoryPageModel.getFlag() == null && memoryPageModel.getStatus() == null)|| !logined)
+            if ((memoryPageModel.getFlag() == null && memoryPageModel.getStatus() == null) || !logined)
                 mainLinLayout.removeView(share_LinLayout);
-            else
-            if (!(memoryPageModel.getFlag().equals("true")  && memoryPageModel.getStatus().toString().equals("Одобрено"))){
+            else if (!(memoryPageModel.getFlag().equals("true") && memoryPageModel.getStatus().toString().equals("Одобрено"))) {
                 mainLinLayout.removeView(share_LinLayout);
                 Log.e(TAG, "initAll: DELETED");
             }
 
-            Log.e(TAG, "onCreateFLAG: "+memoryPageModel.getFlag());
-            Log.e(TAG, "onCreate:STATUS "+memoryPageModel.getStatus() );
+            Log.e(TAG, "onCreateFLAG: " + memoryPageModel.getFlag());
+            Log.e(TAG, "onCreate:STATUS " + memoryPageModel.getStatus());
         }
     }
 
