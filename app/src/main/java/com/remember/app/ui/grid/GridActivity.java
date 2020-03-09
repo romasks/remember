@@ -369,6 +369,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         findViewById(R.id.app_bar_grid_layout).setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
         signInButton.setVisibility(View.VISIBLE);
+
     }
 
     public void changeTheme() {

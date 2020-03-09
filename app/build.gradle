@@ -20,7 +20,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 77
-        versionName "1.4.92"
+        versionName "1.4.96"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -43,6 +43,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion = '29.0.0'
 }
 
 ext {
@@ -144,6 +145,8 @@ dependencies {
     // OK
     implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
 
+
+
     // Social auth
     implementation "com.jaychang:simpleauth:$simpleauthVersion"
     implementation "com.jaychang:simpleauth-facebook:$simpleauthVersion"
@@ -166,6 +169,8 @@ dependencies {
 
     // phone mask
     implementation 'com.redmadrobot:input-mask-android:5.0.0'
+    implementation fileTree(dir: 'C:\\Users\\GOD_PC\\AndroidStudioProjects\\Android-Simple-Social-Sharing\\Jar', include: ['*.aar', '*.jar'], exclude: [])
+    implementation files('C:\\Users\\GOD_PC\\AndroidStudioProjects\\Android-Simple-Social-Sharing\\Jar\\simple-social-sharing-1.0.1.jar')
 }
 
 repositories {
