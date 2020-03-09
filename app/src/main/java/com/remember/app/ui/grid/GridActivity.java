@@ -13,6 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alphamovie.lib.AlphaMovieView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
@@ -37,11 +43,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -87,6 +88,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private ImageAdapter imageAdapter;
 
     private int pageNumber = 1;
+    private boolean isClickLocked = true;
     private List<MemoryPageModel> allMemoryPageModels = new ArrayList<>();
 
     @Override
@@ -99,6 +101,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
+
+        findViewById(R.id.app_bar_grid_layout).setClickable(!isClickLocked);
+        signInButton.setClickable(!isClickLocked);
 
         setUpRecycler();
 
@@ -224,11 +229,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void openPage(MemoryPageModel memoryPageModel) {
-        Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra(INTENT_EXTRA_PERSON, memoryPageModel);
-        intent.putExtra(INTENT_EXTRA_IS_LIST, true);
-        intent.putExtra(INTENT_EXTRA_SHOW, true);
-        startActivity(intent);
+        if (!isClickLocked) {
+            Intent intent = new Intent(this, ShowPageActivity.class);
+            intent.putExtra(INTENT_EXTRA_PERSON, memoryPageModel);
+            intent.putExtra(INTENT_EXTRA_IS_LIST, true);
+            intent.putExtra(INTENT_EXTRA_SHOW, true);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -343,9 +350,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     private void showMainContent() {
+        isClickLocked = false;
         findViewById(R.id.app_bar_grid_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.app_bar_grid_layout).setClickable(!isClickLocked);
         recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setClickable(!isClickLocked);
         signInButton.setVisibility(View.VISIBLE);
+        signInButton.setClickable(!isClickLocked);
     }
 
     @Override
