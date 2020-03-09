@@ -1,5 +1,7 @@
 package com.remember.app.ui.menu.settings;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
 import com.remember.app.data.models.RequestSettings;
@@ -10,7 +12,6 @@ import java.io.File;
 
 import javax.inject.Singleton;
 
-import androidx.lifecycle.MutableLiveData;
 import io.reactivex.disposables.Disposable;
 
 @Singleton

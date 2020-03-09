@@ -1,5 +1,6 @@
 package com.remember.app.ui.menu.settings;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,15 +21,12 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.utils.Utils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.remember.app.data.Constants.INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.ui.utils.LoadingPopupUtils.setLoadingDialog;
 
 public class SettingActivity extends BaseActivity implements SettingView {
 
@@ -46,12 +44,17 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @BindView(R.id.settings)
     ImageView settings;
 
+    private ProgressDialog progressDialog;
     private ViewPager viewPager;
+
+    private int starterPagerState = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
+
+        progressDialog = setLoadingDialog(this);
 
         title.setText(R.string.settings_header_text);
         settings.setVisibility(View.GONE);
@@ -67,12 +70,10 @@ public class SettingActivity extends BaseActivity implements SettingView {
         } else {
             verifyStoragePermissions(this);
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //presenter.getInfo();
+        if (savedInstanceState == null) {
+            presenter.getInfo();
+        }
     }
 
     private void setUp() {
@@ -118,11 +119,11 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     private void setupViewPager(ViewPager viewPager) {
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
-        adapter.addFragment(new PersonalDataFragment(presenter), "Личные данные");
+        adapter.addFragment(new PersonalDataFragment(presenter, progressDialog), "Личные данные");
         adapter.addFragment(new NotificationFragment(presenter), "Уведомления");
-        adapter.addFragment(new StyleSettingsFragment(presenter), "Оформление");
+        adapter.addFragment(new StyleSettingsFragment(), "Оформление");
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(getIntent().getIntExtra(INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE, 0));
+        viewPager.setCurrentItem(starterPagerState);
     }
 
     private SettingsBaseFragment getFragmentInViewPager(int position) {
@@ -143,13 +144,12 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Override
     public void onSavedImage(Object o) {
-        ((PersonalDataFragment) ((FragmentPager) viewPager.getAdapter()).getItem(0)).onSavedImage(o);
+        Utils.showSnack(saveButton, "Фото успешно сохранено");
+        progressDialog.dismiss();
     }
 
     public void recreateSettings() {
-        finish();
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra(INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE, 2);
-        startActivity(intent);
+        starterPagerState = 2;
+        recreate();
     }
 }

@@ -7,23 +7,17 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 
 import butterknife.BindView;
-import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.PREFS_KEY_THEME;
 import static com.remember.app.data.Constants.THEME_LIGHT;
 
 public class StyleSettingsFragment extends SettingsBaseFragment {
 
-    private SettingPresenter presenter;
-
     @BindView(R.id.change_theme)
     Switch changeThemeSwitcher;
 
     public StyleSettingsFragment() {
-    }
-
-    StyleSettingsFragment(SettingPresenter presenter) {
-        this.presenter = presenter;
     }
 
     @Override
@@ -34,9 +28,6 @@ public class StyleSettingsFragment extends SettingsBaseFragment {
     @Override
     protected void setUp() {
         changeThemeSwitcher.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, false));
-        if (presenter != null) {
-            presenter.getInfo();
-        }
     }
 
     @Override
@@ -49,7 +40,7 @@ public class StyleSettingsFragment extends SettingsBaseFragment {
         return null;
     }
 
-    @OnCheckedChanged(R.id.change_theme)
+    @OnClick(R.id.change_theme)
     void onChangeTheme() {
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         new Handler().postDelayed(this::recreateSettings, 100);

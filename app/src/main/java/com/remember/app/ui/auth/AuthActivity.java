@@ -22,7 +22,6 @@ import com.remember.app.data.models.ResponseVk;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.ErrorDialog;
-import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.RepairPasswordDialog;
 import com.remember.app.ui.utils.Utils;
 import com.vk.sdk.VKAccessToken;
@@ -53,6 +52,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.LoadingPopupUtils.setLoadingDialog;
 
 public class AuthActivity extends BaseActivity implements AuthView, RepairPasswordDialog.Callback {
 
@@ -320,7 +320,8 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
 
     @Override
     public void sendEmail(String email) {
-        popupDialog = LoadingPopupUtils.showLoadingDialog(this);
+        popupDialog = setLoadingDialog(this);
+        popupDialog.show();
         presenter.restorePassword(email);
     }
 }
