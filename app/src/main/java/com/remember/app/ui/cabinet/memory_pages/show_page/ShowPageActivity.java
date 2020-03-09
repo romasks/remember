@@ -277,9 +277,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void error(Throwable throwable) {
-
+        if(image == null)
         Utils.showSnack(image, "Ошибка загрузки изображения");
-        mainLinLayout.removeView(share_LinLayout);
+        share_LinLayout.setVisibility(View.GONE);
 
     }
 
