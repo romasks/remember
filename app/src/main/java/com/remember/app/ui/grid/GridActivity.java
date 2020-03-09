@@ -62,7 +62,6 @@ import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
 import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
-
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
         PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
 
@@ -200,8 +199,11 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private void showAll() {
         if (!Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             signInButton.setText(getResources().getString(R.string.grid_go_to_cabinet));
+
         } else {
             signInButton.setText(getResources().getString(R.string.grid_login));
+
+
         }
         imageAdapter.setItems(allMemoryPageModels);
         showMorePages();

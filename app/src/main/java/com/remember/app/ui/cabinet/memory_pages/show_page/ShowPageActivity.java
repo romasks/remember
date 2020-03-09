@@ -106,7 +106,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.auth.AuthActivity.logined;
+
 import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
@@ -162,8 +162,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     LinearLayout addPhotoToSliderBtn_layout;
     @BindView(R.id.map_button)
     Button mapButton;
-    @BindView(R.id.arow_tv)
-    TextView arow_tv;
+
 
     @BindView(R.id.back_button)
     ImageView backImg;
@@ -203,7 +202,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
-            but_vk.setVisibility(View.GONE);
+            share_LinLayout.setVisibility(View.GONE);
             settings.setVisibility(View.GONE);
         }
 
@@ -278,6 +277,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void error(Throwable throwable) {
+
         Utils.showSnack(image, "Ошибка загрузки изображения");
         mainLinLayout.removeView(share_LinLayout);
 
@@ -366,12 +366,11 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
             descriptionTitle.setText(R.string.memory_page_show_description_text);
-            arow_tv.setText( " ꓦ");
         } else {
             description.setVisibility(View.VISIBLE);
             descriptionTitle.setText(R.string.memory_page_hide_description_text);
             scrollView.scrollTo(0, scrollView.getBottom() + 1500);
-            arow_tv.setText( " ꓥ");
+
         }
     }
 
@@ -434,24 +433,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         ShareDialog.show(this,content);
     }
 
-    @OnClick(R.id.shareOk)
-    public void shareOk() {
-            Odnoklassniki odnoklassniki = Odnoklassniki.createInstance(this, "512000155578", "ED4051FB2B4EC9C1433BEF94");
-        if(odnoklassniki.getMAccessToken()==null){
-        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);}
-        postOk(odnoklassniki);
-
-    }
-
-    private void postOk(Odnoklassniki odnoklassniki){
-        final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
-        odnoklassniki.setMAccessToken("tkn10jGMF0EKID1wfBbyu37MvtO54JTrGLqGABytcvfAAl7OT6kLZLYIOv6k2AT2wr7Ko");
-        odnoklassniki.setMSessionSecretKey("c1e8ee51261c458ef614fb4d293abefe");
-        odnoklassniki.performPosting(this,"{\"media\":[{\"type\":\"text\",\"text\":\""+generatedByIDLink+"\"}]}",
-                false, null);
-        Log.d(TAG, "shareOk: ЗАПОСТИЛОСЬ В ОК");
-
-    }
 
 
     private void sharePageToVk(){
@@ -496,6 +477,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 */
     private void initAll() {
         if (memoryPageModel != null) {
+
+
+
             if (!afterSave) {
                 glideLoadIntoWithError(memoryPageModel.getPicture(), image);
                 glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
@@ -506,17 +490,19 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
 
 
+            Log.d(TAG, "initAll: memoryPageModel.getStatus() "+memoryPageModel.getStatus());
+            Log.d(TAG, "initAll: memoryPageModel.getFlag()  "+memoryPageModel.getFlag());
 
-            if((memoryPageModel.getFlag() == null && memoryPageModel.getStatus() == null)|| !logined)
-                mainLinLayout.removeView(share_LinLayout);
-            else
-            if (!(memoryPageModel.getFlag().equals("true")  && memoryPageModel.getStatus().toString().equals("Одобрено"))){
-                mainLinLayout.removeView(share_LinLayout);
+
+            if(memoryPageModel.getStatus() == null || memoryPageModel.getFlag() == null )
+                share_LinLayout.setVisibility(View.GONE);
+            else{
+            if (!(memoryPageModel.getFlag().equals("true") && memoryPageModel.getStatus().equals("Одобрено"))){
+                share_LinLayout.setVisibility(View.GONE);
                 Log.e(TAG, "initAll: DELETED");
-            }
+            }}
 
-            Log.e(TAG, "onCreateFLAG: "+memoryPageModel.getFlag());
-            Log.e(TAG, "onCreate:STATUS "+memoryPageModel.getStatus() );
+
         }
     }
 

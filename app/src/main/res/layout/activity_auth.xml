@@ -12,6 +12,7 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:src="@drawable/ic_back"
+
         app:layout_constraintStart_toStartOf="@+id/email_login_form"
         app:layout_constraintTop_toTopOf="parent" />
 
