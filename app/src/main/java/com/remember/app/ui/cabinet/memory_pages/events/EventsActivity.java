@@ -3,6 +3,7 @@ package com.remember.app.ui.cabinet.memory_pages.events;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -162,6 +163,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
     @Override
     public void openEvent(Integer eventId, String imageUrl) {
         Intent intent = new Intent(this, CurrentEvent.class);
+        Log.d("myLog", "data2 = " + getIntent().getStringExtra(BIRTH_DATE));
         if (isShow) {
             intent.putExtra(INTENT_EXTRA_SHOW, true);
         }
@@ -169,6 +171,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
         intent.putExtra(INTENT_EXTRA_PERSON_NAME, name);
         intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, imageUrl);
         intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
+        intent.putExtra(BIRTH_DATE, getIntent().getStringExtra(BIRTH_DATE));
         startActivity(intent);
     }
 

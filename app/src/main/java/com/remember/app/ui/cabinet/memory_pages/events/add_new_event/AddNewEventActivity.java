@@ -379,11 +379,11 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH))
                 .show();*/
+        Log.d("myLog", "here" + birthDate);
         @SuppressLint("SimpleDateFormat")
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
         try {
             calendar.setTime(Objects.requireNonNull(df.parse(birthDate)));
-            Log.d("myLog", "year=" + calendar.get(Calendar.YEAR));
         } catch (ParseException e) {
             e.printStackTrace();
         }
