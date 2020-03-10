@@ -8,14 +8,19 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.PopupWindow;
 
+import androidx.fragment.app.FragmentManager;
+
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
+import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static com.remember.app.ui.utils.DateUtils.dfLocal;
 
 public class PopupEventScreenLocal extends PopupWindow {
 
@@ -27,8 +32,12 @@ public class PopupEventScreenLocal extends PopupWindow {
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();
 
-    public PopupEventScreenLocal(View contentView, int width, int height) {
+    private FragmentManager supportFragmentManager;
+
+    public PopupEventScreenLocal(View contentView, int width, int height, FragmentManager supportFragmentManager) {
         super(contentView, width, height);
+
+        this.supportFragmentManager = supportFragmentManager;
     }
 
     public void setContext(Context context) {
@@ -45,12 +54,12 @@ public class PopupEventScreenLocal extends PopupWindow {
         });
 
         date = popupView.findViewById(R.id.date_value);
-        dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
+        /*dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             setInitialDateBegin();
-        };
+        };*/
 
         spinner = popupView.findViewById(R.id.spinner);
         spinner.setItems(responseHandBooks);
@@ -68,16 +77,34 @@ public class PopupEventScreenLocal extends PopupWindow {
     }
 
     public void setDateBegin(View v) {
-        new DatePickerDialog(v.getContext(), dateBeginPickerDialog,
+        /*new DatePickerDialog(v.getContext(), dateBeginPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH))
-                .show();
+                .show();*/
+        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                setInitialDateBegin();
+                /*pickedDateTime = dateAndTime.getTimeInMillis();
+                if (pickedDateTime > calendar.getTimeInMillis()) {
+                    date.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
+                } else {
+                    Utils.showSnack(date, getResources().getString(R.string.error_event_date_before_date_birth));
+                }*/
+            }
+        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        //dialog.setMaxDate(new Date().getTime());
+        dialog.show(this.supportFragmentManager, "tag");
+
     }
 
     private void setInitialDateBegin() {
         @SuppressLint("SimpleDateFormat")
-        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        DateFormat df = new SimpleDateFormat("dd.MM");
         String requiredDate = df.format(new Date(dateAndTime.getTimeInMillis()));
         date.setText(requiredDate);
     }
