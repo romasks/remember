@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.EventModel;
@@ -17,8 +20,6 @@ import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEvent
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -75,12 +76,13 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     private int pageId = 0;
     private boolean isShow;
     private EventModel eventModel;
+    static CurrentEvent activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-
+        activity = this;
         if (Utils.isThemeDark()) {
             back.setImageResource(R.drawable.ic_back_dark_theme);
             settings.setImageResource(R.drawable.setting_white);
@@ -151,5 +153,9 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     @OnClick(R.id.back_button)
     public void onBackClick() {
         onBackPressed();
+    }
+
+    public static CurrentEvent getInstance() {
+        return activity;
     }
 }

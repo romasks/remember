@@ -42,7 +42,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
 
     @InjectPresenter
     EventsPresenter presenter;
-
+    static EventsActivity activity;
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.new_event)
@@ -71,7 +71,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-
+        activity = this;
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
         if (Utils.isThemeDark()) {
@@ -170,5 +170,9 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
         intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, imageUrl);
         intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
         startActivity(intent);
+    }
+
+    public static EventsActivity getInstance() {
+        return activity;
     }
 }

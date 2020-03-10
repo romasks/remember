@@ -435,4 +435,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
         return apiMethods.deletePage("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
                 .compose(rxSchedulers.applySchedulers());
     }
+
+    @Override
+    public Observable<Object> deleteEvent(Integer id){
+        return apiMethods.deleteEvent("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
 }

@@ -558,8 +558,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @Override
     public void onDeletePage() {
-        int s = memoryPageModel.getId();
-        presenter.deletePage(s);
-        Log.d("TAG", "dd");
+        presenter.deletePage(memoryPageModel.getId());
     }
 }
