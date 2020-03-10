@@ -12,9 +12,12 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestSearchPage;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,8 +32,6 @@ public class PopupPageScreen extends PopupWindow {
     private Callback callback;
     private AutoCompleteTextView dateBeginVal;
     private AutoCompleteTextView dateEndVal;
-    private TextInputLayout dateBegin;
-    private TextInputLayout dateEnd;
     private String status;
     private Boolean flag;
 
@@ -48,21 +49,18 @@ public class PopupPageScreen extends PopupWindow {
         AutoCompleteTextView name = contentView.findViewById(R.id.first_name_value);
         AutoCompleteTextView middleName = contentView.findViewById(R.id.father_name_value);
         AutoCompleteTextView place = contentView.findViewById(R.id.live_place_value);
-        AutoCompleteTextView dateBegin = contentView.findViewById(R.id.date_begin_value);
-        AutoCompleteTextView dateEnd = contentView.findViewById(R.id.date_end_value);
 
         if (Utils.isThemeDark()) {
             toolbar.setBackgroundColor(contentView.getResources().getColor(R.color.colorPrimaryBlack));
             layout.setBackgroundColor(contentView.getResources().getColor(R.color.colorBlackDark));
             backImg.setImageResource(R.drawable.ic_back_dark_theme);
-
             int textColorDark = contentView.getResources().getColor(R.color.colorWhiteDark);
             textView.setTextColor(textColorDark);
             name.setTextColor(textColorDark);
             lastName.setTextColor(textColorDark);
             middleName.setTextColor(textColorDark);
-            dateBegin.setTextColor(textColorDark);
-            dateEnd.setTextColor(textColorDark);
+            dateBeginVal.setTextColor(textColorDark);
+            dateEndVal.setTextColor(textColorDark);
             place.setTextColor(textColorDark);
         }
     }
@@ -92,8 +90,8 @@ public class PopupPageScreen extends PopupWindow {
             request.setName(name.getText().toString());
             request.setSecondName(lastName.getText().toString());
             request.setThirdName(middleName.getText().toString());
-            request.setDateBegin(dateBeginVal.getText().toString());
-            request.setDateEnd(dateEndVal.getText().toString());
+            request.setDateBegin(convertDate(dateBeginVal.getText().toString()));
+            request.setDateEnd(convertDate(dateEndVal.getText().toString()));
             request.setCity(city.getText().toString());
             request.setStatus(status);
             request.setFlag(flag);
@@ -144,5 +142,16 @@ public class PopupPageScreen extends PopupWindow {
             status = "";
             flag = false;
         }*/
+    }
+
+    private String convertDate(String data){
+        String newDate ="";
+        if (!data.equals("")){
+            DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy");
+            DateTime jodatime = dtf.parseDateTime(data);
+            DateTimeFormatter dtfOut = DateTimeFormat.forPattern("yyyy-MM-dd");
+            newDate = dtfOut.print(jodatime);
+        }
+        return newDate;
     }
 }
