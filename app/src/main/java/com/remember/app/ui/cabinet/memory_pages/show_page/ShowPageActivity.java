@@ -266,7 +266,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     public void setCoordinates(double latitude, double longitude) {
 
     }
-
+//
     @Override
     public void onReceivedImage(MemoryPageModel memoryPageModel) {
         this.memoryPageModel = memoryPageModel;
