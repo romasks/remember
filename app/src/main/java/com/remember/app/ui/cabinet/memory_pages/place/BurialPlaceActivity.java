@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
@@ -80,20 +81,16 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         responseHandBook = new ResponseHandBook();
+        initUI();
+    }
 
+    private void initUI(){
         title.setText(getString(R.string.burial_place_header_text));
         settingsBtn.setVisibility(View.GONE);
-
-        city.setText(getIntent().getStringExtra(BURIAL_PLACE_CITY));
-        cemetery.setText(getIntent().getStringExtra(BURIAL_PLACE_CEMETERY));
-        sector.setText(getIntent().getStringExtra(BURIAL_PLACE_SECTOR));
-        line.setText(getIntent().getStringExtra(BURIAL_PLACE_LINE));
-        grave.setText(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
-        coordinates.setText(getIntent().getStringExtra(BURIAL_PLACE_COORDS));
-
-        /*if (getIntent().getBooleanExtra("EDIT", false)) {
-            memoryPageModel = getIntent().getParcelableExtra("MODEL");
-            initEdit(memoryPageModel);
+        if (getIntent().getBooleanExtra("EDIT", false)) {
+            MemoryPageModel model = getData();
+            if (model!=null)
+                initEdit(model);
         } else {
             coordinates.setText("");
             city.setText("");
@@ -101,7 +98,11 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
             sector.setText("");
             line.setText("");
             grave.setText("");
-        }*/
+        }
+    }
+
+    private MemoryPageModel getData(){
+        return getIntent().getExtras().getParcelable("MODEL");
     }
 
     @Override
