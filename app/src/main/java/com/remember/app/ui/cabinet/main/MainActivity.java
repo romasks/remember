@@ -230,11 +230,13 @@ public class MainActivity extends BaseActivity
     }
 
     private void showEventScreen() {
+        Log.d("myLog", "showEventScreen");
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
         popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getSupportFragmentManager());//TODO
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);

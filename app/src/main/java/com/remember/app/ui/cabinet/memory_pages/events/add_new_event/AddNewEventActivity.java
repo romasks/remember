@@ -244,11 +244,11 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     @OnClick(R.id.save_button)
     public void saveEvent() {
         if (nameDeceased.getText().toString().isEmpty()) {
-            Utils.showSnack(nameDeceased, "Выберете усопшего");
+            Utils.showSnack(nameDeceased, "Выберите усопшего");
         } else if (title.getText().toString().isEmpty()) {
             Utils.showSnack(nameDeceased, "Введите наименование");
         } else if (date.getText().toString().isEmpty()) {
-            Utils.showSnack(nameDeceased, "Выберете дату");
+            Utils.showSnack(nameDeceased, "Выберите дату");
         } else {
             if (eventId == 0) {
                 CreateEventRequest createEventRequest = new CreateEventRequest();

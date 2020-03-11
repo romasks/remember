@@ -3,6 +3,7 @@ package com.remember.app.ui.menu.events;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -153,7 +154,8 @@ public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapte
         popupWindowEvent = new PopupEventScreenLocal(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getSupportFragmentManager());
         popupWindowEvent.setContext(EventsActivityMenu.this);
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);

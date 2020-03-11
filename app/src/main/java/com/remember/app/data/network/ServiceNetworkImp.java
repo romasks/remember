@@ -1,5 +1,7 @@
 package com.remember.app.data.network;
 
+import android.util.Log;
+
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.CreateEventRequest;
@@ -322,8 +324,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 break;
         }
         String resultDate;
+        Log.d("myLog", "date = " + date);
         if (!date.isEmpty()) {
-            resultDate = date.substring(0, date.length() - 5);
+            //resultDate = date.substring(0, date.length() - 5);
+            resultDate = date;
         } else {
             resultDate = "";
         }
