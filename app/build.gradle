@@ -32,7 +32,7 @@ android {
         manifestPlaceholders = [
                 facebookAppId: "661338814675848",
                 'MailRuOAuthRedirectHost' : 'authorize',
-                'MailRuOAuthRedirectScheme' : 'ritualapp'
+                'MailRuOAuthRedirectScheme' : 'remember'
         ]
     }
     buildTypes {

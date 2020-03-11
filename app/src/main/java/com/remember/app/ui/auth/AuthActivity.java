@@ -44,6 +44,7 @@ import butterknife.OnClick;
 
 import ru.mail.auth.sdk.MailRuAuthSdk;
 import ru.mail.auth.sdk.MailRuCallback;
+import ru.mail.auth.sdk.api.OAuthRequestErrorCodes;
 import ru.mail.auth.sdk.api.token.OAuthTokensResult;
 
 import ru.ok.android.sdk.Odnoklassniki;
@@ -197,13 +198,13 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
                         Log.d("Mail RU","Access token: " + oAuthTokensResult.getAccessToken());
                         Log.d("Mail RU","Refresh token: " + oAuthTokensResult.getRefreshToken());
 
-                        //Prefs.putString(PREFS_KEY_ACCESS_TOKEN, oAuthTokensResult.getAccessToken());
-                        //presenter.signInMailRu();
+                        Prefs.putString(PREFS_KEY_ACCESS_TOKEN, oAuthTokensResult.getAccessToken());
+                        presenter.signInMailRu();
                     }
 
                     @Override
                     public void onError(Integer integer) {
-                        Log.d("Mail RU", "Failed to sign in.");
+                        Log.d("Mail RU", OAuthRequestErrorCodes.toReadableString(integer));
                     }
                 }
         ))
