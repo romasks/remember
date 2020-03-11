@@ -2,6 +2,7 @@ package com.remember.app.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -11,10 +12,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.remember.app.R;
 import com.remember.app.data.models.RequestSearchPage;
+import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,23 +29,26 @@ import java.util.Date;
 
 import static com.remember.app.data.Constants.IMAGES_STATUS_APPROVED;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
+import static com.remember.app.ui.utils.DateUtils.dfLocal;
 
 public class PopupPageScreen extends PopupWindow {
 
     private Callback callback;
     private AutoCompleteTextView dateBeginVal;
     private AutoCompleteTextView dateEndVal;
-    private TextInputLayout dateBegin;
-    private TextInputLayout dateEnd;
     private String status;
     private Boolean flag;
 
-    private DatePickerDialog.OnDateSetListener datePickerDialog;
+    //private DatePickerDialog.OnDateSetListener datePickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();
 
-    public PopupPageScreen(View contentView, int width, int height) {
+    private DatePickerFragmentDialog datePickerDialog;
+    private FragmentManager fragmentManager;
+
+    public PopupPageScreen(View contentView, int width, int height, FragmentManager fragmentManager) {
         super(contentView, width, height);
 
+        this.fragmentManager = fragmentManager;
         ConstraintLayout layout = contentView.findViewById(R.id.cont);
         Toolbar toolbar = contentView.findViewById(R.id.toolbar);
         ImageView backImg = contentView.findViewById(R.id.back);
@@ -48,21 +57,18 @@ public class PopupPageScreen extends PopupWindow {
         AutoCompleteTextView name = contentView.findViewById(R.id.first_name_value);
         AutoCompleteTextView middleName = contentView.findViewById(R.id.father_name_value);
         AutoCompleteTextView place = contentView.findViewById(R.id.live_place_value);
-        AutoCompleteTextView dateBegin = contentView.findViewById(R.id.date_begin_value);
-        AutoCompleteTextView dateEnd = contentView.findViewById(R.id.date_end_value);
 
         if (Utils.isThemeDark()) {
             toolbar.setBackgroundColor(contentView.getResources().getColor(R.color.colorPrimaryBlack));
             layout.setBackgroundColor(contentView.getResources().getColor(R.color.colorBlackDark));
             backImg.setImageResource(R.drawable.ic_back_dark_theme);
-
             int textColorDark = contentView.getResources().getColor(R.color.colorWhiteDark);
             textView.setTextColor(textColorDark);
             name.setTextColor(textColorDark);
             lastName.setTextColor(textColorDark);
             middleName.setTextColor(textColorDark);
-            dateBegin.setTextColor(textColorDark);
-            dateEnd.setTextColor(textColorDark);
+            dateBeginVal.setTextColor(textColorDark);
+            dateEndVal.setTextColor(textColorDark);
             place.setTextColor(textColorDark);
         }
     }
@@ -92,8 +98,8 @@ public class PopupPageScreen extends PopupWindow {
             request.setName(name.getText().toString());
             request.setSecondName(lastName.getText().toString());
             request.setThirdName(middleName.getText().toString());
-            request.setDateBegin(dateBeginVal.getText().toString());
-            request.setDateEnd(dateEndVal.getText().toString());
+            request.setDateBegin(convertDate(dateBeginVal.getText().toString()));
+            request.setDateEnd(convertDate(dateEndVal.getText().toString()));
             request.setCity(city.getText().toString());
             request.setStatus(status);
             request.setFlag(flag);
@@ -103,17 +109,34 @@ public class PopupPageScreen extends PopupWindow {
     }
 
     public void setDate(View v, int type) {
-        datePickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
+        /*datePickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             setInitialDate(type);
-        };
-        new DatePickerDialog(v.getContext(), datePickerDialog,
+        };*/
+        datePickerDialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                /*pickedDateTime = dateAndTime.getTimeInMillis();
+                if (pickedDateTime > calendar.getTimeInMillis()) {
+                    date.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
+                } else {
+                    Utils.showSnack(date, getResources().getString(R.string.error_event_date_before_date_birth));
+                }*/
+                setInitialDate(type);
+            }
+        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        //dialog.setMaxDate(new Date().getTime());
+        datePickerDialog.show(this.fragmentManager, "tag");
+        /*new DatePickerDialog(v.getContext(), datePickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH))
-                .show();
+                .show();*/
     }
 
     private void setInitialDate(int type) {
@@ -144,5 +167,16 @@ public class PopupPageScreen extends PopupWindow {
             status = "";
             flag = false;
         }*/
+    }
+
+    private String convertDate(String data){
+        String newDate ="";
+        if (!data.equals("")){
+            DateTimeFormatter dtf = DateTimeFormat.forPattern("dd.MM.yyyy");
+            DateTime jodatime = dtf.parseDateTime(data);
+            DateTimeFormatter dtfOut = DateTimeFormat.forPattern("yyyy-MM-dd");
+            newDate = dtfOut.print(jodatime);
+        }
+        return newDate;
     }
 }

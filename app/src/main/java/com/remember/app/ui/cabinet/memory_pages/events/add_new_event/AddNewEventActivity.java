@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
@@ -24,7 +25,11 @@ import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.utils.DateUtils;
+import com.remember.app.ui.utils.DeleteEvent;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
 import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
@@ -59,8 +64,10 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IS_FOR_ONE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
+import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.ui.utils.DateUtils.dfLocal;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
@@ -69,13 +76,12 @@ import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 
-public class AddNewEventActivity extends BaseActivity implements AddNewEventView {
+public class AddNewEventActivity extends BaseActivity implements AddNewEventView ,DeleteEvent.Callback{
 
     private final String TAG = AddNewEventActivity.class.getSimpleName();
 
     private static final int SELECT_PICTURE = 451;
     private Calendar dateAndTime = Calendar.getInstance();
-
     @InjectPresenter
     AddNewEventPresenter presenter;
 
@@ -105,6 +111,8 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     TextView eventHeaderName;
     @BindView(R.id.back)
     ImageView backButton;
+    @BindView(R.id.settings)
+    ImageView settings;
 
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private ProgressDialog progressDialog;
@@ -160,6 +168,18 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     @Override
     public void onError(Throwable throwable) {
         Utils.showSnack(description, "Ошибка загрузки данных");
+    }
+
+    @Override
+    public void onDeleteEvent(Object response) {
+        openStartActivity();
+
+
+    }
+
+    @Override
+    public void onDeleteEventError(Throwable throwable) {
+        Utils.showSnack(image, "Ошибка удаления, попробуйте позже");
     }
 
     @Override
@@ -224,11 +244,11 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     @OnClick(R.id.save_button)
     public void saveEvent() {
         if (nameDeceased.getText().toString().isEmpty()) {
-            Utils.showSnack(nameDeceased, "Выберете усопшего");
+            Utils.showSnack(nameDeceased, "Выберите усопшего");
         } else if (title.getText().toString().isEmpty()) {
             Utils.showSnack(nameDeceased, "Введите наименование");
         } else if (date.getText().toString().isEmpty()) {
-            Utils.showSnack(nameDeceased, "Выберете дату");
+            Utils.showSnack(nameDeceased, "Выберите дату");
         } else {
             if (eventId == 0) {
                 CreateEventRequest createEventRequest = new CreateEventRequest();
@@ -300,6 +320,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
             saveButton.setText(getString(R.string.change_event));
             eventHeaderName.setText(eventName);
         } else {
+            settings.setVisibility(View.GONE);
             saveButton.setText(getString(R.string.create_event));
         }
 
@@ -358,11 +379,11 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH))
                 .show();*/
+        Log.d("myLog", "here" + birthDate);
         @SuppressLint("SimpleDateFormat")
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
         try {
             calendar.setTime(Objects.requireNonNull(df.parse(birthDate)));
-            Log.d("myLog", "year=" + calendar.get(Calendar.YEAR));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -382,5 +403,32 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         dialog.setMaxDate(new Date().getTime());
         dialog.show(getSupportFragmentManager(), "tag");
+    }
+
+    @OnClick(R.id.settings)
+    public void deleteEvent() {
+        showDeleteDialog();
+    }
+
+    public void showDeleteDialog() {
+        DeleteEvent myDialogFragment = new DeleteEvent();
+        myDialogFragment.setCallback(this);
+        myDialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
+    }
+
+    @Override
+    public void onDeleteEvent() {
+            presenter.deleteEvent(eventId);
+
+    }
+
+    private void openStartActivity(){
+        Toast.makeText(getApplicationContext(),"Событие удалено", Toast.LENGTH_SHORT).show();
+        CurrentEvent.getInstance().finish();
+        EventsActivity.getInstance().finish();
+        Intent intent = new Intent(this, EventsActivity.class);
+        intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
+        startActivity(intent);
+        finish();
     }
 }

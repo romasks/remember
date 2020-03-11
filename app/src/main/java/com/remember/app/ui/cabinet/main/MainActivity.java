@@ -3,6 +3,7 @@ package com.remember.app.ui.cabinet.main;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
@@ -139,7 +141,8 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-
+        TextView version = navigationView.findViewById(R.id.version);
+        version.setText("Версия " + BuildConfig.VERSION_NAME);
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
         imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
         imageViewBigAvatar.setColorFilter(getBlackWhiteFilter());
@@ -227,11 +230,13 @@ public class MainActivity extends BaseActivity
     }
 
     private void showEventScreen() {
+        Log.d("myLog", "showEventScreen");
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
         popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getSupportFragmentManager());//TODO
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);

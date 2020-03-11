@@ -110,4 +110,6 @@ public interface ServiceNetwork {
     Observable<List<ResponseImagesSlider>> getImagesSlider(Integer id);
 
     Observable<Object> deletePage(Integer id);
+
+    Observable<Object> deleteEvent(Integer id);
 }

@@ -169,8 +169,10 @@ dependencies {
 
     // phone mask
     implementation 'com.redmadrobot:input-mask-android:5.0.0'
-    implementation fileTree(dir: 'C:\\Users\\GOD_PC\\AndroidStudioProjects\\Android-Simple-Social-Sharing\\Jar', include: ['*.aar', '*.jar'], exclude: [])
-    implementation files('C:\\Users\\GOD_PC\\AndroidStudioProjects\\Android-Simple-Social-Sharing\\Jar\\simple-social-sharing-1.0.1.jar')
+    implementation fileTree(dir: 'libraries', include: ['*.aar', '*.jar'], exclude: [])
+    implementation files('libraries\\simple-social-sharing-1.0.1.jar')
+
+    implementation 'joda-time:joda-time:2.10.3'
 }
 
 repositories {

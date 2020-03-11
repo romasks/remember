@@ -353,6 +353,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.eventsButton)
     public void onEventButtonClick() {
+        Log.d("myLog", "data1 = " + memoryPageModel.getDateBirth());
         Intent intent = new Intent(this, EventsActivity.class);
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
         intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
