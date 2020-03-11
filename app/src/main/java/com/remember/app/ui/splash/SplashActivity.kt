@@ -15,9 +15,6 @@ import com.remember.app.ui.utils.Utils
 
 class SplashActivity : BaseActivity(), SplashView {
 
-    @BindView(R.id.videoView)
-    lateinit var videoView: VideoView
-
     companion object {
         @JvmStatic
         fun clearPrefs() {

@@ -113,7 +113,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false);
             setSplashVideo();
             splashVideo.start();
-            splashVideo.postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
+            splashVideo.postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1000);
         } else {
             showMainContent();
         }
@@ -321,11 +321,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
 
     private void setUpRecycler() {
-        imageAdapter = new ImageAdapter();
+        imageAdapter = new ImageAdapter(this);
         imageAdapter.setCallback(this);
-        imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
     }
 
     private void setSplashVideo() {
