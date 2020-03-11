@@ -22,6 +22,23 @@
         android:fitsSystemWindows="true"
         app:itemTextAppearance="@style/MenuTextStyle"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:clickable="false"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/gray"
+            android:layout_marginBottom="8dp"
+            tools:text="Version 1.24234" />
+    </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
