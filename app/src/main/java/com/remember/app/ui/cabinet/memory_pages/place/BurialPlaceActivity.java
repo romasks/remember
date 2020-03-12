@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
@@ -84,12 +83,12 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         initUI();
     }
 
-    private void initUI(){
+    private void initUI() {
         title.setText(getString(R.string.burial_place_header_text));
         settingsBtn.setVisibility(View.GONE);
         if (getIntent().getBooleanExtra("EDIT", false)) {
             MemoryPageModel model = getData();
-            if (model!=null)
+            if (model != null)
                 initEdit(model);
         } else {
             coordinates.setText("");
@@ -101,7 +100,7 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         }
     }
 
-    private MemoryPageModel getData(){
+    private MemoryPageModel getData() {
         return getIntent().getExtras().getParcelable("MODEL");
     }
 
@@ -203,9 +202,9 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         try {
             View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
             popupWindow = new PopupMap(
-                popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setCallback(this);
             popupWindow.setUp(pick, getSupportFragmentManager());
         } catch (Exception ignored) {
@@ -225,11 +224,21 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     }
 
     private void initEdit(MemoryPageModel memoryPageModel) {
-        city.setText(memoryPageModel.getGorod());
-        cemetery.setText(memoryPageModel.getNazvaklad());
-        sector.setText(memoryPageModel.getSector());
-        line.setText(memoryPageModel.getUchastok());
-        grave.setText(memoryPageModel.getNummogil());
-        coordinates.setText(memoryPageModel.getCoords());
+
+        if (!memoryPageModel.getSector().equals("") || !memoryPageModel.getNummogil().equals("") || !memoryPageModel.getUchastok().equals("")) {
+            city.setText(memoryPageModel.getGorod());
+            cemetery.setText(memoryPageModel.getNazvaklad());
+            sector.setText(memoryPageModel.getSector());
+            line.setText(memoryPageModel.getUchastok());
+            grave.setText(memoryPageModel.getNummogil());
+            coordinates.setText(memoryPageModel.getCoords());
+        } else {
+            city.setText(getIntent().getStringExtra(BURIAL_PLACE_CITY));
+            cemetery.setText(getIntent().getStringExtra(BURIAL_PLACE_CEMETERY));
+            sector.setText(getIntent().getStringExtra(BURIAL_PLACE_SECTOR));
+            line.setText(getIntent().getStringExtra(BURIAL_PLACE_LINE));
+            grave.setText(getIntent().getStringExtra(BURIAL_PLACE_GRAVE));
+            coordinates.setText(getIntent().getStringExtra(BURIAL_PLACE_COORDS));
+        }
     }
 }
