@@ -10,10 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -21,18 +17,24 @@ import com.remember.app.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoCenterInside;
 import static com.remember.app.ui.utils.ImageUtils.setGridImage;
 import static com.remember.app.ui.utils.Utils.getScreenWidth;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapterHolder> {
 
-    private Context context;
     private Callback callback;
     private List<MemoryPageModel> memoryPageModels = new ArrayList<>();
+    private Point screenSize;
+
+    public ImageAdapter(Context context) {
+        screenSize = getScreenWidth(context);
+    }
 
     @NonNull
     @Override
@@ -64,10 +66,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
 
     public void setCallback(Callback callback) {
         this.callback = callback;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     public interface Callback {
@@ -105,25 +103,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         @Override
         public void onBind(int position) {
             MemoryPageModel item = getItem(position);
-            Point size = getScreenWidth(context);
 
             // Show More btn
             layoutShowMore.setOnClickListener(v -> callback.showMorePages());
-            if (size != null) {
-                layoutShowMore.setMinimumHeight(size.x / 3 + size.x / 25);
-                ivShowMore.setMinimumWidth(size.x / 9);
-                ivShowMore.setMaxWidth(size.x / 9);
-                ivShowMore.setMinimumHeight(size.x / 9);
-                ivShowMore.setMaxHeight(size.x / 9);
+            if (screenSize != null) {
+                layoutShowMore.setMinimumHeight(screenSize.x / 3 + screenSize.x / 25);
+                ivShowMore.setMinimumWidth(screenSize.x / 9);
+                ivShowMore.setMaxWidth(screenSize.x / 9);
+                ivShowMore.setMinimumHeight(screenSize.x / 9);
+                ivShowMore.setMaxHeight(screenSize.x / 9);
             }
 
             // Image
             imageView.setOnClickListener(v -> callback.openPage(item));
-            try {
-                setGridImage(item.getPicture(), imageView, size);
-            } catch (NullPointerException e) {
-                glideLoadIntoCenterInside(imageView.getContext(), R.drawable.darth_vader, imageView);
-            }
+            setGridImage(item.getPicture(), imageView, screenSize);
             name.setText(item.getFullName());
 
             if (item.isShowMore()) {
