@@ -26,7 +26,9 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         manifestPlaceholders = [
-                facebookAppId: "661338814675848"
+                facebookAppId: "661338814675848",
+                'MailRuOAuthRedirectHost' : 'authorize',
+                'MailRuOAuthRedirectScheme' : 'remember'
         ]
         signingConfig signingConfigs.release
     }
@@ -142,9 +144,11 @@ dependencies {
 
     // VK
     implementation 'com.vk:androidsdk:1.6.7'
+
     // OK
     implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
 
+    implementation ('ru.mail:auth-sdk-pub:11.3.0.28375')
 
 
     // Social auth
