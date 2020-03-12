@@ -176,7 +176,9 @@ public class MemoryPageModel implements Parcelable {
         this.nazvaklad = nazvaklad;
     }
 
-    public String getUchastok() {return uchastok; }
+    public String getUchastok() {
+        return uchastok == null ? "" : uchastok;
+    }
 
     public void setUchastok(String uchastok) {
         this.uchastok = uchastok;
@@ -190,7 +192,9 @@ public class MemoryPageModel implements Parcelable {
         this.nummogil = nummogil;
     }
 
-    public String getSector() { return  sector; }
+    public String getSector() {
+        return sector == null ? "" : sector;
+    }
 
     public void setSector(String sector) {
         this.sector = sector;

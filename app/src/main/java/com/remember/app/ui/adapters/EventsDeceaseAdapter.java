@@ -102,9 +102,9 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         public void onBind(int position) {
             constraintLayout.setOnClickListener(v -> {
-                callback.openEvent(requestAddEvent.get(position).getId(), requestAddEvent.get(position).getPicture());
+                    callback.openEvent(requestAddEvent.get(position).getId(), requestAddEvent.get(position).getPicture());
             });
-            if (!requestAddEvent.get(position).getPicture().isEmpty()) {
+            if (requestAddEvent.get(position).getPicture() != null && !requestAddEvent.get(position).getPicture().isEmpty()) {
                 setGlideImage(itemView.getContext(), BASE_SERVICE_URL + requestAddEvent.get(position).getPicture(), avatarImage);
             } else {
                 setGlideImage(itemView.getContext(), R.drawable.ic_round_camera, avatarImage);

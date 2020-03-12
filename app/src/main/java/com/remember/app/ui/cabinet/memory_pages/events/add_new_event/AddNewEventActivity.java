@@ -318,7 +318,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
 
         if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_EVENT_EDITING, false)) {
             saveButton.setText(getString(R.string.change_event));
-            eventHeaderName.setText(eventName);
+            eventHeaderName.setText("Редактирование");
         } else {
             settings.setVisibility(View.GONE);
             saveButton.setText(getString(R.string.create_event));
