@@ -109,16 +109,17 @@
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="ok512000155578"
-                    android:scheme="okauth"/>
+                    android:scheme="okauth" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".ui.service.FCMService"
             android:exported="false">
@@ -127,16 +128,29 @@
             </intent-filter>
         </service>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <activity android:name="com.facebook.FacebookActivity" android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" />
-        <activity android:name="com.facebook.CustomTabActivity" android:exported="true">
-            <intent-filter> <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" /> <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="@string/fb_login_protocol_scheme" /> </intent-filter>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter><action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
         </activity>
-        <activity android:name="ru.ok.android.sdk.OkPostingActivity"/>
-        <activity android:name="ru.ok.android.sdk.OkAppInviteActivity"/>
-        <activity android:name="ru.ok.android.sdk.OkAppSuggestActivity"/>
+
+        <activity android:name="ru.ok.android.sdk.OkPostingActivity" />
+        <activity android:name="ru.ok.android.sdk.OkAppInviteActivity" />
+        <activity android:name="ru.ok.android.sdk.OkAppSuggestActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -167,9 +181,9 @@
             </intent-filter>
         </receiver>
 
-
-        <provider android:authorities="com.facebook.app.FacebookContentProvider661338814675848"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider661338814675848"
             android:exported="true" />
 
     </application>

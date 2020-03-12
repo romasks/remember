@@ -6,6 +6,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
@@ -13,13 +16,11 @@ import com.remember.app.ui.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class NotificationFragment extends SettingsBaseFragment implements SettingView {
+public class NotificationFragment extends SettingsBaseFragment {
 
     @BindView(R.id.notifications)
     Switch notifications;
@@ -155,20 +156,5 @@ public class NotificationFragment extends SettingsBaseFragment implements Settin
         setIdNotice(responseSettings.getIdNotice());
         days.setSelectedIndex(responseSettings.getAmountDays() - 1);
         switchNotifications();
-    }
-
-    @Override
-    public void error(Throwable throwable) {
-        // placeholder
-    }
-
-    @Override
-    public void onSaved(Object o) {
-        // placeholder
-    }
-
-    @Override
-    public void onSavedImage(Object o) {
-        // placeholder
     }
 }

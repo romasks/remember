@@ -1,10 +1,8 @@
 package com.remember.app.ui.utils;
 
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -22,12 +20,8 @@ public class DeletePageDialog extends AppCompatDialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(message);
-        builder.setPositiveButton(positive, (dialog, id) -> {
-            callback.onDeletePage();
-        });
-        builder.setNegativeButton(negative, (dialog, id) -> {
-            dismiss();
-        });
+        builder.setPositiveButton(positive, (dialog, id) -> callback.onDeletePage());
+        builder.setNegativeButton(negative, (dialog, id) -> dismiss());
         builder.setCancelable(true);
 
         return builder.create();

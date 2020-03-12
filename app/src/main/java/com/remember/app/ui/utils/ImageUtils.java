@@ -2,13 +2,9 @@ package com.remember.app.ui.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -27,7 +23,6 @@ import androidx.fragment.app.Fragment;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.CROP_IMAGE_RECT;
-import static com.remember.app.ui.utils.Utils.convertDpToPixels;
 
 public class ImageUtils {
 
@@ -122,7 +117,7 @@ public class ImageUtils {
         return blackWhiteFilter;
     }
 
-    public static Bitmap createBitmapFromView(ImageView sharedImage) {
+    /*public static Bitmap createBitmapFromView(ImageView sharedImage) {
         View view = sharedImage;
         view.measure(
                 View.MeasureSpec.makeMeasureSpec(convertDpToPixels(view.getWidth()), View.MeasureSpec.EXACTLY),
@@ -140,7 +135,7 @@ public class ImageUtils {
         view.draw(canvas);
 
         return bitmap;
-    }
+    }*/
 
     public static void cropImage(Activity activity) {
         cropImage(activity, CROP_IMAGE_RECT);
@@ -165,12 +160,17 @@ public class ImageUtils {
     }
 
     private static void setGridImage(Context context, Object imageObj, ImageView targetView) {
-        GlideApp.with(context)
-                .load(imageObj)
-                .error(R.drawable.darth_vader)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(targetView);
-        targetView.setColorFilter(blackWhiteFilter);
+        try {
+            GlideApp.with(context)
+                    .load(imageObj)
+//                    .apply(RequestOptions.bitmapTransform(new GrayColorTransformation(context)))
+                    .error(R.drawable.darth_vader)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(targetView);
+            targetView.setColorFilter(blackWhiteFilter);
+        } catch (NullPointerException e) {
+            glideLoadIntoCenterInside(context, R.drawable.darth_vader, targetView);
+        }
     }
 
     private static URL encodeImageUrl(String urlStr) throws MalformedURLException, URISyntaxException {

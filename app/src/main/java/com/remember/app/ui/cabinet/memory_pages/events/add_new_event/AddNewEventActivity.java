@@ -19,6 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatRadioButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.data.models.CreateEventRequest;
@@ -30,7 +34,6 @@ import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.DeleteEvent;
-import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
 import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -46,9 +49,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatRadioButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -75,6 +75,7 @@ import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
+import static com.remember.app.ui.utils.LoadingPopupUtils.setLoadingDialog;
 
 public class AddNewEventActivity extends BaseActivity implements AddNewEventView ,DeleteEvent.Callback{
 
@@ -237,7 +238,8 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
 
     @OnClick(R.id.image_layout)
     public void pickImage() {
-        progressDialog = LoadingPopupUtils.showLoadingDialog(this);
+        progressDialog = setLoadingDialog(this);
+        progressDialog.show();
         cropImage(this);
     }
 

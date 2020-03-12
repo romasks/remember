@@ -100,14 +100,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
-import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
-import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
-import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
-import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
-import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-
-import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.StringUtils.getStringFromField;

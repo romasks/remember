@@ -11,13 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -38,7 +34,6 @@ import com.remember.app.ui.menu.notifications.NotificationsActivity;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
-import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.PopupPageScreen;
 import com.remember.app.ui.utils.Utils;
@@ -46,7 +41,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -56,14 +50,12 @@ import butterknife.OnClick;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
-import static com.remember.app.data.Constants.PREFS_KEY_THEME;
-import static com.remember.app.data.Constants.PREFS_KEY_THEME_CHANGED;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
-import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.ui.utils.LoadingPopupUtils.setLoadingDialog;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
@@ -106,10 +98,10 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
 
         subscribeToTopic();
+
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
             searchImg.setImageResource(R.drawable.ic_search_dark_theme);
@@ -120,10 +112,6 @@ public class MainActivity extends BaseActivity
             viewPager.setBackgroundColor(getResources().getColor(android.R.color.white));
         }
 
-        if (Prefs.getBoolean(PREFS_KEY_THEME_CHANGED, false)) {
-            Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, false);
-//            return;
-        }
         setUp();
     }
 
@@ -179,9 +167,6 @@ public class MainActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             drawer.openDrawer(GravityCompat.START);
-
-//            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-//            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         }
     }
 
@@ -291,7 +276,6 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -323,15 +307,8 @@ public class MainActivity extends BaseActivity
                 startActivity(new Intent(this, QuestionActivity.class));
                 return true;
             }
-//            case R.id.menu_theme: {
-//                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-//                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-//                changeTheme();
-//                return true;
-//            }
-                //TODO
             case R.id.menu_exit: {
-                //TODO
+                // TODO
                 unsubscribeToTopic();
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
@@ -361,7 +338,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void search(RequestSearchPage requestSearchPage) {
-        progressDialog = LoadingPopupUtils.showLoadingDialog(this);
+        progressDialog = setLoadingDialog(this);
+        progressDialog.show();
         presenter.searchLastName(requestSearchPage);
     }
 
@@ -369,13 +347,7 @@ public class MainActivity extends BaseActivity
         this.callbackPage = callback;
     }
 
-    public void changeTheme() {
-        Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
-        Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-        this.recreate();
-    }
-    private void subscribeToTopic(){
-
+    private void subscribeToTopic() {
         String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener(task -> {
@@ -387,7 +359,7 @@ public class MainActivity extends BaseActivity
                 });
     }
 
-    private void unsubscribeToTopic(){
+    private void unsubscribeToTopic() {
         String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
                 .addOnCompleteListener(task -> {

@@ -18,7 +18,6 @@ public class Constants {
     public static final String PREFS_KEY_AVATAR = "AVATAR";
     public static final String PREFS_KEY_EMAIL = "EMAIL";
     public static final String PREFS_KEY_TOKEN = "TOKEN";
-    public static final String PREFS_KEY_THEME_CHANGED = "THEME_CHANGED";
     public static final String PREFS_KEY_THEME = "THEME";
 
     public static final boolean THEME_LIGHT = false;
@@ -49,6 +48,7 @@ public class Constants {
     public static final String INTENT_EXTRA_ID = "ID";
 
     public static final String INTENT_EXTRA_POSITION_IN_SLIDER = "POSITION_IN_SLIDER";
+    public static final String INTENT_EXTRA_SETTINGS_FRAGMENT_PAGER_STATE = "SETTINGS_FRAGMENT_PAGER_STATE";
 
     public static final String NOTIF_EVENT_TYPE_EVENT = "event";
     public static final String NOTIF_EVENT_TYPE_BIRTH = "birth";

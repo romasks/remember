@@ -3,15 +3,12 @@ package com.remember.app.ui.menu.settings;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +21,6 @@ import com.redmadrobot.inputmask.MaskedTextChangedListener;
 import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -42,15 +38,17 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.ui.utils.FileUtils.getBitmap;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class PersonalDataFragment extends SettingsBaseFragment implements SettingView {
+public class PersonalDataFragment extends SettingsBaseFragment {
 
     private final String TAG = PersonalDataFragment.class.getSimpleName();
 
     private SettingPresenter presenter;
+    private ProgressDialog progressDialog;
 
     @BindView(R.id.avatar)
     ImageView avatar;
@@ -78,13 +76,12 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     @BindView(R.id.cb_theme_dark)
     AppCompatRadioButton darkTheme;
 
-    private ProgressDialog progressDialog;
-
     public PersonalDataFragment() {
     }
 
-    PersonalDataFragment(@NotNull SettingPresenter presenter) {
+    PersonalDataFragment(@NotNull SettingPresenter presenter, @NotNull ProgressDialog progressDialog) {
         this.presenter = presenter;
+        this.progressDialog = progressDialog;
     }
 
     @Override
@@ -95,7 +92,6 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     @Override
     protected void setUp() {
         setTheme();
-
         rgTheme.check(Utils.isThemeDark() ? R.id.cb_theme_dark : R.id.cb_theme_light);
     }
 
@@ -117,7 +113,6 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (presenter != null) {
-            presenter.getInfo();
             presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
             v();
         }
@@ -127,20 +122,17 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK && getContext() != null) {
                 Uri resultUri = result.getUri();
-                if (getContext() != null) {
-                    setGlideImage(getContext(), resultUri, avatar);
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
-                        File imageFile = saveBitmap(bitmap);
-                        presenter.saveImageSetting(imageFile);
-                        progressDialog = LoadingPopupUtils.showLoadingDialog(getContext());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                setGlideImage(getContext(), resultUri, avatar);
+                try {
+                    File imageFile = saveBitmap(getBitmap(getContext(), resultUri));
+                    presenter.saveImageSetting(imageFile);
+                    progressDialog.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE || getContext() == null) {
                 Utils.showSnack(avatar, "Ошибка загрузки фото");
             }
         }
@@ -156,9 +148,9 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     }
 
     void onSaveClick() {
-            presenter.getRequestSettings()
-                    .name(name).surname(surname).middleName(middleName)
-                    .nickname(nickname).location(location).phone(phone);
+        presenter.getRequestSettings()
+                .name(name).surname(surname).middleName(middleName)
+                .nickname(nickname).location(location).phone(phone);
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
@@ -177,6 +169,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         nickname.setText(responseSettings.getNickname());
         location.setText(responseSettings.getLocation());
         email.setText(responseSettings.getEmail());
+
         if (getView() != null) {
             getView().invalidate();
         } else {
@@ -184,26 +177,10 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         }
     }
 
-    @Override
-    public void error(Throwable throwable) {
-        // placeholder
-    }
-
-    @Override
-    public void onSaved(Object o) {
-        // placeholder
-    }
-
-    @Override
-    public void onSavedImage(Object o) {
-        Utils.showSnack(avatar, "Фото успешно сохранено");
-        progressDialog.dismiss();
-    }
-
-    private void v (){
+    private void v() {
         phone.setOnFocusChangeListener((v, hasFocus) -> {
             phoneLayout.setHint("Телефон");
-            if (!hasFocus && (phone.getText().length()==0)){
+            if (!hasFocus && (phone.getText().length() == 0)) {
                 phone.setText(null);
             }
         });

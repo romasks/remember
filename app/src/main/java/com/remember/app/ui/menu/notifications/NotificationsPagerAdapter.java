@@ -1,12 +1,14 @@
 package com.remember.app.ui.menu.notifications;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NotificationsPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -17,11 +19,12 @@ public class NotificationsPagerAdapter extends FragmentStatePagerAdapter {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
-    void addFragment(Fragment fragment, String title){
+    void addFragment(Fragment fragment, String title) {
         fragmentList.add(fragment);
         titleList.add(title);
     }
 
+    @NotNull
     @Override
     public Fragment getItem(int position) {
         return fragmentList.get(position);
