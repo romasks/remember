@@ -131,6 +131,7 @@ public class PopupPageScreen extends PopupWindow {
             }
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         //dialog.setMaxDate(new Date().getTime());
+        datePickerDialog.setYearRange(1900, Calendar.getInstance().get(Calendar.YEAR));
         datePickerDialog.show(this.fragmentManager, "tag");
         /*new DatePickerDialog(v.getContext(), datePickerDialog,
                 dateAndTime.get(Calendar.YEAR),

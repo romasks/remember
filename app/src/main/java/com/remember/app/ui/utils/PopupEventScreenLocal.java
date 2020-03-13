@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
 
@@ -63,13 +64,18 @@ public class PopupEventScreenLocal extends PopupWindow {
 
         spinner = popupView.findViewById(R.id.spinner);
         spinner.setItems(responseHandBooks);
+        spinner.setSelectedIndex(7);
 
         popupView.findViewById(R.id.submit).setOnClickListener(v -> {
 //            if (date.getText().toString().isEmpty()) {
 //                Toast.makeText(context, "Выберите дату", Toast.LENGTH_SHORT).showKeyboard();
 //            } else {
-            callback.search(date.getText().toString(), spinner.getSelectedIndex());
-            dismiss();
+                if (date.getText().toString().equals("") && spinner.getSelectedIndex() == 7) {
+                    Toast.makeText(context, "Выберите параметры поиска", Toast.LENGTH_SHORT).show();
+                } else {
+                    callback.search(date.getText().toString(), spinner.getSelectedIndex());
+                    dismiss();
+                }
 //            }
         });
 
@@ -98,6 +104,7 @@ public class PopupEventScreenLocal extends PopupWindow {
             }
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         //dialog.setMaxDate(new Date().getTime());
+        dialog.setYearRange(1900, Calendar.getInstance().get(Calendar.YEAR));
         dialog.show(this.supportFragmentManager, "tag");
 
     }
