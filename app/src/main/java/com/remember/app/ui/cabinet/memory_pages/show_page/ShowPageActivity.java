@@ -47,6 +47,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import ru.ok.android.sdk.Odnoklassniki;
@@ -68,12 +69,13 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.auth.AuthActivity.logined;
+import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.StringUtils.getStringFromField;
 
-public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
+public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback,
+    PhotoSliderAdapter.ItemClickListener {
 
     private final String TAG = ShowPageActivity.class.getSimpleName();
 
@@ -126,8 +128,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     LinearLayout addPhotoToSliderBtn_layout;
     @BindView(R.id.map_button)
     Button mapButton;
-    @BindView(R.id.arrow_tv)
-    TextView arrow_tv;
 
     @BindView(R.id.back_button)
     ImageView backImg;
@@ -136,7 +136,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @BindView(R.id.shareFb)
     AppCompatImageView shareFbButton;
-
 
     private PhotoDialog photoDialog;
     private MemoryPageModel memoryPageModel;
@@ -157,7 +156,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         return R.layout.activity_page;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
@@ -165,7 +163,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
-            but_vk.setVisibility(View.GONE);
+            share_LinLayout.setVisibility(View.GONE);
             settings.setVisibility(View.GONE);
         }
 
@@ -196,7 +194,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerSlider.setAdapter(photoSliderAdapter);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -238,8 +235,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void error(Throwable throwable) {
-        Utils.showSnack(image, "Ошибка загрузки изображения");
-        mainLinLayout.removeView(share_LinLayout);
+        if (image == null)
+            Utils.showSnack(image, "Ошибка загрузки изображения");
+        share_LinLayout.setVisibility(View.GONE);
 
     }
 
@@ -273,9 +271,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @Override
     public void onItemClick(View view, int position) {
         startActivity(
-                new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
-                        .putExtra(Constants.INTENT_EXTRA_ID, id)
-                        .putExtra(Constants.INTENT_EXTRA_POSITION_IN_SLIDER, position)
+            new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
+                .putExtra(Constants.INTENT_EXTRA_ID, id)
+                .putExtra(Constants.INTENT_EXTRA_POSITION_IN_SLIDER, position)
         );
     }
 
@@ -313,6 +311,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.eventsButton)
     public void onEventButtonClick() {
+        Log.d("myLog", "data1 = " + memoryPageModel.getDateBirth());
         Intent intent = new Intent(this, EventsActivity.class);
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
         intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
@@ -326,12 +325,11 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         if (description.getVisibility() == View.VISIBLE) {
             description.setVisibility(View.GONE);
             descriptionTitle.setText(R.string.memory_page_show_description_text);
-            arrow_tv.setText(" ꓦ");
         } else {
             description.setVisibility(View.VISIBLE);
             descriptionTitle.setText(R.string.memory_page_hide_description_text);
             scrollView.scrollTo(0, scrollView.getBottom() + 1500);
-            arrow_tv.setText(" ꓥ");
+
         }
     }
 
@@ -348,9 +346,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         } else {
             View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
             PopupMap popupWindow = new PopupMap(
-                    popupView,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            );
             popupWindow.setCallback(this);
             popupWindow.setUp(image, getSupportFragmentManager(), memoryPageModel.getCoords());
         }
@@ -390,37 +389,17 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         final String generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel.getId().toString();
 
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse(generatedByIDLink))
-                .build();
+            .setContentUrl(Uri.parse(generatedByIDLink))
+            .build();
         ShareDialog.show(this, content);
     }
-
-    @OnClick(R.id.shareOk)
-    public void shareOk() {
-        Odnoklassniki odnoklassniki = Odnoklassniki.createInstance(this, "512000155578", "ED4051FB2B4EC9C1433BEF94");
-        if (odnoklassniki.getMAccessToken() == null) {
-            odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);
-        }
-        postOk(odnoklassniki);
-    }
-
-    private void postOk(Odnoklassniki odnoklassniki) {
-        // Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
-        final String generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel.getId().toString();
-
-        odnoklassniki.setMAccessToken("tkn10jGMF0EKID1wfBbyu37MvtO54JTrGLqGABytcvfAAl7OT6kLZLYIOv6k2AT2wr7Ko");
-        odnoklassniki.setMSessionSecretKey("c1e8ee51261c458ef614fb4d293abefe");
-        odnoklassniki.performPosting(this, "{\"media\":[{\"type\":\"text\",\"text\":\"" + generatedByIDLink + "\"}]}",
-                false, null);
-        Log.d(TAG, "shareOk: ЗАПОСТИЛОСЬ В ОК");
-    }
-
 
     private void sharePageToVk() {
         if (sharing == 1) {
             VKShareDialogBuilder builder = new VKShareDialogBuilder();
             builder.setText("ᅠ ");
-            // builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
+            // builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage),
+            // VKImageParameters.pngImage())});
 
             // Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
             final String generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel.getId().toString();
@@ -468,15 +447,17 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             initInfo(memoryPageModel);
             mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
 
-            if ((memoryPageModel.getFlag() == null && memoryPageModel.getStatus() == null) || !logined)
-                mainLinLayout.removeView(share_LinLayout);
-            else if (!(memoryPageModel.getFlag().equals("true") && memoryPageModel.getStatus().toString().equals("Одобрено"))) {
-                mainLinLayout.removeView(share_LinLayout);
-                Log.e(TAG, "initAll: DELETED");
-            }
+            Log.d(TAG, "initAll: memoryPageModel.getStatus() " + memoryPageModel.getStatus());
+            Log.d(TAG, "initAll: memoryPageModel.getFlag()  " + memoryPageModel.getFlag());
 
-            Log.e(TAG, "onCreateFLAG: " + memoryPageModel.getFlag());
-            Log.e(TAG, "onCreate:STATUS " + memoryPageModel.getStatus());
+            if (memoryPageModel.getStatus() == null || memoryPageModel.getFlag() == null) {
+                share_LinLayout.setVisibility(View.GONE);
+            } else {
+                if (!(memoryPageModel.getFlag().equals("true") && memoryPageModel.getStatus().equals("Одобрено"))) {
+                    share_LinLayout.setVisibility(View.GONE);
+                    Log.e(TAG, "initAll: DELETED");
+                }
+            }
         }
     }
 
@@ -490,14 +471,14 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     private void initDate(MemoryPageModel memoryPageModel) {
         String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
-                + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
+            + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath());
         date.setText(textDate);
     }
 
     private void initTextName(MemoryPageModel memoryPageModel) {
         String result = StringUtils.capitalize(memoryPageModel.getSecondName())
-                + " " + StringUtils.capitalize(memoryPageModel.getName())
-                + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
+            + " " + StringUtils.capitalize(memoryPageModel.getName())
+            + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         name.setText(result);
         Log.d(TAG, "initTextName: " + memoryPageModel.getComment());
         if (memoryPageModel.getComment().equals(""))

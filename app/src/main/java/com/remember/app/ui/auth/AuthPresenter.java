@@ -100,6 +100,21 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         unsubscribeOnDestroy(subscription);
     }
 
+    void signInMailRu() {
+        if (isOffline()) return;
+        RequestSocialAuth request = new RequestSocialAuth(
+                "",
+                Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
+                "mailru"
+        );
+        Disposable subscription = serviceNetwork.signInSocial(request)
+                .subscribe(
+                        getViewState()::onLoggedSocial,
+                        getViewState()::onError
+                );
+        unsubscribeOnDestroy(subscription);
+    }
+
     void restorePassword(String email) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.restorePassword(email)

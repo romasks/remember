@@ -252,6 +252,9 @@ public interface ApiMethods {
     @GET("page/delete/{id}")
     Observable<Object> deletePage(@Header("Authorization") String token, @Path("id") Integer id);
 
+    @GET("deadevent/delete/{id}")
+    Observable<Object> deleteEvent(@Header("Authorization") String token, @Path("id") Integer id);
+
     @GET("poisk/page")
     Observable<List<MemoryPageModel>> searchPageAllDead(@Query("name") String name,
                                                         @Query("secondname") String secondName,

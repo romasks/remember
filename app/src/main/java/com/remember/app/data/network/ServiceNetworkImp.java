@@ -1,5 +1,7 @@
 package com.remember.app.data.network;
 
+import android.util.Log;
+
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.CreateEventRequest;
@@ -322,8 +324,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 break;
         }
         String resultDate;
+        Log.d("myLog", "date = " + date);
         if (!date.isEmpty()) {
-            resultDate = date.substring(0, date.length() - 5);
+            //resultDate = date.substring(0, date.length() - 5);
+            resultDate = date;
         } else {
             resultDate = "";
         }
@@ -433,6 +437,12 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<Object> deletePage(Integer id){
         return apiMethods.deletePage("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> deleteEvent(Integer id){
+        return apiMethods.deleteEvent("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
                 .compose(rxSchedulers.applySchedulers());
     }
 }

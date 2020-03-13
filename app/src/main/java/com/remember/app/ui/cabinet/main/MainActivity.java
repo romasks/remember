@@ -3,6 +3,7 @@ package com.remember.app.ui.cabinet.main;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
@@ -42,6 +44,7 @@ import java.util.List;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -51,13 +54,14 @@ import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
-import static com.remember.app.ui.auth.AuthActivity.logined;
+import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 import static com.remember.app.ui.utils.LoadingPopupUtils.setLoadingDialog;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
+    implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback,
+    MainView {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -98,7 +102,7 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-        logined = true;
+
         subscribeToTopic();
 
         if (Utils.isThemeDark()) {
@@ -128,6 +132,9 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
+
+        TextView version = navigationView.findViewById(R.id.version);
+        version.setText("Версия " + BuildConfig.VERSION_NAME);
 
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
         imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
@@ -215,9 +222,11 @@ public class MainActivity extends BaseActivity
     private void showEventScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
         popupWindowPage = new PopupPageScreen(
-                popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            getSupportFragmentManager()
+        );//TODO
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);
@@ -228,9 +237,10 @@ public class MainActivity extends BaseActivity
     private void showPageScreen() {
         View popupView = getLayoutInflater().inflate(R.layout.popup_event_screen, null);
         popupWindowEvent = new PopupEventScreen(
-                popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        );
         popupWindowEvent.setFocusable(true);
         popupWindowEvent.setCallback(this);
         popupWindowEvent.setUp(titleUserName);
@@ -346,24 +356,24 @@ public class MainActivity extends BaseActivity
     private void subscribeToTopic() {
         String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
-                .addOnCompleteListener(task -> {
-                    String msg = "subscr";
-                    if (!task.isSuccessful()) {
-                        msg = "not subscr";
-                    }
-                    Log.d(TAG, msg);
-                });
+            .addOnCompleteListener(task -> {
+                String msg = "subscr";
+                if (!task.isSuccessful()) {
+                    msg = "not subscr";
+                }
+                Log.d(TAG, msg);
+            });
     }
 
     private void unsubscribeToTopic() {
         String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
-                .addOnCompleteListener(task -> {
-                    String msg = "unsubscr";
-                    if (!task.isSuccessful()) {
-                        msg = "not unsubscr";
-                    }
-                    Log.d(TAG, msg);
-                });
+            .addOnCompleteListener(task -> {
+                String msg = "unsubscr";
+                if (!task.isSuccessful()) {
+                    msg = "not unsubscr";
+                }
+                Log.d(TAG, msg);
+            });
     }
 }

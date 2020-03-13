@@ -48,16 +48,17 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
         String[] result = coords.split(",");
-        latitude = Double.parseDouble(result[0]);
-        longitude = Double.parseDouble(result[1]);
-        dismiss.setOnClickListener(v -> {
-            if (mapFragment != null) {
-                supportFragmentManager.beginTransaction().remove(mapFragment).commit();
-            }
-            callback.setCoordinates(latitude, longitude);
-            dismiss();
-        });
-
+        if (result.length>1){
+            latitude = Double.parseDouble(result[0]);
+            longitude = Double.parseDouble(result[1]);
+            dismiss.setOnClickListener(v -> {
+                if (mapFragment != null) {
+                    supportFragmentManager.beginTransaction().remove(mapFragment).commit();
+                }
+                callback.setCoordinates(latitude, longitude);
+                dismiss();
+            });
+        }
     }
 
     @Override

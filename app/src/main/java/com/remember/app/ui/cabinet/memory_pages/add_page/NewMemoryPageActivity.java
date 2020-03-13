@@ -46,6 +46,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -69,8 +70,8 @@ import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.LoadingPopupUtils.setLoadingDialog;
 
-
-public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback, DeletePageDialog.Callback {
+public class NewMemoryPageActivity extends BaseActivity
+    implements AddPageView, PopupReligion.Callback, DeletePageDialog.Callback {
 
     private static final String TAG = NewMemoryPageActivity.class.getSimpleName();
 
@@ -148,7 +149,11 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(
+        int requestCode,
+        @NonNull String[] permissions,
+        @NonNull int[] grantResults
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         setUp();
     }
@@ -181,9 +186,10 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         }
 
         PopupReligion popupWindow = new PopupReligion(
-                popupView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        );
         popupWindow.setCallback(this);
         popupWindow.setUp(lastName, responseHandBooks);
     }
@@ -347,7 +353,8 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             Bitmap hah = null;
             if (data != null) {
                 hah = Bitmap.createScaledBitmap(data.getParcelableExtra("bitmap"),//TODO
-                        dsMetrics.widthPixels, dsMetrics.heightPixels, false);
+                    dsMetrics.widthPixels, dsMetrics.heightPixels, false
+                );
             }
             findViewById(R.id.text_image).setVisibility(View.GONE);
             findViewById(R.id.add_white).setVisibility(View.GONE);
@@ -454,32 +461,48 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     }
 
     private void setDateBegin(View v) {
-        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
-            dateAndTime.set(year, monthOfYear, dayOfMonth);
-            startDate = dateAndTime.getTimeInMillis();
-            Date endDate = parseLocalFormat(dateEnd.getText().toString());
-            if (endDate != null && dateAndTime.getTime().after(endDate)) {
-                Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
-            } else {
-                setInitialDateBegin();
-            }
-        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(
+            (view, year, monthOfYear, dayOfMonth) -> {
+                dateAndTime.set(year, monthOfYear, dayOfMonth);
+                startDate = dateAndTime.getTimeInMillis();
+                Date endDate = parseLocalFormat(dateEnd.getText().toString());
+                if (endDate != null && dateAndTime.getTime().after(endDate)) {
+                    Utils.showSnack(
+                        dateBegin,
+                        getResources().getString(R.string.events_error_date_death_before_date_birth)
+                    );
+                } else {
+                    setInitialDateBegin();
+                }
+            },
+            Calendar.getInstance().get(Calendar.YEAR),
+            Calendar.getInstance().get(Calendar.MONTH),
+            Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
         dialog.setMaxDate(new Date().getTime());
         dialog.show(getSupportFragmentManager(), "tag");
 
     }
 
     private void setDateEnd(View v) {
-        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
-            dateAndTime.set(year, monthOfYear, dayOfMonth);
-            endDate = dateAndTime.getTimeInMillis();
-            Date startDate = parseLocalFormat(dateBegin.getText().toString());
-            if (startDate != null && startDate.after(dateAndTime.getTime())) {
-                Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
-            } else {
-                setInitialDateEnd();
-            }
-        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(
+            (view, year, monthOfYear, dayOfMonth) -> {
+                dateAndTime.set(year, monthOfYear, dayOfMonth);
+                endDate = dateAndTime.getTimeInMillis();
+                Date startDate = parseLocalFormat(dateBegin.getText().toString());
+                if (startDate != null && startDate.after(dateAndTime.getTime())) {
+                    Utils.showSnack(
+                        dateBegin,
+                        getResources().getString(R.string.events_error_date_death_before_date_birth)
+                    );
+                } else {
+                    setInitialDateEnd();
+                }
+            },
+            Calendar.getInstance().get(Calendar.YEAR),
+            Calendar.getInstance().get(Calendar.MONTH),
+            Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
         dialog.setMaxDate(new Date().getTime());
         dialog.show(getSupportFragmentManager(), "tag");
     }
@@ -496,7 +519,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @Override
     public void onDeletePage() {
-        int pageId = memoryPageModel.getId();
-        presenter.deletePage(pageId);
+        presenter.deletePage(memoryPageModel.getId());
     }
 }

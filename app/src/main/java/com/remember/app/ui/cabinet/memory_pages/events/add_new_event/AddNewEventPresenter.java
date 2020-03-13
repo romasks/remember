@@ -36,4 +36,14 @@ public class AddNewEventPresenter extends BasePresenter<AddNewEventView> {
             );
         unsubscribeOnDestroy(subscription);
     }
+
+    void deleteEvent(Integer id){
+        if (isOffline()) return;
+        Disposable subscription = serviceNetwork.deleteEvent(id)
+                .subscribe(
+                        getViewState()::onDeleteEvent,
+                        getViewState()::onDeleteEventError
+                );
+        unsubscribeOnDestroy(subscription);
+    }
 }

@@ -19,6 +19,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
@@ -149,6 +150,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             navigationView.setNavigationItemSelectedListener(this);
 
             View headerView = navigationView.getHeaderView(0);
+            TextView version = navigationView.findViewById(R.id.version);
+            version.setText("Версия " + BuildConfig.VERSION_NAME);
 
             TextView navUserName = headerView.findViewById(R.id.user_name);
             navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
@@ -220,7 +223,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         PopupPageScreen popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT, this.getSupportFragmentManager());
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);

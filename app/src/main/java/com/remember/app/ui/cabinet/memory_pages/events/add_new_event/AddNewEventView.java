@@ -11,4 +11,8 @@ public interface AddNewEventView extends BaseView {
     void onEditEvent(EditEventRequest editEventRequest);
 
     void onError(Throwable throwable);
+
+    void onDeleteEvent(Object response);
+
+    void onDeleteEventError(Throwable throwable);
 }

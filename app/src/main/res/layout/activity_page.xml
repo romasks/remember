@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <include
         android:id="@+id/app_bar"
         layout="@layout/app_bar_layout"
@@ -71,7 +69,6 @@
                         android:layout_height="60dp"
                         android:layout_gravity="bottom"
                         android:background="@drawable/gradient" />
-
                 </FrameLayout>
 
                 <TextView
@@ -136,9 +133,7 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="3"
                             tools:listitem="@layout/slider_photo" />
-
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <TextView
@@ -195,7 +190,6 @@
                             android:textSize="14dp"
                             android:textStyle="bold"
                             tools:text="Минск" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -243,7 +237,6 @@
                                 android:textSize="14dp"
                                 android:textStyle="bold"
                                 tools:text="6" />
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -340,7 +333,7 @@
                             android:layout_gravity="center|center_vertical"
                             android:layout_marginTop="12dp"
                             android:layout_weight="1"
-                            android:lines="3"
+                            android:lines="2"
                             android:maxLines="3"
                             android:text="-"
                             android:textAlignment="center"
@@ -349,58 +342,32 @@
                             android:textStyle="bold"
                             tools:text="Название кладбища" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1">
-
-                            <TextView
-                                android:id="@+id/description_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                android:paddingTop="5dp"
-                                android:text="@string/memory_page_show_description_text"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="18dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/arrow_tv"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text=" ꓦ"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="12sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/description_title"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
                         <TextView
-                            android:id="@+id/description"
-                            android:layout_width="match_parent"
+                            android:id="@+id/description_title"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center|center_vertical"
-                            android:text="йцуййцуйцуйцу"
-                            android:textColor="?android:attr/textColor"
-                            android:textSize="14dp"
-                            android:visibility="gone"
-                            tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
-
-
+                            android:paddingBottom="7dp"
+                            android:text="@string/memory_page_show_description_text"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18dp" />
                     </LinearLayout>
-
-
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center|center_vertical"
+                    android:text="йцуййцуйцуйцу"
+                    android:textColor="?android:attr/textColor"
+                    android:textSize="14dp"
+                    android:visibility="gone"
+                    tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
 
                 <Button
                     android:id="@+id/map_button"
@@ -424,30 +391,19 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/shareFb"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:srcCompat="@mipmap/ic_fc" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/shareVk"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:srcCompat="@mipmap/ic_vk" />
 
-
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/shareOk"
+                        android:id="@+id/shareFb"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="0"
-                        app:srcCompat="@mipmap/ic_ok" />
-
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@mipmap/ic_fc" />
                 </LinearLayout>
-
-
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
