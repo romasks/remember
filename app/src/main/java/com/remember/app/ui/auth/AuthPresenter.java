@@ -12,7 +12,6 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 
 import io.reactivex.disposables.Disposable;
-
 import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 
