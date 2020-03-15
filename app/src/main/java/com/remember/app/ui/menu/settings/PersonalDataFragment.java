@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,10 +19,9 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.redmadrobot.inputmask.MaskedTextChangedListener;
-import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseSettings;
+import com.remember.app.ui.menu.settings.changePass.ChangePassListener;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -33,8 +31,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -77,7 +73,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     AppCompatRadioButton lightTheme;
     @BindView(R.id.cb_theme_dark)
     AppCompatRadioButton darkTheme;
-
+    public static ChangePassListener changePassListener;
     private ProgressDialog progressDialog;
 
     public PersonalDataFragment() {
@@ -207,5 +203,14 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
                 phone.setText(null);
             }
         });
+    }
+
+    @OnClick(R.id.changePass)
+    void openChangePassFragment (){
+        changePassListener.openChangePassActivity();
+    }
+
+    static void setListener(ChangePassListener listener) {
+        changePassListener = listener;
     }
 }

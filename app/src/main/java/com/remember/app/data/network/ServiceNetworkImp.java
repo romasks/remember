@@ -445,4 +445,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
         return apiMethods.deleteEvent("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
                 .compose(rxSchedulers.applySchedulers());
     }
+
+    @Override
+    public Observable<Object> changePassword(RequestBody requestBody) {
+        return apiMethods.changePassword("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), requestBody)
+                .compose(rxSchedulers.applySchedulers());
+    }
 }

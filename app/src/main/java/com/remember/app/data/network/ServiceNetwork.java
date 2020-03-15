@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public interface ServiceNetwork {
@@ -112,4 +113,6 @@ public interface ServiceNetwork {
     Observable<Object> deletePage(Integer id);
 
     Observable<Object> deleteEvent(Integer id);
+
+    Observable<Object> changePassword(RequestBody requestBody);
 }

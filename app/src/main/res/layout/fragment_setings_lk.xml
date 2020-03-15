@@ -62,6 +62,7 @@
                     android:imeOptions="actionNext"
                     android:textSize="18dp" />
 
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -121,8 +122,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:textColorHint="?android:attr/textColorHint"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-                >
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
@@ -164,13 +164,33 @@
                     style="@style/SettingsInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="1234567890+() -"
+                    android:hint="Телефон"
                     android:inputType="phone"
                     android:maxLength="11"
-                    android:hint="Телефон"
-                    android:digits="1234567890+() -"
                     android:textSize="18dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/changePass"
+                style="@style/SettingsInputTextStyle"
+                android:layout_width="match_parent"
+                android:paddingTop="20dp"
+                android:paddingStart="5dp"
+                android:layout_height="wrap_content"
+                android:hint="Изменить пароль"
+                android:textSize="18dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:background="@color/gray"
+                android:layout_marginTop="5dp" />
+
             <!-- ЭТО ПОЛЕ ДОЛЖНО БУДЕТ БЫТЬ СПИННЕРОМ -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -220,5 +240,6 @@
             </RadioGroup>
         </LinearLayout>
     </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

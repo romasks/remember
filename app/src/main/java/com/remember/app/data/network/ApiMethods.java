@@ -280,4 +280,8 @@ public interface ApiMethods {
                                  @Part MultipartBody.Part image,
                                  @Part MultipartBody.Part imageCut);
 
+    @PUT("user/password")
+    Observable<Object> changePassword(@Header("Authorization") String token,
+                                    @Body RequestBody requestBody);
+
 }

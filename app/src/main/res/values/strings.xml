@@ -187,6 +187,10 @@
 
     <string name="facebook_app_id">661338814675848</string>
     <string name="fb_login_protocol_scheme">fb661338814675848</string>
+    <string name="repass">Введите новый пароль ещё раз</string>
+    <string name="change">Изменить</string>
+    <string name="new_pass">Введите новый пароль</string>
+    <string name="cur_pass">Текущий пароль</string>
 
 
 </resources>

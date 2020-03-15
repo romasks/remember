@@ -444,7 +444,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             //builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
             final String generatedByIDLink = "https://pomnyu.ru/public/page/"+memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
 
-            builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню", generatedByIDLink);
+            builder.setAttachmentLink("Эта запись сделана с помощью приложения Помню", generatedByIDLink);
 
              builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
                 @Override
