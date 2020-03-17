@@ -34,7 +34,7 @@ public class ResponseEvents {
     private Object userId;
 
     public Integer getId() {
-        return id;
+        return id == null ? -999 : id;
     }
 
     public void setId(Integer id) {
@@ -90,7 +90,7 @@ public class ResponseEvents {
     }
 
     public Integer getPageId() {
-        return pageId;
+        return pageId == null ? -999 : pageId;
     }
 
     public void setPageId(Integer pageId) {

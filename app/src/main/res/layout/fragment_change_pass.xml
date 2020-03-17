@@ -23,12 +23,24 @@
             android:layout_height="wrap_content"
             android:hint="@string/cur_pass"
             android:inputType="textPassword"
+            android:paddingEnd="50dp"
             android:nextFocusForward="@id/first_name"
             app:layout_constraintTop_toBottomOf="@id/app_bar"
             android:textSize="18dp"
             android:maxLines="1"
-            android:imeOptions="actionNext"
             android:singleLine="true" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgEyeCur"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/open_eye"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/etCurPass"
+        app:layout_constraintEnd_toEndOf="@+id/etCurPass"
+        app:layout_constraintTop_toTopOf="@+id/etCurPass" />
 
 
         <EditText
@@ -41,9 +53,18 @@
             android:textSize="18dp"
             android:maxLines="1"
             app:layout_constraintTop_toBottomOf="@+id/etCurPass"
-            android:imeOptions="actionNext"
             android:singleLine="true" />
-
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgEyeNew"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/open_eye"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/etNewPass"
+        app:layout_constraintEnd_toEndOf="@+id/etNewPass"
+        app:layout_constraintTop_toTopOf="@+id/etNewPass" />
 
         <EditText
             android:id="@+id/etRePass"
@@ -55,9 +76,19 @@
             android:inputType="textPassword"
             android:textSize="18dp"
             android:maxLines="1"
-            android:imeOptions="actionNext"
             android:singleLine="true" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgEyeRe"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/open_eye"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/etRePass"
+        app:layout_constraintEnd_toEndOf="@+id/etRePass"
+        app:layout_constraintTop_toTopOf="@+id/etRePass" />
 
     <Button
         android:id="@+id/submit"

@@ -148,6 +148,7 @@ public class NotificationsFragment extends BaseFragment
                 Intent intent = new Intent(getContext(), EventFullActivity.class);
                 intent.putExtra(INTENT_EXTRA_EVENT_ID, ((EventNotificationModel) notification).getEventId());
                 intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
+        //        intent.putExtra("event", ((EventNotificationModel) notification).getType());
                 startActivity(intent);
                 break;
             }

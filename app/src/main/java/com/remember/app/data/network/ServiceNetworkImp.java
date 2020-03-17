@@ -158,8 +158,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<EventModel> getEvent(int id) {
-        return apiMethods.getDeadEvent(id)
+    public Observable<ResponseEvents> getEvent(int id) {
+        return apiMethods.getEvent(id)
                 .compose(rxSchedulers.applySchedulers());
     }
 

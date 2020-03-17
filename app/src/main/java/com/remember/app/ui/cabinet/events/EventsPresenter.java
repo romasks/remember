@@ -27,7 +27,7 @@ public class EventsPresenter extends BasePresenter<EventView> {
         if (isOffline()) return;
         Disposable subscription = getServiceNetwork().getEvent(id)
             .subscribe(
-                getViewState()::onReceivedDeadEvent,
+                getViewState()::onReceivedEvent,
                 getViewState()::onError
             );
         unsubscribeOnDestroy(subscription);

@@ -7,7 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.text.method.PasswordTransformationMethod;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
@@ -39,9 +42,18 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
     TextView title;
     @BindView(R.id.settings)
     ImageView settings;
+    @BindView(R.id.imgEyeCur)
+    AppCompatImageView eyeCur;
+    @BindView(R.id.imgEyeNew)
+    AppCompatImageView eyeNew;
+    @BindView(R.id.imgEyeRe)
+    AppCompatImageView eyeRe;
     String curPassword = "";
     String newPassword = "";
     String newRePassword = "";
+    private boolean showCur = false;
+    private boolean showNew = false;
+    private boolean showRe = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +66,9 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
     private void initUI() {
         settings.setVisibility(View.GONE);
         title.setText(R.string.password);
+        eyeCur.setOnClickListener(v -> onEyeClickCur(curPass, eyeCur));
+        eyeNew.setOnClickListener(v -> onEyeClickNew(newPass, eyeNew));
+        eyeRe.setOnClickListener(v ->   onEyeClickRe(newRepass, eyeRe));
 
     }
 
@@ -108,5 +123,47 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
 
     @Override
     public void onSavedImage(Object o) {
+    }
+
+
+    private void setTypePass(EditText editText, boolean showPass) {
+        if (showPass)
+            editText.setTransformationMethod(null);
+        else
+            editText.setTransformationMethod(new PasswordTransformationMethod());
+        editText.setSelection(editText.getText().toString().length());
+    }
+
+    private void onEyeClickCur(EditText editText, AppCompatImageView img) {
+        if (showCur) {
+            showCur = false;
+            img.setImageResource(R.drawable.close_eye);
+        } else {
+            showCur = true;
+            img.setImageResource(R.drawable.open_eye);
+        }
+        setTypePass(editText, showCur);
+    }
+
+    private void onEyeClickNew(EditText editText, AppCompatImageView img) {
+        if (showNew) {
+            showNew = false;
+            img.setImageResource(R.drawable.close_eye);
+        } else {
+            showNew = true;
+            img.setImageResource(R.drawable.open_eye);
+        }
+        setTypePass(editText, showNew);
+    }
+
+    private void onEyeClickRe(EditText editText, AppCompatImageView img) {
+        if (showRe) {
+            showRe = false;
+            img.setImageResource(R.drawable.close_eye);
+        } else {
+            showRe = true;
+            img.setImageResource(R.drawable.open_eye);
+        }
+        setTypePass(editText, showRe);
     }
 }
