@@ -75,6 +75,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
             backButton.setImageResource(R.drawable.ic_back_dark_theme);
             title.setTextColor(getResources().getColor(R.color.colorWhiteDark));
         }
+        settingsImage.setVisibility(View.GONE);
 
 //        if (getIntent().getExtras() != null) {
 //            if (getIntent().getExtras().getBoolean(INTENT_EXTRA_FROM_NOTIF)) {
@@ -85,16 +86,10 @@ public class EventFullActivity extends BaseActivity implements EventView {
 //                setEventData(responseEvents);
 //            }
 //        }
-        if (isEventReligion) {
-            settingsImage.setVisibility(View.INVISIBLE);
-            settingsImage.setEnabled(false);
-        } else {
-            settingsImage.setVisibility(View.VISIBLE);
-            settingsImage.setEnabled(true);
-        }
+
         if (getIntent().getExtras() != null && getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID) != 0) {
             presenter.getEvent(getIntent().getExtras().getInt(INTENT_EXTRA_EVENT_ID));
-            settingsImage.setVisibility(View.GONE);
+
         } else {
             isEventReligion = true;
             ResponseEvents responseEvents = new Gson().fromJson(String.valueOf(getIntent().getExtras().get("EVENTS")), ResponseEvents.class);
@@ -173,8 +168,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
         }
 
         if (isEventReligion) {
-            title.setText(responseEvents.getName());
-            eventName.setVisibility(View.GONE);
+            title.setText(R.string.events_calendar_header_text);
             date.setText(DateUtils.convertReligiousEventServerFormat(responseEvents.getDate()));
         } else {
 //            title.setText(responseEvents.getName());
@@ -207,8 +201,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
         }
 
         if (isEventReligion) {
-            title.setText(responseEvents.getName());
-            eventName.setVisibility(View.GONE);
+            title.setText(R.string.events_calendar_header_text);
             date.setText(DateUtils.convertReligiousEventServerFormat(responseEvents.getPutdate()));
         } else {
 //            title.setText(responseEvents.getName());
