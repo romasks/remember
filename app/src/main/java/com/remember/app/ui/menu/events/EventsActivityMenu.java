@@ -89,7 +89,7 @@ public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapte
     @OnClick(R.id.search)
     public void openSearch() {
         String[] rhb = {"Православие", "Католицизм", "Ислам", "Иудаизм", "Буддизм",
-                "Индуизм", "Другая религия", "Отсутствует"};
+                "Индуизм", "Другая религия", "Религия"};
         try {
             showPageScreen(Arrays.asList(rhb));
         } catch (Exception e) {

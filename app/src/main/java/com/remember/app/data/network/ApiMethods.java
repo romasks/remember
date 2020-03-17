@@ -269,6 +269,12 @@ public interface ApiMethods {
     Observable<List<ResponseEvents>> searchEventReligios(@Query("date") String date,
                                                          @Query("religia") String religia);
 
+    @GET("poisk/event")
+    Observable<List<ResponseEvents>> searchEventReligiosOnlyWithReligia(@Query("religia") String religia);
+
+    @GET("poisk/event")
+    Observable<List<ResponseEvents>> searchEventReligiosOnlyWithDate(@Query("date") String date);
+
     @GET("photo/page/{page_id}")
     Observable<List<ResponseImagesSlider>> getAllPhotosForPage(@Path("page_id") int pageId);
 

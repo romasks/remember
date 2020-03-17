@@ -1,6 +1,7 @@
 package com.remember.app.data.network;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
@@ -44,6 +45,8 @@ import retrofit2.Response;
 
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.DateUtils.convertLocalToRemoteFormat;
+import static com.remember.app.ui.utils.DateUtils.convertReligiousEventServerFormat;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
@@ -320,19 +323,29 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 break;
             case 7:
             default:
-                religia = "Отсутствует";
+                religia = "Религия";
                 break;
         }
         String resultDate;
-        Log.d("myLog", "date = " + date);
         if (!date.isEmpty()) {
             //resultDate = date.substring(0, date.length() - 5);
             resultDate = date;
         } else {
             resultDate = "";
         }
-        return apiMethods.searchEventReligios(resultDate, religia)
-                .compose(rxSchedulers.applySchedulers());
+        System.out.println("date = " + resultDate);
+        System.out.println("religia = " + religia);
+
+        if (resultDate.equals("")) {
+            return apiMethods.searchEventReligiosOnlyWithReligia(religia)
+                    .compose(rxSchedulers.applySchedulers());
+        } else if (selectedIndex == 7) {
+            return apiMethods.searchEventReligiosOnlyWithDate(resultDate)
+                    .compose(rxSchedulers.applySchedulers());
+        } else {
+            return apiMethods.searchEventReligios(resultDate, religia)
+                    .compose(rxSchedulers.applySchedulers());
+        }
     }
 
     @Override
