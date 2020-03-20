@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
-import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
+import com.remember.app.ui.menu.settings.changePass.ChangePassListener;
+import com.remember.app.ui.menu.settings.changePass.ChangePasswordActivity;
 import com.remember.app.ui.utils.Utils;
 
 import androidx.annotation.NonNull;
@@ -26,9 +26,8 @@ import butterknife.OnClick;
 
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static java.security.AccessController.getContext;
 
-public class SettingActivity extends BaseActivity implements SettingView {
+public class SettingActivity extends BaseActivity implements SettingView, ChangePassListener {
 
     private final String TAG = SettingActivity.class.getSimpleName();
 
@@ -81,19 +80,14 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     private void setUp() {
 //        presenter.getInfo();
-
+        PersonalDataFragment.setListener(this);
         viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
 
         saveButton.setOnClickListener(v -> {
-            if (getFragmentInViewPager(viewPager.getCurrentItem()).getPhone().length()>11){
-                presenter.updateSettingsData(getFragmentInViewPager(viewPager.getCurrentItem()).getPhone());
                 getFragmentInViewPager(viewPager.getCurrentItem()).onSaveClick();
                 presenter.saveSettings();
-            }
-            else
-                Toast.makeText(this, "Введите коректный номер", Toast.LENGTH_LONG).show();
-        });
+            });
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -150,5 +144,10 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @Override
     public void onSavedImage(Object o) {
         ((PersonalDataFragment) ((FragmentPager) viewPager.getAdapter()).getItem(0)).onSavedImage(o);
+    }
+
+    @Override
+    public void openChangePassActivity() {
+       startActivity(new Intent(this,  ChangePasswordActivity.class));
     }
 }

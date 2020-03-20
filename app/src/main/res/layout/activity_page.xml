@@ -5,12 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="0.dp"
-        android:layout_height="0.dp"
-        android:layout_gravity="center_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+
 
     <include
         android:id="@+id/app_bar"
@@ -39,6 +34,7 @@
             android:layout_marginRight="8dp">
 
             <LinearLayout
+                android:id="@+id/mainLinLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -160,7 +156,7 @@
                 <LinearLayout
                     android:id="@+id/panel"
                     android:layout_width="match_parent"
-                    android:layout_height="305dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/panel_white"
@@ -321,7 +317,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
@@ -344,7 +340,7 @@
                             android:layout_gravity="center|center_vertical"
                             android:layout_marginTop="12dp"
                             android:layout_weight="1"
-                            android:lines="3"
+                            android:lines="2"
                             android:maxLines="3"
                             android:text="-"
                             android:textAlignment="center"
@@ -358,22 +354,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="5dp"
                             android:layout_weight="1"
-                            android:paddingTop="5dp"
+                            android:paddingBottom="7dp"
                             android:text="@string/memory_page_show_description_text"
                             android:textColor="@color/colorAccent"
                             android:textSize="18dp" />
 
-                    </LinearLayout>
-                </LinearLayout>
 
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center|center_vertical"
+                    android:text="йцуййцуйцуйцу"
                     android:textColor="?android:attr/textColor"
                     android:textSize="14dp"
                     android:visibility="gone"
@@ -393,6 +394,7 @@
                     android:textSize="18dp" />
 
                 <LinearLayout
+                    android:id="@+id/share_LinLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -401,7 +403,7 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/shareVk"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         app:srcCompat="@mipmap/ic_vk" />
@@ -410,15 +412,11 @@
                         android:id="@+id/shareFb"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0"
+                        android:layout_weight="1"
                         app:srcCompat="@mipmap/ic_fc" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/shareOk"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        app:srcCompat="@mipmap/ic_ok" />
+
+
 
                 </LinearLayout>
 

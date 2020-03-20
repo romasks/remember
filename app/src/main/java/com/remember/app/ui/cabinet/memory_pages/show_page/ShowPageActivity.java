@@ -1,11 +1,9 @@
 package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.jaychang.sa.utils.StringUtils;
@@ -44,22 +42,12 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.photo.VKImageParameters;
-import com.vk.sdk.api.photo.VKUploadImage;
 import com.vk.sdk.dialogs.VKShareDialog;
 import com.vk.sdk.dialogs.VKShareDialogBuilder;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -77,9 +65,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
-import static com.remember.app.data.Constants.PLAY_MARKET_LINK;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.ImageUtils.createBitmapFromView;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.StringUtils.getStringFromField;
@@ -90,7 +76,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @InjectPresenter
     ShowPagePresenter presenter;
-
+    @BindView(R.id.share_LinLayout)     //Необходимы для сокрытия кнопок решаринга при закрытом или необоренной анкете.
+            LinearLayout share_LinLayout;       //
+    @BindView(R.id.mainLinLayout)       //
+            LinearLayout mainLinLayout;         //
     @BindView(R.id.fio)
     TextView name;
     @BindView(R.id.image)
@@ -132,6 +121,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.map_button)
     Button mapButton;
 
+
     @BindView(R.id.back_button)
     ImageView backImg;
     @BindView(R.id.panel)
@@ -140,8 +130,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.shareFb)
     AppCompatImageView shareFbButton;
 
-    @BindView(R.id.login_button)
-    LoginButton loginButton;
 
     private PhotoDialog photoDialog;
     private MemoryPageModel memoryPageModel;
@@ -153,11 +141,14 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     private int id = 0;
     private int sharing = 0;
 
+    private static final String APP_ID = "512000155578";
+    private static final String APP_KEY = "CLLQFHJGDIHBABABA";
+    private static final String REDIRECT_URL = "okauth://ok512000155578";
+
     @Override
     protected int getContentView() {
         return R.layout.activity_page;
     }
-
 
 
     @Override
@@ -165,54 +156,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
 
-        loginButton.setPublishPermissions("manage_pages");
-        loginButton.setPublishPermissions("publish_pages");
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-            }
-
-            @Override //magnetism.ru@gmail.com
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-
-            }
-        });
-        callbackManager = CallbackManager.Factory.create();
-
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        LoginManager.getInstance().logInWithPublishPermissions(
-                                getParent(),
-                                Arrays.asList("publish_actions"));//////////////
-                        ShareLinkContent content = new ShareLinkContent.Builder()
-                                .setContentTitle(getNameTitle(memoryPageModel))
-                                .setContentUrl(Uri.parse(PLAY_MARKET_LINK))
-                                .build();
-                        Log.e(TAG, "onSuccess: ");
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Log.e(TAG, "onCancel: ");
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        Log.e(TAG, "onError: ");
-                    }
-                });
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
-            but_vk.setVisibility(View.GONE);
+            share_LinLayout.setVisibility(View.GONE);
             settings.setVisibility(View.GONE);
         }
 
@@ -242,7 +188,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerSlider.setAdapter(photoSliderAdapter);
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -250,10 +198,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == Activity.RESULT_OK) {
             //assert result != null;
-            if(result != null) {
+            if (result != null) {
                 photoDialog.setUri(result.getUri());
-            }else
-                Log.e(TAG,"RESULT IS NULL!!!");
+            } else
+                Log.e(TAG, "RESULT IS NULL!!!");
 
             Log.i(TAG, "RESULT_OK");
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -275,6 +223,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     }
 
+    //
     @Override
     public void onReceivedImage(MemoryPageModel memoryPageModel) {
         this.memoryPageModel = memoryPageModel;
@@ -285,7 +234,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void error(Throwable throwable) {
-        Utils.showSnack(image, "Ошибка загрузки изображения");
+        if (image == null)
+            Utils.showSnack(image, "Ошибка загрузки изображения");
+        share_LinLayout.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -358,6 +310,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.eventsButton)
     public void onEventButtonClick() {
+        Log.d("myLog", "data1 = " + memoryPageModel.getDateBirth());
         Intent intent = new Intent(this, EventsActivity.class);
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
         intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
@@ -375,6 +328,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             description.setVisibility(View.VISIBLE);
             descriptionTitle.setText(R.string.memory_page_hide_description_text);
             scrollView.scrollTo(0, scrollView.getBottom() + 1500);
+
         }
     }
 
@@ -429,38 +383,25 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.shareFb)
     public void shareFb() {
-        LoginFb();
+        final String generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
 
-
-
-    }
-
-    @OnClick(R.id.shareOk)
-    public void shareOk() {
-
-    }
-    CallbackManager callbackManager = CallbackManager.Factory.create();
-
-    private void LoginFb(){
-
-
-
-
-
-       /* ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://developers.facebook.com"))
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(generatedByIDLink))
                 .build();
-        Log.e(TAG, "sharePageToFb: ");*/
+        ShareDialog.show(this, content);
     }
-
 
 
     private void sharePageToVk() {
+
         if (sharing == 1) {
             VKShareDialogBuilder builder = new VKShareDialogBuilder();
-            builder.setText(getNameTitle(memoryPageModel));
-            builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
-            builder.setAttachmentLink("Эта запись сделана спомощью приложения Помню ", PLAY_MARKET_LINK);
+            builder.setText("ᅠ");//ᅠ
+            //builder.setAttachmentImages(new VKUploadImage[]{new VKUploadImage(createBitmapFromView(sharedImage), VKImageParameters.pngImage())});
+            final String generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel.getId().toString();// Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
+
+            builder.setAttachmentLink(getNameTitle(memoryPageModel), generatedByIDLink);
+
             builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
                 @Override
                 public void onVkShareComplete(int postId) {
@@ -482,8 +423,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     }
 
     private String getNameTitle(MemoryPageModel memoryPageModel) {
-        String result = "Памятная страница."
-                + " " + StringUtils.capitalize(memoryPageModel.getSecondName())
+        String result = "Памятная страница. " + StringUtils.capitalize(memoryPageModel.getSecondName())
                 + " " + StringUtils.capitalize(memoryPageModel.getName())
                 + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         String textDate = DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth())
@@ -493,6 +433,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     private void initAll() {
         if (memoryPageModel != null) {
+
+
             if (!afterSave) {
                 glideLoadIntoWithError(memoryPageModel.getPicture(), image);
                 glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
@@ -501,6 +443,22 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             initDate(memoryPageModel);
             initInfo(memoryPageModel);
             mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
+
+
+            Log.d(TAG, "initAll: memoryPageModel.getStatus() " + memoryPageModel.getStatus());
+            Log.d(TAG, "initAll: memoryPageModel.getFlag()  " + memoryPageModel.getFlag());
+
+
+            if (memoryPageModel.getStatus() == null || memoryPageModel.getFlag() == null)
+                share_LinLayout.setVisibility(View.GONE);
+            else {
+                if (!(memoryPageModel.getFlag().equals("true") && memoryPageModel.getStatus().equals("Одобрено"))) {
+                    share_LinLayout.setVisibility(View.GONE);
+                    Log.e(TAG, "initAll: DELETED");
+                }
+            }
+
+
         }
     }
 
@@ -523,6 +481,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
                 + " " + StringUtils.capitalize(memoryPageModel.getName())
                 + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         name.setText(result);
-        description.setText(memoryPageModel.getComment());
+        if (memoryPageModel.getComment() != null && !memoryPageModel.getComment().equals("")) {
+            description.setText(memoryPageModel.getComment());
+        } else
+            descriptionTitle.setVisibility(View.GONE);
     }
 }

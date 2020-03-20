@@ -19,14 +19,16 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 77
-        versionName "1.4.92"
+        versionCode 78
+        versionName "1.4.97"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
         manifestPlaceholders = [
-                facebookAppId: "661338814675848"
+                facebookAppId: "661338814675848",
+                'MailRuOAuthRedirectHost' : 'authorize',
+                'MailRuOAuthRedirectScheme' : 'remember'
         ]
         signingConfig signingConfigs.release
     }
@@ -142,9 +144,11 @@ dependencies {
 
     // VK
     implementation 'com.vk:androidsdk:1.6.7'
+
     // OK
     implementation 'ru.ok:odnoklassniki-android-sdk:2.1.8'
 
+    implementation ('ru.mail:auth-sdk-pub:11.3.0.28375')
 
 
     // Social auth
@@ -169,6 +173,10 @@ dependencies {
 
     // phone mask
     implementation 'com.redmadrobot:input-mask-android:5.0.0'
+    implementation fileTree(dir: 'libraries', include: ['*.aar', '*.jar'], exclude: [])
+    implementation files('libraries\\simple-social-sharing-1.0.1.jar')
+
+    implementation 'joda-time:joda-time:2.10.3'
 }
 
 repositories {

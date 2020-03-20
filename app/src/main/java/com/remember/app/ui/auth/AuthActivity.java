@@ -41,6 +41,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import ru.mail.auth.sdk.MailRuAuthSdk;
+import ru.mail.auth.sdk.MailRuCallback;
+import ru.mail.auth.sdk.api.OAuthRequestErrorCodes;
+import ru.mail.auth.sdk.api.token.OAuthTokensResult;
+
 import ru.ok.android.sdk.Odnoklassniki;
 import ru.ok.android.sdk.OkListener;
 import ru.ok.android.sdk.SharedKt;
@@ -83,8 +89,8 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         if (BuildConfig.DEBUG) {
-//            login.setText("admin@ya.ru");
-//            password.setText("11111111");
+           //login.setText("admin@ya.ru");
+         //  password.setText("11111111");
         }
 
         /*PackageInfo info;
@@ -160,23 +166,52 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         });
     }
 
+    // Mail Ru
+    @OnClick(R.id.mailru)
+    public void signInMailRu() {
+        MailRuAuthSdk.getInstance().startLogin(this);
+    }
+
+
     @OnClick(R.id.sign_in_btn)
     public void signIn() {
+
         if (login.getText().toString().equals("")) {
             Utils.showSnack(login, getResources().getString(R.string.auth_enter_email));
+
         } else if (password.getText().toString().equals("")) {
             Utils.showSnack(login, getResources().getString(R.string.auth_enter_password));
+
         } else {
             try {
                 presenter.singInAuth(login.getText().toString(), password.getText().toString());
+
             } catch (Exception e) {
                 Utils.showSnack(login, getResources().getString(R.string.auth_error_data_enter));
             }
-        }
+
+    }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!MailRuAuthSdk.getInstance().handleAuthResult(requestCode, resultCode, data, new MailRuCallback<OAuthTokensResult, Integer>() {
+                    @Override
+                    public void onResult(OAuthTokensResult oAuthTokensResult) {
+                        Log.d("Mail RU","Successfully signed in");
+                        Log.d("Mail RU","Access token: " + oAuthTokensResult.getAccessToken());
+                        Log.d("Mail RU","Refresh token: " + oAuthTokensResult.getRefreshToken());
+
+                        Prefs.putString(PREFS_KEY_ACCESS_TOKEN, oAuthTokensResult.getAccessToken());
+                        presenter.signInMailRu();
+                    }
+
+                    @Override
+                    public void onError(Integer integer) {
+                        Log.d("Mail RU", OAuthRequestErrorCodes.toReadableString(integer));
+                    }
+                }
+        ))
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(VKAccessToken res) {
@@ -206,8 +241,7 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
             @Override
             public void onError(VKError error) {
                 Log.d("VK ActivityResult Error", error.errorMessage);
-            }
-        })) {
+            }})) {
             if (!odnoklassniki.onAuthActivityResult(requestCode, resultCode, data, new OkListener() {
                 @Override
                 public void onSuccess(@NotNull JSONObject jsonObject) {

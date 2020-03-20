@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cont"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/panel_white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+        <EditText
+            android:id="@+id/etCurPass"
+            style="@style/CustomAppTextFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cur_pass"
+            android:inputType="textPassword"
+            android:paddingEnd="50dp"
+            android:nextFocusForward="@id/first_name"
+            app:layout_constraintTop_toBottomOf="@id/app_bar"
+            android:textSize="18dp"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgEyeCur"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/close_eye"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/etCurPass"
+        app:layout_constraintEnd_toEndOf="@+id/etCurPass"
+        app:layout_constraintTop_toTopOf="@+id/etCurPass" />
+
+
+        <EditText
+            android:id="@+id/etNewPass"
+            style="@style/CustomAppTextFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/new_pass"
+            android:inputType="textPassword"
+            android:textSize="18dp"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@+id/etCurPass"
+            android:singleLine="true" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgEyeNew"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/close_eye"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/etNewPass"
+        app:layout_constraintEnd_toEndOf="@+id/etNewPass"
+        app:layout_constraintTop_toTopOf="@+id/etNewPass" />
+
+        <EditText
+            android:id="@+id/etRePass"
+            style="@style/CustomAppTextFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/etNewPass"
+            android:hint="@string/repass"
+            android:inputType="textPassword"
+            android:textSize="18dp"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgEyeRe"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/close_eye"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/etRePass"
+        app:layout_constraintEnd_toEndOf="@+id/etRePass"
+        app:layout_constraintTop_toTopOf="@+id/etRePass" />
+
+    <Button
+        android:id="@+id/submit"
+        style="@style/CustomAppButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/change"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etRePass" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

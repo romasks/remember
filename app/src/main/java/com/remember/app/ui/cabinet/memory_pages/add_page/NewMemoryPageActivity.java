@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -27,10 +29,12 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.DateUtils;
+import com.remember.app.ui.utils.DeletePageDialog;
 import com.remember.app.ui.utils.FileUtils;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.Utils;
@@ -49,6 +53,7 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.http.Body;
 
 import static android.provider.MediaStore.Images.Media.getBitmap;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
@@ -69,7 +74,8 @@ import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
-public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback {
+
+public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback, DeletePageDialog.Callback {
 
     private static final String TAG = NewMemoryPageActivity.class.getSimpleName();
 
@@ -215,6 +221,26 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     @Override
     public void onErrorSave(Throwable throwable) {
         Utils.showSnack(image, "Ошибка сохранения");
+    }
+
+    @Override
+    public void onDeletePage(Object response) {
+        Toast.makeText(getApplicationContext(),"Страница удалена", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onDeletePageError(Throwable throwable) {
+            Utils.showSnack(image, "Ошибка удаления, попробуйте позже");
+    }
+
+    public void showDeleteDialog() {
+        DeletePageDialog myDialogFragment = new DeletePageDialog();
+        myDialogFragment.setCallback(this);
+        myDialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
     }
 
     @Override
@@ -376,6 +402,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
 
         if (isEdit) {
+            initToolbar();
             title.setText("Редактирование");
             saveButton.setText("Сохранить изменения");
             textViewImage.setText("Изменить фотографию");
@@ -517,5 +544,20 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         dialog.setMaxDate(new Date().getTime());
         dialog.show(getSupportFragmentManager(), "tag");
+    }
+
+    @OnClick(R.id.settings)
+    public void deletePage() {
+        showDeleteDialog();
+    }
+
+    private void initToolbar(){
+        settings.setVisibility(View.VISIBLE);
+        settings.setImageResource(R.drawable.delete);
+    }
+
+    @Override
+    public void onDeletePage() {
+        presenter.deletePage(memoryPageModel.getId());
     }
 }

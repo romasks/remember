@@ -12,7 +12,6 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 
 import io.reactivex.disposables.Disposable;
-
 import static com.remember.app.data.Constants.PREFS_KEY_ACCESS_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 
@@ -97,6 +96,21 @@ public class AuthPresenter extends BasePresenter<AuthView> {
                 getViewState()::onLoggedSocial,
                 getViewState()::onError
             );
+        unsubscribeOnDestroy(subscription);
+    }
+
+    void signInMailRu() {
+        if (isOffline()) return;
+        RequestSocialAuth request = new RequestSocialAuth(
+                "",
+                Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
+                "mailru"
+        );
+        Disposable subscription = serviceNetwork.signInSocial(request)
+                .subscribe(
+                        getViewState()::onLoggedSocial,
+                        getViewState()::onError
+                );
         unsubscribeOnDestroy(subscription);
     }
 

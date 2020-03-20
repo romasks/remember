@@ -1,5 +1,8 @@
 package com.remember.app.data.network;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.CreateEventRequest;
@@ -42,6 +45,8 @@ import retrofit2.Response;
 
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.DateUtils.convertLocalToRemoteFormat;
+import static com.remember.app.ui.utils.DateUtils.convertReligiousEventServerFormat;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
@@ -156,8 +161,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<EventModel> getEvent(int id) {
-        return apiMethods.getDeadEvent(id)
+    public Observable<ResponseEvents> getEvent(int id) {
+        return apiMethods.getEvent(id)
                 .compose(rxSchedulers.applySchedulers());
     }
 
@@ -318,17 +323,29 @@ public class ServiceNetworkImp implements ServiceNetwork {
                 break;
             case 7:
             default:
-                religia = "Отсутствует";
+                religia = "Религия";
                 break;
         }
         String resultDate;
         if (!date.isEmpty()) {
-            resultDate = date.substring(0, date.length() - 5);
+            //resultDate = date.substring(0, date.length() - 5);
+            resultDate = date;
         } else {
             resultDate = "";
         }
-        return apiMethods.searchEventReligios(resultDate, religia)
-                .compose(rxSchedulers.applySchedulers());
+        System.out.println("date = " + resultDate);
+        System.out.println("religia = " + religia);
+
+        if (resultDate.equals("")) {
+            return apiMethods.searchEventReligiosOnlyWithReligia(religia)
+                    .compose(rxSchedulers.applySchedulers());
+        } else if (selectedIndex == 7) {
+            return apiMethods.searchEventReligiosOnlyWithDate(resultDate)
+                    .compose(rxSchedulers.applySchedulers());
+        } else {
+            return apiMethods.searchEventReligios(resultDate, religia)
+                    .compose(rxSchedulers.applySchedulers());
+        }
     }
 
     @Override
@@ -428,5 +445,23 @@ public class ServiceNetworkImp implements ServiceNetwork {
             )
                     .compose(rxSchedulers.applySchedulers());
         }
+    }
+
+    @Override
+    public Observable<Object> deletePage(Integer id){
+        return apiMethods.deletePage("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> deleteEvent(Integer id){
+        return apiMethods.deleteEvent("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> changePassword(RequestBody requestBody) {
+        return apiMethods.changePassword("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), requestBody)
+                .compose(rxSchedulers.applySchedulers());
     }
 }

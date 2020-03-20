@@ -5,25 +5,21 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphamovie.lib.AlphaMovieView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
@@ -44,6 +40,11 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -54,11 +55,8 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
-import static com.remember.app.data.Constants.PREFS_KEY_THEME;
-import static com.remember.app.data.Constants.PREFS_KEY_THEME_CHANGED;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
-import static com.remember.app.data.Constants.THEME_LIGHT;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
@@ -92,6 +90,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private ImageAdapter imageAdapter;
 
     private int pageNumber = 1;
+    private boolean isClickLocked = true;
     private List<MemoryPageModel> allMemoryPageModels = new ArrayList<>();
 
     @Override
@@ -105,19 +104,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         super.onCreate(savedInstanceState);
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
 
-        setUpRecycler();
+        findViewById(R.id.app_bar_grid_layout).setClickable(!isClickLocked);
+        signInButton.setClickable(!isClickLocked);
 
-        if (Prefs.getBoolean(PREFS_KEY_THEME_CHANGED, false)) {
-            Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, false);
-            return;
-        }
+        setUpRecycler();
 
         presenter.getImages(pageNumber);
         if (Prefs.getBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)) {
             Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false);
             setSplashVideo();
             splashVideo.start();
-            splashVideo.postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1500);
+            splashVideo.postDelayed(() -> recyclerView.setVisibility(View.VISIBLE), 1000);
         } else {
             showMainContent();
         }
@@ -153,6 +150,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             navigationView.setNavigationItemSelectedListener(this);
 
             View headerView = navigationView.getHeaderView(0);
+            TextView version = navigationView.findViewById(R.id.version);
+            version.setText("Версия " + BuildConfig.VERSION_NAME);
 
             TextView navUserName = headerView.findViewById(R.id.user_name);
             navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
@@ -211,10 +210,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             drawer.closeDrawer(GravityCompat.START);
         } else {
             drawer.openDrawer(GravityCompat.START);
-
-//            Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-//            themeSwitch.setChecked(Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-            //TODO
         }
     }
 
@@ -228,7 +223,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         PopupPageScreen popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT, this.getSupportFragmentManager());
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);
@@ -238,11 +233,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void openPage(MemoryPageModel memoryPageModel) {
-        Intent intent = new Intent(this, ShowPageActivity.class);
-        intent.putExtra(INTENT_EXTRA_PERSON, memoryPageModel);
-        intent.putExtra(INTENT_EXTRA_IS_LIST, true);
-        intent.putExtra(INTENT_EXTRA_SHOW, true);
-        startActivity(intent);
+        if (!isClickLocked) {
+            Intent intent = new Intent(this, ShowPageActivity.class);
+            intent.putExtra(INTENT_EXTRA_PERSON, memoryPageModel);
+            intent.putExtra(INTENT_EXTRA_IS_LIST, true);
+            intent.putExtra(INTENT_EXTRA_SHOW, true);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -287,13 +284,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 startActivity(new Intent(this, QuestionActivity.class));
                 return true;
             }
-//            case R.id.menu_theme: {
-//                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-//                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-//                changeTheme();
-//                return true;
-//            }
             case R.id.menu_exit: {
+                unsubscribeToTopic();
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
                 finish();
@@ -332,11 +324,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
 
     private void setUpRecycler() {
-        imageAdapter = new ImageAdapter();
+        imageAdapter = new ImageAdapter(this);
         imageAdapter.setCallback(this);
-        imageAdapter.setContext(this);
         recyclerView.setAdapter(imageAdapter);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
     }
 
     private void setSplashVideo() {
@@ -363,15 +354,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     private void showMainContent() {
+        isClickLocked = false;
         findViewById(R.id.app_bar_grid_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.app_bar_grid_layout).setClickable(!isClickLocked);
         recyclerView.setVisibility(View.VISIBLE);
+        recyclerView.setClickable(!isClickLocked);
         signInButton.setVisibility(View.VISIBLE);
-    }
-
-    public void changeTheme() {
-        Prefs.putBoolean(PREFS_KEY_THEME_CHANGED, true);
-        Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-        this.recreate();
+        signInButton.setClickable(!isClickLocked);
     }
 
     @Override
@@ -385,5 +374,17 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     private void goToSettingsPage() {
         startActivity(new Intent(this, SettingActivity.class));
+    }
+
+    private void unsubscribeToTopic() {
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+                .addOnCompleteListener(task -> {
+                    String msg = "unsubscr";
+                    if (!task.isSuccessful()) {
+                        msg = "not unsubscr";
+                    }
+                    Log.d(TAG, msg);
+                });
     }
 }

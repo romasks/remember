@@ -14,15 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.remember.app.R;
-
-import java.io.File;
-import java.io.IOException;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
+
+import com.remember.app.R;
+
+import java.io.File;
+import java.io.IOException;
 
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
@@ -73,7 +73,10 @@ public class PhotoDialog extends DialogFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                callback.sendPhoto(imageFile, editText.getText().toString());
+                if (editText.getText().toString().equals(""))
+                    callback.sendPhoto(imageFile, null);
+                else
+                    callback.sendPhoto(imageFile, editText.getText().toString());
             }
         });
         builder.setView(view);

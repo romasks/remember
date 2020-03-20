@@ -10,17 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
@@ -44,10 +45,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -106,6 +103,7 @@ public class MainActivity extends BaseActivity
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
+
         subscribeToTopic();
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
@@ -138,7 +136,8 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-
+        TextView version = navigationView.findViewById(R.id.version);
+        version.setText("Версия " + BuildConfig.VERSION_NAME);
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
         imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
         imageViewBigAvatar.setColorFilter(getBlackWhiteFilter());
@@ -226,11 +225,13 @@ public class MainActivity extends BaseActivity
     }
 
     private void showEventScreen() {
+        Log.d("myLog", "showEventScreen");
         View popupView = getLayoutInflater().inflate(R.layout.popup_page_screen, null);
         popupWindowPage = new PopupPageScreen(
                 popupView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getSupportFragmentManager());//TODO
         popupWindowPage.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popupWindowPage.setFocusable(true);
         popupWindowPage.setCallback(this);
@@ -325,6 +326,8 @@ public class MainActivity extends BaseActivity
 //            }
                 //TODO
             case R.id.menu_exit: {
+                //TODO
+                unsubscribeToTopic();
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
                 finish();
@@ -366,13 +369,26 @@ public class MainActivity extends BaseActivity
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         this.recreate();
     }
-
     private void subscribeToTopic(){
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/user-1")
+
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener(task -> {
                     String msg = "subscr";
                     if (!task.isSuccessful()) {
                         msg = "not subscr";
+                    }
+                    Log.d(TAG, msg);
+                });
+    }
+
+    private void unsubscribeToTopic(){
+        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
+                .addOnCompleteListener(task -> {
+                    String msg = "unsubscr";
+                    if (!task.isSuccessful()) {
+                        msg = "not unsubscr";
                     }
                     Log.d(TAG, msg);
                 });

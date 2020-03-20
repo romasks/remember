@@ -14,5 +14,6 @@
     <color name="colorPrimaryBlack">#22211F</color>
     <color name="colorWhiteDark">#E6E0E0</color>
     <color name="colorBlackDark">#272624</color>
+    <color name="grays">#AFAFAF</color>
 
 </resources>

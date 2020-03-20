@@ -18,4 +18,8 @@ public interface AddPageView extends BaseView {
     void onError(Throwable throwable);
 
     void onErrorSave(Throwable throwable);
+
+    void onDeletePage(Object response);
+
+    void onDeletePageError(Throwable throwable);
 }

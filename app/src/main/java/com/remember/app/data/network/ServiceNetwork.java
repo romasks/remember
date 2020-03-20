@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public interface ServiceNetwork {
@@ -61,7 +62,7 @@ public interface ServiceNetwork {
     Observable<List<EventResponse>> getEventsFeed();
 
     //    Observable<ResponseEvents> getEvent(int id);
-    Observable<EventModel> getEvent(int id);
+    Observable<ResponseEvents> getEvent(int id);
 
     Observable<EventModel> getDeadEvent(int id);
 
@@ -108,4 +109,10 @@ public interface ServiceNetwork {
     Observable<Object> savePhoto(File imageFile, String string, Integer id);
 
     Observable<List<ResponseImagesSlider>> getImagesSlider(Integer id);
+
+    Observable<Object> deletePage(Integer id);
+
+    Observable<Object> deleteEvent(Integer id);
+
+    Observable<Object> changePassword(RequestBody requestBody);
 }

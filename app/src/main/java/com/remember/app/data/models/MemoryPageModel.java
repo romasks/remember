@@ -331,6 +331,7 @@ public class MemoryPageModel implements Parcelable {
         flag = in.readString();
         religiya = in.readString();
         userId = in.readString();
+        sector = in.readString();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             isShowMore = in.readBoolean();
         } else {
@@ -378,6 +379,7 @@ public class MemoryPageModel implements Parcelable {
         dest.writeString(flag);
         dest.writeString(religiya);
         dest.writeString(userId);
+        dest.writeString(sector);
         dest.writeInt(isShowMore ? 1 : 0);
         dest.writeInt(isLoaded ? 1 : 0);
     }
@@ -421,6 +423,7 @@ public class MemoryPageModel implements Parcelable {
                 flag,
                 religiya,
                 userId,
+                sector,
                 isShowMore,
                 isLoaded);
     }
@@ -455,6 +458,7 @@ public class MemoryPageModel implements Parcelable {
                 memoryPageModel.flag.equals(flag) &&
                 memoryPageModel.religiya.equals(religiya) &&
                 memoryPageModel.userId.equals(userId) &&
+                memoryPageModel.sector.equals(sector) &&
                 memoryPageModel.isShowMore == isShowMore &&
                 memoryPageModel.isLoaded == isLoaded;
     }

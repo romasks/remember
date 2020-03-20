@@ -249,6 +249,12 @@ public interface ApiMethods {
     @POST("epit/remove/{id}")
     Observable<Object> deleteEpitaph(@Header("Authorization") String token, @Path("id") Integer id);
 
+    @GET("page/delete/{id}")
+    Observable<Object> deletePage(@Header("Authorization") String token, @Path("id") Integer id);
+
+    @GET("deadevent/delete/{id}")
+    Observable<Object> deleteEvent(@Header("Authorization") String token, @Path("id") Integer id);
+
     @GET("poisk/page")
     Observable<List<MemoryPageModel>> searchPageAllDead(@Query("name") String name,
                                                         @Query("secondname") String secondName,
@@ -263,6 +269,12 @@ public interface ApiMethods {
     Observable<List<ResponseEvents>> searchEventReligios(@Query("date") String date,
                                                          @Query("religia") String religia);
 
+    @GET("poisk/event")
+    Observable<List<ResponseEvents>> searchEventReligiosOnlyWithReligia(@Query("religia") String religia);
+
+    @GET("poisk/event")
+    Observable<List<ResponseEvents>> searchEventReligiosOnlyWithDate(@Query("date") String date);
+
     @GET("photo/page/{page_id}")
     Observable<List<ResponseImagesSlider>> getAllPhotosForPage(@Path("page_id") int pageId);
 
@@ -273,5 +285,9 @@ public interface ApiMethods {
                                  @Part("page_id") Integer id,
                                  @Part MultipartBody.Part image,
                                  @Part MultipartBody.Part imageCut);
+
+    @PUT("user/password")
+    Observable<Object> changePassword(@Header("Authorization") String token,
+                                    @Body RequestBody requestBody);
 
 }
