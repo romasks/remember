@@ -381,9 +381,10 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 .show();*/
         Log.d("myLog", "here" + birthDate);
         @SuppressLint("SimpleDateFormat")
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
             calendar.setTime(Objects.requireNonNull(df.parse(birthDate)));
+            Log.d("myLog", "birthDate = " + df.parse(birthDate));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -394,6 +395,8 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 dateAndTime.set(Calendar.MONTH, monthOfYear);
                 dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 pickedDateTime = dateAndTime.getTimeInMillis();
+                Log.d("myLog", "pickedtime = " + dateAndTime.getTimeInMillis());
+                Log.d("myLog", "calendar time = " + calendar.getTime());
                 if (pickedDateTime > calendar.getTimeInMillis()) {
                     date.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
                 } else {
