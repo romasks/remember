@@ -481,9 +481,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
                 + " " + StringUtils.capitalize(memoryPageModel.getName())
                 + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         name.setText(result);
-        Log.d(TAG, "initTextName: " + memoryPageModel.getComment());
-        if (memoryPageModel.getComment().equals(""))
+        if (memoryPageModel.getComment() != null && !memoryPageModel.getComment().equals("")) {
+            description.setText(memoryPageModel.getComment());
+        } else
             descriptionTitle.setVisibility(View.GONE);
-        description.setText(memoryPageModel.getComment());
     }
 }
