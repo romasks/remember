@@ -115,4 +115,6 @@ public interface ServiceNetwork {
     Observable<Object> deleteEvent(Integer id);
 
     Observable<Object> changePassword(RequestBody requestBody);
+
+    Observable<Object> deleteSliderPhoto(Integer id);
 }

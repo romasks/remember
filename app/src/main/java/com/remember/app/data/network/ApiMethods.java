@@ -290,4 +290,7 @@ public interface ApiMethods {
     Observable<Object> changePassword(@Header("Authorization") String token,
                                     @Body RequestBody requestBody);
 
+
+    @GET("photo/delete/{id}")
+    Observable<Object> deleteSliderPhoto(@Header("Authorization") String token, @Path("id") Integer id);
 }

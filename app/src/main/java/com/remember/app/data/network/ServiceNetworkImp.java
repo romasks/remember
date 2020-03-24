@@ -464,4 +464,10 @@ public class ServiceNetworkImp implements ServiceNetwork {
         return apiMethods.changePassword("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), requestBody)
                 .compose(rxSchedulers.applySchedulers());
     }
+
+    @Override
+    public Observable<Object> deleteSliderPhoto(Integer id){
+        return apiMethods.deleteSliderPhoto("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
 }
