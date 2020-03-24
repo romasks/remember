@@ -1,0 +1,219 @@
+<resources>
+    <string name="app_name">Помню</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Иванов Иван Иванович</string>
+    <string name="nav_header_subtitle">test@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!--auth-->
+    <string name="auth_enter_email">Введите e-mail</string>
+    <string name="auth_enter_password">Введите пароль</string>
+    <string name="auth_error_data_enter">Произошла ошибка, проверьте введенные данные</string>
+    <string name="auth_wrong_login_or_pwd">Неправильный логин или пароль</string>
+    <string name="restore_pwd_successfully_send">Новый пароль успешно отправлен на E-mail</string>
+    <string name="restore_pwd_error_send">Ошибка отправки</string>
+
+    <!--menu-->
+    <string name="menu_cabinet">Кабинет</string>
+    <string name="menu_gallery">Галерея знаменитостей</string>
+    <string name="menu_memory_pages">Памятные страницы</string>
+    <string name="menu_event_calendar">Религиозные события</string>
+    <string name="menu_notifications">Уведомления</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_questions">Обратная связь</string>
+    <string name="menu_theme">Сменить тему оформления</string>
+    <string name="menu_exit">Выйти</string>
+
+    <string name="last_name">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="middle_name">Отчество</string>
+    <string name="date_begin">Дата рождения</string>
+    <string name="date_end">Дата смерти</string>
+    <string name="burial_place">Укажите место захоронения</string>
+    <string name="celebrity">Знаменитость</string>
+    <string name="for_all">Для всех</string>
+    <string name="for_yourself">Для себя</string>
+    <string name="pick_level">Выберите уровень доступа</string>
+    <string name="create_page">Создать памятную страницу</string>
+    <string name="burial_place_header_text">Место захоронения</string>
+    <string name="live_place">Населённый пункт</string>
+    <string name="city">Населенный пункт</string>
+    <string name="cemetery">Название кладбища</string>
+    <string name="sector">Сектор</string>
+    <string name="row">Ряд</string>
+    <string name="grave">Место</string>
+    <string name="grave_number">Место</string>
+    <string name="coordinates">Координаты захоронения</string>
+    <string name="show_map">Показать на карте</string>
+    <string name="add">Добавить</string>
+    <string name="religion">Религия</string>
+    <string name="save">Сохранить</string>
+    <string name="text_epitaph">Введите текст эпитафии ..</string>
+    <string name="epitaphs">Эпитафии</string>
+    <string name="new_event">Новое событие</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="social">Общественное</string>
+    <string name="personal">Личное</string>
+    <string name="for_your">Только для себя</string>
+    <string name="all">Общий</string>
+    <string name="notification">Уведомления</string>
+    <string name="type_event">Тип события</string>
+    <string name="access">Доступ</string>
+    <string name="date">Дата</string>
+    <string name="deceased">ФИО усопшего</string>
+    <string name="create_event">Создать событие</string>
+    <string name="change_event">Изменить событие</string>
+    <string name="save_place">Сохранить координаты</string>
+    <string name="entry_button">Войти</string>
+    <string name="sign_in">Войти</string>
+    <string name="login">Email</string>
+    <string name="password">Пароль</string>
+    <string name="registration"><u>Зарегистрироваться</u></string>
+    <string name="create_acc">Создайте аккаунт</string>
+    <string name="nickname">Никнейм</string>
+    <string name="email">Email</string>
+    <string name="create_acc2">Создать аккаунт</string>
+    <string name="have_acc">Уже есть аккаунт?</string>
+    <string name="entry_button_underline"><u>Войти</u></string>
+    <string name="star">Знаменитость</string>
+    <string name="add_more_photo">Добавьте ещё фотографии</string>
+    <string name="add_more_video">Добавьте видео</string>
+    <string name="send">Отправить</string>
+    <string name="search">Поиск</string>
+    <string name="event_filter">Фильтр событий</string>
+    <integer name="com_vk_sdk_AppId">7173194</integer>
+
+    <string name="CONSUMER_KEY">PT6uezLMteHqTsq2VO3qio3cT </string>
+    <string name="CONSUMER_SECRET">6TbfhDYTprrYUh5RIuL9Mml4hcbDQk9sVOWxpkZsS3SNWWkJnb </string>
+    <string name="events">События</string>
+    <string name="memorable_events">Памятные события</string>
+    <string name="wrong_registration"><u>Забыли пароль</u></string>
+    <string name="pick_email">Укажите E-mail</string>
+
+    <!--grid-->
+    <string name="grid_header">Помню</string>
+    <string name="grid_show_all">Показать всех</string>
+    <string name="grid_show_all_event">Показать все события</string>
+    <string name="grid_go_to_cabinet">Перейти в кабинет</string>
+    <string name="grid_login">Войти</string>
+
+    <!--main_pages-->
+    <string name="main_pages_header_text">Главные страницы</string>
+    <string name="main_pages_show_all">Показать всех</string>
+
+    <!--settings-->
+    <string name="settings_header_text">Настройки</string>
+
+    <string name="settings_new_profile_photo">Новое фото профиля</string>
+    <string name="settings_hint_surname">Фамилия</string>
+    <string name="settings_hint_name">Имя</string>
+    <string name="settings_hint_middle_name">Отчество</string>
+    <string name="settings_hint_nickname">Никнейм</string>
+    <string name="settings_hint_email">Е-mail</string>
+    <string name="settings_hint_locality">Населённый пункт</string>
+    <string name="settings_name_phone">Телефон</string>
+    <string name="settings_theme_text">Тема оформления</string>
+    <string name="settings_theme_light_rb">Светлая</string>
+    <string name="settings_theme_dark_rb">Тёмная</string>
+
+    <string name="settings_enable_notifications">Включить уведомления</string>
+    <string name="settings_commemoration_days">Дни поминовения</string>
+    <string name="settings_com_days_all">Все события</string>
+    <string name="settings_com_days_for_deceased">События усопших</string>
+    <string name="settings_com_days_religious">Религиозные события</string>
+    <string name="settings_number_of_days">Уведомлять за</string>
+    <string name="settings_choose_number_of_days">Количество дней</string>
+
+    <string name="settings_button_save">Сохранить</string>
+
+    <!--epitaphs-->
+    <string name="epitaphs_header_text">Эпитафии</string>
+    <string name="epitaphs_item_action_change">Изменить</string>
+    <string name="epitaphs_item_action_delete">Удалить</string>
+    <string name="epitaphs_no_epitaphs_title">Эпитафий нет</string>
+    <string name="epitaphs_create_epitaph_button">Создать эпитафию</string>
+
+    <!--memory_page-->
+    <string name="memory_page_header_text">Памятная страница</string>
+    <string name="memory_page_new_header_text">Новая памятная страница</string>
+    <string name="memory_page_burial_place_title">Место захоронения</string>
+    <string name="memory_page_sector_text">Сектор</string>
+    <string name="memory_page_row_text">Ряд</string>
+    <string name="memory_page_show_description_text">Описание</string>
+    <string name="memory_page_hide_description_text">Скрыть</string>
+    <string name="memory_page_button_show_on_map">Показать на карте</string>
+    <string name="memory_page_bottom_navbar_epitaphs">Эпитафии</string>
+    <string name="memory_page_bottom_navbar_add_order">Добавить заказ</string>
+    <string name="memory_page_bottom_navbar_events">События</string>
+    <string name="memory_page_no_page_title">У Вас нет памятных страниц</string>
+    <string name="memory_page_create_page_button">Создать памятную страницу</string>
+
+    <!--events-->
+    <string name="events_calendar_header_text">Религиозные события</string>
+    <string name="events_no_events_title">Событий нет</string>
+    <string name="events_create_event_button">Создать событие</string>
+    <string name="new_event_header_text">Новое событие</string>
+    <string name="new_event_add_photo_text">Добавить фотографию</string>
+    <string name="new_event_hint_event_name">Наименование события</string>
+    <string name="new_event_add_description_title">Добавьте описание</string>
+    <string name="new_event_hint_description">Описание...</string>
+    <string name="memory_page_event_header_text">Памятное событие</string>
+    <string name="event_header_text">Событие</string>
+    <string name="events_error_date_death_before_date_birth">Дата рождения не может быть после даты смерти</string>
+    <string name="error_event_date_before_date_birth">Событие не может быть раньше даты рождения</string>
+
+    <!--questions-->
+    <string name="questions_header_text">Обратная связь</string>
+    <string name="questions_textarea_hint_text">Внесите текст вопроса или предложения ...</string>
+
+    <!--notifications-->
+    <string name="notifications_header_text">Уведомления</string>
+    <string name="notifications_show_text">Показать</string>
+    <string name="grid_show_more">Показать ещё</string>
+
+
+    <string name="facebook_app_id">661338814675848</string>
+    <string name="fb_login_protocol_scheme">fb661338814675848</string>
+    <string name="first_point">\t\tСоздание памятной страницы</string>
+    <string name="first_point_par_one">\t\tСоздать памятную страницу может только зарегистрированный пользователь. \n\t\tДля создания страницы Вам необходимо: \n\n\t\t1) Перейти в личный кабинет (далее – ЛК)  \n\t\t2) В ЛК нажать на кнопку «+»  \n\t\t3) Заполнить форму:</string>
+    <string name="two_per">\t\tПоля Фамилия, Имя, Отчество, Дата рождения, Дата смерти – личная информация об усопшем. \n\n\t\tПоле Религия – данные о религии усопшего. \n\n\t\tПоле Уровень доступа определяет видимость страницы для других пользователей. Доступно для всех – Ваша страница будет отображаться у всех посетителей, доступно для себя – страница будет доступна только для Вас в ЛК. \n\n\t\tЗнаменитость – используется для того, чтобы отметить то, что усопший относился к знаменитостям. \n\n\t\tДля добавления фотографии необходимо нажать на «+ Добавить фото»:</string>
+    <string name="three_per">\t\tВы можете загрузить фотографию, разрешение которой не менее 400*400. \n\t\tУказать место захоронения:</string>
+    <string name="four_per">\t\tВы можете указать точное место захоронение добавленного усопшего. Можно внести информацию о захоронении вручную, а также выбрать необходимое название из выпадающего списка. \n\n\t\tТакже можно указать местоположение на карте, нажав кнопку «Показать на карте». \n\n\t\tКоординаты для выбранной точки на карте отобразятся в поле «Координаты захоронения». \n\n\t\tПосле заполнения информации на форме необходимо нажать кнопку «Создать памятную страницу», страница отобразится в ЛК. Добавленная страница станет доступна для просмотра другим пользователям только после модерации.</string>
+    <string name="second_point">\t\tДобавление событий</string>
+    <string name="second_one_per">\t\tВы можете добавлять личные события для усопшего. Добавление доступно с размещенной памятной страницы. Для этого необходимо перейти на страницу усопшего и нажать на кнопку «События», далее на кнопку «Создать событие».</string>
+    <string name="second_two_per">\t\tПоле «ФИО усопшего» заполняется автоматически. \n\t\tПоля «Наименование события», «Дата», «Описание» – содержат основную информацию о событии. \n\t\tПоле «Доступ» определяет видимость события для других посетителей. «Общий» - размещенное событие будет доступно всем, кто посетил памятную страницу. «Только для себя» – событие будет доступно только создателю страницы. \n\t\tЕсли Вы хотите получать push-уведомление о событии, переключите флажок «Да» в поле «Уведомления». Для сохранения события нажать кнопку «Создать событие»</string>
+    <string name="third_point">\t\tПросмотр памятных страниц</string>
+    <string name="third_one_per">\t\tВы можете просматривать как памятные страницы, размещенные Вами, так и другими пользователями. \n\t\tДобавленные страницы размещены в ЛК в разделе меню «Памятные страницы».</string>
+    <string name="fourth_point">Просмотр событий</string>
+    <string name="fourth_one_per">\t\tПросмотреть добавленные события усопших можно как на личной странице усопшего, так и в разделе «События» в личном кабинете. \n\t\tНа памятной странице в разделе «События» отображаются все доступные для общего просмотра события, а также религиозные события усопшего, которые соответствуют религии усопшего. \n\t\tДля просмотра всех религиозных событий необходимо в главном меню нажать кнопку «Религиозные события».</string>
+    <string name="fifth_point">\t\tПоиск памятных страниц</string>
+    <string name="fifth_one_per">\t\tДля поиска необходимо нажать кнопку в форме лупы, которая находится, как на главной странице, так и в личном кабинете.</string>
+    <string name="fifth_two_per">\t\tВы можете произвести поиск по одному или нескольким параметрам: фамилия, имя, отчество, дата рождения, дата смерти, населенный пункт.</string>
+    <string name="sixth_point">\t\tУправление настройками</string>
+    <string name="sixth_one_per">\t\tДля управления настройками личных данных, так и уведомлений, необходимо перейти в раздел «Настройки» в меню</string>
+    <string name="sixth_two_per">\t\tВы можете настроить уведомления о событиях для добавленных усопших в разделе «Уведомления».</string>
+    <string name="sixth_three_per">\t\tДни поминовения – содержит информация о тех события, о которых Вы будете получать уведомления. \n\n\t\t«Все события» – уведомления как о личных событиях усопшего, так и о религиозных событиях, связанных с выбранной религией для него. \n\t\t«Религиозные» – уведомления только о религиозных событиях усопшего. \n\t\t«События усопших» – уведомления только о добавленных личных событиях усопших, включая такие памятные даты, как День Рождения и День Смерти. \n\t\tВ поле «Уведомлять за» Вы можете выбрать то количество дней, за которое получите соответствующее уведомление. \n\t\tДля того, чтобы не получать уведомления, выключите переключатель в поле «Включить уведомления».</string>
+    <string name="seventh_point">\t\tДобавление эпитафии</string>
+    <string name="seventh_one_per">\t\tДля того чтобы добавить эпитафию необходимо перейти в раздел эпитафии на странице усопшего и нажать на «+». Внесите текст и сохраните эпитафию.</string>
+    <string name="eighth_point">\t\tПросмотр уведомлений</string>
+    <string name="eighth_one_per">\t\tПросмотр уведомлений доступно в разделе «Уведомления» в меню. \n\t\tВы может просматривать уведомления о предстоящих событиях усопших (раздел «События»), об эпитафиях, размещенных на их страницах (раздел «Cообщения»).</string>
+    <string name="menu_manual">FAQ</string>
+    <string name="faq">\t\tFAQ</string>
+
+    <string name="first_point_one">\t\t Создание памятной страницы</string>
+    <string name="second_point_two">\t\t Добавление событий</string>
+    <string name="third_point_three">\t\t Просмотр памятных страниц</string>
+    <string name="fourth_point_four">\t\t Просмотр событий</string>
+    <string name="fifth_point_five">\t\t Поиск памятных страниц</string>
+    <string name="sixth_point_six">\t\t Управление настройками</string>
+    <string name="seventh_point_seven">\t\t Добавление эпитафии</string>
+    <string name="eighth_point_eight">\t\t Просмотр уведомлений</string>
+
+
+
+
+
+</resources>
