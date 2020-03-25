@@ -33,6 +33,7 @@ import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.grid.GridActivity;
 import com.remember.app.ui.menu.events.EventsActivityMenu;
+import com.remember.app.ui.menu.manual.ManualActivity;
 import com.remember.app.ui.menu.notifications.NotificationsActivity;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
@@ -318,13 +319,10 @@ public class MainActivity extends BaseActivity
                 startActivity(new Intent(this, QuestionActivity.class));
                 return true;
             }
-//            case R.id.menu_theme: {
-//                Switch themeSwitch = drawer.findViewById(R.id.switch_theme);
-//                themeSwitch.setChecked(!Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
-//                changeTheme();
-//                return true;
-//            }
-                //TODO
+            case R.id.menu_manual: {
+                startActivity(new Intent(this, ManualActivity.class));
+                return true;
+            }
             case R.id.menu_exit: {
                 //TODO
                 unsubscribeToTopic();

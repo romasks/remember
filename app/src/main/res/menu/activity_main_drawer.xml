@@ -33,6 +33,11 @@
             android:id="@+id/menu_questions"
             android:textColor="?android:attr/textColor"
             android:title="@string/menu_questions" />
+
+        <item
+            android:id="@+id/menu_manual"
+            android:textColor="?android:attr/textColor"
+            android:title="@string/menu_manual" />
     </group>
 
    <!-- <group android:id="@+id/group2">

@@ -24,7 +24,8 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateHidden|adjustResize"
         tools:replace="android:appComponentFactory">
-
+        <activity android:name=".ui.menu.manual.ManualActivity">
+        </activity>
         <activity
             android:name=".ui.cabinet.memory_pages.show_page.SlidePhotoActivity"
             android:screenOrientation="portrait" />
@@ -153,11 +154,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_remember" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="com.remember.app" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyChaINz3Z-zpj3LXh-9AMcJqYvwhBqSU_o" />
@@ -165,26 +164,25 @@
         <receiver android:name=".UpdateBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <data android:scheme="package" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider661338814675848"
             android:exported="true" />
-
     </application>
 
 </manifest>
