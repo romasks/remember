@@ -15,4 +15,8 @@ public interface ShowPageView extends BaseView {
     void onSavedImage(Object o);
 
     void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders);
+
+    void onDeleteSliderPhoto(Object o);
+
+    void onDeleteSliderPhotoError(Throwable throwable);
 }

@@ -2,9 +2,12 @@ package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.remember.app.Remember;
+import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.base.BasePresenter;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
@@ -14,6 +17,8 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
     ShowPagePresenter() {
         Remember.applicationComponent.inject(this);
     }
+
+    public List<ResponseImagesSlider> images = new ArrayList<>();
 
     void getImageAfterSave(Integer id) {
         if (isOffline()) return;
@@ -42,6 +47,16 @@ public class ShowPagePresenter extends BasePresenter<ShowPageView> {
                 getViewState()::onImagesSlider,
                 getViewState()::error
             );
+        unsubscribeOnDestroy(subscription);
+    }
+
+    void deleteSliderPhoto(Integer id){
+        if (isOffline()) return;
+        Disposable subscription = serviceNetwork.deleteSliderPhoto(id)
+                .subscribe(
+                        getViewState()::onDeleteSliderPhoto,
+                        getViewState()::onDeleteSliderPhotoError
+                );
         unsubscribeOnDestroy(subscription);
     }
 }

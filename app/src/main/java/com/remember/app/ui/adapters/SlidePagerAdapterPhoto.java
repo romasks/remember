@@ -44,6 +44,10 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
         return responseImagesSliders.size();
     }
 
+    public List<ResponseImagesSlider> getItems(){
+        return responseImagesSliders;
+    }
+
     @Override
     public boolean isViewFromObject(@NonNull View container, @NonNull Object object) {
         return container == object;

@@ -47,6 +47,10 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return responseImagesSliders.size();
     }
 
+    public List<ResponseImagesSlider> getItems(){
+        return responseImagesSliders;
+    }
+
     public void setItems(List<ResponseImagesSlider> responseImagesSliders) {
         this.responseImagesSliders.clear();
         this.responseImagesSliders.addAll(responseImagesSliders);

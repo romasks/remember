@@ -2,7 +2,9 @@ package com.remember.app.ui.cabinet.memory_pages.show_page;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.FragmentManager;
@@ -66,11 +70,13 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
+import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.StringUtils.getStringFromField;
 
-public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener {
+public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener, SlidePhotoActivity.DeleteCallBack {
 
     private final String TAG = ShowPageActivity.class.getSimpleName();
 
@@ -144,6 +150,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     private static final String APP_ID = "512000155578";
     private static final String APP_KEY = "CLLQFHJGDIHBABABA";
     private static final String REDIRECT_URL = "okauth://ok512000155578";
+    List<ResponseImagesSlider> photoList;
 
     @Override
     protected int getContentView() {
@@ -188,9 +195,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
         recyclerSlider.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerSlider.setAdapter(photoSliderAdapter);
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -223,7 +228,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     }
 
-    //
     @Override
     public void onReceivedImage(MemoryPageModel memoryPageModel) {
         this.memoryPageModel = memoryPageModel;
@@ -250,7 +254,18 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders) {
+        photoList = responseImagesSliders;
         photoSliderAdapter.setItems(responseImagesSliders);
+    }
+
+    @Override
+    public void onDeleteSliderPhoto(Object o) {
+
+    }
+
+    @Override
+    public void onDeleteSliderPhotoError(Throwable throwable) {
+
     }
 
     @Override
@@ -269,11 +284,13 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void onItemClick(View view, int position) {
+
         startActivity(
                 new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
                         .putExtra(Constants.INTENT_EXTRA_ID, id)
                         .putExtra(Constants.INTENT_EXTRA_POSITION_IN_SLIDER, position)
         );
+        SlidePhotoActivity.setCallback(this);
     }
 
     @Override
@@ -285,6 +302,24 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @OnClick(R.id.addPhotoToSliderBtn)
     public void pickImage() {
+        if (storagePermissionGranted(this) || Build.VERSION.SDK_INT < 23) {
+            showPhotoDialog();
+        } else {
+            verifyStoragePermissions(this);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+            showPhotoDialog();
+        } else
+            Toast.makeText(getBaseContext(), "Для загрузки фотографии разрешите доступ к хранилищу.", Toast.LENGTH_LONG).show();
+
+    }
+
+    private void showPhotoDialog() {
         photoDialog = new PhotoDialog();
         photoDialog.setCallback(this);
         FragmentManager manager = getSupportFragmentManager();
@@ -328,7 +363,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             description.setVisibility(View.VISIBLE);
             descriptionTitle.setText(R.string.memory_page_hide_description_text);
             scrollView.scrollTo(0, scrollView.getBottom() + 1500);
-
         }
     }
 
@@ -433,8 +467,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     private void initAll() {
         if (memoryPageModel != null) {
-
-
             if (!afterSave) {
                 glideLoadIntoWithError(memoryPageModel.getPicture(), image);
                 glideLoadIntoWithError(memoryPageModel.getPicture(), sharedImage);
@@ -444,10 +476,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             initInfo(memoryPageModel);
             mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
 
-
             Log.d(TAG, "initAll: memoryPageModel.getStatus() " + memoryPageModel.getStatus());
             Log.d(TAG, "initAll: memoryPageModel.getFlag()  " + memoryPageModel.getFlag());
-
 
             if (memoryPageModel.getStatus() == null || memoryPageModel.getFlag() == null)
                 share_LinLayout.setVisibility(View.GONE);
@@ -457,8 +487,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
                     Log.e(TAG, "initAll: DELETED");
                 }
             }
-
-
         }
     }
 
@@ -485,5 +513,11 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             description.setText(memoryPageModel.getComment());
         } else
             descriptionTitle.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void deletePhoto(int position) {
+        photoList.remove(photoSliderAdapter.getItems().get(position));
+        photoSliderAdapter.setItems(photoList);
     }
 }
