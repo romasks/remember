@@ -122,6 +122,7 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
         adapter.addFragment(new PersonalDataFragment(presenter), "Личные данные");
         adapter.addFragment(new NotificationFragment(presenter), "Уведомления");
+        adapter.addFragment(new FontSettingsFragment(), "Шрифт");
         viewPager.setAdapter(adapter);
     }
 

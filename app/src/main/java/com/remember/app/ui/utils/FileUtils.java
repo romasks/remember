@@ -1,19 +1,19 @@
 package com.remember.app.ui.utils;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import androidx.core.app.ActivityCompat;
 
 public class FileUtils {
 
@@ -37,7 +37,7 @@ public class FileUtils {
         return f;
     }
 
-    public static void verifyStoragePermissions(Activity activity) {
+    public static void verifyStoragePermissions(AppCompatActivity activity) {
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -49,7 +49,7 @@ public class FileUtils {
         }
     }
 
-    public static boolean storagePermissionGranted(Activity activity) {
+    public static boolean storagePermissionGranted(AppCompatActivity activity) {
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         return permission == PackageManager.PERMISSION_GRANTED;
     }

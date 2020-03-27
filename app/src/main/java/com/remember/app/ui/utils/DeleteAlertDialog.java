@@ -1,11 +1,10 @@
 package com.remember.app.ui.utils;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class DeleteAlertDialog extends AppCompatDialogFragment {

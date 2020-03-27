@@ -1,6 +1,5 @@
 package com.remember.app.ui.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,6 +9,9 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -22,8 +24,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-
-import androidx.fragment.app.Fragment;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.CROP_IMAGE_RECT;
@@ -142,11 +142,11 @@ public class ImageUtils {
         return bitmap;
     }
 
-    public static void cropImage(Activity activity) {
+    public static void cropImage(AppCompatActivity activity) {
         cropImage(activity, CROP_IMAGE_RECT);
     }
 
-    public static void cropImage(Activity activity, CropImageView.CropShape cropShape) {
+    public static void cropImage(AppCompatActivity activity, CropImageView.CropShape cropShape) {
         CropImage.activity()
                 .setMinCropResultSize(400, 400)
                 .setMaxCropResultSize(7000, 7000)
