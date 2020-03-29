@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.customView.CustomButton;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.adapters.EventsDeceaseAdapter;
 import com.remember.app.ui.base.BaseActivity;
@@ -53,11 +55,11 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
     /*@BindView(R.id.search)
     ImageView search;*///temporarily comment
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.no_events)
     LinearLayout noEvents;
     @BindView(R.id.btn_create_event)
-    Button btnCreateEvent;
+    CustomButton btnCreateEvent;
 
     private String name;
     private EventsDeceaseAdapter eventsDeceaseAdapter;

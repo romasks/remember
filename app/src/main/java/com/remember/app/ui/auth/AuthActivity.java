@@ -15,6 +15,8 @@ import com.jaychang.sa.SocialUser;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.BuildConfig;
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteTextView;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSocialAuth;
@@ -70,9 +72,9 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
     AuthPresenter presenter;
 
     @BindView(R.id.login_value)
-    AutoCompleteTextView login;
+    CustomAutoCompleteTextView login;
     @BindView(R.id.password_value)
-    AutoCompleteTextView password;
+    CustomAutoCompleteTextView password;
     @BindView(R.id.vk)
     ImageButton vk;
 
@@ -83,8 +85,8 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView register = findViewById(R.id.register);
-        TextView wrongPas = findViewById(R.id.wrong_password);
+        CustomTextView register = findViewById(R.id.register);
+        CustomTextView wrongPas = findViewById(R.id.wrong_password);
         register.setPaintFlags(register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 

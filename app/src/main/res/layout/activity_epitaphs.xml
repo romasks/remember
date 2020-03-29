@@ -32,7 +32,7 @@
                     android:padding="10dp"
                     android:src="@drawable/ic_back" />
 
-                <TextView
+                <com.remember.app.customView.CustomTextView
                     android:id="@+id/titliepi"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                     android:text="@string/epitaphs_header_text"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColor"
-                    android:textSize="20dp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -67,12 +67,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             style="@style/EmptyListTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/epitaphs_no_epitaphs_title"
-            android:textSize="24dp" />
+            android:textSize="26sp" />
 
         <!--<Button
             android:id="@+id/btn_create_event"

@@ -30,6 +30,7 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.jaychang.sa.utils.StringUtils;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.Constants;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
@@ -93,7 +94,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.sharedImage)
     ImageView sharedImage;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;
     @BindView(R.id.dates)

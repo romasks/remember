@@ -14,7 +14,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp">
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/faq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/faq" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/first_point_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/first_point_one" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/second_point_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/second_point_two" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/third_point_three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/third_point_three" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/fourth_point_four"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/fourth_point_four" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/fifth_point_five"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/fifth_point_five" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/sixth_point_six"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/sixth_point_six" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/seventh_point_seven"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/seventh_point_seven" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/eighth_point_eight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/eighth_point_eight" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/first_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:text="@string/first_point" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/first_point_par_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
         android:focusableInTouchMode="true"
         app:srcCompat="@drawable/first_per" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/two_one_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
             android:paddingTop="16dp"
             app:srcCompat="@drawable/two_per" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/three_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
             android:paddingTop="16dp"
             app:srcCompat="@drawable/three_per" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/four_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
             android:justificationMode="inter_word"
             android:text="@string/four_per" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/second_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,9 +167,9 @@
             android:focusableInTouchMode="true"
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/second_point">
-        </TextView>
+        </com.remember.app.customView.CustomTextView>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/second_one_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
             android:focusableInTouchMode="true"
             app:srcCompat="@drawable/second_one_per"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/second_two_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
             android:justificationMode="inter_word"
             android:text="@string/second_two_per"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/third_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/third_point"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/third_one_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
             android:focusableInTouchMode="true"
             app:srcCompat="@drawable/third_one_per"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/fourth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -233,7 +233,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/fourth_point"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/fourth_one_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
             android:justificationMode="inter_word"
             android:text="@string/fourth_one_per"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/fifth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -254,7 +254,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/fifth_point"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/fifth_one_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -271,7 +271,7 @@
             android:focusableInTouchMode="true"
             app:srcCompat="@drawable/fifth_per"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/fifth_two_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
             android:text="@string/fifth_two_per"/>
 
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/sixth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -291,7 +291,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/sixth_point"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/sixth_one_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
             android:paddingTop="16dp"
             app:srcCompat="@drawable/sixth_one_per"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/sixth_two_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -323,7 +323,7 @@
             android:paddingTop="16dp"
             app:srcCompat="@drawable/sixth_two_per"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/sixth_three_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -331,7 +331,7 @@
             android:justificationMode="inter_word"
             android:text="@string/sixth_three_per"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/seventh_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -342,7 +342,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/seventh_point"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/seventh_one_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -360,7 +360,7 @@
             app:srcCompat="@drawable/seventh_per"/>
 
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/eighth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -371,7 +371,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/eighth_point"/>
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/eighth_one_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

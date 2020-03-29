@@ -32,7 +32,7 @@
                     android:layout_gravity="center_vertical"
                     app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
-                <TextView
+                <com.remember.app.customView.CustomTextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -41,7 +41,7 @@
                     android:fontFamily="@font/round"
                     android:text="@string/grid_header"
                     android:textColor="@color/light_brown"
-                    android:textSize="30dp" />
+                    android:textSize="32sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

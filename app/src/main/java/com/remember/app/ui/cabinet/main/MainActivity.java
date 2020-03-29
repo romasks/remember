@@ -23,6 +23,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.BuildConfig;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponseUserInfo;
@@ -70,7 +71,7 @@ public class MainActivity extends BaseActivity
     MainPresenter presenter;
 
     @BindView(R.id.title_name)
-    TextView titleUserName;
+    CustomTextView titleUserName;
     @BindView(R.id.search)
     ImageView searchImg;
     @BindView(R.id.add_plus)
@@ -88,7 +89,7 @@ public class MainActivity extends BaseActivity
 
     private ImageView imageViewAvatar;
     private ImageView imageViewBigAvatar;
-    private TextView navUsername;
+    private CustomTextView navUsername;
 
     View.OnClickListener onAvatarClickListener = view -> {
         startActivity(new Intent(this, SettingActivity.class));
@@ -137,7 +138,7 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-        TextView version = navigationView.findViewById(R.id.version);
+        CustomTextView version = navigationView.findViewById(R.id.version);
         version.setText("Версия " + BuildConfig.VERSION_NAME);
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
         imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
@@ -146,7 +147,7 @@ public class MainActivity extends BaseActivity
         navUsername = headerView.findViewById(R.id.user_name);
         navUsername.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
-        TextView navEmail = headerView.findViewById(R.id.user_email);
+        CustomTextView navEmail = headerView.findViewById(R.id.user_email);
         navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
         imageViewAvatar = drawer.findViewById(R.id.avatar);

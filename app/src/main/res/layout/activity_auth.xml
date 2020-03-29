@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="@+id/email_login_form"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="45dp"
@@ -45,7 +45,7 @@
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             app:layout_constraintTop_toBottomOf="@+id/name_title">
 
-            <AutoCompleteTextView
+            <com.remember.app.customView.CustomAutoCompleteTextView
                 android:id="@+id/login_value"
                 style="@style/CustomInputTextStyle"
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColorHighlight="@color/dark_gray"
-                android:textSize="18dp" />
+                android:textSize="20sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,7 +68,7 @@
             android:layout_marginEnd="@dimen/default_activity_fields_margin"
             app:layout_constraintTop_toBottomOf="@+id/login_title">
 
-            <AutoCompleteTextView
+            <com.remember.app.customView.CustomAutoCompleteTextView
                 android:id="@+id/password_value"
                 style="@style/CustomInputTextStyle"
                 android:layout_width="match_parent"
@@ -79,11 +79,11 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColorHighlight="@color/dark_gray"
-                android:textSize="18dp" />
+                android:textSize="20sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.remember.app.customView.CustomButton
             android:id="@+id/sign_in_btn"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
@@ -95,31 +95,31 @@
             android:text="@string/sign_in"
             android:textAllCaps="false"
             android:textColor="#fcfcfc"
-            android:textSize="18dp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/registration"
         android:textColor="@color/colorAccent"
-        android:textSize="17dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_login_form" />
 
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/wrong_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Забыли пароль?"
         android:textColor="@color/colorAccent"
-        android:textSize="17dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register" />
@@ -135,13 +135,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Или войдите через соцсети:"
         android:textColor="#b1a28c"
-        android:textSize="17dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/social_group"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

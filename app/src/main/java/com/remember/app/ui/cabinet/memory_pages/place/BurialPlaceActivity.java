@@ -17,6 +17,8 @@ import androidx.core.app.ActivityCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteTextView;
+import com.remember.app.customView.CustomButton;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
@@ -50,20 +52,20 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     ImageView settingsBtn;
 
     @BindView(R.id.city_value)
-    AutoCompleteTextView city;
+    CustomAutoCompleteTextView city;
     @BindView(R.id.cemetery_value)
-    AutoCompleteTextView cemetery;
+    CustomAutoCompleteTextView cemetery;
     @BindView(R.id.sector_value)
-    AutoCompleteTextView sector;
+    CustomAutoCompleteTextView sector;
     @BindView(R.id.line_value)
-    AutoCompleteTextView line;
+    CustomAutoCompleteTextView line;
     @BindView(R.id.grave_value)
-    AutoCompleteTextView grave;
+    CustomAutoCompleteTextView grave;
     @BindView(R.id.coordinates_value)
-    AutoCompleteTextView coordinates;
+    CustomAutoCompleteTextView coordinates;
 
     @BindView(R.id.pick)
-    Button pick;
+    CustomButton pick;
 
     private ResponseHandBook responseHandBook;
 

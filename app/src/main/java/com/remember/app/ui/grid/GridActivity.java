@@ -21,6 +21,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.BuildConfig;
 import com.remember.app.R;
+import com.remember.app.customView.CustomButton;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
@@ -73,7 +75,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @BindView(R.id.menu_icon)
     ImageView button_menu;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.search)
     ImageView search;
     @BindView(R.id.avatar_small_toolbar)
@@ -82,7 +84,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @BindView(R.id.image_rv)
     RecyclerView recyclerView;
     @BindView(R.id.grid_sign_in)
-    Button signInButton;
+    CustomButton signInButton;
 
     @BindView(R.id.drawer_layout_2)
     DrawerLayout drawer;
@@ -150,13 +152,13 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             navigationView.setNavigationItemSelectedListener(this);
 
             View headerView = navigationView.getHeaderView(0);
-            TextView version = navigationView.findViewById(R.id.version);
+            CustomTextView version = navigationView.findViewById(R.id.version);
             version.setText("Версия " + BuildConfig.VERSION_NAME);
 
-            TextView navUserName = headerView.findViewById(R.id.user_name);
+            CustomTextView navUserName = headerView.findViewById(R.id.user_name);
             navUserName.setText(Prefs.getString(PREFS_KEY_NAME_USER, ""));
 
-            TextView navEmail = headerView.findViewById(R.id.user_email);
+            CustomTextView navEmail = headerView.findViewById(R.id.user_email);
             navEmail.setText(Prefs.getString(PREFS_KEY_EMAIL, ""));
 
             ImageView imageViewBigAvatar = headerView.findViewById(R.id.logo);

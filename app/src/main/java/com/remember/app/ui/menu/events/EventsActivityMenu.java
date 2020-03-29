@@ -17,6 +17,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.gson.Gson;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteTextView;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.events.EventFullActivity;
@@ -42,9 +44,9 @@ public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapte
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.rel_event)
-    TextView relEvent;
+    CustomTextView relEvent;
     @BindView(R.id.show_all)
-    TextView showAll;
+    CustomTextView showAll;
     /*@BindView(R.id.no_events)
     LinearLayout noEvents;*/
     @BindView(R.id.back)
@@ -138,8 +140,8 @@ public class EventsActivityMenu extends BaseActivity implements EventsMenuAdapte
         ConstraintLayout layout = popupView.findViewById(R.id.cl);
         Toolbar toolbar = popupView.findViewById(R.id.toolbar);
         ImageView backImg = popupView.findViewById(R.id.back);
-        TextView textView = popupView.findViewById(R.id.textView2);
-        AutoCompleteTextView date = popupView.findViewById(R.id.date_value);
+        CustomTextView textView = popupView.findViewById(R.id.textView2);
+        CustomAutoCompleteTextView date = popupView.findViewById(R.id.date_value);
         MaterialSpinner religion = popupView.findViewById(R.id.spinner);
 
         if (Utils.isThemeDark()) {

@@ -11,25 +11,26 @@ import android.widget.Toast;
 
 import com.himanshurawat.imageworker.work.To;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 
 public class ManualActivity extends AppCompatActivity implements View.OnClickListener{
 
-    TextView point_one;
-    TextView point_two;
-    TextView point_three;
-    TextView point_four;
-    TextView point_five;
-    TextView point_six;
-    TextView point_seven;
-    TextView point_eight;
+    CustomTextView point_one;
+    CustomTextView point_two;
+    CustomTextView point_three;
+    CustomTextView point_four;
+    CustomTextView point_five;
+    CustomTextView point_six;
+    CustomTextView point_seven;
+    CustomTextView point_eight;
     ImageView firstPoint;
     ImageView secondPoint;
     ImageView thirdPoint;
-    TextView fourthPoint;
+    CustomTextView fourthPoint;
     ImageView fifthPoint;
-    TextView sixthPoint;
+    CustomTextView sixthPoint;
     ImageView seventhPoint;
-    TextView eighthPoint;
+    CustomTextView eighthPoint;
     Context context;
 
 

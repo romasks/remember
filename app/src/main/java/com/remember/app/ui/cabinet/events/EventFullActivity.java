@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.gson.Gson;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
@@ -51,15 +52,15 @@ public class EventFullActivity extends BaseActivity implements EventView {
     @BindView(R.id.settings)
     ImageView settingsImage;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.body)
-    TextView body;
+    CustomTextView body;
     @BindView(R.id.date)
-    TextView date;
+    CustomTextView date;
     @BindView(R.id.back_button)
     ImageView backButton;
     @BindView(R.id.eventName)
-    TextView eventName;
+    CustomTextView eventName;
     private boolean isEventReligion = false;
     private Drawable mDefaultBackground;
     private EventModel eventModel;

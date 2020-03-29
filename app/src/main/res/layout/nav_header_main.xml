@@ -21,7 +21,7 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         tools:ignore="MissingConstraints" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/user_name"
         style="@style/Text.Caption"
         android:layout_width="150dp"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@+id/logo"
         tools:text="@string/nav_header_title" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

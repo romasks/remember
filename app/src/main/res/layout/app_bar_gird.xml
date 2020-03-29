@@ -28,7 +28,7 @@
         tools:listitem="@layout/item_home_grid"
         tools:visibility="visible" />
 
-    <Button
+    <com.remember.app.customView.CustomButton
         android:id="@+id/grid_sign_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         android:text="@string/grid_login"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="18dp"
+        android:textSize="20sp"
         android:visibility="gone"
         tools:layout_editor_absoluteX="-16dp"
         tools:visibility="visible" />
