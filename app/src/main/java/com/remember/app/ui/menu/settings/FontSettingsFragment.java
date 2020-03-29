@@ -39,6 +39,7 @@ public class FontSettingsFragment extends SettingsBaseFragment {
     @Override
     void onSaveClick() {
         saveFontSize();
+        getActivity().recreate();
     }
 
     private void initUI() {
