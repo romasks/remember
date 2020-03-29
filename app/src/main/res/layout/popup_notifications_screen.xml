@@ -33,14 +33,14 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_back" />
 
-            <TextView
+            <com.remember.app.customView.CustomTextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Фильтр"
                 android:textColor="@android:color/black"
-                android:textSize="20dp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -80,7 +80,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.remember.app.customView.CustomButton
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
         android:layout_marginRight="15dp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/date"
         tools:layout_editor_absoluteX="0dp" />
 

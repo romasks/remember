@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteEditText;
+import com.remember.app.customView.CustomButton;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.utils.Utils;
 
@@ -41,8 +43,8 @@ public class PopupAddEpitaph extends PopupWindow {
         showAtLocation(contentView, Gravity.CENTER, 0, 0);
 
         View popupView = getContentView();
-        Button saveButton = popupView.findViewById(R.id.save_button);
-        EditText text = popupView.findViewById(R.id.text_epitaph);
+        CustomButton saveButton = popupView.findViewById(R.id.save_button);
+        CustomAutoCompleteEditText text = popupView.findViewById(R.id.text_epitaph);
 
         if (!body.isEmpty()) {
             text.setText(body);

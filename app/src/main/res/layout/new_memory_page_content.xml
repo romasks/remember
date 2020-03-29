@@ -41,13 +41,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.remember.app.customView.CustomTextView
                     android:id="@+id/text_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Добавить фотографию"
                     android:textColor="@color/colorWhiteDark"
-                    android:textSize="18dp"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/add_white" />
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <com.remember.app.customView.CustomEditText
                     android:id="@+id/last_name"
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                     android:hint="@string/last_name"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
-                    android:textSize="18dp" />
+                    android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/last_name_title">
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <com.remember.app.customView.CustomEditText
                     android:id="@+id/name"
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                     android:hint="@string/name"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
-                    android:textSize="18dp" />
+                    android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,14 +99,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/name_title">
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <com.remember.app.customView.CustomEditText
                     android:id="@+id/middle_name"
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/middle_name"
                     android:inputType="textPersonName|textCapWords"
-                    android:textSize="18dp" />
+                    android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,7 +118,7 @@
                 android:focusable="false"
                 app:layout_constraintTop_toBottomOf="@+id/middle_name_title">
 
-                <AutoCompleteTextView
+                <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/date_begin"
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                     android:hint="@string/date_begin"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName"
-                    android:textSize="18dp" />
+                    android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,7 +139,7 @@
                 android:focusable="false"
                 app:layout_constraintTop_toBottomOf="@+id/date_begin_title">
 
-                <AutoCompleteTextView
+                <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/date_end"
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
@@ -147,17 +147,17 @@
                     android:focusable="false"
                     android:hint="@string/date_end"
                     android:inputType="textPersonName"
-                    android:textSize="18dp" />
+                    android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <com.remember.app.customView.CustomButton
                 android:id="@+id/place_button"
                 style="@style/CustomAppButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/burial_place"
-                android:textSize="18dp"
+                android:textSize="20sp"
                 app:layout_constraintTop_toBottomOf="@+id/date_end_title"
                 tools:layout_editor_absoluteX="20dp" />
 
@@ -169,7 +169,7 @@
                 android:focusable="false"
                 app:layout_constraintTop_toBottomOf="@+id/place_button">
 
-                <AutoCompleteTextView
+                <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/religion_value"
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
@@ -180,10 +180,10 @@
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown"
-                    android:textSize="18dp" />
+                    android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
+            <com.remember.app.customView.CustomTextView
                 android:id="@+id/is_star"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
                 android:layout_marginEnd="25dp"
                 android:text="@string/star"
                 android:textColor="@color/brown"
-                android:textSize="18dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -210,7 +210,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/is_star">
 
-                <androidx.appcompat.widget.AppCompatRadioButton
+                <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/is_famous"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
@@ -220,10 +220,10 @@
                     android:paddingStart="10dp"
                     android:text="Да"
                     android:textColor="@color/gray"
-                    android:textSize="18dp"
+                    android:textSize="20sp"
                     tools:ignore="RtlSymmetry" />
 
-                <androidx.appcompat.widget.AppCompatRadioButton
+                <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/not_famous"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -234,12 +234,12 @@
                     android:paddingStart="10dp"
                     android:text="Нет"
                     android:textColor="@color/gray"
-                    android:textSize="18dp"
+                    android:textSize="20sp"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous"
                     tools:ignore="RtlSymmetry" />
             </RadioGroup>
 
-            <TextView
+            <com.remember.app.customView.CustomTextView
                 android:id="@+id/access_desk"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/pick_level"
                 android:textColor="@color/brown"
-                android:textSize="18dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -264,7 +264,7 @@
                 app:layout_constraintStart_toStartOf="@+id/access_desk"
                 app:layout_constraintTop_toBottomOf="@id/access_desk">
 
-                <androidx.appcompat.widget.AppCompatRadioButton
+                <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/it_public"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -274,10 +274,10 @@
                     android:paddingStart="10dp"
                     android:text="@string/for_all"
                     android:textColor="@color/gray"
-                    android:textSize="18dp"
+                    android:textSize="20sp"
                     tools:ignore="RtlSymmetry" />
 
-                <androidx.appcompat.widget.AppCompatRadioButton
+                <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/not_public"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -287,12 +287,12 @@
                     android:paddingStart="10dp"
                     android:text="@string/for_yourself"
                     android:textColor="@color/gray"
-                    android:textSize="18dp"
+                    android:textSize="20sp"
                     app:layout_constraintTop_toBottomOf="@+id/it_public"
                     tools:ignore="RtlSymmetry" />
             </RadioGroup>
 
-            <TextView
+            <com.remember.app.customView.CustomTextView
                 android:id="@+id/title_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -302,12 +302,12 @@
                 android:paddingTop="10dp"
                 android:text="Добавьте описание"
                 android:textColor="@color/brown"
-                android:textSize="18dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/is_public" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <com.remember.app.customView.CustomEditText
                 android:id="@+id/description"
                 style="@style/TextAreaStyle"
                 android:layout_width="0dp"
@@ -316,20 +316,20 @@
                 android:textColor="?android:attr/textColor"
                 android:textColorHighlight="@color/gray"
                 android:textColorHint="@color/gray"
-                android:textSize="18dp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_description"
                 tools:ignore="RtlSymmetry" />
 
-            <Button
+            <com.remember.app.customView.CustomButton
                 android:id="@+id/save_button"
                 style="@style/CustomAppButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/create_page"
-                android:textSize="18dp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description"
                 tools:layout_editor_absoluteX="20dp" />

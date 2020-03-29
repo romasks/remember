@@ -10,6 +10,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.textfield.TextInputLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteEditText;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
@@ -35,13 +37,13 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Succ
     RegisterPresenter presenter;
 
     @BindView(R.id.register)
-    TextView loginScreen;
+    CustomTextView loginScreen;
     @BindView(R.id.name_value)
-    AppCompatEditText nickName;
+    CustomAutoCompleteEditText nickName;
     @BindView(R.id.name_title)
     TextInputLayout nameTitle;
     @BindView(R.id.middle_name)
-    AppCompatEditText email;
+    CustomAutoCompleteEditText email;
 
     private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +

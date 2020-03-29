@@ -11,6 +11,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.QuestionSendDialog;
@@ -30,11 +32,11 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     @BindView(R.id.spinner)
     MaterialSpinner spinner;
     @BindView(R.id.body)
-    EditText body;
+    CustomEditText body;
     @BindView(R.id.back_button)
     ImageView back;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;
 

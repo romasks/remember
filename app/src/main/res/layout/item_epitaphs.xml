@@ -18,19 +18,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/name_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:textColor="@color/brown"
-        android:textSize="15dp"
+        android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@id/avatar"
         tools:text="Анастасия Крюкова" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -38,24 +38,24 @@
         android:layout_marginTop="5dp"
         android:maxLines="5"
         android:textColor="?android:attr/textColor"
-        android:textSize="14dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@+id/name_user"
         tools:text="Это очень короткий текст очень короткого сообщения" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textColor="@color/gray"
-        android:textSize="12dp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/description"
         app:layout_constraintTop_toBottomOf="@id/description"
         tools:text="Сегодня в 16:59" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,12 +63,12 @@
         android:layout_marginEnd="30dp"
         android:text="@string/epitaphs_item_action_change"
         android:textColor="@color/brown"
-        android:textSize="14dp"
+        android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/delete"
         app:layout_constraintTop_toBottomOf="@id/description" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
         android:layout_marginEnd="10dp"
         android:text="@string/epitaphs_item_action_delete"
         android:textColor="@color/brown"
-        android:textSize="14dp"
+        android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description" />

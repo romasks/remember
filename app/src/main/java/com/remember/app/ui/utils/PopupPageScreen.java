@@ -15,6 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteTextView;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.RequestSearchPage;
 import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
 
@@ -34,8 +36,8 @@ import static com.remember.app.ui.utils.DateUtils.dfLocal;
 public class PopupPageScreen extends PopupWindow {
 
     private Callback callback;
-    private AutoCompleteTextView dateBeginVal;
-    private AutoCompleteTextView dateEndVal;
+    private CustomAutoCompleteTextView dateBeginVal;
+    private CustomAutoCompleteTextView dateEndVal;
     private String status;
     private Boolean flag;
 
@@ -52,7 +54,7 @@ public class PopupPageScreen extends PopupWindow {
         ConstraintLayout layout = contentView.findViewById(R.id.cont);
         Toolbar toolbar = contentView.findViewById(R.id.toolbar);
         ImageView backImg = contentView.findViewById(R.id.back);
-        TextView textView = contentView.findViewById(R.id.textView2);
+        CustomTextView textView = contentView.findViewById(R.id.textView2);
         AutoCompleteTextView lastName = contentView.findViewById(R.id.last_name_value);
         AutoCompleteTextView name = contentView.findViewById(R.id.first_name_value);
         AutoCompleteTextView middleName = contentView.findViewById(R.id.father_name_value);

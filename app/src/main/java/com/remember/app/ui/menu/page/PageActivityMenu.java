@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
@@ -44,9 +45,9 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.show_all)
-    TextView showAll;
+    CustomTextView showAll;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.search)

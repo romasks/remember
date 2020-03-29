@@ -12,6 +12,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseImagesSlider;
 
 import org.jetbrains.annotations.NotNull;
@@ -60,7 +61,7 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.slide_layout_photo, container, false);
 
         ImageView imageView = view.findViewById(R.id.imageView2);
-        TextView textView = view.findViewById(R.id.textView15);
+        CustomTextView textView = view.findViewById(R.id.textView15);
         if (responseImagesSliders.get(position).getBody() != null && responseImagesSliders.get(position).getBody().length()>2)
             textView.setText(responseImagesSliders.get(position).getBody());
 

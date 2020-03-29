@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/panel_white">
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <com.remember.app.customView.CustomAutoCompleteEditText
         android:id="@+id/text_epitaph"
         style="@style/TextAreaStyle"
         android:layout_width="match_parent"
@@ -15,12 +15,12 @@
         android:hint="@string/text_epitaph"
         android:maxLength="1024"
         android:textColor="?android:attr/textColor"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.remember.app.customView.CustomButton
         android:id="@+id/save_button"
         style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:layout_marginTop="40dp"
         android:text="@string/save"
         android:textAllCaps="false"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/text_epitaph"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp" />

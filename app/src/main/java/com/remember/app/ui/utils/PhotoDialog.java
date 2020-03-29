@@ -20,6 +20,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomTextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +34,8 @@ public class PhotoDialog extends DialogFragment {
     private Callback callback;
     private ConstraintLayout image;
     private ImageView imageView;
-    private EditText editText;
-    private TextView done;
+    private CustomEditText editText;
+    private CustomTextView done;
     private Uri uri;
     private Bitmap bitmap;
     private File imageFile;

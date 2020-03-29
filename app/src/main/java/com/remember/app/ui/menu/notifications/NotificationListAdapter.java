@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.NotificationModelNew;
 
 import java.util.ArrayList;
@@ -58,8 +59,8 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView title;
-        private TextView date;
+        private CustomTextView title;
+        private CustomTextView date;
 
         ViewHolder(View v) {
             super(v);

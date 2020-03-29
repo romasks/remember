@@ -17,7 +17,7 @@
         android:padding="4dp"
         tools:ignore="MissingConstraints" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         android:layout_marginEnd="10dp"
         android:gravity="start"
         android:textColor="@color/brown"
-        android:textSize="16dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
@@ -34,36 +34,36 @@
         app:layout_constraintWidth_default="wrap"
         tools:text="Иванов Иван иванович Иванов Иван иванович" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
-        android:textSize="14dp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="02.04.1960" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="1dp"
-        android:textSize="14dp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/date"
         tools:text="осталось" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/amount_days"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:background="@drawable/circle_for_memory_pages"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="14dp"
+        android:textSize="16sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
         app:layout_constraintEnd_toEndOf="@+id/avatar_image"

@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
@@ -49,7 +51,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     @BindView(R.id.settings)
     ImageView settings;
     @BindView(R.id.event_name)
-    TextView eventName;
+    CustomTextView eventName;
     @BindView(R.id.pageAvatar)
     FrameLayout pageAvatar;
     @BindView(R.id.image_avatar)
@@ -59,9 +61,9 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     @BindView(R.id.add_photo)
     ImageView addPhoto;
     @BindView(R.id.date)
-    TextView dateView;
+    CustomTextView dateView;
     @BindView(R.id.description)
-    TextView description;
+    CustomTextView description;
     @BindView(R.id.video)
     VideoView videoView;
     @BindView(R.id.videos)

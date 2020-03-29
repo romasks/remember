@@ -36,14 +36,14 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.remember.app.customView.CustomTextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:text="@string/main_pages_header_text"
                     android:textColor="@android:color/black"
-                    android:textSize="20dp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/show_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             android:padding="8dp"
             android:text="@string/grid_show_all"
             android:textColor="@color/colorAccent"
-            android:textSize="20dp"
+            android:textSize="22sp"
             android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />

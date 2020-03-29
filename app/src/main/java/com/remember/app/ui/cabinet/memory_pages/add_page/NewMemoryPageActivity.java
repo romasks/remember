@@ -24,6 +24,11 @@ import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteTextView;
+import com.remember.app.customView.CustomButton;
+import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomRadioButton;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
@@ -88,41 +93,41 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     AddPagePresenter presenter;
 
     @BindView(R.id.last_name)
-    EditText lastName;
+    CustomEditText lastName;
     @BindView(R.id.back_button)
     ImageView back;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;
     @BindView(R.id.image_layout)
     ConstraintLayout imageLayout;
     @BindView(R.id.middle_name)
-    EditText middleName;
+    CustomEditText middleName;
     @BindView(R.id.name)
-    EditText name;
+    CustomEditText name;
     @BindView(R.id.date_begin)
-    AutoCompleteTextView dateBegin;
+    CustomAutoCompleteTextView dateBegin;
     @BindView(R.id.date_end)
-    AutoCompleteTextView dateEnd;
+    CustomAutoCompleteTextView dateEnd;
     @BindView(R.id.religion_value)
-    AutoCompleteTextView religion;
+    CustomAutoCompleteTextView religion;
     @BindView(R.id.image)
     ImageView image;
     @BindView(R.id.description)
-    EditText description;
+    CustomEditText description;
     @BindView(R.id.is_famous)
-    AppCompatRadioButton isFamous;
+    CustomRadioButton isFamous;
     @BindView(R.id.not_famous)
-    AppCompatRadioButton notFamous;
+    CustomRadioButton notFamous;
     @BindView(R.id.it_public)
-    AppCompatRadioButton isPublic;
+    CustomRadioButton isPublic;
     @BindView(R.id.not_public)
-    AppCompatRadioButton noPublic;
+    CustomRadioButton noPublic;
     @BindView(R.id.save_button)
-    Button saveButton;
+    CustomButton saveButton;
     @BindView(R.id.text_image)
-    TextView textViewImage;
+    CustomTextView textViewImage;
 
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private DatePickerDialog.OnDateSetListener dateEndPickerDialog;
@@ -432,7 +437,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             isFamous.setChecked(false);
             notFamous.setChecked(true);
         }
-        if (memoryPageModel.getFlag().equals("true")) {
+        if (memoryPageModel.getFlag().equals("true")) { //TODO FIX CRASH
             isPublic.setChecked(true);
             noPublic.setChecked(false);
         } else {

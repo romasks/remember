@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseFragment;
@@ -37,7 +38,7 @@ public class PageFragment extends BaseFragment
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.show_all)
-    TextView showAll;
+    CustomTextView showAll;
     @BindView(R.id.not_page)
     LinearLayout emptyLayout;
 

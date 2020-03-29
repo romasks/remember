@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.data.models.ResponseUser;
 import com.remember.app.ui.base.BaseViewHolder;
@@ -71,15 +72,15 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public class EpitaphsAdapterViewHolder extends BaseViewHolder {
 
         @BindView(R.id.description)
-        TextView description;
+        CustomTextView description;
         @BindView(R.id.name_user)
-        TextView name;
+        CustomTextView name;
         @BindView(R.id.date)
-        TextView date;
+        CustomTextView date;
         @BindView(R.id.change)
-        TextView change;
+        CustomTextView change;
         @BindView(R.id.delete)
-        TextView delete;
+        CustomTextView delete;
         @BindView(R.id.avatar)
         ImageView avatar;
 

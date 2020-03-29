@@ -30,6 +30,7 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.jaychang.sa.utils.StringUtils;
 import com.remember.app.R;
+import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.Constants;
 import com.remember.app.data.models.MemoryPageModel;
@@ -88,7 +89,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.mainLinLayout)       //
             LinearLayout mainLinLayout;         //
     @BindView(R.id.fio)
-    TextView name;
+    CustomTextView name;
     @BindView(R.id.image)
     ImageView image;
     @BindView(R.id.sharedImage)
@@ -98,21 +99,21 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.settings)
     ImageView settings;
     @BindView(R.id.dates)
-    TextView date;
+    CustomTextView date;
     @BindView(R.id.city)
-    TextView city;
+    CustomTextView city;
     @BindView(R.id.crypt)
-    TextView crypt;
+    CustomTextView crypt;
     @BindView(R.id.sector_value)
-    TextView sector;
+    CustomTextView sector;
     @BindView(R.id.line_value)
-    TextView line;
+    CustomTextView line;
     @BindView(R.id.grave_value)
-    TextView grave;
+    CustomTextView grave;
     @BindView(R.id.description)
-    TextView description;
+    CustomTextView description;
     @BindView(R.id.description_title)
-    TextView descriptionTitle;
+    CustomTextView descriptionTitle;
     @BindView(R.id.eventsButton)
     ImageButton eventsBtn;
     @BindView(R.id.epitButton)
@@ -126,7 +127,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     @BindView(R.id.addPhotoToSliderBtn_layout)
     LinearLayout addPhotoToSliderBtn_layout;
     @BindView(R.id.map_button)
-    Button mapButton;
+    CustomButton mapButton;
 
 
     @BindView(R.id.back_button)

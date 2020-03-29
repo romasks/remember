@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioButton
+    <com.remember.app.customView.CustomRadioButton
         android:id="@+id/rbStandard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:textColor="#8a8a8a"
         android:textColorHighlight="#8a8a8a"
         android:textColorLink="#8a8a8a"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/tvStandard"
         app:layout_constraintStart_toStartOf="@+id/tvStandard"
         app:layout_constraintTop_toBottomOf="@+id/tvStandard" />
@@ -41,7 +41,7 @@
         app:layout_constraintStart_toEndOf="@+id/tvStandard"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioButton
+    <com.remember.app.customView.CustomRadioButton
         android:id="@+id/rbBig"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
         android:textColor="#8a8a8a"
         android:textColorHighlight="#8a8a8a"
         android:textColorLink="#8a8a8a"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/tvBig"
         app:layout_constraintStart_toStartOf="@+id/tvBig"
         app:layout_constraintTop_toBottomOf="@+id/tvBig" />

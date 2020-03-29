@@ -29,7 +29,7 @@
         app:ms_text_color="?android:attr/textColorHint"
         tools:text="Example" />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <com.remember.app.customView.CustomEditText
         android:id="@+id/body"
         style="@style/TextAreaStyle"
         android:layout_width="match_parent"
@@ -38,20 +38,20 @@
         android:hint="@string/questions_textarea_hint_text"
         android:textColor="@color/gray"
         android:textColorHint="@color/gray"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/pick"
         app:layout_constraintTop_toBottomOf="@+id/spinner"
         tools:ignore="RtlSymmetry"
         tools:layout_editor_absoluteX="20dp" />
 
-    <Button
+    <com.remember.app.customView.CustomButton
         android:id="@+id/pick"
         style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:text="@string/send"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/body"
         tools:layout_editor_absoluteX="20dp" />
 

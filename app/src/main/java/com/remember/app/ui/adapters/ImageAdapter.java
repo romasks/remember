@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
 
@@ -88,7 +89,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
         @BindView(R.id.imageView)
         ImageView imageView;
         @BindView(R.id.name)
-        TextView name;
+        CustomTextView name;
 
         @BindView(R.id.show_more_layout)
         LinearLayout layoutShowMore;

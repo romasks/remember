@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/events_calendar_header_text"
-        android:textSize="14dp" />
+        android:textSize="16sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

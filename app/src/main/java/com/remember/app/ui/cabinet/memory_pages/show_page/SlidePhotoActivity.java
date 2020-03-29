@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.Constants;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
@@ -43,13 +44,13 @@ public class SlidePhotoActivity extends BaseActivity
     @BindView(R.id.slide_rv)
     RecyclerView recyclerSlider;
     @BindView(R.id.photo_number)
-    TextView photoNumber;
+    CustomTextView photoNumber;
     @BindView(R.id.photo_count)
-    TextView photoCount;
+    CustomTextView photoCount;
     @BindView(R.id.back_button)
     ImageView back;
     @BindView(R.id.eventHeaderName)
-    TextView title;
+    CustomTextView title;
 
 
     private PhotoSliderAdapter photoSliderAdapter;

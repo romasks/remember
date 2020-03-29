@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseViewHolder;
 
@@ -86,7 +87,7 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public class HandBookAdapterViewHolder extends BaseViewHolder {
 
         @BindView(R.id.name)
-        TextView name;
+        CustomTextView name;
         @BindView(R.id.layout)
         ConstraintLayout layout;
 

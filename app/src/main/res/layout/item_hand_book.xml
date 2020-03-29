@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="40dp">
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:textSize="14dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

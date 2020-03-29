@@ -6,15 +6,15 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/text_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/notif_gray"
-        android:textSize="16dp"
+        android:textSize="18sp"
         tools:text="Сегодня событие" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/text_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,11 +22,11 @@
         android:layout_marginTop="16dp"
         android:text="@string/notifications_show_text"
         android:textColor="@color/colorAccent"
-        android:textSize="16dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="visible" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/text_event_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
         android:textColor="@color/gray"
-        android:textSize="14dp"
+        android:textSize="16sp"
         tools:text="Сегодня в 11:11" />
 
 </RelativeLayout>

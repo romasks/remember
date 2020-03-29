@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.ui.base.BaseViewHolder;
 import com.remember.app.ui.utils.DateUtils;
@@ -73,11 +74,11 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
         @BindView(R.id.name)
-        TextView name;
+        CustomTextView name;
         @BindView(R.id.date)
-        TextView date;
+        CustomTextView date;
         @BindView(R.id.personName)
-        TextView personName;
+        CustomTextView personName;
         @BindView(R.id.global_layout)
         LinearLayout globalLayout;
 

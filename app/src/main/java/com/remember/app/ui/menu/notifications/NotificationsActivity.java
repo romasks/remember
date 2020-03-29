@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.NotificationModelNew;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.Utils;
@@ -26,7 +27,7 @@ public class NotificationsActivity extends BaseActivity implements Notifications
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.filter)
     ImageView btnFilter; //temporarily comment
     @BindView(R.id.viewpager)

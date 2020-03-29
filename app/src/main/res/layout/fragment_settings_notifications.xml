@@ -27,12 +27,12 @@
                 android:textSize="18dp"
                 android:theme="@style/SwitchRemember" />
 
-            <TextView
+            <com.remember.app.customView.CustomTextView
                 style="@style/SettingsNotificationBoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_commemoration_days"
-                android:textSize="18dp" />
+                android:textSize="20sp" />
 
             <RadioGroup
                 android:id="@+id/id_notice"
@@ -41,7 +41,7 @@
                 android:layout_marginTop="15dp"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatRadioButton
+                <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/id_notice_one"
                     style="@style/SettingsRadioButtonStyle"
                     android:layout_width="wrap_content"
@@ -50,9 +50,9 @@
                     android:layout_weight="2"
                     android:checked="true"
                     android:text="@string/settings_com_days_all"
-                    android:textSize="16dp" />
+                    android:textSize="18sp" />
 
-                <androidx.appcompat.widget.AppCompatRadioButton
+                <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/id_notice_two"
                     style="@style/SettingsRadioButtonStyle"
                     android:layout_width="wrap_content"
@@ -60,9 +60,9 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="2"
                     android:text="@string/settings_com_days_for_deceased"
-                    android:textSize="16dp" />
+                    android:textSize="18sp" />
 
-                <androidx.appcompat.widget.AppCompatRadioButton
+                <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/id_notice_three"
                     style="@style/SettingsRadioButtonStyle"
                     android:layout_width="wrap_content"
@@ -70,15 +70,15 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="2"
                     android:text="@string/settings_com_days_religious"
-                    android:textSize="16dp" />
+                    android:textSize="18sp" />
             </RadioGroup>
 
-            <TextView
+            <com.remember.app.customView.CustomTextView
                 style="@style/SettingsNotificationBoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_number_of_days"
-                android:textSize="18dp" />
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,7 +86,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp">
 
-                <TextView
+                <com.remember.app.customView.CustomTextView
                     style="@style/SettingsRadioButtonStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -94,7 +94,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="0dp"
                     android:text="@string/settings_choose_number_of_days"
-                    android:textSize="16dp" />
+                    android:textSize="18sp" />
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/days_sp"

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.NotificationModelNew;
 import com.remember.app.ui.base.BaseFragment;
@@ -59,7 +60,7 @@ public class NotificationsFragment extends BaseFragment
     @BindView(R.id.rv_notifications)
     RecyclerView recyclerView;
     @BindView(R.id.text_empty_state)
-    TextView textEmptyState;
+    CustomTextView textEmptyState;
 
     static NotificationsFragment newInstance(Type type) {
         NotificationsFragment fragment = new NotificationsFragment();

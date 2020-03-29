@@ -14,6 +14,9 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.customView.CustomButton;
+import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ErrorResponse;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.menu.settings.SettingPresenter;
@@ -31,15 +34,15 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
     @InjectPresenter
     SettingPresenter presenter;
     @BindView(R.id.etCurPass)
-    EditText curPass;
+    CustomEditText curPass;
     @BindView(R.id.etNewPass)
-    EditText newPass;
+    CustomEditText newPass;
     @BindView(R.id.etRePass)
-    EditText newRepass;
+    CustomEditText newRepass;
     @BindView(R.id.submit)
-    Button submit;
+    CustomButton submit;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;
     @BindView(R.id.imgEyeCur)
@@ -126,7 +129,7 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
     }
 
 
-    private void setTypePass(EditText editText, boolean showPass) {
+    private void setTypePass(CustomEditText editText, boolean showPass) {
         if (showPass)
             editText.setTransformationMethod(null);
         else
@@ -134,7 +137,7 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
         editText.setSelection(editText.getText().toString().length());
     }
 
-    private void onEyeClickCur(EditText editText, AppCompatImageView img) {
+    private void onEyeClickCur(CustomEditText editText, AppCompatImageView img) {
         if (showCur) {
             showCur = false;
             img.setImageResource(R.drawable.close_eye);
@@ -145,7 +148,7 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
         setTypePass(editText, showCur);
     }
 
-    private void onEyeClickNew(EditText editText, AppCompatImageView img) {
+    private void onEyeClickNew(CustomEditText editText, AppCompatImageView img) {
         if (showNew) {
             showNew = false;
             img.setImageResource(R.drawable.close_eye);
@@ -156,7 +159,7 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
         setTypePass(editText, showNew);
     }
 
-    private void onEyeClickRe(EditText editText, AppCompatImageView img) {
+    private void onEyeClickRe(CustomEditText editText, AppCompatImageView img) {
         if (showRe) {
             showRe = false;
             img.setImageResource(R.drawable.close_eye);

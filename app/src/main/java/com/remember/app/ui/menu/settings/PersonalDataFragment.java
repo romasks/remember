@@ -20,6 +20,9 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteEditText;
+import com.remember.app.customView.CustomAutoCompleteTextView;
+import com.remember.app.customView.CustomRadioButton;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.menu.settings.changePass.ChangePassListener;
 import com.remember.app.ui.utils.LoadingPopupUtils;
@@ -51,28 +54,28 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     @BindView(R.id.avatar)
     ImageView avatar;
     @BindView(R.id.surname)
-    AppCompatEditText surname;
+    CustomAutoCompleteEditText surname;
     @BindView(R.id.name)
-    AutoCompleteTextView name;
+    CustomAutoCompleteTextView name;
     @BindView(R.id.middleName)
-    AutoCompleteTextView middleName;
+    CustomAutoCompleteTextView middleName;
     @BindView(R.id.nickname)
-    AutoCompleteTextView nickname;
+    CustomAutoCompleteTextView nickname;
     @BindView(R.id.location)
-    AutoCompleteTextView location;
+    CustomAutoCompleteTextView location;
     @BindView(R.id.email)
-    AutoCompleteTextView email;
+    CustomAutoCompleteTextView email;
     @BindView(R.id.phone)
-    AutoCompleteTextView phone;
+    CustomAutoCompleteTextView phone;
     @BindView(R.id.phoneLayout)
     TextInputLayout phoneLayout;
 
     @BindView(R.id.rg_theme)
     RadioGroup rgTheme;
     @BindView(R.id.cb_theme_light)
-    AppCompatRadioButton lightTheme;
+    CustomRadioButton lightTheme;
     @BindView(R.id.cb_theme_dark)
-    AppCompatRadioButton darkTheme;
+    CustomRadioButton darkTheme;
     public static ChangePassListener changePassListener;
     private ProgressDialog progressDialog;
 

@@ -21,14 +21,14 @@
             app:srcCompat="@drawable/ic_round_camera"
             tools:ignore="MissingConstraints" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/amount_days"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@drawable/circle_for_memory_pages"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="14dp"
+            android:textSize="16sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
             app:layout_constraintEnd_toEndOf="@+id/avatar_image"
@@ -43,33 +43,33 @@
         android:layout_marginEnd="20dp"
         android:orientation="vertical">
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:gravity="start"
             android:textColor="@color/brown"
-            android:textSize="16dp"
+            android:textSize="18sp"
             android:textStyle="bold"
             tools:text="Иванов Иван иванович Иванов Иван иванович" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textColor="@color/gray"
-            android:textSize="14dp"
+            android:textSize="16sp"
             tools:text="02.04.1960" />
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:textColor="@color/gray"
-            android:textSize="14dp"
+            android:textSize="16sp"
             tools:text="Дней осталось" />
 
     </LinearLayout>

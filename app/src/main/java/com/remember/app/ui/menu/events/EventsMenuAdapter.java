@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseViewHolder;
 
@@ -78,13 +79,13 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
         @BindView(R.id.amount_days)
-        TextView amountDays;
+        CustomTextView amountDays;
         @BindView(R.id.name)
-        TextView name;
+        CustomTextView name;
         @BindView(R.id.date)
-        TextView date;
+        CustomTextView date;
         @BindView(R.id.comment)
-        TextView comment;
+        CustomTextView comment;
         @BindView(R.id.llEvent)
         LinearLayout llEvent;
 

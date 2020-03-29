@@ -13,7 +13,7 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/darth_vader" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/textView15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         android:layout_marginRight="15dp"
         android:gravity="center_horizontal"
         android:textColor="@color/brown"
-        android:textSize="16dp"
+        android:textSize="18sp"
         android:textStyle="bold|italic" />
 
 </LinearLayout>

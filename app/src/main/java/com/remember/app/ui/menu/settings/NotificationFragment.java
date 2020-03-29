@@ -8,6 +8,7 @@ import android.widget.Switch;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
+import com.remember.app.customView.CustomRadioButton;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.utils.Utils;
 
@@ -26,11 +27,11 @@ public class NotificationFragment extends SettingsBaseFragment implements Settin
     @BindView(R.id.id_notice)
     RadioGroup idNotice;
     @BindView(R.id.id_notice_one)
-    RadioButton idNoticeOne;
+    CustomRadioButton idNoticeOne;
     @BindView(R.id.id_notice_two)
-    RadioButton idNoticeTwo;
+    CustomRadioButton idNoticeTwo;
     @BindView(R.id.id_notice_three)
-    RadioButton idNoticeThree;
+    CustomRadioButton idNoticeThree;
     @BindView(R.id.days_sp)
     MaterialSpinner days;
 

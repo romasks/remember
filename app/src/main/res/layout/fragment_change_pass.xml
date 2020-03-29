@@ -16,7 +16,7 @@
 
 
 
-        <EditText
+        <com.remember.app.customView.CustomEditText
             android:id="@+id/etCurPass"
             style="@style/CustomAppTextFieldStyle"
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:paddingEnd="50dp"
             android:nextFocusForward="@id/first_name"
             app:layout_constraintTop_toBottomOf="@id/app_bar"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -43,14 +43,14 @@
         app:layout_constraintTop_toTopOf="@+id/etCurPass" />
 
 
-        <EditText
+        <com.remember.app.customView.CustomEditText
             android:id="@+id/etNewPass"
             style="@style/CustomAppTextFieldStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_pass"
             android:inputType="textPassword"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:maxLines="1"
             app:layout_constraintTop_toBottomOf="@+id/etCurPass"
             android:singleLine="true" />
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="@+id/etNewPass"
         app:layout_constraintTop_toTopOf="@+id/etNewPass" />
 
-        <EditText
+        <com.remember.app.customView.CustomEditText
             android:id="@+id/etRePass"
             style="@style/CustomAppTextFieldStyle"
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
             app:layout_constraintTop_toBottomOf="@+id/etNewPass"
             android:hint="@string/repass"
             android:inputType="textPassword"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -90,14 +90,14 @@
         app:layout_constraintEnd_toEndOf="@+id/etRePass"
         app:layout_constraintTop_toTopOf="@+id/etRePass" />
 
-    <Button
+    <com.remember.app.customView.CustomButton
         android:id="@+id/submit"
         style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/change"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etRePass" />

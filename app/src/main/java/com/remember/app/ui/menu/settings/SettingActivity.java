@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 import com.remember.app.R;
+import com.remember.app.customView.CustomButton;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.menu.settings.changePass.ChangePassListener;
@@ -35,11 +37,11 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
     SettingPresenter presenter;
 
     @BindView(R.id.save_button)
-    Button saveButton;
+    CustomButton saveButton;
     @BindView(R.id.back_button)
     ImageView backArrow;
     @BindView(R.id.title)
-    TextView title;
+    CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;
 

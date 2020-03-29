@@ -16,61 +16,61 @@
         android:layout_height="90dp"
         android:padding="4dp" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/surname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/brown"
-        android:textSize="16dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toTopOf="@id/avatar_image"
         tools:text="Иванов Иван иванович" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/gray"
-        android:textSize="14dp"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="02.04.1960 - 02.05.2019" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/gray"
-        android:textSize="14dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         tools:text="осталось" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/amount_days"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:background="@drawable/circle_for_memory_pages"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="14dp"
+        android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
         app:layout_constraintEnd_toEndOf="@+id/avatar_image" />
 
-    <TextView
+    <com.remember.app.customView.CustomTextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:textColor="@color/brown"
-        android:textSize="16dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toTopOf="@id/avatar_image"

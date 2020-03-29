@@ -10,6 +10,7 @@ import android.widget.PopupWindow;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteTextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,8 +22,8 @@ import java.util.List;
 public class PopupEventScreen extends PopupWindow {
 
     private Callback callback;
-    private AutoCompleteTextView lastName;
-    private AutoCompleteTextView date;
+    private CustomAutoCompleteTextView lastName;
+    private CustomAutoCompleteTextView date;
 
     private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();

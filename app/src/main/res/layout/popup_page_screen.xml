@@ -30,14 +30,14 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_back" />
 
-            <TextView
+            <com.remember.app.customView.CustomTextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/search"
                 android:textColor="@android:color/black"
-                android:textSize="20dp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -57,14 +57,14 @@
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         tools:layout_editor_absoluteX="20dp">
 
-        <AutoCompleteTextView
+        <com.remember.app.customView.CustomAutoCompleteTextView
             android:id="@+id/last_name_value"
             style="@style/CustomInputTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/last_name"
             android:inputType="textPersonName"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:maxLines="1"
             android:imeOptions="actionNext"
             android:singleLine="true" />
@@ -78,14 +78,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/last_name">
 
-        <AutoCompleteTextView
+        <com.remember.app.customView.CustomAutoCompleteTextView
             android:id="@+id/first_name_value"
             style="@style/CustomInputTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
             android:inputType="textPersonName"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:maxLines="1"
             android:imeOptions="actionNext"
             android:singleLine="true" />
@@ -99,14 +99,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/first_name">
 
-        <AutoCompleteTextView
+        <com.remember.app.customView.CustomAutoCompleteTextView
             android:id="@+id/father_name_value"
             style="@style/CustomInputTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/middle_name"
             android:inputType="textPersonName"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:maxLines="1"
             android:imeOptions="actionNext"
             android:singleLine="true" />
@@ -120,14 +120,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/father_name">
 
-        <AutoCompleteTextView
+        <com.remember.app.customView.CustomAutoCompleteTextView
             android:id="@+id/live_place_value"
             style="@style/CustomInputTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/live_place"
             android:inputType="textPersonName"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:maxLines="1"
             android:imeOptions="actionDone"
             android:singleLine="true" />
@@ -144,7 +144,7 @@
         android:focusable="false"
         app:layout_constraintTop_toBottomOf="@+id/live_place">
 
-        <AutoCompleteTextView
+        <com.remember.app.customView.CustomAutoCompleteTextView
             android:id="@+id/date_begin_value"
             style="@style/CustomInputTextStyle"
             android:layout_width="match_parent"
@@ -154,7 +154,7 @@
             android:focusable="false"
             android:hint="@string/date_begin"
             android:inputType="textPersonName"
-            android:textSize="18dp" />
+            android:textSize="20sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,7 +167,7 @@
         android:focusable="false"
         app:layout_constraintTop_toBottomOf="@+id/date_begin">
 
-        <AutoCompleteTextView
+        <com.remember.app.customView.CustomAutoCompleteTextView
             android:id="@+id/date_end_value"
             style="@style/CustomInputTextStyle"
             android:layout_width="match_parent"
@@ -177,17 +177,17 @@
             android:focusable="false"
             android:hint="@string/date_end"
             android:inputType="textPersonName"
-            android:textSize="18dp"/>
+            android:textSize="20sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.remember.app.customView.CustomButton
         android:id="@+id/submit"
         style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/search"
-        android:textSize="18dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

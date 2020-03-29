@@ -12,11 +12,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomEditText;
 
 public class RepairPasswordDialog extends DialogFragment {
 
     private String neutral = "Отправить";
-    private EditText email;
+    private CustomEditText email;
     private Callback callback;
 
     @Override

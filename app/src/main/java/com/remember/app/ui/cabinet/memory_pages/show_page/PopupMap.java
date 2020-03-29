@@ -21,12 +21,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.remember.app.R;
+import com.remember.app.customView.CustomButton;
 
 import static android.content.Context.LOCATION_SERVICE;
 
 public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
-    private Button dismiss;
+    private CustomButton dismiss;
     private Callback callback;
     private double latitude;
     private double longitude;

@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.remember.app.R;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
 import com.remember.app.ui.utils.DateUtils;
@@ -77,15 +78,15 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @BindView(R.id.avatar_image)
         ImageView avatarImage;
         @BindView(R.id.name)
-        TextView name;
+        CustomTextView name;
         @BindView(R.id.date)
-        TextView date;
+        CustomTextView date;
         @BindView(R.id.comment)
-        TextView comment;
+        CustomTextView comment;
         @BindView(R.id.layout)
         ConstraintLayout layout;
         @BindView(R.id.surname)
-        TextView surname;
+        CustomTextView surname;
 
         PageFragmentAdapterViewHolder(View itemView) {
             super(itemView, 0);
