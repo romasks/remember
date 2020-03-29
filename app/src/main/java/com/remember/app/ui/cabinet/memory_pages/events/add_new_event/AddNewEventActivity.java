@@ -21,6 +21,11 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
+import com.remember.app.customView.CustomAutoCompleteTextView;
+import com.remember.app.customView.CustomButton;
+import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomRadioButton;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.RequestAddEvent;
@@ -86,29 +91,29 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     AddNewEventPresenter presenter;
 
     @BindView(R.id.deceased_value)
-    AutoCompleteTextView nameDeceased;
+    CustomAutoCompleteTextView nameDeceased;
     @BindView(R.id.title_value)
-    AutoCompleteTextView title;
+    CustomAutoCompleteTextView title;
     @BindView(R.id.date_value)
-    AutoCompleteTextView date;
+    CustomAutoCompleteTextView date;
     @BindView(R.id.for_one)
-    AppCompatRadioButton forOne;
+    CustomRadioButton forOne;
     @BindView(R.id.not_for_one)
-    AppCompatRadioButton notForOne;
+    CustomRadioButton notForOne;
     @BindView(R.id.it_notification)
-    AppCompatRadioButton isNeedNotification;
+    CustomRadioButton isNeedNotification;
     @BindView(R.id.not_notification)
-    AppCompatRadioButton notNeedNotification;
+    CustomRadioButton notNeedNotification;
     @BindView(R.id.description)
-    EditText description;
+    CustomEditText description;
     @BindView(R.id.image_layout)
     ConstraintLayout imageLayout;
     @BindView(R.id.image)
     ImageView image;
     @BindView(R.id.save_button)
-    Button saveButton;
+    CustomButton saveButton;
     @BindView(R.id.eventHeaderName)
-    TextView eventHeaderName;
+    CustomTextView eventHeaderName;
     @BindView(R.id.back)
     ImageView backButton;
     @BindView(R.id.settings)
