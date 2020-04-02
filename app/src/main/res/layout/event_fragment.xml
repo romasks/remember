@@ -9,6 +9,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/events_calendar_header_text"
-        android:textSize="16sp" />
+        android:textSize="14dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

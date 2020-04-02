@@ -234,5 +234,4 @@
         <item name="android:textAlignment">textStart</item>
         <item name="android:textColor">@drawable/abc</item>
     </style>
-
 </resources>

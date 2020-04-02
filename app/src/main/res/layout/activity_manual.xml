@@ -18,7 +18,7 @@
             android:id="@+id/faq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="24dp"
             android:paddingBottom="16dp"
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/faq" />
@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
+            android:textSize="14dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/first_point_one" />
@@ -37,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
+            android:textSize="14dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/second_point_two" />
@@ -46,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
+            android:textSize="14dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/third_point_three" />
@@ -55,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
+            android:textSize="14dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/fourth_point_four" />
@@ -64,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
+            android:textSize="14dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/fifth_point_five" />
@@ -73,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
+            android:textSize="14dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/sixth_point_six" />
@@ -82,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
+            android:textSize="14dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/seventh_point_seven" />
@@ -92,6 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:textColor="@color/gray"
+            android:textSize="14dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/eighth_point_eight" />
 
@@ -99,7 +107,7 @@
         android:id="@+id/first_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:paddingBottom="16dp"
         android:textColor="@color/colorPrimaryDark"
         android:text="@string/first_point" />
@@ -108,6 +116,7 @@
         android:id="@+id/first_point_par_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14dp"
         android:justificationMode="inter_word"
         android:text="@string/first_point_par_one" />
 
@@ -125,6 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/two_per" />
 
@@ -154,6 +164,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/four_per" />
 
@@ -161,7 +172,7 @@
             android:id="@+id/second_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -174,6 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/second_one_per"/>
 
@@ -191,6 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/second_two_per"/>
 
@@ -198,7 +211,7 @@
             android:id="@+id/third_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -210,6 +223,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/third_one_per"/>
 
@@ -226,7 +240,7 @@
             android:id="@+id/fourth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -238,6 +252,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:justificationMode="inter_word"
@@ -247,7 +262,7 @@
             android:id="@+id/fifth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -259,6 +274,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/fifth_one_per"/>
 
@@ -276,6 +292,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/fifth_two_per"/>
 
@@ -284,7 +301,7 @@
             android:id="@+id/sixth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -296,6 +313,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/sixth_one_per"/>
 
@@ -312,6 +330,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:focusable="true"
+            android:textSize="14dp"
             android:focusableInTouchMode="true"
             android:justificationMode="inter_word"
             android:text="@string/sixth_two_per"/>
@@ -328,6 +347,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/sixth_three_per"/>
 
@@ -335,7 +355,7 @@
             android:id="@+id/seventh_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -347,6 +367,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:justificationMode="inter_word"
             android:text="@string/seventh_one_per"/>
 
@@ -364,7 +385,7 @@
             android:id="@+id/eighth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -376,6 +397,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
+            android:textSize="14dp"
             android:paddingBottom="30dp"
             android:focusable="true"
             android:focusableInTouchMode="true"

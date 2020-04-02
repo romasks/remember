@@ -40,7 +40,7 @@
                 android:layout_gravity="center"
                 android:text="Фильтр"
                 android:textColor="@android:color/black"
-                android:textSize="22sp"
+                android:textSize="22dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -76,7 +76,7 @@
             app:ms_arrow_tint="@color/dark_gray"
             app:ms_text_color="@color/dark_gray"
             android:text="Тип"
-            android:textSize="18dp" />
+            android:textSize="20dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,7 +91,7 @@
         android:layout_marginRight="15dp"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="20dp"
         app:layout_constraintTop_toBottomOf="@+id/date"
         tools:layout_editor_absoluteX="0dp" />
 

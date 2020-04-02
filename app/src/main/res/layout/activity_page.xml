@@ -85,7 +85,7 @@
                     android:gravity="center_horizontal"
                     android:text="-"
                     android:textColor="@color/brown"
-                    android:textSize="26sp"
+                    android:textSize="26dp"
                     android:textStyle="bold"
                     tools:text="Фамилия Имя Отчество" />
 
@@ -96,7 +96,7 @@
                     android:gravity="center_horizontal"
                     android:text="-"
                     android:textColor="@color/gray"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     tools:text="13.07.1952 - 28.01.2017" />
 
                 <LinearLayout
@@ -150,7 +150,7 @@
                     android:paddingBottom="5dp"
                     android:text="@string/memory_page_burial_place_title"
                     android:textColor="#917b5a"
-                    android:textSize="20sp"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -181,7 +181,7 @@
                             android:text="@string/city"
                             android:textAlignment="center"
                             android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="16dp" />
 
                         <com.remember.app.customView.CustomTextView
                             android:id="@+id/city"
@@ -192,7 +192,7 @@
                             android:layout_weight="1"
                             android:text="-"
                             android:textColor="@color/gray"
-                            android:textSize="16sp"
+                            android:textSize="16dp"
                             android:textStyle="bold"
                             tools:text="Минск" />
 
@@ -229,7 +229,7 @@
                                 android:maxLines="2"
                                 android:text="@string/memory_page_sector_text"
                                 android:textColor="@color/gray"
-                                android:textSize="16sp" />
+                                android:textSize="16dp" />
 
                             <com.remember.app.customView.CustomTextView
                                 android:id="@+id/sector_value"
@@ -240,7 +240,7 @@
                                 android:paddingTop="12dp"
                                 android:text="-"
                                 android:textColor="@color/gray"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold"
                                 tools:text="6" />
 
@@ -265,7 +265,7 @@
                                 android:maxLines="2"
                                 android:text="@string/memory_page_row_text"
                                 android:textColor="@color/gray"
-                                android:textSize="16sp" />
+                                android:textSize="16dp" />
 
                             <com.remember.app.customView.CustomTextView
                                 android:id="@+id/line_value"
@@ -276,7 +276,7 @@
                                 android:paddingTop="12dp"
                                 android:text="-"
                                 android:textColor="@color/gray"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold"
                                 tools:text="12" />
                         </LinearLayout>
@@ -298,7 +298,7 @@
                                 android:text="@string/grave_number"
                                 android:textAlignment="center"
                                 android:textColor="@color/gray"
-                                android:textSize="16sp" />
+                                android:textSize="16dp" />
 
                             <com.remember.app.customView.CustomTextView
                                 android:id="@+id/grave_value"
@@ -309,7 +309,7 @@
                                 android:paddingTop="12dp"
                                 android:text="-"
                                 android:textColor="@color/gray"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 android:textStyle="bold"
                                 tools:text="325" />
                         </LinearLayout>
@@ -331,7 +331,7 @@
                             android:gravity="center_vertical"
                             android:text="@string/cemetery"
                             android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="16dp" />
 
                         <com.remember.app.customView.CustomTextView
                             android:id="@+id/crypt"
@@ -345,7 +345,7 @@
                             android:text="-"
                             android:textAlignment="center"
                             android:textColor="@color/gray"
-                            android:textSize="16sp"
+                            android:textSize="16dp"
                             android:textStyle="bold"
                             tools:text="Название кладбища" />
 
@@ -358,7 +358,7 @@
                             android:paddingBottom="7dp"
                             android:text="@string/memory_page_show_description_text"
                             android:textColor="@color/colorAccent"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
 
 
 
@@ -376,7 +376,7 @@
                     android:gravity="center|center_vertical"
                     android:text="йцуййцуйцуйцу"
                     android:textColor="?android:attr/textColor"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:visibility="gone"
                     tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
 
@@ -391,7 +391,7 @@
                     android:text="@string/memory_page_button_show_on_map"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:id="@+id/share_LinLayout"
@@ -483,7 +483,7 @@
                 android:text="@string/memory_page_bottom_navbar_epitaphs"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <com.remember.app.customView.CustomButton
                 android:layout_width="0dp"
@@ -492,7 +492,7 @@
                 android:text="@string/memory_page_bottom_navbar_add_order"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:visibility="gone" />
 
             <com.remember.app.customView.CustomTextView
@@ -503,7 +503,7 @@
                 android:text="@string/memory_page_bottom_navbar_events"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
     </LinearLayout>

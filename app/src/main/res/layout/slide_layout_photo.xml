@@ -22,7 +22,7 @@
         android:layout_marginRight="15dp"
         android:gravity="center_horizontal"
         android:textColor="@color/brown"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:textStyle="bold|italic" />
 
 </LinearLayout>

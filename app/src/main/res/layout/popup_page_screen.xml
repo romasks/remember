@@ -37,7 +37,7 @@
                 android:layout_gravity="center"
                 android:text="@string/search"
                 android:textColor="@android:color/black"
-                android:textSize="22sp"
+                android:textSize="22dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/last_name"
             android:inputType="textPersonName"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:maxLines="1"
             android:imeOptions="actionNext"
             android:singleLine="true" />
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/name"
             android:inputType="textPersonName"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:maxLines="1"
             android:imeOptions="actionNext"
             android:singleLine="true" />
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/middle_name"
             android:inputType="textPersonName"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:maxLines="1"
             android:imeOptions="actionNext"
             android:singleLine="true" />
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/live_place"
             android:inputType="textPersonName"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:maxLines="1"
             android:imeOptions="actionDone"
             android:singleLine="true" />
@@ -154,7 +154,7 @@
             android:focusable="false"
             android:hint="@string/date_begin"
             android:inputType="textPersonName"
-            android:textSize="20sp" />
+            android:textSize="20dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -177,7 +177,7 @@
             android:focusable="false"
             android:hint="@string/date_end"
             android:inputType="textPersonName"
-            android:textSize="20sp"/>
+            android:textSize="20dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -187,7 +187,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/search"
-        android:textSize="20sp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
