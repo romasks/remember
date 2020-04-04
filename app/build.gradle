@@ -177,6 +177,10 @@ dependencies {
     implementation files('libraries\\simple-social-sharing-1.0.1.jar')
 
     implementation 'joda-time:joda-time:2.10.3'
+    // AppMetrica SDK.
+    implementation 'com.yandex.android:mobmetricalib:3.13.1'
+    // Optionally. Play Install Referrer library.
+    implementation 'com.android.installreferrer:installreferrer:1.0'
 }
 
 repositories {

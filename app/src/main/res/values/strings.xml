@@ -1,5 +1,7 @@
 <resources>
 
+    <string name="METRICA_API_KEY" translatable="false">c98d148e-b119-4c69-a2a0-59e9c4f47def</string>
+
     <!--mail-->
     <string name="mailru_oauth_url">https://o2.mail.ru/login</string>
     <string name="mailru_oauth_scope">userinfo</string>
@@ -28,7 +30,7 @@
     <!--menu-->
     <string name="menu_cabinet">Кабинет</string>
     <string name="menu_gallery">Галерея знаменитостей</string>
-    <string name="menu_memory_pages">Памятные страницы</string>
+    <string name="menu_memory_pages">Главные страницы</string>
     <string name="menu_event_calendar">Религиозные события</string>
     <string name="menu_notifications">Уведомления</string>
     <string name="menu_settings">Настройки</string>
