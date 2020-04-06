@@ -60,11 +60,11 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:clickable="true"
             android:focusable="true"
             android:textAllCaps="false"
-            android:textSize="18dp"
+            android:textSize="16dp"
             app:tabGravity="fill"
             app:tabIndicatorColor="#917b5a"
             app:tabSelectedTextColor="#917b5a"

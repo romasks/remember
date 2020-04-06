@@ -16,24 +16,24 @@ public class CustomAutoCompleteEditText extends AppCompatEditText {
 
     public CustomAutoCompleteEditText(Context context) {
         super(context);
-        this.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaleFont());
+        this.setTextSize(TypedValue.COMPLEX_UNIT_DIP, scaleFont());
     }
 
     public CustomAutoCompleteEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaleFont());
+        this.setTextSize(TypedValue.COMPLEX_UNIT_DIP, scaleFont());
     }
 
     public CustomAutoCompleteEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.setTextSize(scaleFont());
+        this.setTextSize(TypedValue.COMPLEX_UNIT_DIP, scaleFont());
     }
 
     private float scaleFont() {
         if (Prefs.getBoolean("standard", true))
-            return pixelsToSp(getContext(), this.getTextSize() - 2);
+            return (this.getTextSize() / getResources().getDisplayMetrics().density - 2);
         else {
-            return pixelsToSp(getContext(), this.getTextSize() + 3);
+            return (this.getTextSize() / getResources().getDisplayMetrics().density + 3);
         }
     }
 }

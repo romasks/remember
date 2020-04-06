@@ -3,8 +3,14 @@ package com.remember.app.ui.cabinet.main;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +18,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -46,6 +54,7 @@ import com.remember.app.ui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,6 +95,7 @@ public class MainActivity extends BaseActivity
     private ProgressDialog progressDialog;
     private PopupEventScreen popupWindowEvent;
     private PopupPageScreen popupWindowPage;
+    private NavigationView navigationView;
 
     private ImageView imageViewAvatar;
     private ImageView imageViewBigAvatar;
@@ -134,12 +144,13 @@ public class MainActivity extends BaseActivity
 
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        changeTabsFont(tabLayout);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         CustomTextView version = navigationView.findViewById(R.id.version);
         version.setText("Версия " + BuildConfig.VERSION_NAME);
+
         imageViewBigAvatar = headerView.findViewById(R.id.logo);
         imageViewBigAvatar.setOnClickListener(onAvatarClickListener);
         imageViewBigAvatar.setColorFilter(getBlackWhiteFilter());
@@ -153,6 +164,8 @@ public class MainActivity extends BaseActivity
         imageViewAvatar = drawer.findViewById(R.id.avatar);
         imageViewAvatar.setOnClickListener(onAvatarClickListener);
         imageViewAvatar.setColorFilter(getBlackWhiteFilter());
+
+
     }
 
     @Override
@@ -168,6 +181,7 @@ public class MainActivity extends BaseActivity
             setGlideImage(this, R.drawable.ic_unknown, imageViewAvatar);
             setGlideImage(this, R.drawable.ic_unknown, imageViewBigAvatar);
         }
+        changeMenuSize(navigationView);
     }
 
     @OnClick(R.id.menu_icon)
@@ -270,6 +284,7 @@ public class MainActivity extends BaseActivity
         adapter.addFragment(pageFragment, "Памятные страницы");
         adapter.addFragment(new EventFragment(), "События");
         viewPager.setAdapter(adapter);
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -391,5 +406,51 @@ public class MainActivity extends BaseActivity
                     }
                     Log.d(TAG, msg);
                 });
+    }
+
+    private void setScaleText(NavigationView navigationView,float proportion, int id){
+        MenuItem item = navigationView.getMenu().findItem(id);
+        SpannableString spanString = new SpannableString(item.getTitle().toString());
+        spanString.setSpan(new RelativeSizeSpan(proportion), 0, spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        item.setTitle(spanString);
+    }
+
+    private void changeMenuSize(NavigationView navigationView){
+        float proportion;
+        if (Prefs.getBoolean("standard", true))
+            proportion = 0.85f;
+        else {
+            proportion = 1.15f;
+        }
+
+        setScaleText(navigationView, proportion, R.id.menu_cabinet);
+        setScaleText(navigationView, proportion, R.id.menu_gallery);
+        setScaleText(navigationView, proportion, R.id.menu_memory_pages);
+        setScaleText(navigationView, proportion, R.id.menu_event_calendar);
+        setScaleText(navigationView, proportion, R.id.menu_notifications);
+        setScaleText(navigationView, proportion, R.id.menu_settings);
+        setScaleText(navigationView, proportion, R.id.menu_questions);
+        setScaleText(navigationView, proportion, R.id.menu_manual);
+        setScaleText(navigationView, proportion, R.id.menu_exit);
+    }
+
+    private void changeTabsFont(TabLayout tabBar) {
+        List<String> arr = new ArrayList<>();
+        arr.add("Памятные страницы");
+        arr.add("События");
+        for (int j = 0 ; j<tabBar.getTabCount(); j++) {
+            View tab = (View) LayoutInflater.from(getBaseContext()).inflate(R.layout.tab_item, null);
+            TextView txtLabel  = tab.findViewById(R.id.text1);
+            txtLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, scaleFont(txtLabel));
+            txtLabel.setText(arr.get(j));
+            Objects.requireNonNull(tabBar.getTabAt(j)).setCustomView(tab);
+        }
+    }
+    private float scaleFont(TextView textView) {
+        if (Prefs.getBoolean("standard", true))
+            return (textView.getTextSize() / getResources().getDisplayMetrics().density - 2);
+        else {
+            return (textView.getTextSize() / getResources().getDisplayMetrics().density + 1);
+        }
     }
 }

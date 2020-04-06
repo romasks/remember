@@ -1,9 +1,12 @@
 package com.remember.app.ui.menu.settings;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
@@ -23,6 +27,11 @@ import com.remember.app.ui.utils.Utils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -93,6 +102,7 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        changeTabsFont(tabLayout);
     }
 
     @OnClick(R.id.back_button)
@@ -152,5 +162,26 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
     @Override
     public void openChangePassActivity() {
        startActivity(new Intent(this,  ChangePasswordActivity.class));
+    }
+
+    private void changeTabsFont(TabLayout tabBar) {
+        List<String> arr = new ArrayList<>();
+        arr.add("Личные данные");
+        arr.add("Уведомления");
+        arr.add("Шрифт");
+        for (int j = 0 ; j<tabBar.getTabCount(); j++) {
+            View tab = (View) LayoutInflater.from(getBaseContext()).inflate(R.layout.tab_item, null);
+            TextView txtLabel  = tab.findViewById(R.id.text1);
+            txtLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, scaleFont(txtLabel));
+            txtLabel.setText(arr.get(j));
+            Objects.requireNonNull(tabBar.getTabAt(j)).setCustomView(tab);
+        }
+    }
+    private float scaleFont(TextView textView) {
+        if (Prefs.getBoolean("standard", true))
+            return (textView.getTextSize() / getResources().getDisplayMetrics().density - 2);
+        else {
+            return (textView.getTextSize() / getResources().getDisplayMetrics().density + 1);
+        }
     }
 }
