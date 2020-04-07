@@ -13,9 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphamovie.lib.AlphaMovieView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -45,11 +49,6 @@ import com.remember.app.ui.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -135,6 +134,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                         ? DrawerLayout.LOCK_MODE_LOCKED_CLOSED
                         : DrawerLayout.LOCK_MODE_UNLOCKED
         );
+
         changeMenuSize(navigationView);
     }
 
@@ -368,6 +368,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         recyclerView.setClickable(!isClickLocked);
         signInButton.setVisibility(View.VISIBLE);
         signInButton.setClickable(!isClickLocked);
+
+        changeMenuSize(navigationView);
     }
 
     @Override
@@ -395,29 +397,31 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 });
     }
 
-    private void setScaleText(NavigationView navigationView,float proportion, int id){
+    private void setScaleText(NavigationView navigationView, float proportion, int id) {
         MenuItem item = navigationView.getMenu().findItem(id);
         SpannableString spanString = new SpannableString(item.getTitle().toString());
         spanString.setSpan(new RelativeSizeSpan(proportion), 0, spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         item.setTitle(spanString);
     }
 
-    private void changeMenuSize(NavigationView navigationView){
-        float proportion;
-        if (Prefs.getBoolean("standard", true))
-            proportion = 0.85f;
-        else {
-            proportion = 1.15f;
-        }
+    private void changeMenuSize(NavigationView navigationView) {
+        if (navigationView != null) {
+            float proportion;
+            if (Prefs.getBoolean("standard", true))
+                proportion = 0.85f;
+            else {
+                proportion = 1.15f;
+            }
 
-        setScaleText(navigationView, proportion, R.id.menu_cabinet);
-        setScaleText(navigationView, proportion, R.id.menu_gallery);
-        setScaleText(navigationView, proportion, R.id.menu_memory_pages);
-        setScaleText(navigationView, proportion, R.id.menu_event_calendar);
-        setScaleText(navigationView, proportion, R.id.menu_notifications);
-        setScaleText(navigationView, proportion, R.id.menu_settings);
-        setScaleText(navigationView, proportion, R.id.menu_questions);
-        setScaleText(navigationView, proportion, R.id.menu_manual);
-        setScaleText(navigationView, proportion, R.id.menu_exit);
+            setScaleText(navigationView, proportion, R.id.menu_cabinet);
+            setScaleText(navigationView, proportion, R.id.menu_gallery);
+            setScaleText(navigationView, proportion, R.id.menu_memory_pages);
+            setScaleText(navigationView, proportion, R.id.menu_event_calendar);
+            setScaleText(navigationView, proportion, R.id.menu_notifications);
+            setScaleText(navigationView, proportion, R.id.menu_settings);
+            setScaleText(navigationView, proportion, R.id.menu_questions);
+            setScaleText(navigationView, proportion, R.id.menu_manual);
+            setScaleText(navigationView, proportion, R.id.menu_exit);
+        }
     }
 }
