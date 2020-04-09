@@ -2,13 +2,9 @@ package com.remember.app.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.PopupWindow;
 
-import com.google.android.material.textfield.TextInputLayout;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteTextView;
 
@@ -16,7 +12,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 
 public class PopupEventScreen extends PopupWindow {

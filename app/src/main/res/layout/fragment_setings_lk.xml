@@ -35,6 +35,7 @@
                 <com.remember.app.customView.CustomButton
                     android:id="@+id/add_new_photo"
                     style="@style/CustomAppButtonStyle"
+                    android:background="@drawable/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"

@@ -77,6 +77,7 @@
     <com.remember.app.customView.CustomButton
         android:id="@+id/search"
         style="@style/CustomAppButtonStyle"
+        android:background="@drawable/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"

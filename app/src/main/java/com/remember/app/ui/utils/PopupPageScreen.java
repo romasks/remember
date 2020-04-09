@@ -1,14 +1,11 @@
 package com.remember.app.ui.utils;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,7 +28,6 @@ import java.util.Date;
 
 import static com.remember.app.data.Constants.IMAGES_STATUS_APPROVED;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
-import static com.remember.app.ui.utils.DateUtils.dfLocal;
 
 public class PopupPageScreen extends PopupWindow {
 
@@ -55,10 +51,10 @@ public class PopupPageScreen extends PopupWindow {
         Toolbar toolbar = contentView.findViewById(R.id.toolbar);
         ImageView backImg = contentView.findViewById(R.id.back);
         CustomTextView textView = contentView.findViewById(R.id.textView2);
-        AutoCompleteTextView lastName = contentView.findViewById(R.id.last_name_value);
-        AutoCompleteTextView name = contentView.findViewById(R.id.first_name_value);
-        AutoCompleteTextView middleName = contentView.findViewById(R.id.father_name_value);
-        AutoCompleteTextView place = contentView.findViewById(R.id.live_place_value);
+        CustomAutoCompleteTextView lastName = contentView.findViewById(R.id.last_name_value);
+        CustomAutoCompleteTextView name = contentView.findViewById(R.id.first_name_value);
+        CustomAutoCompleteTextView middleName = contentView.findViewById(R.id.father_name_value);
+        CustomAutoCompleteTextView place = contentView.findViewById(R.id.live_place_value);
 
         if (Utils.isThemeDark()) {
             toolbar.setBackgroundColor(contentView.getResources().getColor(R.color.colorPrimaryBlack));
@@ -81,10 +77,10 @@ public class PopupPageScreen extends PopupWindow {
         showAtLocation(contentView, Gravity.TOP, 0, 0);
 
         View popupView = getContentView();
-        AutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
-        AutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
-        AutoCompleteTextView middleName = popupView.findViewById(R.id.father_name_value);
-        AutoCompleteTextView city = popupView.findViewById(R.id.live_place_value);
+        CustomAutoCompleteTextView lastName = popupView.findViewById(R.id.last_name_value);
+        CustomAutoCompleteTextView name = popupView.findViewById(R.id.first_name_value);
+        CustomAutoCompleteTextView middleName = popupView.findViewById(R.id.father_name_value);
+        CustomAutoCompleteTextView city = popupView.findViewById(R.id.live_place_value);
         popupView.findViewById(R.id.back).setOnClickListener(v -> {
             dismiss();
         });

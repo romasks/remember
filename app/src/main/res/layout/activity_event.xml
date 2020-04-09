@@ -93,6 +93,7 @@
 
         <com.remember.app.customView.CustomButton
             android:id="@+id/btn_create_event"
+            android:background="@drawable/button"
             style="@style/EmptyListButtonStyle"
             android:text="@string/events_create_event_button"
             android:textSize="20dp" />

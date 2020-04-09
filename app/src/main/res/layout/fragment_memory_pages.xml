@@ -39,6 +39,7 @@
         <com.remember.app.customView.CustomButton
             android:id="@+id/go_to_add"
             style="@style/EmptyListButtonStyle"
+            android:background="@drawable/button"
             android:layout_width="290dp"
             android:layout_height="55dp"
             android:text="@string/memory_page_create_page_button"

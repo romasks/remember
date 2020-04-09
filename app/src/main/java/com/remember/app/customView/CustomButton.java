@@ -7,6 +7,7 @@ import android.util.TypedValue;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.R;
 
 import static com.remember.app.ui.utils.Utils.pixelsToSp;
 
@@ -22,7 +23,7 @@ public class CustomButton extends AppCompatButton {
     }
 
     public CustomButton(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+        super(context, attrs, R.attr.CustomAppButtonStyle);
         this.setTextSize(TypedValue.COMPLEX_UNIT_DIP, scaleFont());
     }
 

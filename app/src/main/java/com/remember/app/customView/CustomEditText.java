@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.R;
 
 import static com.remember.app.ui.utils.Utils.pixelsToSp;
 
@@ -24,7 +25,7 @@ public class CustomEditText extends AppCompatEditText {
     }
 
     public CustomEditText(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+        super(context, attrs, R.attr.TextAreaStyle);
         this.setTextSize(TypedValue.COMPLEX_UNIT_DIP, scaleFont());
     }
 

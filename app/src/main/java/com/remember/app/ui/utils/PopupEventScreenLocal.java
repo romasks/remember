@@ -21,8 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.remember.app.ui.utils.DateUtils.dfLocal;
-
 public class PopupEventScreenLocal extends PopupWindow {
 
     private Callback callback;

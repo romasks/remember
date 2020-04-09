@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="MyCustomViewStyle">
+        <attr name="CustomAppButtonStyle" format="reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="CustomEditTextStyle">
+        <attr name="TextAreaStyle" format="reference" />
+    </declare-styleable>
+
+
+</resources>

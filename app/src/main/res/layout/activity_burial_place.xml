@@ -35,6 +35,7 @@
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
                 android:focusable="false">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -53,6 +54,7 @@
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
                 android:focusableInTouchMode="false">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -70,6 +72,7 @@
                 android:id="@+id/sector"
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
                 android:layout_height="wrap_content">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -86,6 +89,7 @@
                 android:id="@+id/line"
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
                 android:layout_height="wrap_content">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -102,6 +106,7 @@
                 android:id="@+id/grave"
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
                 android:layout_height="wrap_content">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -118,6 +123,7 @@
                 android:id="@+id/coordinates"
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
+                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
                 android:layout_height="wrap_content">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -134,6 +140,7 @@
                 android:id="@+id/pick"
                 style="@style/CustomAppButtonStyle"
                 android:layout_width="match_parent"
+                android:background="@drawable/button"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
@@ -147,6 +154,7 @@
         android:id="@+id/submit"
         style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
+        android:background="@drawable/button"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
         android:layout_marginTop="@dimen/default_activity_fields_margin"

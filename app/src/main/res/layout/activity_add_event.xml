@@ -332,6 +332,7 @@
             <com.remember.app.customView.CustomEditText
                 android:id="@+id/description"
                 style="@style/TextAreaStyle"
+               
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/new_event_hint_description"
@@ -349,6 +350,7 @@
     <com.remember.app.customView.CustomButton
         android:id="@+id/save_button"
         style="@style/CustomAppButtonStyle"
+        android:background="@drawable/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create_event"

@@ -54,6 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nextFocusForward="@id/first_name"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         tools:layout_editor_absoluteX="20dp">
 
@@ -76,6 +77,7 @@
         style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/last_name">
 
         <com.remember.app.customView.CustomAutoCompleteTextView
@@ -97,6 +99,7 @@
         style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/first_name">
 
         <com.remember.app.customView.CustomAutoCompleteTextView
@@ -118,6 +121,7 @@
         style="@style/CustomAppTextFieldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/father_name">
 
         <com.remember.app.customView.CustomAutoCompleteTextView
@@ -142,6 +146,7 @@
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/live_place">
 
         <com.remember.app.customView.CustomAutoCompleteTextView
@@ -165,6 +170,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:focusable="false"
+        app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/date_begin">
 
         <com.remember.app.customView.CustomAutoCompleteTextView

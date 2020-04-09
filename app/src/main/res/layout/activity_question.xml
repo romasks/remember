@@ -49,6 +49,7 @@
         style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button"
         android:layout_margin="20dp"
         android:text="@string/send"
         android:textSize="20dp"

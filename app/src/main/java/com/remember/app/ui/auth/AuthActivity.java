@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaychang.sa.AuthCallback;
@@ -43,12 +41,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
 import ru.mail.auth.sdk.MailRuAuthSdk;
 import ru.mail.auth.sdk.MailRuCallback;
 import ru.mail.auth.sdk.api.OAuthRequestErrorCodes;
 import ru.mail.auth.sdk.api.token.OAuthTokensResult;
-
 import ru.ok.android.sdk.Odnoklassniki;
 import ru.ok.android.sdk.OkListener;
 import ru.ok.android.sdk.SharedKt;

@@ -490,6 +490,7 @@
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:text="@string/memory_page_bottom_navbar_add_order"
+                android:background="@drawable/button"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="16dp"
