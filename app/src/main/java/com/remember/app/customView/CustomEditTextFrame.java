@@ -53,9 +53,10 @@ public class CustomEditTextFrame extends FrameLayout {
         inputText = v.findViewById(R.id.inputText);
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomEditTextFrame);
         this.inputText.setHint(a.getString(R.styleable.CustomEditTextFrame_hint));
-        this.inputText.setTextColor(a.getColor(R.styleable.CustomEditTextFrame_textColor, getResources().getColor(R.color.abc_dark)));
-        this.inputText.setHintTextColor(a.getColor(R.styleable.CustomEditTextFrame_textColor, getResources().getColor(R.color.abc_dark)));
-        this.inputText.setHighlightColor(a.getColor(R.styleable.CustomEditTextFrame_textColor, getResources().getColor(R.color.abc_dark)));
+        this.inputText.setTextColor(a.getColor(R.styleable.CustomEditTextFrame_textColor, getResources().getColor(R.color.colorBlackDark)));
+        this.inputText.setHintTextColor(a.getColor(R.styleable.CustomEditTextFrame_textColorHint, getResources().getColor(R.color.colorBlackDark)));
+        this.inputText.setHighlightColor(a.getColor(R.styleable.CustomEditTextFrame_textColorHighlight, getResources().getColor(R.color.abc_dark)));
+        this.inputText.setLinkTextColor(a.getColor(R.styleable.CustomEditTextFrame_textColorHighlight, getResources().getColor(R.color.colorPrimary)));
         // Important: always recycle the TypedArray
         a.recycle();
     }
