@@ -23,6 +23,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteTextView;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomEditTextFrame;
 import com.remember.app.customView.CustomRadioButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.CreateEventRequest;
@@ -98,7 +99,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
     @BindView(R.id.not_notification)
     CustomRadioButton notNeedNotification;
     @BindView(R.id.description)
-    CustomEditText description;
+    CustomEditTextFrame description;
     @BindView(R.id.image_layout)
     ConstraintLayout imageLayout;
     @BindView(R.id.image)
@@ -255,7 +256,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 createEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
                 createEventRequest.setFlag(forOne.isChecked() ? "1" : "0");
                 createEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
-                createEventRequest.setDescription(description.getText().toString());
+                createEventRequest.setDescription(description.getInputText().getText().toString());
                 presenter.saveEvent(createEventRequest, imageFile);
             } else {
                 EditEventRequest editEventRequest = new EditEventRequest();
@@ -265,7 +266,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 editEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
                 editEventRequest.setFlag(forOne.isChecked() ? "0" : "1");
                 editEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
-                editEventRequest.setDescription(description.getText().toString());
+                editEventRequest.setDescription(description.getInputText().getText().toString());
                 if (imageFile != null) {
                     presenter.editEvent(editEventRequest, imageFile);
                 } else {
@@ -341,7 +342,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
             title.setText(eventName);
         }
         if (!eventDesc.isEmpty()) {
-            description.setText(eventDesc);
+            description.setInputText(eventDesc);
         }
         if (!dateString.isEmpty()) {
             date.setText(dateString);

@@ -329,15 +329,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/is_notification" />
 
-            <com.remember.app.customView.CustomEditText
+            <com.remember.app.customView.CustomEditTextFrame
                 android:id="@+id/description"
-                style="@style/TextAreaStyle"
-               
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/new_event_hint_description"
-                android:textColor="?android:attr/textColor"
+                app:hint="Описание..."
                 android:textSize="20dp"
+                android:textColor="?android:attr/textColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

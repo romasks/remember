@@ -314,12 +314,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/is_public" />
 
-            <com.remember.app.customView.CustomEditText
+            <com.remember.app.customView.CustomEditTextFrame
                 android:id="@+id/description"
-                style="@style/TextAreaStyle"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:hint="Описание..."
+                android:layout_height="wrap_content"
+                app:hint="Описание..."
                 android:textColor="?android:attr/textColor"
                 android:textColorHighlight="@color/gray"
                 android:textColorHint="@color/gray"

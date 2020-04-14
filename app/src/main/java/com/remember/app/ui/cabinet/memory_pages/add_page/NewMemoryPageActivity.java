@@ -25,6 +25,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteTextView;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomEditTextFrame;
 import com.remember.app.customView.CustomRadioButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.AddPageModel;
@@ -108,7 +109,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     @BindView(R.id.image)
     ImageView image;
     @BindView(R.id.description)
-    CustomEditText description;
+    CustomEditTextFrame description;
     @BindView(R.id.is_famous)
     CustomRadioButton isFamous;
     @BindView(R.id.not_famous)
@@ -272,7 +273,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     public void savePage() {
         person.setSecondName(lastName.getText().toString());
         person.setThirdName(middleName.getText().toString());
-        person.setComment(description.getText().toString());
+        person.setComment(description.getInputText().getText().toString());
 
         person.setUserId(Prefs.getString(PREFS_KEY_USER_ID, "0"));
 
@@ -420,7 +421,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         lastName.setText(memoryPageModel.getSecondName());
         name.setText(memoryPageModel.getName());
         middleName.setText(memoryPageModel.getThirdName());
-        description.setText(memoryPageModel.getComment());
+        description.setInputText(memoryPageModel.getComment());
         religion.setText(memoryPageModel.getReligiya());
 
         if (memoryPageModel.getStar().equals("true")) {
