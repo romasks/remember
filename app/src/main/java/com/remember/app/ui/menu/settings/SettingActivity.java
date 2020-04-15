@@ -134,7 +134,7 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
         FragmentPager adapter = new FragmentPager(getSupportFragmentManager());
         adapter.addFragment(new PersonalDataFragment(presenter), "Личные данные");
         adapter.addFragment(new NotificationFragment(presenter), "Уведомления");
-        adapter.addFragment(new FontSettingsFragment(), "Шрифт");
+       // adapter.addFragment(new FontSettingsFragment(), "Шрифт");
         viewPager.setAdapter(adapter);
     }
 
@@ -168,7 +168,6 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
         List<String> arr = new ArrayList<>();
         arr.add("Личные данные");
         arr.add("Уведомления");
-        arr.add("Шрифт");
         for (int j = 0 ; j<tabBar.getTabCount(); j++) {
             View tab = (View) LayoutInflater.from(getBaseContext()).inflate(R.layout.tab_item, null);
             TextView txtLabel  = tab.findViewById(R.id.text1);
@@ -179,9 +178,9 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
     }
     private float scaleFont(TextView textView) {
         if (Prefs.getBoolean("standard", true))
-            return (textView.getTextSize() / getResources().getDisplayMetrics().density - 2);
+            return (textView.getTextSize() / getResources().getDisplayMetrics().density - 1);
         else {
-            return (textView.getTextSize() / getResources().getDisplayMetrics().density + 1);
+            return (textView.getTextSize() / getResources().getDisplayMetrics().density + 3);
         }
     }
 }

@@ -119,7 +119,7 @@
     <!--settings-->
     <string name="settings_header_text">Настройки</string>
 
-    <string name="settings_new_profile_photo">Новое фото профиля</string>
+    <string name="settings_new_profile_photo">Новое фото</string>
     <string name="settings_hint_surname">Фамилия</string>
     <string name="settings_hint_name">Имя</string>
     <string name="settings_hint_middle_name">Отчество</string>
@@ -150,7 +150,7 @@
 
     <!--memory_page-->
     <string name="memory_page_header_text">Памятная страница</string>
-    <string name="memory_page_new_header_text">Новая памятная страница</string>
+    <string name="memory_page_new_header_text">Новая страница</string>
     <string name="memory_page_burial_place_title">Место захоронения</string>
     <string name="memory_page_sector_text">Сектор</string>
     <string name="memory_page_row_text">Ряд</string>

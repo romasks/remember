@@ -30,7 +30,7 @@ public class CustomAutoCompleteTextView extends AppCompatAutoCompleteTextView {
 
     private float scaleFont() {
         if (Prefs.getBoolean("standard", true))
-            return (this.getTextSize() / getResources().getDisplayMetrics().density - 2);
+            return (this.getTextSize() / getResources().getDisplayMetrics().density );
         else {
             return (this.getTextSize() / getResources().getDisplayMetrics().density + 3);
         }

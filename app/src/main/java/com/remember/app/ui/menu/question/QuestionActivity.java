@@ -12,6 +12,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomEditText;
+import com.remember.app.customView.CustomEditTextFrame;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.ui.base.BaseActivity;
@@ -32,7 +33,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     @BindView(R.id.spinner)
     MaterialSpinner spinner;
     @BindView(R.id.body)
-    CustomEditText body;
+    CustomEditTextFrame body;
     @BindView(R.id.back_button)
     ImageView back;
     @BindView(R.id.title)
@@ -73,7 +74,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     public void send() {
         RequestQuestion requestQuestion = new RequestQuestion();
         requestQuestion.setType(isQuestion ? QUESTION : PROPOSAL);
-        requestQuestion.setBody(body.getText().toString());
+        requestQuestion.setBody(body.getInputText().getText().toString());
         requestQuestion.setName(Prefs.getString(PREFS_KEY_EMAIL, ""));
         requestQuestion.setUserId(Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "")));
         presenter.send(requestQuestion);
@@ -86,7 +87,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
 
     @Override
     public void onReceived(Object o) {
-        body.setText("");
+        body.setInputText("");
 //        Toast.makeText(this, "Ваша заявка успешно отправлена", Toast.LENGTH_LONG).show();
         successDialog();
     }

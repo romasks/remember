@@ -118,7 +118,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
             // Image
             imageView.setOnClickListener(v -> callback.openPage(item));
             setGridImage(item.getPicture(), imageView, screenSize);
-            name.setText(item.getFullName());
+            String[] parts = item.getFullName().split(" ");
+            name.setText(parts[0] + "\n"  +parts[1]);
 
             if (item.isShowMore()) {
                 layoutGridImage.setVisibility(View.GONE);

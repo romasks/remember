@@ -334,7 +334,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         imageAdapter = new ImageAdapter(this);
         imageAdapter.setCallback(this);
         recyclerView.setAdapter(imageAdapter);
-        recyclerView.setHasFixedSize(false);
+        recyclerView.setHasFixedSize(true);
     }
 
     private void setSplashVideo() {
@@ -408,9 +408,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (navigationView != null) {
             float proportion;
             if (Prefs.getBoolean("standard", true))
-                proportion = 0.85f;
+                proportion = 1f;
             else {
-                proportion = 1.15f;
+                proportion = 1.25f;
             }
 
             setScaleText(navigationView, proportion, R.id.menu_cabinet);

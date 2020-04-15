@@ -39,7 +39,7 @@ public class CustomEditTextFrame extends FrameLayout {
 
     private float scaleFont() {
         if (Prefs.getBoolean("standard", true))
-            return (inputText.getTextSize() / getResources().getDisplayMetrics().density - 2);
+            return (inputText.getTextSize() / getResources().getDisplayMetrics().density);
         else {
             return (inputText.getTextSize() / getResources().getDisplayMetrics().density + 3);
         }

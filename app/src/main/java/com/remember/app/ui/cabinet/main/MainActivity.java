@@ -418,9 +418,9 @@ public class MainActivity extends BaseActivity
     private void changeMenuSize(NavigationView navigationView){
         float proportion;
         if (Prefs.getBoolean("standard", true))
-            proportion = 0.85f;
+            proportion = 1f;
         else {
-            proportion = 1.15f;
+            proportion = 1.25f;
         }
 
         setScaleText(navigationView, proportion, R.id.menu_cabinet);

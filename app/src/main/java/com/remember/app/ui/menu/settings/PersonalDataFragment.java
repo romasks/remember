@@ -20,6 +20,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteEditText;
 import com.remember.app.customView.CustomAutoCompleteTextView;
 import com.remember.app.customView.CustomRadioButton;
+import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.menu.settings.changePass.ChangePassListener;
 import com.remember.app.ui.utils.LoadingPopupUtils;
@@ -66,13 +67,13 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     CustomAutoCompleteTextView phone;
     @BindView(R.id.phoneLayout)
     TextInputLayout phoneLayout;
+    @BindView(R.id.rbStandard)
+    CustomRadioButton rbStandard;
+    @BindView(R.id.rbBig)
+    CustomRadioButton rbBig;
+    Boolean currentFont = true;
 
-    @BindView(R.id.rg_theme)
-    RadioGroup rgTheme;
-    @BindView(R.id.cb_theme_light)
-    CustomRadioButton lightTheme;
-    @BindView(R.id.cb_theme_dark)
-    CustomRadioButton darkTheme;
+
     public static ChangePassListener changePassListener;
     private ProgressDialog progressDialog;
 
@@ -91,8 +92,8 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     @Override
     protected void setUp() {
         setTheme();
+        initUI();
 
-        rgTheme.check(Utils.isThemeDark() ? R.id.cb_theme_dark : R.id.cb_theme_light);
     }
 
     private void setTheme() {
@@ -155,6 +156,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
             presenter.getRequestSettings()
                     .name(name).surname(surname).middleName(middleName)
                     .nickname(nickname).location(location).phone(phone);
+        saveFontSize();
     }
 
     private void onReceivedInfo(ResponseSettings responseSettings) {
@@ -212,5 +214,36 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
 
     static void setListener(ChangePassListener listener) {
         changePassListener = listener;
+    }
+
+    private void initUI() {
+        if (Prefs.getBoolean("standard", true)){
+            rbStandard.setChecked(true);
+            rbBig.setChecked(false);
+        }else {
+            rbStandard.setChecked(false);
+            rbBig.setChecked(true);
+        }
+        rbStandard.setOnCheckedChangeListener((buttonView, isChecked) ->{
+            rbBig.setChecked(!isChecked);
+            //rbStandard.setTextSize(19f);
+            //rbBig.setTextSize(19f);
+            saveFontSize();
+            getActivity().recreate();
+        });
+        rbBig.setOnCheckedChangeListener((buttonView, isChecked) ->{
+            rbStandard.setChecked(!isChecked);
+            saveFontSize();
+            getActivity().recreate();
+//            rbStandard.setTextSize(23f);
+//            rbBig.setTextSize(23f);
+        });
+    }
+
+    private void saveFontSize() {
+        if (rbStandard.isChecked())
+            Prefs.putBoolean("standard", true);
+        else
+            Prefs.putBoolean("standard", false);
     }
 }
