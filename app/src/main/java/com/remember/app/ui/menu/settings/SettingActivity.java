@@ -38,7 +38,7 @@ import butterknife.OnClick;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 
-public class SettingActivity extends BaseActivity implements SettingView, ChangePassListener {
+public class SettingActivity extends BaseActivity implements SettingView, ChangePassListener, PersonalDataFragment.ActivityListener {
 
     private final String TAG = SettingActivity.class.getSimpleName();
 
@@ -56,6 +56,7 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
 
     private ViewPager viewPager;
     private boolean isThemeChanged = false;
+    public static MainActivityListener mainActivityListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
     private void setUp() {
 //        presenter.getInfo();
         PersonalDataFragment.setListener(this);
+        PersonalDataFragment.setActivityListener(this);
         viewPager = findViewById(R.id.container);
         setupViewPager(viewPager);
 
@@ -182,5 +184,18 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
         else {
             return (textView.getTextSize() / getResources().getDisplayMetrics().density + 3);
         }
+    }
+
+    @Override
+    public void recallActivity() {
+        mainActivityListener.finishMainActivity();
+    }
+
+    public interface MainActivityListener {
+        void finishMainActivity();
+    }
+
+    public static void setListener(MainActivityListener listener) {
+        mainActivityListener = listener;
     }
 }

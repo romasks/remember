@@ -72,6 +72,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     @BindView(R.id.rbBig)
     CustomRadioButton rbBig;
     Boolean currentFont = true;
+   public static ActivityListener settingsListener;
 
 
     public static ChangePassListener changePassListener;
@@ -229,15 +230,26 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
             //rbStandard.setTextSize(19f);
             //rbBig.setTextSize(19f);
             saveFontSize();
-            getActivity().recreate();
+            reload();
+            settingsListener.recallActivity();
         });
         rbBig.setOnCheckedChangeListener((buttonView, isChecked) ->{
             rbStandard.setChecked(!isChecked);
             saveFontSize();
-            getActivity().recreate();
+            reload();
+           settingsListener.recallActivity();
 //            rbStandard.setTextSize(23f);
 //            rbBig.setTextSize(23f);
         });
+    }
+
+    public void reload() {
+        Intent intent = getActivity().getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        getActivity().overridePendingTransition(0, 0);
+        getActivity().finish();
+        getActivity().overridePendingTransition(0, 0);
+        startActivity(intent);
     }
 
     private void saveFontSize() {
@@ -245,5 +257,12 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
             Prefs.putBoolean("standard", true);
         else
             Prefs.putBoolean("standard", false);
+    }
+
+    public interface ActivityListener {
+        void recallActivity();
+    }
+    public static void setActivityListener(ActivityListener listener) {
+        settingsListener = listener;
     }
 }

@@ -64,7 +64,7 @@ import static com.remember.app.data.Constants.SEARCH_ON_GRID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
-        PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener {
+        PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener, SettingActivity.MainActivityListener {
 
     private final String TAG = GridActivity.class.getSimpleName();
 
@@ -108,7 +108,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
-
+        SettingActivity.setListener(this);
         findViewById(R.id.app_bar_grid_layout).setClickable(!isClickLocked);
         signInButton.setClickable(!isClickLocked);
 
@@ -423,5 +423,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             setScaleText(navigationView, proportion, R.id.menu_manual);
             setScaleText(navigationView, proportion, R.id.menu_exit);
         }
+    }
+
+    @Override
+    public void finishMainActivity() {
+        recreate();
     }
 }

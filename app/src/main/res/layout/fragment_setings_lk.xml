@@ -224,7 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="1dp"
-            android:text="Шрифт"
+            android:text="Размер шрифта"
             android:textSize="22dp"
             app:layout_constraintStart_toStartOf="@+id/top"
             app:layout_constraintTop_toBottomOf="@+id/top" />

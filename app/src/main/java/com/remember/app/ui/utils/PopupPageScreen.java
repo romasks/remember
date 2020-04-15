@@ -1,6 +1,7 @@
 package com.remember.app.ui.utils;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -36,6 +37,11 @@ public class PopupPageScreen extends PopupWindow {
     private CustomAutoCompleteTextView dateEndVal;
     private String status;
     private Boolean flag;
+    CustomTextView textView;
+    CustomAutoCompleteTextView lastName;
+    CustomAutoCompleteTextView name;
+    CustomAutoCompleteTextView middleName;
+    CustomAutoCompleteTextView place;
 
     //private DatePickerDialog.OnDateSetListener datePickerDialog;
     private Calendar dateAndTime = Calendar.getInstance();
@@ -50,12 +56,12 @@ public class PopupPageScreen extends PopupWindow {
         ConstraintLayout layout = contentView.findViewById(R.id.cont);
         Toolbar toolbar = contentView.findViewById(R.id.toolbar);
         ImageView backImg = contentView.findViewById(R.id.back);
-        CustomTextView textView = contentView.findViewById(R.id.textView2);
-        CustomAutoCompleteTextView lastName = contentView.findViewById(R.id.last_name_value);
-        CustomAutoCompleteTextView name = contentView.findViewById(R.id.first_name_value);
-        CustomAutoCompleteTextView middleName = contentView.findViewById(R.id.father_name_value);
-        CustomAutoCompleteTextView place = contentView.findViewById(R.id.live_place_value);
-
+         textView = contentView.findViewById(R.id.textView2);
+         lastName = contentView.findViewById(R.id.last_name_value);
+         name = contentView.findViewById(R.id.first_name_value);
+         middleName = contentView.findViewById(R.id.father_name_value);
+         place = contentView.findViewById(R.id.live_place_value);
+        setTheme();
         if (Utils.isThemeDark()) {
             toolbar.setBackgroundColor(contentView.getResources().getColor(R.color.colorPrimaryBlack));
             layout.setBackgroundColor(contentView.getResources().getColor(R.color.colorBlackDark));
@@ -177,5 +183,17 @@ public class PopupPageScreen extends PopupWindow {
             newDate = dtfOut.print(jodatime);
         }
         return newDate;
+    }
+
+    private void setTheme() {
+        ColorStateList textColor = Utils.isThemeDark()
+                ? getContentView().getResources().getColorStateList(R.color.abc_dark)
+                : getContentView().getResources().getColorStateList(R.color.abc_light);
+
+        textView.setTextColor(textColor);
+        name.setTextColor(textColor);
+        middleName.setTextColor(textColor);
+        lastName.setTextColor(textColor);
+        place.setTextColor(textColor);
     }
 }
