@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:textColorHint="?android:attr/textColorHint"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                app:hintTextAppearance="@style/TextAppearance">
 
                 <com.remember.app.customView.CustomAutoCompleteEditText
                     android:id="@+id/surname"
@@ -76,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="?android:attr/textColorHint"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                app:hintTextAppearance="@style/TextAppearance">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/name"
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="?android:attr/textColorHint"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                app:hintTextAppearance="@style/TextAppearance">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/middleName"
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="?android:attr/textColorHint"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                app:hintTextAppearance="@style/TextAppearance">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/nickname"
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:textColorHint="?android:attr/textColorHint"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                app:hintTextAppearance="@style/TextAppearance">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/email"
@@ -146,7 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="?android:attr/textColorHint"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                app:hintTextAppearance="@style/TextAppearance">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/location"
@@ -164,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="?android:attr/textColorHint"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
+                app:hintTextAppearance="@style/TextAppearance">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/phone"

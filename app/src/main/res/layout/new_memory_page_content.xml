@@ -59,7 +59,7 @@
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                app:hintTextAppearance="@style/TextAppearance"
                 app:layout_constraintTop_toBottomOf="@+id/image_layout">
 
                 <com.remember.app.customView.CustomEditText
@@ -69,6 +69,10 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/last_name"
                     android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:layout_gravity="start"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
                     android:inputType="textPersonName|textCapWords"
                     android:textSize="20dp" />
 
@@ -79,7 +83,7 @@
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                app:hintTextAppearance="@style/TextAppearance"
                 app:layout_constraintTop_toBottomOf="@+id/last_name_title">
 
                 <com.remember.app.customView.CustomEditText
@@ -88,6 +92,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
+                    android:maxLines="1"
+                    android:layout_gravity="start"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:textSize="20dp" />
@@ -99,7 +107,7 @@
                 style="@style/CustomAppTextFieldStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                app:hintTextAppearance="@style/TextAppearance"
                 app:layout_constraintTop_toBottomOf="@+id/name_title">
 
                 <com.remember.app.customView.CustomEditText
@@ -107,6 +115,10 @@
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:layout_gravity="start"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
                     android:hint="@string/middle_name"
                     android:inputType="textPersonName|textCapWords"
                     android:textSize="20dp" />
@@ -119,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                app:hintTextAppearance="@style/TextAppearance"
                 app:layout_constraintTop_toBottomOf="@+id/middle_name_title">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -127,6 +139,10 @@
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:layout_gravity="start"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
                     android:focusable="false"
                     android:hint="@string/date_begin"
                     android:imeOptions="actionNext"
@@ -141,7 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                app:hintTextAppearance="@style/TextAppearance"
                 app:layout_constraintTop_toBottomOf="@+id/date_begin_title">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -151,6 +167,10 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:hint="@string/date_end"
+                    android:maxLines="1"
+                    android:layout_gravity="start"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
                     android:inputType="textPersonName"
                     android:textSize="20dp" />
 
@@ -173,7 +193,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
+                app:hintTextAppearance="@style/TextAppearance"
                 app:layout_constraintTop_toBottomOf="@+id/place_button">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
@@ -184,6 +204,10 @@
                     android:focusable="false"
                     android:hint="@string/religion"
                     android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:layout_gravity="start"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
                     android:textColorHighlight="@color/light_brown"
                     android:textColorHint="@color/dark_gray"
                     android:textColorLink="@color/light_brown"

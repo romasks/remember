@@ -238,4 +238,11 @@
     <style name="MyTabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14dp</item>
     </style>
+
+
+    <style name="TextAppearance">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
 </resources>

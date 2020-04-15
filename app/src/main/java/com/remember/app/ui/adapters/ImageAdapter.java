@@ -120,6 +120,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageAdapter
             setGridImage(item.getPicture(), imageView, screenSize);
             String[] parts = item.getFullName().split(" ");
             name.setText(parts[0] + "\n"  +parts[1]);
+           // name.setText(item.getFullName());
 
             if (item.isShowMore()) {
                 layoutGridImage.setVisibility(View.GONE);

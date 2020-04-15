@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -396,6 +397,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     private void setUp() {
         initiate();
+        setTheme();
         person = new AddPageModel();
 
         isEdit = getIntent().getBooleanExtra("EDIT", false);
@@ -558,5 +560,18 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     @Override
     public void onDeletePage() {
         presenter.deletePage(memoryPageModel.getId());
+    }
+
+    private void setTheme() {
+        ColorStateList textColor = Utils.isThemeDark()
+                ? getResources().getColorStateList(R.color.abc_dark)
+                : getResources().getColorStateList(R.color.abc_light);
+
+        dateBegin.setTextColor(textColor);
+        name.setTextColor(textColor);
+        middleName.setTextColor(textColor);
+        dateEnd.setTextColor(textColor);
+        religion.setTextColor(textColor);
+        lastName.setTextColor(textColor);
     }
 }
