@@ -574,4 +574,10 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         religion.setTextColor(textColor);
         lastName.setTextColor(textColor);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 }
