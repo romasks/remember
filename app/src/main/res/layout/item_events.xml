@@ -5,6 +5,7 @@
     android:id="@+id/global_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
     android:orientation="horizontal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,8 +19,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/avatar_image"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:padding="4dp"
             app:srcCompat="@drawable/ic_round_camera"
             tools:ignore="MissingConstraints" />
@@ -43,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
         <com.remember.app.customView.CustomTextView

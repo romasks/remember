@@ -20,12 +20,14 @@
 
     <com.remember.app.customView.CustomTextView
         android:id="@+id/name_user"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
         android:textColor="@color/brown"
         android:textSize="17dp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/date"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@id/avatar"
         tools:text="Анастасия Крюкова" />
@@ -48,39 +50,60 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:textColor="@color/gray"
         android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="@id/description"
-        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/name_user"
         tools:text="Сегодня в 16:59" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgEdit"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toStartOf="@+id/change"
+        app:layout_constraintStart_toStartOf="@+id/description"
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        app:srcCompat="@drawable/ic_edit" />
 
     <com.remember.app.customView.CustomTextView
         android:id="@+id/change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="5dp"
         android:text="@string/epitaphs_item_action_change"
         android:textColor="@color/brown"
-        android:textSize="16dp"
+        android:textSize="12dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/delete"
-        app:layout_constraintStart_toEndOf="@+id/date"
-        app:layout_constraintTop_toBottomOf="@id/description" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgEdit"
+        app:layout_constraintStart_toEndOf="@+id/imgEdit"
+        app:layout_constraintTop_toTopOf="@+id/imgEdit"
+        tools:visibility="visible" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgDelete"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="30dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toEndOf="@+id/change"
+        app:layout_constraintTop_toTopOf="@+id/imgEdit"
+        app:srcCompat="@drawable/ic_del" />
 
     <com.remember.app.customView.CustomTextView
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="5dp"
         android:text="@string/epitaphs_item_action_delete"
         android:textColor="@color/brown"
-        android:textSize="16dp"
+        android:textSize="12dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/description" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgDelete"
+        app:layout_constraintStart_toEndOf="@+id/imgDelete"
+        app:layout_constraintTop_toTopOf="@+id/imgDelete"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

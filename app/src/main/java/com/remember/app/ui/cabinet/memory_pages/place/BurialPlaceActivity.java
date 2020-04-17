@@ -139,8 +139,8 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     public void onUpdatedCemetery(List<ResponseCemetery> responseCemeteries) {
         if (responseCemeteries.isEmpty()) {
             cemetery.setFocusableInTouchMode(true);
-            cemetery.requestFocus();
-            KeyboardUtils.showKeyboard(this);
+           // cemetery.requestFocus();
+            //KeyboardUtils.showKeyboard(this);
             Toast.makeText(this, "Введите значение вручную", Toast.LENGTH_LONG).show();
         } else {
             View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
@@ -224,8 +224,7 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     }
 
     private void initEdit(MemoryPageModel memoryPageModel) {
-
-        if (!memoryPageModel.getSector().equals("") || !memoryPageModel.getNummogil().equals("") || !memoryPageModel.getUchastok().equals("")) {
+        if (memoryPageModel != null) {
             city.setText(memoryPageModel.getGorod());
             cemetery.setText(memoryPageModel.getNazvaklad());
             sector.setText(memoryPageModel.getSector());

@@ -170,7 +170,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
 
         if (isEventReligion) {
             title.setText(R.string.events_calendar_header_text);
-            date.setText(DateUtils.convertReligiousEventServerFormat(responseEvents.getDate()));
+            date.setText(responseEvents.getDate());
         } else {
 //            title.setText(responseEvents.getName());
             title.setText(R.string.memory_page_event_header_text);

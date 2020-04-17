@@ -9,6 +9,7 @@ import android.widget.Switch;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
 import com.remember.app.customView.CustomRadioButton;
+import com.remember.app.customView.CustomSwitch;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.utils.Utils;
 
@@ -23,7 +24,7 @@ import butterknife.OnClick;
 public class NotificationFragment extends SettingsBaseFragment implements SettingView {
 
     @BindView(R.id.notifications)
-    Switch notifications;
+    CustomSwitch notifications;
     @BindView(R.id.id_notice)
     RadioGroup idNotice;
     @BindView(R.id.id_notice_one)

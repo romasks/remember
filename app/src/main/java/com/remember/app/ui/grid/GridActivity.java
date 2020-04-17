@@ -39,6 +39,7 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.menu.events.EventsActivityMenu;
+import com.remember.app.ui.menu.manual.ManualActivity;
 import com.remember.app.ui.menu.notifications.NotificationsActivity;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
@@ -289,6 +290,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             }
             case R.id.menu_questions: {
                 startActivity(new Intent(this, QuestionActivity.class));
+                return true;
+            }
+            case R.id.menu_manual: {
+                startActivity(new Intent(this, ManualActivity.class));
                 return true;
             }
             case R.id.menu_exit: {

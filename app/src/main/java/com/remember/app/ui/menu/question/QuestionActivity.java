@@ -1,6 +1,7 @@
 package com.remember.app.ui.menu.question;
 
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.customView.CustomEditText;
 import com.remember.app.customView.CustomEditTextFrame;
@@ -18,6 +20,8 @@ import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.QuestionSendDialog;
 import com.remember.app.ui.utils.Utils;
+
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,6 +61,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
             back.setImageResource(R.drawable.ic_back_dark_theme);
             body.setBackground(getResources().getDrawable(R.drawable.edit_text_with_border_dark));
             spinner.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
+
         }
 
         spinner.setItems(QUESTION, PROPOSAL);
@@ -73,7 +78,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     @OnClick(R.id.pick)
     public void send() {
         RequestQuestion requestQuestion = new RequestQuestion();
-        requestQuestion.setType(isQuestion ? QUESTION : PROPOSAL);
+        requestQuestion.setType("");
         requestQuestion.setBody(body.getInputText().getText().toString());
         requestQuestion.setName(Prefs.getString(PREFS_KEY_EMAIL, ""));
         requestQuestion.setUserId(Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "")));

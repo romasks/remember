@@ -143,8 +143,8 @@
 
     <!--epitaphs-->
     <string name="epitaphs_header_text">Эпитафии</string>
-    <string name="epitaphs_item_action_change">Изменить</string>
-    <string name="epitaphs_item_action_delete">Удалить</string>
+    <string name="epitaphs_item_action_change"><u>Изменить</u></string>
+    <string name="epitaphs_item_action_delete"><u>Удалить</u></string>
     <string name="epitaphs_no_epitaphs_title">Эпитафий нет</string>
     <string name="epitaphs_create_epitaph_button">Создать эпитафию</string>
 
@@ -184,12 +184,12 @@
     <!--notifications-->
     <string name="notifications_header_text">Уведомления</string>
     <string name="notifications_show_text">Показать</string>
-    <string name="grid_show_more">Показать ещё</string>
+    <string name="grid_show_more">Показать\nещё</string>
 
 
     <string name="facebook_app_id">661338814675848</string>
     <string name="fb_login_protocol_scheme">fb661338814675848</string>
-    <string name="repass">Введите новый пароль ещё раз</string>
+    <string name="repass">Повторите пароль</string>
     <string name="change">Изменить</string>
     <string name="new_pass">Введите новый пароль</string>
     <string name="cur_pass">Текущий пароль</string>

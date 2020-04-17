@@ -225,7 +225,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="1dp"
             android:text="Размер шрифта"
-            android:textSize="22dp"
+            android:textSize="20dp"
             app:layout_constraintStart_toStartOf="@+id/top"
             app:layout_constraintTop_toBottomOf="@+id/top" />
 
@@ -251,7 +251,7 @@
                 android:layout_weight="2"
                 android:checked="true"
                 android:text="Стандартный"
-                android:textSize="18dp" />
+                android:textSize="20dp" />
 
             <com.remember.app.customView.CustomRadioButton
                 android:id="@+id/rbBig"
@@ -261,8 +261,8 @@
                 android:layout_marginTop="10dp"
                 android:paddingLeft="8dp"
                 android:layout_weight="2"
-                android:text="Увеличеный"
-                android:textSize="18dp" />
+                android:text="Увеличенный"
+                android:textSize="20dp" />
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
