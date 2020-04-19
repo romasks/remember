@@ -1,8 +1,5 @@
 package com.remember.app.data.network;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.CreateEventRequest;
@@ -45,8 +42,6 @@ import retrofit2.Response;
 
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.DateUtils.convertLocalToRemoteFormat;
-import static com.remember.app.ui.utils.DateUtils.convertReligiousEventServerFormat;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
@@ -468,6 +463,12 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<Object> deleteSliderPhoto(Integer id){
         return apiMethods.deleteSliderPhoto("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> sendDeviceID(RequestBody id){
+        return apiMethods.sendDeviceID(id)
                 .compose(rxSchedulers.applySchedulers());
     }
 }

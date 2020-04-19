@@ -293,4 +293,8 @@ public interface ApiMethods {
 
     @GET("photo/delete/{id}")
     Observable<Object> deleteSliderPhoto(@Header("Authorization") String token, @Path("id") Integer id);
+
+
+    @PUT("mobile_statistics/")
+    Observable<Object> sendDeviceID(@Body RequestBody body);
 }
