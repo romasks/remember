@@ -31,7 +31,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cabinet.memory_pages.events.current_event.CurrentEvent"
-            android:screenOrientation="portrait" />
+           />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

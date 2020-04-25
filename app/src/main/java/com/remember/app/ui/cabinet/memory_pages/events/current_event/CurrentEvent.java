@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,14 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
-import com.remember.app.customView.CustomEditText;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters.CommentsAdapter;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters.VideoAdapter;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDialog.CommentDialog;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.videoDialog.VideoDialog;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,7 +47,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
-public class CurrentEvent extends BaseActivity implements CurrentEventView {
+public class CurrentEvent extends BaseActivity implements CurrentEventView, CommentsAdapter.CommentsAdapterListener, VideoAdapter.VideoAdapterListener {
 
     @InjectPresenter
     CurrentEventPresenter presenter;
@@ -64,13 +70,11 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     CustomTextView dateView;
     @BindView(R.id.description)
     CustomTextView description;
-    @BindView(R.id.video)
-    VideoView videoView;
     @BindView(R.id.videos)
     RecyclerView videos;
     @BindView(R.id.add_video)
     ImageView addVideo;
-    @BindView(R.id.comments)
+    @BindView(R.id.rvComments)
     RecyclerView comments;
 
     private Integer eventId = 0;
@@ -80,6 +84,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
     private boolean isShow;
     private EventModel eventModel;
     static CurrentEvent activity;
+    CommentsAdapter commentsAdapter;
+    VideoAdapter videoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +103,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         imageUrl = getIntent().getStringExtra(INTENT_EXTRA_EVENT_IMAGE_URL);
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
-        photosView.setLayoutManager(new LinearLayoutManager(this));
+        photosView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         photosView.setAdapter(new EventStuffAdapter());
 
         videos.setLayoutManager(new LinearLayoutManager(this));
@@ -108,6 +114,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
 //        presenter.getEvent(eventId);
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
+        initVideoAdapter();
+        initCommentAdapter();
     }
 
     @Override
@@ -154,6 +162,67 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
         startActivity(intent);
     }
 
+    private void initVideoAdapter() {
+        RecyclerView recyclerView = findViewById(R.id.rvVideo);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        //  String[] videoIds = {"6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY"};
+        videoAdapter = new VideoAdapter(videoList(), this.getLifecycle(), this);
+        recyclerView.setAdapter(videoAdapter);
+    }
+
+    private List<String> videoList() {
+        List<String> s = new ArrayList<>();
+        s.add("6JYIGclVQdw");
+        s.add("LvetJ9U_tVY");
+        s.add("6JYIGclVQdw");
+        return s;
+    }
+
+    private void initCommentAdapter() {
+        RecyclerView recyclerView = findViewById(R.id.rvComments);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        commentsAdapter = new CommentsAdapter(this, new ArrayList<>());
+        recyclerView.setAdapter(commentsAdapter);
+        commentsAdapter.updateList(comentList());
+    }
+
+    private List<String> comentList() {
+        List<String> s = new ArrayList<>();
+        s.add("dd");
+        s.add("dd");
+        s.add("dd");
+        return s;
+    }
+
+    private void showCommentDialog() {
+        CommentDialog commentDialog = new CommentDialog();
+        final Bundle bundle = new Bundle();
+        // bundle.putInt(StoreFragment.ARG_ID, -999);
+        // bundle.putSerializable("set", set);
+        commentDialog.setArguments(bundle);
+        commentDialog.setCancelable(true);
+        commentDialog.listener = text -> {
+            Toast.makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
+        };
+        commentDialog.show(getSupportFragmentManager(), CommentDialog.TAG);
+    }
+
+    private void showVideoDialog() {
+        VideoDialog videoDialog = new VideoDialog();
+        final Bundle bundle = new Bundle();
+        videoDialog.setArguments(bundle);
+        videoDialog.setCancelable(true);
+        videoDialog.listener = (name, url) -> {
+            Toast.makeText(getBaseContext(), name + "   " + url, Toast.LENGTH_LONG).show();
+            //
+        };
+        videoDialog.show(getSupportFragmentManager(), VideoDialog.TAG);
+    }
+
     @OnClick(R.id.back_button)
     public void onBackClick() {
         onBackPressed();
@@ -161,5 +230,35 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView {
 
     public static CurrentEvent getInstance() {
         return activity;
+    }
+
+    @Override
+    public void onChangeComment() {
+
+    }
+
+    @Override
+    public void onDeleteComment() {
+
+    }
+
+    @Override
+    public void onShowAddCommentDialog() {
+        showCommentDialog();
+    }
+
+    @Override
+    public void showMoreComments() {
+        commentsAdapter.updateList(comentList());
+    }
+
+    @Override
+    public void showMoreVideos() {
+        videoAdapter.updateList(videoList());
+    }
+
+    @Override
+    public void onShowAddVideoDialog() {
+        showVideoDialog();
     }
 }
