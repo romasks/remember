@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +18,9 @@ import com.remember.app.data.models.EventComments;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
+import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -40,6 +43,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void updateList(ArrayList<EventComments> newComments) {
+        comments.addAll(newComments);
+        notifyDataSetChanged();
+    }
+
+    public void setList(ArrayList<EventComments> newComments) {
+        comments.clear();
         comments.addAll(newComments);
         notifyDataSetChanged();
     }
@@ -68,7 +77,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CommentsViewHolder)
-            ((CommentsViewHolder) holder).onBind(comments, position);
+            ((CommentsViewHolder) holder).onBind(comments);
         else if (holder instanceof CommentsFooterViewHolder)
             ((CommentsFooterViewHolder) holder).onBind();
 
@@ -91,6 +100,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private CustomTextView empty;
         private CustomButton showMore;
         private ConstraintLayout root;
+        private AppCompatImageView imgEdit;
+        private CustomTextView change;
+        private AppCompatImageView imgDelete;
+        private CustomTextView delete;
+        private AppCompatImageView avatar;
+        private CustomTextView userName;
+        private CustomTextView comment;
+        private CustomTextView date;
 
         CommentsViewHolder(View v) {
             super(v);
@@ -98,11 +115,17 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             empty = v.findViewById(R.id.tvEmpty);
             showMore = v.findViewById(R.id.btnShowMore);
             root = v.findViewById(R.id.root);
+            imgEdit = v.findViewById(R.id.imgEdit);
+            change = v.findViewById(R.id.change);
+            imgDelete = v.findViewById(R.id.imgDelete);
+            delete = v.findViewById(R.id.delete);
+            avatar = v.findViewById(R.id.avatar);
+            userName = v.findViewById(R.id.name_user);
+            comment = v.findViewById(R.id.tvComment);
+            date = v.findViewById(R.id.date);
         }
 
-        void onBind(ArrayList<EventComments> comments, int position) {
-//            boolean isOwnEpitaph = user.getId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
-//            delete.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
+        void onBind(ArrayList<EventComments> comments) {
             if (comments.size() == 0) {
                 ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(root.getLayoutParams());
                 marginLayoutParams.setMargins(0, 0, 0, 0);
@@ -110,13 +133,24 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 container.setVisibility(View.GONE);
                 empty.setVisibility(View.VISIBLE);
             } else {
+                setGlideImage(itemView.getContext(),BASE_SERVICE_URL + comments.get(getAdapterPosition()).getPicture(), avatar);
+                userName.setText(comments.get(getAdapterPosition()).getName());
+                comment.setText(comments.get(getAdapterPosition()).getComment());
+                String[] dates = comments.get(getAdapterPosition()).getCreatedAt().split("T");
+                date.setText(dates[0]);
+
                 container.setVisibility(View.VISIBLE);
                 empty.setVisibility(View.GONE);
+                boolean isOwn = comments.get(getAdapterPosition()).getUserId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
+                imgEdit.setVisibility(isOwn ? View.VISIBLE : View.GONE);
+                change.setVisibility(isOwn ? View.VISIBLE : View.GONE);
+                delete.setVisibility(isOwn ? View.VISIBLE : View.GONE);
+                imgDelete.setVisibility(isOwn ? View.VISIBLE : View.GONE);
             }
-            if (position == (comments.size() - 1) && (comments.size()) % 3 == 0)
-                showMore.setVisibility(View.VISIBLE);
-            else
-                showMore.setVisibility(View.GONE);
+//            if (position == (comments.size() - 1) && (comments.size()) % 3 == 0)
+//                showMore.setVisibility(View.VISIBLE);
+//            else
+//                showMore.setVisibility(View.GONE);
             showMore.setOnClickListener(v -> {
                 listener.showMoreComments();
             });

@@ -6,6 +6,8 @@ import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddVideo;
 import com.remember.app.ui.base.BasePresenter;
 
+import java.io.File;
+
 import io.reactivex.disposables.Disposable;
 import okhttp3.RequestBody;
 
@@ -30,10 +32,10 @@ public class CurrentEventPresenter extends BasePresenter<CurrentEventView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    void getPhotos(int id) {
+    void addComment(int id, AddComment body){
         if (isOffline()) return;
-        Disposable subscription = serviceNetwork.getEventPhoto(id)
-                .subscribe(getViewState()::onReceivedPhotos);
+        Disposable subscription = serviceNetwork.addComment(id, body)
+                .subscribe(getViewState()::onCommentAdded, getViewState()::onCommentAddedError);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -51,11 +53,17 @@ public class CurrentEventPresenter extends BasePresenter<CurrentEventView> {
         unsubscribeOnDestroy(subscription);
     }
 
-
-    void addComment(int id, AddComment body){
+    void getPhotos(int id) {
         if (isOffline()) return;
-        Disposable subscription = serviceNetwork.addComment(id, body)
-                .subscribe(getViewState()::onCommentAdded, getViewState()::onCommentAddedError);
+        Disposable subscription = serviceNetwork.getEventPhoto(id)
+                .subscribe(getViewState()::onReceivedPhotos);
+        unsubscribeOnDestroy(subscription);
+    }
+
+    void addPhotos(int id, String description, File img, File cutImg) {
+        if (isOffline()) return;
+        Disposable subscription = serviceNetwork.addEventPhoto(id, description, img, cutImg)
+                .subscribe(getViewState()::onPhotoAdded, getViewState()::onPhotoAddedError);
         unsubscribeOnDestroy(subscription);
     }
 }

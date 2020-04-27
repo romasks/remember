@@ -71,6 +71,12 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void setList(ArrayList<EventVideos> newVideo) {
+        videoIds.clear();
+        videoIds.addAll(newVideo);
+        notifyDataSetChanged();
+    }
+
     private int countItem() {
         if (videoIds.size() == 0)
             return 2;
@@ -126,8 +132,8 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 description.setVisibility(View.VISIBLE);
                 empty.setVisibility(View.GONE);
                 if (videoList.size() > getAdapterPosition()) {
-                    int s = getAdapterPosition();
-                    cueVideo(getVideoIdFromUrl(videoList.get(s).getLink()));
+                    description.setText(videoList.get(getAdapterPosition()).getNameLink());
+                    cueVideo(getVideoIdFromUrl(videoList.get(getAdapterPosition()).getLink()));
                 }
             }
         }

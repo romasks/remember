@@ -143,11 +143,14 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void onReceivedComments(ArrayList<EventComments> requestEvent) {
-        commentsAdapter.updateList(requestEvent);
+        commentsAdapter.setList(requestEvent);
+        comments.smoothScrollToPosition(commentsAdapter.getItemCount());
     }
 
     @Override
-    public void onCommentAdded(Object o) {  }
+    public void onCommentAdded(Object o) {
+        presenter.getComments(eventId);
+    }
 
     @Override
     public void onCommentAddedError(Throwable throwable) {
@@ -156,11 +159,14 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void onReceivedVideos(ArrayList<EventVideos> requestEvent) {
-        videoAdapter.updateList(requestEvent);
+        videoAdapter.setList(requestEvent);
+        videos.smoothScrollToPosition(videoAdapter.getItemCount());
     }
 
     @Override
-    public void onVideoAdded(Object o){ }
+    public void onVideoAdded(Object o){
+        presenter.getVideos(eventId);
+    }
 
     @Override
     public void onVideoAddedError(Throwable throwable) {
