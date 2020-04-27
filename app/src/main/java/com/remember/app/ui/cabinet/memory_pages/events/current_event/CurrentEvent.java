@@ -136,12 +136,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     public void onReceivedEvent(EventModel requestEvent) {
         eventModel = requestEvent;
         setItems(requestEvent);
@@ -149,14 +143,11 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void onReceivedComments(ArrayList<EventComments> requestEvent) {
-       // EventComments s = (EventComments) requestEvent;
         commentsAdapter.updateList(requestEvent);
     }
 
     @Override
-    public void onCommentAdded(Object o) {
-        String s = o.toString();
-    }
+    public void onCommentAdded(Object o) {  }
 
     @Override
     public void onCommentAddedError(Throwable throwable) {
@@ -169,9 +160,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     }
 
     @Override
-    public void onVideoAdded(Object o){
-       String s = o.toString();
-    }
+    public void onVideoAdded(Object o){ }
 
     @Override
     public void onVideoAddedError(Throwable throwable) {
@@ -229,17 +218,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        //  String[] videoIds = {"6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY"};
         videoAdapter = new VideoAdapter(new ArrayList<>(), this.getLifecycle(), this);
         recyclerView.setAdapter(videoAdapter);
-    }
-
-    private List<String> videoList() {
-        List<String> s = new ArrayList<>();
-        s.add("8EgX-Ify_fc");
-        s.add("LvetJ9U_tVY");
-        s.add("Os09-mH98H4");
-        return s;
     }
 
     private void initCommentAdapter() {
@@ -249,15 +229,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         recyclerView.setLayoutManager(mLayoutManager);
         commentsAdapter = new CommentsAdapter(this, new ArrayList<>());
         recyclerView.setAdapter(commentsAdapter);
-       // commentsAdapter.updateList(comentList());
-    }
-
-    private List<String> comentList() {
-        List<String> s = new ArrayList<>();
-        s.add("dd");
-        s.add("dd");
-        s.add("dd");
-        return s;
     }
 
     private void showCommentDialog() {
@@ -268,10 +239,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         commentDialog.setArguments(bundle);
         commentDialog.setCancelable(true);
         commentDialog.listener = text -> {
-           // Toast.makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
-//            JsonObject postParam = new JsonObject();
-//            postParam.addProperty("comment ", text);
-//            RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), postParam.toString());
             AddComment s = new AddComment();
             s.setComment(text);
             presenter.addComment(eventId, s);
@@ -285,11 +252,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         videoDialog.setArguments(bundle);
         videoDialog.setCancelable(true);
         videoDialog.listener = (name, url) -> {
-           // Toast.makeText(getBaseContext(), name + "   " + url, Toast.LENGTH_LONG).show();
-//            JsonObject postParam = new JsonObject();
-//            postParam.addProperty("link", getVideoIdFromUrl(url));
-//            postParam.addProperty("name_link ", name);
-//            RequestBody body = RequestBody.create(MediaType.parse("application/json"), postParam.toString());
             AddVideo body = new AddVideo();
             body.setLink(url);
             body.setLinkName(name);
@@ -326,12 +288,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     public void showMoreComments() {
         //commentsAdapter.updateList(comentList());
         presenter.getComments(eventId);
-    }
-
-    @Override
-    public void showMoreVideos() {
-       // videoAdapter.updateList(videoList());
-        presenter.getVideos(eventId);
     }
 
     @Override
