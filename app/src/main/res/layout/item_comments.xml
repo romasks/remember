@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:background="#00000000">
+    android:background="#00000000"
+    android:id="@+id/root"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/commentContainer"
@@ -84,7 +86,7 @@
             android:layout_marginStart="5dp"
             android:text="@string/epitaphs_item_action_change"
             android:textColor="@color/brown"
-            android:textSize="12dp"
+            android:textSize="13.5dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imgEdit"
             app:layout_constraintStart_toEndOf="@+id/imgEdit"
@@ -109,7 +111,7 @@
             android:layout_marginStart="5dp"
             android:text="@string/epitaphs_item_action_delete"
             android:textColor="@color/brown"
-            android:textSize="12dp"
+            android:textSize="13.5dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imgDelete"
             app:layout_constraintStart_toEndOf="@+id/imgDelete"

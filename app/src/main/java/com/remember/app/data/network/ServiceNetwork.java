@@ -1,12 +1,17 @@
 package com.remember.app.data.network;
 
+import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.AddVideo;
+import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.EventResponse;
+import com.remember.app.data.models.EventSliderPhotos;
+import com.remember.app.data.models.EventVideos;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -28,6 +33,7 @@ import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseUserInfo;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -119,4 +125,24 @@ public interface ServiceNetwork {
     Observable<Object> deleteSliderPhoto(Integer id);
 
     Observable<Object> sendDeviceID(RequestBody id);
+
+    Observable<ArrayList<EventComments>> getEventComments(int id);
+
+    Observable<Object> addComment(int id, AddComment body);
+
+    Observable<Object> editComment(int id, int commentId, RequestBody body);
+
+    Observable<Object> deleteComment(int id, int commentId);
+
+    Observable<ArrayList<EventVideos>> getEventVideo(int id);
+
+    Observable<Object> addVideo(int id, AddVideo body);
+
+    Observable<Object> deleteVideo(int id, RequestBody body);
+
+    Observable<ArrayList<EventSliderPhotos>> getEventPhoto(int id);
+
+    Observable<Object> addEventPhoto(int id, String description,File img, File cut);
+
+    Observable<Object> deleteEventPhoto(int id, int photoID);
 }

@@ -6,15 +6,20 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.gson.JsonObject;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
+import com.remember.app.data.models.AddComment;
+import com.remember.app.data.models.AddVideo;
+import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.EventModel;
+import com.remember.app.data.models.EventSliderPhotos;
+import com.remember.app.data.models.EventVideos;
 import com.remember.app.ui.adapters.EventStuffAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
@@ -30,6 +35,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.BIRTH_DATE;
@@ -46,6 +53,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
+import static com.remember.app.ui.utils.StringUtils.getVideoIdFromUrl;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView, CommentsAdapter.CommentsAdapterListener, VideoAdapter.VideoAdapterListener {
 
@@ -116,6 +124,10 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
         initVideoAdapter();
         initCommentAdapter();
+        presenter.getDeadEvent(eventId);
+        presenter.getComments(eventId);
+        presenter.getVideos(eventId);
+        presenter.getPhotos(eventId);
     }
 
     @Override
@@ -126,13 +138,63 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.getDeadEvent(eventId);
+
     }
 
     @Override
     public void onReceivedEvent(EventModel requestEvent) {
         eventModel = requestEvent;
         setItems(requestEvent);
+    }
+
+    @Override
+    public void onReceivedComments(ArrayList<EventComments> requestEvent) {
+       // EventComments s = (EventComments) requestEvent;
+        commentsAdapter.updateList(requestEvent);
+    }
+
+    @Override
+    public void onCommentAdded(Object o) {
+        String s = o.toString();
+    }
+
+    @Override
+    public void onCommentAddedError(Throwable throwable) {
+        Toast.makeText(getBaseContext(), "ERROR", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onReceivedVideos(ArrayList<EventVideos> requestEvent) {
+        videoAdapter.updateList(requestEvent);
+    }
+
+    @Override
+    public void onVideoAdded(Object o){
+       String s = o.toString();
+    }
+
+    @Override
+    public void onVideoAddedError(Throwable throwable) {
+        Toast.makeText(getBaseContext(), "ERROR", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onReceivedPhotos(ArrayList<EventSliderPhotos> requestEvent) {
+        if (requestEvent.size()>0){
+        EventSliderPhotos s =  requestEvent.get(0);
+        String d = s.getBody();
+        String v =d;
+        }
+    }
+
+    @Override
+    public void onPhotoAdded(Object o) {
+
+    }
+
+    @Override
+    public void onPhotoAddedError(Throwable throwable) {
+
     }
 
     private void setItems(EventModel requestEvent) {
@@ -168,15 +230,15 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         //  String[] videoIds = {"6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY", "6JYIGclVQdw", "LvetJ9U_tVY"};
-        videoAdapter = new VideoAdapter(videoList(), this.getLifecycle(), this);
+        videoAdapter = new VideoAdapter(new ArrayList<>(), this.getLifecycle(), this);
         recyclerView.setAdapter(videoAdapter);
     }
 
     private List<String> videoList() {
         List<String> s = new ArrayList<>();
-        s.add("6JYIGclVQdw");
+        s.add("8EgX-Ify_fc");
         s.add("LvetJ9U_tVY");
-        s.add("6JYIGclVQdw");
+        s.add("Os09-mH98H4");
         return s;
     }
 
@@ -187,7 +249,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         recyclerView.setLayoutManager(mLayoutManager);
         commentsAdapter = new CommentsAdapter(this, new ArrayList<>());
         recyclerView.setAdapter(commentsAdapter);
-        commentsAdapter.updateList(comentList());
+       // commentsAdapter.updateList(comentList());
     }
 
     private List<String> comentList() {
@@ -206,7 +268,13 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         commentDialog.setArguments(bundle);
         commentDialog.setCancelable(true);
         commentDialog.listener = text -> {
-            Toast.makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
+           // Toast.makeText(getBaseContext(), text, Toast.LENGTH_LONG).show();
+//            JsonObject postParam = new JsonObject();
+//            postParam.addProperty("comment ", text);
+//            RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), postParam.toString());
+            AddComment s = new AddComment();
+            s.setComment(text);
+            presenter.addComment(eventId, s);
         };
         commentDialog.show(getSupportFragmentManager(), CommentDialog.TAG);
     }
@@ -217,8 +285,15 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         videoDialog.setArguments(bundle);
         videoDialog.setCancelable(true);
         videoDialog.listener = (name, url) -> {
-            Toast.makeText(getBaseContext(), name + "   " + url, Toast.LENGTH_LONG).show();
-            //
+           // Toast.makeText(getBaseContext(), name + "   " + url, Toast.LENGTH_LONG).show();
+//            JsonObject postParam = new JsonObject();
+//            postParam.addProperty("link", getVideoIdFromUrl(url));
+//            postParam.addProperty("name_link ", name);
+//            RequestBody body = RequestBody.create(MediaType.parse("application/json"), postParam.toString());
+            AddVideo body = new AddVideo();
+            body.setLink(url);
+            body.setLinkName(name);
+            presenter.addVideo(eventId, body);
         };
         videoDialog.show(getSupportFragmentManager(), VideoDialog.TAG);
     }
@@ -249,12 +324,14 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void showMoreComments() {
-        commentsAdapter.updateList(comentList());
+        //commentsAdapter.updateList(comentList());
+        presenter.getComments(eventId);
     }
 
     @Override
     public void showMoreVideos() {
-        videoAdapter.updateList(videoList());
+       // videoAdapter.updateList(videoList());
+        presenter.getVideos(eventId);
     }
 
     @Override

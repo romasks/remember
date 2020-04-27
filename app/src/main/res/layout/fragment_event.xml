@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:text="Видео"
                 android:textSize="20dp"
                 />
@@ -203,7 +203,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:text="Комментарии"
                 android:textSize="20dp"
                 />

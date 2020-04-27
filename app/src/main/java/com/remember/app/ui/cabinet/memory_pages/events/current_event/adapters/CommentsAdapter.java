@@ -12,6 +12,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
+import com.remember.app.data.models.EventComments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     final int CommentsMain = 1;
     final int CommentsFooter = 2;
-    List<String> comments = new ArrayList<>();
+    ArrayList<EventComments> comments = new ArrayList<>();
 
     private CommentsAdapter.CommentsAdapterListener listener;
 
@@ -33,12 +34,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void onShowAddCommentDialog();
     }
 
-    public CommentsAdapter(CommentsAdapter.CommentsAdapterListener listener, List<String> com) {
+    public CommentsAdapter(CommentsAdapter.CommentsAdapterListener listener, ArrayList<EventComments> com) {
         this.listener = listener;
         this.comments = com;
     }
 
-    public void updateList(List<String> newComments) {
+    public void updateList(ArrayList<EventComments> newComments) {
         comments.addAll(newComments);
         notifyDataSetChanged();
     }
@@ -75,7 +76,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (position >= comments.size()) return CommentsFooter;
+        if (position != 0 && position >= comments.size()) return CommentsFooter;
         else return CommentsMain;
  }
 
@@ -89,18 +90,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private ConstraintLayout container;
         private CustomTextView empty;
         private CustomButton showMore;
+        private ConstraintLayout root;
 
         CommentsViewHolder(View v) {
             super(v);
             container = v.findViewById(R.id.commentContainer);
             empty = v.findViewById(R.id.tvEmpty);
             showMore = v.findViewById(R.id.btnShowMore);
+            root = v.findViewById(R.id.root);
         }
 
-        void onBind(List<String> comments, int position) {
+        void onBind(ArrayList<EventComments> comments, int position) {
 //            boolean isOwnEpitaph = user.getId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
 //            delete.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
             if (comments.size() == 0) {
+                ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(root.getLayoutParams());
+                marginLayoutParams.setMargins(0, 0, 0, 0);
+                root.setLayoutParams(marginLayoutParams);
                 container.setVisibility(View.GONE);
                 empty.setVisibility(View.VISIBLE);
             } else {
@@ -120,6 +126,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     class CommentsFooterViewHolder extends RecyclerView.ViewHolder {
         private CustomTextView title;
         private CustomButton addButton;
+
 
         CommentsFooterViewHolder(View v) {
             super(v);

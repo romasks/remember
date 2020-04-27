@@ -4,7 +4,7 @@
     android:shape="rectangle"
     android:rotation="90">
 
-    <stroke android:color="@color/cardview_dark_background" android:width="0.5dp"/>
+    <stroke android:color="@color/gray" android:width="0.5dp"/>
 
     <solid
         android:color="@color/amdp_white" >
