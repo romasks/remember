@@ -60,9 +60,9 @@ public class CurrentEventPresenter extends BasePresenter<CurrentEventView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    void addPhotos(int id, String description, File img, File cutImg) {
+    void addPhotos(int id, String description, File img) {
         if (isOffline()) return;
-        Disposable subscription = serviceNetwork.addEventPhoto(id, description, img, cutImg)
+        Disposable subscription = serviceNetwork.addEventPhoto(id, description, img)
                 .subscribe(getViewState()::onPhotoAdded, getViewState()::onPhotoAddedError);
         unsubscribeOnDestroy(subscription);
     }

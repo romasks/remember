@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.AddPhoto;
 import com.remember.app.data.models.AddVideo;
 import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.CreateEventRequest;
@@ -529,7 +530,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<Object> addEventPhoto(int id,String description, File img, File cut) {
+    public Observable<Object> addEventPhoto(int id,String description, File img) {
         MultipartBody.Part photo = null;
         if (img != null) {
             RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), img);
@@ -541,9 +542,8 @@ public class ServiceNetworkImp implements ServiceNetwork {
             RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), img);
             photoCut = MultipartBody.Part.createFormData("picture_cut", img.getName(), mFile);
         }
-        JsonObject postParam = new JsonObject();
-        postParam.addProperty("body ", description);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), postParam.toString());
+        AddPhoto body = new AddPhoto();
+        body.setLink(description);
         return apiMethods.addEventPhoto("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id,body, photo, photoCut)
                 .compose(rxSchedulers.applySchedulers());
     }

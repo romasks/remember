@@ -142,7 +142,7 @@ public interface ServiceNetwork {
 
     Observable<ArrayList<EventSliderPhotos>> getEventPhoto(int id);
 
-    Observable<Object> addEventPhoto(int id, String description,File img, File cut);
+    Observable<Object> addEventPhoto(int id, String description,File img);
 
     Observable<Object> deleteEventPhoto(int id, int photoID);
 }

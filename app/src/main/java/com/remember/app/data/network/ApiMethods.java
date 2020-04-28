@@ -2,6 +2,7 @@ package com.remember.app.data.network;
 
 
 import com.remember.app.data.models.AddComment;
+import com.remember.app.data.models.AddPhoto;
 import com.remember.app.data.models.AddVideo;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventComments;
@@ -336,7 +337,7 @@ public interface ApiMethods {
     @POST("/deadevent/{id}/photo")
     Observable<Object> addEventPhoto(@Header("Authorization") String token,
                                      @Path("id") int id,
-                                     @Body RequestBody body,
+                                     @Part("body") AddPhoto body,
                                      @Part MultipartBody.Part image,
                                      @Part MultipartBody.Part cutImage
     );

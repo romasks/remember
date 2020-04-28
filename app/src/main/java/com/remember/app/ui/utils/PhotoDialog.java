@@ -76,7 +76,7 @@ public class PhotoDialog extends DialogFragment {
                     e.printStackTrace();
                 }
                 if (editText.getText().toString().equals(""))
-                    callback.sendPhoto(imageFile, null);
+                    callback.sendPhoto(imageFile, "");
                 else
                     callback.sendPhoto(imageFile, editText.getText().toString());
             }
