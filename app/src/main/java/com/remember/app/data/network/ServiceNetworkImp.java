@@ -494,7 +494,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<Object> editComment(int id, int commentId, RequestBody body) {
+    public Observable<Object> editComment(int id, int commentId, AddComment body) {
         return apiMethods.editComment("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id,commentId, body)
                 .compose(rxSchedulers.applySchedulers());
     }

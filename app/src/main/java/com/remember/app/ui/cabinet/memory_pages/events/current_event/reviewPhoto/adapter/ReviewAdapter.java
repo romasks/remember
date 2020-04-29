@@ -1,4 +1,4 @@
-package com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters;
+package com.remember.app.ui.cabinet.memory_pages.events.current_event.reviewPhoto.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
-public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderAdapterHolder> {
+public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     private Callback callback;
@@ -33,15 +33,15 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderA
 
     @NonNull
     @Override
-    public PhotoSliderAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PhotoAdapter.PhotoSliderAdapterHolder(
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ReviewAdapter.ReviewAdapterHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_photo, parent, false)
         );
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PhotoSliderAdapterHolder holder, int position) {
-        holder.onBind(position, responseImagesSliders);
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.onBind(position);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderA
         return responseImagesSliders.size();
     }
 
-    public ArrayList<EventSliderPhotos> getItems(){
+    public ArrayList<EventSliderPhotos> getItems() {
         return responseImagesSliders;
     }
 
@@ -69,28 +69,29 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderA
 
     }
 
-    public class PhotoSliderAdapterHolder extends RecyclerView.ViewHolder {
+    public class ReviewAdapterHolder extends BaseViewHolder implements View.OnClickListener {
 
         @BindView(R.id.image)
         ImageView imageView;
 
-        PhotoSliderAdapterHolder(View itemView) {
-            super(itemView);
+        ReviewAdapterHolder(View itemView) {
+            super(itemView, 0);
             ButterKnife.bind(this, itemView);
             context = itemView.getContext();
         }
 
-        public void onBind(int position, ArrayList<EventSliderPhotos> list) {
+        @Override
+        public void onBind(int position) {
             try {
                 setGlideImage(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mClickListener != null) mClickListener.onItemClick(v, getAdapterPosition(),list );
-                    }
-                });
+                imageView.setOnClickListener(this);
             } catch (Exception ignored) {
             }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mClickListener != null) mClickListener.onItemClick(v, getAdapterPosition());
         }
     }
 
@@ -99,6 +100,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderA
     }
 
     public interface ItemClickListener {
-        void onItemClick(View view, int position, ArrayList<EventSliderPhotos> list);
+        void onItemClick(View view, int position);
     }
 }
+

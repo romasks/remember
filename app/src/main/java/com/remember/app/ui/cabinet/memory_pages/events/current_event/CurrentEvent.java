@@ -3,10 +3,8 @@ package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -21,22 +19,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.google.gson.JsonObject;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
+import com.remember.app.data.Constants;
 import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddVideo;
 import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventSliderPhotos;
 import com.remember.app.data.models.EventVideos;
-import com.remember.app.ui.adapters.EventStuffAdapter;
+import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters.CommentsAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters.PhotoAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters.VideoAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDialog.CommentDialog;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDialog.DeleteCommentDialog;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDialog.EditDialog;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.reviewPhoto.ReviewPhotoActivity;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.reviewPhoto.adapter.ReviewAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.videoDialog.VideoDialog;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.PhotoDialog;
@@ -45,12 +47,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.BIRTH_DATE;
@@ -69,12 +68,9 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
-import static com.remember.app.ui.utils.StringUtils.getVideoIdFromUrl;
 
-public class CurrentEvent extends BaseActivity implements CurrentEventView, CommentsAdapter.CommentsAdapterListener, VideoAdapter.VideoAdapterListener,PhotoDialog.Callback {
+public class CurrentEvent extends BaseActivity implements CurrentEventView, CommentsAdapter.CommentsAdapterListener, VideoAdapter.VideoAdapterListener, PhotoDialog.Callback,DeleteCommentDialog.Callback,PhotoAdapter.Callback, PhotoAdapter.ItemClickListener, ReviewPhotoActivity.DeleteCallBack {
 
     @InjectPresenter
     CurrentEventPresenter presenter;
@@ -115,6 +111,9 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     CommentsAdapter commentsAdapter;
     VideoAdapter videoAdapter;
     PhotoAdapter photoAdapter;
+    int changedCommentPosition = 0;
+    String newComment = "";
+    ArrayList<EventSliderPhotos> photoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +131,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         imageUrl = getIntent().getStringExtra(INTENT_EXTRA_EVENT_IMAGE_URL);
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
 
-//        presenter.getEvent(eventId);
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
         initVideoAdapter();
         initCommentAdapter();
@@ -141,6 +139,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         presenter.getComments(eventId);
         presenter.getVideos(eventId);
         presenter.getPhotos(eventId);
+
     }
 
     @Override
@@ -181,7 +180,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     @Override
     public void onReceivedComments(ArrayList<EventComments> requestEvent) {
         commentsAdapter.setList(requestEvent);
-      //  comments.smoothScrollToPosition(commentsAdapter.getItemCount());
     }
 
     @Override
@@ -195,13 +193,26 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     }
 
     @Override
-    public void onReceivedVideos(ArrayList<EventVideos> requestEvent) {
-        videoAdapter.setList(requestEvent);
-        //videos.smoothScrollToPosition(0);
+    public void onCommentDelete(Object o) {
+        String s = o.toString();
+        commentsAdapter.editList(new EventComments(), changedCommentPosition, true);
     }
 
     @Override
-    public void onVideoAdded(Object o){
+    public void onCommentEdit(Object o) {
+        String s = o.toString();
+        EventComments comment = commentsAdapter.getList().get(changedCommentPosition);
+        comment.setComment(newComment);
+        commentsAdapter.editList(comment, changedCommentPosition, false);
+    }
+
+    @Override
+    public void onReceivedVideos(ArrayList<EventVideos> requestEvent) {
+        videoAdapter.setList(requestEvent);
+    }
+
+    @Override
+    public void onVideoAdded(Object o) {
         presenter.getVideos(eventId);
     }
 
@@ -212,17 +223,14 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void onReceivedPhotos(ArrayList<EventSliderPhotos> requestEvent) {
-        if (requestEvent.size()>0){
-        EventSliderPhotos s =  requestEvent.get(0);
-        String d = s.getBody();
-        String v =d;
-        photoAdapter.setItems(requestEvent);
+        if (requestEvent.size() > 0) {
+            photoAdapter.setItems(requestEvent);
+            photoList = requestEvent;
         }
     }
 
     @Override
     public void onPhotoAdded(Object o) {
-        String s = o.toString();
         photoDialog.dismiss();
         Utils.showSnack(addVideo, "Успешно");
         presenter.getPhotos(eventId);
@@ -230,7 +238,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void onPhotoAddedError(Throwable throwable) {
-                String s = "";
+        String s = "";
     }
 
     private void setItems(EventModel requestEvent) {
@@ -268,12 +276,15 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         videoAdapter = new VideoAdapter(new ArrayList<>(), this.getLifecycle(), this);
         recyclerView.setAdapter(videoAdapter);
     }
+
     private void initPhotoAdapter() {
+
         photosView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         photosView.setLayoutManager(mLayoutManager);
         photoAdapter = new PhotoAdapter();
         photosView.setAdapter(photoAdapter);
+        photoAdapter.setClickListener(this);
     }
 
 
@@ -289,8 +300,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     private void showCommentDialog() {
         CommentDialog commentDialog = new CommentDialog();
         final Bundle bundle = new Bundle();
-        // bundle.putInt(StoreFragment.ARG_ID, -999);
-        // bundle.putSerializable("set", set);
         commentDialog.setArguments(bundle);
         commentDialog.setCancelable(true);
         commentDialog.listener = text -> {
@@ -300,6 +309,25 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         };
         commentDialog.show(getSupportFragmentManager(), CommentDialog.TAG);
     }
+
+    private void showEditCommentDialog(int commentID, String comment, int itemPosition) {
+        EditDialog editDialog = new EditDialog();
+        final Bundle bundle = new Bundle();
+        bundle.putInt("id", commentID);
+        bundle.putString("comment", comment);
+        bundle.putInt("position", itemPosition);
+        editDialog.setArguments(bundle);
+        editDialog.setCancelable(true);
+        editDialog.listener = (text, commentID1, position) -> {
+            AddComment s = new AddComment();
+            s.setComment(text);
+            presenter.editComment(eventId, commentID, s);
+            newComment = text;
+            changedCommentPosition = position;
+        };
+        editDialog.show(getSupportFragmentManager(), EditDialog.TAG);
+    }
+
 
     private void showVideoDialog() {
         VideoDialog videoDialog = new VideoDialog();
@@ -324,14 +352,24 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         return activity;
     }
 
-    @Override
-    public void onChangeComment() {
-
+    public void showDeleteDialog(int commentID, int position) {
+        DeleteCommentDialog myDialogFragment = new DeleteCommentDialog();
+        myDialogFragment.setCallback(this);
+        final Bundle bundle = new Bundle();
+        bundle.putInt("id", commentID);
+        bundle.putInt("position", position);
+        myDialogFragment.setArguments(bundle);
+        myDialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
     }
 
     @Override
-    public void onDeleteComment() {
+    public void onChangeComment(int commentID, String newComment, int position) {
+        showEditCommentDialog(commentID, newComment, position);
+    }
 
+    @Override
+    public void onDeleteComment(int commentID, int position) {
+        showDeleteDialog(commentID, position);
     }
 
     @Override
@@ -341,7 +379,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void showMoreComments() {
-        //commentsAdapter.updateList(comentList());
         presenter.getComments(eventId);
     }
 
@@ -357,7 +394,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void sendPhoto(File imageFile, String string) {
-            presenter.addPhotos(eventId,string, imageFile);
+        presenter.addPhotos(eventId, string, imageFile);
     }
 
     @OnClick(R.id.add_photo)
@@ -377,5 +414,37 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         } else
             Toast.makeText(getBaseContext(), "Для загрузки фотографии разрешите доступ к хранилищу.", Toast.LENGTH_LONG).show();
 
+    }
+
+    @Override
+    public void onDelete(int commentID, int position) {
+        presenter.deleteComment(eventId, commentID);
+        changedCommentPosition = position;
+    }
+
+    @Override
+    public void openPage(ResponseImagesSlider responseImagesSlider) {
+
+    }
+
+    @Override
+    public void onItemClick(View view, int position, ArrayList<EventSliderPhotos> list) {
+
+        Bundle extra = new Bundle();
+        extra.putSerializable("objects", list);
+
+        startActivity(
+                new Intent(this, ReviewPhotoActivity.class)
+                        .putExtra(Constants.INTENT_EXTRA_ID, eventId)
+                        .putExtra(Constants.INTENT_EXTRA_POSITION_IN_SLIDER, position)
+                        .putExtra("list", extra)
+        );
+        ReviewPhotoActivity.setCallback(this);
+    }
+
+    @Override
+    public void deletePhoto(int position) {
+        photoList.remove(photoAdapter.getItems().get(position));
+        photoAdapter.setItems(photoList);
     }
 }

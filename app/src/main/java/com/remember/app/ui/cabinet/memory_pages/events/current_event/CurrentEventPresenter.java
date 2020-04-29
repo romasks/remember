@@ -39,6 +39,21 @@ public class CurrentEventPresenter extends BasePresenter<CurrentEventView> {
         unsubscribeOnDestroy(subscription);
     }
 
+
+    void editComment(int id, int commentID, AddComment body){
+        if (isOffline()) return;
+        Disposable subscription = serviceNetwork.editComment(id,commentID, body)
+                .subscribe(getViewState()::onCommentEdit, getViewState()::onCommentAddedError);
+        unsubscribeOnDestroy(subscription);
+    }
+
+    void deleteComment(int id, int commentID){
+        if (isOffline()) return;
+        Disposable subscription = serviceNetwork.deleteComment(id, commentID)
+                .subscribe(getViewState()::onCommentDelete, getViewState()::onCommentAddedError);
+        unsubscribeOnDestroy(subscription);
+    }
+
     void getVideos(int id) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.getEventVideo(id)

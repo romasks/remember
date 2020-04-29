@@ -30,6 +30,17 @@ public class EventSliderPhotos implements Serializable {
 	@SerializedName("status")
 	private String status;
 
+	@SerializedName("id")
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public void setPageId(int pageId){
 		this.pageId = pageId;
 	}

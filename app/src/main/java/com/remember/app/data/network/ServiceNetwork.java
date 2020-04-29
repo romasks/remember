@@ -130,7 +130,7 @@ public interface ServiceNetwork {
 
     Observable<Object> addComment(int id, AddComment body);
 
-    Observable<Object> editComment(int id, int commentId, RequestBody body);
+    Observable<Object> editComment(int id, int commentId, AddComment body);
 
     Observable<Object> deleteComment(int id, int commentId);
 

@@ -32,8 +32,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public interface CommentsAdapterListener {
         void showMoreComments();
-        void onChangeComment();
-        void onDeleteComment();
+        void onChangeComment(int commentID, String newComment, int position);
+        void onDeleteComment(int commentID, int position);
         void onShowAddCommentDialog();
     }
 
@@ -51,6 +51,22 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         comments.clear();
         comments.addAll(newComments);
         notifyDataSetChanged();
+    }
+
+    public void editList(EventComments editedComment, int position, boolean isDelete){
+        if (!isDelete){
+        comments.get(position).setComment(editedComment.getComment());
+     //   notifyItemRangeChanged(position, 1);
+            notifyItemChanged(position);
+        }
+        else {
+            comments.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public ArrayList<EventComments> getList(){
+        return comments;
     }
 
     private int countItem() {
@@ -138,7 +154,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 comment.setText(comments.get(getAdapterPosition()).getComment());
                 String[] dates = comments.get(getAdapterPosition()).getCreatedAt().split("T");
                 date.setText(dates[0]);
-
                 container.setVisibility(View.VISIBLE);
                 empty.setVisibility(View.GONE);
                 boolean isOwn = comments.get(getAdapterPosition()).getUserId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
@@ -146,6 +161,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 change.setVisibility(isOwn ? View.VISIBLE : View.GONE);
                 delete.setVisibility(isOwn ? View.VISIBLE : View.GONE);
                 imgDelete.setVisibility(isOwn ? View.VISIBLE : View.GONE);
+                delete.setOnClickListener(v -> {
+                    listener.onDeleteComment(comments.get(getAdapterPosition()).getId(), getAdapterPosition());
+                });
+                change.setOnClickListener(v -> {
+                    listener.onChangeComment(comments.get(getAdapterPosition()).getId(), comment.getText().toString(), getAdapterPosition());
+                });
             }
 //            if (position == (comments.size() - 1) && (comments.size()) % 3 == 0)
 //                showMore.setVisibility(View.VISIBLE);

@@ -15,6 +15,9 @@ public interface CurrentEventView extends BaseView {
     void onReceivedComments(ArrayList<EventComments> requestEvent);
     void onCommentAdded(Object o);
     void onCommentAddedError(Throwable throwable);
+    void onCommentDelete(Object o);
+    void onCommentEdit(Object o);
+
 
     void onReceivedVideos(ArrayList<EventVideos> requestEvent);
     void onVideoAdded(Object o);

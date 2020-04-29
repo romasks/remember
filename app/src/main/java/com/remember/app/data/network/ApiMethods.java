@@ -312,7 +312,7 @@ public interface ApiMethods {
     Observable<Object> addComment(@Header("Authorization") String token, @Path("id") int id, @Body AddComment body);
 
     @PUT("deadevent/{id}/comment/{comment_id}")
-    Observable<Object> editComment(@Header("Authorization") String token, @Path("id") int id, @Path("comment_id") int commentID, @Body RequestBody body);
+    Observable<Object> editComment(@Header("Authorization") String token, @Path("id") int id, @Path("comment_id") int commentID, @Body AddComment body);
 
     @DELETE("deadevent/{id}/comment/{comment_id}")
     Observable<Object> deleteComment(@Header("Authorization") String token, @Path("id") int id, @Path("comment_id") int commentID);
@@ -342,7 +342,7 @@ public interface ApiMethods {
                                      @Part MultipartBody.Part cutImage
     );
 
-    @POST("/deadevent/{id}/photo/delete/{photo_id}")
+    @GET("/deadevent/{id}/photo/delete/{photo_id}")
     Observable<ResponseCemetery> deleteEventPhoto(@Header("Authorization") String token,
                                                   @Path("id") int id, @Path("photo_id") int photoId
     );

@@ -18,11 +18,14 @@ import androidx.fragment.app.FragmentActivity;
 import com.remember.app.R;
 import com.remember.app.customView.CustomEditText;
 
-public class CommentDialog extends DialogFragment implements View.OnClickListener {
+public class EditDialog extends DialogFragment implements View.OnClickListener {
 
     public static final String TAG = "dialog:CommentDialog";
-    public CommentDialogListener listener;
-    CustomEditText comment;
+    public EditDialog.EditCommentDialogListener listener;
+    CustomEditText etComment;
+    int commentID = 0;
+    int position = 0;
+    String comment = "";
 
 
     @Override
@@ -38,12 +41,15 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_add_comment, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_comment, null);
         view.findViewById(R.id.btnSendComment).setOnClickListener(this);
         view.findViewById(R.id.imgClose).setOnClickListener(this);
-        comment = view.findViewById(R.id.etMessage);
+        etComment = view.findViewById(R.id.etMessage);
         Bundle bundle = getArguments();
-        //   set = (Sets) bundle.getSerializable("set");
+        comment = bundle.getString("comment");
+        position = bundle.getInt("position");
+        commentID = bundle.getInt("id");
+        etComment.setText(comment);
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_Translucent);
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -58,7 +64,7 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
         dismiss();
         switch (v.getId()) {
             case R.id.btnSendComment:
-                listener.sendComment(comment.getText().toString());
+                listener.editComment(etComment.getText().toString(), commentID, position);
                 this.dismiss();
                 break;
             case R.id.imgClose:
@@ -67,8 +73,8 @@ public class CommentDialog extends DialogFragment implements View.OnClickListene
         }
     }
 
-    public interface CommentDialogListener {
-        void sendComment(String text);
+    public interface EditCommentDialogListener {
+        void editComment(String text, int commentID, int position);
     }
 
     private int setWidthByDensity(DialogFragment fragment) {
