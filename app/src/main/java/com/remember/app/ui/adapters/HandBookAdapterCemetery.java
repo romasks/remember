@@ -37,7 +37,7 @@ public class HandBookAdapterCemetery extends RecyclerView.Adapter<BaseViewHolder
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new HandBookAdapterCemetery.HandBookAdapterCemeteryViewHolder(
+        return new HandBookAdapterCemeteryViewHolder(
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hand_book, viewGroup, false)
         );
     }

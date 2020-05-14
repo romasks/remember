@@ -6,6 +6,7 @@ import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.AddPhoto;
 import com.remember.app.data.models.AddVideo;
+import com.remember.app.data.models.DeleteVideo;
 import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
@@ -305,29 +306,29 @@ public class ServiceNetworkImp implements ServiceNetwork {
         String religia;
         switch (selectedIndex) {
             case 0:
-                religia = "Православие";
+                religia = "РџСЂР°РІРѕСЃР»Р°РІРёРµ";
                 break;
             case 1:
-                religia = "Католицизм";
+                religia = "РљР°С‚РѕР»РёС†РёР·Рј";
                 break;
             case 2:
-                religia = "Ислам";
+                religia = "РСЃР»Р°Рј";
                 break;
             case 3:
-                religia = "Иудаизм";
+                religia = "РСѓРґР°РёР·Рј";
                 break;
             case 4:
-                religia = "Буддизм";
+                religia = "Р‘СѓРґРґРёР·Рј";
                 break;
             case 5:
-                religia = "Индуизм";
+                religia = "РРЅРґСѓРёР·Рј";
                 break;
             case 6:
-                religia = "Другая религия";
+                religia = "Р”СЂСѓРіР°СЏ СЂРµР»РёРіРёСЏ";
                 break;
             case 7:
             default:
-                religia = "Религия";
+                religia = "Р РµР»РёРіРёСЏ";
                 break;
         }
         String resultDate;
@@ -518,7 +519,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<Object> deleteVideo(int id, RequestBody body) {
+    public Observable<Object> deleteVideo(int id, DeleteVideo body) {
         return apiMethods.deleteVideo("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id,body)
                 .compose(rxSchedulers.applySchedulers());
     }

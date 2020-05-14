@@ -36,7 +36,7 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new EventsFragmentAdapter.EventsFragmentAdapterViewHolder(
+        return new EventsFragmentAdapterViewHolder(
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_events, viewGroup, false)
         );
     }

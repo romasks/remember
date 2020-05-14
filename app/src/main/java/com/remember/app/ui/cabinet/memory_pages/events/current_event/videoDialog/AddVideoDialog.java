@@ -1,4 +1,4 @@
-package com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDialog;
+package com.remember.app.ui.cabinet.memory_pages.events.current_event.videoDialog;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,14 +18,12 @@ import androidx.fragment.app.FragmentActivity;
 import com.remember.app.R;
 import com.remember.app.customView.CustomEditText;
 
-public class EditDialog extends DialogFragment implements View.OnClickListener {
+public class AddVideoDialog extends DialogFragment implements View.OnClickListener {
 
-    public static final String TAG = "dialog:CommentDialog";
-    public EditCommentDialogListener listener;
-    CustomEditText etComment;
-    int commentID = 0;
-    int position = 0;
-    String comment = "";
+    public static final String TAG = "dialog:AddVideoDialog";
+    public VideoDialogListener listener;
+    CustomEditText name;
+    CustomEditText url;
 
 
     @Override
@@ -33,7 +31,7 @@ public class EditDialog extends DialogFragment implements View.OnClickListener {
         super.onStart();
         // val width = LinearLayout.LayoutParams.MATCH_PARENT
         int width = setWidthByDensity(this);
-        int height = getResources().getDimensionPixelSize(R.dimen.comment_dialog_height);
+        int height = getResources().getDimensionPixelSize(R.dimen.video_dialog_height);
         if (getDialog() != null && getDialog().getWindow() != null)
             getDialog().getWindow().setLayout(width, height);
     }
@@ -41,15 +39,13 @@ public class EditDialog extends DialogFragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_comment, null);
-        view.findViewById(R.id.btnSendComment).setOnClickListener(this);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_video, null);
+        view.findViewById(R.id.btnAddComment).setOnClickListener(this);
         view.findViewById(R.id.imgClose).setOnClickListener(this);
-        etComment = view.findViewById(R.id.etMessage);
+        name = view.findViewById(R.id.etName);
+        url = view.findViewById(R.id.etUrl);
         Bundle bundle = getArguments();
-        comment = bundle.getString("comment");
-        position = bundle.getInt("position");
-        commentID = bundle.getInt("id");
-        etComment.setText(comment);
+        //   set = (Sets) bundle.getSerializable("set");
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_Translucent);
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -63,8 +59,8 @@ public class EditDialog extends DialogFragment implements View.OnClickListener {
     public void onClick(View v) {
         dismiss();
         switch (v.getId()) {
-            case R.id.btnSendComment:
-                listener.editComment(etComment.getText().toString(), commentID, position);
+            case R.id.btnAddComment:
+                listener.addVideo(name.getText().toString(), url.getText().toString());
                 this.dismiss();
                 break;
             case R.id.imgClose:
@@ -73,8 +69,8 @@ public class EditDialog extends DialogFragment implements View.OnClickListener {
         }
     }
 
-    public interface EditCommentDialogListener {
-        void editComment(String text, int commentID, int position);
+    public interface VideoDialogListener {
+        void addVideo(String name, String url);
     }
 
     private int setWidthByDensity(DialogFragment fragment) {

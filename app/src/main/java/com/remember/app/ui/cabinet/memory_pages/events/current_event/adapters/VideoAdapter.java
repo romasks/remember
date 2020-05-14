@@ -3,15 +3,19 @@ package com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
@@ -37,6 +41,12 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public interface VideoAdapterListener {
         void onShowAddVideoDialog();
+
+        void onShowDeleteVideoDialog(String link, int position);
+
+        void openFull(int position);
+
+        void closeFull();
     }
 
     @NonNull
@@ -47,10 +57,10 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
                 YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
                 lifecycle.addObserver(youTubePlayerView);
-                return new VideoAdapter.VideoViewHolder(view);
+                return new VideoViewHolder(view, listener);
             }
             case VideosFooter: {
-                return new VideoAdapter.VideoFooterViewHolder((LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_footer, parent, false)));
+                return new VideoFooterViewHolder((LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_footer, parent, false)));
             }
             default:
                 throw new IllegalStateException("Unexpected value: " + viewType);
@@ -60,21 +70,25 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof VideoViewHolder)
-            ((VideoViewHolder) viewHolder).onBind(videoIds);
+            ((VideoViewHolder) viewHolder).onBind(videoIds, listener);
         else if (viewHolder instanceof VideoFooterViewHolder)
             ((VideoFooterViewHolder) viewHolder).onBind(listener);
 
     }
 
-    public void updateList(ArrayList<EventVideos> newVideo) {
-        videoIds.addAll(newVideo);
-        notifyDataSetChanged();
+    public void updateList(int currentPosition) {
+        videoIds.remove(currentPosition);
+        notifyItemRemoved(currentPosition);
+        notifyItemRangeChanged(currentPosition, videoIds.size());
     }
 
     public void setList(ArrayList<EventVideos> newVideo) {
-        videoIds.clear();
-        videoIds.addAll(newVideo);
+        videoIds = newVideo;
         notifyDataSetChanged();
+    }
+
+    public ArrayList<EventVideos> getItems() {
+        return videoIds;
     }
 
     private int countItem() {
@@ -98,31 +112,61 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private YouTubePlayerView youTubePlayerView;
         private YouTubePlayer youTubePlayer;
         private String currentVideoId;
-        private CustomButton showMore;
         private CardView container;
         private CustomTextView empty;
         private CustomTextView description;
-        private ConstraintLayout root;
+        private AppCompatImageView delete;
+        private AppCompatImageView playButton;
+        private FrameLayout backgroundView;
+        private YouTubePlayerTracker playerTracker = new YouTubePlayerTracker();
+        boolean isPlay = false;
 
-        VideoViewHolder(View view) {
+        VideoViewHolder(View view, VideoAdapterListener listener) {
             super(view);
             youTubePlayerView = view.findViewById(R.id.youtube_player_view);
             container = view.findViewById(R.id.container);
             description = view.findViewById(R.id.description);
             empty = view.findViewById(R.id.tvEmpty);
-            showMore = view.findViewById(R.id.btnShowMore);
-            root = view.findViewById(R.id.root);
+            backgroundView = view.findViewById(R.id.backgroundView);
+            delete = view.findViewById(R.id.deleteVideo);
+            playButton = view.findViewById(R.id.startButton);
+            YouTubePlayerFullScreenListener fullScreenListener = new YouTubePlayerFullScreenListener() {
+                @Override
+                public void onYouTubePlayerExitFullScreen() {
+                    listener.closeFull();
+                }
+
+                @Override
+                public void onYouTubePlayerEnterFullScreen() {
+                    listener.openFull(getAdapterPosition());
+                }
+            };
+            youTubePlayerView.addFullScreenListener(fullScreenListener);
             youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
                 @Override
                 public void onReady(@NonNull YouTubePlayer initializedYouTubePlayer) {
                     youTubePlayer = initializedYouTubePlayer;
+                 //   youTubePlayer.addListener(playerTracker);
                     if (currentVideoId != null)
                         youTubePlayer.cueVideo(currentVideoId, 0);
+                }
+
+                @Override
+                public void onStateChange(@NonNull YouTubePlayer youTubePlayer, @NonNull PlayerConstants.PlayerState state) {
+                    if (state == PlayerConstants.PlayerState.PLAYING) {
+                        isPlay = true;
+                      //  backgroundView.setVisibility(View.INVISIBLE);
+                        //youTubePlayerView.setVisibility(View.VISIBLE);
+                    } else if (state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.UNSTARTED || state == PlayerConstants.PlayerState.ENDED) {
+                        //backgroundView.setVisibility(View.VISIBLE);
+                        //youTubePlayerView.setVisibility(View.GONE);
+                        isPlay = false;
+                    }
                 }
             });
         }
 
-        public void onBind(ArrayList<EventVideos> videoList) {
+        public void onBind(ArrayList<EventVideos> videoList, VideoAdapterListener listener) {
             if (videoList.size() == 0) {
                 container.setVisibility(View.GONE);
                 description.setVisibility(View.GONE);
@@ -135,6 +179,13 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     description.setText(videoList.get(getAdapterPosition()).getNameLink());
                     cueVideo(getVideoIdFromUrl(videoList.get(getAdapterPosition()).getLink()));
                 }
+                delete.setOnClickListener(v -> listener.onShowDeleteVideoDialog(videoList.get(getAdapterPosition()).getLink(), getAdapterPosition()));
+                playButton.setOnClickListener(v -> {
+                    if (isPlay)
+                        youTubePlayer.pause();
+                    else
+                        youTubePlayer.play();
+                });
             }
         }
 

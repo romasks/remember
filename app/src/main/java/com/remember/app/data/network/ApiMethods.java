@@ -4,6 +4,7 @@ package com.remember.app.data.network;
 import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddPhoto;
 import com.remember.app.data.models.AddVideo;
+import com.remember.app.data.models.DeleteVideo;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.EventModel;
@@ -325,7 +326,7 @@ public interface ApiMethods {
     Observable<Object> addVideo(@Header("Authorization") String token, @Path("id") int id, @Body AddVideo body);
 
     @POST("deadevent/{id}/video/delete")
-    Observable<Object> deleteVideo(@Header("Authorization") String token, @Path("id") int id, @Body RequestBody body);
+    Observable<Object> deleteVideo(@Header("Authorization") String token, @Path("id") int id, @Body DeleteVideo body);
 
 
     @GET("/deadevent/{id}/photo")

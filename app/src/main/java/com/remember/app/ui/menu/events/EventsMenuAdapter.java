@@ -41,7 +41,7 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new EventsMenuAdapter.EventsFragmentAdapterViewHolder(
+        return new EventsFragmentAdapterViewHolder(
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_events, viewGroup, false)
         );
     }

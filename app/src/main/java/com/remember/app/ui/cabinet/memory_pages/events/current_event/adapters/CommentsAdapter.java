@@ -15,6 +15,8 @@ import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventComments;
 
+import com.remember.app.ui.utils.DateUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     final int CommentsFooter = 2;
     ArrayList<EventComments> comments = new ArrayList<>();
 
-    private CommentsAdapter.CommentsAdapterListener listener;
+    private CommentsAdapterListener listener;
 
     public interface CommentsAdapterListener {
         void showMoreComments();
@@ -37,7 +39,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void onShowAddCommentDialog();
     }
 
-    public CommentsAdapter(CommentsAdapter.CommentsAdapterListener listener, ArrayList<EventComments> com) {
+
+    public CommentsAdapter(CommentsAdapterListener listener, ArrayList<EventComments> com) {
         this.listener = listener;
         this.comments = com;
     }
@@ -152,8 +155,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 setGlideImage(itemView.getContext(),BASE_SERVICE_URL + comments.get(getAdapterPosition()).getPicture(), avatar);
                 userName.setText(comments.get(getAdapterPosition()).getName());
                 comment.setText(comments.get(getAdapterPosition()).getComment());
-                String[] dates = comments.get(getAdapterPosition()).getCreatedAt().split("T");
-                date.setText(dates[0]);
+//                String[] dates = comments.get(getAdapterPosition()).getCreatedAt().split("T");
+//                date.setText(dates[0]);
+                date.setText(DateUtils.convertRemoteToLocalFormat(comments.get(getAdapterPosition()).getCreatedAt()));
                 container.setVisibility(View.VISIBLE);
                 empty.setVisibility(View.GONE);
                 boolean isOwn = comments.get(getAdapterPosition()).getUserId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));

@@ -5,27 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
+    android:layout_height="match_parent"
+    >
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/youtube_player_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:autoPlay="false"
-            app:showFullScreenButton="false" />
+            app:showFullScreenButton="true" />
 
     </androidx.cardview.widget.CardView>
-
 
     <com.remember.app.customView.CustomTextView
         android:id="@+id/description"
@@ -34,6 +34,7 @@
         android:layout_marginTop="3.5dp"
         android:text="The minimum API level supported by this library is API 17. Also, your app needs to be using the."
         android:textSize="13dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backgroundView" />
@@ -65,20 +66,19 @@
         android:textColor="@color/gray"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <FrameLayout
         android:id="@+id/backgroundView"
         android:layout_width="match_parent"
-        android:layout_height="235dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="3dp"
         android:background="#6F7A8E"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintEnd_toEndOf="@+id/container"
         app:layout_constraintStart_toStartOf="@+id/container"

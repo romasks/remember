@@ -2,33 +2,38 @@ package com.remember.app.ui.cabinet.memory_pages.events.current_event;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
+import com.remember.app.customView.LinearLayoutManagerWithoutScroll;
 import com.remember.app.data.Constants;
 import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddVideo;
+import com.remember.app.data.models.DeleteVideo;
 import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventSliderPhotos;
 import com.remember.app.data.models.EventVideos;
-import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters.CommentsAdapter;
@@ -38,8 +43,8 @@ import com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDial
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDialog.DeleteCommentDialog;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDialog.EditDialog;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.reviewPhoto.ReviewPhotoActivity;
-import com.remember.app.ui.cabinet.memory_pages.events.current_event.reviewPhoto.adapter.ReviewAdapter;
-import com.remember.app.ui.cabinet.memory_pages.events.current_event.videoDialog.VideoDialog;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.videoDialog.AddVideoDialog;
+import com.remember.app.ui.cabinet.memory_pages.events.current_event.videoDialog.DeleteVideoDialog;
 import com.remember.app.ui.utils.DateUtils;
 import com.remember.app.ui.utils.PhotoDialog;
 import com.remember.app.ui.utils.Utils;
@@ -49,8 +54,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
@@ -70,11 +77,13 @@ import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
-public class CurrentEvent extends BaseActivity implements CurrentEventView, CommentsAdapter.CommentsAdapterListener, VideoAdapter.VideoAdapterListener, PhotoDialog.Callback,DeleteCommentDialog.Callback,PhotoAdapter.Callback, PhotoAdapter.ItemClickListener, ReviewPhotoActivity.DeleteCallBack {
+public class CurrentEvent extends BaseActivity implements CurrentEventView, CommentsAdapter.CommentsAdapterListener, VideoAdapter.VideoAdapterListener, PhotoDialog.Callback, DeleteCommentDialog.Callback, PhotoAdapter.ItemClickListener, ReviewPhotoActivity.DeleteCallBack, DeleteVideoDialog.Callback {
 
     @InjectPresenter
     CurrentEventPresenter presenter;
 
+    @BindView(R.id.scrollView)
+    NestedScrollView scrollView;
     @BindView(R.id.back_button)
     ImageView back;
     @BindView(R.id.settings)
@@ -93,10 +102,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     CustomTextView dateView;
     @BindView(R.id.description)
     CustomTextView description;
-    @BindView(R.id.videos)
-    RecyclerView videos;
-    @BindView(R.id.add_video)
-    ImageView addVideo;
     @BindView(R.id.rvComments)
     RecyclerView comments;
     private PhotoDialog photoDialog;
@@ -112,14 +117,28 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     VideoAdapter videoAdapter;
     PhotoAdapter photoAdapter;
     int changedCommentPosition = 0;
+    int currentVideoPosition = 0;
     String newComment = "";
     ArrayList<EventSliderPhotos> photoList = new ArrayList<>();
+    LinearLayoutManagerWithoutScroll linearLayoutManagerWithoutScroll;
+    private boolean isFull = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
         activity = this;
+
+
+        initIU(true);
+
+    }
+
+    private void initIU(boolean openFirst) {
+        if (getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE)
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        else
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (Utils.isThemeDark()) {
             back.setImageResource(R.drawable.ic_back_dark_theme);
             settings.setImageResource(R.drawable.setting_white);
@@ -135,11 +154,12 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         initVideoAdapter();
         initCommentAdapter();
         initPhotoAdapter();
-        presenter.getDeadEvent(eventId);
-        presenter.getComments(eventId);
-        presenter.getVideos(eventId);
-        presenter.getPhotos(eventId);
-
+        if (openFirst) {
+            presenter.getDeadEvent(eventId);
+            presenter.getComments(eventId);
+            presenter.getVideos(eventId);
+            presenter.getPhotos(eventId);
+        }
     }
 
     @Override
@@ -158,7 +178,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
                 photoDialog.setUri(result.getUri());
             } else
                 Log.e("TAG", "RESULT IS NULL!!!");
-
             Log.i("TAG", "RESULT_OK");
         }
     }
@@ -174,6 +193,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     @Override
     public void onReceivedEvent(EventModel requestEvent) {
         eventModel = requestEvent;
+        presenter.saveUseData(requestEvent);
         setItems(requestEvent);
     }
 
@@ -194,13 +214,11 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void onCommentDelete(Object o) {
-        String s = o.toString();
         commentsAdapter.editList(new EventComments(), changedCommentPosition, true);
     }
 
     @Override
     public void onCommentEdit(Object o) {
-        String s = o.toString();
         EventComments comment = commentsAdapter.getList().get(changedCommentPosition);
         comment.setComment(newComment);
         commentsAdapter.editList(comment, changedCommentPosition, false);
@@ -222,6 +240,19 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     }
 
     @Override
+    public void onVideoDelete(Object o) {
+        ArrayList<EventVideos> newList = videoAdapter.getItems();
+        newList.remove(currentVideoPosition);
+        videoAdapter.setList(newList);
+        // videoAdapter.updateList(currentVideoPosition);
+    }
+
+    @Override
+    public void onVideoDeleteError(Throwable throwable) {
+        Log.d("error delete video", throwable.getMessage());
+    }
+
+    @Override
     public void onReceivedPhotos(ArrayList<EventSliderPhotos> requestEvent) {
         if (requestEvent.size() > 0) {
             photoAdapter.setItems(requestEvent);
@@ -232,13 +263,12 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     @Override
     public void onPhotoAdded(Object o) {
         photoDialog.dismiss();
-        Utils.showSnack(addVideo, "Успешно");
+        //   Utils.showSnack(addVideo, "Успешно");
         presenter.getPhotos(eventId);
     }
 
     @Override
     public void onPhotoAddedError(Throwable throwable) {
-        String s = "";
     }
 
     private void setItems(EventModel requestEvent) {
@@ -248,6 +278,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
             eventName.setText(requestEvent.getName());
             description.setText(requestEvent.getDescription());
         } catch (Exception ignored) {
+            Log.d("dd", "ddd");
         }
     }
 
@@ -271,18 +302,27 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     private void initVideoAdapter() {
         RecyclerView recyclerView = findViewById(R.id.rvVideo);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLayoutManager);
-        videoAdapter = new VideoAdapter(new ArrayList<>(), this.getLifecycle(), this);
+        linearLayoutManagerWithoutScroll = new LinearLayoutManagerWithoutScroll(this);
+        linearLayoutManagerWithoutScroll = new LinearLayoutManagerWithoutScroll(getBaseContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                isFull = Prefs.getBoolean("isFull", false);
+                return !isFull;
+            }
+        };
+        recyclerView.setLayoutManager(linearLayoutManagerWithoutScroll);
+        videoAdapter = new VideoAdapter(presenter.getVideoList(), this.getLifecycle(), this);
         recyclerView.setAdapter(videoAdapter);
+        recyclerView.swapAdapter(videoAdapter, true);
+        if (Prefs.getBoolean("isFull", false))
+            linearLayoutManagerWithoutScroll.scrollToPositionWithOffset(presenter.getAdapterPosition(), 0);
     }
 
     private void initPhotoAdapter() {
-
         photosView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         photosView.setLayoutManager(mLayoutManager);
-        photoAdapter = new PhotoAdapter();
+        photoAdapter = new PhotoAdapter(presenter.getPhotoList());
         photosView.setAdapter(photoAdapter);
         photoAdapter.setClickListener(this);
     }
@@ -293,7 +333,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        commentsAdapter = new CommentsAdapter(this, new ArrayList<>());
+        commentsAdapter = new CommentsAdapter(this, presenter.getCommentsList());
         recyclerView.setAdapter(commentsAdapter);
     }
 
@@ -328,9 +368,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         editDialog.show(getSupportFragmentManager(), EditDialog.TAG);
     }
 
-
     private void showVideoDialog() {
-        VideoDialog videoDialog = new VideoDialog();
+        AddVideoDialog videoDialog = new AddVideoDialog();
         final Bundle bundle = new Bundle();
         videoDialog.setArguments(bundle);
         videoDialog.setCancelable(true);
@@ -340,7 +379,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
             body.setLinkName(name);
             presenter.addVideo(eventId, body);
         };
-        videoDialog.show(getSupportFragmentManager(), VideoDialog.TAG);
+        videoDialog.show(getSupportFragmentManager(), AddVideoDialog.TAG);
     }
 
     @OnClick(R.id.back_button)
@@ -357,6 +396,16 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         myDialogFragment.setCallback(this);
         final Bundle bundle = new Bundle();
         bundle.putInt("id", commentID);
+        bundle.putInt("position", position);
+        myDialogFragment.setArguments(bundle);
+        myDialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
+    }
+
+    public void showDeleteVideoDialog(String link, int position) {
+        DeleteVideoDialog myDialogFragment = new DeleteVideoDialog();
+        myDialogFragment.setCallback(this);
+        final Bundle bundle = new Bundle();
+        bundle.putString("link", link);
         bundle.putInt("position", position);
         myDialogFragment.setArguments(bundle);
         myDialogFragment.show(getSupportFragmentManager().beginTransaction(), "dialog");
@@ -388,6 +437,32 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     }
 
     @Override
+    public void onShowDeleteVideoDialog(String link, int position) {
+        showDeleteVideoDialog(link, position);
+    }
+
+    @Override
+    public void openFull(int position) {
+        presenter.saveAdapterPosition(position);
+        presenter.saveVideoList(videoAdapter.getItems());
+        presenter.saveCommentsList(commentsAdapter.getList());
+        presenter.savePhotoList(photoAdapter.getList());
+        presenter.saveScrollViewPosition(scrollView.getScrollY());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        isFull = true;
+        Prefs.putBoolean("isFull", true);
+        //  linearLayoutManagerWithoutScroll.scrollToPositionWithOffset(presenter.getAdapterPosition(), 0);
+
+    }
+
+    @Override
+    public void closeFull() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        isFull = false;
+        Prefs.putBoolean("isFull", false);
+    }
+
+    @Override
     public void showPhoto() {
         cropImage(this);
     }
@@ -413,7 +488,6 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
             showPhotoDialog();
         } else
             Toast.makeText(getBaseContext(), "Для загрузки фотографии разрешите доступ к хранилищу.", Toast.LENGTH_LONG).show();
-
     }
 
     @Override
@@ -423,16 +497,9 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     }
 
     @Override
-    public void openPage(ResponseImagesSlider responseImagesSlider) {
-
-    }
-
-    @Override
     public void onItemClick(View view, int position, ArrayList<EventSliderPhotos> list) {
-
         Bundle extra = new Bundle();
         extra.putSerializable("objects", list);
-
         startActivity(
                 new Intent(this, ReviewPhotoActivity.class)
                         .putExtra(Constants.INTENT_EXTRA_ID, eventId)
@@ -446,5 +513,41 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     public void deletePhoto(int position) {
         photoList.remove(photoAdapter.getItems().get(position));
         photoAdapter.setItems(photoList);
+    }
+
+    @Override
+    public void onDeleteVideo(DeleteVideo body, int position) {
+        currentVideoPosition = position;
+        presenter.deleteVideo(eventId, body);
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            int pos = presenter.getAdapterPosition();
+            setContentView(R.layout.fragment_event_land);
+            initVideoAdapter();
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            //linearLayoutManagerWithoutScroll.scrollToPositionWithOffset(pos, 0);
+            //  Prefs.putBoolean("isFull", false);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.fragment_event);
+            ButterKnife.bind(this);
+            initIU(false);
+            setItems(presenter.getUserData());
+
+//            new Handler().post(() -> {
+//                int po = presenter.getScrollViewPosition();
+//                Log.d("DDDDDDDDDDDDDDDDDDDDDDD", po+"");
+//                scrollView.smoothScrollTo(0, po);
+//            });
+
+        }
     }
 }

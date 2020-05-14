@@ -23,6 +23,9 @@ public interface CurrentEventView extends BaseView {
     void onVideoAdded(Object o);
     void onVideoAddedError(Throwable throwable);
 
+    void onVideoDelete(Object o);
+    void onVideoDeleteError(Throwable throwable);
+
     void onReceivedPhotos(ArrayList<EventSliderPhotos> requestEvent);
     void onPhotoAdded(Object o);
     void onPhotoAddedError(Throwable throwable);

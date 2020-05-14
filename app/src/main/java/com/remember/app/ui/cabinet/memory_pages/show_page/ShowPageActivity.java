@@ -341,6 +341,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     public void onEpitaphButtonClick() {
         Intent intent = new Intent(this, EpitaphsActivity.class);
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
+        if (memoryPageModel.getId() !=null)
         intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
         startActivity(intent);
     }

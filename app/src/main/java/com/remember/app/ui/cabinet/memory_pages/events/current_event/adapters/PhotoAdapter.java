@@ -27,14 +27,17 @@ import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderAdapterHolder> {
 
     private Context context;
-    private Callback callback;
-    private ArrayList<EventSliderPhotos> responseImagesSliders = new ArrayList<>();
+    private ArrayList<EventSliderPhotos> responseImagesSliders;
     private ItemClickListener mClickListener;
+
+    public PhotoAdapter(ArrayList<EventSliderPhotos> list){
+        responseImagesSliders = list;
+    }
 
     @NonNull
     @Override
     public PhotoSliderAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PhotoAdapter.PhotoSliderAdapterHolder(
+        return new PhotoSliderAdapterHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_photo, parent, false)
         );
     }
@@ -42,6 +45,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderA
     @Override
     public void onBindViewHolder(@NonNull PhotoSliderAdapterHolder holder, int position) {
         holder.onBind(position, responseImagesSliders);
+    }
+
+    public ArrayList<EventSliderPhotos> getList(){
+        return responseImagesSliders;
     }
 
     @Override
@@ -57,16 +64,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderA
         this.responseImagesSliders.clear();
         this.responseImagesSliders.addAll(responseImagesSliders);
         notifyDataSetChanged();
-    }
-
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
-
-    public interface Callback {
-
-        void openPage(ResponseImagesSlider responseImagesSlider);
-
     }
 
     public class PhotoSliderAdapterHolder extends RecyclerView.ViewHolder {

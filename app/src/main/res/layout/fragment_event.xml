@@ -12,6 +12,7 @@
         android:layout_height="wrap_content" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,8 +22,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="30dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
 
             <FrameLayout
                 android:id="@+id/pageAvatar"
@@ -44,32 +45,6 @@
 
             </FrameLayout>
 
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/add_video"
-                    android:layout_width="0dp"
-                    android:layout_height="70dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="2"
-                    android:background="@drawable/ic_plus" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/videos"
-                    android:layout_width="0dp"
-                    android:layout_height="85dp"
-                    android:layout_weight="8"
-                    android:orientation="horizontal" />
-
-            </LinearLayout>
 
             <com.remember.app.customView.CustomTextView
                 android:id="@+id/event_name"
@@ -144,6 +119,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <com.remember.app.customView.CustomTextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
@@ -181,32 +157,29 @@
                 style="@style/SettingsNotificationBoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="25dp"
                 android:layout_marginBottom="10dp"
                 android:text="Видео"
-                android:textSize="20dp"
-                />
+                android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvVideo"
-                android:scrollbars="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
-                 />
+                android:scrollbars="vertical" />
 
             <com.remember.app.customView.CustomTextView
                 style="@style/SettingsNotificationBoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="25dp"
                 android:layout_marginBottom="10dp"
                 android:text="Комментарии"
-                android:textSize="20dp"
-                />
+                android:textSize="20dp" />
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -219,7 +192,6 @@
                 android:visibility="visible" />
 
         </LinearLayout>
-
 
 
     </androidx.core.widget.NestedScrollView>

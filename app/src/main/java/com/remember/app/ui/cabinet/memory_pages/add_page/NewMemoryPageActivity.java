@@ -63,6 +63,7 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
 import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
+import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.DateUtils.dfLocal;
 import static com.remember.app.ui.utils.DateUtils.parseLocalFormat;
@@ -77,13 +78,9 @@ import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 
 public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback, DeletePageDialog.Callback {
 
-    private static final String TAG = NewMemoryPageActivity.class.getSimpleName();
-
     private static final int SELECT_PICTURE = 451;
     private static final int GRAVE_INFO_RESULT = 646;
-
     private Calendar dateAndTime = Calendar.getInstance();
-
     @InjectPresenter
     AddPagePresenter presenter;
 
@@ -124,8 +121,6 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     @BindView(R.id.text_image)
     CustomTextView textViewImage;
 
-    private DatePickerDialog.OnDateSetListener dateBeginPickerDialog;
-    private DatePickerDialog.OnDateSetListener dateEndPickerDialog;
     private ProgressDialog progressDialog;
     private MemoryPageModel memoryPageModel;
     private AddPageModel person;
@@ -133,6 +128,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     private boolean isEdit;
     public long startDate = 0;
     public long endDate = 0;
+    boolean afterSave = false;
 
     @Override
     protected int getContentView() {
@@ -143,10 +139,8 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-
         title.setText(R.string.memory_page_new_header_text);
         settings.setVisibility(View.GONE);
-
         if (storagePermissionGranted(this) || Build.VERSION.SDK_INT < 23) {
             setUp();
         } else {
@@ -166,14 +160,14 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         intent.putExtra("PERSON", person);
         intent.putExtra("IMAGE", imageFile);
         intent.putExtra("ID", response.getId());
-        intent.putExtra("AFTER_SAVE", true);
+        intent.putExtra(INTENT_EXTRA_AFTER_SAVE, true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Prefs.putString(BURIAL_PLACE_COORDS, "");
-        Prefs.putString(BURIAL_PLACE_CITY, "");
-        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
-        Prefs.putString(BURIAL_PLACE_SECTOR, "");
-        Prefs.putString(BURIAL_PLACE_LINE, "");
-        Prefs.putString(BURIAL_PLACE_GRAVE, "");
+//        Prefs.putString(BURIAL_PLACE_COORDS, "");
+//        Prefs.putString(BURIAL_PLACE_CITY, "");
+//        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
+//        Prefs.putString(BURIAL_PLACE_SECTOR, "");
+//        Prefs.putString(BURIAL_PLACE_LINE, "");
+//        Prefs.putString(BURIAL_PLACE_GRAVE, "");
         startActivity(intent);
         finish();
     }
@@ -201,14 +195,14 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         intent.putExtra("PERSON", person);
         intent.putExtra("IMAGE", imageFile);
         intent.putExtra("ID", memoryPageModel.getId());
-        intent.putExtra("AFTER_SAVE", true);
+        intent.putExtra(INTENT_EXTRA_AFTER_SAVE, true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Prefs.putString(BURIAL_PLACE_COORDS, "");
-        Prefs.putString(BURIAL_PLACE_CITY, "");
-        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
-        Prefs.putString(BURIAL_PLACE_SECTOR, "");
-        Prefs.putString(BURIAL_PLACE_LINE, "");
-        Prefs.putString(BURIAL_PLACE_GRAVE, "");
+//        Prefs.putString(BURIAL_PLACE_COORDS, "");
+//        Prefs.putString(BURIAL_PLACE_CITY, "");
+//        Prefs.putString(BURIAL_PLACE_CEMETERY, "");
+//        Prefs.putString(BURIAL_PLACE_SECTOR, "");
+//        Prefs.putString(BURIAL_PLACE_LINE, "");
+//        Prefs.putString(BURIAL_PLACE_GRAVE, "");
         startActivity(intent);
         finish();
     }
@@ -225,7 +219,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @Override
     public void onDeletePage(Object response) {
-        Toast.makeText(getApplicationContext(),"Страница удалена", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Страница удалена", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -234,7 +228,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @Override
     public void onDeletePageError(Throwable throwable) {
-            Utils.showSnack(image, "Ошибка удаления, попробуйте позже");
+        Utils.showSnack(image, "Ошибка удаления, попробуйте позже");
     }
 
     public void showDeleteDialog() {
@@ -263,7 +257,8 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         intent.putExtra(BURIAL_PLACE_SECTOR, Prefs.getString(BURIAL_PLACE_SECTOR, ""));
         intent.putExtra(BURIAL_PLACE_LINE, Prefs.getString(BURIAL_PLACE_LINE, ""));
         intent.putExtra(BURIAL_PLACE_GRAVE, Prefs.getString(BURIAL_PLACE_GRAVE, ""));
-        if (isEdit) {
+        afterSave = Prefs.getBoolean(INTENT_EXTRA_AFTER_SAVE, false);
+        if (isEdit || Prefs.getBoolean(INTENT_EXTRA_AFTER_SAVE, false)) {
             intent.putExtra("MODEL", memoryPageModel);
             intent.putExtra("EDIT", true);
         }
@@ -275,9 +270,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         person.setSecondName(lastName.getText().toString());
         person.setThirdName(middleName.getText().toString());
         person.setComment(description.getInputText().getText().toString());
-
         person.setUserId(Prefs.getString(PREFS_KEY_USER_ID, "0"));
-
         person.setStar(String.valueOf(isFamous.isChecked()));
         person.setFlag(String.valueOf(isPublic.isChecked()));
         person.setReligion(religion.getText().toString());
@@ -335,13 +328,14 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
                 person.setSector(data.getStringExtra(BURIAL_PLACE_SECTOR));
                 person.setSpotId(data.getStringExtra(BURIAL_PLACE_LINE));
                 person.setGraveId(data.getStringExtra(BURIAL_PLACE_GRAVE));
-
+                afterSave = data.getBooleanExtra(INTENT_EXTRA_AFTER_SAVE, false);
                 Prefs.putString(BURIAL_PLACE_COORDS, data.getStringExtra(BURIAL_PLACE_COORDS));
                 Prefs.putString(BURIAL_PLACE_CITY, data.getStringExtra(BURIAL_PLACE_CITY));
                 Prefs.putString(BURIAL_PLACE_CEMETERY, data.getStringExtra(BURIAL_PLACE_CEMETERY));
                 Prefs.putString(BURIAL_PLACE_SECTOR, data.getStringExtra(BURIAL_PLACE_SECTOR));
                 Prefs.putString(BURIAL_PLACE_LINE, data.getStringExtra(BURIAL_PLACE_LINE));
                 Prefs.putString(BURIAL_PLACE_GRAVE, data.getStringExtra(BURIAL_PLACE_GRAVE));
+                Prefs.putBoolean(INTENT_EXTRA_AFTER_SAVE, data.getBooleanExtra(INTENT_EXTRA_AFTER_SAVE, false));
             }
         } else if (requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK) {
@@ -396,14 +390,15 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     }
 
     private void setUp() {
-        initiate();
+        initCalendar();
         setTheme();
         person = new AddPageModel();
-
         isEdit = getIntent().getBooleanExtra("EDIT", false);
+        changeIUIfPageEdited();
+    }
 
+    private void changeIUIfPageEdited() {
         if (isEdit) {
-            initToolbar();
             title.setText("Редактирование");
             saveButton.setText("Сохранить изменения");
             textViewImage.setText("Изменить фотографию");
@@ -420,12 +415,12 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @SuppressLint("SimpleDateFormat")
     private void initEdit() {
+        initToolbar();
         lastName.setText(memoryPageModel.getSecondName());
         name.setText(memoryPageModel.getName());
         middleName.setText(memoryPageModel.getThirdName());
         description.setInputText(memoryPageModel.getComment());
         religion.setText(memoryPageModel.getReligiya());
-
         if (memoryPageModel.getStar().equals("true")) {
             isFamous.setChecked(true);
             notFamous.setChecked(false);
@@ -440,19 +435,38 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             isPublic.setChecked(false);
             noPublic.setChecked(true);
         }
-
         dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
         dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
-
         glideLoadIntoWithError(BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
     }
 
-    private void initiate() {
-        dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
+    @OnClick(R.id.settings)
+    public void deletePage() {
+        showDeleteDialog();
+    }
+
+    @Override
+    public void onDeletePage() {
+        presenter.deletePage(memoryPageModel.getId());
+    }
+
+    private void setTheme() {
+        ColorStateList textColor = Utils.isThemeDark()
+                ? getResources().getColorStateList(R.color.abc_dark)
+                : getResources().getColorStateList(R.color.abc_light);
+        dateBegin.setTextColor(textColor);
+        name.setTextColor(textColor);
+        middleName.setTextColor(textColor);
+        dateEnd.setTextColor(textColor);
+        religion.setTextColor(textColor);
+        lastName.setTextColor(textColor);
+    }
+
+    private void initCalendar() {
+        DatePickerDialog.OnDateSetListener dateBeginPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
             Date endDate = parseLocalFormat(dateEnd.getText().toString());
             if (endDate != null && dateAndTime.getTime().after(endDate)) {
                 Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
@@ -461,7 +475,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             }
         };
 
-        dateEndPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
+        DatePickerDialog.OnDateSetListener dateEndPickerDialog = (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -487,25 +501,16 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     }
 
     private void setDateBegin(View v) {
-        /*DatePickerDialog dialog = new DatePickerDialog(this, dateBeginPickerDialog,
-                dateAndTime.get(Calendar.YEAR),
-                dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH));
-        dialog.getDatePicker().setMaxDate(new Date().getTime());
-        dialog.show();*/
-        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
-                dateAndTime.set(Calendar.YEAR, year);
-                dateAndTime.set(Calendar.MONTH, monthOfYear);
-                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                startDate = dateAndTime.getTimeInMillis();
-                Date endDate = parseLocalFormat(dateEnd.getText().toString());
-                if (endDate != null && dateAndTime.getTime().after(endDate)) {
-                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
-                } else {
-                    setInitialDateBegin();
-                }
+        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
+            dateAndTime.set(Calendar.YEAR, year);
+            dateAndTime.set(Calendar.MONTH, monthOfYear);
+            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            startDate = dateAndTime.getTimeInMillis();
+            Date endDate = parseLocalFormat(dateEnd.getText().toString());
+            if (endDate != null && dateAndTime.getTime().after(endDate)) {
+                Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+            } else {
+                setInitialDateBegin();
             }
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         dialog.setMaxDate(new Date().getTime());
@@ -513,21 +518,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     }
 
-    private void myCustomSetInitialDateBegin(int dayOfMonth, int monthOfYear, int year) {
-        dateBegin.setText(dayOfMonth + "." + monthOfYear +"." + year);
-    }
-
-    private void myCustomSetInitialDateEnd(int dayOfMonth, int monthOfYear, int year) {
-        dateEnd.setText(dayOfMonth + "." + monthOfYear +"." + year);
-    }
-
     private void setDateEnd(View v) {
-        /*DatePickerDialog dialog = new DatePickerDialog(this, dateEndPickerDialog,
-                dateAndTime.get(Calendar.YEAR),
-                dateAndTime.get(Calendar.MONTH),
-                dateAndTime.get(Calendar.DAY_OF_MONTH));
-        dialog.getDatePicker().setMaxDate(new Date().getTime());
-        dialog.show();*/
         DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
@@ -547,37 +538,15 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         dialog.show(getSupportFragmentManager(), "tag");
     }
 
-    @OnClick(R.id.settings)
-    public void deletePage() {
-        showDeleteDialog();
-    }
-
-    private void initToolbar(){
+    private void initToolbar() {
         settings.setVisibility(View.VISIBLE);
         settings.setImageResource(R.drawable.delete);
     }
 
     @Override
-    public void onDeletePage() {
-        presenter.deletePage(memoryPageModel.getId());
-    }
-
-    private void setTheme() {
-        ColorStateList textColor = Utils.isThemeDark()
-                ? getResources().getColorStateList(R.color.abc_dark)
-                : getResources().getColorStateList(R.color.abc_light);
-
-        dateBegin.setTextColor(textColor);
-        name.setTextColor(textColor);
-        middleName.setTextColor(textColor);
-        dateEnd.setTextColor(textColor);
-        religion.setTextColor(textColor);
-        lastName.setTextColor(textColor);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
+        Prefs.putBoolean(INTENT_EXTRA_AFTER_SAVE, false);
 
     }
 }

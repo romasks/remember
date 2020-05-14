@@ -3,6 +3,7 @@ package com.remember.app.data.network;
 import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddPageModel;
 import com.remember.app.data.models.AddVideo;
+import com.remember.app.data.models.DeleteVideo;
 import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
@@ -134,11 +135,11 @@ public interface ServiceNetwork {
 
     Observable<Object> deleteComment(int id, int commentId);
 
+    Observable<Object> deleteVideo(int id, DeleteVideo link);
+
     Observable<ArrayList<EventVideos>> getEventVideo(int id);
 
     Observable<Object> addVideo(int id, AddVideo body);
-
-    Observable<Object> deleteVideo(int id, RequestBody body);
 
     Observable<ArrayList<EventSliderPhotos>> getEventPhoto(int id);
 

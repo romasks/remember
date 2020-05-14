@@ -34,7 +34,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ReviewAdapter.ReviewAdapterHolder(
+        return new ReviewAdapterHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_photo, parent, false)
         );
     }
