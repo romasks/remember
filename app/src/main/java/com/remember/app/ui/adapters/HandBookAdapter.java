@@ -61,6 +61,7 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public interface Callback {
 
         void saveItem(ResponseHandBook name);
+        void visibleButton(boolean isVisible);
 
     }
 
@@ -76,6 +77,10 @@ public class HandBookAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
             }
         }
+        if (filteredList.size()==0)
+            callback.visibleButton(true);
+        else
+            callback.visibleButton(false);
         notifyDataSetChanged();
     }
 

@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -14,14 +16,11 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.main.MainActivity;
-import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -89,11 +88,6 @@ public class PageFragment extends BaseFragment
     void showAll() {
         showAll.setVisibility(View.GONE);
         presenter.getPages();
-    }
-
-    @OnClick(R.id.go_to_add)
-    void newPage() {
-        startActivity(new Intent(getContext(), NewMemoryPageActivity.class));
     }
 
     @Override

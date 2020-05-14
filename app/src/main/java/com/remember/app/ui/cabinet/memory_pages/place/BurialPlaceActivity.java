@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteTextView;
 import com.remember.app.customView.CustomButton;
@@ -21,7 +22,6 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.utils.KeyboardUtils;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.List;
@@ -35,6 +35,7 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
 import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
+import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
 
 public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callback,
         PlaceView, PopupCity.Callback, PopupCemetery.Callback {
@@ -64,6 +65,7 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
 
     @BindView(R.id.pick)
     CustomButton pick;
+    boolean isSave = false;
 
     private ResponseHandBook responseHandBook;
 
@@ -86,10 +88,9 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     private void initUI() {
         title.setText(getString(R.string.burial_place_header_text));
         settingsBtn.setVisibility(View.GONE);
-        if (getIntent().getBooleanExtra("EDIT", false)) {
+        if (getIntent().getBooleanExtra("EDIT", false) || (Prefs.getBoolean(INTENT_EXTRA_AFTER_SAVE, false))) {
             MemoryPageModel model = getData();
-            if (model != null)
-                initEdit(model);
+            initEdit(model);
         } else {
             coordinates.setText("");
             city.setText("");
@@ -106,14 +107,17 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra(BURIAL_PLACE_COORDS, coordinates.getText().toString());
-        intent.putExtra(BURIAL_PLACE_CITY, city.getText().toString());
-        intent.putExtra(BURIAL_PLACE_CEMETERY, cemetery.getText().toString());
-        intent.putExtra(BURIAL_PLACE_SECTOR, sector.getText().toString());
-        intent.putExtra(BURIAL_PLACE_LINE, line.getText().toString());
-        intent.putExtra(BURIAL_PLACE_GRAVE, grave.getText().toString());
-        setResult(Activity.RESULT_OK, intent);
+        if (isSave) {
+            Intent intent = new Intent();
+            intent.putExtra(BURIAL_PLACE_COORDS, coordinates.getText().toString());
+            intent.putExtra(BURIAL_PLACE_CITY, city.getText().toString());
+            intent.putExtra(BURIAL_PLACE_CEMETERY, cemetery.getText().toString());
+            intent.putExtra(BURIAL_PLACE_SECTOR, sector.getText().toString());
+            intent.putExtra(BURIAL_PLACE_LINE, line.getText().toString());
+            intent.putExtra(BURIAL_PLACE_GRAVE, grave.getText().toString());
+            intent.putExtra(INTENT_EXTRA_AFTER_SAVE, true);
+            setResult(Activity.RESULT_OK, intent);
+        }
         super.onBackPressed();
         finish();
     }
@@ -139,7 +143,7 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     public void onUpdatedCemetery(List<ResponseCemetery> responseCemeteries) {
         if (responseCemeteries.isEmpty()) {
             cemetery.setFocusableInTouchMode(true);
-           // cemetery.requestFocus();
+            // cemetery.requestFocus();
             //KeyboardUtils.showKeyboard(this);
             Toast.makeText(this, "Введите значение вручную", Toast.LENGTH_LONG).show();
         } else {
@@ -162,6 +166,12 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     }
 
     @Override
+    public void saveTown(String town) {
+        this.responseHandBook.setId(-999);
+        city.setText(town);
+    }
+
+    @Override
     public void saveItem(ResponseCemetery responseCemetery) {
         cemetery.setText(responseCemetery.getName());
     }
@@ -178,7 +188,7 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
 
     @OnClick(R.id.cemetery_value)
     public void onCemeteryClick() {
-        if (!city.getText().toString().isEmpty()) {
+        if (!city.getText().toString().isEmpty() || (!city.getText().toString().isEmpty() && responseHandBook.getId() != -999)) {
             presenter.getCemetery(responseHandBook.getId());
         } else {
             Utils.showSnack(city, "Введите город");
@@ -192,6 +202,7 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         } else if (cemetery.getText().toString().isEmpty()) {
             Utils.showSnack(city, "Введите название кладбища");
         } else {
+            isSave = true;
             onBackPressed();
         }
     }
