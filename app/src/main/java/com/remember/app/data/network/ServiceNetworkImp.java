@@ -209,6 +209,12 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
+    public Observable<ResponsePages> getImages(int pageNumber, boolean flag, String status) {
+        return apiMethods.getImages(pageNumber, status, flag)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
     public Observable<List<MemoryPageModel>> searchLastName(String lastName) {
         return apiMethods.searchLastName(lastName)
                 .compose(rxSchedulers.applySchedulers());

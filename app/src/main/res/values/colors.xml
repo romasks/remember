@@ -16,5 +16,6 @@
     <color name="colorWhiteDark">#E6E0E0</color>
     <color name="colorBlackDark">#272624</color>
     <color name="grays">#AFAFAF</color>
+    <color name="comment">#bdbdbd</color>
 
 </resources>

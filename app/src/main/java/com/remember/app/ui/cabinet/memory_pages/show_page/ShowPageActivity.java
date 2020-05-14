@@ -68,6 +68,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_OWNER_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
@@ -354,6 +355,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());
         intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
         intent.putExtra(BIRTH_DATE, memoryPageModel.getDateBirth());
+        intent.putExtra(INTENT_EXTRA_OWNER_ID, memoryPageModel.getUserId());
         startActivity(intent);
     }
 

@@ -35,6 +35,7 @@ import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
+import static com.remember.app.data.Constants.INTENT_EXTRA_OWNER_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
@@ -66,7 +67,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
     private int pageId;
     private boolean isShow;
     private String imageUrl = "";
-
+    private String ownerID = "0";
     private PopupEventScreen popupWindowEvent;
 
     @SuppressLint("WrongConstant")
@@ -86,6 +87,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
         try {
             name = getIntent().getStringExtra(INTENT_EXTRA_NAME);
             pageId = getIntent().getIntExtra(INTENT_EXTRA_PAGE_ID, 1);
+            ownerID = getIntent().getStringExtra(INTENT_EXTRA_OWNER_ID);
         } catch (NullPointerException ignored) {
         }
 
@@ -174,6 +176,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
         intent.putExtra(INTENT_EXTRA_EVENT_IMAGE_URL, imageUrl);
         intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
         intent.putExtra(BIRTH_DATE, getIntent().getStringExtra(BIRTH_DATE));
+        intent.putExtra(INTENT_EXTRA_OWNER_ID,ownerID);
         startActivity(intent);
     }
 

@@ -163,6 +163,12 @@ public interface ApiMethods {
                                         @Query("flag") boolean flag,
                                         @Query("star") boolean star);
 
+    @GET("pages")
+    Observable<ResponsePages> getImages(@Query("page") int pageNumber,
+                                        @Query("status") String status,
+                                        @Query("flag") boolean flag);
+
+
     @Multipart
     @POST("page/edit/{id}")
     Observable<MemoryPageModel> editPage(@Header("Authorization") String token,

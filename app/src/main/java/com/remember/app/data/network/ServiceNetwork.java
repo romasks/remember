@@ -83,6 +83,8 @@ public interface ServiceNetwork {
 
     Observable<ResponsePages> getImages(int pageNumber, boolean isStar, boolean flag, String status);
 
+    Observable<ResponsePages> getImages(int pageNumber, boolean flag, String status);
+
     Observable<MemoryPageModel> editPage(AddPageModel person, Integer id, File imageFile);
 
     Observable<List<MemoryPageModel>> searchLastName(String lastName);

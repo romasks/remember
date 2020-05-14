@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,9 +70,11 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IS_FOR_ONE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
+import static com.remember.app.data.Constants.INTENT_EXTRA_OWNER_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
@@ -104,6 +107,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     CustomTextView description;
     @BindView(R.id.rvComments)
     RecyclerView comments;
+    @BindView(R.id.photoLayout)
+    LinearLayout photoLayout;
     private PhotoDialog photoDialog;
 
     private Integer eventId = 0;
@@ -122,6 +127,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     ArrayList<EventSliderPhotos> photoList = new ArrayList<>();
     LinearLayoutManagerWithoutScroll linearLayoutManagerWithoutScroll;
     private boolean isFull = false;
+    private String ownerID = "0";
+    private boolean isOwn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +156,10 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         personName = getIntent().getStringExtra(INTENT_EXTRA_PERSON_NAME);
         imageUrl = getIntent().getStringExtra(INTENT_EXTRA_EVENT_IMAGE_URL);
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
+        ownerID = getIntent().getStringExtra(INTENT_EXTRA_OWNER_ID);
 
+        boolean isOwn = Integer.parseInt(ownerID) == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
+        photoLayout.setVisibility(isOwn ? View.VISIBLE : View.GONE);
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
         initVideoAdapter();
         initCommentAdapter();
@@ -311,7 +321,8 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
             }
         };
         recyclerView.setLayoutManager(linearLayoutManagerWithoutScroll);
-        videoAdapter = new VideoAdapter(presenter.getVideoList(), this.getLifecycle(), this);
+
+        videoAdapter = new VideoAdapter(presenter.getVideoList(), this.getLifecycle(), this, isOwn);
         recyclerView.setAdapter(videoAdapter);
         recyclerView.swapAdapter(videoAdapter, true);
         if (Prefs.getBoolean("isFull", false))

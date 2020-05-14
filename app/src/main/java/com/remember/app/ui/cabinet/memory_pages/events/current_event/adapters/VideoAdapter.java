@@ -17,6 +17,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
@@ -24,6 +25,7 @@ import com.remember.app.data.models.EventVideos;
 
 import java.util.ArrayList;
 
+import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.StringUtils.getVideoIdFromUrl;
 
 public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -32,11 +34,13 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     VideoAdapterListener listener;
     final int VideosMain = 1;
     final int VideosFooter = 2;
+    boolean isOwner = false;
 
-    public VideoAdapter(ArrayList<EventVideos> videoIds, Lifecycle lifecycle, VideoAdapterListener listener) {
+    public VideoAdapter(ArrayList<EventVideos> videoIds, Lifecycle lifecycle, VideoAdapterListener listener,boolean isOwner) {
         this.videoIds = videoIds;
         this.lifecycle = lifecycle;
         this.listener = listener;
+        this.isOwner = isOwner;
     }
 
     public interface VideoAdapterListener {
@@ -72,7 +76,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewHolder instanceof VideoViewHolder)
             ((VideoViewHolder) viewHolder).onBind(videoIds, listener);
         else if (viewHolder instanceof VideoFooterViewHolder)
-            ((VideoFooterViewHolder) viewHolder).onBind(listener);
+            ((VideoFooterViewHolder) viewHolder).onBind(listener, isOwner);
 
     }
 
@@ -206,7 +210,8 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             addButton = v.findViewById(R.id.btnAddVideo);
         }
 
-        public void onBind(VideoAdapterListener listener) {
+        public void onBind(VideoAdapterListener listener, boolean isOwner) {
+            addButton.setVisibility(isOwner ? View.VISIBLE : View.GONE);
             addButton.setOnClickListener(view -> {
                 listener.onShowAddVideoDialog();
             });
