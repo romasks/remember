@@ -188,7 +188,7 @@ public class SlidePhotoActivity extends BaseActivity
     interface DeleteCallBack{
         void deletePhoto(int position);
     }
-    public static void setCallback(SlidePhotoActivity.DeleteCallBack callback) {
+    public static void setCallback(DeleteCallBack callback) {
         listener = callback;
     }
 }

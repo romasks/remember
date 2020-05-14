@@ -12,4 +12,8 @@ public interface GridView extends BaseView {
     void onSearchedPages(List<MemoryPageModel> memoryPageModels);
 
     void onError(Throwable throwable);
+
+    void onStatus(Object o);
+
+    void onErrorSendID(Throwable throwable);
 }

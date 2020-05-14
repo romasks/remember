@@ -74,6 +74,7 @@ public class EpitaphsActivity extends BaseActivity implements EpitaphsView, Popu
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         recyclerView.setAdapter(epitaphsAdapter);
+        //recyclerView.setNestedScrollingEnabled(false);
 
         presenter.getEpitaphs(pageId);
 

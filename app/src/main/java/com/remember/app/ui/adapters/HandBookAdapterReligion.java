@@ -37,7 +37,7 @@ public class HandBookAdapterReligion extends RecyclerView.Adapter<BaseViewHolder
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new HandBookAdapterReligion.HandBookAdapterReligionViewHolder(
+        return new HandBookAdapterReligionViewHolder(
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hand_book, viewGroup, false)
         );
     }

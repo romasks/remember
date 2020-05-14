@@ -341,13 +341,14 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     public void onEpitaphButtonClick() {
         Intent intent = new Intent(this, EpitaphsActivity.class);
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
+        if (memoryPageModel.getId() !=null)
         intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
         startActivity(intent);
     }
 
     @OnClick(R.id.eventsButton)
     public void onEventButtonClick() {
-        Log.d("myLog", "data1 = " + memoryPageModel.getDateBirth());
+        //Log.d("myLog", "data1 = " + memoryPageModel.getDateBirth());
         Intent intent = new Intent(this, EventsActivity.class);
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
         intent.putExtra(INTENT_EXTRA_NAME, name.getText().toString());

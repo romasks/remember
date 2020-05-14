@@ -7,4 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin_bottom_scroll_burial_place">50dp</dimen>
     <dimen name="default_activity_fields_margin">20dp</dimen>
+    <dimen name="comment_dialog_height">380dp</dimen>
+    <dimen name="video_dialog_height">295dp</dimen>
 </resources>

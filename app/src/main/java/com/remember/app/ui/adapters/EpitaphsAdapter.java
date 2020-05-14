@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pixplicity.easyprefs.library.Prefs;
@@ -37,7 +38,7 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new EpitaphsAdapter.EpitaphsAdapterViewHolder(
+        return new EpitaphsAdapterViewHolder(
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_epitaphs, viewGroup, false)
         );
     }
@@ -81,6 +82,10 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         CustomTextView change;
         @BindView(R.id.delete)
         CustomTextView delete;
+        @BindView(R.id.imgDelete)
+        AppCompatImageView imgDelete;
+        @BindView(R.id.imgEdit)
+        AppCompatImageView imgEdit;
         @BindView(R.id.avatar)
         ImageView avatar;
 
@@ -105,7 +110,9 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
             boolean isOwnEpitaph = user.getId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
             delete.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
+            imgDelete.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
             change.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
+            imgEdit.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
 
             name.setText(user.getName().isEmpty() ? "Неизвестный" : user.getName());
             date.setText(DateUtils.convertRemoteToLocalFormat(epitaph.getUpdatedAt()));

@@ -280,7 +280,7 @@ public class AddPageModel implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<AddPageModel> CREATOR = new Parcelable.Creator<AddPageModel>() {
+    public static final Creator<AddPageModel> CREATOR = new Creator<AddPageModel>() {
         @Override
         public AddPageModel createFromParcel(Parcel in) {
             return new AddPageModel(in);

@@ -2,9 +2,11 @@ package com.remember.app.ui.grid;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -112,7 +114,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         SettingActivity.setListener(this);
         findViewById(R.id.app_bar_grid_layout).setClickable(!isClickLocked);
         signInButton.setClickable(!isClickLocked);
-
+        sendID();
         setUpRecycler();
 
         presenter.getImages(pageNumber);
@@ -137,6 +139,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         );
 
         changeMenuSize(navigationView);
+
     }
 
     @Override
@@ -334,6 +337,11 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         Utils.showSnack(recyclerView, "Ошибка получения плиток");
     }
 
+    @Override
+    public void onStatus(Object o) {
+        Prefs.putBoolean("deviceID", false);
+    }
+
 
     private void setUpRecycler() {
         imageAdapter = new ImageAdapter(this);
@@ -433,5 +441,19 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void finishMainActivity() {
         recreate();
+    }
+
+
+    private void sendID() {
+        if (Prefs.getBoolean("deviceID", true)) {
+            @SuppressLint("HardwareIds")
+            String androidID = Settings.Secure.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            presenter.sendDeviceID(androidID);
+        }
+    }
+
+    @Override
+    public void onErrorSendID(Throwable throwable) {
+        Prefs.putBoolean("deviceID", true);
     }
 }

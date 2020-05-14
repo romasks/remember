@@ -1,16 +1,21 @@
 package com.remember.app.data.network;
 
-import android.util.Log;
-import android.widget.Toast;
-
+import com.google.gson.JsonObject;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.remember.app.data.models.AddComment;
 import com.remember.app.data.models.AddPageModel;
+import com.remember.app.data.models.AddPhoto;
+import com.remember.app.data.models.AddVideo;
+import com.remember.app.data.models.DeleteVideo;
+import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.CreateEventRequest;
 import com.remember.app.data.models.EditEventRequest;
 import com.remember.app.data.models.EpitNotificationModel;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.EventResponse;
+import com.remember.app.data.models.EventSliderPhotos;
+import com.remember.app.data.models.EventVideos;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -33,6 +38,7 @@ import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseUserInfo;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,8 +51,7 @@ import retrofit2.Response;
 
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.DateUtils.convertLocalToRemoteFormat;
-import static com.remember.app.ui.utils.DateUtils.convertReligiousEventServerFormat;
+import static com.remember.app.ui.utils.StringUtils.getVideoIdFromUrl;
 
 public class ServiceNetworkImp implements ServiceNetwork {
 
@@ -468,6 +473,85 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<Object> deleteSliderPhoto(Integer id){
         return apiMethods.deleteSliderPhoto("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> sendDeviceID(RequestBody id){
+        return apiMethods.sendDeviceID(id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<ArrayList<EventComments>> getEventComments(int id) {
+        return apiMethods.getEventComments("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> addComment(int id, AddComment body) {
+        return apiMethods.addComment("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id, body)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> editComment(int id, int commentId, AddComment body) {
+        return apiMethods.editComment("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id,commentId, body)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> deleteComment(int id, int commentId) {
+        return apiMethods.deleteComment("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id,commentId)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<ArrayList<EventVideos>> getEventVideo(int id) {
+        return apiMethods.getEventVideo("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> addVideo(int id, AddVideo body) {
+        return apiMethods.addVideo("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id, body)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> deleteVideo(int id, DeleteVideo body) {
+        return apiMethods.deleteVideo("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id,body)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<ArrayList<EventSliderPhotos>> getEventPhoto(int id) {
+        return apiMethods.getEventPhoto("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> addEventPhoto(int id,String description, File img) {
+        MultipartBody.Part photo = null;
+        if (img != null) {
+            RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), img);
+            photo = MultipartBody.Part.createFormData("picture", img.getName(), mFile);
+        }
+
+        MultipartBody.Part photoCut = null;
+        if (img != null) {
+            RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), img);
+            photoCut = MultipartBody.Part.createFormData("picture_cut", img.getName(), mFile);
+        }
+        AddPhoto body = new AddPhoto();
+        body.setLink(description);
+        return apiMethods.addEventPhoto("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id,body, photo, photoCut)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<Object> deleteEventPhoto(int id, int photoID) {
+        return apiMethods.deleteEventPhoto("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id,photoID)
                 .compose(rxSchedulers.applySchedulers());
     }
 }

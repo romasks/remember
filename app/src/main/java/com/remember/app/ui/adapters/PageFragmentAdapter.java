@@ -33,7 +33,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new PageFragmentAdapter.PageFragmentAdapterViewHolder(
+        return new PageFragmentAdapterViewHolder(
                 LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_page_fragment, viewGroup, false)
         );
     }

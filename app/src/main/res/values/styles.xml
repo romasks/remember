@@ -169,6 +169,17 @@
         <item name="android:textSize">18dp</item>
     </style>
 
+    <style name="CustomAppVideoButtonStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="background">@drawable/button</item>
+        <item name="android:text">@string/settings_button_save</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
     <style name="EmptyListButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

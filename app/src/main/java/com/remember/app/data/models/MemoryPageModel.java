@@ -385,7 +385,7 @@ public class MemoryPageModel implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<MemoryPageModel> CREATOR = new Parcelable.Creator<MemoryPageModel>() {
+    public static final Creator<MemoryPageModel> CREATOR = new Creator<MemoryPageModel>() {
         @Override
         public MemoryPageModel createFromParcel(Parcel in) {
             return new MemoryPageModel(in);

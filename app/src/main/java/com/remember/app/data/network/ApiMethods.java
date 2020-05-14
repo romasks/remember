@@ -1,10 +1,17 @@
 package com.remember.app.data.network;
 
 
+import com.remember.app.data.models.AddComment;
+import com.remember.app.data.models.AddPhoto;
+import com.remember.app.data.models.AddVideo;
+import com.remember.app.data.models.DeleteVideo;
 import com.remember.app.data.models.EpitNotificationModel;
+import com.remember.app.data.models.EventComments;
 import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventNotificationModel;
 import com.remember.app.data.models.EventResponse;
+import com.remember.app.data.models.EventSliderPhotos;
+import com.remember.app.data.models.EventVideos;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
@@ -25,6 +32,7 @@ import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseUserInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -32,6 +40,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -288,9 +297,54 @@ public interface ApiMethods {
 
     @PUT("user/password")
     Observable<Object> changePassword(@Header("Authorization") String token,
-                                    @Body RequestBody requestBody);
-
+                                      @Body RequestBody requestBody);
 
     @GET("photo/delete/{id}")
     Observable<Object> deleteSliderPhoto(@Header("Authorization") String token, @Path("id") Integer id);
+
+    @PUT("mobile_statistics/")
+    Observable<Object> sendDeviceID(@Body RequestBody body);
+
+
+    @GET("deadevent/{id}/comment")
+    Observable<ArrayList<EventComments>> getEventComments(@Header("Authorization") String token, @Path("id") Integer id);
+
+    @POST("deadevent/{id}/comment")
+    Observable<Object> addComment(@Header("Authorization") String token, @Path("id") int id, @Body AddComment body);
+
+    @PUT("deadevent/{id}/comment/{comment_id}")
+    Observable<Object> editComment(@Header("Authorization") String token, @Path("id") int id, @Path("comment_id") int commentID, @Body AddComment body);
+
+    @DELETE("deadevent/{id}/comment/{comment_id}")
+    Observable<Object> deleteComment(@Header("Authorization") String token, @Path("id") int id, @Path("comment_id") int commentID);
+
+
+    @GET("deadevent/{id}/video")
+    Observable<ArrayList<EventVideos>> getEventVideo(@Header("Authorization") String token, @Path("id") int id);
+
+    @POST("deadevent/{id}/video")
+    Observable<Object> addVideo(@Header("Authorization") String token, @Path("id") int id, @Body AddVideo body);
+
+    @POST("deadevent/{id}/video/delete")
+    Observable<Object> deleteVideo(@Header("Authorization") String token, @Path("id") int id, @Body DeleteVideo body);
+
+
+    @GET("/deadevent/{id}/photo")
+    Observable<ArrayList<EventSliderPhotos>> getEventPhoto(@Header("Authorization") String token,
+                                                           @Path("id") int id
+    );
+
+    @Multipart
+    @POST("/deadevent/{id}/photo")
+    Observable<Object> addEventPhoto(@Header("Authorization") String token,
+                                     @Path("id") int id,
+                                     @Part("body") AddPhoto body,
+                                     @Part MultipartBody.Part image,
+                                     @Part MultipartBody.Part cutImage
+    );
+
+    @GET("/deadevent/{id}/photo/delete/{photo_id}")
+    Observable<ResponseCemetery> deleteEventPhoto(@Header("Authorization") String token,
+                                                  @Path("id") int id, @Path("photo_id") int photoId
+    );
 }
