@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.URLUtil;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,8 +62,12 @@ public class AddVideoDialog extends DialogFragment implements View.OnClickListen
         dismiss();
         switch (v.getId()) {
             case R.id.btnAddComment:
-                listener.addVideo(name.getText().toString(), url.getText().toString());
-                this.dismiss();
+                if (url.getText().toString().toLowerCase().contains("youtube") && URLUtil.isValidUrl(url.getText().toString())) {
+                    listener.addVideo(name.getText().toString(), url.getText().toString());
+                    this.dismiss();
+                }
+                else
+                    Toast.makeText(getContext(),"Ссылка не действительна, добавьте ссылку из YouTube.", Toast.LENGTH_LONG).show();
                 break;
             case R.id.imgClose:
                 this.dismiss();
