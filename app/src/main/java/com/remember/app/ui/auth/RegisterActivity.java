@@ -2,8 +2,9 @@ package com.remember.app.ui.auth;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -20,7 +21,6 @@ import com.remember.app.ui.utils.SuccessDialog;
 
 import java.util.regex.Pattern;
 
-import androidx.appcompat.widget.AppCompatEditText;
 import butterknife.BindView;
 import butterknife.OnClick;
 import retrofit2.Response;
@@ -44,6 +44,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Succ
     TextInputLayout nameTitle;
     @BindView(R.id.middle_name)
     CustomAutoCompleteEditText email;
+    @BindView(R.id.checkboxTerms)
+    CheckBox checkBox;
+    @BindView(R.id.tvTerms)
+    CustomTextView tvTerms;
+    boolean isCheck = true;
 
     private static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -64,6 +69,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Succ
             startActivity(new Intent(this, AuthActivity.class));
             finish();
         });
+        tvTerms.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://xn--l1acbd2f.xn--p1acf/agreement")));
+        });
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            isCheck = isChecked;
+        });
     }
 
     @Override
@@ -73,17 +84,20 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Succ
 
     @OnClick(R.id.sign_in_btn)
     public void register() {
-        if (nickName.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Введите Никнейм", Toast.LENGTH_LONG).show();
-        } else if (email.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Введите Email", Toast.LENGTH_LONG).show();
-        } else {
-            if (checkEmail(email.getText().toString())) {
-                presenter.registerLogin(nickName.getText().toString(), email.getText().toString());
+        if (isCheck) {
+            if (nickName.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Введите Никнейм", Toast.LENGTH_LONG).show();
+            } else if (email.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Введите Email", Toast.LENGTH_LONG).show();
             } else {
-                errorDialog("Некорректный тип e-mail");
+                if (checkEmail(email.getText().toString())) {
+                    presenter.registerLogin(nickName.getText().toString(), email.getText().toString());
+                } else {
+                    errorDialog("Некорректный тип e-mail");
+                }
             }
-        }
+        } else
+            Toast.makeText(this, "Согласитесь с правилами использования", Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.back)
@@ -141,4 +155,6 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Succ
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
+
+
 }
