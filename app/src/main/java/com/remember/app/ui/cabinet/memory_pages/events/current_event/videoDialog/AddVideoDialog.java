@@ -62,7 +62,7 @@ public class AddVideoDialog extends DialogFragment implements View.OnClickListen
         dismiss();
         switch (v.getId()) {
             case R.id.btnAddComment:
-                if (url.getText().toString().toLowerCase().contains("youtube") && URLUtil.isValidUrl(url.getText().toString())) {
+                if (url.getText().toString().toLowerCase().contains("youtu") && URLUtil.isValidUrl(url.getText().toString())) {
                     String[] parts = url.getText().toString().split("&");
                     listener.addVideo(name.getText().toString(), parts[0]);
                     this.dismiss();

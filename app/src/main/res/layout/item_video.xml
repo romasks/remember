@@ -8,23 +8,36 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp">
 
+
+    <View
+        android:id="@+id/contView"
+        android:layout_width="match_parent"
+        android:layout_height="235dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="235dp"
         app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
 
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/youtube_player_view"
             android:layout_width="match_parent"
             android:layout_height="235dp"
             app:autoPlay="false"
-            app:showFullScreenButton="false" />
+            app:showFullScreenButton="true" />
 
     </androidx.cardview.widget.CardView>
+
 
 
     <com.remember.app.customView.CustomTextView
@@ -36,7 +49,7 @@
         android:textSize="13dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/container" />
+        app:layout_constraintTop_toBottomOf="@+id/contView" />
 
 
     <com.remember.app.customView.CustomButton
@@ -62,8 +75,8 @@
         android:background="#00000000"
         android:gravity="center"
         android:text="Видео нет"
-        android:textColor="@color/comment"
-        android:textSize="17dp"
+        android:textColor="@color/gray"
+        android:textSize="20dp"
         android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,18 +84,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <FrameLayout
         android:id="@+id/backgroundView"
         android:layout_width="match_parent"
         android:layout_height="235dp"
         android:layout_marginBottom="3dp"
-        android:background="#6F7A8E"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/description"
-        app:layout_constraintEnd_toEndOf="@+id/container"
-        app:layout_constraintStart_toStartOf="@+id/container"
-        app:layout_constraintTop_toTopOf="@+id/container"
+        android:background="@drawable/youtube_background"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
 

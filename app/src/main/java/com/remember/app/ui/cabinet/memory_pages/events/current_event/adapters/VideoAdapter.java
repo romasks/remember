@@ -1,5 +1,6 @@
 package com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
@@ -25,7 +25,6 @@ import com.remember.app.data.models.EventVideos;
 
 import java.util.ArrayList;
 
-import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.StringUtils.getVideoIdFromUrl;
 
 public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -61,10 +60,10 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video, parent, false);
                 YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
                 lifecycle.addObserver(youTubePlayerView);
-                return new VideoViewHolder(view, listener);
+                return new VideoAdapter.VideoViewHolder(view, listener);
             }
             case VideosFooter: {
-                return new VideoFooterViewHolder((LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_footer, parent, false)));
+                return new VideoAdapter.VideoFooterViewHolder((LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_footer, parent, false)));
             }
             default:
                 throw new IllegalStateException("Unexpected value: " + viewType);
@@ -150,7 +149,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onReady(@NonNull YouTubePlayer initializedYouTubePlayer) {
                     youTubePlayer = initializedYouTubePlayer;
-                 //   youTubePlayer.addListener(playerTracker);
+                    //   youTubePlayer.addListener(playerTracker);
                     if (currentVideoId != null)
                         youTubePlayer.cueVideo(currentVideoId, 0);
                 }
@@ -159,12 +158,21 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 public void onStateChange(@NonNull YouTubePlayer youTubePlayer, @NonNull PlayerConstants.PlayerState state) {
                     if (state == PlayerConstants.PlayerState.PLAYING) {
                         isPlay = true;
-                      //  backgroundView.setVisibility(View.INVISIBLE);
-                        //youTubePlayerView.setVisibility(View.VISIBLE);
+                          backgroundView.setVisibility(View.INVISIBLE);
+                        container.setVisibility(View.VISIBLE);
+                        PlayerConstants.PlayerState s = state;
+                        PlayerConstants.PlayerState v = s;
+                        Log.d("YOUTUBE STATE WARNING!!","If ---->" + state.name());
                     } else if (state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.UNSTARTED || state == PlayerConstants.PlayerState.ENDED) {
-                        //backgroundView.setVisibility(View.VISIBLE);
-                        //youTubePlayerView.setVisibility(View.GONE);
+                        backgroundView.setVisibility(View.VISIBLE);
+                        container.setVisibility(View.GONE);
                         isPlay = false;
+                        PlayerConstants.PlayerState s = state;
+                        PlayerConstants.PlayerState v = s;
+                        Log.d("YOUTUBE STATE WARNING!!","Else If ----->" + state.name());
+                    }else  {
+                        Log.d("YOUTUBE STATE WARNING!!","Else ---->" + state.name());
+                        backgroundView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -185,10 +193,14 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
                 delete.setOnClickListener(v -> listener.onShowDeleteVideoDialog(videoList.get(getAdapterPosition()).getLink(), getAdapterPosition()));
                 playButton.setOnClickListener(v -> {
-                    if (isPlay)
+                    if (isPlay){
                         youTubePlayer.pause();
-                    else
+                        container.setVisibility(View.GONE);
+                    }
+                    else{
+                        container.setVisibility(View.VISIBLE);
                         youTubePlayer.play();
+                    }
                 });
             }
         }
