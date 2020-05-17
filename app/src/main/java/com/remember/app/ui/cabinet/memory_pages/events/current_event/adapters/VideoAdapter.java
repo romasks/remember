@@ -23,6 +23,8 @@ import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventVideos;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import static com.remember.app.ui.utils.StringUtils.getVideoIdFromUrl;
@@ -123,6 +125,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private FrameLayout backgroundView;
         private YouTubePlayerTracker playerTracker = new YouTubePlayerTracker();
         boolean isPlay = false;
+        PlayerConstants.PlayerError errorState;
 
         VideoViewHolder(View view, VideoAdapterListener listener) {
             super(view);
@@ -155,20 +158,25 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
 
                 @Override
+                public void onError(@NotNull YouTubePlayer youTubePlayer, @NotNull PlayerConstants.PlayerError error) {
+                    if (error == PlayerConstants.PlayerError.INVALID_PARAMETER_IN_REQUEST || error == PlayerConstants.PlayerError.UNKNOWN || error == PlayerConstants.PlayerError.VIDEO_NOT_FOUND || error == PlayerConstants.PlayerError.VIDEO_NOT_PLAYABLE_IN_EMBEDDED_PLAYER) {
+                        errorState = error;
+                    }
+                    errorState = error;
+                    Log.d("YOUTUBE STATE ERROR!!","ERRROR ----->" + error.name());
+                }
+
+                @Override
                 public void onStateChange(@NonNull YouTubePlayer youTubePlayer, @NonNull PlayerConstants.PlayerState state) {
-                    if (state == PlayerConstants.PlayerState.PLAYING) {
+                    if ((state == PlayerConstants.PlayerState.PLAYING || state == PlayerConstants.PlayerState.UNSTARTED) && errorState != PlayerConstants.PlayerError.VIDEO_NOT_PLAYABLE_IN_EMBEDDED_PLAYER) {
                         isPlay = true;
                           backgroundView.setVisibility(View.INVISIBLE);
                         container.setVisibility(View.VISIBLE);
-                        PlayerConstants.PlayerState s = state;
-                        PlayerConstants.PlayerState v = s;
                         Log.d("YOUTUBE STATE WARNING!!","If ---->" + state.name());
-                    } else if (state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.UNSTARTED || state == PlayerConstants.PlayerState.ENDED) {
+                    } else if (state == PlayerConstants.PlayerState.PAUSED  || state == PlayerConstants.PlayerState.ENDED || state ==PlayerConstants.PlayerState.UNKNOWN || errorState == PlayerConstants.PlayerError.VIDEO_NOT_PLAYABLE_IN_EMBEDDED_PLAYER) {
                         backgroundView.setVisibility(View.VISIBLE);
                         container.setVisibility(View.GONE);
                         isPlay = false;
-                        PlayerConstants.PlayerState s = state;
-                        PlayerConstants.PlayerState v = s;
                         Log.d("YOUTUBE STATE WARNING!!","Else If ----->" + state.name());
                     }else  {
                         Log.d("YOUTUBE STATE WARNING!!","Else ---->" + state.name());
