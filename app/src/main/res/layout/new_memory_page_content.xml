@@ -105,9 +105,9 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/middle_name_title"
                 style="@style/CustomAppTextFieldStyle"
+                app:hintTextAppearance="@style/TextAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintTextAppearance="@style/TextAppearance"
                 app:layout_constraintTop_toBottomOf="@+id/name_title">
 
                 <com.remember.app.customView.CustomEditText

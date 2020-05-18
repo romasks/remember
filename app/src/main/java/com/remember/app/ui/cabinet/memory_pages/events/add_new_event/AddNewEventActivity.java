@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,7 +23,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteTextView;
 import com.remember.app.customView.CustomButton;
-import com.remember.app.customView.CustomEditText;
 import com.remember.app.customView.CustomEditTextFrame;
 import com.remember.app.customView.CustomRadioButton;
 import com.remember.app.customView.CustomTextView;
@@ -75,7 +75,7 @@ import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
 
-public class AddNewEventActivity extends BaseActivity implements AddNewEventView ,DeleteEvent.Callback{
+public class AddNewEventActivity extends BaseActivity implements AddNewEventView, DeleteEvent.Callback {
 
     private final String TAG = AddNewEventActivity.class.getSimpleName();
 
@@ -246,14 +246,14 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
             Utils.showSnack(nameDeceased, "Выберите усопшего");
         } else if (title.getText().toString().isEmpty()) {
             Utils.showSnack(nameDeceased, "Введите наименование");
-        } else if (date.getText().toString().isEmpty()) {
-            Utils.showSnack(nameDeceased, "Выберите дату");
         } else {
             if (eventId == 0) {
                 CreateEventRequest createEventRequest = new CreateEventRequest();
                 createEventRequest.setPageId(String.valueOf(pageId));
                 createEventRequest.setName(title.getText().toString());
-                createEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
+                if (date.getText().toString().isEmpty()) {
+                    createEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
+                }
                 createEventRequest.setFlag(forOne.isChecked() ? "1" : "0");
                 createEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
                 createEventRequest.setDescription(description.getInputText().getText().toString());
@@ -263,7 +263,9 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 editEventRequest.setEventId(eventId);
                 editEventRequest.setPageId(String.valueOf(pageId));
                 editEventRequest.setName(title.getText().toString());
-                editEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
+                if (date.getText().toString().isEmpty()) {
+                    editEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
+                }
                 editEventRequest.setFlag(forOne.isChecked() ? "0" : "1");
                 editEventRequest.setUvShow(isNeedNotification.isChecked() ? "1" : "0");
                 editEventRequest.setDescription(description.getInputText().getText().toString());
@@ -370,6 +372,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             date.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
         };
+        setTheme();
     }
 
     private void setDate() {
@@ -420,17 +423,26 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
 
     @Override
     public void onDeleteEvent() {
-            presenter.deleteEvent(eventId);
+        presenter.deleteEvent(eventId);
 
     }
 
-    private void openStartActivity(){
-        Toast.makeText(getApplicationContext(),"Событие удалено", Toast.LENGTH_SHORT).show();
+    private void openStartActivity() {
+        Toast.makeText(getApplicationContext(), "Событие удалено", Toast.LENGTH_SHORT).show();
         CurrentEvent.getInstance().finish();
         EventsActivity.getInstance().finish();
         Intent intent = new Intent(this, EventsActivity.class);
         intent.putExtra(INTENT_EXTRA_PAGE_ID, pageId);
         startActivity(intent);
         finish();
+    }
+
+    private void setTheme() {
+        ColorStateList textColor = Utils.isThemeDark()
+                ? getResources().getColorStateList(R.color.abc_dark)
+                : getResources().getColorStateList(R.color.abc_light);
+        nameDeceased.setTextColor(textColor);
+        title.setTextColor(textColor);
+        date.setTextColor(textColor);
     }
 }

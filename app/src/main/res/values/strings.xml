@@ -227,9 +227,7 @@
     <string name="sixth_point_six">\t\t Управление настройками</string>
     <string name="seventh_point_seven">\t\t Добавление эпитафии</string>
     <string name="eighth_point_eight">\t\t Просмотр уведомлений</string>
-
-
-
+    <string name="terms">Принимаю условия <u>соглашения</u></string>
 
 
 </resources>

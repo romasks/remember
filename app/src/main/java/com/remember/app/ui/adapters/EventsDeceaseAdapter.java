@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -103,7 +102,7 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         public void onBind(int position) {
             constraintLayout.setOnClickListener(v -> {
-                    callback.openEvent(requestAddEvent.get(position).getId(), requestAddEvent.get(position).getPicture());
+                callback.openEvent(requestAddEvent.get(position).getId(), requestAddEvent.get(position).getPicture());
             });
             if (requestAddEvent.get(position).getPicture() != null && !requestAddEvent.get(position).getPicture().isEmpty()) {
                 setGlideImage(itemView.getContext(), BASE_SERVICE_URL + requestAddEvent.get(position).getPicture(), avatarImage);
@@ -111,9 +110,16 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 setGlideImage(itemView.getContext(), R.drawable.ic_round_camera, avatarImage);
             }
             name.setText(requestAddEvent.get(position).getName());
-            amountDays.setText(getAmountDays(requestAddEvent.get(position).getDate()));
-            date.setText(convertRemoteToLocalFormat(requestAddEvent.get(position).getDate()));
-            comment.setText("дней осталось");
+            if (requestAddEvent.get(position).getDate() != null) {
+                amountDays.setText(getAmountDays(requestAddEvent.get(position).getDate()));
+                date.setText(convertRemoteToLocalFormat(requestAddEvent.get(position).getDate()));
+                comment.setText("дней осталось");
+            }
+            else {
+                amountDays.setVisibility(View.GONE);
+                date.setVisibility(View.GONE);
+                comment.setVisibility(View.GONE);
+            }
         }
 
         String getAmountDays(String data) {
