@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/app_bar_grid_layout"
+        layout="@layout/app_bar_grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/image_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/grid_sign_in"
+        android:layout_below="@id/app_bar_grid_layout"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:itemCount="15"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/item_home_grid"
+        tools:visibility="visible" />
+
+    <com.remember.app.customView.CustomButton
+        android:id="@+id/grid_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_brown"
+        android:text="@string/grid_login"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:visibility="visible" />
+
+    <com.alphamovie.lib.AlphaMovieView
+        android:id="@+id/splash_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-4dp"
+        android:visibility="visible"
+        app:accuracy="0.7"
+        app:alphaColor="#000000"
+        tools:visibility="visible" />
+
+</RelativeLayout>
