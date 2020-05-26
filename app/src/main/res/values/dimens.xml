@@ -9,4 +9,12 @@
     <dimen name="default_activity_fields_margin">20dp</dimen>
     <dimen name="comment_dialog_height">380dp</dimen>
     <dimen name="video_dialog_height">295dp</dimen>
+
+
+
+    <dimen name="versionSize">14dp</dimen>
+
+
+
+
 </resources>
