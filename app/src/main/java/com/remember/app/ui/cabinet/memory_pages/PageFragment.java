@@ -16,10 +16,11 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.utils.Utils;
 
-import java.util.List;
+import java.util.LinkedList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -91,7 +92,7 @@ public class PageFragment extends BaseFragment
     }
 
     @Override
-    public void onReceivedPages(List<MemoryPageModel> memoryPageModels) {
+    public void onReceivedPages(LinkedList<MemoryPageModel> memoryPageModels) {
         if (!memoryPageModels.isEmpty()) {
             showAll.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
@@ -113,11 +114,20 @@ public class PageFragment extends BaseFragment
     }
 
     @Override
-    public void sendItemsSearch(List<MemoryPageModel> result) {
+    public void sendItemsSearch(LinkedList<MemoryPageModel> result) {
         if (result.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");
         }
         showAll.setVisibility(View.VISIBLE);
         pageFragmentAdapter.setItemsSearched(result);
     }
+
+
+
+    @OnClick(R.id.go_to_add)
+    public void onMenuClick() {
+        startActivity(new Intent(getActivity(), NewMemoryPageActivity .class));
+    }
+
+
 }

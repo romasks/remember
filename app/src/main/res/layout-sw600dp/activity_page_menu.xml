@@ -43,7 +43,7 @@
                     android:layout_marginBottom="2dp"
                     android:text="@string/main_pages_header_text"
                     android:textColor="@android:color/black"
-                    android:textSize="22dp"
+                    android:textSize="27dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +81,7 @@
             android:padding="8dp"
             android:text="@string/grid_show_all"
             android:textColor="@color/colorAccent"
-            android:textSize="22dp"
+            android:textSize="27dp"
             android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />

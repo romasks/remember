@@ -17,6 +17,7 @@ import com.remember.app.ui.base.BaseViewHolder;
 import com.remember.app.ui.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,7 +29,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Callback callback;
     private boolean isMainPages = false;
-    private List<MemoryPageModel> memoryPageModelList = new ArrayList<>();
+    private LinkedList<MemoryPageModel> memoryPageModelList = new LinkedList<>();
 
     @NonNull
     @Override
@@ -48,13 +49,14 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return memoryPageModelList.size();
     }
 
-    public void setItems(List<MemoryPageModel> memoryPageModelList) {
-        if (!isMainPages) this.memoryPageModelList.clear();
+    public void setItems(LinkedList<MemoryPageModel> memoryPageModelList) {
+       // if (!isMainPages)
+            this.memoryPageModelList.clear();
         this.memoryPageModelList.addAll(memoryPageModelList);
         notifyDataSetChanged();
     }
 
-    public void setItemsSearched(List<MemoryPageModel> memoryPageModelList) {
+    public void setItemsSearched(LinkedList<MemoryPageModel> memoryPageModelList) {
         this.memoryPageModelList = memoryPageModelList;
         notifyDataSetChanged();
     }
@@ -102,10 +104,10 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 if (memoryPageModelList.get(position).getPicture().contains("uploads")) {
                     setGlideImage(memoryPageModelList.get(position).getPicture(), avatarImage);
                 } else {
-                    setGlideImage(R.drawable.darth_vader, avatarImage);
+                    setGlideImage(R.drawable.no_photo, avatarImage);
                 }
             } catch (NullPointerException e) {
-                setGlideImage(R.drawable.darth_vader, avatarImage);
+                setGlideImage(R.drawable.no_photo, avatarImage);
             }
 
             String secondName = memoryPageModelList.get(position).getSecondName();

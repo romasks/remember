@@ -12,8 +12,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/avatar_image"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:padding="4dp"
         tools:ignore="MissingConstraints" />
 
@@ -26,7 +26,7 @@
         android:layout_marginEnd="10dp"
         android:gravity="start"
         android:textColor="@color/brown"
-        android:textSize="18dp"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="3dp"
-        android:textSize="16dp"
+        android:textSize="23dp"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="02.04.1960" />
@@ -51,19 +51,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="1dp"
-        android:textSize="16dp"
+        android:textSize="23dp"
         app:layout_constraintStart_toEndOf="@+id/avatar_image"
         app:layout_constraintTop_toBottomOf="@+id/date"
         tools:text="осталось" />
 
     <com.remember.app.customView.CustomTextView
         android:id="@+id/amount_days"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:background="@drawable/circle_for_memory_pages"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="16dp"
+        android:textSize="21dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
         app:layout_constraintEnd_toEndOf="@+id/avatar_image"

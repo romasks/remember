@@ -38,6 +38,7 @@ import com.remember.app.data.models.ResponseUserInfo;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -81,7 +82,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<List<MemoryPageModel>> getPages() {
+    public Observable<LinkedList<MemoryPageModel>> getPages() {
         return apiMethods.getPages(Prefs.getString(PREFS_KEY_USER_ID, "0"))
                 .compose(rxSchedulers.applySchedulers());
     }
@@ -300,7 +301,7 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage) {
+    public Observable<LinkedList<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage) {
         return apiMethods.searchPageAllDead(
                 requestSearchPage.getName(),
                 requestSearchPage.getSecondName(),

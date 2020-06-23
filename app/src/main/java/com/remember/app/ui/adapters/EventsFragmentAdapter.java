@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -97,15 +96,18 @@ public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             globalLayout.setOnClickListener(v -> {
                 callback.click(item);
             });
-            Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
+            Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.no_photo);
             try {
-                setGlideImage(responseEvents.get(position).getPicture(), avatarImage);
+                if (!responseEvents.get(position).getPicture().equals(""))
+                    setGlideImage(responseEvents.get(position).getPicture(), avatarImage);
+                else
+                    setGlideImage(itemView.getContext(), mDefaultBackground, avatarImage);
             } catch (Exception e) {
                 setGlideImage(itemView.getContext(), mDefaultBackground, avatarImage);
             }
 
             String fullName = item.getPageName();
-            if (item.getEventName().equals("День смерти")){
+            if (item.getEventName().equals("День смерти")) {
                 name.setText("День утраты");
             } else {
                 name.setText(item.getEventName());

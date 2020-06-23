@@ -46,7 +46,7 @@
                     android:focusable="false"
                     android:hint="@string/city"
                     android:inputType="textPersonName"
-                    android:textSize="20dp"/>
+                    android:textSize="27dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:hint="@string/cemetery"
-                    android:textSize="20dp"/>
+                    android:textSize="27dp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/sector"
                     android:inputType="textPersonName"
-                    android:textSize="20dp"/>
+                    android:textSize="27dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/row"
                     android:inputType="textPersonName"
-                    android:textSize="20dp"/>
+                    android:textSize="27dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/grave_number"
                     android:inputType="number"
-                    android:textSize="20dp"/>
+                    android:textSize="27dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/coordinates"
                     android:inputType="textPersonName"
-                    android:textSize="20dp"/>
+                    android:textSize="27dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.remember.app.customView.CustomButton
@@ -141,11 +141,11 @@
                 style="@style/CustomAppButtonStyle"
                 android:layout_width="match_parent"
                 android:background="@drawable/button"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_marginStart="@dimen/default_activity_fields_margin"
                 android:layout_marginEnd="@dimen/default_activity_fields_margin"
                 android:text="@string/show_map"
-                android:textSize="20dp"/>
+                android:textSize="27dp"/>
         </LinearLayout>
 
     </ScrollView>
@@ -155,12 +155,12 @@
         style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
         android:background="@drawable/button"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginStart="@dimen/default_activity_fields_margin"
         android:layout_marginTop="@dimen/default_activity_fields_margin"
         android:layout_marginEnd="@dimen/default_activity_fields_margin"
         android:text="@string/save"
-        android:textSize="20dp"
+        android:textSize="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

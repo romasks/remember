@@ -16,9 +16,9 @@
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:padding="14dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="@+id/email_login_form"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,10 +26,10 @@
     <com.remember.app.customView.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="23dp"
         android:text="@string/create_acc"
         android:textColor="@android:color/black"
-        android:textSize="22dp"
+        android:textSize="29dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,11 +38,11 @@
     <com.remember.app.customView.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="60dp"
         android:fontFamily="@font/round"
         android:text="@string/app_name"
         android:textColor="@color/colorAccent"
-        android:textSize="32dp"
+        android:textSize="70dp"
         app:layout_constraintBottom_toTopOf="@+id/email_login_form"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -51,6 +51,7 @@
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -69,9 +70,13 @@
                 style="@style/CustomInputTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@drawable/abc"
+                android:textColorHighlight="@color/light_brown"
+                android:textColorHint="@color/dark_gray"
+                android:textColorLink="@color/light_brown"
                 android:hint="@string/nickname"
                 android:inputType="text"
-                android:textSize="20dp" />
+                android:textSize="27dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,9 +93,13 @@
                 style="@style/CustomInputTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@drawable/abc"
+                android:textColorHighlight="@color/light_brown"
+                android:textColorHint="@color/dark_gray"
+                android:textColorLink="@color/light_brown"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:textSize="20dp" />
+                android:textSize="27dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,15 +107,15 @@
             android:id="@+id/sign_in_btn"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/button"
             android:text="@string/create_acc2"
             android:textAllCaps="false"
             android:textColor="#fcfcfc"
-            android:textSize="20dp" />
+            android:textSize="27dp" />
 
     </LinearLayout>
 
@@ -118,7 +127,7 @@
         android:layout_marginEnd="70dp"
         android:text="@string/have_acc"
         android:textColor="@color/gray"
-        android:textSize="20dp"
+        android:textSize="27dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_login_form" />
@@ -127,10 +136,10 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:text="@string/entry_button_underline"
         android:textColor="@color/colorAccent"
-        android:textSize="20dp"
+        android:textSize="27dp"
         app:layout_constraintBottom_toBottomOf="@+id/have_acc"
         app:layout_constraintStart_toEndOf="@+id/have_acc"
         app:layout_constraintTop_toTopOf="@+id/have_acc" />
@@ -151,9 +160,11 @@
         android:id="@+id/checkboxTerms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
         android:checked="true"
-        android:layout_marginEnd="7dp"
+        android:scaleX="1.70"
+        android:scaleY="1.70"
         app:layout_constraintEnd_toStartOf="@+id/tvTerms"
         app:layout_constraintTop_toBottomOf="@+id/have_acc" />
 
@@ -164,7 +175,7 @@
         android:layout_marginStart="20dp"
         android:text="@string/terms"
         android:textColor="@color/gray"
-        android:textSize="18dp"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/checkboxTerms"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

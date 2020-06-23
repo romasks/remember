@@ -28,7 +28,7 @@
             <FrameLayout
                 android:id="@+id/pageAvatar"
                 android:layout_width="wrap_content"
-                android:layout_height="310dp"
+                android:layout_height="410dp"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -55,7 +55,7 @@
                 android:layout_marginRight="25dp"
                 android:gravity="center_horizontal"
                 android:textColor="#917b5a"
-                android:textSize="26dp"
+                android:textSize="33dp"
                 android:textStyle="bold"
                 android:typeface="sans"
                 tools:text="Имя события" />
@@ -70,7 +70,7 @@
                 android:gravity="start"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="16dp"
+                android:textSize="23dp"
                 android:textStyle="normal"
                 android:typeface="sans"
                 tools:text="00.00.0000" />
@@ -90,13 +90,14 @@
                     android:id="@+id/addPhotoToSliderBtn_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.8"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="0.85"
                     android:gravity="center_vertical">
 
                     <ImageButton
                         android:id="@+id/add_photo"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_marginStart="5dp"
                         android:background="@drawable/ic_plus"
                         tools:ignore="ContentDescription" />
@@ -106,12 +107,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="0.2">
+                    android:layout_weight="0.15">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/photos"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="20dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="3"
@@ -128,8 +130,8 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginBottom="15dp"
-                android:textSize="16dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="23dp"
                 tools:text="Пример длинного текста описания события для проверки выравнивания текста" />
 
             <com.remember.app.customView.CustomTextView
@@ -138,7 +140,7 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="15dp"
                 android:textColor="#b1a28c"
-                android:textSize="20dp"
+                android:textSize="27dp"
                 android:textStyle="bold"
                 android:visibility="gone"
                 tools:text="Видео" />
@@ -149,7 +151,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="35dp"
                 android:textColor="#917b5a"
-                android:textSize="20dp"
+                android:textSize="27dp"
                 android:textStyle="bold"
                 android:visibility="gone"
                 tools:text="Комментарии" />
@@ -159,10 +161,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:text="Видео"
-                android:textSize="20dp" />
+                android:textSize="27dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvVideo"
@@ -180,7 +182,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="10dp"
                 android:text="Комментарии"
-                android:textSize="20dp" />
+                android:textSize="27dp" />
 
 
             <androidx.recyclerview.widget.RecyclerView

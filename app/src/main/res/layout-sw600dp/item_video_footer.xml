@@ -11,10 +11,10 @@
         android:id="@+id/btnAddVideo"
         style="@style/CustomAppVideoButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:background="@drawable/button_add_video"
         android:text="Добавить видео"
-        android:textSize="20dp"
+        android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

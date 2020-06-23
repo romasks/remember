@@ -50,9 +50,11 @@ import com.remember.app.ui.menu.settings.SettingActivity;
 import com.remember.app.ui.utils.LoadingPopupUtils;
 import com.remember.app.ui.utils.PopupEventScreen;
 import com.remember.app.ui.utils.PopupPageScreen;
+import com.remember.app.ui.utils.PopupPageScreen.Callback;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,7 +74,7 @@ import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PopupPageScreen.Callback, PopupEventScreen.Callback, MainView {
+        implements NavigationView.OnNavigationItemSelectedListener, Callback, PopupEventScreen.Callback, MainView {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -237,7 +239,7 @@ public class MainActivity extends BaseActivity
     }
 
     public interface CallbackPage {
-        void sendItemsSearch(List<MemoryPageModel> result);
+        void sendItemsSearch(LinkedList<MemoryPageModel> result);
     }
 
     private void showEventScreen() {
@@ -358,7 +360,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onSearchedLastNames(List<MemoryPageModel> memoryPageModels) {
-        List<MemoryPageModel> ownMemoryPageModels = new ArrayList<>();
+        LinkedList<MemoryPageModel> ownMemoryPageModels = new LinkedList<>();
         for (MemoryPageModel memoryPage : memoryPageModels) {
             if (memoryPage.getUserId().equals(Prefs.getString(PREFS_KEY_USER_ID, ""))) {
                 ownMemoryPageModels.add(memoryPage);
@@ -385,7 +387,7 @@ public class MainActivity extends BaseActivity
     }
     private void subscribeToTopic(){
 
-        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        String topic = "user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener(task -> {
                     String msg = "subscr";
@@ -397,7 +399,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void unsubscribeToTopic(){
-        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        String topic = "user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
                 .addOnCompleteListener(task -> {
                     String msg = "unsubscr";

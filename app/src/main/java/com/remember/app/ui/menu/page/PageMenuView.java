@@ -4,6 +4,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.base.BaseView;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public interface PageMenuView extends BaseView {
@@ -12,5 +13,5 @@ public interface PageMenuView extends BaseView {
 
     void onReceivedPages(ResponsePages responsePages);
 
-    void onSearchedPages(List<MemoryPageModel> memoryPageModels);
+    void onSearchedPages(LinkedList<MemoryPageModel> memoryPageModels);
 }

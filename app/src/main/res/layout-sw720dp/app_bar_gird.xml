@@ -31,13 +31,13 @@
     <com.remember.app.customView.CustomButton
         android:id="@+id/grid_sign_in"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:background="@color/light_brown"
         android:text="@string/grid_login"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="20dp"
+        android:textSize="29dp"
         android:visibility="gone"
         tools:layout_editor_absoluteX="-16dp"
         tools:visibility="visible" />

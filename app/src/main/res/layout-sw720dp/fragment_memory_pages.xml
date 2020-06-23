@@ -9,12 +9,12 @@
         android:id="@+id/show_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginBottom="0dp"
         android:gravity="center_horizontal"
         android:text="@string/grid_show_all"
         android:textColor="@color/colorAccent"
-        android:textSize="22dp"
+        android:textSize="29dp"
         android:visibility="gone"
         tools:visibility="visible" />
 
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/memory_page_no_page_title"
-            android:textSize="26dp" />
+            android:textSize="33dp" />
 
         <com.remember.app.customView.CustomButton
             android:id="@+id/go_to_add"
@@ -43,7 +43,7 @@
             android:layout_width="290dp"
             android:layout_height="55dp"
             android:text="@string/memory_page_create_page_button"
-            android:textSize="20dp" />
+            android:textSize="27dp" />
 
     </LinearLayout>
 

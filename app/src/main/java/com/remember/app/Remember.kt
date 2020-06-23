@@ -1,7 +1,9 @@
 package com.remember.app
 
 import android.app.Application
+import android.content.Context
 import android.content.ContextWrapper
+import androidx.multidex.MultiDex
 import com.pixplicity.easyprefs.library.Prefs
 import com.remember.app.di.component.ApplicationComponent
 import com.remember.app.di.component.DaggerApplicationComponent
@@ -10,6 +12,7 @@ import com.vk.sdk.VKSdk
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
 import ru.mail.auth.sdk.MailRuAuthSdk
+
 
 class Remember : Application() {
 
@@ -38,7 +41,10 @@ class Remember : Application() {
                 .applicationModule(ApplicationModule(this))
                 .build()
         applicationComponent.inject(this)
+    }
 
-
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 }

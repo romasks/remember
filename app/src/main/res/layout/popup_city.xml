@@ -32,7 +32,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="50dp"
             android:gravity="center_vertical"
-            android:hint="Выберите город"
+            android:hint="Выберите"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/search_city"
             app:layout_constraintEnd_toEndOf="parent"

@@ -35,14 +35,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
+        android:textSize="27dp"
         app:hint="@string/questions_textarea_hint_text"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
         app:textColor="@color/dark_gray"
         app:textColorHighlight="@color/dark_gray"
         app:textColorHint="@color/gray"
         app:textColorLink="@color/colorPrimary"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/pick"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"
         tools:ignore="RtlSymmetry"
         tools:layout_editor_absoluteX="20dp" />
 
@@ -50,11 +49,11 @@
         android:id="@+id/pick"
         style="@style/CustomAppButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button"
+        android:layout_height="70dp"
         android:layout_margin="20dp"
+        android:background="@drawable/button"
         android:text="@string/send"
-        android:textSize="20dp"
+        android:textSize="27dp"
         app:layout_constraintTop_toBottomOf="@+id/body"
         tools:layout_editor_absoluteX="20dp" />
 

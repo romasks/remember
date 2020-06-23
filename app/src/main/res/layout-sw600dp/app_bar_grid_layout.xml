@@ -15,7 +15,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -23,7 +23,7 @@
             <FrameLayout
                 android:id="@+id/llContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="75dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/menu_icon"
@@ -38,10 +38,11 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_marginEnd="10dp"
+                    android:gravity="center"
                     android:fontFamily="@font/round"
                     android:text="@string/grid_header"
                     android:textColor="@color/light_brown"
-                    android:textSize="32dp" />
+                    android:textSize="30dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -60,8 +61,8 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/avatar_small_toolbar"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_gravity="center" />
 
                 </LinearLayout>

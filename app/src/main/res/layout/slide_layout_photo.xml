@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/darth_vader" />
+        app:srcCompat="@drawable/no_photo" />
 
     <com.remember.app.customView.CustomTextView
         android:id="@+id/textView15"

@@ -104,8 +104,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (position != 0 && position >= comments.size()) return CommentsFooter;
-        else return CommentsMain;
+        if (position != 0 && position >= comments.size())
+            return CommentsFooter;
+        else
+            return CommentsMain;
  }
 
     @Override

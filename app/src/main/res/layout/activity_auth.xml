@@ -51,11 +51,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login"
+                android:textColor="@drawable/abc"
+                android:textColorHighlight="@color/light_brown"
+                android:textColorHint="@color/dark_gray"
+                android:textColorLink="@color/light_brown"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColorHighlight="@color/dark_gray"
                 android:textSize="20dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -74,11 +77,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:textColor="@drawable/abc"
+                android:textColorHighlight="@color/light_brown"
+                android:textColorHint="@color/dark_gray"
+                android:textColorLink="@color/light_brown"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColorHighlight="@color/dark_gray"
                 android:textSize="20dp" />
 
         </com.google.android.material.textfield.TextInputLayout>

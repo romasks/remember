@@ -19,12 +19,12 @@
             <com.remember.app.customView.CustomSwitch
                 android:id="@+id/notifications"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:text="@string/settings_enable_notifications"
                 android:textColor="#8a8a8a"
                 android:textColorHighlight="#8a8a8a"
                 android:textColorLink="#8a8a8a"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:theme="@style/SwitchRemember" />
 
             <com.remember.app.customView.CustomTextView
@@ -32,13 +32,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_commemoration_days"
-                android:textSize="20dp" />
+                android:textSize="25dp" />
 
             <RadioGroup
                 android:id="@+id/id_notice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="17dp"
                 android:orientation="vertical">
 
                 <com.remember.app.customView.CustomRadioButton
@@ -48,10 +48,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="2"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="10dp"
                     android:checked="true"
                     android:text="@string/settings_com_days_all"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/id_notice_two"
@@ -60,9 +60,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="2"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="10dp"
                     android:text="@string/settings_com_days_for_deceased"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <com.remember.app.customView.CustomRadioButton
                     android:id="@+id/id_notice_three"
@@ -70,10 +70,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="10dp"
                     android:layout_weight="2"
                     android:text="@string/settings_com_days_religious"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
             </RadioGroup>
 
             <com.remember.app.customView.CustomTextView
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_number_of_days"
-                android:textSize="20dp" />
+                android:textSize="25dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="0dp"
                     android:text="@string/settings_choose_number_of_days"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/days_sp"
@@ -106,7 +106,7 @@
                     android:layout_weight="1"
                     android:hint="1"
                     android:textColorHint="@color/gray"
-                    android:textSize="20dp"
+                    android:textSize="25dp"
                     app:ms_arrow_tint="@color/gray"
                     app:ms_background_color="@android:color/transparent"
                     app:ms_background_selector="@android:color/white"

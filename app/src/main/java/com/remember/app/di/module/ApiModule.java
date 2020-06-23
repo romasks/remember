@@ -9,12 +9,15 @@ import com.remember.app.data.network.RxSchedulers;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.data.network.ServiceNetworkImp;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -95,5 +98,6 @@ public class ApiModule {
             builder.addInterceptor(loggingInterceptor);
         }
         return builder.build();
+       // return builder.connectionSpecs(Collections.singletonList(ConnectionSpec.COMPATIBLE_TLS)).build();
     }
 }

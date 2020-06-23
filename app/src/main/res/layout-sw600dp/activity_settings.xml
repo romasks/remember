@@ -26,11 +26,13 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:clickable="true"
             android:focusable="true"
             android:textAllCaps="false"
             app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
             app:tabIndicatorColor="#917b5a"
             app:tabSelectedTextColor="#917b5a"
             app:tabTextAppearance="@style/tab_text"
@@ -50,9 +52,9 @@
         style="@style/CustomAppButtonStyle"
         android:background="@drawable/button"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="65dp"
         android:layout_weight="1"
-        android:textSize="20dp"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="15dp" />
 

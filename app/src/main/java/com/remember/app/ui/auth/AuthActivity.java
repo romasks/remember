@@ -2,6 +2,7 @@ package com.remember.app.ui.auth;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,7 +86,7 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         CustomTextView wrongPas = findViewById(R.id.wrong_password);
         register.setPaintFlags(register.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
+        setTheme();
         if (BuildConfig.DEBUG) {
            //login.setText("admin@ya.ru");
          //  password.setText("11111111");
@@ -354,5 +355,12 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
     public void sendEmail(String email) {
         popupDialog = LoadingPopupUtils.showLoadingDialog(this);
         presenter.restorePassword(email);
+    }
+    private void setTheme() {
+        ColorStateList textColor = Utils.isThemeDark()
+                ? getResources().getColorStateList(R.color.abc_dark)
+                : getResources().getColorStateList(R.color.abc_light);
+        login.setTextColor(textColor);
+        password.setTextColor(textColor);
     }
 }

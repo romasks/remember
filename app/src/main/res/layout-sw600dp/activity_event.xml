@@ -15,7 +15,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="75dp"
             android:layout_marginEnd="5dp"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -47,7 +47,7 @@
                     android:text="@string/memorable_events"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColor"
-                    android:textSize="22dp"
+                    android:textSize="27dp"
                     android:textStyle="bold" />
 
                 <!--<androidx.appcompat.widget.AppCompatImageView
@@ -89,14 +89,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/events_no_events_title"
-            android:textSize="26dp" />
+            android:textSize="31dp" />
 
         <com.remember.app.customView.CustomButton
             android:id="@+id/btn_create_event"
+            android:layout_height="65dp"
             android:background="@drawable/button"
             style="@style/EmptyListButtonStyle"
             android:text="@string/events_create_event_button"
-            android:textSize="20dp" />
+            android:textSize="25dp" />
 
     </LinearLayout>
 

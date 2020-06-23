@@ -10,16 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
 
         <com.remember.app.customView.CustomTextView
             android:id="@+id/faq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24dp"
-            android:paddingBottom="16dp"
+            android:textSize="31dp"
+            android:paddingBottom="20dp"
             android:textColor="@color/colorPrimaryDark"
             android:text="@string/faq" />
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/first_point_one" />
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/second_point_two" />
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/third_point_three" />
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/fourth_point_four" />
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/fifth_point_five" />
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/sixth_point_six" />
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:textColor="@color/gray"
             android:background="?attr/selectableItemBackground"
             android:text="@string/seventh_point_seven" />
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:textColor="@color/gray"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/eighth_point_eight" />
 
@@ -107,7 +107,7 @@
         android:id="@+id/first_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:textSize="25dp"
         android:paddingBottom="16dp"
         android:textColor="@color/colorPrimaryDark"
         android:text="@string/first_point" />
@@ -116,14 +116,14 @@
         android:id="@+id/first_point_par_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="21dp"
         android:justificationMode="inter_word"
         android:text="@string/first_point_par_one" />
 
     <ImageView
         android:id="@+id/first_per"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="350dp"
         android:paddingTop="16dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -134,14 +134,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/two_per" />
 
         <ImageView
             android:id="@+id/two_per"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:paddingTop="16dp"
             app:srcCompat="@drawable/two_per" />
 
@@ -149,14 +149,14 @@
             android:id="@+id/three_per"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/three_per" />
 
         <ImageView
             android:id="@+id/three_two_per"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:paddingTop="16dp"
             app:srcCompat="@drawable/three_per" />
 
@@ -165,7 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/four_per" />
 
@@ -173,7 +173,7 @@
             android:id="@+id/second_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="25dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -186,14 +186,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/second_one_per"/>
 
         <ImageView
             android:id="@+id/second_per"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -204,7 +204,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/second_two_per"/>
 
@@ -212,7 +212,7 @@
             android:id="@+id/third_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="25dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -224,14 +224,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/third_one_per"/>
 
         <ImageView
             android:id="@+id/third_per"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -241,7 +241,7 @@
             android:id="@+id/fourth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="25dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -253,7 +253,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:justificationMode="inter_word"
@@ -263,7 +263,7 @@
             android:id="@+id/fifth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="25dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -275,14 +275,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/fifth_one_per"/>
 
         <ImageView
             android:id="@+id/fifth_per"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -293,7 +293,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/fifth_two_per"/>
 
@@ -302,7 +302,7 @@
             android:id="@+id/sixth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="25dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -314,14 +314,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/sixth_one_per"/>
 
         <ImageView
             android:id="@+id/sixth_per_one"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:paddingTop="16dp"
             app:srcCompat="@drawable/sixth_one_per"/>
 
@@ -331,7 +331,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:focusable="true"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:focusableInTouchMode="true"
             android:justificationMode="inter_word"
             android:text="@string/sixth_two_per"/>
@@ -339,7 +339,7 @@
         <ImageView
             android:id="@+id/sixth_per_two"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:paddingTop="16dp"
             app:srcCompat="@drawable/sixth_two_per"/>
 
@@ -348,7 +348,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/sixth_three_per"/>
 
@@ -356,7 +356,7 @@
             android:id="@+id/seventh_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="25dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -368,14 +368,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:justificationMode="inter_word"
             android:text="@string/seventh_one_per"/>
 
         <ImageView
             android:id="@+id/seventh_per"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -386,7 +386,7 @@
             android:id="@+id/eighth_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="25dp"
             android:paddingTop="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -398,7 +398,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:textSize="14dp"
+            android:textSize="21dp"
             android:paddingBottom="30dp"
             android:focusable="true"
             android:focusableInTouchMode="true"

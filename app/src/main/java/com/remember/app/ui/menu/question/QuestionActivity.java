@@ -1,27 +1,20 @@
 package com.remember.app.ui.menu.question;
 
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.remember.app.BuildConfig;
 import com.remember.app.R;
-import com.remember.app.customView.CustomEditText;
 import com.remember.app.customView.CustomEditTextFrame;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.utils.QuestionSendDialog;
 import com.remember.app.ui.utils.Utils;
-
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.OnClick;

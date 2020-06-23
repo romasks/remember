@@ -22,6 +22,7 @@ import com.remember.app.ui.utils.PopupPageScreen;
 import com.remember.app.ui.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -54,7 +55,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     ImageView search;
 
     private PopupPageScreen popupWindowPage;
-    private List<MemoryPageModel> memoryPages = new ArrayList<>();
+    private LinkedList<MemoryPageModel> memoryPages = new LinkedList<MemoryPageModel>();
     private int pageNumber = 1;
     private int countSum = 0;
 
@@ -138,7 +139,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     }
 
     @Override
-    public void onSearchedPages(List<MemoryPageModel> memoryPageModels) {
+    public void onSearchedPages(LinkedList<MemoryPageModel> memoryPageModels) {
         if (memoryPageModels.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");
         }

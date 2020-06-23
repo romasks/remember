@@ -70,7 +70,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-        mDefaultBackground = this.getResources().getDrawable(R.drawable.darth_vader);
+        mDefaultBackground = this.getResources().getDrawable(R.drawable.no_photo);
 
         if (Utils.isThemeDark()) {
             backButton.setImageResource(R.drawable.ic_back_dark_theme);

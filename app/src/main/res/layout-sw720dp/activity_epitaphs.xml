@@ -15,7 +15,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="75dp"
             android:background="?attr/colorPrimary"
             android:layout_marginEnd="5dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -41,13 +41,13 @@
                     android:text="@string/epitaphs_header_text"
                     android:textAlignment="center"
                     android:textColor="?android:attr/textColor"
-                    android:textSize="24dp"
+                    android:textSize="29dp"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/plus"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginEnd="10dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_add_black" />
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/epitaphs_no_epitaphs_title"
-            android:textSize="26dp" />
+            android:textSize="33dp" />
 
         <!--<Button
             android:id="@+id/btn_create_event"

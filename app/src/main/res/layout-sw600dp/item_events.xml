@@ -12,16 +12,16 @@
         android:id="@+id/layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="20dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/avatar_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:padding="4dp"
+            android:padding="6dp"
             app:srcCompat="@drawable/ic_round_camera"
             tools:ignore="MissingConstraints" />
 
@@ -43,8 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <com.remember.app.customView.CustomTextView
@@ -54,7 +54,7 @@
             android:layout_marginEnd="10dp"
             android:gravity="start"
             android:textColor="@color/brown"
-            android:textSize="18dp"
+            android:textSize="23dp"
             android:textStyle="bold"
             tools:text="Иванов Иван иванович Иванов Иван иванович" />
 
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="start"
-            android:textSize="15dp"
+            android:textSize="21dp"
             tools:text="Крылатов Сергей Витальевич" />
 
         <com.remember.app.customView.CustomTextView
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textColor="@color/gray"
-            android:textSize="16dp"
+            android:textSize="22dp"
             tools:text="02.04.1960" />
 
         <com.remember.app.customView.CustomTextView
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:textColor="@color/gray"
-            android:textSize="16dp"
+            android:textSize="22dp"
             tools:text="Дней осталось" />
 
     </LinearLayout>

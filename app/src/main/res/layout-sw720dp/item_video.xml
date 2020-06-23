@@ -6,13 +6,13 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="12dp">
 
 
     <View
         android:id="@+id/contView"
         android:layout_width="match_parent"
-        android:layout_height="235dp"
+        android:layout_height="365dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,8 +22,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="235dp"
-        app:cardCornerRadius="5dp"
+        android:layout_height="365dp"
+        app:cardCornerRadius="7dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,7 +32,7 @@
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/youtube_player_view"
             android:layout_width="match_parent"
-            android:layout_height="235dp"
+            android:layout_height="365dp"
             app:autoPlay="false"
             app:showFullScreenButton="true" />
 
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3.5dp"
         android:text="The minimum API level supported by this library is API 17. Also, your app needs to be using the."
-        android:textSize="13dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contView" />
@@ -55,13 +55,13 @@
     <com.remember.app.customView.CustomButton
         android:id="@+id/btnShowMore"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="22dp"
         android:background="@drawable/button_add_comment"
         android:text="Показать больше"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp"
+        android:textSize="23dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,12 +71,12 @@
     <com.remember.app.customView.CustomTextView
         android:id="@+id/tvEmpty"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:background="#00000000"
         android:gravity="center"
         android:text="Видео нет"
         android:textColor="@color/gray"
-        android:textSize="20dp"
+        android:textSize="27dp"
         android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -87,8 +87,8 @@
     <FrameLayout
         android:id="@+id/backgroundView"
         android:layout_width="match_parent"
-        android:layout_height="235dp"
-        android:layout_marginBottom="3dp"
+        android:layout_height="365dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/youtube_background"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,8 +99,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/startButton"
-            android:layout_width="70dp"
-            android:layout_height="45dp"
+            android:layout_width="90dp"
+            android:layout_height="65dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_youtube"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -111,11 +111,11 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/deleteVideo"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="top|end"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close" />

@@ -99,7 +99,8 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private int countItem() {
         if (videoIds.size() == 0)
             return 2;
-        else return videoIds.size() + 1;
+        else
+            return videoIds.size() + 1;
     }
 
     @Override
@@ -109,8 +110,10 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (position != 0 && position >= videoIds.size()) return VideosFooter;
-        else return VideosMain;
+        if (position != 0 && position >= videoIds.size())
+            return VideosFooter;
+        else
+            return VideosMain;
     }
 
     static class VideoViewHolder extends RecyclerView.ViewHolder {
@@ -120,6 +123,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private CardView container;
         private CustomTextView empty;
         private CustomTextView description;
+        private View contView;
         private AppCompatImageView delete;
         private AppCompatImageView playButton;
         private FrameLayout backgroundView;
@@ -132,6 +136,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             youTubePlayerView = view.findViewById(R.id.youtube_player_view);
             container = view.findViewById(R.id.container);
             description = view.findViewById(R.id.description);
+            contView = view.findViewById(R.id.contView);
             empty = view.findViewById(R.id.tvEmpty);
             backgroundView = view.findViewById(R.id.backgroundView);
             delete = view.findViewById(R.id.deleteVideo);
@@ -191,6 +196,8 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 container.setVisibility(View.GONE);
                 description.setVisibility(View.GONE);
                 empty.setVisibility(View.VISIBLE);
+                backgroundView.setVisibility(View.GONE);
+                contView.setVisibility(View.GONE);
             } else {
                 container.setVisibility(View.VISIBLE);
                 description.setVisibility(View.VISIBLE);

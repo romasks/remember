@@ -48,7 +48,7 @@
             android:layout_marginRight="25dp"
             android:gravity="center_horizontal"
             android:textColor="#917b5a"
-            android:textSize="26dp"
+            android:textSize="33dp"
             android:textStyle="bold"
             android:typeface="sans"
             android:visibility="gone"
@@ -64,7 +64,7 @@
             android:gravity="start"
             android:textAlignment="center"
             android:textColor="@color/gray"
-            android:textSize="16dp"
+            android:textSize="23dp"
             android:textStyle="normal"
             android:typeface="sans"
             tools:text="00.00.0000"
@@ -80,14 +80,14 @@
                 android:id="@+id/addPhotoToSliderBtn_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.8"
+                android:layout_weight="0.88"
                 android:gravity="center_vertical"
                 tools:visibility="gone">
 
                 <ImageButton
                     android:id="@+id/add_photo"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:layout_marginStart="5dp"
                     android:background="@drawable/ic_plus"
                     tools:ignore="ContentDescription" />
@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.12"
                 tools:visibility="gone">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -121,7 +121,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginRight="25dp"
             android:layout_marginBottom="15dp"
-            android:textSize="16dp"
+            android:textSize="23dp"
             android:visibility="gone"
             tools:text="Пример длинного текста описания события для проверки выравнивания текста" />
 
@@ -143,7 +143,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="35dp"
             android:textColor="#917b5a"
-            android:textSize="20dp"
+            android:textSize="27dp"
             android:textStyle="bold"
             android:visibility="gone"
             tools:text="Комментарии" />
@@ -156,7 +156,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginBottom="10dp"
             android:text="Видео"
-            android:textSize="20dp"
+            android:textSize="27dp"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -179,7 +179,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginBottom="10dp"
             android:text="Комментарии"
-            android:textSize="20dp"
+            android:textSize="27dp"
             android:visibility="gone" />
 
 

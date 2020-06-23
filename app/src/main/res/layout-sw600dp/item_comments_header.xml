@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Комментариев нет"
-        android:textSize="16dp"
+        android:textSize="21dp"
         android:textColor="@color/comment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

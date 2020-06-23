@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
@@ -158,7 +159,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
         ownerID = getIntent().getStringExtra(INTENT_EXTRA_OWNER_ID);
 
-        boolean isOwn = Integer.parseInt(ownerID) == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
+        isOwn = Integer.parseInt(ownerID) == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
         photoLayout.setVisibility(isOwn ? View.VISIBLE : View.GONE);
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
         initVideoAdapter();
@@ -286,7 +287,9 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
             glideLoadIntoWithError(this, BASE_SERVICE_URL + requestEvent.getPicture(), imageAvatar);
             dateView.setText(DateUtils.convertRemoteToLocalFormat(requestEvent.getDate()));
             eventName.setText(requestEvent.getName());
-            description.setText(requestEvent.getDescription());
+            if (requestEvent.getDescription() != null && !requestEvent.getDescription().equals(""))
+                description.setText(requestEvent.getDescription());
+            else description.setVisibility(View.GONE);
         } catch (Exception ignored) {
             Log.d("dd", "ddd");
         }

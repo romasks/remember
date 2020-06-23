@@ -103,7 +103,7 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             llEvent.setOnClickListener(v -> {
                 callback.click(responseEvents.get(position));
             });
-            Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.darth_vader);
+            Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.no_photo);
             try {
                 if (!responseEvents.get(position).getPicture().contains("upload")) {
                     setGlideImage(itemView.getContext(), BASE_SERVICE_URL + "/uploads/" + responseEvents.get(position).getPicture(), avatarImage);

@@ -20,13 +20,13 @@
 
     <LinearLayout
         android:id="@+id/not_page"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <com.remember.app.customView.CustomTextView
             android:id="@+id/content"
@@ -38,10 +38,10 @@
 
         <com.remember.app.customView.CustomButton
             android:id="@+id/go_to_add"
-            style="@style/EmptyListButtonStyle"
+            style="@style/CustomAppButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/button"
-            android:layout_width="290dp"
-            android:layout_height="55dp"
             android:text="@string/memory_page_create_page_button"
             android:textSize="20dp" />
 
@@ -72,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/show_all"
         android:visibility="visible"
-        tools:listitem="@layout/item_events" />
+        tools:listitem="@layout/item_events"
+        tools:visibility="gone" />
 
 </RelativeLayout>

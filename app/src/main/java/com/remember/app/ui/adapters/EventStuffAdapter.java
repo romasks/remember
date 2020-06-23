@@ -50,7 +50,7 @@ public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.Im
 
         @Override
         public void onBind(int position) {
-            setGlideImage(context, R.drawable.darth_vader, itemImage);
+            setGlideImage(context, R.drawable.no_photo, itemImage);
         }
     }
 }

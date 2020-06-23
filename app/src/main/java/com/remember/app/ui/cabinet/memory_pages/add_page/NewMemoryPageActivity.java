@@ -176,7 +176,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     public void onGetInfo(List<ResponseHandBook> responseHandBooks) {
         View popupView = getLayoutInflater().inflate(R.layout.popup_city, null);
 
-        LinearLayout layout = popupView.findViewById(R.id.lay);
+        ConstraintLayout layout = popupView.findViewById(R.id.lay);
         if (Utils.isThemeDark()) {
             layout.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
         }
@@ -209,6 +209,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
 
     @Override
     public void onError(Throwable throwable) {
+
         Utils.showSnack(image, "Ошибка получения данных");
     }
 

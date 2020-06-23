@@ -2,6 +2,7 @@ package com.remember.app.ui.auth;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.CheckBox;
@@ -18,6 +19,7 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.utils.ErrorDialog;
 import com.remember.app.ui.utils.SuccessDialog;
+import com.remember.app.ui.utils.Utils;
 
 import java.util.regex.Pattern;
 
@@ -75,6 +77,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Succ
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             isCheck = isChecked;
         });
+        setTheme();
     }
 
     @Override
@@ -156,5 +159,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView, Succ
         finish();
     }
 
-
+    private void setTheme() {
+        ColorStateList textColor = Utils.isThemeDark()
+                ? getResources().getColorStateList(R.color.abc_dark)
+                : getResources().getColorStateList(R.color.abc_light);
+        email.setTextColor(textColor);
+        nickName.setTextColor(textColor);
+    }
 }

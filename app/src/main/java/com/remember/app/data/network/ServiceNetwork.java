@@ -35,6 +35,7 @@ import com.remember.app.data.models.ResponseUserInfo;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -51,7 +52,7 @@ public interface ServiceNetwork {
 
     Observable<List<ResponseHandBook>> getReligion();
 
-    Observable<List<MemoryPageModel>> getPages();
+    Observable<LinkedList<MemoryPageModel>> getPages();
 
     Observable<List<ResponseEpitaphs>> getEpitaphs(int pageId);
 
@@ -111,7 +112,7 @@ public interface ServiceNetwork {
 
     Observable<ResponseRestorePassword> restorePassword(String email);
 
-    Observable<List<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage);
+    Observable<LinkedList<MemoryPageModel>> searchPageAllDead(RequestSearchPage requestSearchPage);
 
     Observable<List<ResponseEvents>> searchEventReligious(String date, int selectedIndex);
 

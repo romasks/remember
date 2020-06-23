@@ -33,30 +33,30 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/avatar"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="20dp"
                     android:src="@android:color/transparent" />
 
                 <com.remember.app.customView.CustomButton
                     android:id="@+id/add_new_photo"
                     style="@style/CustomAppButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
                     android:background="@drawable/button"
                     android:text="@string/settings_new_profile_photo"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
             </LinearLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="17dp"
                 android:textColorHint="?android:attr/textColorHint"
                 app:hintTextAppearance="@style/TextAppearance">
 
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_surname"
                     android:imeOptions="actionNext"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_name"
                     android:imeOptions="actionNext"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_middle_name"
                     android:imeOptions="actionNext"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_nickname"
                     android:imeOptions="actionNext"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:hint="@string/settings_hint_email"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -155,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/settings_hint_locality"
                     android:imeOptions="actionNext"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,7 +175,7 @@
                     android:hint="Телефон"
                     android:inputType="phone"
                     android:maxLength="11"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,16 +186,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Изменить пароль"
-                android:paddingStart="5dp"
+                android:paddingStart="7dp"
                 android:paddingTop="20dp"
-                android:textSize="20dp" />
+                android:textSize="25dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="30dp"
                 android:background="@color/gray" />
 
             <!-- ЭТО ПОЛЕ ДОЛЖНО БУДЕТ БЫТЬ СПИННЕРОМ -->
@@ -208,11 +208,11 @@
                 style="@style/SettingsNotificationBoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginRight="25dp"
+                android:layout_marginRight="30dp"
                 android:text="@string/settings_theme_text"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -222,10 +222,10 @@
             style="@style/SettingsNotificationBoldTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="1dp"
             android:text="Размер шрифта"
-            android:textSize="20dp"
+            android:textSize="25dp"
             app:layout_constraintStart_toStartOf="@+id/top"
             app:layout_constraintTop_toBottomOf="@+id/top" />
 
@@ -234,7 +234,7 @@
             android:id="@+id/id_notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:orientation="vertical"
             android:paddingBottom="80dp"
@@ -246,23 +246,23 @@
                 style="@style/SettingsRadioButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="8dp"
+                android:layout_marginTop="12dp"
+                android:paddingLeft="10dp"
                 android:layout_weight="2"
                 android:checked="true"
                 android:text="Стандартный"
-                android:textSize="20dp" />
+                android:textSize="25dp" />
 
             <com.remember.app.customView.CustomRadioButton
                 android:id="@+id/rbBig"
                 style="@style/SettingsRadioButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="8dp"
+                android:layout_marginTop="12dp"
+                android:paddingLeft="10dp"
                 android:layout_weight="2"
                 android:text="Увеличенный"
-                android:textSize="20dp" />
+                android:textSize="25dp" />
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

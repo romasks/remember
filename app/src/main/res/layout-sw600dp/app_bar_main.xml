@@ -14,14 +14,14 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="75dp"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <LinearLayout
                 android:id="@+id/llContainer"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="75dp"
                 android:layout_marginEnd="5dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -33,8 +33,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/avatar"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:layout_gravity="center_vertical"
                     app:srcCompat="@drawable/ic_unknown"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +48,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_weight="1"
                     android:textColor="?android:attr/textColor"
-                    android:textSize="17dp"
+                    android:textSize="22dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/avatar"
                     app:layout_constraintTop_toTopOf="parent"
@@ -67,13 +67,14 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/add_plus"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="10dp"
-                    app:srcCompat="@drawable/ic_add_black"
+                    android:scaleType="fitXY"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_add_black" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
@@ -84,8 +85,10 @@
             android:clickable="true"
             android:focusable="true"
             android:textAllCaps="false"
-            android:textSize="16dp"
+            android:textSize="21dp"
             app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
             app:tabIndicatorColor="#917b5a"
             app:tabSelectedTextColor="#917b5a"
             app:tabTextAppearance="@style/tab_text"

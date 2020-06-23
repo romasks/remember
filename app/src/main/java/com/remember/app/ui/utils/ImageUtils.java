@@ -100,7 +100,7 @@ public class ImageUtils {
     public static void glideLoadIntoWithError(Context context, Object imageObj, ImageView targetView) {
         GlideApp.with(context)
                 .load(imageObj)
-                .error(R.drawable.darth_vader)
+                .error(R.drawable.no_photo)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
     }
@@ -167,7 +167,7 @@ public class ImageUtils {
     private static void setGridImage(Context context, Object imageObj, ImageView targetView) {
         GlideApp.with(context)
                 .load(imageObj)
-                .error(R.drawable.darth_vader)
+                .error(R.drawable.no_photo)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);

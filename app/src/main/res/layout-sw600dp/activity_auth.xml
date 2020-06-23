@@ -19,11 +19,11 @@
     <com.remember.app.customView.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="60dp"
         android:fontFamily="@font/round"
         android:text="@string/app_name"
         android:textColor="@color/colorAccent"
-        android:textSize="40dp"
+        android:textSize="65dp"
         app:layout_constraintBottom_toTopOf="@+id/email_login_form"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -32,6 +32,7 @@
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -40,14 +41,13 @@
             android:id="@+id/login_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_activity_fields_margin"
             android:layout_marginTop="@dimen/default_activity_fields_margin"
-            android:layout_marginEnd="@dimen/default_activity_fields_margin"
+            app:hintTextAppearance="@style/TextAppearance"
             app:layout_constraintTop_toBottomOf="@+id/name_title">
 
             <com.remember.app.customView.CustomAutoCompleteTextView
                 android:id="@+id/login_value"
-                style="@style/CustomInputTextStyle"
+                style="@style/SettingsInputTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login"
@@ -55,7 +55,10 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColorHighlight="@color/dark_gray"
+                android:textColor="@drawable/abc"
+                android:textColorHighlight="@color/light_brown"
+                android:textColorHint="@color/dark_gray"
+                android:textColorLink="@color/light_brown"
                 android:textSize="25dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -64,13 +67,12 @@
             android:id="@+id/password_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_activity_fields_margin"
-            android:layout_marginEnd="@dimen/default_activity_fields_margin"
+            app:hintTextAppearance="@style/TextAppearance"
             app:layout_constraintTop_toBottomOf="@+id/login_title">
 
             <com.remember.app.customView.CustomAutoCompleteTextView
                 android:id="@+id/password_value"
-                style="@style/CustomInputTextStyle"
+                style="@style/SettingsInputTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -78,7 +80,10 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColorHighlight="@color/dark_gray"
+                android:textColor="@drawable/abc"
+                android:textColorHighlight="@color/light_brown"
+                android:textColorHint="@color/dark_gray"
+                android:textColorLink="@color/light_brown"
                 android:textSize="25dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -87,10 +92,10 @@
             android:id="@+id/sign_in_btn"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/button"
             android:text="@string/sign_in"
             android:textAllCaps="false"
@@ -103,7 +108,7 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="@string/registration"
         android:textColor="@color/colorAccent"
         android:textSize="25dp"
@@ -116,7 +121,7 @@
         android:id="@+id/wrong_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:text="Забыли пароль?"
         android:textColor="@color/colorAccent"
         android:textSize="25dp"
@@ -156,8 +161,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/fb"
-            android:layout_width="110dp"
-            android:layout_height="80dp"
+            android:layout_width="140dp"
+            android:layout_height="85dp"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="#3B5998"
@@ -165,8 +170,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/vk"
-            android:layout_width="110dp"
-            android:layout_height="80dp"
+            android:layout_width="140dp"
+            android:layout_height="85dp"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="#4C75A3"
@@ -174,8 +179,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/mailru"
-            android:layout_width="110dp"
-            android:layout_height="80dp"
+            android:layout_width="140dp"
+            android:layout_height="85dp"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:scaleType="fitXY"
@@ -184,8 +189,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ok"
-            android:layout_width="110dp"
-            android:layout_height="80dp"
+            android:layout_width="140dp"
+            android:layout_height="85dp"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="#ED8112"

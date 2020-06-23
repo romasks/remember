@@ -33,6 +33,7 @@ import com.remember.app.data.models.ResponseSocialAuth;
 import com.remember.app.data.models.ResponseUserInfo;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -65,7 +66,7 @@ public interface ApiMethods {
 
     @Headers("Content-Type: application/json")
     @GET("page/user/{id}")
-    Observable<List<MemoryPageModel>> getPages(@Path("id") String id);
+    Observable<LinkedList<MemoryPageModel>> getPages(@Path("id") String id);
 
     @GET("page/epit/{id}")
     Observable<List<ResponseEpitaphs>> getEpitaphs(@Path("id") int pageId);
@@ -271,14 +272,14 @@ public interface ApiMethods {
     Observable<Object> deleteEvent(@Header("Authorization") String token, @Path("id") Integer id);
 
     @GET("poisk/page")
-    Observable<List<MemoryPageModel>> searchPageAllDead(@Query("name") String name,
-                                                        @Query("secondname") String secondName,
-                                                        @Query("thirtname") String middleName,
-                                                        @Query("datarod") String dateStart,
-                                                        @Query("datasmert") String dateEnd,
-                                                        @Query("gorod") String city,
-                                                        @Query("status") String status,
-                                                        @Query("flag") Boolean flag);
+    Observable<LinkedList<MemoryPageModel>> searchPageAllDead(@Query("name") String name,
+                                                              @Query("secondname") String secondName,
+                                                              @Query("thirtname") String middleName,
+                                                              @Query("datarod") String dateStart,
+                                                              @Query("datasmert") String dateEnd,
+                                                              @Query("gorod") String city,
+                                                              @Query("status") String status,
+                                                              @Query("flag") Boolean flag);
 
     @GET("poisk/event")
     Observable<List<ResponseEvents>> searchEventReligios(@Query("date") String date,

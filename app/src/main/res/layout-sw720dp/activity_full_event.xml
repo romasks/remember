@@ -27,7 +27,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/avatar"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="350dp"
                 android:layout_marginTop="20dp"
                 android:scaleType="centerCrop" />
 
@@ -40,7 +40,7 @@
                 android:layout_marginEnd="10dp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/brown"
-                android:textSize="26dp"
+                android:textSize="33dp"
                 android:textStyle="bold"
                 tools:text="Заголовок события" />
 
@@ -51,7 +51,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/gray"
-                android:textSize="16dp"
+                android:textSize="23dp"
                 tools:text="25.05.1346" />
 
             <com.remember.app.customView.CustomTextView
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:gravity="center"
-                android:textSize="16dp"
+                android:textSize="23dp"
                 tools:text="Пример длинного текста описания события для проверки выравнивания текста" />
 
         </LinearLayout>
