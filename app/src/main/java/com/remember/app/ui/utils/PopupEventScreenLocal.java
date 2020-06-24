@@ -76,11 +76,11 @@ public class PopupEventScreenLocal extends PopupWindow {
                 }
 //            }
         });
-
         date.setOnClickListener(this::setDateBegin);
     }
 
     public void setDateBegin(View v) {
+        System.out.println("DATA RRRRR = " + date.getText().toString());
         /*new DatePickerDialog(v.getContext(), dateBeginPickerDialog,
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
@@ -92,6 +92,7 @@ public class PopupEventScreenLocal extends PopupWindow {
                 dateAndTime.set(Calendar.YEAR, year);
                 dateAndTime.set(Calendar.MONTH, monthOfYear);
                 dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
                 setInitialDateBegin();
                 /*pickedDateTime = dateAndTime.getTimeInMillis();
                 if (pickedDateTime > calendar.getTimeInMillis()) {
@@ -102,7 +103,7 @@ public class PopupEventScreenLocal extends PopupWindow {
             }
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         //dialog.setMaxDate(new Date().getTime());
-        dialog.setYearRange(1900, Calendar.getInstance().get(Calendar.YEAR));
+        dialog.setYearRange(1905, Calendar.getInstance().get(Calendar.YEAR));
         dialog.show(this.supportFragmentManager, "tag");
 
     }

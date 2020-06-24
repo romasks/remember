@@ -139,14 +139,15 @@
                     style="@style/NewMemoryPageInputTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:layout_gravity="start"
-                    android:textAlignment="textStart"
-                    android:textColor="@drawable/abc"
+                    android:editable="false"
                     android:focusable="false"
                     android:hint="@string/date_begin"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@drawable/abc"
                     android:textSize="20dp" />
 
             </com.google.android.material.textfield.TextInputLayout>

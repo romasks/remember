@@ -52,6 +52,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 import static android.provider.MediaStore.Images.Media.getBitmap;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
@@ -68,6 +69,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.ui.utils.DateUtils.dfLocal;
+import static com.remember.app.ui.utils.DateUtils.parseLocalFormat;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
@@ -390,7 +392,53 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+        String localDate = date.getText().toString();
+        if(localDate.length() == 0) {
+            DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                    dateAndTime.set(Calendar.YEAR, year);
+                    dateAndTime.set(Calendar.MONTH, monthOfYear);
+                    dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    pickedDateTime = dateAndTime.getTimeInMillis();
+                    Log.d("myLog", "pickedtime = " + dateAndTime.getTimeInMillis());
+                    Log.d("myLog", "calendar time = " + calendar.getTime());
+                    if (pickedDateTime > calendar.getTimeInMillis()) {
+                        date.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
+                    } else {
+                        Utils.showSnack(date, getResources().getString(R.string.error_event_date_before_date_birth));
+                    }
+                }
+            }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            dialog.setMaxDate(new Date().getTime());
+            dialog.setYearRange(1800, Calendar.getInstance().get(Calendar.YEAR));
+            dialog.show(getSupportFragmentManager(), "tag");
+        } else {
+            int day3 = Integer.parseInt(localDate.substring(0,2));
+            int month3 = Integer.parseInt(localDate.substring(3,5));
+            int year3 = Integer.parseInt(localDate.substring(6,10));
+            DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                    dateAndTime.set(Calendar.YEAR, year);
+                    dateAndTime.set(Calendar.MONTH, monthOfYear);
+                    dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    pickedDateTime = dateAndTime.getTimeInMillis();
+                    Log.d("myLog", "pickedtime = " + dateAndTime.getTimeInMillis());
+                    Log.d("myLog", "calendar time = " + calendar.getTime());
+                    if (pickedDateTime > calendar.getTimeInMillis()) {
+                        date.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
+                    } else {
+                        Utils.showSnack(date, getResources().getString(R.string.error_event_date_before_date_birth));
+                    }
+                }
+            }, year3, month3-1, day3);
+            dialog.setMaxDate(new Date().getTime());
+            dialog.setYearRange(1800, Calendar.getInstance().get(Calendar.YEAR));
+            dialog.show(getSupportFragmentManager(), "tag");
+        }
+    }
+        /*DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
                 dateAndTime.set(Calendar.YEAR, year);
@@ -408,7 +456,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         dialog.setMaxDate(new Date().getTime());
         dialog.show(getSupportFragmentManager(), "tag");
-    }
+    }*/
 
     @OnClick(R.id.settings)
     public void deleteEvent() {

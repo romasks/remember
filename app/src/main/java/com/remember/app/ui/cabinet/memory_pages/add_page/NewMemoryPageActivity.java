@@ -3,6 +3,7 @@ package com.remember.app.ui.cabinet.memory_pages.add_page;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -54,6 +56,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 import static android.provider.MediaStore.Images.Media.getBitmap;
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
@@ -493,6 +496,22 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         dateEnd.setOnClickListener(this::setDateEnd);
     }
 
+    @OnLongClick(R.id.date_begin)
+    public void longC() {
+        System.out.println("GOOOOOOOL");
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInputFromWindow(dateBegin.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+        dateBegin.requestFocus();
+    }
+
+    private boolean setLong(View view) {
+        System.out.println("GOOOOOOOL");
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInputFromWindow(dateBegin.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+        dateBegin.requestFocus();
+        return true;
+    }
+
     private void setInitialDateBegin() {
         dateBegin.setText(dfLocal.format(new Date(dateAndTime.getTimeInMillis())));
     }
@@ -502,41 +521,89 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     }
 
     private void setDateBegin(View v) {
-        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
-            dateAndTime.set(Calendar.YEAR, year);
-            dateAndTime.set(Calendar.MONTH, monthOfYear);
-            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            startDate = dateAndTime.getTimeInMillis();
-            Date endDate = parseLocalFormat(dateEnd.getText().toString());
-            if (endDate != null && dateAndTime.getTime().after(endDate)) {
-                Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
-            } else {
-                setInitialDateBegin();
-            }
-        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        dialog.setMaxDate(new Date().getTime());
-        dialog.show(getSupportFragmentManager(), "tag");
-
-    }
-
-    private void setDateEnd(View v) {
-        DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String localDateBegin = dateBegin.getText().toString();
+        if(localDateBegin.length() == 0) {
+            DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
                 dateAndTime.set(Calendar.YEAR, year);
                 dateAndTime.set(Calendar.MONTH, monthOfYear);
                 dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                endDate = dateAndTime.getTimeInMillis();
-                Date startDate = parseLocalFormat(dateBegin.getText().toString());
-                if (startDate != null && startDate.after(dateAndTime.getTime())) {
+                startDate = dateAndTime.getTimeInMillis();
+                Date endDate = parseLocalFormat(dateEnd.getText().toString());
+                if (endDate != null && dateAndTime.getTime().after(endDate)) {
                     Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
                 } else {
-                    setInitialDateEnd();
+                    setInitialDateBegin();
                 }
-            }
-        }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        dialog.setMaxDate(new Date().getTime());
-        dialog.show(getSupportFragmentManager(), "tag");
+            }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            dialog.setMaxDate(new Date().getTime());
+            dialog.setYearRange(1800, Calendar.getInstance().get(Calendar.YEAR));
+            dialog.show(getSupportFragmentManager(), "tag");
+        } else {
+            int day1 = Integer.parseInt(localDateBegin.substring(0,2));
+            int month1 = Integer.parseInt(localDateBegin.substring(3,5));
+            int year1 = Integer.parseInt(localDateBegin.substring(6,10));
+            DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance((view, year, monthOfYear, dayOfMonth) -> {
+                dateAndTime.set(Calendar.YEAR, year);
+                dateAndTime.set(Calendar.MONTH, monthOfYear);
+                dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                //startDate = dateAndTime.getTimeInMillis();
+                Date endDate = parseLocalFormat(dateEnd.getText().toString());
+                if (endDate != null && dateAndTime.getTime().after(endDate)) {
+                    Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+                } else {
+                    setInitialDateBegin();
+                }
+            }, year1, month1-1, day1);
+            dialog.setMaxDate(new Date().getTime());
+            dialog.setYearRange(1800, Calendar.getInstance().get(Calendar.YEAR));
+            dialog.show(getSupportFragmentManager(), "tag");
+        }
+    }
+
+    private void setDateEnd(View v) {
+        String localDateEnd = dateEnd.getText().toString();
+        if(localDateEnd.length() == 0) {
+            DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                    dateAndTime.set(Calendar.YEAR, year);
+                    dateAndTime.set(Calendar.MONTH, monthOfYear);
+                    dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    endDate = dateAndTime.getTimeInMillis();
+                    Date startDate = parseLocalFormat(dateBegin.getText().toString());
+                    if (startDate != null && startDate.after(dateAndTime.getTime())) {
+                        Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+                    } else {
+                        setInitialDateEnd();
+                    }
+                }
+            }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            dialog.setMaxDate(new Date().getTime());
+            dialog.setYearRange(1800, Calendar.getInstance().get(Calendar.YEAR));
+            dialog.show(getSupportFragmentManager(), "tag");
+        } else {
+            int day2 = Integer.parseInt(localDateEnd.substring(0,2));
+            int month2 = Integer.parseInt(localDateEnd.substring(3,5));
+            int year2 = Integer.parseInt(localDateEnd.substring(6,10));
+            DatePickerFragmentDialog dialog = DatePickerFragmentDialog.newInstance(new DatePickerFragmentDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePickerFragmentDialog view, int year, int monthOfYear, int dayOfMonth) {
+                    dateAndTime.set(Calendar.YEAR, year);
+                    dateAndTime.set(Calendar.MONTH, monthOfYear);
+                    dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    endDate = dateAndTime.getTimeInMillis();
+                    Date startDate = parseLocalFormat(dateBegin.getText().toString());
+                    if (startDate != null && startDate.after(dateAndTime.getTime())) {
+                        Utils.showSnack(dateBegin, getResources().getString(R.string.events_error_date_death_before_date_birth));
+                    } else {
+                        setInitialDateEnd();
+                    }
+                }
+            }, year2, month2-1, day2);
+            dialog.setMaxDate(new Date().getTime());
+            dialog.setYearRange(1800, Calendar.getInstance().get(Calendar.YEAR));
+            dialog.show(getSupportFragmentManager(), "tag");
+        }
     }
 
     private void initToolbar() {
