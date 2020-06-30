@@ -8,7 +8,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -29,7 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DESCRIPTION;
@@ -158,9 +157,9 @@ public class EventFullActivity extends BaseActivity implements EventView {
     private void setEventData(EventModel responseEvents) {
         try {
             if (!responseEvents.getPicture().contains("upload")) {
-                setEventPicture(BASE_SERVICE_URL + "/uploads/" + responseEvents.getPicture());
+                setEventPicture(BASE_URL_FROM_PHOTO + "/uploads/" + responseEvents.getPicture());
             } else if (!responseEvents.getPicture().isEmpty()) {
-                setEventPicture(BASE_SERVICE_URL + responseEvents.getPicture());
+                setEventPicture(BASE_URL_FROM_PHOTO + responseEvents.getPicture());
             } else {
                 setEventPicture(mDefaultBackground);
             }
@@ -191,9 +190,9 @@ public class EventFullActivity extends BaseActivity implements EventView {
     private void setEventData(ResponseEvents responseEvents) {
         try {
             if (!responseEvents.getPicture().contains("upload")) {
-                setEventPicture(BASE_SERVICE_URL + "/uploads/" + responseEvents.getPicture());
+                setEventPicture(BASE_URL_FROM_PHOTO + "/uploads/" + responseEvents.getPicture());
             } else if (!responseEvents.getPicture().isEmpty()) {
-                setEventPicture(BASE_SERVICE_URL + responseEvents.getPicture());
+                setEventPicture(BASE_URL_FROM_PHOTO + responseEvents.getPicture());
             } else {
                 setEventPicture(mDefaultBackground);
             }

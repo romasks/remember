@@ -60,7 +60,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
@@ -284,7 +284,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     private void setItems(EventModel requestEvent) {
         try {
-            glideLoadIntoWithError(this, BASE_SERVICE_URL + requestEvent.getPicture(), imageAvatar);
+            glideLoadIntoWithError(this, BASE_URL_FROM_PHOTO + requestEvent.getPicture(), imageAvatar);
             dateView.setText(DateUtils.convertRemoteToLocalFormat(requestEvent.getDate()));
             eventName.setText(requestEvent.getName());
             if (requestEvent.getDescription() != null && !requestEvent.getDescription().equals(""))

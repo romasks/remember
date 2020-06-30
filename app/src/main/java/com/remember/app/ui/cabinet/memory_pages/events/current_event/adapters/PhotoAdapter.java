@@ -11,17 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.remember.app.R;
 import com.remember.app.data.models.EventSliderPhotos;
-import com.remember.app.data.models.ResponseImagesSlider;
-import com.remember.app.ui.adapters.PhotoSliderAdapter;
-import com.remember.app.ui.base.BaseViewHolder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderAdapterHolder> {
@@ -79,7 +75,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoSliderA
 
         public void onBind(int position, ArrayList<EventSliderPhotos> list) {
             try {
-                setGlideImage(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
+
+
+
+
+                setGlideImage(context, BASE_URL_FROM_PHOTO + responseImagesSliders.get(position).getPicture(), imageView);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

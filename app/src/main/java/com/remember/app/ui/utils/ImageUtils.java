@@ -25,7 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.data.Constants.CROP_IMAGE_RECT;
 import static com.remember.app.ui.utils.Utils.convertDpToPixels;
 
@@ -41,7 +41,7 @@ public class ImageUtils {
 
     public static void setGlideImage(Object imageObj, ImageView targetView) {
         if (isUploadedImage(imageObj)) {
-            imageObj = BASE_SERVICE_URL + imageObj;
+            imageObj = BASE_URL_FROM_PHOTO + imageObj;
         }
         setGlideImage(targetView.getContext(), imageObj, targetView);
     }
@@ -58,6 +58,20 @@ public class ImageUtils {
                 .apply(RequestOptions.circleCropTransform())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
+                .into(targetView);
+        targetView.setColorFilter(blackWhiteFilter);
+    }
+
+    public static void setGlideImageCache(Context context, Object imageObj, ImageView targetView) {
+        if (imageObj instanceof String) {
+            try {
+                imageObj = encodeImageUrl((String) imageObj);
+            } catch (MalformedURLException | URISyntaxException ignored) {
+            }
+        }
+        GlideApp.with(context)
+                .load(imageObj)
+                .apply(RequestOptions.circleCropTransform())
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
     }
@@ -92,7 +106,7 @@ public class ImageUtils {
 
     public static void glideLoadIntoWithError(Object imageObj, ImageView targetView) {
         if (isUploadedImage(imageObj)) {
-            imageObj = BASE_SERVICE_URL + imageObj;
+            imageObj = BASE_URL_FROM_PHOTO + imageObj;
         }
         glideLoadIntoWithError(targetView.getContext(), imageObj, targetView);
     }
@@ -107,7 +121,7 @@ public class ImageUtils {
 
     public static void setGridImage(Object imageObj, ImageView targetView, Point size) {
         if (isUploadedImage(imageObj)) {
-            imageObj = BASE_SERVICE_URL + imageObj;
+            imageObj = BASE_URL_FROM_PHOTO + imageObj;
 
             if (size != null) {
                 targetView.setMinimumHeight(size.x / 3);
@@ -180,7 +194,7 @@ public class ImageUtils {
     }
 
     private static boolean isUploadedImage(Object imageObj) {
-        return imageObj instanceof String && ((String) imageObj).contains("uploads") && !((String) imageObj).contains(BASE_SERVICE_URL);
+        return imageObj instanceof String && ((String) imageObj).contains("uploads") && !((String) imageObj).contains(BASE_URL_FROM_PHOTO);
     }
 
 }

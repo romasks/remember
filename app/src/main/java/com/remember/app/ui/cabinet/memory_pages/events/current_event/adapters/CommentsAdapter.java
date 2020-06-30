@@ -18,9 +18,8 @@ import com.remember.app.data.models.EventComments;
 import com.remember.app.ui.utils.DateUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
@@ -154,7 +153,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 container.setVisibility(View.GONE);
                 empty.setVisibility(View.VISIBLE);
             } else {
-                setGlideImage(itemView.getContext(),BASE_SERVICE_URL + comments.get(getAdapterPosition()).getPicture(), avatar);
+                setGlideImage(itemView.getContext(), BASE_URL_FROM_PHOTO + comments.get(getAdapterPosition()).getPicture(), avatar);
                 userName.setText(comments.get(getAdapterPosition()).getName());
                 comment.setText(comments.get(getAdapterPosition()).getComment());
 //                String[] dates = comments.get(getAdapterPosition()).getCreatedAt().split("T");

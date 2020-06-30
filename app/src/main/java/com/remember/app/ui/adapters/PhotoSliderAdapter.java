@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -81,7 +81,7 @@ public class PhotoSliderAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         public void onBind(int position) {
             try {
-                setGlideImage(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
+                setGlideImage(context, BASE_URL_FROM_PHOTO + responseImagesSliders.get(position).getPicture(), imageView);
                 imageView.setOnClickListener(this);
             } catch (Exception ignored) {
             }

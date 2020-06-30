@@ -399,7 +399,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
     private void unsubscribeToTopic() {
-        String topic = "/topics/user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
+        String topic = "user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
                 .addOnCompleteListener(task -> {
                     String msg = "unsubscr";

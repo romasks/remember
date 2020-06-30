@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -59,7 +58,7 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 
 import static android.provider.MediaStore.Images.Media.getBitmap;
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CEMETERY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_CITY;
 import static com.remember.app.data.Constants.BURIAL_PLACE_COORDS;
@@ -441,7 +440,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
         }
         dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
         dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
-        glideLoadIntoWithError(BASE_SERVICE_URL + memoryPageModel.getPicture(), image);
+        glideLoadIntoWithError(BASE_URL_FROM_PHOTO + memoryPageModel.getPicture(), image);
     }
 
     @OnClick(R.id.settings)

@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.ui.utils.DateUtils.convertRemoteToLocalFormat;
 import static com.remember.app.ui.utils.DateUtils.getDifferenceDays;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
@@ -105,7 +105,7 @@ public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 callback.openEvent(requestAddEvent.get(position).getId(), requestAddEvent.get(position).getPicture());
             });
             if (requestAddEvent.get(position).getPicture() != null && !requestAddEvent.get(position).getPicture().isEmpty()) {
-                setGlideImage(itemView.getContext(), BASE_SERVICE_URL + requestAddEvent.get(position).getPicture(), avatarImage);
+                setGlideImage(itemView.getContext(), BASE_URL_FROM_PHOTO + requestAddEvent.get(position).getPicture(), avatarImage);
             } else {
                 setGlideImage(itemView.getContext(), R.drawable.ic_round_camera, avatarImage);
             }

@@ -52,10 +52,9 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 
 import static android.provider.MediaStore.Images.Media.getBitmap;
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ACCESS;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_DATE;
@@ -69,7 +68,6 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.ui.utils.DateUtils.dfLocal;
-import static com.remember.app.ui.utils.DateUtils.parseLocalFormat;
 import static com.remember.app.ui.utils.FileUtils.saveBitmap;
 import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
 import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
@@ -317,7 +315,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
         String access = bundle.getString(INTENT_EXTRA_EVENT_ACCESS, "0");
         String oneFlag = bundle.getString(INTENT_EXTRA_EVENT_IS_FOR_ONE, "0");
 
-        glideLoadInto(this, BASE_SERVICE_URL + imageUrl, image);
+        glideLoadInto(this, BASE_URL_FROM_PHOTO + imageUrl, image);
 
         if (getIntent().getBooleanExtra(INTENT_EXTRA_IS_EVENT_EDITING, false)) {
             saveButton.setText(getString(R.string.change_event));

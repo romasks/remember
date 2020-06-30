@@ -95,7 +95,7 @@ public class ResponseSettings {
     public String getPicture() {
         return picture == null ? ""
                 : picture.contains("http") ? picture
-                : Constants.BASE_SERVICE_URL + picture;
+                : Constants.BASE_URL_FROM_PHOTO + picture;
     }
 
     public void setPicture(String picture) {

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
+import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 
 public class SlidePagerAdapterPhoto extends PagerAdapter {
 
@@ -67,7 +67,7 @@ public class SlidePagerAdapterPhoto extends PagerAdapter {
 
 
         count.getCountPage(String.valueOf(responseImagesSliders.size()));
-        glideLoadInto(context, BASE_SERVICE_URL + responseImagesSliders.get(position).getPicture(), imageView);
+        glideLoadInto(context, BASE_URL_FROM_PHOTO + responseImagesSliders.get(position).getPicture(), imageView);
         container.addView(view);
 
         return view;

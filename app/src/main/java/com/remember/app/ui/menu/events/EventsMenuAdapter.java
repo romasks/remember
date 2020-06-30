@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
@@ -29,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
+import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
@@ -106,7 +105,7 @@ public class EventsMenuAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             Drawable mDefaultBackground = context.getResources().getDrawable(R.drawable.no_photo);
             try {
                 if (!responseEvents.get(position).getPicture().contains("upload")) {
-                    setGlideImage(itemView.getContext(), BASE_SERVICE_URL + "/uploads/" + responseEvents.get(position).getPicture(), avatarImage);
+                    setGlideImage(itemView.getContext(), BASE_URL_FROM_PHOTO + "/uploads/" + responseEvents.get(position).getPicture(), avatarImage);
                 }
             } catch (Exception e) {
                 setGlideImage(itemView.getContext(), mDefaultBackground, avatarImage);
