@@ -1,6 +1,7 @@
 package com.remember.app.ui.grid;
 
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RefreshToken;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.base.BaseView;
 
@@ -16,4 +17,8 @@ public interface GridView extends BaseView {
     void onStatus(Object o);
 
     void onErrorSendID(Throwable throwable);
+
+    void refreshToken(RefreshToken model);
+
+    void onErrorRefresh(Throwable throwable);
 }

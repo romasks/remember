@@ -5,125 +5,109 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResponseEpitaphs {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("page_id")
-    @Expose
-    private Integer pageId;
-    @SerializedName("user_id")
-    @Expose
-    private Integer userId;
-    @SerializedName("parent_id")
-    @Expose
-    private Integer parentId;
     @SerializedName("body")
-    @Expose
     private String body;
     @SerializedName("candle")
-    @Expose
-    private Integer candle;
-    @SerializedName("status")
-    @Expose
-    private String status;
+    private int candle;
     @SerializedName("created_at")
-    @Expose
     private String createdAt;
-    @SerializedName("updated_at")
-    @Expose
-    private String updatedAt;
     @SerializedName("deleted_at")
-    @Expose
     private Object deletedAt;
-    @SerializedName("user")
-    @Expose
-    private ResponseUser user;
+    @SerializedName("id")
+    private int id;
+    @SerializedName("page_id")
+    private int pageId;
+    @SerializedName("parent_id")
+    private int parentId;
+    @SerializedName("settings_name")
+    private Object settingsName;
+    @SerializedName("settings_picture")
+    private Object settingsPicture;
+    @SerializedName("status")
+    private String status;
+    @SerializedName("updated_at")
+    private String updatedAt;
+    @SerializedName("user_id")
+    private int userId;
+    @SerializedName("user_name")
+    private String userName;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getPageId() {
-        return pageId;
-    }
-
-    public void setPageId(Integer pageId) {
-        this.pageId = pageId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
+    public void setBody(String body){
         this.body = body;
     }
-
-    public Integer getCandle() {
-        return candle;
+    public String getBody(){
+        return this.body;
     }
-
-    public void setCandle(Integer candle) {
+    public void setCandle(int candle){
         this.candle = candle;
     }
-
-    public String getStatus() {
-        return status;
+    public int getCandle(){
+        return this.candle;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(String createdAt){
         this.createdAt = createdAt;
     }
-
-    public String getUpdatedAt() {
-        return updatedAt;
+    public String getCreatedAt(){
+        return this.createdAt;
     }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Object getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Object deletedAt) {
+    public void setDeletedAt(Object deletedAt){
         this.deletedAt = deletedAt;
     }
-
-    public ResponseUser getUser() {
-        return user;
+    public Object getDeletedAt(){
+        return this.deletedAt;
     }
-
-    public void setUser(ResponseUser user) {
-        this.user = user;
+    public void setId(int id){
+        this.id = id;
+    }
+    public int getId(){
+        return this.id;
+    }
+    public void setPageId(int pageId){
+        this.pageId = pageId;
+    }
+    public int getPageId(){
+        return this.pageId;
+    }
+    public void setParentId(int parentId){
+        this.parentId = parentId;
+    }
+    public int getParentId(){
+        return this.parentId;
+    }
+    public void setSettingsName(Object settingsName){
+        this.settingsName = settingsName;
+    }
+    public Object getSettingsName(){
+        return this.settingsName;
+    }
+    public void setSettingsPicture(Object settingsPicture){
+        this.settingsPicture = settingsPicture;
+    }
+    public Object getSettingsPicture(){
+        return this.settingsPicture;
+    }
+    public void setStatus(String status){
+        this.status = status;
+    }
+    public String getStatus(){
+        return this.status;
+    }
+    public void setUpdatedAt(String updatedAt){
+        this.updatedAt = updatedAt;
+    }
+    public String getUpdatedAt(){
+        return this.updatedAt;
+    }
+    public void setUserId(int userId){
+        this.userId = userId;
+    }
+    public int getUserId(){
+        return this.userId;
+    }
+    public void setUserName(String userName){
+        this.userName = userName;
+    }
+    public String getUserName(){
+        return this.userName;
     }
 }

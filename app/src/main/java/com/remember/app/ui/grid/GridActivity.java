@@ -3,6 +3,8 @@ package com.remember.app.ui.grid;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RefreshToken;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.ImageAdapter;
@@ -62,6 +65,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_IS_LAUNCH_MODE;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
+import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
@@ -106,6 +110,29 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         return R.layout.activity_grid;
     }
 
+    void checkIntentForNotification() {
+        String s = getIntent().getStringExtra("firstLink");
+        if (s != null)
+        Log.d("TTTTT", s);
+
+        String d = getIntent().getStringExtra("ID");
+        if (d != null)
+        Log.d("TTTTT", d);
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                String value = getIntent().getExtras().getString(key);
+                if (value != null && !value.equals("")) {
+                    if (value.equals("")) {
+                        Log.d("TTTTT", "value zero");
+                    }
+                    Log.d("TTTTT", value);
+                    NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.cancel(9379992);
+                }
+            }
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
@@ -116,7 +143,8 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         signInButton.setClickable(!isClickLocked);
         sendID();
         setUpRecycler();
-
+        checkIntentForNotification();
+        presenter.refreshToken();
         presenter.getImages(pageNumber);
         if (Prefs.getBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)) {
             Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false);
@@ -321,6 +349,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             allMemoryPageModels.get(lastIndex).setShowMore(true);
         }
         imageAdapter.setItems(allMemoryPageModels);
+        //TODO
     }
 
     @Override
@@ -455,5 +484,16 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     public void onErrorSendID(Throwable throwable) {
         Prefs.putBoolean("deviceID", true);
+    }
+
+    @Override
+    public void refreshToken(RefreshToken model) {
+        Prefs.putString(PREFS_KEY_TOKEN, model.getToken());
+    }
+
+    @Override
+    public void onErrorRefresh(Throwable throwable) {
+        Prefs.clear();
+        signInButton.setText(getResources().getString(R.string.grid_login));
     }
 }

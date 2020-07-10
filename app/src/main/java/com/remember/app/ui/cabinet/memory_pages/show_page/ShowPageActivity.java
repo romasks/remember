@@ -9,12 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +36,7 @@ import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.adapters.PhotoSliderAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
+import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.utils.DateUtils;
@@ -65,6 +64,7 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_GRAVE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
 import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
+import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
 import static com.remember.app.data.Constants.INTENT_EXTRA_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
 import static com.remember.app.data.Constants.INTENT_EXTRA_NAME;
@@ -81,6 +81,7 @@ import static com.remember.app.ui.utils.StringUtils.getStringFromField;
 
 public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener, SlidePhotoActivity.DeleteCallBack {
 
+    private boolean FROM_NOTIFICATION = false;
     private final String TAG = ShowPageActivity.class.getSimpleName();
 
     @InjectPresenter
@@ -165,13 +166,19 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     protected void onCreate(Bundle savedInstanceState) {
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
-
+        FROM_NOTIFICATION = getIntent().getBooleanExtra(INTENT_EXTRA_FROM_NOTIF, false);
+        Log.d("TTTTTTTShow", FROM_NOTIFICATION+"");
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             share_LinLayout.setVisibility(View.GONE);
             settings.setVisibility(View.GONE);
         }
-
+        String s = getIntent().getAction();
+        String d = getIntent().getExtras().getString("page_id");
+        if (s != null)
+            Log.d("TTTTTTTTTTTTTTT", s);
+        if (d != null)
+            Log.d("TTTTTTDDDDDD", d);
         title.setText(R.string.memory_page_header_text);
 
         Intent i = getIntent();
@@ -223,6 +230,12 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void onBackPressed() {
+        if (FROM_NOTIFICATION){
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
         super.onBackPressed();
     }
 
@@ -342,8 +355,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     public void onEpitaphButtonClick() {
         Intent intent = new Intent(this, EpitaphsActivity.class);
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
-        if (memoryPageModel.getId() !=null)
-        intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
+        if (memoryPageModel.getId() != null)
+            intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
         startActivity(intent);
     }
 

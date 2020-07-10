@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -14,7 +13,6 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseEpitaphs;
-import com.remember.app.data.models.ResponseUser;
 import com.remember.app.ui.base.BaseViewHolder;
 import com.remember.app.ui.utils.DateUtils;
 
@@ -97,24 +95,28 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         public void onBind(int position) {
             ResponseEpitaphs epitaph = responseEpitaphs.get(position);
-            ResponseUser user = epitaph.getUser();
 
             try {
-                setGlideImage(user.getSettings().getPicture(), avatar);
+                setGlideImage(epitaph.getSettingsPicture(), avatar);
             } catch (Exception e) {
                 setGlideImage(R.drawable.ic_user, avatar);
             }
 
-            delete.setOnClickListener(v -> callback.delete(epitaph.getId()));
+            delete.setOnClickListener(v -> {
+                        callback.delete(epitaph.getId());
+                    }
+            );
             change.setOnClickListener(v -> callback.change(epitaph));
-
-            boolean isOwnEpitaph = user.getId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
+            boolean isOwnEpitaph = false;
+                if (epitaph.getUserId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0")))
+                    isOwnEpitaph = true;
+                name.setText(epitaph.getUserName().isEmpty() ? "Неизвестный" : epitaph.getUserName());
             delete.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
             imgDelete.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
             change.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
             imgEdit.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
 
-            name.setText(user.getName().isEmpty() ? "Неизвестный" : user.getName());
+
             date.setText(DateUtils.convertRemoteToLocalFormat(epitaph.getUpdatedAt()));
             description.setText(epitaph.getBody());
         }

@@ -66,11 +66,12 @@ public class FCMService extends FirebaseMessagingService {
 
     private void sendNotification(Map<String, String> messageData) {
         Intent intent = new Intent(this, GridActivity.class);
-
+        Log.d("TTTTT", "base");
         if (Objects.equals(messageData.get("type"), "event")) {
             intent = new Intent(this, EventFullActivity.class);
             intent.putExtra(INTENT_EXTRA_EVENT_ID, Integer.parseInt(messageData.get("event_id")));
             intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
+            Log.d("TTTTT", "event");
         }
 
         if (Objects.equals(messageData.get("type"), "dead_event")) {
@@ -78,6 +79,7 @@ public class FCMService extends FirebaseMessagingService {
             intent.putExtra(INTENT_EXTRA_EVENT_ID, Integer.parseInt(messageData.get("event_id")));
             intent.putExtra(INTENT_EXTRA_PERSON, messageData.get("page_name"));
             intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
+            Log.d("TTTTT", "dead_event");
         }
 
         if (Objects.equals(messageData.get("type"), "dead") || Objects.equals(messageData.get("type"), "birth")) {
@@ -85,6 +87,12 @@ public class FCMService extends FirebaseMessagingService {
             intent.putExtra(INTENT_EXTRA_ID, Integer.parseInt(messageData.get("page_id")));
             intent.putExtra(INTENT_EXTRA_PERSON, messageData.get("page_name"));
             intent.putExtra(INTENT_EXTRA_IS_LIST, true);
+            Log.d("TTTTT", "birth");
+
+            intent.setAction("firstLink");
+          //  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("firstLink", messageData.get("page_id"));
+            //PendingIntent pendingFirst = PendingIntent.getActivity(this, 555, intent, PendingIntent.FLAG_ONE_SHOT);
         }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

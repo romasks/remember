@@ -137,6 +137,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
     @Override
     public void onError(Throwable throwable) {
         // placeholder
+        String s = throwable.getMessage();
         Log.d("TT", "dd");
     }
 

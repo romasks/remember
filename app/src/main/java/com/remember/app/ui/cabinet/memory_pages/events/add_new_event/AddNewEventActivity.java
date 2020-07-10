@@ -251,7 +251,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 CreateEventRequest createEventRequest = new CreateEventRequest();
                 createEventRequest.setPageId(String.valueOf(pageId));
                 createEventRequest.setName(title.getText().toString());
-                if (date.getText().toString().isEmpty()) {
+                if (!date.getText().toString().isEmpty()) {
                     createEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
                 }
                 createEventRequest.setFlag(forOne.isChecked() ? "1" : "0");
@@ -263,7 +263,7 @@ public class AddNewEventActivity extends BaseActivity implements AddNewEventView
                 editEventRequest.setEventId(eventId);
                 editEventRequest.setPageId(String.valueOf(pageId));
                 editEventRequest.setName(title.getText().toString());
-                if (date.getText().toString().isEmpty()) {
+                if (!date.getText().toString().isEmpty()) {
                     editEventRequest.setDate(DateUtils.convertLocalToRemoteFormat(date.getText().toString()));
                 }
                 editEventRequest.setFlag(forOne.isChecked() ? "0" : "1");

@@ -16,6 +16,7 @@ import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.EventSliderPhotos;
 import com.remember.app.data.models.EventVideos;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RefreshToken;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
@@ -566,6 +567,12 @@ public class ServiceNetworkImp implements ServiceNetwork {
     @Override
     public Observable<Object> deleteEventPhoto(int id, int photoID) {
         return apiMethods.deleteEventPhoto("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""), id, photoID)
+                .compose(rxSchedulers.applySchedulers());
+    }
+
+    @Override
+    public Observable<RefreshToken> refreshToken() {
+        return apiMethods.refreshToken("Bearer " + Prefs.getString(PREFS_KEY_TOKEN, ""))
                 .compose(rxSchedulers.applySchedulers());
     }
 }

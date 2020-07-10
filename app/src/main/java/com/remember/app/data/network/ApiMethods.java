@@ -13,6 +13,7 @@ import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.EventSliderPhotos;
 import com.remember.app.data.models.EventVideos;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RefreshToken;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
@@ -74,11 +75,6 @@ public interface ApiMethods {
     @Headers("Content-Type: application/json")
     @POST("epit/add")
     Observable<RequestAddEpitaphs> saveEpitaph(@Body RequestAddEpitaphs requestAddEpitaphs);
-
-//    @Headers("Content-Type: application/json")
-//    @POST("deadevent/add")
-//    Observable<RequestAddEvent> saveEvent(@Header("Authorization") String token,
-//                                          @Body RequestAddEvent requestAddEvent);
 
     @Multipart
     @POST("deadevent")
@@ -354,4 +350,7 @@ public interface ApiMethods {
     Observable<ResponseCemetery> deleteEventPhoto(@Header("Authorization") String token,
                                                   @Path("id") int id, @Path("photo_id") int photoId
     );
+
+    @GET("/user/refresh-token")
+    Observable<RefreshToken> refreshToken(@Header("Authorization") String token);
 }

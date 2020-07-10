@@ -52,4 +52,14 @@ public class GridPresenter extends BasePresenter<GridView> {
                 );
         unsubscribeOnDestroy(subscription);
     }
+
+    void refreshToken(){
+        if (isOffline()) return;
+        Disposable subscription = serviceNetwork.refreshToken()
+                .subscribe(
+                        getViewState()::refreshToken,
+                        getViewState()::onErrorRefresh
+                );
+        unsubscribeOnDestroy(subscription);
+    }
 }

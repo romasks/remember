@@ -30,6 +30,7 @@ import com.remember.app.ui.utils.Utils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.BIRTH_DATE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_ID;
@@ -91,8 +92,6 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
         } catch (NullPointerException ignored) {
         }
 
-        presenter.getEvents(pageId);
-
         eventsDeceaseAdapter = new EventsDeceaseAdapter();
         eventsDeceaseAdapter.setCallback(this);
         eventsDeceaseAdapter.setIsOwnPage(!isShow);
@@ -125,6 +124,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
             onBackPressed();
         });
     }
+
 
     @Override
     protected int getContentView() {

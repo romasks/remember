@@ -63,7 +63,7 @@
         android:background="#00000000"
         android:gravity="center"
         android:text="Видео нет"
-        android:textSize="24dp"
+        android:textSize="25dp"
         android:textColor="@color/comment"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

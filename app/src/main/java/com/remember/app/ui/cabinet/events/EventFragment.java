@@ -82,6 +82,7 @@ public class EventFragment extends BaseFragment implements EventView, EventsFrag
 
     @Override
     public void onError(Throwable throwable) {
+        String s = throwable.getMessage();
         Utils.showSnack(recyclerView, "Ошибка получения события");
     }
 

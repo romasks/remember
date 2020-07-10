@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/grid_sign_in"
         android:layout_below="@id/app_bar_grid_layout"
-        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="3"
         tools:itemCount="15"

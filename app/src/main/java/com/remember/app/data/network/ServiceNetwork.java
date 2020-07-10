@@ -14,6 +14,7 @@ import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.EventSliderPhotos;
 import com.remember.app.data.models.EventVideos;
 import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.data.models.RefreshToken;
 import com.remember.app.data.models.RequestAddEpitaphs;
 import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.data.models.RequestQuestion;
@@ -149,4 +150,6 @@ public interface ServiceNetwork {
     Observable<Object> addEventPhoto(int id, String description,File img);
 
     Observable<Object> deleteEventPhoto(int id, int photoID);
+
+    Observable<RefreshToken> refreshToken();
 }

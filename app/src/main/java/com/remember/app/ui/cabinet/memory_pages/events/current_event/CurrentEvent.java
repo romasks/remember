@@ -37,6 +37,7 @@ import com.remember.app.data.models.EventModel;
 import com.remember.app.data.models.EventSliderPhotos;
 import com.remember.app.data.models.EventVideos;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters.CommentsAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.adapters.PhotoAdapter;
@@ -70,6 +71,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IMAGE_URL;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_IS_FOR_ONE;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
+import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
 import static com.remember.app.data.Constants.INTENT_EXTRA_OWNER_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
@@ -112,6 +114,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
     LinearLayout photoLayout;
     private PhotoDialog photoDialog;
 
+    private boolean FROM_NOTIFICATION = false;
     private Integer eventId = 0;
     private String personName;
     private String imageUrl = "";
@@ -136,7 +139,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
         activity = this;
-
+        Log.d("TTTTTTwwwww", "open current event act");
 
         initIU(true);
 
@@ -158,6 +161,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         imageUrl = getIntent().getStringExtra(INTENT_EXTRA_EVENT_IMAGE_URL);
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
         ownerID = getIntent().getStringExtra(INTENT_EXTRA_OWNER_ID);
+        FROM_NOTIFICATION = getIntent().getBooleanExtra(INTENT_EXTRA_FROM_NOTIF, false);
 
         isOwn = Integer.parseInt(ownerID) == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
         photoLayout.setVisibility(isOwn ? View.VISIBLE : View.GONE);
@@ -295,6 +299,12 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getDeadEvent(eventId);
+    }
+
     @OnClick(R.id.settings)
     public void onSettingsClicked() {
         Intent intent = new Intent(this, AddNewEventActivity.class);
@@ -394,6 +404,17 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
             presenter.addVideo(eventId, body);
         };
         videoDialog.show(getSupportFragmentManager(), AddVideoDialog.TAG);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (FROM_NOTIFICATION){
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        super.onBackPressed();
     }
 
     @OnClick(R.id.back_button)

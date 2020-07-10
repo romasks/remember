@@ -3,7 +3,6 @@ package com.remember.app.ui.cabinet.main;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -18,8 +17,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -61,6 +58,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.remember.app.data.Constants.INTENT_EXTRA_FROM_NOTIF;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_EMAIL;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
@@ -77,7 +75,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, Callback, PopupEventScreen.Callback, MainView {
 
     private static String TAG = MainActivity.class.getSimpleName();
-
+    private boolean FROM_NOTIFICATION = false;
     @InjectPresenter
     MainPresenter presenter;
 
@@ -117,7 +115,7 @@ public class MainActivity extends BaseActivity
         Utils.setTheme(this);
 
         super.onCreate(savedInstanceState);
-
+        FROM_NOTIFICATION = getIntent().getBooleanExtra(INTENT_EXTRA_FROM_NOTIF, false);
         subscribeToTopic();
         if (Utils.isThemeDark()) {
             viewPager.setBackgroundColor(getResources().getColor(R.color.colorBlackDark));
@@ -286,6 +284,9 @@ public class MainActivity extends BaseActivity
         adapter.addFragment(pageFragment, "Памятные страницы");
         adapter.addFragment(new EventFragment(), "События");
         viewPager.setAdapter(adapter);
+        if (FROM_NOTIFICATION)
+            viewPager.setCurrentItem(1);
+        Log.d("TTTTTTTMain", FROM_NOTIFICATION+"");
 
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -385,7 +386,8 @@ public class MainActivity extends BaseActivity
         Prefs.putBoolean(PREFS_KEY_THEME, !Prefs.getBoolean(PREFS_KEY_THEME, THEME_LIGHT));
         this.recreate();
     }
-    private void subscribeToTopic(){
+
+    private void subscribeToTopic() {
 
         String topic = "user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
@@ -398,7 +400,7 @@ public class MainActivity extends BaseActivity
                 });
     }
 
-    private void unsubscribeToTopic(){
+    private void unsubscribeToTopic() {
         String topic = "user-" + Prefs.getString(PREFS_KEY_USER_ID, "");
         FirebaseMessaging.getInstance().unsubscribeFromTopic(topic)
                 .addOnCompleteListener(task -> {
@@ -410,14 +412,14 @@ public class MainActivity extends BaseActivity
                 });
     }
 
-    private void setScaleText(NavigationView navigationView,float proportion, int id){
+    private void setScaleText(NavigationView navigationView, float proportion, int id) {
         MenuItem item = navigationView.getMenu().findItem(id);
         SpannableString spanString = new SpannableString(item.getTitle().toString());
         spanString.setSpan(new RelativeSizeSpan(proportion), 0, spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         item.setTitle(spanString);
     }
 
-    private void changeMenuSize(NavigationView navigationView){
+    private void changeMenuSize(NavigationView navigationView) {
         float proportion;
         if (Prefs.getBoolean("standard", true))
             proportion = 1f;
@@ -440,14 +442,15 @@ public class MainActivity extends BaseActivity
         List<String> arr = new ArrayList<>();
         arr.add("Памятные страницы");
         arr.add("События");
-        for (int j = 0 ; j<tabBar.getTabCount(); j++) {
+        for (int j = 0; j < tabBar.getTabCount(); j++) {
             View tab = (View) LayoutInflater.from(getBaseContext()).inflate(R.layout.tab_item, null);
-            TextView txtLabel  = tab.findViewById(R.id.text1);
+            TextView txtLabel = tab.findViewById(R.id.text1);
             txtLabel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, scaleFont(txtLabel));
             txtLabel.setText(arr.get(j));
             Objects.requireNonNull(tabBar.getTabAt(j)).setCustomView(tab);
         }
     }
+
     private float scaleFont(TextView textView) {
         if (Prefs.getBoolean("standard", true))
             return (textView.getTextSize() / getResources().getDisplayMetrics().density - 2);
