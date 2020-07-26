@@ -19,8 +19,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 91
-        versionName "1.5.11"
+        versionCode 92
+        versionName "1.5.12"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -199,6 +199,7 @@ dependencies {
     }
 
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+    implementation 'com.google.android.play:core:1.7.3'
 }
 
 repositories {

@@ -250,7 +250,7 @@
                     android:button="@drawable/radio_button"
                     android:paddingStart="10dp"
                     android:text="Да"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textSize="27dp"
                     tools:ignore="RtlSymmetry" />
 
@@ -264,7 +264,7 @@
                     android:checked="true"
                     android:paddingStart="10dp"
                     android:text="Нет"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textSize="27dp"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous"
                     tools:ignore="RtlSymmetry" />
@@ -305,7 +305,7 @@
                     android:checked="true"
                     android:paddingStart="10dp"
                     android:text="@string/for_all"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textSize="27dp"
                     tools:ignore="RtlSymmetry" />
 
@@ -318,7 +318,7 @@
                     android:paddingStart="10dp"
                     android:button="@drawable/radio_button"
                     android:text="@string/for_yourself"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textSize="27dp"
                     app:layout_constraintTop_toBottomOf="@+id/it_public"
                     tools:ignore="RtlSymmetry" />

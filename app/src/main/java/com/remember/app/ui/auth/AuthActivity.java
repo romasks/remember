@@ -4,11 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.gson.Gson;
 import com.jaychang.sa.AuthCallback;
 import com.jaychang.sa.SocialUser;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -16,6 +19,7 @@ import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteTextView;
 import com.remember.app.customView.CustomTextView;
+import com.remember.app.data.models.OKModel;
 import com.remember.app.data.models.ResponseAuth;
 import com.remember.app.data.models.ResponseRestorePassword;
 import com.remember.app.data.models.ResponseSocialAuth;
@@ -38,7 +42,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,6 +54,7 @@ import ru.mail.auth.sdk.api.OAuthRequestErrorCodes;
 import ru.mail.auth.sdk.api.token.OAuthTokensResult;
 import ru.ok.android.sdk.Odnoklassniki;
 import ru.ok.android.sdk.OkListener;
+import ru.ok.android.sdk.OkRequestMode;
 import ru.ok.android.sdk.SharedKt;
 import ru.ok.android.sdk.util.OkAuthType;
 import ru.ok.android.sdk.util.OkScope;
@@ -88,8 +95,8 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         wrongPas.setPaintFlags(wrongPas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         setTheme();
         if (BuildConfig.DEBUG) {
-           //login.setText("admin@ya.ru");
-         //  password.setText("11111111");
+            //login.setText("admin@ya.ru");
+            //  password.setText("11111111");
         }
 
         /*PackageInfo info;
@@ -134,7 +141,9 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
     public void signInOk() {
         if (presenter.isOffline()) return;
         odnoklassniki = Odnoklassniki.createInstance(this, APP_ID, APP_KEY);
-        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN);
+        odnoklassniki.requestAuthorization(this, REDIRECT_URL, OkAuthType.ANY, OkScope.VALUABLE_ACCESS, OkScope.LONG_ACCESS_TOKEN, "GET_EMAIL");
+
+
     }
 
     @OnClick(R.id.fb)
@@ -189,7 +198,7 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
                 Utils.showSnack(login, getResources().getString(R.string.auth_error_data_enter));
             }
 
-    }
+        }
     }
 
     @Override
@@ -197,9 +206,9 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         if (!MailRuAuthSdk.getInstance().handleAuthResult(requestCode, resultCode, data, new MailRuCallback<OAuthTokensResult, Integer>() {
                     @Override
                     public void onResult(OAuthTokensResult oAuthTokensResult) {
-                        Log.d("Mail RU","Successfully signed in");
-                        Log.d("Mail RU","Access token: " + oAuthTokensResult.getAccessToken());
-                        Log.d("Mail RU","Refresh token: " + oAuthTokensResult.getRefreshToken());
+                        Log.d("Mail RU", "Successfully signed in");
+                        Log.d("Mail RU", "Access token: " + oAuthTokensResult.getAccessToken());
+                        Log.d("Mail RU", "Refresh token: " + oAuthTokensResult.getRefreshToken());
 
                         Prefs.putString(PREFS_KEY_ACCESS_TOKEN, oAuthTokensResult.getAccessToken());
                         presenter.signInMailRu();
@@ -211,11 +220,11 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
                     }
                 }
         ))
-        if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
-            @Override
-            public void onResult(VKAccessToken res) {
-                Prefs.putString(PREFS_KEY_EMAIL, res.email);
-                Prefs.putString(PREFS_KEY_ACCESS_TOKEN, res.accessToken);
+            if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
+                @Override
+                public void onResult(VKAccessToken res) {
+                    Prefs.putString(PREFS_KEY_EMAIL, res.email);
+                    Prefs.putString(PREFS_KEY_ACCESS_TOKEN, res.accessToken);
                 /*VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, "photo_200"));
                 request.executeWithListener(new VKRequest.VKRequestListener() {
                     @Override
@@ -234,32 +243,36 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
                     public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
                     }
                 });*/
-                presenter.getInfoUser();
-            }
-
-            @Override
-            public void onError(VKError error) {
-                Log.d("VK ActivityResult Error", error.errorMessage);
-            }})) {
-            if (!odnoklassniki.onAuthActivityResult(requestCode, resultCode, data, new OkListener() {
-                @Override
-                public void onSuccess(@NotNull JSONObject jsonObject) {
-                    try {
-                        Prefs.putString(PREFS_KEY_ACCESS_TOKEN, String.valueOf(jsonObject.get(SharedKt.PARAM_ACCESS_TOKEN)));
-                        presenter.signInOk();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    presenter.getInfoUser();
                 }
 
                 @Override
-                public void onError(@Nullable String s) {
-                    Log.d("OK ActivityResult Error", s);
+                public void onError(VKError error) {
+                    Log.d("VK ActivityResult Error", error.errorMessage);
                 }
             })) {
-                super.onActivityResult(requestCode, resultCode, data);
+                if (!odnoklassniki.onAuthActivityResult(requestCode, resultCode, data, new OkListener() {
+                    @Override
+                    public void onSuccess(@NotNull JSONObject jsonObject) {
+                        try {
+                            GetCurrentUserTask catTask = new GetCurrentUserTask();
+                            catTask.execute();
+                            Prefs.putString(PREFS_KEY_ACCESS_TOKEN, String.valueOf(jsonObject.get(SharedKt.PARAM_ACCESS_TOKEN)));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(@Nullable String s) {
+                        Log.d("OK ActivityResult Error", s);
+                    }
+                })) {
+                    super.onActivityResult(requestCode, resultCode, data);
+                }
             }
-        }
     }
 
 
@@ -356,11 +369,44 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         popupDialog = LoadingPopupUtils.showLoadingDialog(this);
         presenter.restorePassword(email);
     }
+
     private void setTheme() {
         ColorStateList textColor = Utils.isThemeDark()
                 ? getResources().getColorStateList(R.color.abc_dark)
                 : getResources().getColorStateList(R.color.abc_light);
         login.setTextColor(textColor);
         password.setTextColor(textColor);
+    }
+
+
+    protected final class GetCurrentUserTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(final Void... params) {
+            try {
+                Map<String, String> param = new HashMap<String, String>();
+                param.put("fields", "email");
+                return odnoklassniki.request("users.getCurrentUser", param, OkRequestMode.getDEFAULT());
+            } catch (Exception exc) {
+                Log.e("Odnoklassniki", "Failed to get current user info", exc);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(final String result) {
+            if (result != null) {
+                Toast.makeText(getBaseContext(), "Get current user result: " + result, Toast.LENGTH_SHORT).show();
+                String email = convertationStringToJSONAvatar(result);
+                Prefs.putString(PREFS_KEY_EMAIL, email );
+                presenter.signInOk(email);
+            }
+        }
+    }
+
+    public static String convertationStringToJSONAvatar(String item) {
+        OKModel model = null;
+            Gson g = new Gson();
+            model = g.fromJson(item, OKModel.class);
+        return (model != null) ? model.getEmail() : "";
     }
 }

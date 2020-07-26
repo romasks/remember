@@ -84,10 +84,10 @@ public class AuthPresenter extends BasePresenter<AuthView> {
         unsubscribeOnDestroy(subscription);
     }
 
-    void signInOk() {
+    void signInOk(String email) {
         if (isOffline()) return;
         RequestSocialAuth request = new RequestSocialAuth(
-            "",
+            email,
             Prefs.getString(PREFS_KEY_ACCESS_TOKEN, ""),
             "ok"
         );

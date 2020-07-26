@@ -150,9 +150,9 @@
     <style name="SettingsRadioButtonStyle">
         <item name="android:button">@drawable/radio_button</item>
         <item name="paddingStart">10dp</item>
-        <item name="android:textColor">@color/gray</item>
-        <item name="android:textColorHighlight">@color/gray</item>
-        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textColorHighlight">@color/dark_gray</item>
+        <item name="android:textColorHint">@color/dark_gray</item>
         <item name="android:textSize">16dp</item>
     </style>
 

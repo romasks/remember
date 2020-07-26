@@ -235,7 +235,7 @@
                     android:checked="true"
                     android:paddingStart="10dp"
                     android:text="@string/all"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textSize="27dp"
                     tools:ignore="RtlHardcoded" />
 
@@ -248,7 +248,7 @@
                     android:checked="true"
                     android:paddingStart="10dp"
                     android:text="@string/for_your"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textSize="27dp"
                     app:layout_constraintTop_toBottomOf="@+id/is_famous" />
             </RadioGroup>
@@ -290,7 +290,7 @@
                     android:checked="true"
                     android:paddingStart="10dp"
                     android:text="@string/yes"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textSize="27dp" />
 
                 <com.remember.app.customView.CustomRadioButton
@@ -301,7 +301,7 @@
                     android:button="@drawable/radio_button"
                     android:paddingStart="10dp"
                     android:text="@string/no"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textSize="27dp"
                     app:layout_constraintTop_toBottomOf="@+id/it_public"
                     tools:ignore="RtlHardcoded" />

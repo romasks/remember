@@ -53,11 +53,13 @@
                 <ImageView
                     android:id="@+id/settings"
                     android:layout_width="40dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="5dp"
-                    app:srcCompat="@mipmap/settings"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="12dp"
+                    app:srcCompat="@drawable/settings"
                     tools:ignore="ContentDescription" />
 
             </RelativeLayout>

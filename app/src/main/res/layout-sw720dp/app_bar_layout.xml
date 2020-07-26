@@ -57,7 +57,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginEnd="5dp"
-                    app:srcCompat="@mipmap/settings"
+                    app:srcCompat="@drawable/settings"
                     tools:ignore="ContentDescription" />
 
             </RelativeLayout>
