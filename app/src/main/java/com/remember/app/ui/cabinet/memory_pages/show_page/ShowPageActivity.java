@@ -35,6 +35,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.adapters.PhotoSliderAdapter;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.biography.BiographyActivity;
 import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
@@ -78,6 +79,7 @@ import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.cropImage;
 import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
 import static com.remember.app.ui.utils.StringUtils.getStringFromField;
+import static com.remember.app.ui.utils.StringUtils.stripHtml;
 
 public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener, SlidePhotoActivity.DeleteCallBack {
 
@@ -130,8 +132,10 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     LinearLayout addPhotoToSliderBtn_layout;
     @BindView(R.id.map_button)
     CustomButton mapButton;
-
-
+    @BindView(R.id.biography)
+    ImageButton biography;
+    @BindView(R.id.tvBiography)
+    CustomTextView tvBiography;
     @BindView(R.id.back_button)
     ImageView backImg;
     @BindView(R.id.panel)
@@ -150,6 +154,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     private boolean afterSave = false;
     private int id = 0;
     private int sharing = 0;
+    private String biographyText = "";
 
     private static final String APP_ID = "512000155578";
     private static final String APP_KEY = "CLLQFHJGDIHBABABA";
@@ -167,20 +172,12 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
         FROM_NOTIFICATION = getIntent().getBooleanExtra(INTENT_EXTRA_FROM_NOTIF, false);
-        Log.d("TTTTTTTShow", FROM_NOTIFICATION+"");
         if (Utils.isEmptyPrefsKey(PREFS_KEY_USER_ID)) {
             addPhotoToSliderBtn_layout.setVisibility(View.GONE);
             share_LinLayout.setVisibility(View.GONE);
             settings.setVisibility(View.GONE);
         }
-        String s = getIntent().getAction();
-        String d = getIntent().getExtras().getString("page_id");
-        if (s != null)
-            Log.d("TTTTTTTTTTTTTTT", s);
-        if (d != null)
-            Log.d("TTTTTTDDDDDD", d);
         title.setText(R.string.memory_page_header_text);
-
         Intent i = getIntent();
         isList = i.getBooleanExtra(INTENT_EXTRA_IS_LIST, false);
         afterSave = i.getBooleanExtra(INTENT_EXTRA_AFTER_SAVE, false);
@@ -230,7 +227,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
 
     @Override
     public void onBackPressed() {
-        if (FROM_NOTIFICATION){
+        if (FROM_NOTIFICATION) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -351,11 +348,20 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         }*///temporarily block onImageClick
     }
 
+
+    @OnClick(R.id.biography)
+    public void onBiographyClick() {
+        Intent intent = new Intent(this, BiographyActivity.class);
+        if (memoryPageModel != null && memoryPageModel.getBiography() != null)
+            intent.putExtra("biography", memoryPageModel.getBiography());
+        startActivity(intent);
+    }
+
     @OnClick(R.id.epitButton)
     public void onEpitaphButtonClick() {
         Intent intent = new Intent(this, EpitaphsActivity.class);
         intent.putExtra(INTENT_EXTRA_SHOW, isShow);
-        if (memoryPageModel.getId() != null)
+        if (memoryPageModel != null && memoryPageModel.getId() != null)
             intent.putExtra(INTENT_EXTRA_PAGE_ID, memoryPageModel.getId());
         startActivity(intent);
     }
@@ -372,17 +378,6 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         startActivity(intent);
     }
 
-    @OnClick(R.id.description_title)
-    public void description() {
-        if (description.getVisibility() == View.VISIBLE) {
-            description.setVisibility(View.GONE);
-            descriptionTitle.setText(R.string.memory_page_show_description_text);
-        } else {
-            description.setVisibility(View.VISIBLE);
-            descriptionTitle.setText(R.string.memory_page_hide_description_text);
-            scrollView.scrollTo(0, scrollView.getBottom() + 1500);
-        }
-    }
 
     @OnClick(R.id.back_button)
     public void back() {
@@ -493,7 +488,8 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
             initDate(memoryPageModel);
             initInfo(memoryPageModel);
             mapButton.setVisibility(memoryPageModel.getCoords().isEmpty() ? View.GONE : View.VISIBLE);
-
+            biography.setVisibility(memoryPageModel.getBiography() == null ? View.GONE : View.VISIBLE);
+            tvBiography.setVisibility(memoryPageModel.getBiography() == null ? View.GONE : View.VISIBLE);
             Log.d(TAG, "initAll: memoryPageModel.getStatus() " + memoryPageModel.getStatus());
             Log.d(TAG, "initAll: memoryPageModel.getFlag()  " + memoryPageModel.getFlag());
 
@@ -528,7 +524,7 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
                 + " " + StringUtils.capitalize(memoryPageModel.getThirdName());
         name.setText(result);
         if (memoryPageModel.getComment() != null && !memoryPageModel.getComment().equals("")) {
-            description.setText(memoryPageModel.getComment());
+            description.setText(stripHtml(memoryPageModel.getComment()));
         } else
             descriptionTitle.setVisibility(View.GONE);
     }

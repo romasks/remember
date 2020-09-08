@@ -3,13 +3,17 @@ package com.remember.app.ui.cabinet.memory_pages.place;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
@@ -42,7 +46,6 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
 
     @InjectPresenter
     PlacePresenter presenter;
-
     @BindView(R.id.back_button)
     ImageView back;
     @BindView(R.id.title)
@@ -79,8 +82,6 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
 
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         responseHandBook = new ResponseHandBook();
         initUI();
     }
@@ -191,7 +192,7 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         if (!city.getText().toString().isEmpty() || (!city.getText().toString().isEmpty() && responseHandBook.getId() != -999)) {
             presenter.getCemetery(responseHandBook.getId());
         } else {
-            Utils.showSnack(city, "Введите город");
+            Utils.showSnack(city, "Выберите город");
         }
     }
 
@@ -207,19 +208,35 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
         }
     }
 
-    @OnClick(R.id.pick)
     public void openMap() {
-        PopupMap popupWindow;
         try {
             View popupView = getLayoutInflater().inflate(R.layout.popup_google_map, null);
-            popupWindow = new PopupMap(
+            PopupMap popupWindow = new PopupMap(
                     popupView,
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             popupWindow.setCallback(this);
             popupWindow.setUp(pick, getSupportFragmentManager());
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setFocusable(true);
         } catch (Exception ignored) {
+
         }
+    }
+
+    @OnClick(R.id.pick)
+    public void clickMap() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+            openMap();
+        } else
+            Toast.makeText(getBaseContext(), "Для выбора города на карте разрешите доступ к геопозиции.", Toast.LENGTH_LONG).show();
     }
 
     @Override

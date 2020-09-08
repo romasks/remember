@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +19,6 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteEditText;
 import com.remember.app.customView.CustomAutoCompleteTextView;
 import com.remember.app.customView.CustomRadioButton;
-import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.menu.settings.changePass.ChangePassListener;
 import com.remember.app.ui.utils.LoadingPopupUtils;
@@ -32,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -72,7 +71,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     @BindView(R.id.rbBig)
     CustomRadioButton rbBig;
     Boolean currentFont = true;
-   public static ActivityListener settingsListener;
+    public static ActivityListener settingsListener;
 
 
     public static ChangePassListener changePassListener;
@@ -130,13 +129,15 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
                 if (getContext() != null) {
                     setGlideImage(getContext(), resultUri, avatar);
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), result.getUri());
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getActivity()).getContentResolver(), result.getUri());
                         File imageFile = saveBitmap(bitmap);
-                        presenter.saveImageSetting(imageFile);
+                        if (imageFile != null)
+                            presenter.saveImageSetting(imageFile);
                         progressDialog = LoadingPopupUtils.showLoadingDialog(getContext());
-                    } catch (IOException e) {
+                    } catch (IOException | RuntimeException e) {
                         e.printStackTrace();
                     }
+
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Utils.showSnack(avatar, "Ошибка загрузки фото");
@@ -154,9 +155,9 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     }
 
     void onSaveClick() {
-            presenter.getRequestSettings()
-                    .name(name).surname(surname).middleName(middleName)
-                    .nickname(nickname).location(location).phone(phone);
+        presenter.getRequestSettings()
+                .name(name).surname(surname).middleName(middleName)
+                .nickname(nickname).location(location).phone(phone);
         saveFontSize();
     }
 
@@ -199,17 +200,17 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
         progressDialog.dismiss();
     }
 
-    private void v (){
+    private void v() {
         phone.setOnFocusChangeListener((v, hasFocus) -> {
             phoneLayout.setHint("Телефон");
-            if (!hasFocus && (phone.getText().length()==0)){
+            if (!hasFocus && (phone.getText().length() == 0)) {
                 phone.setText(null);
             }
         });
     }
 
     @OnClick(R.id.changePass)
-    void openChangePassFragment (){
+    void openChangePassFragment() {
         changePassListener.openChangePassActivity();
     }
 
@@ -218,14 +219,14 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     }
 
     private void initUI() {
-        if (Prefs.getBoolean("standard", true)){
+        if (Prefs.getBoolean("standard", true)) {
             rbStandard.setChecked(true);
             rbBig.setChecked(false);
-        }else {
+        } else {
             rbStandard.setChecked(false);
             rbBig.setChecked(true);
         }
-        rbStandard.setOnCheckedChangeListener((buttonView, isChecked) ->{
+        rbStandard.setOnCheckedChangeListener((buttonView, isChecked) -> {
             rbBig.setChecked(!isChecked);
             //rbStandard.setTextSize(19f);
             //rbBig.setTextSize(19f);
@@ -233,11 +234,11 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
             reload();
             settingsListener.recallActivity();
         });
-        rbBig.setOnCheckedChangeListener((buttonView, isChecked) ->{
+        rbBig.setOnCheckedChangeListener((buttonView, isChecked) -> {
             rbStandard.setChecked(!isChecked);
             saveFontSize();
             reload();
-           settingsListener.recallActivity();
+            settingsListener.recallActivity();
 //            rbStandard.setTextSize(23f);
 //            rbBig.setTextSize(23f);
         });
@@ -262,6 +263,7 @@ public class PersonalDataFragment extends SettingsBaseFragment implements Settin
     public interface ActivityListener {
         void recallActivity();
     }
+
     public static void setActivityListener(ActivityListener listener) {
         settingsListener = listener;
     }

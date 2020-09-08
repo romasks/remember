@@ -28,7 +28,7 @@ public class ResponseEpitaphs {
     @SerializedName("updated_at")
     private String updatedAt;
     @SerializedName("user_id")
-    private int userId;
+    private Integer userId;
     @SerializedName("user_name")
     private String userName;
 
@@ -98,11 +98,11 @@ public class ResponseEpitaphs {
     public String getUpdatedAt(){
         return this.updatedAt;
     }
-    public void setUserId(int userId){
+    public void setUserId(Integer userId){
         this.userId = userId;
     }
-    public int getUserId(){
-        return this.userId;
+    public Integer getUserId(){
+        return userId == null ? -999 : userId;
     }
     public void setUserName(String userName){
         this.userName = userName;

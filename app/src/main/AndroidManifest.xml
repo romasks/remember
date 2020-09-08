@@ -152,7 +152,10 @@
         <activity
             android:name=".ui.menu.settings.changePass.ChangePasswordActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.cabinet.memory_pages.events.current_event.reviewPhoto.ReviewPhotoActivity" />
+        <activity android:name=".ui.cabinet.memory_pages.events.current_event.reviewPhoto.ReviewPhotoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.cabinet.biography.BiographyActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

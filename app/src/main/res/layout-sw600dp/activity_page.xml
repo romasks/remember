@@ -446,18 +446,20 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_detailed_candle_icon"
+                app:srcCompat="@drawable/ic_candle"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
-                android:id="@+id/add_us"
+                android:paddingTop="5dp"
+                android:id="@+id/biography"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
                 android:visibility="gone"
-                app:srcCompat="@drawable/ic_plus_icon"
+                android:scaleType="center"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_3"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -467,7 +469,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/ic_calendar_icon"
+                app:srcCompat="@drawable/ic_calendar"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
@@ -475,7 +477,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            >
 
             <com.remember.app.customView.CustomTextView
                 android:layout_width="0dp"
@@ -486,16 +488,16 @@
                 android:textColor="@color/gray"
                 android:textSize="21dp" />
 
-            <com.remember.app.customView.CustomButton
+            <com.remember.app.customView.CustomTextView
+                android:id="@id/tvBiography"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:text="@string/memory_page_bottom_navbar_add_order"
-                android:background="@drawable/button"
+                android:text="Биография"
+                android:visibility="gone"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
-                android:textSize="21dp"
-                android:visibility="gone" />
+                android:textSize="21dp" />
 
             <com.remember.app.customView.CustomTextView
                 android:layout_width="0dp"

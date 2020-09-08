@@ -32,7 +32,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
 import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -63,6 +66,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_LIST;
@@ -75,13 +79,14 @@ import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
+import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
 import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
         PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener, SettingActivity.MainActivityListener {
 
     private final String TAG = GridActivity.class.getSimpleName();
-
+    AppUpdateManager appUpdateManager;
     @InjectPresenter
     GridPresenter presenter;
 
@@ -119,20 +124,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     void checkIntentForNotification() {
         String s = getIntent().getStringExtra("firstLink");
-        if (s != null)
-        Log.d("TTTTT", s);
-
-        String d = getIntent().getStringExtra("ID");
-        if (d != null)
-        Log.d("TTTTT", d);
         if (getIntent().getExtras() != null) {
             for (String key : getIntent().getExtras().keySet()) {
                 String value = getIntent().getExtras().getString(key);
                 if (value != null && !value.equals("")) {
-                    if (value.equals("")) {
-                        Log.d("TTTTT", "value zero");
-                    }
-                    Log.d("TTTTT", value);
                     NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                     notificationManager.cancel(9379992);
                 }
@@ -143,7 +138,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
+      //  verifyStoragePermissions(this);
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
         SettingActivity.setListener(this);
         findViewById(R.id.app_bar_grid_layout).setClickable(!isClickLocked);
@@ -185,27 +182,20 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         super.onPause();
     }
 
+
+
     private void checkPlayMarketUpdate(){
-        AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
-
-// Returns an intent object that you use to check for an update.
+         appUpdateManager = AppUpdateManagerFactory.create(this);
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
-// Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                     // For a flexible update, use AppUpdateType.FLEXIBLE
                     && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                // Request the update.
                 try {
                     appUpdateManager.startUpdateFlowForResult(
-                            // Pass the intent that is returned by 'getAppUpdateInfo()'.
                             appUpdateInfo,
-                            // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
                             AppUpdateType.IMMEDIATE,
-                            // The current activity making the update request.
                             this,
-                            // Include a request code to later monitor this update request.
                             1);
                 } catch (IntentSender.SendIntentException e) {
                     e.printStackTrace();
@@ -220,8 +210,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         if (requestCode == 1) {
             if (resultCode != RESULT_OK) {
                 Log.d("PLAY_MARKET", "Update flow failed! Result code: " + resultCode);
-                // If the update is cancelled or fails,
-                // you can request to start the update again.
             }
         }
     }

@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import androidx.core.app.ActivityCompat;
@@ -27,6 +28,7 @@ import static android.content.Context.LOCATION_SERVICE;
 public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
     private Button dismiss;
+    private ImageView close;
     private Callback callback;
     private double latitude;
     private double longitude;
@@ -42,6 +44,7 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
         showAtLocation(contentView, Gravity.TOP, 0, 0);
         View popupView = getContentView();
         dismiss = popupView.findViewById(R.id.dismiss);
+        close = popupView.findViewById(R.id.imageView3);
         SupportMapFragment mapFragment = (SupportMapFragment) supportFragmentManager.findFragmentById(R.id.fragment);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
@@ -54,7 +57,12 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
             callback.setCoordinates(latitude, longitude);
             dismiss();
         });
-
+        close.setOnClickListener(v -> {
+            if (mapFragment != null) {
+                supportFragmentManager.beginTransaction().remove(mapFragment).commit();
+            }
+            dismiss();
+        });
     }
 
     @Override
@@ -101,11 +109,8 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
     }
 
-
     interface Callback {
-
         void setCoordinates(double latitude, double longitude);
-
     }
 
     public void setCallback(Callback callback) {

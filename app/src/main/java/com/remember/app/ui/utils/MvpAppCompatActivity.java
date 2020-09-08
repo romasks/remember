@@ -5,8 +5,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.arellomobile.mvp.MvpDelegate;
+import com.remember.app.BaseSplitActivity;
 
-public class MvpAppCompatActivity extends AppCompatActivity {
+public class MvpAppCompatActivity extends BaseSplitActivity {
     private MvpDelegate<? extends MvpAppCompatActivity> mMvpDelegate;
 
     @Override

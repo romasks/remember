@@ -108,9 +108,9 @@ public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             );
             change.setOnClickListener(v -> callback.change(epitaph));
             boolean isOwnEpitaph = false;
-                if (epitaph.getUserId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0")))
-                    isOwnEpitaph = true;
-                name.setText(epitaph.getUserName().isEmpty() ? "Неизвестный" : epitaph.getUserName());
+            if (epitaph.getUserId()!= null && epitaph.getUserId() == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "-1")))
+                isOwnEpitaph = true;
+            name.setText(epitaph.getUserName() == null ? "Неизвестный" : epitaph.getUserName());
             delete.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
             imgDelete.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);
             change.setVisibility(isOwnEpitaph ? View.VISIBLE : View.GONE);

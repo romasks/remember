@@ -85,6 +85,10 @@ public class MemoryPageModel implements Parcelable {
     @SerializedName("user_id")
     @Expose
     private String userId;
+    @SerializedName("biography")
+    @Expose
+    private String biography;
+
 
     @Expose
     private boolean isLoaded = false;
@@ -310,6 +314,7 @@ public class MemoryPageModel implements Parcelable {
     public MemoryPageModel(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         secondName = in.readString();
+        biography = in.readString();
         thirdName = in.readString();
         name = in.readString();
         comment = in.readString();
@@ -358,6 +363,7 @@ public class MemoryPageModel implements Parcelable {
             dest.writeInt(id);
         }
         dest.writeString(secondName);
+        dest.writeString(biography);
         dest.writeString(thirdName);
         dest.writeString(name);
         dest.writeString(comment);
@@ -402,6 +408,7 @@ public class MemoryPageModel implements Parcelable {
         return Objects.hash(
                 id,
                 secondName,
+                biography,
                 thirdName,
                 name,
                 comment,
@@ -437,6 +444,7 @@ public class MemoryPageModel implements Parcelable {
         MemoryPageModel memoryPageModel = (MemoryPageModel) obj;
         return memoryPageModel.id.equals(id) &&
                 memoryPageModel.secondName.equals(secondName) &&
+                memoryPageModel.biography.equals(biography) &&
                 memoryPageModel.thirdName.equals(thirdName) &&
                 memoryPageModel.name.equals(name) &&
                 memoryPageModel.comment.equals(comment) &&
@@ -474,4 +482,12 @@ public class MemoryPageModel implements Parcelable {
             return oldItem.equals(newItem);
         }
     };
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
 }

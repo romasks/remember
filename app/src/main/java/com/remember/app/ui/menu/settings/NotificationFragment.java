@@ -2,9 +2,10 @@ package com.remember.app.ui.menu.settings;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.remember.app.R;
@@ -15,8 +16,6 @@ import com.remember.app.ui.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -44,14 +43,6 @@ public class NotificationFragment extends SettingsBaseFragment implements Settin
 
     NotificationFragment(@NotNull SettingPresenter presenter) {
         this.presenter = presenter;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (presenter != null) {
-//            presenter.getSettingsLiveData().observeForever(this::onReceivedInfo);
-//        }
     }
 
     @Override
@@ -85,10 +76,11 @@ public class NotificationFragment extends SettingsBaseFragment implements Settin
     }
 
     void onSaveClick() {
-        presenter.getRequestSettings()
-                .enableNotifications(notifications.isChecked())
-                .commemorationDays(getIdNotice())
-                .amountDays(getAmountDays());
+        if (notifications != null)
+            presenter.getRequestSettings()
+                    .enableNotifications(notifications.isChecked())
+                    .commemorationDays(getIdNotice())
+                    .amountDays(getAmountDays());
     }
 
     @OnCheckedChanged(R.id.notifications)

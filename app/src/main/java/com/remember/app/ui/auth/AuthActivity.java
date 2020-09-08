@@ -216,10 +216,11 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
 
                     @Override
                     public void onError(Integer integer) {
-                        Log.d("Mail RU", OAuthRequestErrorCodes.toReadableString(integer));
+                      //  Log.d("Mail RU", OAuthRequestErrorCodes.toReadableString(integer));
                     }
                 }
         ))
+
             if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
                 @Override
                 public void onResult(VKAccessToken res) {
@@ -248,10 +249,10 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
 
                 @Override
                 public void onError(VKError error) {
-                    Log.d("VK ActivityResult Error", error.errorMessage);
+                   // Log.d("VK ActivityResult Error", error.errorMessage);
                 }
             })) {
-                if (!odnoklassniki.onAuthActivityResult(requestCode, resultCode, data, new OkListener() {
+                if (odnoklassniki!= null && !odnoklassniki.onAuthActivityResult(requestCode, resultCode, data, new OkListener() {
                     @Override
                     public void onSuccess(@NotNull JSONObject jsonObject) {
                         try {
@@ -267,7 +268,7 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
 
                     @Override
                     public void onError(@Nullable String s) {
-                        Log.d("OK ActivityResult Error", s);
+                  //      Log.d("OK ActivityResult Error", s);
                     }
                 })) {
                     super.onActivityResult(requestCode, resultCode, data);
@@ -395,7 +396,6 @@ public class AuthActivity extends BaseActivity implements AuthView, RepairPasswo
         @Override
         protected void onPostExecute(final String result) {
             if (result != null) {
-                Toast.makeText(getBaseContext(), "Get current user result: " + result, Toast.LENGTH_SHORT).show();
                 String email = convertationStringToJSONAvatar(result);
                 Prefs.putString(PREFS_KEY_EMAIL, email );
                 presenter.signInOk(email);

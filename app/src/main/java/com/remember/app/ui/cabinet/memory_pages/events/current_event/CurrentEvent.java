@@ -163,7 +163,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         ownerID = getIntent().getStringExtra(INTENT_EXTRA_OWNER_ID);
         FROM_NOTIFICATION = getIntent().getBooleanExtra(INTENT_EXTRA_FROM_NOTIF, false);
 
-        isOwn = Integer.parseInt(ownerID) == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "0"));
+        isOwn = Integer.parseInt(ownerID) == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "-1"));
         photoLayout.setVisibility(isOwn ? View.VISIBLE : View.GONE);
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
         initVideoAdapter();
