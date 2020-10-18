@@ -3,7 +3,6 @@ package com.remember.app.ui.cabinet.epitaphs;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -14,7 +13,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomAutoCompleteEditText;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.data.models.ResponseEpitaphs;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.Utils;
 
 public class PopupAddEpitaph extends PopupWindow {
 

@@ -48,9 +48,9 @@ import com.remember.app.ui.cabinet.memory_pages.events.current_event.commentDial
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.reviewPhoto.ReviewPhotoActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.videoDialog.AddVideoDialog;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.videoDialog.DeleteVideoDialog;
-import com.remember.app.ui.utils.DateUtils;
-import com.remember.app.ui.utils.PhotoDialog;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.DateUtils;
+import com.remember.app.utils.PhotoDialog;
+import com.remember.app.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
@@ -78,10 +78,10 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
-import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static com.remember.app.ui.utils.ImageUtils.cropImage;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
+import static com.remember.app.utils.FileUtils.storagePermissionGranted;
+import static com.remember.app.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.utils.ImageUtils.cropImage;
+import static com.remember.app.utils.ImageUtils.glideLoadIntoWithError;
 
 public class CurrentEvent extends BaseActivity implements CurrentEventView, CommentsAdapter.CommentsAdapterListener, VideoAdapter.VideoAdapterListener, PhotoDialog.Callback, DeleteCommentDialog.Callback, PhotoAdapter.ItemClickListener, ReviewPhotoActivity.DeleteCallBack, DeleteVideoDialog.Callback {
 
@@ -162,8 +162,11 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         isShow = getIntent().getBooleanExtra(INTENT_EXTRA_SHOW, false);
         ownerID = getIntent().getStringExtra(INTENT_EXTRA_OWNER_ID);
         FROM_NOTIFICATION = getIntent().getBooleanExtra(INTENT_EXTRA_FROM_NOTIF, false);
-
-        isOwn = Integer.parseInt(ownerID) == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "-1"));
+        try {
+            isOwn = Integer.parseInt(ownerID) == Integer.parseInt(Prefs.getString(PREFS_KEY_USER_ID, "-1"));
+        } catch (NumberFormatException e) {
+            isOwn = false;
+        }
         photoLayout.setVisibility(isOwn ? View.VISIBLE : View.GONE);
         settings.setVisibility(isShow ? View.INVISIBLE : View.VISIBLE);
         initVideoAdapter();
@@ -408,7 +411,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
 
     @Override
     public void onBackPressed() {
-        if (FROM_NOTIFICATION){
+        if (FROM_NOTIFICATION) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(INTENT_EXTRA_FROM_NOTIF, true);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

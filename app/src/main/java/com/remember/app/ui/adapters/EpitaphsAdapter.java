@@ -14,7 +14,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseEpitaphs;
 import com.remember.app.ui.base.BaseViewHolder;
-import com.remember.app.ui.utils.DateUtils;
+import com.remember.app.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class EpitaphsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 

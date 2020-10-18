@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-import static com.remember.app.ui.utils.StringUtils.getVideoIdFromUrl;
+import static com.remember.app.utils.StringUtils.getVideoIdFromUrl;
 
 public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<EventVideos> videoIds;

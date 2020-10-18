@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,10 +20,8 @@ import com.remember.app.data.models.ResponseImagesSlider;
 import com.remember.app.ui.adapters.PhotoSliderAdapter;
 import com.remember.app.ui.adapters.SlidePagerAdapterPhoto;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.cabinet.main.MainActivity;
-import com.remember.app.ui.menu.page.PageActivityMenu;
-import com.remember.app.ui.utils.DeleteSlidingPhotoDialog;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.DeleteSlidingPhotoDialog;
+import com.remember.app.utils.Utils;
 
 import java.util.List;
 

@@ -39,11 +39,11 @@ import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.DateUtils;
-import com.remember.app.ui.utils.DeletePageDialog;
-import com.remember.app.ui.utils.FileUtils;
-import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.DateUtils;
+import com.remember.app.utils.DeletePageDialog;
+import com.remember.app.utils.FileUtils;
+import com.remember.app.utils.LoadingPopupUtils;
+import com.remember.app.utils.Utils;
 import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -67,15 +67,15 @@ import static com.remember.app.data.Constants.BURIAL_PLACE_LINE;
 import static com.remember.app.data.Constants.BURIAL_PLACE_SECTOR;
 import static com.remember.app.data.Constants.INTENT_EXTRA_AFTER_SAVE;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.DateUtils.dfLocal;
-import static com.remember.app.ui.utils.DateUtils.parseLocalFormat;
-import static com.remember.app.ui.utils.FileUtils.saveBitmap;
-import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
-import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static com.remember.app.ui.utils.ImageUtils.cropImage;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
+import static com.remember.app.utils.DateUtils.dfLocal;
+import static com.remember.app.utils.DateUtils.parseLocalFormat;
+import static com.remember.app.utils.FileUtils.saveBitmap;
+import static com.remember.app.utils.FileUtils.storagePermissionGranted;
+import static com.remember.app.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.utils.ImageUtils.cropImage;
+import static com.remember.app.utils.ImageUtils.glideLoadInto;
+import static com.remember.app.utils.ImageUtils.glideLoadIntoAsBitmap;
+import static com.remember.app.utils.ImageUtils.glideLoadIntoWithError;
 
 
 public class NewMemoryPageActivity extends BaseActivity implements AddPageView, PopupReligion.Callback, DeletePageDialog.Callback {
@@ -371,6 +371,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
                     e.printStackTrace();
                 }
             }
+            if(progressDialog != null)
             progressDialog.dismiss();
         }
     }

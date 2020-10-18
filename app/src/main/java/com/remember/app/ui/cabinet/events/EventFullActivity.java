@@ -20,8 +20,8 @@ import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.add_new_event.AddNewEventActivity;
-import com.remember.app.ui.utils.DateUtils;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.DateUtils;
+import com.remember.app.utils.Utils;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_NAME;
 import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
+import static com.remember.app.utils.ImageUtils.glideLoadIntoWithError;
 
 public class EventFullActivity extends BaseActivity implements EventView {
 

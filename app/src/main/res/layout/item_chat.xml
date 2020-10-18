@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorWhite"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="15dp"
+        tools:src="@drawable/darth_vader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.remember.app.customView.CustomTextView
+        android:id="@+id/tvChatName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/brown"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/tvLastMessage"
+        app:layout_constraintEnd_toStartOf="@+id/tvTime"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+        app:layout_constraintTop_toTopOf="@+id/imgProfile"
+        tools:text="Агапова Ю. А." />
+
+
+    <com.remember.app.customView.CustomTextView
+        android:id="@+id/tvLastMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:maxLines="1"
+        android:textColor="@color/gray"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
+        app:layout_constraintEnd_toEndOf="@+id/tvChatName"
+        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tvChatName"
+        tools:text="android:textColor=color/colorWhite" />
+
+
+    <com.remember.app.customView.CustomTextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        tools:text="Вчера"
+        android:textSize="13dp"
+        android:textColor="@color/grays"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="0.7dp"
+        android:layout_marginStart="15dp"
+        android:background="@color/grays"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvTime"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.remember.app.customView.CustomTextView
+        android:id="@+id/tvCountUnreadMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/button"
+        android:paddingStart="9dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="9dp"
+        android:paddingBottom="3dp"
+        android:visibility="gone"
+        android:textColor="@color/colorWhite"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime"
+        tools:text="123" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgDelete"
+        android:layout_width="17dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvTime"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime"
+        app:srcCompat="@drawable/deletepng"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

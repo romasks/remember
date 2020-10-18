@@ -16,7 +16,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventResponse;
 import com.remember.app.ui.base.BaseViewHolder;
-import com.remember.app.ui.utils.DateUtils;
+import com.remember.app.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class EventsFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 

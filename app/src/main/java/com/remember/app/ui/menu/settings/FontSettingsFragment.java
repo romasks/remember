@@ -1,8 +1,5 @@
 package com.remember.app.ui.menu.settings;
 
-import android.widget.RadioButton;
-import android.widget.TextView;
-
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomRadioButton;
@@ -10,7 +7,6 @@ import com.remember.app.customView.CustomTextView;
 
 import butterknife.BindView;
 
-import static com.remember.app.ui.utils.Utils.pixelsToSp;
 
 public class FontSettingsFragment extends SettingsBaseFragment {
 

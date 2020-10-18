@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -20,8 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
+import static com.remember.app.utils.ImageUtils.glideLoadInto;import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 
 public class SlidePagerAdapterPhoto extends PagerAdapter {
 

@@ -12,7 +12,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomRadioButton;
 import com.remember.app.customView.CustomSwitch;
 import com.remember.app.data.models.ResponseSettings;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 

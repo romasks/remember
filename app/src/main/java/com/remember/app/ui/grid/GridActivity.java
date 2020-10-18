@@ -32,10 +32,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.InstallState;
-import com.google.android.play.core.install.InstallStateUpdatedListener;
 import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -59,8 +56,8 @@ import com.remember.app.ui.menu.notifications.NotificationsActivity;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
-import com.remember.app.ui.utils.PopupPageScreen;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.PopupPageScreen;
+import com.remember.app.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,8 +76,7 @@ import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
 import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_GRID;
-import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class GridActivity extends BaseActivity implements GridView, ImageAdapter.Callback,
         PopupPageScreen.Callback, NavigationView.OnNavigationItemSelectedListener, SettingActivity.MainActivityListener {

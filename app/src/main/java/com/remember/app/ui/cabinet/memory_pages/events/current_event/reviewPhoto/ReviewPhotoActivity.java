@@ -16,21 +16,13 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.Constants;
 import com.remember.app.data.models.EventSliderPhotos;
-import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.data.models.ResponseImagesSlider;
-import com.remember.app.ui.adapters.PhotoSliderAdapter;
-import com.remember.app.ui.adapters.SlidePagerAdapterPhoto;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.reviewPhoto.adapter.ReviewAdapter;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.reviewPhoto.adapter.ReviewViewPager;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPagePresenter;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageView;
-import com.remember.app.ui.cabinet.memory_pages.show_page.SlidePhotoActivity;
-import com.remember.app.ui.utils.DeleteSlidingPhotoDialog;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.DeleteSlidingPhotoDialog;
+import com.remember.app.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;

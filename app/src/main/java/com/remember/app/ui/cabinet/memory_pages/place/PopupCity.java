@@ -13,7 +13,7 @@ import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.adapters.HandBookAdapter;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.Utils;
 
 import java.util.List;
 

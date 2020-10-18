@@ -15,7 +15,7 @@ import com.remember.app.ui.base.BaseViewHolder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class EventStuffAdapter extends RecyclerView.Adapter<EventStuffAdapter.ImageViewHolder> {
 

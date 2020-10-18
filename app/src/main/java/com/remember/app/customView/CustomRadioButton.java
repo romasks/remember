@@ -8,8 +8,6 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
-import static com.remember.app.ui.utils.Utils.pixelsToSp;
-
 public class CustomRadioButton extends AppCompatRadioButton {
 
     public CustomRadioButton(Context context) {

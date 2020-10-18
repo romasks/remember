@@ -44,11 +44,11 @@ import com.remember.app.ui.menu.notifications.NotificationsActivity;
 import com.remember.app.ui.menu.page.PageActivityMenu;
 import com.remember.app.ui.menu.question.QuestionActivity;
 import com.remember.app.ui.menu.settings.SettingActivity;
-import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.PopupEventScreen;
-import com.remember.app.ui.utils.PopupPageScreen;
-import com.remember.app.ui.utils.PopupPageScreen.Callback;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.LoadingPopupUtils;
+import com.remember.app.utils.PopupEventScreen;
+import com.remember.app.utils.PopupPageScreen;
+import com.remember.app.utils.PopupPageScreen.Callback;
+import com.remember.app.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -68,8 +68,8 @@ import static com.remember.app.data.Constants.PREFS_KEY_TOKEN;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
 import static com.remember.app.data.Constants.SEARCH_ON_MAIN;
 import static com.remember.app.data.Constants.THEME_LIGHT;
-import static com.remember.app.ui.utils.ImageUtils.getBlackWhiteFilter;
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.ImageUtils.getBlackWhiteFilter;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, Callback, PopupEventScreen.Callback, MainView {
@@ -286,9 +286,6 @@ public class MainActivity extends BaseActivity
         viewPager.setAdapter(adapter);
         if (FROM_NOTIFICATION)
             viewPager.setCurrentItem(1);
-        Log.d("TTTTTTTMain", FROM_NOTIFICATION+"");
-
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -306,7 +303,6 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {

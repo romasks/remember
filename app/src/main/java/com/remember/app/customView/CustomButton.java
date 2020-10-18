@@ -9,8 +9,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 
-import static com.remember.app.ui.utils.Utils.pixelsToSp;
-
 public class CustomButton extends AppCompatButton {
     public CustomButton(Context context) {
         super(context);

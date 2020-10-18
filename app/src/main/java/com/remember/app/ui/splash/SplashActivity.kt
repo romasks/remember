@@ -19,7 +19,7 @@ import com.remember.app.ui.cabinet.events.EventFullActivity
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity
 import com.remember.app.ui.grid.GridActivity
-import com.remember.app.ui.utils.Utils
+import com.remember.app.utils.Utils
 
 class SplashActivity : BaseActivity(), SplashView {
 

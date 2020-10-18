@@ -13,7 +13,7 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.NotificationModelNew;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

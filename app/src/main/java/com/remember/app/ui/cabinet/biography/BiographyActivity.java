@@ -1,7 +1,6 @@
 package com.remember.app.ui.cabinet.biography;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,8 +9,8 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.utils.StringUtils;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.StringUtils;
+import com.remember.app.utils.Utils;
 
 import butterknife.BindView;
 

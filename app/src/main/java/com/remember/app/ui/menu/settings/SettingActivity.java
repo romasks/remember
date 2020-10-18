@@ -1,14 +1,12 @@
 package com.remember.app.ui.menu.settings;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +20,7 @@ import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.menu.settings.changePass.ChangePassListener;
 import com.remember.app.ui.menu.settings.changePass.ChangePasswordActivity;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.Utils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,8 +33,8 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
-import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.utils.FileUtils.storagePermissionGranted;
+import static com.remember.app.utils.FileUtils.verifyStoragePermissions;
 
 public class SettingActivity extends BaseActivity implements SettingView, ChangePassListener, PersonalDataFragment.ActivityListener {
 

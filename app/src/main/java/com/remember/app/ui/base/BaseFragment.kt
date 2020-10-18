@@ -8,8 +8,8 @@ import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import butterknife.ButterKnife
 import butterknife.Unbinder
-import com.remember.app.ui.utils.ErrorDialog
-import com.remember.app.ui.utils.MvpAppCompatFragment
+import com.remember.app.utils.ErrorDialog
+import com.remember.app.utils.MvpAppCompatFragment
 
 abstract class BaseFragment: MvpAppCompatFragment(), BaseView {
 

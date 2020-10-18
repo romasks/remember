@@ -17,9 +17,9 @@ import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseRegister;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
-import com.remember.app.ui.utils.ErrorDialog;
-import com.remember.app.ui.utils.SuccessDialog;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.ErrorDialog;
+import com.remember.app.utils.SuccessDialog;
+import com.remember.app.utils.Utils;
 
 import java.util.regex.Pattern;
 

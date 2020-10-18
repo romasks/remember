@@ -8,12 +8,15 @@ import android.content.res.Configuration
 import androidx.multidex.MultiDex
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.pixplicity.easyprefs.library.Prefs
+import com.remember.app.di.DI_MODULES
 import com.remember.app.di.component.ApplicationComponent
 import com.remember.app.di.component.DaggerApplicationComponent
 import com.remember.app.di.module.ApplicationModule
 import com.vk.sdk.VKSdk
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 import ru.mail.auth.sdk.MailRuAuthSdk
 import java.util.*
 
@@ -27,6 +30,7 @@ class Remember : Application() {
     override fun onCreate() {
         super.onCreate()
         VKSdk.initialize(this)
+        initKoin()
         MailRuAuthSdk.initialize(this)
         val config = YandexMetricaConfig.newConfigBuilder(getString(R.string.METRICA_API_KEY))
                 .withLogs()
@@ -54,6 +58,13 @@ class Remember : Application() {
         SplitCompat.install(ctx)
         super.attachBaseContext(ctx)
 
+    }
+
+    private fun initKoin() {
+        startKoin {
+            androidContext(this@Remember)
+            modules(DI_MODULES)
+        }
     }
 }
     internal const val LANG_RU = "ru"
@@ -101,6 +112,7 @@ class Remember : Application() {
             conf.setLocale(Locale.forLanguageTag(language))
             return conf
         }
+
 
     }
 

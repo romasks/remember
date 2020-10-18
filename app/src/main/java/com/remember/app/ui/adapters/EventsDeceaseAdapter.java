@@ -23,9 +23,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
-import static com.remember.app.ui.utils.DateUtils.convertRemoteToLocalFormat;
-import static com.remember.app.ui.utils.DateUtils.getDifferenceDays;
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.DateUtils.convertRemoteToLocalFormat;
+import static com.remember.app.utils.DateUtils.getDifferenceDays;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class EventsDeceaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 

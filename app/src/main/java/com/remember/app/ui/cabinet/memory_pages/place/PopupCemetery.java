@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.remember.app.R;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.ui.adapters.HandBookAdapterCemetery;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.Utils;
 
 import java.util.List;
 

@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,16 +13,14 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.base.BaseViewHolder;
-import com.remember.app.ui.utils.DateUtils;
+import com.remember.app.utils.DateUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 

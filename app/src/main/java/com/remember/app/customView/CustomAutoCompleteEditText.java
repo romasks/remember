@@ -4,12 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.pixplicity.easyprefs.library.Prefs;
-
-import static com.remember.app.ui.utils.Utils.pixelsToSp;
 
 public class CustomAutoCompleteEditText extends AppCompatEditText {
 

@@ -15,13 +15,13 @@ import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventComments;
 
-import com.remember.app.ui.utils.DateUtils;
+import com.remember.app.utils.DateUtils;
 
 import java.util.ArrayList;
 
 import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

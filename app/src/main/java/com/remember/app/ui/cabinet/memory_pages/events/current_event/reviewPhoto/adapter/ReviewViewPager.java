@@ -13,16 +13,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.EventSliderPhotos;
-import com.remember.app.data.models.ResponseImagesSlider;
-import com.remember.app.ui.adapters.SlidePagerAdapterPhoto;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.remember.app.data.Constants.BASE_SERVICE_URL;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
+import static com.remember.app.utils.ImageUtils.glideLoadInto;import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
 
 public class ReviewViewPager extends PagerAdapter {
 

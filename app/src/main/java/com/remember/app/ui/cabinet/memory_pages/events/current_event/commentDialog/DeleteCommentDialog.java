@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.remember.app.ui.utils.DeleteEvent;
+import com.remember.app.utils.DeleteEvent;
 
 public class DeleteCommentDialog  extends AppCompatDialogFragment {
 

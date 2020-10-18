@@ -4,8 +4,8 @@ import android.os.Bundle
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.remember.app.R
-import com.remember.app.ui.utils.MvpAppCompatActivity
-import com.remember.app.ui.utils.Utils
+import com.remember.app.utils.MvpAppCompatActivity
+import com.remember.app.utils.Utils
 import umairayub.madialog.MaDialog
 
 abstract class BaseActivity: MvpAppCompatActivity(), BaseView {

@@ -40,9 +40,10 @@ import com.remember.app.ui.cabinet.epitaphs.EpitaphsActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
-import com.remember.app.ui.utils.DateUtils;
-import com.remember.app.ui.utils.PhotoDialog;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.ui.chat.ChatActivity;
+import com.remember.app.utils.DateUtils;
+import com.remember.app.utils.PhotoDialog;
+import com.remember.app.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
@@ -74,12 +75,12 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_SHOW;
 import static com.remember.app.data.Constants.PREFS_KEY_USER_ID;
-import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
-import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static com.remember.app.ui.utils.ImageUtils.cropImage;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoWithError;
-import static com.remember.app.ui.utils.StringUtils.getStringFromField;
-import static com.remember.app.ui.utils.StringUtils.stripHtml;
+import static com.remember.app.utils.FileUtils.storagePermissionGranted;
+import static com.remember.app.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.utils.ImageUtils.cropImage;
+import static com.remember.app.utils.ImageUtils.glideLoadIntoWithError;
+import static com.remember.app.utils.StringUtils.getStringFromField;
+import static com.remember.app.utils.StringUtils.stripHtml;
 
 public class ShowPageActivity extends BaseActivity implements PopupMap.Callback, ShowPageView, PhotoDialog.Callback, PhotoSliderAdapter.ItemClickListener, SlidePhotoActivity.DeleteCallBack {
 
@@ -140,7 +141,12 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     ImageView backImg;
     @BindView(R.id.panel)
     LinearLayout panel;
-
+    @BindView(R.id.tvName)
+    CustomTextView maintainerName;
+    @BindView(R.id.tvWriteToMaintainer)
+    CustomTextView writeToMaintainer;
+    @BindView(R.id.chatButton)
+    ImageButton chatButton;
     @BindView(R.id.shareFb)
     AppCompatImageView shareFbButton;
 
@@ -322,6 +328,15 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
         }
     }
 
+    public void openChat(String type, MemoryPageModel model) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        if (memoryPageModel != null){
+            intent.putExtra("model", model);
+        }
+        intent.putExtra("type", type);
+        startActivity(intent);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -479,6 +494,9 @@ public class ShowPageActivity extends BaseActivity implements PopupMap.Callback,
     }
 
     private void initAll() {
+        maintainerName.setOnClickListener(v -> openChat("profile", memoryPageModel));
+        writeToMaintainer.setOnClickListener(v -> openChat("chat",memoryPageModel));
+        chatButton.setOnClickListener(v -> openChat("allchat",memoryPageModel));
         if (memoryPageModel != null) {
             if (!afterSave) {
                 glideLoadIntoWithError(memoryPageModel.getPicture(), image);

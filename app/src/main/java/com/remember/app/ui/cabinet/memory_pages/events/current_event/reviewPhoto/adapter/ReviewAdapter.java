@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.remember.app.data.Constants.BASE_URL_FROM_PHOTO;
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class ReviewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 

@@ -5,12 +5,9 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
-
-import static com.remember.app.ui.utils.Utils.pixelsToSp;
 
 public class CustomEditText extends AppCompatEditText {
 

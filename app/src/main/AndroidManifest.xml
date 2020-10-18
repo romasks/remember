@@ -53,7 +53,7 @@
             android:name=".ui.menu.settings.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.utils.ImageFieldPickerActivity"
+            android:name="com.remember.app.utils.ImageFieldPickerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.auth.RegisterActivity"
@@ -156,6 +156,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.cabinet.biography.BiographyActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.chat.ChatActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

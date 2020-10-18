@@ -21,8 +21,8 @@ import com.remember.app.customView.CustomAutoCompleteTextView;
 import com.remember.app.customView.CustomRadioButton;
 import com.remember.app.data.models.ResponseSettings;
 import com.remember.app.ui.menu.settings.changePass.ChangePassListener;
-import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.LoadingPopupUtils;
+import com.remember.app.utils.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -38,9 +38,9 @@ import butterknife.OnClick;
 import static androidx.appcompat.app.AppCompatActivity.RESULT_OK;
 import static com.remember.app.data.Constants.PREFS_KEY_AVATAR;
 import static com.remember.app.data.Constants.PREFS_KEY_NAME_USER;
-import static com.remember.app.ui.utils.FileUtils.saveBitmap;
-import static com.remember.app.ui.utils.ImageUtils.cropImage;
-import static com.remember.app.ui.utils.ImageUtils.setGlideImage;
+import static com.remember.app.utils.FileUtils.saveBitmap;
+import static com.remember.app.utils.ImageUtils.cropImage;
+import static com.remember.app.utils.ImageUtils.setGlideImage;
 
 public class PersonalDataFragment extends SettingsBaseFragment implements SettingView {
 

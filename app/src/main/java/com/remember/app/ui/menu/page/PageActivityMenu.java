@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
@@ -18,12 +17,10 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.PopupPageScreen;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.PopupPageScreen;
+import com.remember.app.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;

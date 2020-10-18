@@ -18,7 +18,7 @@ import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.Utils;
 
 import java.util.LinkedList;
 

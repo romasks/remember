@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,7 +24,7 @@ import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.Utils;
 
 import java.util.List;
 

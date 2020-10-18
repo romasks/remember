@@ -23,8 +23,8 @@ import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.events.EventFullActivity;
-import com.remember.app.ui.utils.PopupEventScreenLocal;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.PopupEventScreenLocal;
+import com.remember.app.utils.Utils;
 
 import java.util.Arrays;
 import java.util.List;

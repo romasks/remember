@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
@@ -15,8 +14,8 @@ import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.events.EventFullActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
-import com.remember.app.ui.utils.DividerItemDecoration;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.DividerItemDecoration;
+import com.remember.app.utils.Utils;
 
 import java.util.List;
 

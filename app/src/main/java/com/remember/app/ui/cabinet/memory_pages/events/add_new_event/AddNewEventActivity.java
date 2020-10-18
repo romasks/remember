@@ -32,10 +32,10 @@ import com.remember.app.data.models.RequestAddEvent;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
-import com.remember.app.ui.utils.DateUtils;
-import com.remember.app.ui.utils.DeleteEvent;
-import com.remember.app.ui.utils.LoadingPopupUtils;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.DateUtils;
+import com.remember.app.utils.DeleteEvent;
+import com.remember.app.utils.LoadingPopupUtils;
+import com.remember.app.utils.Utils;
 import com.shagi.materialdatepicker.date.DatePickerFragmentDialog;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -67,13 +67,13 @@ import static com.remember.app.data.Constants.INTENT_EXTRA_EVENT_PERSON;
 import static com.remember.app.data.Constants.INTENT_EXTRA_IS_EVENT_EDITING;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PAGE_ID;
 import static com.remember.app.data.Constants.INTENT_EXTRA_PERSON_NAME;
-import static com.remember.app.ui.utils.DateUtils.dfLocal;
-import static com.remember.app.ui.utils.FileUtils.saveBitmap;
-import static com.remember.app.ui.utils.FileUtils.storagePermissionGranted;
-import static com.remember.app.ui.utils.FileUtils.verifyStoragePermissions;
-import static com.remember.app.ui.utils.ImageUtils.cropImage;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadInto;
-import static com.remember.app.ui.utils.ImageUtils.glideLoadIntoAsBitmap;
+import static com.remember.app.utils.DateUtils.dfLocal;
+import static com.remember.app.utils.FileUtils.saveBitmap;
+import static com.remember.app.utils.FileUtils.storagePermissionGranted;
+import static com.remember.app.utils.FileUtils.verifyStoragePermissions;
+import static com.remember.app.utils.ImageUtils.cropImage;
+import static com.remember.app.utils.ImageUtils.glideLoadInto;
+import static com.remember.app.utils.ImageUtils.glideLoadIntoAsBitmap;
 
 public class AddNewEventActivity extends BaseActivity implements AddNewEventView, DeleteEvent.Callback {
 

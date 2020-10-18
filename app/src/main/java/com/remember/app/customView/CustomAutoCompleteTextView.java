@@ -8,8 +8,6 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
-import static com.remember.app.ui.utils.Utils.pixelsToSp;
-
 public class CustomAutoCompleteTextView extends AppCompatAutoCompleteTextView {
 
 

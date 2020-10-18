@@ -13,8 +13,8 @@ import com.remember.app.customView.CustomEditTextFrame;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.RequestQuestion;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.utils.QuestionSendDialog;
-import com.remember.app.ui.utils.Utils;
+import com.remember.app.utils.QuestionSendDialog;
+import com.remember.app.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
