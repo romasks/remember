@@ -26,6 +26,7 @@ import java.lang.Long.parseLong
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 
 
@@ -128,6 +129,21 @@ object KotlinUtils {
         val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         input.timeZone = cal.timeZone
         return input.format(Date(cal.timeInMillis))
+    }
+
+    fun getCreatedDaysAgo(time: String): String {
+        val cal = Calendar.getInstance()
+        val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val output = SimpleDateFormat("dd")
+        var createDate: Long = 0
+        var now: Long = 0
+        try {
+            createDate = input.parse(time).time
+            now = cal.timeInMillis
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return TimeUnit.MILLISECONDS.toDays(now.minus(createDate)).toString()
     }
 
     fun parseTimeStampToDateAndTime(time: Long): String {

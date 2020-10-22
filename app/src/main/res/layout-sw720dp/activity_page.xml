@@ -454,7 +454,7 @@
 
             <ImageButton
                 android:paddingTop="5dp"
-                android:id="@+id/biography"
+                android:id="@+id/imgBiography"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:layout_weight="1"

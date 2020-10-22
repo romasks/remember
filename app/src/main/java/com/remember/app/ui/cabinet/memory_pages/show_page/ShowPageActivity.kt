@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
 import com.jaychang.sa.utils.StringUtils
+import com.pixplicity.easyprefs.library.Prefs
 import com.remember.app.R
 import com.remember.app.data.Constants
 import com.remember.app.data.models.MemoryPageModel
@@ -29,6 +30,7 @@ import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity
 import com.remember.app.ui.cabinet.memory_pages.events.EventsActivity
 import com.remember.app.ui.chat.ChatActivity
 import com.remember.app.utils.*
+import com.remember.app.utils.KotlinUtils.getCreatedDaysAgo
 import com.theartofdev.edmodo.cropper.CropImage
 import com.vk.sdk.VKAccessToken
 import com.vk.sdk.VKScope
@@ -221,7 +223,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         //temporarily block onImageClick
     }
 
-    @OnClick(R.id.biography)
+    @OnClick(R.id.imgBiography)
     fun onBiographyClick() {
         val intent = Intent(this, BiographyActivity::class.java)
         if (memoryPageModel != null && memoryPageModel!!.biography != null) intent.putExtra("biography", memoryPageModel!!.biography)
@@ -342,20 +344,28 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         maintainerName!!.setOnClickListener { v: View? -> openChat("profile", memoryPageModel) }
         tvWriteToMaintainer!!.setOnClickListener { v: View? -> openChat("chat", memoryPageModel) }
         chatButton!!.setOnClickListener { v: View? -> openChat("allchat", memoryPageModel) }
-        if (memoryPageModel != null) {
-            if (!afterSave) {
-                ImageUtils.glideLoadIntoWithError(memoryPageModel!!.picture, image)
-                ImageUtils.glideLoadIntoWithError(memoryPageModel!!.picture, sharedImage)
-            }
-            initTextName(memoryPageModel!!)
-            initDate(memoryPageModel!!)
-            initInfo(memoryPageModel!!)
-            mapButton!!.visibility = if (memoryPageModel?.coords != null && memoryPageModel!!.coords?.isEmpty()!!) View.GONE else View.VISIBLE
-            biography!!.visibility = if (memoryPageModel!!.biography == null) View.GONE else View.VISIBLE
-            tvBiography!!.visibility = if (memoryPageModel!!.biography == null) View.GONE else View.VISIBLE
-            if (memoryPageModel!!.status == null || memoryPageModel!!.flag == null) share_LinLayout!!.visibility = View.GONE else {
-                if (!(memoryPageModel!!.flag == "true" && memoryPageModel!!.status == "Одобрено")) {
-                    share_LinLayout!!.visibility = View.GONE
+        memoryPageModel?.let {
+            with(it) {
+                if (!afterSave) {
+                    ImageUtils.glideLoadIntoWithError(it.picture, image)
+                    ImageUtils.glideLoadIntoWithError(it.picture, sharedImage)
+                }
+                initTextName(it)
+                initDate(it)
+                initInfo(it)
+                mapButton!!.visibility = if (coords != null && coords.isEmpty()) View.GONE else View.VISIBLE
+                imgBiography!!.visibility = if (biography == null) View.GONE else View.VISIBLE
+                tvBiography!!.visibility = if (biography == null) View.GONE else View.VISIBLE
+                if (status == null || flag == null) share_LinLayout!!.visibility = View.GONE else {
+                    if (!(flag == "true" && status == "Одобрено")) {
+                        share_LinLayout!!.visibility = View.GONE
+                    }
+                }
+                if (userId == Prefs.getString(Constants.PREFS_KEY_USER_ID, "")) {
+                    maintainerLayout.visibility = View.GONE
+                } else {
+                    maintainerName.text = creatorData?.name
+                    tvCountDays.text = "(Создана ${getCreatedDaysAgo(createdAt)} дней назад)"
                 }
             }
         }
