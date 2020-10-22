@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.remember.app.R
 import com.remember.app.data.models.ChatsModel
+import com.remember.app.data.models.MemoryPageModel
 import com.remember.app.ui.base.BaseFragmentMVVM
 import com.remember.app.ui.chat.adapter.AllChatAdapter
 import kotlinx.android.synthetic.main.fragment_main_chat.*
@@ -15,6 +16,7 @@ class MainChatFragment : BaseFragmentMVVM() {
     override val layoutId: Int = R.layout.fragment_main_chat
     lateinit var allChatAdapter: AllChatAdapter
     val chatViewModel: ChatViewModel by sharedViewModel()
+    lateinit var model: MemoryPageModel
 
     companion object {
         fun newInstance(bundle: Bundle) =
@@ -28,6 +30,7 @@ class MainChatFragment : BaseFragmentMVVM() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        model = arguments!!.getParcelable<MemoryPageModel>("model")!!
         initUI()
 
         initLiveData()
@@ -59,9 +62,10 @@ class MainChatFragment : BaseFragmentMVVM() {
         }
     }
 
-    private fun onChatClick(position: Int, model: ChatsModel.Chat) {
+    private fun onChatClick(position: Int, chatModel: ChatsModel.Chat) {
         val bundle = Bundle()
-        bundle.putParcelable("chat", model)
+        bundle.putParcelable("chat", chatModel)
+        bundle.putParcelable("model", model)
         bundle.putString("type", "afterList")
         openChieldFragment(ChatFragment.newInstance(bundle), R.id.allChats)
     }

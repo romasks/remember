@@ -7,6 +7,7 @@ import com.remember.app.data.dataFlow.DataManager
 import com.remember.app.data.models.ChatMessages
 import com.remember.app.data.models.SuccessSendMessage
 import com.remember.app.data.models.ChatsModel
+import com.remember.app.data.models.SuccessReadMessage
 import io.socket.client.Socket
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -20,6 +21,7 @@ class ChatViewModel(private val dataManager: DataManager) :
     private var firstCurrentChatMessage = false
     var allChatModel: MutableLiveData<ChatsModel> = MutableLiveData()
     var successSendMessage: MutableLiveData<SuccessSendMessage> = MutableLiveData()
+    var successReadMessage: MutableLiveData<SuccessReadMessage> = MutableLiveData()
     var chatMessages: MutableLiveData<ChatMessages> = MutableLiveData()
     var error: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -35,15 +37,12 @@ class ChatViewModel(private val dataManager: DataManager) :
     }
 
     fun sendMessage(chatID : String, message : String){
-        val descr =
-                message.toRequestBody(MediaType.let { "text/plain".toMediaTypeOrNull() })
         dataManager.sendMessage(id = chatID, token = getUserToken(), message = message, onSuccess = {
             it.let {
                 successSendMessage.postValue(it)
             }
         }, onFailure = {
             error.postValue(true)
-            //  loginErrorMessage.postValue(parseLoginError(it))
         })
     }
 
@@ -54,7 +53,16 @@ class ChatViewModel(private val dataManager: DataManager) :
             }
         }, onFailure = {
             it.message
-            //  loginErrorMessage.postValue(parseLoginError(it))
+        })
+    }
+
+    fun changeStatusUnreadMessages(chatID: Int, messageID: Int){
+        dataManager.readMark(id = chatID, token = getUserToken(), messageID = messageID, onSuccess = {
+            it.let {
+                successReadMessage.postValue(it)
+            }
+        }, onFailure = {
+            it.message
         })
     }
 

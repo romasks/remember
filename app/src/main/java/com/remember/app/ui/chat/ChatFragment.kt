@@ -57,6 +57,7 @@ class ChatFragment : BaseFragmentMVVM() {
         when (type) {
             "afterList" -> {
                 chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
+                model = arguments!!.getParcelable<MemoryPageModel>("model")!!
             }
             else -> {
                 model = arguments!!.getParcelable<MemoryPageModel>("model")!!
@@ -76,6 +77,7 @@ class ChatFragment : BaseFragmentMVVM() {
             it?.let {
                 chatAdapter.setList(it.history.reversed())
                 scrollToBottom()
+                chatViewModel.changeStatusUnreadMessages(parseInt(model.userId!!), it.history.first().id)  //TODO
             }
         })
         chatViewModel.error.observe(viewLifecycleOwner, Observer {
@@ -97,6 +99,7 @@ class ChatFragment : BaseFragmentMVVM() {
                 chatViewModel.successSendMessage.postValue(null)
             }
         })
+
     }
 
     private fun initSocketListener() {
@@ -138,6 +141,7 @@ class ChatFragment : BaseFragmentMVVM() {
                 lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = chatModel?.id!!, date = getLocaleTime())
             }
         }
+
         model?.let {
             toolbarTitle.text = it.creatorData?.name
             Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)

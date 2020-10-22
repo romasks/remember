@@ -4,6 +4,7 @@ import com.remember.app.data.dataFlow.network.Api
 import com.remember.app.data.models.ChatMessages
 import com.remember.app.data.models.SuccessSendMessage
 import com.remember.app.data.models.ChatsModel
+import com.remember.app.data.models.SuccessReadMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.RequestBody
@@ -80,7 +81,7 @@ class DataManager(private val api: Api) : IDataManager {
                 })
     }
 
-    override fun readMark(token: String, id: Int, messageID: Int, onSuccess: (response: SuccessSendMessage) -> Unit, onFailure: (error: Throwable) -> Unit) {
+    override fun readMark(token: String, id: Int, messageID: Int, onSuccess: (response: SuccessReadMessage) -> Unit, onFailure: (error: Throwable) -> Unit) {
         val request = api.readMark(token, id, messageID).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

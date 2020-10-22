@@ -3,6 +3,7 @@ package com.remember.app.data.dataFlow
 import com.remember.app.data.models.ChatMessages
 import com.remember.app.data.models.SuccessSendMessage
 import com.remember.app.data.models.ChatsModel
+import com.remember.app.data.models.SuccessReadMessage
 import okhttp3.RequestBody
 
 interface IDataManager {
@@ -65,7 +66,7 @@ interface IDataManager {
             token: String,
             id: Int,
             messageID : Int,
-            onSuccess: (response: SuccessSendMessage) -> Unit,
+            onSuccess: (response: SuccessReadMessage) -> Unit,
             onFailure: (error: Throwable) -> Unit
     )
 }

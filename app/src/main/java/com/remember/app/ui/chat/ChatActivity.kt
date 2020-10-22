@@ -46,7 +46,7 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
             }
             "allchat" -> {
                 bundle.putParcelable("model", model)
-                replaceFragmentSafely(MainChatFragment(), "MainChatFragment", false, true, R.id.container)
+                replaceFragmentSafely(MainChatFragment.newInstance(bundle), "MainChatFragment", false, true, R.id.container)
             }
         }
     }

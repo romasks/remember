@@ -3,6 +3,7 @@ package com.remember.app.data.dataFlow.network
 import com.remember.app.data.models.ChatMessages
 import com.remember.app.data.models.SuccessSendMessage
 import com.remember.app.data.models.ChatsModel
+import com.remember.app.data.models.SuccessReadMessage
 import io.reactivex.Single
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -33,7 +34,7 @@ interface Api {
     fun editMessage(@Header("Authorization") token : String,@Path("id") id : Int, @Path("message_id") messageId : Int,@Body body : RequestBody): Single<SuccessSendMessage>
 
     @PUT("chat/{id}/message/{message_id}/read")
-    fun readMark(@Header("Authorization") token : String,@Path("id") id : Int, @Path("message_id") messageId : Int): Single<SuccessSendMessage>
+    fun readMark(@Header("Authorization") token : String,@Path("id") id : Int, @Path("message_id") messageId : Int): Single<SuccessReadMessage>
 
 
 //    @POST("auth/registration")
