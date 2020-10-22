@@ -13,9 +13,8 @@ import com.remember.app.data.models.EventResponse;
 import com.remember.app.data.models.ResponseEvents;
 import com.remember.app.ui.adapters.EventsFragmentAdapter;
 import com.remember.app.ui.base.BaseFragment;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.utils.Utils;
-
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;

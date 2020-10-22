@@ -46,7 +46,7 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     PlacePresenter presenter;
     @BindView(R.id.back_button)
     ImageView back;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     TextView title;
     @BindView(R.id.settings)
     ImageView settingsBtn;
@@ -55,11 +55,11 @@ public class BurialPlaceActivity extends BaseActivity implements PopupMap.Callba
     CustomAutoCompleteTextView city;
     @BindView(R.id.cemetery_value)
     CustomAutoCompleteTextView cemetery;
-    @BindView(R.id.sector_value)
+    @BindView(R.id.sector)
     CustomAutoCompleteTextView sector;
-    @BindView(R.id.line_value)
+    @BindView(R.id.line)
     CustomAutoCompleteTextView line;
-    @BindView(R.id.grave_value)
+    @BindView(R.id.grave)
     CustomAutoCompleteTextView grave;
     @BindView(R.id.coordinates_value)
     CustomAutoCompleteTextView coordinates;

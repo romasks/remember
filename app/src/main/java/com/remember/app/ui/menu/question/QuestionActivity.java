@@ -33,7 +33,7 @@ public class QuestionActivity extends BaseActivity implements QuestionView {
     CustomEditTextFrame body;
     @BindView(R.id.back_button)
     ImageView back;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;

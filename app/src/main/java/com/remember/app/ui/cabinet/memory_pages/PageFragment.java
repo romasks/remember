@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,12 +15,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
-import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.utils.Utils;
 
 import java.util.LinkedList;

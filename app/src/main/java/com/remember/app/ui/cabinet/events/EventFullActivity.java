@@ -50,7 +50,7 @@ public class EventFullActivity extends BaseActivity implements EventView {
     ImageView avatarImage;
     @BindView(R.id.settings)
     ImageView settingsImage;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.body)
     CustomTextView body;

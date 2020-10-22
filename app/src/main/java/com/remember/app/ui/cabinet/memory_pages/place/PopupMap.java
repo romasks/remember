@@ -78,8 +78,11 @@ public class PopupMap extends PopupWindow implements OnMapReadyCallback {
 
         LocationManager locationManager = (LocationManager) getContentView().getContext().getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria, true);
-        Location location = locationManager.getLastKnownLocation(provider);
+        String provider = locationManager != null ? locationManager.getBestProvider(criteria, true) : null;
+        Location location = null;
+        if (locationManager != null && provider != null) {
+            location = locationManager.getLastKnownLocation(provider);
+        }
         if (location != null) {
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();

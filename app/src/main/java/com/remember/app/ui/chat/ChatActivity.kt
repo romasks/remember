@@ -7,8 +7,8 @@ import com.ambitt.utils.replaceFragmentSafely
 import com.remember.app.BuildConfig
 import com.remember.app.R
 import com.remember.app.data.models.MemoryPageModel
-import com.remember.app.rtc.ChatMessage
-import com.remember.app.rtc.SocketClient
+import com.remember.app.socket.ChatMessage
+import com.remember.app.socket.SocketClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {

@@ -83,9 +83,6 @@
             android:name=".ui.cabinet.memory_pages.add_page.NewMemoryPageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.cabinet.memory_pages.show_page.ShowPageActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.menu.notifications.NotificationsActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -157,6 +154,7 @@
         <activity android:name=".ui.cabinet.biography.BiographyActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.chat.ChatActivity" />
+        <activity android:name=".ui.cabinet.memory_pages.show_page.ShowPageActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

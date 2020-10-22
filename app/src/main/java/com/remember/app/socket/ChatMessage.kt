@@ -1,4 +1,4 @@
-package com.remember.app.rtc
+package com.remember.app.socket
 
 data class ChatMessage (
     val isOwner: Boolean,

@@ -3,10 +3,7 @@ package com.remember.app.ui.menu.settings.changePass;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.Toast;
 
@@ -17,14 +14,11 @@ import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomEditText;
 import com.remember.app.customView.CustomTextView;
-import com.remember.app.data.models.ErrorResponse;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.menu.settings.SettingPresenter;
 import com.remember.app.ui.menu.settings.SettingView;
 
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,7 +35,7 @@ public class ChangePasswordActivity extends BaseActivity implements SettingView 
     CustomEditText newRepass;
     @BindView(R.id.submit)
     CustomButton submit;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;

@@ -31,7 +31,7 @@ public class NotificationsActivity extends BaseActivity implements Notifications
 
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.filter)
     ImageView btnFilter; //temporarily comment

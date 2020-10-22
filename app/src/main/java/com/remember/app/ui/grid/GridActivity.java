@@ -6,6 +6,9 @@ import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+
+import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import android.content.IntentSender;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,7 +44,6 @@ import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
-import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RefreshToken;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
@@ -49,7 +51,6 @@ import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.menu.events.EventsActivityMenu;
 import com.remember.app.ui.menu.manual.ManualActivity;
 import com.remember.app.ui.menu.notifications.NotificationsActivity;
@@ -91,7 +92,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @BindView(R.id.menu_icon)
     ImageView button_menu;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.search)
     ImageView search;

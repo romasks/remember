@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
-
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
@@ -13,7 +13,6 @@ import com.remember.app.data.models.NotificationModelNew;
 import com.remember.app.ui.base.BaseFragment;
 import com.remember.app.ui.cabinet.events.EventFullActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.utils.DividerItemDecoration;
 import com.remember.app.utils.Utils;
 

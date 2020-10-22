@@ -34,7 +34,7 @@ public class SlidePhotoActivity extends BaseActivity
     private final static String TAG = "SlidePhotoActivity";
 
     @InjectPresenter
-    ShowPagePresenter presenter;
+    public ShowPagePresenter presenter;
 
     @BindView(R.id.vp)
     ViewPager viewPager;
@@ -107,7 +107,7 @@ public class SlidePhotoActivity extends BaseActivity
     public void onImagesSlider(List<ResponseImagesSlider> responseImagesSliders) {
         photoSliderAdapter.setItems(responseImagesSliders);
         slidePagerAdapterPhoto.setItems(responseImagesSliders);
-        title.setText("Фото "+ (position+1) + " из " + responseImagesSliders.size());
+        title.setText("Фото " + (position + 1) + " из " + responseImagesSliders.size());
         viewPager.setCurrentItem(position);
     }
 
@@ -154,7 +154,7 @@ public class SlidePhotoActivity extends BaseActivity
     @Override
     public void getCountPage(String i1) {
         photoCount.setText(i1);
-       // title.setText("Фото "+ i1 + " из " + slidePagerAdapterPhoto.getItems().size());
+        // title.setText("Фото "+ i1 + " из " + slidePagerAdapterPhoto.getItems().size());
     }
 
     @Override
@@ -167,7 +167,7 @@ public class SlidePhotoActivity extends BaseActivity
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             photoNumber.setText(String.valueOf(position + 1));
-            title.setText("Фото "+ (position+1) + " из " + slidePagerAdapterPhoto.getItems().size());
+            title.setText("Фото " + (position + 1) + " из " + slidePagerAdapterPhoto.getItems().size());
         }
 
         @Override
@@ -182,9 +182,10 @@ public class SlidePhotoActivity extends BaseActivity
         }
     };
 
-    interface DeleteCallBack{
+    interface DeleteCallBack {
         void deletePhoto(int position);
     }
+
     public static void setCallback(DeleteCallBack callback) {
         listener = callback;
     }

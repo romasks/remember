@@ -25,7 +25,7 @@
         app:layout_constraintTop_toBottomOf="@id/app_bar">
 
         <ScrollView
-            android:id="@+id/scroll_view"
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -132,7 +132,7 @@
                         android:layout_weight="0.15">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler_slider"
+                            android:id="@+id/recyclerSlider"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
@@ -236,7 +236,7 @@
                                 android:textSize="23dp" />
 
                             <com.remember.app.customView.CustomTextView
-                                android:id="@+id/sector_value"
+                                android:id="@+id/sector"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -272,7 +272,7 @@
                                 android:textSize="23dp" />
 
                             <com.remember.app.customView.CustomTextView
-                                android:id="@+id/line_value"
+                                android:id="@+id/line"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -305,7 +305,7 @@
                                 android:textSize="23dp" />
 
                             <com.remember.app.customView.CustomTextView
-                                android:id="@+id/grave_value"
+                                android:id="@+id/grave"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -354,7 +354,7 @@
                             tools:text="Название кладбища" />
 
                         <com.remember.app.customView.CustomTextView
-                            android:id="@+id/description_title"
+                            android:id="@+id/descriptionTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -385,7 +385,7 @@
                     tools:text="asfas sfasf sfasf safas asfasf fsafasfsa as" />
 
                 <com.remember.app.customView.CustomButton
-                    android:id="@+id/map_button"
+                    android:id="@+id/mapButton"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_marginStart="5dp"

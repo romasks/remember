@@ -22,7 +22,7 @@ public class BiographyActivity extends BaseActivity {
     ImageView settings;
     @BindView(R.id.back_button)
     AppCompatImageView back;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
 
     @Override

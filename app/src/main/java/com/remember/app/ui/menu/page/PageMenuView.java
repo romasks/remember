@@ -5,7 +5,6 @@ import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.base.BaseView;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public interface PageMenuView extends BaseView {
 

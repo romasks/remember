@@ -5,6 +5,9 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+
+import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -31,14 +34,12 @@ import com.remember.app.customView.CustomEditTextFrame;
 import com.remember.app.customView.CustomRadioButton;
 import com.remember.app.customView.CustomTextView;
 import com.remember.app.data.models.AddPageModel;
-import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.ResponseCemetery;
 import com.remember.app.data.models.ResponseHandBook;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.BurialPlaceActivity;
 import com.remember.app.ui.cabinet.memory_pages.place.PopupReligion;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.utils.DateUtils;
 import com.remember.app.utils.DeletePageDialog;
 import com.remember.app.utils.FileUtils;
@@ -90,7 +91,7 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     CustomEditText lastName;
     @BindView(R.id.back_button)
     ImageView back;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;
@@ -420,9 +421,9 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
     @SuppressLint("SimpleDateFormat")
     private void initEdit() {
         initToolbar();
-        lastName.setText(memoryPageModel.getSecondName());
+        lastName.setText(memoryPageModel.getSecondname());
         name.setText(memoryPageModel.getName());
-        middleName.setText(memoryPageModel.getThirdName());
+        middleName.setText(memoryPageModel.getThirtname());
         description.setInputText(memoryPageModel.getComment());
         religion.setText(memoryPageModel.getReligiya());
         if (memoryPageModel.getStar().equals("true")) {
@@ -439,8 +440,8 @@ public class NewMemoryPageActivity extends BaseActivity implements AddPageView, 
             isPublic.setChecked(false);
             noPublic.setChecked(true);
         }
-        dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateBirth()));
-        dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDateDeath()));
+        dateBegin.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDatarod()));
+        dateEnd.setText(DateUtils.convertRemoteToLocalFormat(memoryPageModel.getDatasmert()));
         glideLoadIntoWithError(BASE_URL_FROM_PHOTO + memoryPageModel.getPicture(), image);
     }
 

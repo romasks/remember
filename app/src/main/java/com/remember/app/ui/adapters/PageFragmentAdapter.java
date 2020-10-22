@@ -16,6 +16,7 @@ import com.remember.app.ui.base.BaseViewHolder;
 import com.remember.app.utils.DateUtils;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,7 +99,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 callback.sendItem(memoryPageModelList.get(position));
             });
             try {
-                if (memoryPageModelList.get(position).getPicture().contains("uploads")) {
+                if (Objects.requireNonNull(memoryPageModelList.get(position).getPicture()).contains("uploads")) {
                     setGlideImage(memoryPageModelList.get(position).getPicture(), avatarImage);
                 } else {
                     setGlideImage(R.drawable.no_photo, avatarImage);
@@ -107,13 +108,17 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 setGlideImage(R.drawable.no_photo, avatarImage);
             }
 
-            String secondName = memoryPageModelList.get(position).getSecondName();
-            String fullName = memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirdName();
+            String secondName = memoryPageModelList.get(position).getSecondname();
+            String fullName = "";
+            if (memoryPageModelList.get(position).getThirtname()!= null && !memoryPageModelList.get(position).getThirtname().equals("null"))
+             fullName = memoryPageModelList.get(position).getName() + " " + memoryPageModelList.get(position).getThirtname();
+            else
+                fullName = memoryPageModelList.get(position).getName();
             surname.setText(secondName);
             name.setText(fullName);
 
-            String dateBirth = DateUtils.convertRemoteToLocalFormat(memoryPageModelList.get(position).getDateBirth());
-            String dateDeath = DateUtils.convertRemoteToLocalFormat(memoryPageModelList.get(position).getDateDeath());
+            String dateBirth = DateUtils.convertRemoteToLocalFormat(memoryPageModelList.get(position).getDatarod());
+            String dateDeath = DateUtils.convertRemoteToLocalFormat(memoryPageModelList.get(position).getDatasmert());
             String textDate = dateBirth + " - " + dateDeath;
             date.setText(textDate);
         }

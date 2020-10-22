@@ -47,7 +47,7 @@ public class SettingActivity extends BaseActivity implements SettingView, Change
     CustomButton saveButton;
     @BindView(R.id.back_button)
     ImageView backArrow;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.settings)
     ImageView settings;

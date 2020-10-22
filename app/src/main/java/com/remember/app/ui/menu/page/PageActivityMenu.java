@@ -3,6 +3,9 @@ package com.remember.app.ui.menu.page;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -11,12 +14,10 @@ import android.widget.ImageView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
-import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.utils.PopupPageScreen;
 import com.remember.app.utils.Utils;
 
@@ -44,7 +45,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     RecyclerView recyclerView;
     @BindView(R.id.show_all)
     CustomTextView showAll;
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.back)
     ImageView back;

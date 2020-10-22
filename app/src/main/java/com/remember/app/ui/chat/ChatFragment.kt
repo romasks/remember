@@ -68,7 +68,7 @@ class ChatFragment : BaseFragmentMVVM() {
 
     private fun initLiveData() {
         if (type == "")
-            chatViewModel.getChatMessages(model.userId.toInt())
+            model.userId?.toInt()?.let { chatViewModel.getChatMessages(it) }
         else
             chatViewModel.getChatMessages(chatModel?.id!!.toInt())
         chatViewModel.chatMessages.observe(viewLifecycleOwner, Observer {
@@ -129,7 +129,7 @@ class ChatFragment : BaseFragmentMVVM() {
         })
         imgSend.setOnClickListener {
             if (type == "") {
-                lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = parseInt(model.userId), date = getLocaleTime())
+                lastSendingMessage = model.userId?.let { it1 -> parseInt(it1) }?.let { it2 -> ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = it2, date = getLocaleTime()) }
                 chatViewModel.sendMessage(model.userId.toString(), etComment.text.toString())
             } else {
                 chatViewModel.sendMessage(chatModel?.id.toString(), etComment.text.toString())

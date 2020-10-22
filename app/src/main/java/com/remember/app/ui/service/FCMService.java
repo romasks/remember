@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
@@ -19,7 +20,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.remember.app.R;
 import com.remember.app.ui.cabinet.events.EventFullActivity;
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.grid.GridActivity;
 
 import java.net.URL;

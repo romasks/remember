@@ -5,11 +5,13 @@ import android.text.Html;
 public class StringUtils {
 
     public static String getStringFromField(String field) {
-        return field.isEmpty() || field.equals("null") ? "-" : field;
+        if (field != null)
+            return field.isEmpty() || field.equals("null") ? "-" : field;
+        else return "-";
     }
 
-    public static String getVideoIdFromUrl(String url){
-        return url.replace("https://www.youtube.com/embed/", "").replace("https://www.youtube.com/watch?v=","").replace("https://m.youtube.com/watch?v=","");
+    public static String getVideoIdFromUrl(String url) {
+        return url.replace("https://www.youtube.com/embed/", "").replace("https://www.youtube.com/watch?v=", "").replace("https://m.youtube.com/watch?v=", "");
     }
 
     public static String stripHtml(String html) {

@@ -1,4 +1,4 @@
-package com.remember.app.rtc
+package com.remember.app.socket
 
 import android.util.Log
 import io.socket.client.IO

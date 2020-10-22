@@ -53,7 +53,7 @@ public class EventsActivity extends BaseActivity implements EventsView, EventsDe
     ImageView back;
     /*@BindView(R.id.search)
     ImageView search;*///temporarily comment
-    @BindView(R.id.title)
+    @BindView(R.id.tvTitle)
     CustomTextView title;
     @BindView(R.id.no_events)
     LinearLayout noEvents;

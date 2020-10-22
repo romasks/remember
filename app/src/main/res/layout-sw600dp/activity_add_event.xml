@@ -143,7 +143,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/title"
+                android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_activity_fields_margin"
@@ -179,7 +179,7 @@
                 android:layout_marginRight="@dimen/default_activity_fields_margin"
                 android:focusable="false"
                 android:textColorHint="?android:attr/textColorHint"
-                app:layout_constraintTop_toBottomOf="@+id/title">
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle">
 
                 <com.remember.app.customView.CustomAutoCompleteTextView
                     android:id="@+id/date_value"
