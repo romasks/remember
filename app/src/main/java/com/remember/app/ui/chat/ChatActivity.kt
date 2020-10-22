@@ -19,16 +19,13 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-
         if (savedInstanceState == null) {
             val type = intent.extras!!.getString("type", "")
             val model = intent.extras!!.getParcelable<MemoryPageModel>("model")
             openFragmentByType(type, model)
         }
-
         initSocketConnection()
     }
-
 
     private fun initSocketConnection() {
         socketClient = SocketClient(BuildConfig.SCOKET_URL, viewModel.getToken()!!, this) //TODO
@@ -71,7 +68,6 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
     override fun onDisconnect(error: Array<Any>) {
         Log.d("TAG", error.size.toString())
     }
-
 
     override fun onMessage(message: ChatMessage) {
         // viewModel.addMessage(message)

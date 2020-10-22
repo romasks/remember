@@ -96,7 +96,6 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         recyclerSlider!!.adapter = photoSliderAdapter
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val result = CropImage.getActivityResult(data)
@@ -177,7 +176,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         panel!!.background = resources.getDrawable(R.drawable.panel_dark)
     }
 
-    fun pickImage() {
+    private fun pickImage() {
         if (FileUtils.storagePermissionGranted(this) || Build.VERSION.SDK_INT < 23) {
             showPhotoDialog()
         } else {
@@ -209,20 +208,20 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         photoDialog!!.show(transaction, "photoDialog")
     }
 
-    fun onBiographyClick() {
+    private fun onBiographyClick() {
         val intent = Intent(this, BiographyActivity::class.java)
         if (memoryPageModel != null && memoryPageModel!!.biography != null) intent.putExtra("biography", memoryPageModel!!.biography)
         startActivity(intent)
     }
 
-    fun onEpitaphButtonClick() {
+    private fun onEpitaphButtonClick() {
         val intent = Intent(this, EpitaphsActivity::class.java)
         intent.putExtra(Constants.INTENT_EXTRA_SHOW, isShow)
         if (memoryPageModel != null && memoryPageModel!!.id != null) intent.putExtra(Constants.INTENT_EXTRA_PAGE_ID, memoryPageModel!!.id)
         startActivity(intent)
     }
 
-    fun onEventButtonClick() {
+    private fun onEventButtonClick() {
         val intent = Intent(this, EventsActivity::class.java)
         intent.putExtra(Constants.INTENT_EXTRA_SHOW, isShow)
         intent.putExtra(Constants.INTENT_EXTRA_NAME, fio!!.text.toString())
@@ -232,11 +231,11 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         startActivity(intent)
     }
 
-    fun back() {
+    private fun back() {
         onBackPressed()
     }
 
-    fun showMap() {
+    private fun showMap() {
         if (memoryPageModel!!.coords == null || memoryPageModel!!.coords?.isEmpty()!!) {
             Utils.showSnack(image, "Координаты неизвестны")
         } else {
@@ -250,7 +249,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         }
     }
 
-    fun editPage() {
+    private fun editPage() {
         val intent = Intent(this, NewMemoryPageActivity::class.java)
         intent.putExtra("PERSON", memoryPageModel)
         intent.putExtra("LIST", isList)
@@ -264,7 +263,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         startActivity(intent)
     }
 
-    fun shareVk() {
+    private fun shareVk() {
         sharing = 1
         val token = VKAccessToken.currentToken()
         if (token == null) {
@@ -276,7 +275,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         }
     }
 
-    fun shareFb() {
+    private fun shareFb() {
         val generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel!!.id.toString() // Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
         val content = ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse(generatedByIDLink))
