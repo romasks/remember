@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import butterknife.OnClick
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
@@ -69,7 +68,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         super.onCreate(savedInstanceState)
         FROM_NOTIFICATION = intent.getBooleanExtra(Constants.INTENT_EXTRA_FROM_NOTIF, false)
         if (Utils.isEmptyPrefsKey(Constants.PREFS_KEY_USER_ID)) {
-            addPhotoToSliderBtn_layout!!.visibility = View.GONE
+            addPhotoToSliderBtnLayout!!.visibility = View.GONE
             share_LinLayout!!.visibility = View.GONE
             settings!!.visibility = View.GONE
         }
@@ -79,15 +78,12 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         afterSave = i.getBooleanExtra(Constants.INTENT_EXTRA_AFTER_SAVE, false)
         isShow = i.getBooleanExtra(Constants.INTENT_EXTRA_SHOW, false)
         if (isShow) {
-
             memoryPageModel = i.getParcelableExtra(Constants.INTENT_EXTRA_PERSON) as MemoryPageModel
             presenter!!.getImagesSlider(memoryPageModel!!.id)
-            val wi = memoryPageModel!!.creatorData?.location
-            val s = wi
             id = memoryPageModel!!.id!!
             settings!!.isClickable = false
             settings!!.visibility = View.GONE
-            addPhotoToSliderBtn_layout!!.visibility = View.GONE
+            addPhotoToSliderBtnLayout!!.visibility = View.GONE
             initAll()
         } else {
             id = i.getIntExtra(Constants.INTENT_EXTRA_ID, 0)
@@ -100,11 +96,11 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         recyclerSlider!!.adapter = photoSliderAdapter
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val result = CropImage.getActivityResult(data)
         if (resultCode == Activity.RESULT_OK) {
-            //assert result != null;
             if (result != null) {
                 photoDialog!!.setUri(result.uri)
             } else Log.e(TAG, "RESULT IS NULL!!!")
@@ -181,7 +177,6 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         panel!!.background = resources.getDrawable(R.drawable.panel_dark)
     }
 
-    @OnClick(R.id.addPhotoToSliderBtn)
     fun pickImage() {
         if (FileUtils.storagePermissionGranted(this) || Build.VERSION.SDK_INT < 23) {
             showPhotoDialog()
@@ -190,7 +185,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         }
     }
 
-    fun openChat(type: String?, model: MemoryPageModel?) {
+    private fun openChat(type: String?, model: MemoryPageModel?) {
         val intent = Intent(this, ChatActivity::class.java)
         if (memoryPageModel != null) {
             intent.putExtra("model", model)
@@ -201,7 +196,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1 && grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             showPhotoDialog()
         } else Toast.makeText(baseContext, "Для загрузки фотографии разрешите доступ к хранилищу.", Toast.LENGTH_LONG).show()
     }
@@ -214,23 +209,12 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         photoDialog!!.show(transaction, "photoDialog")
     }
 
-    @OnClick(R.id.image)
-    fun onMainImageClick() {
-        /*if (isSlider) {
-            startActivity(new Intent(ShowPageActivity.this, SlidePhotoActivity.class)
-                    .putExtra(INTENT_EXTRA_ID, id));
-        }*/
-        //temporarily block onImageClick
-    }
-
-    @OnClick(R.id.imgBiography)
     fun onBiographyClick() {
         val intent = Intent(this, BiographyActivity::class.java)
         if (memoryPageModel != null && memoryPageModel!!.biography != null) intent.putExtra("biography", memoryPageModel!!.biography)
         startActivity(intent)
     }
 
-    @OnClick(R.id.epitButton)
     fun onEpitaphButtonClick() {
         val intent = Intent(this, EpitaphsActivity::class.java)
         intent.putExtra(Constants.INTENT_EXTRA_SHOW, isShow)
@@ -238,9 +222,7 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         startActivity(intent)
     }
 
-    @OnClick(R.id.eventsButton)
     fun onEventButtonClick() {
-        //Log.d("myLog", "data1 = " + memoryPageModel.getDateBirth());
         val intent = Intent(this, EventsActivity::class.java)
         intent.putExtra(Constants.INTENT_EXTRA_SHOW, isShow)
         intent.putExtra(Constants.INTENT_EXTRA_NAME, fio!!.text.toString())
@@ -250,12 +232,10 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         startActivity(intent)
     }
 
-    @OnClick(R.id.back_button)
     fun back() {
         onBackPressed()
     }
 
-    @OnClick(R.id.mapButton)
     fun showMap() {
         if (memoryPageModel!!.coords == null || memoryPageModel!!.coords?.isEmpty()!!) {
             Utils.showSnack(image, "Координаты неизвестны")
@@ -270,7 +250,6 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         }
     }
 
-    @OnClick(R.id.settings)
     fun editPage() {
         val intent = Intent(this, NewMemoryPageActivity::class.java)
         intent.putExtra("PERSON", memoryPageModel)
@@ -285,7 +264,6 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         startActivity(intent)
     }
 
-    @OnClick(R.id.shareVk)
     fun shareVk() {
         sharing = 1
         val token = VKAccessToken.currentToken()
@@ -298,13 +276,27 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         }
     }
 
-    @OnClick(R.id.shareFb)
     fun shareFb() {
         val generatedByIDLink = "https://pomnyu.ru/public/page/" + memoryPageModel!!.id.toString() // Генерация ссылки, для поста (через константу неправильно форматируется ссылка)
         val content = ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse(generatedByIDLink))
                 .build()
         ShareDialog.show(this, content)
+    }
+
+    private fun initClickListener() {
+        addPhotoToSliderBtn.setOnClickListener { pickImage() }
+        maintainerName!!.setOnClickListener { v: View? -> openChat("profile", memoryPageModel) }
+        tvWriteToMaintainer!!.setOnClickListener { v: View? -> openChat("chat", memoryPageModel) }
+        chatButton!!.setOnClickListener { v: View? -> openChat("allchat", memoryPageModel) }
+        shareFb!!.setOnClickListener { shareFb() }
+        shareVk!!.setOnClickListener { shareVk() }
+        settings!!.setOnClickListener { editPage() }
+        imgBiography!!.setOnClickListener { onBiographyClick() }
+        epitButton!!.setOnClickListener { onEpitaphButtonClick() }
+        eventsButton!!.setOnClickListener { onEventButtonClick() }
+        back_button!!.setOnClickListener { back() }
+        mapButton!!.setOnClickListener { showMap() }
     }
 
     private fun sharePageToVk() {
@@ -332,18 +324,25 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
     }
 
     private fun getNameTitle(memoryPageModel: MemoryPageModel?): String {
-        val result = ("Памятная страница. " + StringUtils.capitalize(memoryPageModel!!.secondname)
-                + " " + StringUtils.capitalize(memoryPageModel.name)
-                + " " + StringUtils.capitalize(memoryPageModel.thirtname))
-        val textDate = (DateUtils.convertRemoteToLocalFormat(memoryPageModel.datarod)
-                + " - " + DateUtils.convertRemoteToLocalFormat(memoryPageModel.datasmert))
+        var result = ""
+        var textDate = ""
+        memoryPageModel?.let {
+            result = if (it.thirtname != null && it.thirtname != "null")
+                ("Памятная страница. " + StringUtils.capitalize(it.secondname)
+                        + " " + StringUtils.capitalize(it.name)
+                        + " " + StringUtils.capitalize(it.thirtname))
+            else
+                (StringUtils.capitalize(it.secondname)
+                        + " " + StringUtils.capitalize(it.name))
+            textDate = (DateUtils.convertRemoteToLocalFormat(it.datarod)
+                    + " - " + DateUtils.convertRemoteToLocalFormat(it.datasmert))
+        }
+
         return "$result. $textDate"
     }
 
     private fun initAll() {
-        maintainerName!!.setOnClickListener { v: View? -> openChat("profile", memoryPageModel) }
-        tvWriteToMaintainer!!.setOnClickListener { v: View? -> openChat("chat", memoryPageModel) }
-        chatButton!!.setOnClickListener { v: View? -> openChat("allchat", memoryPageModel) }
+        initClickListener()
         memoryPageModel?.let {
             with(it) {
                 if (!afterSave) {

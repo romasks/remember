@@ -20,7 +20,6 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-
         if (savedInstanceState == null) {
             val type = intent.extras!!.getString("type", "")
             val model = intent.extras!!.getParcelable<MemoryPageModel>("model")
@@ -64,12 +63,12 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         //overridePendingTransition(R.anim.right, R.anim.left)
     }
 
-    override fun onConnect(token : String) {
+    override fun onConnect(token: String) {
         Log.d("TAG", "CONNECTED")
         socketClient?.authorization(token)
     }
 
-    override fun onDisconnect(error : Array<Any>) {
+    override fun onDisconnect(error: Array<Any>) {
         Log.d("TAG", error.size.toString())
     }
 
