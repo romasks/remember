@@ -126,7 +126,7 @@ dependencies {
     kapt 'androidx.annotation:annotation:1.1.0'
 
     // LeakCanary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
+   // debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
 
     // Image
     implementation 'com.github.nekoloop:Base64Image:0.1.0'
