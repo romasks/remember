@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.remember.app.R
+import com.remember.app.data.Constants
 import com.remember.app.data.models.ChatMessages
 import com.remember.app.data.models.ChatsModel
 import com.remember.app.data.models.MemoryPageModel
@@ -136,6 +137,10 @@ class ChatFragment : BaseFragmentMVVM() {
 //            lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = response.message.id.toInt(), userId = chatModel?.id!!, date = "2020-10-13T22:56:25.000Z")
                 lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = chatModel?.id!!, date = getLocaleTime())
             }
+        }
+        model?.let {
+            toolbarTitle.text = it.creatorData?.name
+            Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)
         }
     }
 
