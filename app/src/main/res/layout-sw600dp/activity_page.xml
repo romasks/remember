@@ -222,7 +222,7 @@
                             android:weightSum="2">
 
                             <com.remember.app.customView.CustomTextView
-                                android:id="@+id/sector"
+                                android:id="@+id/tvSector"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -258,7 +258,7 @@
                             android:weightSum="2">
 
                             <com.remember.app.customView.CustomTextView
-                                android:id="@+id/line"
+                                android:id="@+id/tvLine"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -290,7 +290,7 @@
                             android:weightSum="2">
 
                             <com.remember.app.customView.CustomTextView
-                                android:id="@+id/grave"
+                                android:id="@+id/tvGrave"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
