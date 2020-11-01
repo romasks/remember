@@ -27,12 +27,13 @@ class AllChatViewHolder(override val containerView: View) : RecyclerView.ViewHol
             else
                 tvLastMessage.text = item.lastMsg.text
             tvTime.text = KotlinUtils.parseTimeStampToTime(item.lastMessage)
-            if (item.unreadCount > 0) {
-                tvCountUnreadMessage.visibility = View.VISIBLE
-                tvCountUnreadMessage.text = item.unreadCount.toString()
-            } else tvCountUnreadMessage.visibility = View.GONE
+//            if (item.unreadCount > 0) {
+//                tvCountUnreadMessage.visibility = View.VISIBLE
+//                tvCountUnreadMessage.text = item.unreadCount.toString()
+//            } else
+                tvCountUnreadMessage.visibility = View.GONE
             getCurrentTimezoneOffset()
-            Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + item.picture).error(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(100)).into(imgProfile)
+            Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + item.picture).error(R.drawable.darth_vader).into(imgProfile)
         }
     }
 

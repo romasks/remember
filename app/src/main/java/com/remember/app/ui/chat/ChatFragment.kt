@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.remember.app.R
@@ -117,9 +118,9 @@ class ChatFragment : BaseFragmentMVVM() {
         chatViewModel.getSocketConnection().on("err", onError)
         chatViewModel.getSocketConnection().on("chat.new", onNewMessage)
         chatViewModel.getSocketConnection().on("auth", onAuth)
-        chatViewModel.getSocketConnection().on("chat.edit", onEditMessage)
-        chatViewModel.getSocketConnection().on("chat.remove", onRemoveMessage)
-        chatViewModel.getSocketConnection().on("chat.read", onReadMessage)
+       // chatViewModel.getSocketConnection().on("chat.edit", onEditMessage)
+       // chatViewModel.getSocketConnection().on("chat.remove", onRemoveMessage)
+     //   chatViewModel.getSocketConnection().on("chat.read", onReadMessage)
     }
 
     private fun scrollToBottom() {
@@ -156,12 +157,12 @@ class ChatFragment : BaseFragmentMVVM() {
         }
         Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
         if (type == "afterList") {
-            Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + chatModel?.picture).error(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)
+            Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + chatModel?.picture).error(R.drawable.darth_vader).into(imgProfile)
             toolbarTitle.text = chatModel?.name
         } else {
             model?.let {
                 toolbarTitle.text = it.creatorData?.name
-                Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).error(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)
+                Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).error(R.drawable.darth_vader).into(imgProfile)
             }
         }
     }

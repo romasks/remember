@@ -56,8 +56,6 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
             finish()
         else
             supportFragmentManager.popBackStack()
-        // overridePendingTransition(R.anim.left, R.anim.right)
-        //overridePendingTransition(R.anim.right, R.anim.left)
     }
 
     override fun onConnect(token: String) {
@@ -79,9 +77,9 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         socketClient?.getSocket()?.off("auth")
         socketClient?.getSocket()?.off("err")
         socketClient?.getSocket()?.off("chat.new")
-        socketClient?.getSocket()?.off("chat.read")
-        socketClient?.getSocket()?.off("chat.remove")
-        socketClient?.getSocket()?.off("chat.edit")
+//        socketClient?.getSocket()?.off("chat.read")
+//        socketClient?.getSocket()?.off("chat.remove")
+//        socketClient?.getSocket()?.off("chat.edit")
         super.onDestroy()
     }
 }
