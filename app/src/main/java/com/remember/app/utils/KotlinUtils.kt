@@ -127,6 +127,7 @@ object KotlinUtils {
     fun getLocaleTime(): String {
         val cal = Calendar.getInstance()
         val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        cal.timeZone = TimeZone.getTimeZone("Europe/London")
         input.timeZone = cal.timeZone
         return input.format(Date(cal.timeInMillis))
     }

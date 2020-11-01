@@ -34,18 +34,6 @@ import java.lang.Integer.parseInt
 
 class ChatFragment : BaseFragmentMVVM() {
 
-
-
-    override fun onStart() {
-        super.onStart()
-        active = true
-    }
-
-    override fun onStop() {
-        super.onStop()
-        active = false
-    }
-
     override val layoutId: Int = R.layout.fragment_chat
     val chatViewModel: ChatViewModel by sharedViewModel()
     lateinit var chatAdapter: ChatAdapter
@@ -113,16 +101,16 @@ class ChatFragment : BaseFragmentMVVM() {
                 chatViewModel.successSendMessage.postValue(null)
             }
         })
-        chatViewModel.successDeleteMessage.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                if (deleteMessagePosition > -1) {
-                    chatAdapter.removeItem(deleteMessagePosition)
-                    chatViewModel.successDeleteMessage.postValue(null)
-                    deleteMessagePosition = -1
-                    containerAction.visibility = View.GONE
-                }
-            }
-        })
+//        chatViewModel.successDeleteMessage.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//                if (deleteMessagePosition > -1) {
+//                    chatAdapter.removeItem(deleteMessagePosition)
+//                    chatViewModel.successDeleteMessage.postValue(null)
+//                    deleteMessagePosition = -1
+//                    containerAction.visibility = View.GONE
+//                }
+//            }
+//        })
     }
 
     private fun initSocketListener() {
@@ -319,5 +307,15 @@ class ChatFragment : BaseFragmentMVVM() {
                 return@Runnable
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        active = true
+    }
+
+    override fun onStop() {
+        super.onStop()
+        active = false
     }
 }
