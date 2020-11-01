@@ -51,6 +51,7 @@ import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
+import com.remember.app.ui.chat.ChatActivity;
 import com.remember.app.ui.menu.events.EventsActivityMenu;
 import com.remember.app.ui.menu.manual.ManualActivity;
 import com.remember.app.ui.menu.notifications.NotificationsActivity;
@@ -359,6 +360,10 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             }
             case R.id.menu_manual: {
                 startActivity(new Intent(this, ManualActivity.class));
+                return true;
+            }
+            case R.id.menu_chat: {
+                startActivity(new Intent(this, ChatActivity.class).putExtra("type", "menu"));
                 return true;
             }
             case R.id.menu_exit: {

@@ -37,6 +37,7 @@ import com.remember.app.ui.cabinet.FragmentPager;
 import com.remember.app.ui.cabinet.events.EventFragment;
 import com.remember.app.ui.cabinet.memory_pages.PageFragment;
 import com.remember.app.ui.cabinet.memory_pages.add_page.NewMemoryPageActivity;
+import com.remember.app.ui.chat.ChatActivity;
 import com.remember.app.ui.grid.GridActivity;
 import com.remember.app.ui.menu.events.EventsActivityMenu;
 import com.remember.app.ui.menu.manual.ManualActivity;
@@ -338,8 +339,11 @@ public class MainActivity extends BaseActivity
                 startActivity(new Intent(this, ManualActivity.class));
                 return true;
             }
+            case R.id.menu_chat: {
+                startActivity(new Intent(this, ChatActivity.class).putExtra("type", "menu"));
+                return true;
+            }
             case R.id.menu_exit: {
-                //TODO
                 unsubscribeToTopic();
                 Prefs.clear();
                 startActivity(new Intent(this, GridActivity.class));
@@ -431,6 +435,7 @@ public class MainActivity extends BaseActivity
         setScaleText(navigationView, proportion, R.id.menu_settings);
         setScaleText(navigationView, proportion, R.id.menu_questions);
         setScaleText(navigationView, proportion, R.id.menu_manual);
+        setScaleText(navigationView, proportion, R.id.menu_chat);
         setScaleText(navigationView, proportion, R.id.menu_exit);
     }
 

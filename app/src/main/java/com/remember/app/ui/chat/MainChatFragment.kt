@@ -16,7 +16,8 @@ class MainChatFragment : BaseFragmentMVVM() {
     override val layoutId: Int = R.layout.fragment_main_chat
     lateinit var allChatAdapter: AllChatAdapter
     val chatViewModel: ChatViewModel by sharedViewModel()
-    lateinit var model: MemoryPageModel
+    var model: MemoryPageModel? = null
+    var type = ""
 
     companion object {
         fun newInstance(bundle: Bundle) =
@@ -30,7 +31,9 @@ class MainChatFragment : BaseFragmentMVVM() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model = arguments!!.getParcelable<MemoryPageModel>("model")!!
+        type = arguments?.getString("type", "")!!
+        if (type == "")
+            model = arguments!!.getParcelable("model")!!
         initUI()
 
         initLiveData()
@@ -65,8 +68,12 @@ class MainChatFragment : BaseFragmentMVVM() {
     private fun onChatClick(position: Int, chatModel: ChatsModel.Chat) {
         val bundle = Bundle()
         bundle.putParcelable("chat", chatModel)
-        bundle.putParcelable("model", model)
-        bundle.putString("type", "afterList")
+        if (model != null)
+            bundle.putParcelable("model", model)
+        if (type == "menu")
+            bundle.putString("type", "afterMenu")
+        else
+            bundle.putString("type", "afterList")
         openChieldFragment(ChatFragment.newInstance(bundle), R.id.allChats)
     }
 }

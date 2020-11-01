@@ -48,6 +48,10 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
                 bundle.putParcelable("model", model)
                 replaceFragmentSafely(MainChatFragment.newInstance(bundle), "MainChatFragment", false, true, R.id.container)
             }
+            "menu" -> {
+                bundle.putString("type", "menu")
+                replaceFragmentSafely(MainChatFragment.newInstance(bundle), "MainChatFragment", false, true, R.id.container)
+            }
         }
     }
 

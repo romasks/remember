@@ -62,6 +62,9 @@ class ChatFragment : BaseFragmentMVVM() {
                 chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
                 model = arguments!!.getParcelable<MemoryPageModel>("model")!!
             }
+            "afterMenu" -> {
+                chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
+            }
             else -> {
                 model = arguments!!.getParcelable<MemoryPageModel>("model")!!
             }
@@ -81,7 +84,8 @@ class ChatFragment : BaseFragmentMVVM() {
                 chatAdapter.setList(it.history.reversed())
                 scrollToBottom()
                 //if(it.history.first().userid == prefs.getString("ID"))
-                chatViewModel.changeStatusUnreadMessages(parseInt(model.userId!!), it.history.first().id)  //TODO
+//                if ()
+//                chatViewModel.changeStatusUnreadMessages(parseInt(model.userId!!), it.history.first().id)  //TODO
             }
         })
         chatViewModel.error.observe(viewLifecycleOwner, Observer {
@@ -156,7 +160,7 @@ class ChatFragment : BaseFragmentMVVM() {
             }
         }
         Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
-        if (type == "afterList") {
+        if (type == "afterList" || type == "afterMenu") {
             Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + chatModel?.picture).error(R.drawable.darth_vader).into(imgProfile)
             toolbarTitle.text = chatModel?.name
         } else {
