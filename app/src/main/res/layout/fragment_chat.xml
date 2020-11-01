@@ -75,15 +75,125 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/containerMessages"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/view"
+    app:layout_constraintBottom_toTopOf="@+id/view3"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <com.remember.app.customView.CustomTextView
+            android:id="@+id/tvCountDelMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:text="1 сообщение"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgClose"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginStart="10dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCountDelMsg"
+            app:layout_constraintStart_toEndOf="@+id/tvCountDelMsg"
+            app:layout_constraintTop_toTopOf="@+id/tvCountDelMsg"
+            app:srcCompat="@drawable/close_msg" />
+
+
+        <com.remember.app.customView.CustomTextView
+            android:id="@+id/tvDeleteMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Удалить"
+            android:textColor="@color/brown"
+            android:textSize="13.5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgDelete"
+            app:layout_constraintStart_toEndOf="@+id/imgDelete"
+            app:layout_constraintTop_toTopOf="@+id/imgDelete" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgDelete"
+            android:layout_width="14dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/tvCountDelMsg"
+            app:srcCompat="@drawable/delete_msg" />
+
+
+        <com.remember.app.customView.CustomTextView
+            android:id="@+id/tvReportMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Жалоба"
+            android:textColor="@color/brown"
+            android:textSize="13.5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgReport"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintTop_toTopOf="@+id/imgReport" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgReport"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginEnd="10dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvReportMsg"
+            app:layout_constraintTop_toBottomOf="@+id/tvCountDelMsg"
+            app:srcCompat="@drawable/report_msg" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.80" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChat"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#F1F4F6"
-        app:layout_constraintBottom_toTopOf="@+id/view3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/containerAction" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/view"
@@ -116,7 +226,7 @@
         app:layout_constraintTop_toTopOf="@+id/etComment"
         app:srcCompat="@drawable/attach_file" />
 
-    <EditText
+    <com.remember.app.customView.CustomEditText
         android:id="@+id/etComment"
         android:layout_width="0dp"
         android:layout_height="45dp"

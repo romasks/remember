@@ -25,6 +25,8 @@ class Remember : Application() {
 
     companion object {
         lateinit var applicationComponent: ApplicationComponent
+        @JvmField
+        var active = false
     }
 
     override fun onCreate() {

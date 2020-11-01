@@ -75,7 +75,7 @@ class DeleteMessageDialog : DialogFragment() {
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setStyle(STYLE_NO_FRAME, android.R.style.Theme_Translucent)
-
+        //isCancelable = false
         builder.setView(view)
         builder.create()
         return view

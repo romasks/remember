@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.remember.app.R
+import com.remember.app.Remember.Companion.active
 import com.remember.app.data.Constants
 import com.remember.app.data.models.ChatMessages
 import com.remember.app.data.models.ChatsModel
@@ -32,6 +33,19 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.lang.Integer.parseInt
 
 class ChatFragment : BaseFragmentMVVM() {
+
+
+
+    override fun onStart() {
+        super.onStart()
+        active = true
+    }
+
+    override fun onStop() {
+        super.onStop()
+        active = false
+    }
+
     override val layoutId: Int = R.layout.fragment_chat
     val chatViewModel: ChatViewModel by sharedViewModel()
     lateinit var chatAdapter: ChatAdapter
@@ -40,7 +54,7 @@ class ChatFragment : BaseFragmentMVVM() {
     var type = ""
     var lastSendingMessage: ChatMessages.History? = null
     var lastSendingMessageId = 0
-
+    var deleteMessagePosition = -1
 
     companion object {
         fun newInstance(bundle: Bundle) =
@@ -77,6 +91,7 @@ class ChatFragment : BaseFragmentMVVM() {
             it?.let {
                 chatAdapter.setList(it.history.reversed())
                 scrollToBottom()
+                //if(it.history.first().userid == prefs.getString("ID"))
                 chatViewModel.changeStatusUnreadMessages(parseInt(model.userId!!), it.history.first().id)  //TODO
             }
         })
@@ -95,17 +110,28 @@ class ChatFragment : BaseFragmentMVVM() {
                     addMessage(it)
                     lastSendingMessage = null
                 }
-
                 chatViewModel.successSendMessage.postValue(null)
             }
         })
-
+        chatViewModel.successDeleteMessage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (deleteMessagePosition > -1) {
+                    chatAdapter.removeItem(deleteMessagePosition)
+                    chatViewModel.successDeleteMessage.postValue(null)
+                    deleteMessagePosition = -1
+                    containerAction.visibility = View.GONE
+                }
+            }
+        })
     }
 
     private fun initSocketListener() {
         chatViewModel.getSocketConnection().on("err", onError)
         chatViewModel.getSocketConnection().on("chat.new", onNewMessage)
         chatViewModel.getSocketConnection().on("auth", onAuth)
+        chatViewModel.getSocketConnection().on("chat.edit", onEditMessage)
+        chatViewModel.getSocketConnection().on("chat.remove", onRemoveMessage)
+        chatViewModel.getSocketConnection().on("chat.read", onReadMessage)
     }
 
     private fun scrollToBottom() {
@@ -113,7 +139,6 @@ class ChatFragment : BaseFragmentMVVM() {
     }
 
     private fun initUI() {
-        Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
         initAdapter()
         btnBack.setOnClickListener {
             (activity as ChatActivity).onBackPressed()
@@ -141,15 +166,20 @@ class ChatFragment : BaseFragmentMVVM() {
                 lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = chatModel?.id!!, date = getLocaleTime())
             }
         }
-
-        model?.let {
-            toolbarTitle.text = it.creatorData?.name
-            Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)
+        Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
+        if (type == "afterList") {
+            Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + chatModel?.picture).error(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)
+            toolbarTitle.text = chatModel?.name
+        } else {
+            model?.let {
+                toolbarTitle.text = it.creatorData?.name
+                Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).error(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)
+            }
         }
     }
 
     private fun initAdapter() {
-        chatAdapter = ChatAdapter(this, chatViewModel.getID()!!)
+        chatAdapter = ChatAdapter(chatViewModel.getID()!!, onLongClick = { position, model -> showActionLayout(position, model) })
         rvChat.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -171,29 +201,41 @@ class ChatFragment : BaseFragmentMVVM() {
 //        })
     }
 
-    private fun showDeleteDialog(type: String) {
+    private fun addMessage(message: ChatMessages.History) {
+        chatAdapter.addItems(message)
+        etComment.text?.clear()
+        chatViewModel.successSendMessage.postValue(null)
+        scrollToBottom()
+    }
+
+    private fun showActionLayout(position: Int, model: ChatMessages.History) {
+        containerAction.visibility = View.VISIBLE
+        imgDelete.setOnClickListener {
+            showDeleteDialog(position, model)
+        }
+        tvDeleteMsg.setOnClickListener {
+            showDeleteDialog(position, model)
+        }
+    }
+
+    private fun showDeleteDialog(position: Int, model: ChatMessages.History) {
+
         val dialog = DeleteMessageDialog()
         dialog.listener = object : DeleteMessageDialog.DeleteMessageListener {
             override fun deleteForAll() {
-
+                deleteMessagePosition = position
+                chatViewModel.deleteMessage(chatModel?.id!!, model.id, true)
             }
 
             override fun deleteForMe() {
-
+                deleteMessagePosition = position
+                chatViewModel.deleteMessage(chatModel?.id!!, model.id, false)
             }
-
         }
         val bundle = Bundle()
         bundle.putString("type", type)
         dialog.arguments = bundle
         dialog.show(activity!!.supportFragmentManager, "askRegDialog")
-    }
-
-    private fun addMessage(message: ChatMessages.History) {
-        chatAdapter.addItems(message)
-        etComment.text.clear()
-        chatViewModel.successSendMessage.postValue(null)
-        scrollToBottom()
     }
 
 
@@ -204,7 +246,7 @@ class ChatFragment : BaseFragmentMVVM() {
                 val json = data.toString()
                 val type = object : TypeToken<NewMessage>() {}.type
                 val response = Gson().fromJson<NewMessage>(json, type)
-                val message = ChatMessages.History(content = response.message.text, id = response.message.id.toInt(), userId = response.from.id, date = "2020-10-13T22:56:25.000Z")
+                val message = ChatMessages.History(content = response.message.text, id = response.message.id.toInt(), userId = response.from.id, date = response.message.date)
                 addMessage(message)
             } catch (e: JSONException) {
                 Log.e("TAG", e.message)
@@ -228,6 +270,54 @@ class ChatFragment : BaseFragmentMVVM() {
         val name = data.toString() //This pass the userName!
         val nas = name //This pass the userName!
         chatViewModel.getSocketConnection().emit("auth")
+    }
 
+    private val onEditMessage = Emitter.Listener { args ->
+        activity!!.runOnUiThread(Runnable {
+            val data = args[0] as JSONObject
+            try {
+                val json = data.toString()
+                val type = object : TypeToken<NewMessage>() {}.type
+                val response = Gson().fromJson<NewMessage>(json, type)
+                //         val message = ChatMessages.History(content = response.message.text, id = response.message.id.toInt(), userId = response.from.id, date = response.message.date)
+                //       addMessage(message)
+            } catch (e: JSONException) {
+                Log.e("TAG", e.message)
+                return@Runnable
+            }
+        })
+    }
+
+    private val onReadMessage = Emitter.Listener { args ->
+        activity!!.runOnUiThread(Runnable {
+            val data = args[0] as JSONObject
+            try {
+                val json = data.toString()
+                val type = object : TypeToken<NewMessage>() {}.type
+                val response = Gson().fromJson<NewMessage>(json, type)
+                //  val message = ChatMessages.History(content = response.message.text, id = response.message.id.toInt(), userId = response.from.id, date = response.message.date)
+                //     addMessage(message)
+            } catch (e: JSONException) {
+                Log.e("TAG", e.message)
+                return@Runnable
+            }
+        })
+    }
+
+    private val onRemoveMessage = Emitter.Listener { args ->
+        activity!!.runOnUiThread(Runnable {
+            val data = args[0] as JSONObject
+            try {
+                val json = data.toString()
+                val type = object : TypeToken<NewMessage>() {}.type
+                val response = Gson().fromJson<NewMessage>(json, type)
+                chatAdapter.removeItemById(response.message.id)
+                //    val message = ChatMessages.History(content = response.message.text, id = response.message.id.toInt(), userId = response.from.id, date = response.message.date)
+                //        addMessage(message)
+            } catch (e: JSONException) {
+                Log.e("TAG", e.message)
+                return@Runnable
+            }
+        })
     }
 }

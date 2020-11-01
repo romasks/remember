@@ -4,24 +4,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pixplicity.easyprefs.library.Prefs
 import com.remember.app.data.dataFlow.DataManager
-import com.remember.app.data.models.ChatMessages
-import com.remember.app.data.models.SuccessSendMessage
-import com.remember.app.data.models.ChatsModel
-import com.remember.app.data.models.SuccessReadMessage
+import com.remember.app.data.models.*
 import io.socket.client.Socket
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class ChatViewModel(private val dataManager: DataManager) :
-    ViewModel() {
+        ViewModel() {
 
     private lateinit var socket: Socket
     private var firstCurrentChatMessage = false
     var allChatModel: MutableLiveData<ChatsModel> = MutableLiveData()
     var successSendMessage: MutableLiveData<SuccessSendMessage> = MutableLiveData()
     var successReadMessage: MutableLiveData<SuccessReadMessage> = MutableLiveData()
+    var successDeleteMessage: MutableLiveData<SuccessDeleteMessage> = MutableLiveData()
     var chatMessages: MutableLiveData<ChatMessages> = MutableLiveData()
     var error: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -36,7 +31,7 @@ class ChatViewModel(private val dataManager: DataManager) :
         })
     }
 
-    fun sendMessage(chatID : String, message : String){
+    fun sendMessage(chatID: String, message: String) {
         dataManager.sendMessage(id = chatID, token = getUserToken(), message = message, onSuccess = {
             it.let {
                 successSendMessage.postValue(it)
@@ -46,8 +41,8 @@ class ChatViewModel(private val dataManager: DataManager) :
         })
     }
 
-    fun getChatMessages(chatID : Int,limit: Int = 20, offset: Int = 0){
-        dataManager.getChatMessage(id = chatID, token = getUserToken(),limit = limit, offset = offset, onSuccess = {
+    fun getChatMessages(chatID: Int, limit: Int = 20, offset: Int = 0) {
+        dataManager.getChatMessage(id = chatID, token = getUserToken(), limit = limit, offset = offset, onSuccess = {
             it.let {
                 chatMessages.postValue(it)
             }
@@ -56,10 +51,20 @@ class ChatViewModel(private val dataManager: DataManager) :
         })
     }
 
-    fun changeStatusUnreadMessages(chatID: Int, messageID: Int){
+    fun changeStatusUnreadMessages(chatID: Int, messageID: Int) {
         dataManager.readMark(id = chatID, token = getUserToken(), messageID = messageID, onSuccess = {
             it.let {
                 successReadMessage.postValue(it)
+            }
+        }, onFailure = {
+            it.message
+        })
+    }
+
+    fun deleteMessage(chatID: Int, messageID: Int, deleteAll: Boolean) {
+        dataManager.deleteMessage(id = chatID, token = getUserToken(), messageID = messageID, deleteAll = deleteAll, onSuccess = {
+            it.let {
+                successDeleteMessage.postValue(it)
             }
         }, onFailure = {
             it.message

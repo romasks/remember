@@ -139,10 +139,7 @@ public class CurrentEvent extends BaseActivity implements CurrentEventView, Comm
         Utils.setTheme(this);
         super.onCreate(savedInstanceState);
         activity = this;
-        Log.d("TTTTTTwwwww", "open current event act");
-
         initIU(true);
-
     }
 
     private void initIU(boolean openFirst) {

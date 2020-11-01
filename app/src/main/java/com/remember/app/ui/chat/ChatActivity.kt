@@ -79,6 +79,9 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         socketClient?.getSocket()?.off("auth")
         socketClient?.getSocket()?.off("err")
         socketClient?.getSocket()?.off("chat.new")
+        socketClient?.getSocket()?.off("chat.read")
+        socketClient?.getSocket()?.off("chat.remove")
+        socketClient?.getSocket()?.off("chat.edit")
         super.onDestroy()
     }
 }

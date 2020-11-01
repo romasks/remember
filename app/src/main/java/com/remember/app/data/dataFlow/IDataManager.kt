@@ -1,9 +1,6 @@
 package com.remember.app.data.dataFlow
 
-import com.remember.app.data.models.ChatMessages
-import com.remember.app.data.models.SuccessSendMessage
-import com.remember.app.data.models.ChatsModel
-import com.remember.app.data.models.SuccessReadMessage
+import com.remember.app.data.models.*
 import okhttp3.RequestBody
 
 interface IDataManager {
@@ -49,7 +46,7 @@ interface IDataManager {
             id: Int,
             messageID : Int,
             deleteAll : Boolean,
-            onSuccess: (response: SuccessSendMessage) -> Unit,
+            onSuccess: (response: SuccessDeleteMessage) -> Unit,
             onFailure: (error: Throwable) -> Unit
     )
 

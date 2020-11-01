@@ -127,7 +127,6 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private AppCompatImageView delete;
         private AppCompatImageView playButton;
         private FrameLayout backgroundView;
-        private YouTubePlayerTracker playerTracker = new YouTubePlayerTracker();
         boolean isPlay = false;
         PlayerConstants.PlayerError errorState;
 

@@ -18,6 +18,8 @@ data class NewMessage(
         @SerializedName("id")
         val id: Int, // 22
         @SerializedName("text")
-        val text: String // yuulkjlфываыва
+        val text: String,
+        @SerializedName("date")
+        val date: String
     )
 }

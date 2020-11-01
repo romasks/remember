@@ -425,8 +425,7 @@
                         android:id="@+id/tvMaintainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="100dp"
+                        android:layout_marginTop="15dp"
                         android:text="Страницу создал(а)"
                         android:textColor="@color/gray"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -438,10 +437,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
                         android:text="Вадим Олег"
                         android:textColor="@color/brown"
+                        app:layout_constraintEnd_toEndOf="@+id/tvMaintainer"
                         app:layout_constraintStart_toEndOf="@+id/tvMaintainer"
-                        app:layout_constraintTop_toTopOf="@+id/tvMaintainer" />
+                        app:layout_constraintStart_toStartOf="@+id/tvMaintainer"
+                        app:layout_constraintTop_toBottomOf="@+id/tvMaintainer" />
 
 
                     <com.remember.app.customView.CustomTextView
@@ -449,11 +451,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
                         android:text="(Создана 115 дней назад)"
                         android:textColor="@color/grays"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvMaintainer" />
+                        app:layout_constraintTop_toBottomOf="@+id/maintainerName" />
 
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -461,21 +464,21 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginTop="15dp"
-                        android:layout_marginStart="10dp"
-                        app:layout_constraintStart_toStartOf="@+id/tvMaintainer"
+                        app:layout_constraintEnd_toStartOf="@+id/tvWriteToMaintainer"
+                        app:layout_constraintStart_toStartOf="@+id/tvCountDays"
                         app:layout_constraintTop_toBottomOf="@+id/tvCountDays"
                         app:srcCompat="@drawable/chat" />
-
 
                     <com.remember.app.customView.CustomTextView
                         android:id="@+id/tvWriteToMaintainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Написать создателю"
                         android:layout_marginStart="5dp"
+                        android:text="Написать создателю"
                         android:textColor="@color/gray"
                         android:textSize="17dp"
                         app:layout_constraintBottom_toBottomOf="@+id/imgChat"
+                        app:layout_constraintEnd_toEndOf="@+id/tvCountDays"
                         app:layout_constraintStart_toEndOf="@+id/imgChat"
                         app:layout_constraintTop_toTopOf="@+id/imgChat" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
