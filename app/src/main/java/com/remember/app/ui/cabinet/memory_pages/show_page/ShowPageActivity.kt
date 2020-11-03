@@ -359,10 +359,15 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
                         share_LinLayout!!.visibility = View.GONE
                     }
                 }
-                if (userId == Prefs.getString(Constants.PREFS_KEY_USER_ID, "")) {
+
+                if (Prefs.getString(Constants.PREFS_KEY_TOKEN, "") == "") {
+                    maintainerLayout.visibility = View.GONE
+                    chatButton.visibility = View.GONE
+                    tvChat.visibility = View.GONE
+                } else if (userId == Prefs.getString(Constants.PREFS_KEY_USER_ID, "")) {
                     maintainerLayout.visibility = View.GONE
                 } else {
-                    maintainerName.text = creatorData?.name
+                    maintainerName.text = creatorData?.settingsName
                     tvCountDays.text = "(Создана ${getCreatedDaysAgo(createdAt)} дней назад)"
                 }
             }

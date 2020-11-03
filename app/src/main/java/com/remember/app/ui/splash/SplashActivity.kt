@@ -18,6 +18,7 @@ import com.remember.app.ui.base.BaseActivity
 import com.remember.app.ui.cabinet.events.EventFullActivity
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity
+import com.remember.app.ui.chat.ChatActivity
 import com.remember.app.ui.grid.GridActivity
 import com.remember.app.utils.Utils
 
@@ -77,6 +78,10 @@ class SplashActivity : BaseActivity(), SplashView {
                     if (value == "") {
                         Log.d("TTTTTD", "value zero")
                     }
+                    if (value == "Новое сообщение") {
+                        Log.d("TTTTTD", "value zero")
+                        model.type  = "newMessage"
+                    }
                     Log.d("TTTTTD", "$key ->key; $value -> value;")
                     val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                     notificationManager.cancel(9379992)
@@ -115,6 +120,10 @@ class SplashActivity : BaseActivity(), SplashView {
                 intent.putExtra(Constants.INTENT_EXTRA_IS_LIST, true)
                 intent.putExtra(Constants.INTENT_EXTRA_FROM_NOTIF, true)
                 Log.d("TTTTTWWWWWW", "birth")
+            }
+            if (it.type == "newMessage") {
+                intent = Intent(this, ChatActivity::class.java)
+                intent.putExtra("type", "menu")
             }
         }
 

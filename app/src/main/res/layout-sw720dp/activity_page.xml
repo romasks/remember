@@ -424,7 +424,75 @@
 
                 </LinearLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/maintainerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
 
+                    <com.remember.app.customView.CustomTextView
+                        android:id="@+id/tvMaintainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Страницу создал(а)"
+                        android:textSize="25dp"
+                        android:textColor="@color/gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.remember.app.customView.CustomTextView
+                        android:id="@+id/maintainerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        tools:text="Вадим Олег"
+                        android:textSize="25dp"
+                        android:textColor="@color/brown"
+                        app:layout_constraintEnd_toEndOf="@+id/tvMaintainer"
+                        app:layout_constraintStart_toEndOf="@+id/tvMaintainer"
+                        app:layout_constraintStart_toStartOf="@+id/tvMaintainer"
+                        app:layout_constraintTop_toBottomOf="@+id/tvMaintainer" />
+
+
+                    <com.remember.app.customView.CustomTextView
+                        android:id="@+id/tvCountDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="(Создана 115 дней назад)"
+                        android:textSize="25dp"
+                        android:textColor="@color/grays"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/maintainerName" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgChat"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintEnd_toStartOf="@+id/tvWriteToMaintainer"
+                        app:layout_constraintStart_toStartOf="@+id/tvCountDays"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCountDays"
+                        app:srcCompat="@drawable/chat" />
+
+                    <com.remember.app.customView.CustomTextView
+                        android:id="@+id/tvWriteToMaintainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="Написать создателю"
+                        android:textColor="@color/gray"
+                        android:textSize="27dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgChat"
+                        app:layout_constraintEnd_toEndOf="@+id/tvCountDays"
+                        app:layout_constraintStart_toEndOf="@+id/imgChat"
+                        app:layout_constraintTop_toTopOf="@+id/imgChat" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
@@ -474,13 +542,23 @@
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_calendar"
                 tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/chatButton"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_chat"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+           >
 
             <com.remember.app.customView.CustomTextView
                 android:layout_width="0dp"
@@ -508,6 +586,18 @@
                 android:layout_weight="1"
                 android:paddingEnd="4dp"
                 android:text="@string/memory_page_bottom_navbar_events"
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="23dp"
+                tools:ignore="RtlSymmetry" />
+
+            <com.remember.app.customView.CustomTextView
+                android:id="@+id/tvChat"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:paddingEnd="4dp"
+                android:text="@string/chat"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="23dp"

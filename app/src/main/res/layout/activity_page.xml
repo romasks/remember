@@ -438,7 +438,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
-                        android:text="Вадим Олег"
+                        tools:text="Вадим Олег"
                         android:textColor="@color/brown"
                         app:layout_constraintEnd_toEndOf="@+id/tvMaintainer"
                         app:layout_constraintStart_toEndOf="@+id/tvMaintainer"
@@ -583,6 +583,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <com.remember.app.customView.CustomTextView
+                android:id="@+id/tvChat"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="0.8"

@@ -14,13 +14,13 @@ class ChatInputHolder(override val containerView: View) : RecyclerView.ViewHolde
 
     fun onBind(item: ChatMessages.History, onLongClick: (position: Int, model: ChatMessages.History) -> Unit) {
         with(itemView) {
-            isLongClickable = true
+           // isLongClickable = true
             tvMessage.text = item.content
             tvTime.text = parseTimeStampToTime(item.date)
-            setOnLongClickListener {
-                onLongClick(adapterPosition, item)
-                false
-            }
+//            setOnLongClickListener {
+//                onLongClick(adapterPosition, item)
+//                false
+//            }
         }
     }
 

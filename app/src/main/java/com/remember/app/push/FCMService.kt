@@ -19,6 +19,7 @@ import com.remember.app.data.Constants
 import com.remember.app.ui.cabinet.events.EventFullActivity
 import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEvent
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity
+import com.remember.app.ui.chat.ChatActivity
 import com.remember.app.ui.grid.GridActivity
 import java.net.URL
 import java.util.*
@@ -51,7 +52,12 @@ class FCMService : FirebaseMessagingService() {
 
     private fun sendNotification(messageData: Map<String, String>) {
         var intent = Intent(this, GridActivity::class.java)
-        Log.d("TTTTT", "base")
+        val title = messageData["title"]
+        val body = messageData["body"]
+        val picture = messageData["picture"]
+        val channelId = packageName
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
         if (messageData["type"] == "event") {
             intent = Intent(this, EventFullActivity::class.java)
             intent.putExtra(Constants.INTENT_EXTRA_EVENT_ID, messageData["event_id"]!!.toInt())
@@ -76,14 +82,16 @@ class FCMService : FirebaseMessagingService() {
             intent.putExtra("firstLink", messageData["page_id"])
             //PendingIntent pendingFirst = PendingIntent.getActivity(this, 555, intent, PendingIntent.FLAG_ONE_SHOT);
         }
+
+        if (title == "Новое сообщение") {
+            intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("type", "menu")
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT)
-        val title = messageData["title"]
-        val body = messageData["body"]
-        val picture = messageData["picture"]
-        val channelId = packageName
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+
         notificationBuilder = NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_remember)
                 .setContentTitle(title)
@@ -107,8 +115,11 @@ class FCMService : FirebaseMessagingService() {
 //        if (picture != null && !picture.equals("null"))
 //            getImageBitmap(BASE_SERVICE_URL + picture);
 //        else
+        var notificationID = Random().nextInt();
+        if (title == "Новое сообщение")
+            notificationID = 93799928 //TODO
         if (notificationManager != null) {
-            notificationManager!!.notify(Random().nextInt() /* ID of notification */, notificationBuilder.build())
+            notificationManager!!.notify(notificationID /* ID of notification */, notificationBuilder.build())
         }
     }
 

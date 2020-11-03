@@ -28,22 +28,31 @@ class MaintainerPageFragment : BaseFragmentMVVM() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val model = arguments!!.getParcelable<MemoryPageModel>("model")
-        initUI(model)
+        val type = arguments!!.getString("type")
+        initUI(model, type!!)
     }
 
-    private fun initUI(model: MemoryPageModel?) {
+    private fun initUI(model: MemoryPageModel?, type: String) {
         btnBack.setOnClickListener {
             (activity as ChatActivity).onBackPressed()
         }
+
         model?.let {
-            maintainerName.text = it.creatorData?.name
+            maintainerName.text = it.creatorData?.settingsName
             Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)
             tvCity.text = "Населенный пункт: ${it.creatorData?.location}"
-            btnSendComment.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putParcelable("model", model)
-                replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.container)
+//            if (type == "maintainer") {
+//                btnSendComment.visibility = View.VISIBLE
+                btnSendComment.setOnClickListener {
+                    val bundle = Bundle()
+                    bundle.putParcelable("model", model)
+                    replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.container)
+                }
             }
-        }
-     }
+//        else {
+//                btnSendComment.visibility = View.GONE
+//            }
+      //  }
+
+    }
 }

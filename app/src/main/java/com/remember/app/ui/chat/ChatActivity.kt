@@ -1,5 +1,7 @@
 package com.remember.app.ui.chat
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -19,12 +21,18 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        removeNotification()
         if (savedInstanceState == null) {
             val type = intent.extras!!.getString("type", "")
             val model = intent.extras!!.getParcelable<MemoryPageModel>("model")
             openFragmentByType(type, model)
         }
         initSocketConnection()
+    }
+
+    private fun removeNotification(){
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(93799928)
     }
 
     private fun initSocketConnection() {
@@ -38,6 +46,7 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         when (type) {
             "profile" -> {
                 bundle.putParcelable("model", model)
+                //bundle.putString("type", "maintainer")
                 replaceFragmentSafely(MaintainerPageFragment.newInstance(bundle), "MaintainerPageFragment", false, true, R.id.container)
             }
             "chat" -> {

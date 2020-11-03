@@ -90,6 +90,8 @@ public class MainActivity extends BaseActivity
     ViewPager viewPager;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
+    @BindView(R.id.chat)
+    ImageView chat;
 
     private PageFragment pageFragment;
     private CallbackPage callbackPage;
@@ -210,6 +212,11 @@ public class MainActivity extends BaseActivity
     @OnClick(R.id.add_plus)
     public void addNewMemoryPage() {
         startActivity(new Intent(this, NewMemoryPageActivity.class));
+    }
+
+    @OnClick(R.id.chat)
+    public void openChat() {
+        startActivity(new Intent(this, ChatActivity.class).putExtra("type", "menu"));
     }
 
     @SuppressLint("SetTextI18n")

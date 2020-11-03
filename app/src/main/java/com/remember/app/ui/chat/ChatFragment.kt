@@ -9,10 +9,10 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ambitt.utils.replaceFragmentSafely
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.remember.app.R
@@ -64,6 +64,7 @@ class ChatFragment : BaseFragmentMVVM() {
             }
             "afterMenu" -> {
                 chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
+              //  model = arguments!!.getParcelable<MemoryPageModel>("model")!!
             }
             else -> {
                 model = arguments!!.getParcelable<MemoryPageModel>("model")!!
@@ -122,9 +123,9 @@ class ChatFragment : BaseFragmentMVVM() {
         chatViewModel.getSocketConnection().on("err", onError)
         chatViewModel.getSocketConnection().on("chat.new", onNewMessage)
         chatViewModel.getSocketConnection().on("auth", onAuth)
-       // chatViewModel.getSocketConnection().on("chat.edit", onEditMessage)
-       // chatViewModel.getSocketConnection().on("chat.remove", onRemoveMessage)
-     //   chatViewModel.getSocketConnection().on("chat.read", onReadMessage)
+        // chatViewModel.getSocketConnection().on("chat.edit", onEditMessage)
+        // chatViewModel.getSocketConnection().on("chat.remove", onRemoveMessage)
+        //   chatViewModel.getSocketConnection().on("chat.read", onReadMessage)
     }
 
     private fun scrollToBottom() {
@@ -159,16 +160,29 @@ class ChatFragment : BaseFragmentMVVM() {
                 lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = chatModel?.id!!, date = getLocaleTime())
             }
         }
+        imgProfile.setOnClickListener {
+            openProfile()
+        }
         Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
         if (type == "afterList" || type == "afterMenu") {
             Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + chatModel?.picture).error(R.drawable.darth_vader).into(imgProfile)
             toolbarTitle.text = chatModel?.name
         } else {
             model?.let {
-                toolbarTitle.text = it.creatorData?.name
+                toolbarTitle.text = it.creatorData?.settingsName
                 Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).error(R.drawable.darth_vader).into(imgProfile)
             }
         }
+    }
+
+    private fun openProfile() {
+        val bundle = Bundle()
+        model?.let {
+            bundle.putParcelable("model", model)
+        }
+        bundle.putString("type", "profile")
+        replaceFragmentSafely(MaintainerPageFragment.newInstance(bundle), "MaintainerPageFragment", false, true, R.id.container)
+
     }
 
     private fun initAdapter() {
