@@ -51,6 +51,13 @@ class MainChatFragment : BaseFragmentMVVM() {
         chatViewModel.allChatModel.observe(viewLifecycleOwner, Observer {
             it?.let {
                 allChatAdapter.setList(it.chats)
+                if (it.chats.isNotEmpty()) {
+                    containerEmpty.visibility = View.GONE
+                    rvChat.visibility = View.VISIBLE
+                } else {
+                    containerEmpty.visibility = View.VISIBLE
+                    rvChat.visibility = View.GONE
+                }
             }
         })
     }
