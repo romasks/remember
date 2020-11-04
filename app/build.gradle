@@ -20,8 +20,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 21 //22 5.1
         targetSdkVersion 29
-        versionCode 97
-        versionName "1.5.17"
+        versionCode 98
+        versionName "1.5.18"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -49,13 +49,18 @@ android {
     dexOptions {
         jumboMode = true
     }
-    buildToolsVersion = '29.0.0'
     flavorDimensions "default"
     productFlavors{
         devDebug {
             dimension "default"
             buildConfigField 'String', 'SCOKET_URL', '"https://pomnyu.ru"'
         }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 }
 

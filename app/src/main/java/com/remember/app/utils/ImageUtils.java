@@ -181,7 +181,7 @@ public class ImageUtils {
     private static void setGridImage(Context context, Object imageObj, ImageView targetView) {
         GlideApp.with(context)
                 .load(imageObj)
-                .error(R.drawable.no_photo)
+                .error(R.drawable.no_photo2)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(targetView);
         targetView.setColorFilter(blackWhiteFilter);
