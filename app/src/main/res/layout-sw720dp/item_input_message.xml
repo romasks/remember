@@ -5,7 +5,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="50dp"
     android:layout_marginBottom="10dp"
     android:layout_marginEnd="10dp">
 
@@ -15,41 +14,93 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="0dp"
         android:background="@drawable/chat_user_bg"
-        android:padding="10dp">
+        android:padding="7dp">
 
-        <TextView
+        <com.remember.app.customView.CustomTextView
             android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
-            android:maxWidth="250dp"
+            android:layout_marginBottom="5dp"
+            android:maxWidth="260dp"
+            tools:text="f cbcxhfghfghdfgfdghfdghcxvh xcghxfgh xfgfghfdhgdfhgdfghdfghdfhgfhg fghdfghfdhgdfhgdfgh xf"
             android:textColor="@color/black"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="df gsdfg dsfg " />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvTime"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerLine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:textColor="@color/gray"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@+id/appCompatImageView"
-            app:layout_constraintTop_toBottomOf="@+id/tvMessage"
-            android:text="13:22" />
+            android:layout_marginStart="5dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvMessage">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView"
-            android:layout_width="15dp"
-            android:layout_height="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvTime"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvTime"
-            app:srcCompat="@drawable/done_all" />
+
+            <com.remember.app.customView.CustomTextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginEnd="2dp"
+                android:text="13:34"
+                android:textColor="@color/gray"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/appCompatImageView" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="15dp"
+                android:layout_height="9dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTime"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvTime"
+                app:srcCompat="@drawable/done_all" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvMessage">
+
+
+            <com.remember.app.customView.CustomTextView
+                android:id="@+id/tvTimeBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginEnd="2dp"
+                android:text="13:34"
+                android:textColor="@color/gray"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/appCompatImageViewBottom" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageViewBottom"
+                android:layout_width="15dp"
+                android:layout_height="9dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTimeBottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvTimeBottom"
+                app:srcCompat="@drawable/done_all" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/border"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
