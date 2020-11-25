@@ -22,7 +22,7 @@ interface Api {
     fun deleteChat(@Header("Authorization") token : String,@Path("id") id : Int): Single<SuccessSendMessage>
 
     @GET("chat/{id}/info")
-    fun getChatInfo(@Header("Authorization") token : String,@Path("id") id : Int): Single<SuccessSendMessage>
+    fun getChatInfo(@Header("Authorization") token : String,@Path("id") id : Int): Single<ChatInfoResponse>
 
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "chat/{id}/message/{message_id}", hasBody = true)
@@ -35,6 +35,9 @@ interface Api {
     @PUT("chat/{id}/message/{message_id}/read")
     fun readMark(@Header("Authorization") token : String,@Path("id") id : Int, @Path("message_id") messageId : Int): Single<SuccessReadMessage>
 
+
+    @GET("user/{id}")
+    fun getChatUser(@Header("Authorization") token : String,@Path("id") id : Int) : Single<ChatUser>
 
 //    @POST("auth/registration")
 //    fun registration(@Body req: RegistrationRequest): Single<RegistrationResponse>

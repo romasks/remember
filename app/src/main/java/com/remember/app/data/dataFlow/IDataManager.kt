@@ -37,7 +37,7 @@ interface IDataManager {
 
     fun getChatInfo(token: String,
                     id: Int,
-                    onSuccess: (response: SuccessSendMessage) -> Unit,
+                    onSuccess: (response: ChatInfoResponse) -> Unit,
                     onFailure: (error: Throwable) -> Unit
     )
 
@@ -64,6 +64,13 @@ interface IDataManager {
             id: Int,
             messageID : Int,
             onSuccess: (response: SuccessReadMessage) -> Unit,
+            onFailure: (error: Throwable) -> Unit
+    )
+
+    fun getChatUser(
+            token: String,
+            id: Int,
+            onSuccess: (response: ChatUser) -> Unit,
             onFailure: (error: Throwable) -> Unit
     )
 }

@@ -1,5 +1,6 @@
 package com.remember.app.push
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -31,29 +32,22 @@ class FCMService : FirebaseMessagingService() {
     private var notificationManager: NotificationManager? = null
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.from)
-
-        // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {
             val params = remoteMessage.data
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
             if (!active)
                 sendNotification(params)
         }
-
-        // Check if message contains a notification payload.
-        if (remoteMessage.notification != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body)
-        }
     }
 
-    override fun onNewToken(token: String) {
-        Log.d(TAG, "Refreshed token: $token")
-    }
+    override fun onNewToken(token: String) { }
 
     private fun sendNotification(messageData: Map<String, String>) {
         var intent = Intent(this, GridActivity::class.java)
         val title = messageData["title"]
         val body = messageData["body"]
+        val data = messageData["data"]
+        val id = messageData["user_id"]
         val picture = messageData["picture"]
         val channelId = packageName
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -62,30 +56,27 @@ class FCMService : FirebaseMessagingService() {
             intent = Intent(this, EventFullActivity::class.java)
             intent.putExtra(Constants.INTENT_EXTRA_EVENT_ID, messageData["event_id"]!!.toInt())
             intent.putExtra(Constants.INTENT_EXTRA_FROM_NOTIF, true)
-            Log.d("TTTTT", "event")
         }
         if (messageData["type"] == "dead_event") {
             intent = Intent(this, CurrentEvent::class.java)
             intent.putExtra(Constants.INTENT_EXTRA_EVENT_ID, messageData["event_id"]!!.toInt())
             intent.putExtra(Constants.INTENT_EXTRA_PERSON, messageData["page_name"])
             intent.putExtra(Constants.INTENT_EXTRA_FROM_NOTIF, true)
-            Log.d("TTTTT", "dead_event")
         }
         if (messageData["type"] == "dead" || messageData["type"] == "birth") {
             intent = Intent(this, ShowPageActivity::class.java)
             intent.putExtra(Constants.INTENT_EXTRA_ID, messageData["page_id"]!!.toInt())
             intent.putExtra(Constants.INTENT_EXTRA_PERSON, messageData["page_name"])
             intent.putExtra(Constants.INTENT_EXTRA_IS_LIST, true)
-            Log.d("TTTTT", "birth")
             intent.action = "firstLink"
-            //  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("firstLink", messageData["page_id"])
-            //PendingIntent pendingFirst = PendingIntent.getActivity(this, 555, intent, PendingIntent.FLAG_ONE_SHOT);
         }
 
         if (title == "Новое сообщение") {
             intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("type", "menu")
+            //intent.putExtra("type", "menu")
+            intent.putExtra("type", "push")
+            intent.putExtra("visaviID", id)
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -99,6 +90,7 @@ class FCMService : FirebaseMessagingService() {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // Since android Oreo notification channel is needed.
@@ -110,16 +102,16 @@ class FCMService : FirebaseMessagingService() {
                 notificationManager!!.createNotificationChannel(channel)
             }
         }
-
-
 //        if (picture != null && !picture.equals("null"))
 //            getImageBitmap(BASE_SERVICE_URL + picture);
 //        else
+        val notificationBuilder = notificationBuilder.build()
         var notificationID = Random().nextInt();
         if (title == "Новое сообщение")
             notificationID = 93799928 //TODO
         if (notificationManager != null) {
-            notificationManager!!.notify(notificationID /* ID of notification */, notificationBuilder.build())
+
+            notificationManager!!.notify(notificationID /* ID of notification */, notificationBuilder)
         }
     }
 

@@ -25,7 +25,8 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         if (savedInstanceState == null) {
             val type = intent.extras!!.getString("type", "")
             val model = intent.extras!!.getParcelable<MemoryPageModel>("model")
-            openFragmentByType(type, model)
+            val visaviID = intent.extras!!.getString("visaviID", "")
+            openFragmentByType(type, model, visaviID)
         }
         initSocketConnection()
     }
@@ -41,12 +42,12 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         viewModel.instantiateSocket(socketClient!!.getSocket())
     }
 
-    private fun openFragmentByType(type: String, model: MemoryPageModel?) {
+    private fun openFragmentByType(type: String, model: MemoryPageModel?, visaviID : String = "") {
         val bundle = Bundle()
         when (type) {
             "profile" -> {
                 bundle.putParcelable("model", model)
-                //bundle.putString("type", "maintainer")
+                bundle.putString("type", "maintainer")
                 replaceFragmentSafely(MaintainerPageFragment.newInstance(bundle), "MaintainerPageFragment", false, true, R.id.container)
             }
             "chat" -> {
@@ -60,6 +61,11 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
             "menu" -> {
                 bundle.putString("type", "menu")
                 replaceFragmentSafely(MainChatFragment.newInstance(bundle), "MainChatFragment", false, true, R.id.container)
+            }
+            "push" -> {
+                bundle.putString("type", "push")
+                bundle.putString("visaviID", visaviID)
+                replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.container)
             }
         }
     }

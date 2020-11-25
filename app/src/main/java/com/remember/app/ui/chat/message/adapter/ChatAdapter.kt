@@ -3,11 +3,12 @@ package com.remember.app.ui.chat.message.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.remember.app.data.models.ChatMessages
+import java.lang.Integer.parseInt
 
 const val OUTPUT = 1
 const val INPUT = 2
 
-class ChatAdapter(private val id: String, private val onLongClick: (position: Int, model: ChatMessages.History) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(private val currentUserId: String, private val onLongClick: (position: Int, model: ChatMessages.History) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var messages = mutableListOf<ChatMessages.History>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == INPUT)
@@ -40,7 +41,27 @@ class ChatAdapter(private val id: String, private val onLongClick: (position: In
         notifyDataSetChanged()
     }
 
-    fun removeItem(position: Int) {
+    fun updateItem(data: ChatMessages.History) {
+        messages.find { it.id == data.id }?.content = data.content
+        notifyItemChanged(messages.indexOf((messages.find { it.id == data.id })))
+    }
+
+    fun updateItemById(messageId: Int) {
+        messages.find { it.id == messageId }?.isRead = true
+        for (i in messages.indices) {
+            if (messages[i].userId != parseInt(currentUserId)) {
+                messages[i].isRead == true
+            }
+        }
+        notifyItemRangeChanged(0 , messages.size)
+    }
+
+    fun removeItem(data: ChatMessages.History) {
+        messages.remove(data)
+        notifyItemRemoved(messages.indexOf((messages.find { it.id == data.id })))
+    }
+
+    fun removeItemByPosition(position: Int) {
         messages.removeAt(position)
         notifyItemRemoved(position)
     }
@@ -67,7 +88,7 @@ class ChatAdapter(private val id: String, private val onLongClick: (position: In
     fun getItems() = messages
 
     override fun getItemViewType(position: Int): Int {
-        return when (messages[position].userId == id.toInt()) {
+        return when (messages[position].userId == currentUserId.toInt()) {
             false -> OUTPUT
             else -> INPUT
         }

@@ -10,14 +10,34 @@ import com.remember.app.data.models.ChatMessages
 import com.remember.app.utils.KotlinUtils.parseTimeStampToTime
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_input_message.view.*
-
+import kotlinx.android.synthetic.main.item_input_message.view.containerBottom
+import kotlinx.android.synthetic.main.item_input_message.view.containerLine
+import kotlinx.android.synthetic.main.item_input_message.view.messageStatusBottom
+import kotlinx.android.synthetic.main.item_input_message.view.tvMessage
+import kotlinx.android.synthetic.main.item_input_message.view.tvTime
+import kotlinx.android.synthetic.main.item_input_message.view.tvTimeBottom
 
 class ChatInputHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
     fun onBind(item: ChatMessages.History, onLongClick: (position: Int, model: ChatMessages.History) -> Unit) {
         with(itemView) {
             tvMessage.text = item.content
+            itemView.setOnLongClickListener {
+                onLongClick(adapterPosition, item)
+                false
+            }
+            if (item.isRead) {
+                messageStatusBottom.setImageDrawable(itemView.context.getDrawable(R.drawable.read))
+                messageStatus.setImageDrawable(itemView.context.getDrawable(R.drawable.read))
+            } else {
+                messageStatusBottom.setImageDrawable(itemView.context.getDrawable(R.drawable.unread))
+                messageStatus.setImageDrawable(itemView.context.getDrawable(R.drawable.unread))
+            }
             if(item.content.length<30){
+                if (adapterPosition == 0){
+                    (layoutParams as RecyclerView.LayoutParams).setMargins(0, 30, 0, 30)
+                    requestLayout()
+                }
                 containerLine.visibility = View.VISIBLE
                 containerBottom.visibility = View.GONE
                 //containerBottom.maxWidth = 10

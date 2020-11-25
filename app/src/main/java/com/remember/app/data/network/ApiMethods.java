@@ -61,7 +61,6 @@ public interface ApiMethods {
     @GET("numen")
     Observable<List<ResponseCemetery>> getCemetery(@Query("city") int id);
 
-
     @GET("religia")
     Observable<List<ResponseHandBook>> getReligion();
 
@@ -105,7 +104,6 @@ public interface ApiMethods {
     @GET("feed/notifications")
     Observable<List<EventResponse>> getEventsFeed(@Header("Authorization") String token,
                                                   @Query("filter_type") String filterType);
-
     @GET("event/{id}")
     Observable<ResponseEvents> getEvent(@Path("id") int id);
 
@@ -308,7 +306,6 @@ public interface ApiMethods {
     @PUT("mobile_statistics/")
     Observable<Object> sendDeviceID(@Body RequestBody body);
 
-
     @GET("deadevent/{id}/comment")
     Observable<ArrayList<EventComments>> getEventComments(@Header("Authorization") String token, @Path("id") Integer id);
 
@@ -320,7 +317,6 @@ public interface ApiMethods {
 
     @DELETE("deadevent/{id}/comment/{comment_id}")
     Observable<Object> deleteComment(@Header("Authorization") String token, @Path("id") int id, @Path("comment_id") int commentID);
-
 
     @GET("deadevent/{id}/video")
     Observable<ArrayList<EventVideos>> getEventVideo(@Header("Authorization") String token, @Path("id") int id);

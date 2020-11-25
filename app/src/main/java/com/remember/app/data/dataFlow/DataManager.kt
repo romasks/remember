@@ -48,7 +48,7 @@ class DataManager(private val api: Api) : IDataManager {
                 })
     }
 
-    override fun getChatInfo(token: String, id: Int, onSuccess: (response: SuccessSendMessage) -> Unit, onFailure: (error: Throwable) -> Unit) {
+    override fun getChatInfo(token: String, id: Int, onSuccess: (response: ChatInfoResponse) -> Unit, onFailure: (error: Throwable) -> Unit) {
         val request = api.getChatInfo(token, id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -80,6 +80,16 @@ class DataManager(private val api: Api) : IDataManager {
 
     override fun readMark(token: String, id: Int, messageID: Int, onSuccess: (response: SuccessReadMessage) -> Unit, onFailure: (error: Throwable) -> Unit) {
         val request = api.readMark(token, id, messageID).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    onSuccess(it)
+                }, { error ->
+                    onFailure(error)
+                })
+    }
+
+    override fun getChatUser(token: String, id: Int, onSuccess: (response: ChatUser) -> Unit, onFailure: (error: Throwable) -> Unit) {
+        val request = api.getChatUser(token, id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     onSuccess(it)

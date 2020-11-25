@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import com.ambitt.utils.replaceFragmentSafely
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterInside
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.remember.app.R
 import com.remember.app.data.Constants
 import com.remember.app.data.models.MemoryPageModel
@@ -39,20 +37,21 @@ class MaintainerPageFragment : BaseFragmentMVVM() {
 
         model?.let {
             maintainerName.text = it.creatorData?.settingsName
-            Glide.with(context!!).load(R.drawable.darth_vader).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).transform(CenterInside(), RoundedCorners(1000)).into(imgProfile)
-            tvCity.text = "Населенный пункт: ${it.creatorData?.location}"
+            Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).error(R.drawable.darth_vader).into(imgProfile)
+            if (!it.creatorData?.location.isNullOrEmpty())
+                tvCity.text = "Населенный пункт: ${it.creatorData?.location}"
 //            if (type == "maintainer") {
 //                btnSendComment.visibility = View.VISIBLE
-                btnSendComment.setOnClickListener {
-                    val bundle = Bundle()
-                    bundle.putParcelable("model", model)
-                    replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.container)
-                }
+            btnSendComment.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putParcelable("model", model)
+                replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.container)
             }
+        }
 //        else {
 //                btnSendComment.visibility = View.GONE
 //            }
-      //  }
+        //  }
 
     }
 }

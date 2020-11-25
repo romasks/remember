@@ -18,6 +18,8 @@ class ChatViewModel(private val dataManager: DataManager) :
     var successReadMessage: MutableLiveData<SuccessReadMessage> = MutableLiveData()
     var successDeleteMessage: MutableLiveData<SuccessDeleteMessage> = MutableLiveData()
     var chatMessages: MutableLiveData<ChatMessages> = MutableLiveData()
+    var chatInfo: MutableLiveData<ChatInfoResponse> = MutableLiveData()
+    var chatUser: MutableLiveData<ChatUser> = MutableLiveData()
     var error: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getChats(limit: Int = 20, offset: Int = 0) {
@@ -45,6 +47,27 @@ class ChatViewModel(private val dataManager: DataManager) :
         dataManager.getChatMessage(id = chatID, token = getUserToken(), limit = limit, offset = offset, onSuccess = {
             it.let {
                 chatMessages.postValue(it)
+            }
+        }, onFailure = {
+            it.message
+        })
+    }
+
+    fun getChatInfo(chatID: Int) {
+        dataManager.getChatInfo(id = chatID, token = getUserToken(), onSuccess = {
+            it.let {
+                chatInfo.postValue(it)
+            }
+        }, onFailure = {
+            it.message
+        })
+    }
+
+
+    fun getChatUser(chatID: Int) {
+        dataManager.getChatUser(id = chatID, token = getUserToken(), onSuccess = {
+            it.let {
+                chatUser.postValue(it)
             }
         }, onFailure = {
             it.message

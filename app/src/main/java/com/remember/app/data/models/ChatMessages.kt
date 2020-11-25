@@ -11,13 +11,13 @@ data class ChatMessages(
 ) {
     data class History(
         @SerializedName("content")
-        val content: String, // eqweqwe
+        var content: String, // eqweqwe
         @SerializedName("date")
-        val date: String, // 2020-10-07T07:03:43.000Z
+        var date: String, // 2020-10-07T07:03:43.000Z
         @SerializedName("id")
         val id: Int, // 1
         @SerializedName("is_read")
-        val isRead: Boolean = false, // false
+        var isRead: Boolean = false, // false
         @SerializedName("user_id")
         val userId: Int // 1023
     )

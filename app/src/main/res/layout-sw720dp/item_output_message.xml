@@ -64,17 +64,17 @@
                 android:textColor="@color/gray"
                 android:textSize="13dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/appCompatImageView" />
+                app:layout_constraintEnd_toStartOf="@+id/messageStatus" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
+                android:id="@+id/messageStatus"
                 android:layout_width="15dp"
                 android:layout_height="9dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTime"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvTime"
-                app:srcCompat="@drawable/done_all" />
+                app:srcCompat="@drawable/read" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -96,17 +96,17 @@
                 android:textColor="@color/gray"
                 android:textSize="13dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/appCompatImageViewBottom" />
+                app:layout_constraintEnd_toStartOf="@+id/messageStatusBottom" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageViewBottom"
+                android:id="@+id/messageStatusBottom"
                 android:layout_width="15dp"
                 android:layout_height="9dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTimeBottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvTimeBottom"
-                app:srcCompat="@drawable/done_all" />
+                app:srcCompat="@drawable/read" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
