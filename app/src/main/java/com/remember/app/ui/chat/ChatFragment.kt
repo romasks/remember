@@ -15,7 +15,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.pixplicity.easyprefs.library.Prefs
 import com.remember.app.R
 import com.remember.app.Remember.Companion.active
 import com.remember.app.data.Constants
@@ -77,19 +76,6 @@ class ChatFragment : BaseFragmentMVVM() {
         initSocketListener()
     }
 
-    private fun getLastMyUnreadMessage(data: List<ChatMessages.History>): Int {
-        var position = 0
-        for (i in data.indices) {
-            if (type == "afterList" && data[i].userId == parseInt(model?.userId!!) && !data[i].isRead)
-                position = i
-            else if (type != "afterList" && data[i].userId == chatModel?.id && !data[i].isRead)
-                position = i
-            else if (type == "push" && data[i].userId == parseInt(visaviID) && !data[i].isRead)
-                position = i
-        }
-        return position
-    }
-
     private fun initLiveData() {
         getChatMessages()
         chatViewModel.successReadMessage.observe(viewLifecycleOwner, Observer {
@@ -102,17 +88,15 @@ class ChatFragment : BaseFragmentMVVM() {
             it?.let {
                 chatAdapter.setList(it.history.reversed())
                 scrollToBottom()
-                //if(it.history.first().userid == prefs.getString("ID"))
                 when (type) {
                     "afterList" -> {
-                        //chatViewModel.changeStatusUnreadMessages(parseInt(model?.userId!!), it.history[getLastMyUnreadMessage(it.history)].id)  //TODO
-                        chatViewModel.changeStatusUnreadMessages(parseInt(model?.userId!!), it.history.first().id)  //TODO
+                        chatViewModel.changeStatusUnreadMessages(parseInt(model?.userId!!), it.history.first().id)
                     }
                     "push" -> {
-                        chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), it.history.first().id)  //TODO
+                        chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), it.history.first().id)
                     }
                     else -> {
-                        chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, it.history.first().id)  //TODO
+                        chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, it.history.first().id)
                     }
                 }
             }
@@ -234,15 +218,8 @@ class ChatFragment : BaseFragmentMVVM() {
 
     private fun initChatInfo(chatInfo: ChatUser) {
         Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
-        //if (type == "afterList" || type == "afterMenu") {
         Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + chatInfo.picture).error(R.drawable.darth_vader).into(imgProfile)
         toolbarTitle.text = chatInfo.name
-//        } else {
-//            model?.let {
-//                toolbarTitle.text = it.creatorData?.settingsName
-//                Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + it.creatorData?.picture).error(R.drawable.darth_vader).into(imgProfile)
-//            }
-//        }
     }
 
     private fun openProfile() {
@@ -323,11 +300,6 @@ class ChatFragment : BaseFragmentMVVM() {
                 val response = Gson().fromJson<NewMessage>(json, modelType)
                 val message = ChatMessages.History(content = response.message.text, id = response.message.id.toInt(), userId = response.from.id, date = response.message.date)
                 addMessage(message)
-//                if (type == "afterList") {
-//                    //TODO
-//                } else {
-//                    chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, message.id)  //TODO
-//                }
                 when (type) {
                     "afterList" -> {
                         chatViewModel.changeStatusUnreadMessages(parseInt(model?.userId!!), message.id)
@@ -347,19 +319,14 @@ class ChatFragment : BaseFragmentMVVM() {
     }
 
     var onError = Emitter.Listener {
-        //val data = initialData(userName, roomName)
         val data = it[0] as JSONObject
-        val name = data.toString() //This pass the userName!
-        val nas = name //This pass the userName!
-        //   val name = it[0] as String //This pass the userName!
+        val name = data.toString()
         chatViewModel.getSocketConnection().emit("err")
 
     }
     var onAuth = Emitter.Listener {
-        //val data = initialData(userName, roomName)
         val data = it[0] as JSONObject
-        val name = data.toString() //This pass the userName!
-        val nas = name //This pass the userName!
+        val name = data.toString()
         chatViewModel.getSocketConnection().emit("auth")
     }
 
@@ -386,7 +353,6 @@ class ChatFragment : BaseFragmentMVVM() {
                 val json = data.toString()
                 val type = object : TypeToken<NewMessage>() {}.type
                 val response = Gson().fromJson<NewMessage>(json, type)
-                //val isMyMessage = response.from.id == parseInt(Prefs.getString(Constants.PREFS_KEY_USER_ID, "0"))
                 chatAdapter.updateItemById(response.message.id)
             } catch (e: JSONException) {
                 Log.e("TAG", e.message)

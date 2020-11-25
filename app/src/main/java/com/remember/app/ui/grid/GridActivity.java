@@ -493,7 +493,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             else {
                 proportion = 1.25f;
             }
-
             setScaleText(navigationView, proportion, R.id.menu_cabinet);
             setScaleText(navigationView, proportion, R.id.menu_gallery);
             setScaleText(navigationView, proportion, R.id.menu_memory_pages);

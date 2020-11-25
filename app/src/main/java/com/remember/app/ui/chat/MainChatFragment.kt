@@ -27,14 +27,12 @@ class MainChatFragment : BaseFragmentMVVM() {
         val TAG = "MainChatFragment"
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         type = arguments?.getString("type", "")!!
         if (type == "")
             model = arguments!!.getParcelable("model")!!
         initUI()
-
         initLiveData()
     }
 
