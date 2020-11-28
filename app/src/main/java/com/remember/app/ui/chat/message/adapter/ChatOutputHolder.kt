@@ -17,7 +17,7 @@ class ChatOutputHolder(override val containerView: View) : RecyclerView.ViewHold
     fun onBind(item: ChatMessages.History) {
         with(itemView) {
             if (adapterPosition == 0) {
-                (layoutParams as RecyclerView.LayoutParams).setMargins(0, 30, 0, 30)
+                (layoutParams as RecyclerView.LayoutParams).setMargins(30, 30, 0, 30)
                 requestLayout()
             }
             tvMessage.text = item.content
@@ -42,7 +42,7 @@ class ChatOutputHolder(override val containerView: View) : RecyclerView.ViewHold
                 // containerBottom.maxWidth = LinearLayout.LayoutParams.WRAP_CONTENT
                 tvTimeBottom.text = parseTimeStampToTime(item.date)
                 with(tvMessage) {
-                    (layoutParams as ConstraintLayout.LayoutParams).setMargins(0, 0, 0, 65)
+                    (layoutParams as ConstraintLayout.LayoutParams).setMargins(30, 0, 0, 65)
                     requestLayout()
                 }
             }

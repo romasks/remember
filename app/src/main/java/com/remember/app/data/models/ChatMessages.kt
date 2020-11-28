@@ -19,6 +19,7 @@ data class ChatMessages(
         @SerializedName("is_read")
         var isRead: Boolean = false, // false
         @SerializedName("user_id")
-        val userId: Int // 1023
+        val userId: Int, // 1023
+        var isSelect : Boolean = false
     )
 }

@@ -46,15 +46,22 @@ class ChatAdapter(private val currentUserId: String, private val onLongClick: (p
         notifyItemChanged(messages.indexOf((messages.find { it.id == data.id })))
     }
 
+    fun unSelectItem(data: ChatMessages.History, position: Int) {
+        messages.find { it.id == data.id }?.isSelect = false
+        notifyItemChanged(position)
+    }
+
     fun updateItemById(messageId: Int, userId: String) {
-        if (messages.last().userId.toString() != userId)
-            messages.find { it.id == messageId }?.isRead = true
-        for (i in messages.indices) {
-            if (messages[i].userId != parseInt(currentUserId)) {
-                messages[i].isRead == true
+        messages?.let {
+            if (it?.last()?.userId.toString() != userId)
+                it?.find { it?.id == messageId }?.isRead = true
+            for (i in it?.indices) {
+                if (it[i]?.userId != parseInt(currentUserId)) {
+                    it[i]?.isRead == true
+                }
             }
+            notifyItemRangeChanged(0, it?.size)
         }
-        notifyItemRangeChanged(0, messages.size)
     }
 
     fun removeItem(data: ChatMessages.History) {

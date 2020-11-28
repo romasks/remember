@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ambitt.utils.replaceFragmentSafely
 import com.remember.app.R
 import com.remember.app.data.models.ChatsModel
-import com.remember.app.data.models.MemoryPageModel
 import com.remember.app.ui.base.BaseFragmentMVVM
 import com.remember.app.ui.chat.adapter.AllChatAdapter
 import kotlinx.android.synthetic.main.fragment_main_chat.*
@@ -16,7 +16,6 @@ class MainChatFragment : BaseFragmentMVVM() {
     override val layoutId: Int = R.layout.fragment_main_chat
     lateinit var allChatAdapter: AllChatAdapter
     val chatViewModel: ChatViewModel by sharedViewModel()
-    var model: MemoryPageModel? = null
     var type = ""
 
     companion object {
@@ -24,16 +23,30 @@ class MainChatFragment : BaseFragmentMVVM() {
                 MainChatFragment().apply {
                     arguments = bundle
                 }
+
         val TAG = "MainChatFragment"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         type = arguments?.getString("type", "")!!
-        if (type == "")
-            model = arguments!!.getParcelable("model")!!
+        openChatByType()
         initUI()
         initLiveData()
+    }
+
+    private fun openChatByType() {
+        val visaviID = arguments?.getString("visaviID", "0")!!
+        val bundle = Bundle()
+        if (type == "push") {
+            bundle.putString("type", type)
+            replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.allChats)
+        } else if (type == "profile") {
+            bundle.putString("type", type)
+            bundle.putString("visaviID", visaviID)
+            replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.allChats)
+        }
+        arguments?.clear()
     }
 
     private fun initUI() {
@@ -72,12 +85,11 @@ class MainChatFragment : BaseFragmentMVVM() {
     private fun onChatClick(position: Int, chatModel: ChatsModel.Chat) {
         val bundle = Bundle()
         bundle.putParcelable("chat", chatModel)
-//        if (model != null)
-//            bundle.putParcelable("model", model)
         if (type == "menu")
             bundle.putString("type", "afterMenu")
         else
             bundle.putString("type", "afterList")
-        openChieldFragment(ChatFragment.newInstance(bundle), R.id.allChats)
+        replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.allChats)
+
     }
 }

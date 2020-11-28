@@ -54,7 +54,7 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
                 bundle.putParcelable("model", model)
                 bundle.putString("type", "profile")
                 bundle.putString("visaviID", model?.userId.toString())
-                replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.container)
+                replaceFragmentSafely(MainChatFragment.newInstance(bundle), "MainChatFragment", false, true, R.id.container)
             }
             "allchat" -> {
                 bundle.putParcelable("model", model)
@@ -67,7 +67,7 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
             "push" -> {
                 bundle.putString("type", "push")
                 bundle.putString("visaviID", visaviID)
-                replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.container)
+                replaceFragmentSafely(MainChatFragment.newInstance(bundle), "MainChatFragment", false, true, R.id.container)
             }
         }
     }
@@ -76,7 +76,7 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         if (supportFragmentManager.backStackEntryCount <= 1)
             finish()
         else
-            supportFragmentManager.popBackStack()
+            supportFragmentManager.popBackStackImmediate()
     }
 
     override fun onConnect(token: String) {
@@ -98,8 +98,8 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         socketClient?.getSocket()?.off("auth")
         socketClient?.getSocket()?.off("err")
         socketClient?.getSocket()?.off("chat.new")
-//        socketClient?.getSocket()?.off("chat.read")
-//        socketClient?.getSocket()?.off("chat.remove")
+        socketClient?.getSocket()?.off("chat.read")
+        socketClient?.getSocket()?.off("chat.remove")
 //        socketClient?.getSocket()?.off("chat.edit")
         super.onDestroy()
     }

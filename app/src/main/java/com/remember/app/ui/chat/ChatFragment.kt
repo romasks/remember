@@ -26,6 +26,9 @@ import com.remember.app.utils.ImageUtils.setGlideImageWithError
 import com.remember.app.utils.KotlinUtils.getLocaleTime
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_chat.imgDelete
+import kotlinx.android.synthetic.main.fragment_chat.imgProfile
+import kotlinx.android.synthetic.main.item_chat.*
 import org.json.JSONException
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -59,17 +62,16 @@ class ChatFragment : BaseFragmentMVVM() {
         when (type) {
             "afterList" -> {
                 chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
-           //     model = arguments!!.getParcelable<MemoryPageModel>("model")
             }
             "profile" -> {
-                visaviID = arguments!!.getString("visaviID", "")!!
+                visaviID = arguments!!.getString("visaviID", "0")!!
             }
             "afterMenu" -> {
                 chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
                 model = arguments!!.getParcelable<MemoryPageModel>("model")
             }
             "push" -> {
-                visaviID = arguments!!.getString("visaviID", "")!!
+                visaviID = arguments!!.getString("visaviID", "0")!!
             }
             else -> {
                 model = arguments!!.getParcelable<MemoryPageModel>("model")
@@ -82,11 +84,6 @@ class ChatFragment : BaseFragmentMVVM() {
 
     private fun initLiveData() {
         getChatMessages()
-        chatViewModel.successReadMessage.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                chatAdapter.updateItemById(it.last_message_id, chatViewModel.getID()!!)
-            }
-        })
         chatViewModel.chatMessages.observe(viewLifecycleOwner, Observer {
             it?.let {
                 chatAdapter.setList(it.history.reversed())
@@ -153,6 +150,11 @@ class ChatFragment : BaseFragmentMVVM() {
                 chatUser = it
             }
         })
+        chatViewModel.successReadMessage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                chatAdapter.updateItemById(it.last_message_id, chatViewModel.getID()!!)
+            }
+        })
     }
 
     private fun getChatInfo() {
@@ -166,8 +168,11 @@ class ChatFragment : BaseFragmentMVVM() {
             "push" -> {
                 chatViewModel.getChatUser(parseInt(visaviID))
             }
-            else -> {
+            "afterMenu" -> {
                 chatViewModel.getChatUser(chatModel?.id!!)
+            }
+            else -> {
+                chatViewModel.getChatUser(parseInt(visaviID))
             }
         }
     }
@@ -187,7 +192,7 @@ class ChatFragment : BaseFragmentMVVM() {
         chatViewModel.getSocketConnection().on("err", onError)
         chatViewModel.getSocketConnection().on("chat.new", onNewMessage)
         chatViewModel.getSocketConnection().on("auth", onAuth)
-        chatViewModel.getSocketConnection().on("chat.edit", onEditMessage)
+        //chatViewModel.getSocketConnection().on("chat.edit", onEditMessage)
         chatViewModel.getSocketConnection().on("chat.remove", onRemoveMessage)
         chatViewModel.getSocketConnection().on("chat.read", onReadMessage)
     }
@@ -237,6 +242,9 @@ class ChatFragment : BaseFragmentMVVM() {
             }
         }
         imgProfile.setOnClickListener {
+            openProfile()
+        }
+        toolbarTitle.setOnClickListener {
             openProfile()
         }
     }
@@ -296,6 +304,11 @@ class ChatFragment : BaseFragmentMVVM() {
         }
         tvDeleteMsg.setOnClickListener {
             showDeleteDialog(position, model)
+        }
+        imgClose.setOnClickListener {
+            containerAction.visibility = View.GONE
+            model.isSelect = false
+            chatAdapter.unSelectItem(model, position)
         }
     }
 

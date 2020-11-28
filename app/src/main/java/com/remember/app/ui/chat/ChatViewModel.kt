@@ -23,7 +23,7 @@ class ChatViewModel(private val dataManager: DataManager) :
     var error: MutableLiveData<Boolean> = MutableLiveData()
     var errorInterner: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getChats(limit: Int = 20, offset: Int = 0) {
+    fun getChats(limit: Int = 40, offset: Int = 0) {
         dataManager.getChatList(limit = limit, offset = offset, token = getUserToken(), onSuccess = {
             it.let {
                 allChatModel.postValue(it)

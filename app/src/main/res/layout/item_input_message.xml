@@ -9,6 +9,7 @@
     android:layout_marginEnd="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/messageContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -22,12 +23,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:maxWidth="260dp"
-            tools:text="f cbcxhfghfghdfgfdghfdghcxvh xcghxfgh xfgfghfdhgdfhgdfghdfghdfhgfhg fghdfghfdhgdfhgdfgh xf"
             android:textColor="@color/black"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="f cbcxhfghfghdfgfdghfdghcxvh xcghxfgh xfgfghfdhgdfhgdfghdfghdfhgfhg fghdfghfdhgdfhgdfgh xf" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

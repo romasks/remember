@@ -24,10 +24,9 @@ interface Api {
     @GET("chat/{id}/info")
     fun getChatInfo(@Header("Authorization") token : String,@Path("id") id : Int): Single<ChatInfoResponse>
 
-    @FormUrlEncoded
-    @HTTP(method = "DELETE", path = "chat/{id}/message/{message_id}", hasBody = true)
+    @HTTP(method = "DELETE", path = "chat/{id}/message/{message_id}")
    // @DELETE("chat/{id}/message/{message_id}")
-    fun deleteMessage(@Header("Authorization") token : String,@Path("id") id : Int, @Path("message_id") messageId : Int, @Field("mutual") deleteAll : Boolean) : Single<SuccessDeleteMessage>
+    fun deleteMessage(@Header("Authorization") token : String,@Path("id") id : Int, @Path("message_id") messageId : Int, @Query("mutual") deleteAll : Boolean) : Single<SuccessDeleteMessage>
 
     @PUT("chat/{id}/message/{message_id}")
     fun editMessage(@Header("Authorization") token : String,@Path("id") id : Int, @Path("message_id") messageId : Int,@Body body : RequestBody): Single<SuccessSendMessage>
