@@ -363,6 +363,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 return true;
             }
             case R.id.menu_chat: {
+                onMenuClick();
                 startActivity(new Intent(this, ChatActivity.class).putExtra("type", "menu"));
                 return true;
             }

@@ -24,7 +24,9 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateHidden|adjustResize"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".ui.menu.manual.ManualActivity"></activity>
+        <activity android:name=".ui.menu.manual.ManualActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.cabinet.memory_pages.show_page.SlidePhotoActivity"
             android:screenOrientation="portrait" />

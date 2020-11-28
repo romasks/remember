@@ -84,7 +84,7 @@ class ChatFragment : BaseFragmentMVVM() {
         getChatMessages()
         chatViewModel.successReadMessage.observe(viewLifecycleOwner, Observer {
             it?.let {
-                chatAdapter.updateItemById(it.last_message_id)
+                chatAdapter.updateItemById(it.last_message_id, chatViewModel.getID()!!)
             }
         })
         chatViewModel.chatMessages.observe(viewLifecycleOwner, Observer {
@@ -112,6 +112,15 @@ class ChatFragment : BaseFragmentMVVM() {
                 if (it) {
                     Toast.makeText(context, "Ошибка отправки сообщения, попробуйте снова", Toast.LENGTH_SHORT).show()
                     chatViewModel.error.postValue(null)
+                    imgSend.isEnabled = true
+                }
+            }
+        })
+        chatViewModel.errorInterner.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it) {
+                    Toast.makeText(context, "Отсутствует подключение к сети", Toast.LENGTH_SHORT).show()
+                    chatViewModel.errorInterner.postValue(null)
                     imgSend.isEnabled = true
                 }
             }
@@ -373,7 +382,7 @@ class ChatFragment : BaseFragmentMVVM() {
                 val json = data.toString()
                 val type = object : TypeToken<NewMessage>() {}.type
                 val response = Gson().fromJson<NewMessage>(json, type)
-                chatAdapter.updateItemById(response.message.id)
+                chatAdapter.updateItemById(response.message.id, response.from.id.toString())
             } catch (e: JSONException) {
                 Log.e("TAG", e.message)
                 return@Runnable

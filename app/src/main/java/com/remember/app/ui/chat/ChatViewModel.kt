@@ -3,6 +3,7 @@ package com.remember.app.ui.chat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pixplicity.easyprefs.library.Prefs
+import com.remember.app.NetworkStatus.isOffline
 import com.remember.app.data.dataFlow.DataManager
 import com.remember.app.data.models.*
 import io.socket.client.Socket
@@ -20,6 +21,7 @@ class ChatViewModel(private val dataManager: DataManager) :
     var chatInfo: MutableLiveData<ChatInfoResponse> = MutableLiveData()
     var chatUser: MutableLiveData<ChatUser> = MutableLiveData()
     var error: MutableLiveData<Boolean> = MutableLiveData()
+    var errorInterner: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getChats(limit: Int = 20, offset: Int = 0) {
         dataManager.getChatList(limit = limit, offset = offset, token = getUserToken(), onSuccess = {
@@ -33,6 +35,10 @@ class ChatViewModel(private val dataManager: DataManager) :
     }
 
     fun sendMessage(chatID: String, message: String) {
+        if (isOffline()) {
+            errorInterner.postValue(true)
+            return
+        }
         dataManager.sendMessage(id = chatID, token = getUserToken(), message = message, onSuccess = {
             it.let {
                 successSendMessage.postValue(it)
@@ -100,6 +106,6 @@ class ChatViewModel(private val dataManager: DataManager) :
     fun getSocketConnection(): Socket = socket
 
     private fun getUserToken(): String = "Bearer ${Prefs.getString("TOKEN", "")}"
-    fun getID(): String? = Prefs.getString("USER_ID", "")
+    fun getID(): String? = Prefs.getString("USER_ID", "0")
     fun getToken(): String? = Prefs.getString("TOKEN", "")
 }

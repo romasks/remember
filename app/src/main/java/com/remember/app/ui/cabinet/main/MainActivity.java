@@ -316,6 +316,7 @@ public class MainActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.menu_cabinet: {
                 startActivity(new Intent(this, MainActivity.class));
+
                 return true;
             }
             case R.id.menu_gallery: {
@@ -347,6 +348,7 @@ public class MainActivity extends BaseActivity
                 return true;
             }
             case R.id.menu_chat: {
+                onMenuClick();
                 startActivity(new Intent(this, ChatActivity.class).putExtra("type", "menu"));
                 return true;
             }
