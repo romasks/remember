@@ -1,6 +1,5 @@
 package com.remember.app.push
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -22,6 +21,7 @@ import com.remember.app.ui.cabinet.memory_pages.events.current_event.CurrentEven
 import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity
 import com.remember.app.ui.chat.ChatActivity
 import com.remember.app.ui.grid.GridActivity
+import java.lang.Integer.parseInt
 import java.net.URL
 import java.util.*
 
@@ -40,7 +40,7 @@ class FCMService : FirebaseMessagingService() {
         }
     }
 
-    override fun onNewToken(token: String) { }
+    override fun onNewToken(token: String) {}
 
     private fun sendNotification(messageData: Map<String, String>) {
         var intent = Intent(this, GridActivity::class.java)
@@ -92,8 +92,6 @@ class FCMService : FirebaseMessagingService() {
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId,
                     getString(R.string.app_name),
@@ -105,13 +103,13 @@ class FCMService : FirebaseMessagingService() {
 //        if (picture != null && !picture.equals("null"))
 //            getImageBitmap(BASE_SERVICE_URL + picture);
 //        else
-        val notificationBuilder = notificationBuilder.build()
         var notificationID = Random().nextInt();
-        if (title == "Новое сообщение")
-            notificationID = 93799928 //TODO
+        if (title == "Новое сообщение"){
+            notificationID = parseInt(id!!)
+        }
         if (notificationManager != null) {
-
-            notificationManager!!.notify(notificationID /* ID of notification */, notificationBuilder)
+            Log.d("NOTIFICATION", notificationID.toString())
+            notificationManager!!.notify(notificationID, notificationBuilder.build())
         }
     }
 

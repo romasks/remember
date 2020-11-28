@@ -184,10 +184,10 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
         }
     }
 
-    private fun openChat(type: String?, model: MemoryPageModel?) {
+    private fun openChat(type: String?) {
         val intent = Intent(this, ChatActivity::class.java)
         if (memoryPageModel != null) {
-            intent.putExtra("model", model)
+            intent.putExtra("model", memoryPageModel)
         }
         intent.putExtra("type", type)
         startActivity(intent)
@@ -285,9 +285,9 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
 
     private fun initClickListener() {
         addPhotoToSliderBtn.setOnClickListener { pickImage() }
-        maintainerName!!.setOnClickListener { v: View? -> openChat("profile", memoryPageModel) }
-        tvWriteToMaintainer!!.setOnClickListener { v: View? -> openChat("chat", memoryPageModel) }
-        chatButton!!.setOnClickListener { v: View? -> openChat("allchat", memoryPageModel) }
+        maintainerName!!.setOnClickListener { v: View? -> openChat("profile") }
+        tvWriteToMaintainer!!.setOnClickListener { v: View? -> openChat("chat") }
+        chatButton!!.setOnClickListener { v: View? -> openChat("allchat") }
         shareFb!!.setOnClickListener { shareFb() }
         shareVk!!.setOnClickListener { shareVk() }
         settings!!.setOnClickListener { editPage() }

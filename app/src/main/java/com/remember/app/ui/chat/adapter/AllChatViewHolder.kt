@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.remember.app.R
 import com.remember.app.data.Constants
 import com.remember.app.data.models.ChatsModel
+import com.remember.app.utils.ImageUtils.setGlideImageWithError
 import com.remember.app.utils.KotlinUtils
 import com.remember.app.utils.KotlinUtils.getCurrentTimezoneOffset
 import kotlinx.android.extensions.LayoutContainer
@@ -20,20 +21,24 @@ class AllChatViewHolder(override val containerView: View) : RecyclerView.ViewHol
 
     fun onBind(item: ChatsModel.Chat, onClick: (position: Int, model: ChatsModel.Chat) -> Unit) {
         with(itemView) {
+            Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
             setOnClickListener { onClick(adapterPosition, item) }
             tvChatName.text = item.name
-            if (item.lastMsg.text == null)
+            if (item.lastMsg?.text == null)
                 tvLastMessage.text = "Сообщений нет"
             else
                 tvLastMessage.text = item.lastMsg.text
             tvTime.text = KotlinUtils.parseTimeStampToTime(item.lastMessage)
-//            if (item.unreadCount > 0) {
-//                tvCountUnreadMessage.visibility = View.VISIBLE
-//                tvCountUnreadMessage.text = item.unreadCount.toString()
-//            } else
+            if (item.unreadCount > 0) {
+                tvCountUnreadMessage.visibility = View.VISIBLE
+                tvCountUnreadMessage.text = item.unreadCount.toString()
+            } else
                 tvCountUnreadMessage.visibility = View.GONE
             getCurrentTimezoneOffset()
-            Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + item.picture).error(R.drawable.darth_vader).into(imgProfile)
+            if (item.picture != null && !item.picture.contains("http"))
+                setGlideImageWithError(context, Constants.BASE_URL_FROM_PHOTO + item.picture, imgProfile)
+            else
+                setGlideImageWithError(context, item.picture, imgProfile)
         }
     }
 

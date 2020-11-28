@@ -46,12 +46,14 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         val bundle = Bundle()
         when (type) {
             "profile" -> {
-                bundle.putParcelable("model", model)
                 bundle.putString("type", "maintainer")
+                bundle.putString("visaviID", model?.userId)
                 replaceFragmentSafely(MaintainerPageFragment.newInstance(bundle), "MaintainerPageFragment", false, true, R.id.container)
             }
             "chat" -> {
                 bundle.putParcelable("model", model)
+                bundle.putString("type", "profile")
+                bundle.putString("visaviID", model?.userId.toString())
                 replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.container)
             }
             "allchat" -> {

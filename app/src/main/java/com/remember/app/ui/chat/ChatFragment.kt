@@ -22,6 +22,7 @@ import com.remember.app.data.models.*
 import com.remember.app.ui.base.BaseFragmentMVVM
 import com.remember.app.ui.chat.dialogs.DeleteMessageDialog
 import com.remember.app.ui.chat.message.adapter.ChatAdapter
+import com.remember.app.utils.ImageUtils.setGlideImageWithError
 import com.remember.app.utils.KotlinUtils.getLocaleTime
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -42,13 +43,13 @@ class ChatFragment : BaseFragmentMVVM() {
     var lastSendingMessageId = 0
     var deleteMessagePosition = -1
     var visaviID = "0"
+    var chatUser: ChatUser? = null
 
     companion object {
         fun newInstance(bundle: Bundle) =
                 ChatFragment().apply {
                     arguments = bundle
                 }
-
         val TAG = "ChatFragment"
     }
 
@@ -58,7 +59,10 @@ class ChatFragment : BaseFragmentMVVM() {
         when (type) {
             "afterList" -> {
                 chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
-                model = arguments!!.getParcelable<MemoryPageModel>("model")
+           //     model = arguments!!.getParcelable<MemoryPageModel>("model")
+            }
+            "profile" -> {
+                visaviID = arguments!!.getString("visaviID", "")!!
             }
             "afterMenu" -> {
                 chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
@@ -80,7 +84,6 @@ class ChatFragment : BaseFragmentMVVM() {
         getChatMessages()
         chatViewModel.successReadMessage.observe(viewLifecycleOwner, Observer {
             it?.let {
-
                 chatAdapter.updateItemById(it.last_message_id)
             }
         })
@@ -90,7 +93,10 @@ class ChatFragment : BaseFragmentMVVM() {
                 scrollToBottom()
                 when (type) {
                     "afterList" -> {
-                        chatViewModel.changeStatusUnreadMessages(parseInt(model?.userId!!), it.history.first().id)
+                        chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, it.history.first().id)
+                    }
+                    "profile" -> {
+                        chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), it.history.first().id)
                     }
                     "push" -> {
                         chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), it.history.first().id)
@@ -106,11 +112,13 @@ class ChatFragment : BaseFragmentMVVM() {
                 if (it) {
                     Toast.makeText(context, "Ошибка отправки сообщения, попробуйте снова", Toast.LENGTH_SHORT).show()
                     chatViewModel.error.postValue(null)
+                    imgSend.isEnabled = true
                 }
             }
         })
         chatViewModel.successSendMessage.observe(viewLifecycleOwner, Observer {
             it?.let {
+                imgSend.isEnabled = true
                 lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = it.id, userId = chatViewModel.getID()?.toInt()!!, date = getLocaleTime())
                 lastSendingMessage?.let {
                     addMessage(it)
@@ -133,6 +141,7 @@ class ChatFragment : BaseFragmentMVVM() {
         chatViewModel.chatUser.observe(viewLifecycleOwner, Observer {
             it?.let {
                 initChatInfo(it)
+                chatUser = it
             }
         })
     }
@@ -140,7 +149,10 @@ class ChatFragment : BaseFragmentMVVM() {
     private fun getChatInfo() {
         when (type) {
             "afterList" -> {
-                chatViewModel.getChatUser(parseInt(model?.userId!!))
+                chatViewModel.getChatUser(chatModel?.id!!)
+            }
+            "profile" -> {
+                chatViewModel.getChatUser(parseInt(visaviID))
             }
             "push" -> {
                 chatViewModel.getChatUser(parseInt(visaviID))
@@ -154,6 +166,7 @@ class ChatFragment : BaseFragmentMVVM() {
     private fun getChatMessages() {
         when {
             type == "" -> model?.userId?.toInt()?.let { chatViewModel.getChatMessages(it) }
+            type == "profile" -> chatViewModel.getChatMessages(parseInt(visaviID))
             visaviID != "0" -> {
                 chatViewModel.getChatMessages(parseInt(visaviID))
             }
@@ -175,6 +188,7 @@ class ChatFragment : BaseFragmentMVVM() {
     }
 
     private fun initUI() {
+        Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
         initAdapter()
         btnBack.setOnClickListener {
             (activity as ChatActivity).onBackPressed()
@@ -193,9 +207,14 @@ class ChatFragment : BaseFragmentMVVM() {
             }
         })
         imgSend.setOnClickListener {
+            imgSend.isEnabled = false
             when {
                 type == "" -> model?.userId?.toInt()?.let {
                     lastSendingMessage = model?.userId?.let { it1 -> parseInt(it1) }?.let { it2 -> ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = it2, date = getLocaleTime()) }
+                    chatViewModel.sendMessage(model?.userId.toString(), etComment.text.toString())
+                }
+                type == "profile" -> {
+                    lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = parseInt(visaviID), date = getLocaleTime())
                     chatViewModel.sendMessage(model?.userId.toString(), etComment.text.toString())
                 }
                 visaviID != "0" -> {
@@ -204,30 +223,30 @@ class ChatFragment : BaseFragmentMVVM() {
                 }
                 else -> {
                     chatViewModel.sendMessage(chatModel?.id.toString(), etComment.text.toString())
-//            lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = response.message.id.toInt(), userId = chatModel?.id!!, date = "2020-10-13T22:56:25.000Z")
                     lastSendingMessage = ChatMessages.History(content = etComment.text.toString(), id = lastSendingMessageId, userId = chatModel?.id!!, date = getLocaleTime())
-
                 }
             }
         }
         imgProfile.setOnClickListener {
             openProfile()
         }
-
     }
 
     private fun initChatInfo(chatInfo: ChatUser) {
-        Glide.with(context!!).load(R.drawable.darth_vader).transform(CenterInside(), RoundedCorners(70)).into(imgProfile)
-        Glide.with(context!!).load(Constants.BASE_URL_FROM_PHOTO + chatInfo.picture).error(R.drawable.darth_vader).into(imgProfile)
+        if (chatInfo.picture != null && !chatInfo.picture.contains("http"))
+            setGlideImageWithError(context, Constants.BASE_URL_FROM_PHOTO + chatInfo.picture, imgProfile)
+        else
+            setGlideImageWithError(context, chatInfo.picture, imgProfile)
         toolbarTitle.text = chatInfo.name
     }
 
     private fun openProfile() {
         val bundle = Bundle()
-        model?.let {
-            bundle.putParcelable("model", model)
+        chatUser?.let {
+            bundle.putParcelable("user", chatUser)
         }
-        bundle.putString("type", "profile")
+        bundle.putString("type", "user")
+        bundle.putString("visaviID", chatUser?.id.toString())
         replaceFragmentSafely(MaintainerPageFragment.newInstance(bundle), "MaintainerPageFragment", false, true, R.id.container)
     }
 
@@ -278,7 +297,6 @@ class ChatFragment : BaseFragmentMVVM() {
                 deleteMessagePosition = position
                 chatViewModel.deleteMessage(chatModel?.id!!, model.id, true)
             }
-
             override fun deleteForMe() {
                 deleteMessagePosition = position
                 chatViewModel.deleteMessage(chatModel?.id!!, model.id, false)
@@ -289,7 +307,6 @@ class ChatFragment : BaseFragmentMVVM() {
         dialog.arguments = bundle
         dialog.show(activity!!.supportFragmentManager, "askRegDialog")
     }
-
 
     private val onNewMessage = Emitter.Listener { args ->
         activity!!.runOnUiThread(Runnable {
@@ -302,7 +319,10 @@ class ChatFragment : BaseFragmentMVVM() {
                 addMessage(message)
                 when (type) {
                     "afterList" -> {
-                        chatViewModel.changeStatusUnreadMessages(parseInt(model?.userId!!), message.id)
+                        chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, message.id)
+                    }
+                    "profile" -> {
+                        chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), message.id)
                     }
                     "push" -> {
                         chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), message.id)

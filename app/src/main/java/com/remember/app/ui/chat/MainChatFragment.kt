@@ -72,8 +72,8 @@ class MainChatFragment : BaseFragmentMVVM() {
     private fun onChatClick(position: Int, chatModel: ChatsModel.Chat) {
         val bundle = Bundle()
         bundle.putParcelable("chat", chatModel)
-        if (model != null)
-            bundle.putParcelable("model", model)
+//        if (model != null)
+//            bundle.putParcelable("model", model)
         if (type == "menu")
             bundle.putString("type", "afterMenu")
         else

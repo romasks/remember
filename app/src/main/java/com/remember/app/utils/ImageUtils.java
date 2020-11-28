@@ -62,6 +62,23 @@ public class ImageUtils {
         targetView.setColorFilter(blackWhiteFilter);
     }
 
+    public static void setGlideImageWithError(Context context, Object imageObj, ImageView targetView) {
+        if (imageObj instanceof String) {
+            try {
+                imageObj = encodeImageUrl((String) imageObj);
+            } catch (MalformedURLException | URISyntaxException ignored) {
+            }
+        }
+        GlideApp.with(context)
+                .load(imageObj)
+                .apply(RequestOptions.circleCropTransform())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .error(R.drawable.darth_vader)
+                .skipMemoryCache(true)
+                .into(targetView);
+        targetView.setColorFilter(blackWhiteFilter);
+    }
+
     public static void setGlideImageCache(Context context, Object imageObj, ImageView targetView) {
         if (imageObj instanceof String) {
             try {

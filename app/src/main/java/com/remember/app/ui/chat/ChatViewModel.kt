@@ -12,7 +12,6 @@ class ChatViewModel(private val dataManager: DataManager) :
         ViewModel() {
 
     private lateinit var socket: Socket
-    private var firstCurrentChatMessage = false
     var allChatModel: MutableLiveData<ChatsModel> = MutableLiveData()
     var successSendMessage: MutableLiveData<SuccessSendMessage> = MutableLiveData()
     var successReadMessage: MutableLiveData<SuccessReadMessage> = MutableLiveData()

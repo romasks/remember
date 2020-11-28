@@ -12,11 +12,9 @@ class AllChatAdapter(val onClick: (position: Int, model: ChatsModel.Chat) -> Uni
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllChatViewHolder =
         AllChatViewHolder.create(parent)
 
-   // override fun getItemCount(): Int = chats.size
     override fun getItemCount(): Int = chats.size
 
     override fun onBindViewHolder(holder: AllChatViewHolder, position: Int) {
-   //     holder.onBind(chats[position], onClick)
         holder.onBind(chats[position], onClick)
     }
 

@@ -19,11 +19,11 @@ data class ChatsModel(
             @SerializedName("last_message")
             val lastMessage: String, // 2020-10-18T14:50:48.000Z
             @SerializedName("last_msg")
-            val lastMsg: LastMsg,
+            val lastMsg: LastMsg?,
             @SerializedName("name")
             val name: String, // Помню
             @SerializedName("picture")
-            val picture: String, // /uploads/accounts/1.jpg
+            val picture: String?, // /uploads/accounts/1.jpg
             @SerializedName("unread_count")
             val unreadCount: Int // 50
     ) : Parcelable {
