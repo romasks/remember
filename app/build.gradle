@@ -20,8 +20,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 21 //22 5.1
         targetSdkVersion 29
-        versionCode 99
-        versionName "1.5.19"
+        versionCode 101
+        versionName "1.5.21"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

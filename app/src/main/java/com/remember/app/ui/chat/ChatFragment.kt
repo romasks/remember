@@ -26,9 +26,6 @@ import com.remember.app.utils.ImageUtils.setGlideImageWithError
 import com.remember.app.utils.KotlinUtils.getLocaleTime
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.fragment_chat.imgDelete
-import kotlinx.android.synthetic.main.fragment_chat.imgProfile
-import kotlinx.android.synthetic.main.item_chat.*
 import org.json.JSONException
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -53,6 +50,7 @@ class ChatFragment : BaseFragmentMVVM() {
                 ChatFragment().apply {
                     arguments = bundle
                 }
+
         val TAG = "ChatFragment"
     }
 
@@ -184,7 +182,11 @@ class ChatFragment : BaseFragmentMVVM() {
             visaviID != "0" -> {
                 chatViewModel.getChatMessages(parseInt(visaviID))
             }
-            else -> chatViewModel.getChatMessages(chatModel?.id!!.toInt())
+            else -> {
+                chatModel?.let {
+                    chatViewModel.getChatMessages(it.id)
+                }
+            }
         }
     }
 
@@ -319,6 +321,7 @@ class ChatFragment : BaseFragmentMVVM() {
                 deleteMessagePosition = position
                 chatViewModel.deleteMessage(chatModel?.id!!, model.id, true)
             }
+
             override fun deleteForMe() {
                 deleteMessagePosition = position
                 chatViewModel.deleteMessage(chatModel?.id!!, model.id, false)
