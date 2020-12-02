@@ -53,7 +53,7 @@ class ChatAdapter(private val currentUserId: String, private val onLongClick: (p
 
     fun updateItemById(messageId: Int, userId: String) {
         messages?.let {
-            if (it?.last()?.userId.toString() != userId)
+            if (it.isNotEmpty() && it?.last()?.userId.toString() != userId)
                 it?.find { it?.id == messageId }?.isRead = true
             for (i in it?.indices) {
                 if (it[i]?.userId != parseInt(currentUserId)) {

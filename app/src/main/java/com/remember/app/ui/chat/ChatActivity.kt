@@ -24,8 +24,8 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         removeNotification()
         if (savedInstanceState == null) {
             val type = intent.extras!!.getString("type", "")
+            val visaviID = intent.extras!!.getString("visaviID", "0")
             val model = intent.extras!!.getParcelable<MemoryPageModel>("model")
-            val visaviID = intent.extras!!.getString("visaviID", "")
             openFragmentByType(type, model, visaviID)
         }
         initSocketConnection()
@@ -42,8 +42,9 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         viewModel.instantiateSocket(socketClient!!.getSocket())
     }
 
-    private fun openFragmentByType(type: String, model: MemoryPageModel?, visaviID : String = "") {
+    private fun openFragmentByType(type: String, model: MemoryPageModel?, visaviID : String) {
         val bundle = Bundle()
+        Log.d("DEBAGPUSH" ,"$type $visaviID Activity")
         when (type) {
             "profile" -> {
                 bundle.putString("type", "maintainer")
@@ -76,7 +77,7 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         if (supportFragmentManager.backStackEntryCount <= 1)
             finish()
         else
-            supportFragmentManager.popBackStackImmediate()
+            supportFragmentManager.popBackStack()
     }
 
     override fun onConnect(token: String) {
@@ -98,8 +99,8 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
         socketClient?.getSocket()?.off("auth")
         socketClient?.getSocket()?.off("err")
         socketClient?.getSocket()?.off("chat.new")
-        socketClient?.getSocket()?.off("chat.read")
-        socketClient?.getSocket()?.off("chat.remove")
+//        socketClient?.getSocket()?.off("chat.read")
+//        socketClient?.getSocket()?.off("chat.remove")
 //        socketClient?.getSocket()?.off("chat.edit")
         super.onDestroy()
     }

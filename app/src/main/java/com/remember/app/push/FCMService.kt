@@ -77,6 +77,7 @@ class FCMService : FirebaseMessagingService() {
             //intent.putExtra("type", "menu")
             intent.putExtra("type", "push")
             intent.putExtra("visaviID", id)
+            Log.d("DEBAGPUSH" ,"push $id FCM")
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

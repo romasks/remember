@@ -82,7 +82,6 @@
         android:id="@+id/tvCountUnreadMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:background="@drawable/button"
         android:paddingStart="9dp"
         android:paddingTop="3dp"
@@ -92,7 +91,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/view4"
         app:layout_constraintTop_toBottomOf="@+id/tvTime"
         tools:text="123" />
 

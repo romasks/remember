@@ -6,6 +6,9 @@ import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+
+import com.remember.app.data.models.MemoryPageModel;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import android.content.IntentSender;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,7 +44,6 @@ import com.remember.app.BuildConfig;
 import com.remember.app.R;
 import com.remember.app.customView.CustomButton;
 import com.remember.app.customView.CustomTextView;
-import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RefreshToken;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
@@ -49,7 +51,6 @@ import com.remember.app.ui.adapters.ImageAdapter;
 import com.remember.app.ui.auth.AuthActivity;
 import com.remember.app.ui.base.BaseActivity;
 import com.remember.app.ui.cabinet.main.MainActivity;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.ui.chat.ChatActivity;
 import com.remember.app.ui.menu.events.EventsActivityMenu;
 import com.remember.app.ui.menu.manual.ManualActivity;
@@ -61,7 +62,6 @@ import com.remember.app.utils.PopupPageScreen;
 import com.remember.app.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -114,7 +114,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     private int pageNumber = 1;
     private boolean isClickLocked = true;
     private List<MemoryPageModel> allMemoryPageModels = new ArrayList<>();
-    Calendar calendar = Calendar.getInstance();
 
     @Override
     protected int getContentView() {
@@ -137,7 +136,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
-        //  verifyStoragePermissions(this);
+      //  verifyStoragePermissions(this);
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         search.setImageResource(Utils.isThemeDark() ? R.drawable.ic_search_dark_theme : R.drawable.ic_search);
@@ -148,7 +147,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
         sendID();
         setUpRecycler();
         checkIntentForNotification();
-        updateTokenIfNeed();
+        presenter.refreshToken();
         presenter.getImages(pageNumber);
         if (Prefs.getBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)) {
             Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false);
@@ -182,8 +181,9 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
     }
 
 
-    private void checkPlayMarketUpdate() {
-        appUpdateManager = AppUpdateManagerFactory.create(this);
+
+    private void checkPlayMarketUpdate(){
+         appUpdateManager = AppUpdateManagerFactory.create(this);
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
@@ -363,7 +363,6 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
                 return true;
             }
             case R.id.menu_chat: {
-                onMenuClick();
                 startActivity(new Intent(this, ChatActivity.class).putExtra("type", "menu"));
                 return true;
             }
@@ -494,6 +493,7 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
             else {
                 proportion = 1.25f;
             }
+
             setScaleText(navigationView, proportion, R.id.menu_cabinet);
             setScaleText(navigationView, proportion, R.id.menu_gallery);
             setScaleText(navigationView, proportion, R.id.menu_memory_pages);
@@ -527,22 +527,12 @@ public class GridActivity extends BaseActivity implements GridView, ImageAdapter
 
     @Override
     public void refreshToken(RefreshToken model) {
-        calendar.add(Calendar.DATE, 1);
-        long tomorrow = calendar.getTimeInMillis();
-        Prefs.edit().putLong("updateToken", tomorrow).apply();
         Prefs.putString(PREFS_KEY_TOKEN, model.getToken());
     }
 
     @Override
     public void onErrorRefresh(Throwable throwable) {
-        // Log.d("T", Objects.requireNonNull(throwable.getMessage()));
         Prefs.clear();
         signInButton.setText(getResources().getString(R.string.grid_login));
-    }
-
-    private void updateTokenIfNeed() {
-        long today = calendar.getTimeInMillis();
-        if (today > Prefs.getLong("updateToken", 0) && !Prefs.getString(PREFS_KEY_TOKEN, "").equals(""))
-            presenter.refreshToken();
     }
 }

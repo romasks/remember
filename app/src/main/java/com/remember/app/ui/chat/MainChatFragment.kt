@@ -1,6 +1,7 @@
 package com.remember.app.ui.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ class MainChatFragment : BaseFragmentMVVM() {
     lateinit var allChatAdapter: AllChatAdapter
     val chatViewModel: ChatViewModel by sharedViewModel()
     var type = ""
+    var visaviID = "0"
 
     companion object {
         fun newInstance(bundle: Bundle) =
@@ -27,25 +29,30 @@ class MainChatFragment : BaseFragmentMVVM() {
         val TAG = "MainChatFragment"
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         type = arguments?.getString("type", "")!!
+        visaviID = arguments?.getString("visaviID", "0")!!
         openChatByType()
         initUI()
         initLiveData()
     }
 
     private fun openChatByType() {
-        val visaviID = arguments?.getString("visaviID", "0")!!
         val bundle = Bundle()
         if (type == "push") {
             bundle.putString("type", type)
+            bundle.putString("visaviID", visaviID)
             replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.allChats)
+            Log.d("DEBAGPUSH", "$type $visaviID $TAG")
         } else if (type == "profile") {
             bundle.putString("type", type)
             bundle.putString("visaviID", visaviID)
             replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.allChats)
+            Log.d("DEBAGPUSH", "$type $visaviID $TAG")
         }
+        type = ""
         arguments?.clear()
     }
 
@@ -87,7 +94,10 @@ class MainChatFragment : BaseFragmentMVVM() {
         bundle.putParcelable("chat", chatModel)
         if (type == "menu")
             bundle.putString("type", "afterMenu")
-        else
+        if (type == "push") {
+            bundle.putString("type", "push")
+            bundle.putString("visaviID", visaviID)
+        } else
             bundle.putString("type", "afterList")
         replaceFragmentSafely(ChatFragment.newInstance(bundle), "ChatFragment", false, true, R.id.allChats)
 

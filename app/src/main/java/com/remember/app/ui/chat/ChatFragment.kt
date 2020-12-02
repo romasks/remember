@@ -72,9 +72,10 @@ class ChatFragment : BaseFragmentMVVM() {
                 visaviID = arguments!!.getString("visaviID", "0")!!
             }
             else -> {
-                model = arguments!!.getParcelable<MemoryPageModel>("model")
+                model = arguments!!.getParcelable<MemoryPageModel>("model")!!
             }
         }
+        Log.d("DEBAGPUSH" ,"$type $visaviID $TAG")
         initUI()
         initLiveData()
         initSocketListener()
@@ -356,6 +357,7 @@ class ChatFragment : BaseFragmentMVVM() {
                         chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, message.id)
                     }
                 }
+                chatViewModel.getChats()
             } catch (e: JSONException) {
                 Log.e("TAG", e.message)
                 return@Runnable
@@ -431,5 +433,11 @@ class ChatFragment : BaseFragmentMVVM() {
     override fun onStop() {
         super.onStop()
         active = false
+    }
+
+    override fun onDestroyView() {
+        chatViewModel.getChats()
+        chatViewModel.chatMessages.postValue(null)
+        super.onDestroyView()
     }
 }

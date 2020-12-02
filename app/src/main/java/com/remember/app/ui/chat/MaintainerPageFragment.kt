@@ -6,6 +6,8 @@ import android.view.WindowId
 import androidx.lifecycle.Observer
 import com.ambitt.utils.replaceFragmentSafely
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.remember.app.R
 import com.remember.app.data.Constants
 import com.remember.app.data.models.ChatUser
