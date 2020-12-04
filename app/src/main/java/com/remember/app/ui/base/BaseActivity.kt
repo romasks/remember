@@ -28,7 +28,7 @@ abstract class BaseActivity: MvpAppCompatActivity(), BaseView {
         super.onDestroy()
     }
 
-    override fun onErrorOffline() =
+    override fun onErrorOffline() = //setViewsInDarkTheme()
         MaDialog.Builder(this@BaseActivity)
             .setTitle("Отсутствует интернет-соединение")
             .setMessage("Пожалуйста, повторите действие позже")
