@@ -59,6 +59,7 @@ public class PageFragment extends BaseFragment
 
     @Override
     protected void setUp() {
+        presenter.getPages();
         pageFragmentAdapter = new PageFragmentAdapter();
         pageFragmentAdapter.setCallback(this);
 
@@ -70,10 +71,10 @@ public class PageFragment extends BaseFragment
     public void setUserVisibleHint(boolean visible) {
         super.setUserVisibleHint(visible);
         if (visible && isResumed()) {
-            onResume();
+        //    onResume();
             Prefs.putBoolean("EVENT_FRAGMENT", false);
             Prefs.putBoolean("PAGE_FRAGMENT", true);
-            presenter.getPages();
+      //      presenter.getPages();
         } else {
             Prefs.putBoolean("EVENT_FRAGMENT", true);
             Prefs.putBoolean("PAGE_FRAGMENT", false);
@@ -83,7 +84,7 @@ public class PageFragment extends BaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        presenter.getPages();
+     //   presenter.getPages();
     }
 
     @OnClick(R.id.show_all)

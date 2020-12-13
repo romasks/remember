@@ -3,29 +3,29 @@ package com.remember.app.ui.menu.page;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.remember.app.data.models.MemoryPageModel;
-import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.remember.app.R;
 import com.remember.app.customView.CustomTextView;
+import com.remember.app.data.models.MemoryPageModel;
 import com.remember.app.data.models.RequestSearchPage;
 import com.remember.app.data.models.ResponsePages;
 import com.remember.app.ui.adapters.PageFragmentAdapter;
 import com.remember.app.ui.base.BaseActivity;
+import com.remember.app.ui.cabinet.memory_pages.show_page.ShowPageActivity;
 import com.remember.app.utils.PopupPageScreen;
 import com.remember.app.utils.Utils;
 
 import java.util.LinkedList;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -54,6 +54,7 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     private PopupPageScreen popupWindowPage;
     private LinkedList<MemoryPageModel> memoryPages = new LinkedList<MemoryPageModel>();
+    private LinkedList<MemoryPageModel> unStarList = new LinkedList<MemoryPageModel>();
     private int pageNumber = 1;
     private int countSum = 0;
 
@@ -128,7 +129,12 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         if (showAll.getVisibility() != View.GONE) showAll.setVisibility(View.GONE);
         countSum = responsePages.getPages();
         memoryPages.addAll(responsePages.getResult());
-        pageFragmentAdapter.setItems(memoryPages);
+        unStarList.clear();
+        for (int i = 0; i < responsePages.getResult().size(); i++) {
+            if (!responsePages.getResult().get(i).getStar().equals("true"))
+                unStarList.add(responsePages.getResult().get(i));
+        }
+        pageFragmentAdapter.setItems(unStarList);
 
         if (pageNumber < countSum) {
             pageNumber++;

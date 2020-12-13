@@ -42,7 +42,6 @@ class SplashActivity : BaseActivity(), SplashView {
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         Utils.setTheme(this)
         super.onCreate(savedInstanceState)
-        Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, true)
         startActivity(Intent(this, GridActivity::class.java))
         finish()
         startActivity(openActivity(checkIntentForNotification()))
@@ -79,15 +78,17 @@ class SplashActivity : BaseActivity(), SplashView {
     private fun openActivity(model: NotificationModel?): Intent {
         var intent = Intent(this, GridActivity::class.java)
         intent.flags = FLAG_ACTIVITY_CLEAR_TOP
+        Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, true)
         model?.let {
             Log.d("DEBAGPUSH", "type->${it.type}; id->${it.userId} ${it.toString()}")
             if (it.type == "event") {
+                Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)
                 intent = Intent(this, EventFullActivity::class.java)
                 intent.putExtra(Constants.INTENT_EXTRA_EVENT_ID, it.eventId?.toIntOrNull())
                 intent.putExtra(Constants.INTENT_EXTRA_FROM_NOTIF, true)
             }
-
             if (it.type == "dead_event") {
+                Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)
                 intent = Intent(this, CurrentEvent::class.java)
                 intent.putExtra(Constants.INTENT_EXTRA_EVENT_ID, it.eventId?.toInt())
                 intent.putExtra(Constants.INTENT_EXTRA_PERSON, it.pageName)
@@ -95,8 +96,8 @@ class SplashActivity : BaseActivity(), SplashView {
                 intent.putExtra(INTENT_EXTRA_PAGE_ID, it.pageid)
                 intent.putExtra(Constants.INTENT_EXTRA_OWNER_ID, "0")
             }
-
             if (it.type == "dead" || it.type == "birth") {
+                Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)
                 intent = Intent(this, ShowPageActivity::class.java)
                 intent.putExtra(Constants.INTENT_EXTRA_ID, it.pageid?.toIntOrNull())
                 intent.putExtra(Constants.INTENT_EXTRA_PERSON, it.pageName)
@@ -104,6 +105,7 @@ class SplashActivity : BaseActivity(), SplashView {
                 intent.putExtra(Constants.INTENT_EXTRA_FROM_NOTIF, true)
             }
             if (it.type == "push") {
+                Prefs.putBoolean(PREFS_KEY_IS_LAUNCH_MODE, false)
                 startActivity(intent)
                 intent = Intent(this, ChatActivity::class.java)
                 intent.putExtra("type", "push")

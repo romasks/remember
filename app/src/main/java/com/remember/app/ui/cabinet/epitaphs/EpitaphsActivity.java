@@ -2,6 +2,7 @@ package com.remember.app.ui.cabinet.epitaphs;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -122,6 +123,7 @@ public class EpitaphsActivity extends BaseActivity implements EpitaphsView, Popu
 
     @Override
     public void onErrorSavedEpitaphs(Throwable throwable) {
+        Log.d("d", throwable.getMessage().toString());
         Utils.showSnack(recyclerView, "Ошибка сохранения");
     }
 

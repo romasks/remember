@@ -266,12 +266,6 @@ public class ServiceNetworkImp implements ServiceNetwork {
     }
 
     @Override
-    public Observable<List<MemoryPageModel>> getAllPages() {
-        return apiMethods.getAllPages()
-                .compose(rxSchedulers.applySchedulers());
-    }
-
-    @Override
     public Observable<Object> saveImageSetting(File imageFile) {
         RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         MultipartBody.Part fileToUploadTransfer = MultipartBody.Part.createFormData(

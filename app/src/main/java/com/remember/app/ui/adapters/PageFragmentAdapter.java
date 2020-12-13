@@ -48,10 +48,11 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     public void setItems(LinkedList<MemoryPageModel> memoryPageModelList) {
+        int size = memoryPageModelList.size();
        // if (!isMainPages)
-            this.memoryPageModelList.clear();
+         //   this.memoryPageModelList.clear(а);
         this.memoryPageModelList.addAll(memoryPageModelList);
-        notifyDataSetChanged();
+        notifyItemRangeChanged(memoryPageModelList.size(), size+memoryPageModelList.size());
     }
 
     public void setItemsSearched(LinkedList<MemoryPageModel> memoryPageModelList) {

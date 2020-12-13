@@ -103,8 +103,6 @@ public interface ServiceNetwork {
 
     Observable<ResponseSocialAuth> signInSocial(RequestSocialAuth request);
 
-    Observable<List<MemoryPageModel>> getAllPages();
-
     Observable<Object> saveImageSetting(File imageFile);
 
     Observable<RequestAddEpitaphs> editEpitaph(RequestAddEpitaphs requestAddEpitaphs, Integer id);

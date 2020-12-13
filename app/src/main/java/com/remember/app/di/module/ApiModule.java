@@ -84,7 +84,7 @@ public class ApiModule {
     @Provides
     @Singleton
     HttpUrl provideHttpUrl() {
-        return HttpUrl.parse(BASE_SERVICE_URL + ":3001/");
+        return HttpUrl.parse(BASE_SERVICE_URL);
     }
 
     @Provides

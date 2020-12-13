@@ -240,9 +240,6 @@ public interface ApiMethods {
     @POST("user/social")
     Observable<ResponseSocialAuth> signInSocial(@Body RequestSocialAuth requestSocialAuth);
 
-    @GET("page")
-    Observable<List<MemoryPageModel>> getAllPages();
-
     @GET("/user/restore")
     Observable<ResponseRestorePassword> restorePassword(@Query("email") String email);
 

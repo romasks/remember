@@ -2,22 +2,23 @@ package com.remember.app.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ResponsePages {
 
     @SerializedName("result")
-    private List<MemoryPageModel> result;
+    private LinkedList<MemoryPageModel> result;
     @SerializedName("count")
     private int count;
     @SerializedName("pages")
     private int pages;
 
-    public List<MemoryPageModel> getResult() {
+    public LinkedList<MemoryPageModel> getResult() {
         return result;
     }
 
-    public void setResult(List<MemoryPageModel> result) {
+    public void setResult(LinkedList<MemoryPageModel> result) {
         this.result = result;
     }
 

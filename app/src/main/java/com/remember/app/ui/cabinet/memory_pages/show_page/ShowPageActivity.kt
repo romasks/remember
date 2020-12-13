@@ -133,12 +133,14 @@ public class ShowPageActivity : BaseActivity(), PopupMap.Callback, ShowPageView,
 
     override fun error(throwable: Throwable) {
         if (image == null) Utils.showSnack(image, "Ошибка загрузки изображения")
+        Log.d("ADDPHOTO", throwable.message + "")
         share_LinLayout!!.visibility = View.GONE
     }
 
     override fun onSavedImage(o: Any) {
         photoDialog!!.dismiss()
         Utils.showSnack(image, "Успешно")
+        Log.d("ADDPHOTO", o.toString())
         presenter!!.getImagesSlider(memoryPageModel!!.id)
     }
 

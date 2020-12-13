@@ -7,22 +7,22 @@ import io.socket.engineio.client.transports.WebSocket
 
 class SocketClient {
     private val TAG = "SOCKET_CLIENT"
-    private val mSocket: Socket
+    private val socket: Socket
     private var events: ISignalingEvents
 
     constructor(url: String, token: String, events: ISignalingEvents) {
         val options = IO.Options()
         options.transports = arrayOf(WebSocket.NAME)
         //options.query = "token=my custom token"
-        this.mSocket = IO.socket(url, options)
+        this.socket = IO.socket(url, options)
       //  this.mSocket = IO.socket(url)
         this.events = events
 
-        mSocket.on(Socket.EVENT_CONNECT) {
+        socket.on(Socket.EVENT_CONNECT) {
             events.onConnect(token)
         }
 
-        mSocket.on(Socket.EVENT_DISCONNECT) {
+        socket.on(Socket.EVENT_DISCONNECT) {
             events.onDisconnect(it)
         }
 //        mSocket.on("err") {
@@ -41,16 +41,16 @@ class SocketClient {
 
     fun connect() {
         Log.d(TAG, "CONNECTING")
-        mSocket.connect()
+        socket.connect()
     }
 
     fun disconnect() {
         Log.d(TAG, "DISCONNECTING")
-        mSocket.disconnect()
+        socket.disconnect()
     }
 
     fun authorization(token: String) {
-        mSocket.emit("auth", token)
+        socket.emit("auth", token)
     }
 
     interface ISignalingEvents {
@@ -59,6 +59,6 @@ class SocketClient {
         fun onMessage(message: ChatMessage)
     }
 
-    fun getSocket() = mSocket
+    fun getSocket() = socket
 
 }
