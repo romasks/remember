@@ -40,6 +40,7 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         holder.onBind(position);
+        addNextItem(position);
     }
 
     @Override
@@ -71,7 +72,13 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public interface Callback {
 
         void sendItem(MemoryPageModel person);
+        void onVisibleLastElement(int listSize);
+    }
 
+    private void addNextItem(int position) {
+        if (position == memoryPageModelList.size() - 3) {
+            callback.onVisibleLastElement(memoryPageModelList.size());
+        }
     }
 
     public class PageFragmentAdapterViewHolder extends BaseViewHolder {

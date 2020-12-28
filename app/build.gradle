@@ -20,8 +20,8 @@ android {
         applicationId "com.remember.app"
         minSdkVersion 21 //22 5.1
         targetSdkVersion 29
-        versionCode 102
-        versionName "1.5.22"
+        versionCode 104
+        versionName "1.5.24"
         setProperty("archivesBaseName", "Pomnyu-v" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -225,6 +225,8 @@ dependencies {
     implementation 'io.socket:socket.io-client:1.0.0'
 
     implementation 'org.jsoup:jsoup:1.11.3'
+
+    implementation "com.readystatesoftware.chuck:library:1.1.0"
 }
 
 repositories {

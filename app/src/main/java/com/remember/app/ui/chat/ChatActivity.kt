@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.ambitt.utils.replaceFragmentSafely
 import com.remember.app.BuildConfig
 import com.remember.app.R
@@ -12,6 +13,8 @@ import com.remember.app.data.models.MemoryPageModel
 import com.remember.app.socket.ChatMessage
 import com.remember.app.socket.SocketClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import umairayub.madialog.MaDialog
+import umairayub.madialog.MaDialogListener
 
 class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
 
@@ -29,17 +32,27 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
             openFragmentByType(type, model, visaviID)
         }
         initSocketConnection()
+        initLiveData()
     }
 
     private fun removeNotification(){
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(93799928)
+        notificationManager.cancel(9379992)
     }
 
     private fun initSocketConnection() {
         socketClient = SocketClient(BuildConfig.SCOKET_URL, viewModel.getToken()!!, this) //TODO
         socketClient!!.connect()
         viewModel.instantiateSocket(socketClient!!.getSocket())
+    }
+
+    private fun initLiveData(){
+//        viewModel.errorInterner.observe(this, Observer {
+//            it?.let {
+//                if (it)
+//                    showErrorDialog()
+//            }
+//        })
     }
 
     private fun openFragmentByType(type: String, model: MemoryPageModel?, visaviID : String) {
@@ -104,4 +117,15 @@ class ChatActivity : AppCompatActivity(), SocketClient.ISignalingEvents {
 //        socketClient?.getSocket()?.off("chat.edit")
         super.onDestroy()
     }
+
+//    fun showErrorDialog(){
+//        MaDialog.Builder(this)
+//                .setTitle("Отсутствует интернет-соединение")
+//                .setMessage("Пожалуйста, повторите действие позже")
+//                .setPositiveButtonText("ok")
+//                .setImage(R.drawable.ic_no_internet)
+//                .setCancelableOnOutsideTouch(false)
+//                 .setPositiveButtonListener { viewModel.getChatMessages(1)}  //TODO
+//                .build()
+//    }
 }

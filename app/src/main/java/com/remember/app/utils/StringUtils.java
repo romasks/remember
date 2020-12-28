@@ -11,7 +11,7 @@ public class StringUtils {
     }
 
     public static String getVideoIdFromUrl(String url) {
-        return url.replace("https://www.youtube.com/embed/", "").replace("https://www.youtube.com/watch?v=", "").replace("https://m.youtube.com/watch?v=", "");
+        return url.replace("https://www.youtube.com/embed/", "").replace("https://www.youtube.com/watch?v=", "").replace("https://m.youtube.com/watch?v=", "").replace("https://youtu.be/","");
     }
 
     public static String stripHtml(String html) {

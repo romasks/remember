@@ -3,6 +3,7 @@ package com.remember.app.ui.menu.page;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -120,7 +121,14 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     }
 
     @Override
+    public void onVisibleLastElement(int listSize) {
+        pageNumber++;
+        presenter.getImages(pageNumber);
+    }
+
+    @Override
     public void error(Throwable throwable) {
+        Log.d(" d", throwable.getMessage().toString());
         Utils.showSnack(showAll, "Ошибка получения данных");
     }
 
@@ -129,17 +137,17 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         if (showAll.getVisibility() != View.GONE) showAll.setVisibility(View.GONE);
         countSum = responsePages.getPages();
         memoryPages.addAll(responsePages.getResult());
-        unStarList.clear();
-        for (int i = 0; i < responsePages.getResult().size(); i++) {
-            if (!responsePages.getResult().get(i).getStar().equals("true"))
-                unStarList.add(responsePages.getResult().get(i));
-        }
-        pageFragmentAdapter.setItems(unStarList);
+//        unStarList.clear();
+//        for (int i = 0; i < responsePages.getResult().size(); i++) {
+//            if (!responsePages.getResult().get(i).getStar().equals("true"))
+//                unStarList.add(responsePages.getResult().get(i));
+//        }
+        pageFragmentAdapter.setItems(responsePages.getResult());
 
-        if (pageNumber < countSum) {
-            pageNumber++;
-            presenter.getImages(pageNumber);
-        }
+//        if (pageNumber < countSum) {
+//            pageNumber++;
+//            presenter.getImages(pageNumber);
+//        }
     }
 
     @Override
@@ -180,4 +188,6 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
         requestSearchPage.setStatus(IMAGES_STATUS_APPROVED);
         presenter.search(requestSearchPage);
     }
+
+
 }

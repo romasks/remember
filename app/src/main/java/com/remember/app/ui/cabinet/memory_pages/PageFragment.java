@@ -116,6 +116,11 @@ public class PageFragment extends BaseFragment
     }
 
     @Override
+    public void onVisibleLastElement(int listSize) {
+       // presenter.getPages();
+    }
+
+    @Override
     public void sendItemsSearch(LinkedList<MemoryPageModel> result) {
         if (result.isEmpty()) {
             Utils.showSnack(recyclerView, "Записи не найдены");

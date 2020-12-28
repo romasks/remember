@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -89,7 +90,7 @@ class FCMService : FirebaseMessagingService() {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
+             //   .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -111,6 +112,9 @@ class FCMService : FirebaseMessagingService() {
         if (notificationManager != null) {
             Log.d("NOTIFICATION", notificationID.toString())
             notificationManager!!.notify(notificationID, notificationBuilder.build())
+            val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val r = RingtoneManager.getRingtone(applicationContext, notification)
+            r.play()
         }
     }
 

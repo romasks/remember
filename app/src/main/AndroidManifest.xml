@@ -12,7 +12,6 @@
 
     <application
         android:name=".Remember"
-        android:allowBackup="true"
         android:appComponentFactory="whateverString"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

@@ -43,6 +43,8 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -325,13 +327,13 @@ public interface ApiMethods {
     Observable<Object> deleteVideo(@Header("Authorization") String token, @Path("id") int id, @Body DeleteVideo body);
 
 
-    @GET("/deadevent/{id}/photo")
+    @GET("deadevent/{id}/photo")
     Observable<ArrayList<EventSliderPhotos>> getEventPhoto(@Header("Authorization") String token,
                                                            @Path("id") int id
     );
 
     @Multipart
-    @POST("/deadevent/{id}/photo")
+    @POST("deadevent/{id}/photo")
     Observable<Object> addEventPhoto(@Header("Authorization") String token,
                                      @Path("id") int id,
                                      @Part("body") AddPhoto body,
@@ -339,11 +341,11 @@ public interface ApiMethods {
                                      @Part MultipartBody.Part cutImage
     );
 
-    @GET("/deadevent/{id}/photo/delete/{photo_id}")
+    @GET("deadevent/{id}/photo/delete/{photo_id}")
     Observable<ResponseCemetery> deleteEventPhoto(@Header("Authorization") String token,
                                                   @Path("id") int id, @Path("photo_id") int photoId
     );
 
-    @GET("/user/refresh-token")
+    @GET("user/refresh-token")
     Observable<RefreshToken> refreshToken(@Header("Authorization") String token);
 }

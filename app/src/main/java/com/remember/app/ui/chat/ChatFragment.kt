@@ -26,9 +26,11 @@ import com.remember.app.utils.ImageUtils.setGlideImageWithError
 import com.remember.app.utils.KotlinUtils.getLocaleTime
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.popup_google_map.*
 import org.json.JSONException
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import umairayub.madialog.MaDialog
 import java.lang.Integer.parseInt
 
 class ChatFragment : BaseFragmentMVVM() {
@@ -44,6 +46,8 @@ class ChatFragment : BaseFragmentMVVM() {
     var deleteMessagePosition = -1
     var visaviID = "0"
     var chatUser: ChatUser? = null
+    var lastHeader = -1
+    var lastHistory = -1
 
     companion object {
         fun newInstance(bundle: Bundle) =
@@ -75,7 +79,7 @@ class ChatFragment : BaseFragmentMVVM() {
                 model = arguments!!.getParcelable<MemoryPageModel>("model")!!
             }
         }
-        Log.d("DEBAGPUSH" ,"$type $visaviID $TAG")
+        Log.d("DEBAGPUSH", "$type $visaviID $TAG")
         initUI()
         initLiveData()
         initSocketListener()
@@ -109,15 +113,17 @@ class ChatFragment : BaseFragmentMVVM() {
                     Toast.makeText(context, "Ошибка отправки сообщения, попробуйте снова", Toast.LENGTH_SHORT).show()
                     chatViewModel.error.postValue(null)
                     imgSend.isEnabled = true
+
                 }
             }
         })
         chatViewModel.errorInterner.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
-                    Toast.makeText(context, "Отсутствует подключение к сети", Toast.LENGTH_SHORT).show()
+                    //  Toast.makeText(context, "Отсутствует подключение к сети", Toast.LENGTH_SHORT).show()
                     chatViewModel.errorInterner.postValue(null)
                     imgSend.isEnabled = true
+                    showErrorDialog()
                 }
             }
         })
@@ -335,7 +341,7 @@ class ChatFragment : BaseFragmentMVVM() {
     }
 
     private val onNewMessage = Emitter.Listener { args ->
-        activity!!.runOnUiThread(Runnable {
+        activity?.runOnUiThread(Runnable {
             val data = args[0] as JSONObject
             try {
                 val json = data.toString()
@@ -378,7 +384,7 @@ class ChatFragment : BaseFragmentMVVM() {
     }
 
     private val onEditMessage = Emitter.Listener { args ->
-        activity!!.runOnUiThread(Runnable {
+        activity?.runOnUiThread(Runnable {
             val data = args[0] as JSONObject
             try {
                 val json = data.toString()
@@ -394,7 +400,7 @@ class ChatFragment : BaseFragmentMVVM() {
     }
 
     private val onReadMessage = Emitter.Listener { args ->
-        activity!!.runOnUiThread(Runnable {
+        activity?.runOnUiThread(Runnable {
             val data = args[0] as JSONObject
             try {
                 val json = data.toString()
@@ -409,7 +415,7 @@ class ChatFragment : BaseFragmentMVVM() {
     }
 
     private val onRemoveMessage = Emitter.Listener { args ->
-        activity!!.runOnUiThread(Runnable {
+        activity?.runOnUiThread(Runnable {
             val data = args[0] as JSONObject
             try {
                 val json = data.toString()
@@ -439,5 +445,29 @@ class ChatFragment : BaseFragmentMVVM() {
         chatViewModel.getChats()
         chatViewModel.chatMessages.postValue(null)
         super.onDestroyView()
+    }
+
+
+    fun showErrorDialog() {
+        MaDialog.Builder(context)
+                .setTitle("Отсутствует интернет-соединение")
+                .setMessage("Пожалуйста, повторите действие позже")
+                .setPositiveButtonText("ok")
+                .setImage(R.drawable.ic_no_internet)
+                .setCancelableOnOutsideTouch(false)
+                .setPositiveButtonListener {
+                    errorEvent()
+                    dismiss
+                }  //TODO
+                .build()
+    }
+
+    fun errorEvent() {
+        getChatMessages()
+        getChatInfo()
+//        when(type){
+//            "header" -> {}
+//            "message" -> {}
+//        }
     }
 }

@@ -24,6 +24,10 @@ class ChatViewModel(private val dataManager: DataManager) :
     var errorInterner: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getChats(limit: Int = 40, offset: Int = 0) {
+        if (isOffline()) {
+            errorInterner.postValue(true)
+            return
+        }
         dataManager.getChatList(limit = limit, offset = offset, token = getUserToken(), onSuccess = {
             it.let {
                 allChatModel.postValue(it)
@@ -49,6 +53,10 @@ class ChatViewModel(private val dataManager: DataManager) :
     }
 
     fun getChatMessages(chatID: Int, limit: Int = 20, offset: Int = 0) {
+        if (isOffline()) {
+            errorInterner.postValue(true)
+            return
+        }
         dataManager.getChatMessage(id = chatID, token = getUserToken(), limit = limit, offset = offset, onSuccess = {
             it.let {
                 chatMessages.postValue(it)
@@ -59,6 +67,10 @@ class ChatViewModel(private val dataManager: DataManager) :
     }
 
     fun getChatInfo(chatID: Int) {
+        if (isOffline()) {
+            errorInterner.postValue(true)
+            return
+        }
         dataManager.getChatInfo(id = chatID, token = getUserToken(), onSuccess = {
             it.let {
                 chatInfo.postValue(it)
@@ -70,6 +82,10 @@ class ChatViewModel(private val dataManager: DataManager) :
 
 
     fun getChatUser(chatID: Int) {
+        if (isOffline()) {
+            errorInterner.postValue(true)
+            return
+        }
         dataManager.getChatUser(id = chatID, token = getUserToken(), onSuccess = {
             it.let {
                 chatUser.postValue(it)
@@ -80,6 +96,10 @@ class ChatViewModel(private val dataManager: DataManager) :
     }
 
     fun changeStatusUnreadMessages(chatID: Int, messageID: Int) {
+        if (isOffline()) {
+            errorInterner.postValue(true)
+            return
+        }
         dataManager.readMark(id = chatID, token = getUserToken(), messageID = messageID, onSuccess = {
             it.let {
                 successReadMessage.postValue(it)
@@ -90,6 +110,10 @@ class ChatViewModel(private val dataManager: DataManager) :
     }
 
     fun deleteMessage(chatID: Int, messageID: Int, deleteAll: Boolean) {
+        if (isOffline()) {
+            errorInterner.postValue(true)
+            return
+        }
         dataManager.deleteMessage(id = chatID, token = getUserToken(), messageID = messageID, deleteAll = deleteAll, onSuccess = {
             it.let {
                 successDeleteMessage.postValue(it)

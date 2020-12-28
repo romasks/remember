@@ -1,13 +1,17 @@
 package com.remember.app.di.module;
 
+import android.content.Context;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.remember.app.BuildConfig;
+import com.remember.app.Remember;
 import com.remember.app.data.network.ApiMethods;
 import com.remember.app.data.network.RxSchedulers;
 import com.remember.app.data.network.ServiceNetwork;
 import com.remember.app.data.network.ServiceNetworkImp;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,7 +30,6 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 import static com.remember.app.data.Constants.BASE_SERVICE_URL;
 
 @Module
@@ -90,12 +93,14 @@ public class ApiModule {
     @Provides
     @Singleton
     OkHttpClient provideOkHttpClient() {
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.readTimeout(100, TimeUnit.SECONDS).writeTimeout(100, TimeUnit.SECONDS).connectTimeout(100, TimeUnit.SECONDS);
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addInterceptor(loggingInterceptor);
+            builder.addInterceptor(new ChuckInterceptor(Remember.applicationComponent.context()));
         }
         return builder.build();
        // return builder.connectionSpecs(Collections.singletonList(ConnectionSpec.COMPATIBLE_TLS)).build();

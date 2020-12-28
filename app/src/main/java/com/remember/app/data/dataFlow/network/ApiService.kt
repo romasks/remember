@@ -26,7 +26,7 @@ object ApiService {
             HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
     fun getApi(): Api = Retrofit.Builder()
-            .baseUrl("$BASE_SERVICE_URL")
+            .baseUrl(BASE_SERVICE_URL)
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
             .client(httpClient)

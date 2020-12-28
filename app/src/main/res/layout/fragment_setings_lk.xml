@@ -174,7 +174,7 @@
                     android:digits="1234567890+() -"
                     android:hint="Телефон"
                     android:inputType="phone"
-                    android:maxLength="11"
+                    android:maxLength="18"
                     android:textSize="20dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
