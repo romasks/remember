@@ -242,7 +242,7 @@ public interface ApiMethods {
     @POST("user/social")
     Observable<ResponseSocialAuth> signInSocial(@Body RequestSocialAuth requestSocialAuth);
 
-    @GET("/user/restore")
+    @GET("user/restore")
     Observable<ResponseRestorePassword> restorePassword(@Query("email") String email);
 
     @Multipart
