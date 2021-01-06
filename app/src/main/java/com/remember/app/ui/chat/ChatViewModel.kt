@@ -18,12 +18,13 @@ class ChatViewModel(private val dataManager: DataManager) :
     var successReadMessage: MutableLiveData<SuccessReadMessage> = MutableLiveData()
     var successDeleteMessage: MutableLiveData<SuccessDeleteMessage> = MutableLiveData()
     var chatMessages: MutableLiveData<ChatMessages> = MutableLiveData()
+    var previousChatMessages: MutableLiveData<ChatMessages> = MutableLiveData()
     var chatInfo: MutableLiveData<ChatInfoResponse> = MutableLiveData()
     var chatUser: MutableLiveData<ChatUser> = MutableLiveData()
     var error: MutableLiveData<Boolean> = MutableLiveData()
     var errorInterner: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun getChats(limit: Int = 40, offset: Int = 0) {
+    fun getChats(limit: Int = 20, offset: Int = 0) {
         if (isOffline()) {
             errorInterner.postValue(true)
             return
@@ -60,6 +61,20 @@ class ChatViewModel(private val dataManager: DataManager) :
         dataManager.getChatMessage(id = chatID, token = getUserToken(), limit = limit, offset = offset, onSuccess = {
             it.let {
                 chatMessages.postValue(it)
+            }
+        }, onFailure = {
+            it.message
+        })
+    }
+
+    fun getChatPreviousMessages(chatID: Int, limit: Int = 20, offset: Int = 0) {
+        if (isOffline()) {
+            errorInterner.postValue(true)
+            return
+        }
+        dataManager.getChatMessage(id = chatID, token = getUserToken(), limit = limit, offset = offset, onSuccess = {
+            it.let {
+                previousChatMessages.postValue(it)
             }
         }, onFailure = {
             it.message

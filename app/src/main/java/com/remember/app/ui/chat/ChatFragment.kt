@@ -1,6 +1,7 @@
 package com.remember.app.ui.chat
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -46,8 +47,7 @@ class ChatFragment : BaseFragmentMVVM() {
     var deleteMessagePosition = -1
     var visaviID = "0"
     var chatUser: ChatUser? = null
-    var lastHeader = -1
-    var lastHistory = -1
+    var emptyPreviousMessages = false
 
     companion object {
         fun newInstance(bundle: Bundle) =
@@ -60,29 +60,32 @@ class ChatFragment : BaseFragmentMVVM() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getDATA()
+        initUI()
+        initLiveData()
+        initSocketListener()
+    }
+
+    private fun getDATA() {
         type = arguments!!.getString("type", "")!!
         when (type) {
             "afterList" -> {
-                chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
+                chatModel = arguments!!.getParcelable("chat")!!
             }
             "profile" -> {
                 visaviID = arguments!!.getString("visaviID", "0")!!
             }
             "afterMenu" -> {
-                chatModel = arguments!!.getParcelable<ChatsModel.Chat>("chat")!!
-                model = arguments!!.getParcelable<MemoryPageModel>("model")
+                chatModel = arguments!!.getParcelable("chat")!!
+                model = arguments!!.getParcelable("model")
             }
             "push" -> {
                 visaviID = arguments!!.getString("visaviID", "0")!!
             }
             else -> {
-                model = arguments!!.getParcelable<MemoryPageModel>("model")!!
+                model = arguments!!.getParcelable("model")!!
             }
         }
-        Log.d("DEBAGPUSH", "$type $visaviID $TAG")
-        initUI()
-        initLiveData()
-        initSocketListener()
     }
 
     private fun initLiveData() {
@@ -105,6 +108,16 @@ class ChatFragment : BaseFragmentMVVM() {
                         chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, it.history.first().id)
                     }
                 }
+            }
+        })
+        chatViewModel.previousChatMessages.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it.history.isEmpty())
+                    emptyPreviousMessages = true
+                chatAdapter.addPreviousMessages(it.history)
+                Handler().postDelayed({
+                    progress.visibility = View.GONE
+                }, 200)
             }
         })
         chatViewModel.error.observe(viewLifecycleOwner, Observer {
@@ -283,24 +296,43 @@ class ChatFragment : BaseFragmentMVVM() {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = chatAdapter
         }
-//        rvChat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//                val s =
-//                        (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-//                if (s == 0 && dy < 0) {
-//                    Log.d("TAG", s.toString())
-//                    getPreviousMessage()
-//                    // Scrolling up
-//                } else {
-//                    // Scrolling down
-//                }
-//            }
-//        })
+        rvChat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val s =
+                        (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                if (s == 0 && dy < 0 && !emptyPreviousMessages) {
+                    getPreviousMessage(chatAdapter.itemCount)
+                    Log.d("message", "scroll top")
+                    // Scrolling up
+                } else {
+                    // Scrolling down
+                    Log.d("message", "scroll bottom")
+                }
+            }
+        })
+    }
+
+    private fun getPreviousMessage(offset: Int) {
+        progress.visibility = View.VISIBLE
+        when (type) {
+            "afterList" -> {
+                chatViewModel.getChatPreviousMessages(chatID = chatModel?.id!!, offset = offset)
+            }
+            "profile" -> {
+                chatViewModel.getChatPreviousMessages(chatID = parseInt(visaviID), offset = offset)
+            }
+            "push" -> {
+                chatViewModel.getChatPreviousMessages(chatID = parseInt(visaviID), offset = offset)
+            }
+            else -> {
+                chatViewModel.getChatPreviousMessages(chatID = chatModel?.id!!, offset = offset)
+            }
+        }
     }
 
     private fun addMessage(message: ChatMessages.History) {
-        chatAdapter.addItems(message)
+        chatAdapter.addItem(message)
         etComment.text?.clear()
         chatViewModel.successSendMessage.postValue(null)
         scrollToBottom()
@@ -447,8 +479,7 @@ class ChatFragment : BaseFragmentMVVM() {
         super.onDestroyView()
     }
 
-
-    fun showErrorDialog() {
+    private fun showErrorDialog() {
         MaDialog.Builder(context)
                 .setTitle("Отсутствует интернет-соединение")
                 .setMessage("Пожалуйста, повторите действие позже")
@@ -462,12 +493,8 @@ class ChatFragment : BaseFragmentMVVM() {
                 .build()
     }
 
-    fun errorEvent() {
+    private fun errorEvent() {
         getChatMessages()
         getChatInfo()
-//        when(type){
-//            "header" -> {}
-//            "message" -> {}
-//        }
     }
 }

@@ -36,9 +36,16 @@ class ChatAdapter(private val currentUserId: String, private val onLongClick: (p
         notifyDataSetChanged()
     }
 
-    fun addItems(data: ChatMessages.History) {
+    fun addItem(data: ChatMessages.History) {
         messages.add(data)
         notifyDataSetChanged()
+    }
+
+    fun addPreviousMessages(data: List<ChatMessages.History>) {
+        messages.reverse()
+        messages.addAll(data)
+        messages.reverse()
+        notifyItemRangeInserted(0, data.size)
     }
 
     fun updateItem(data: ChatMessages.History) {

@@ -25,7 +25,6 @@ class MainChatFragment : BaseFragmentMVVM() {
                 MainChatFragment().apply {
                     arguments = bundle
                 }
-
         val TAG = "MainChatFragment"
     }
 
