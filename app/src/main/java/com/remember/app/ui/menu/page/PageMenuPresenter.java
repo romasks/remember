@@ -19,7 +19,6 @@ public class PageMenuPresenter extends BasePresenter<PageMenuView> {
     void getImages(int pageNumber) {
         if (isOffline()) return;
         Disposable subscription = serviceNetwork.getImages(pageNumber, false, true, IMAGES_STATUS_APPROVED)
-        //Disposable subscription = serviceNetwork.getImages(pageNumber,  false, "")
             .subscribe(
                 getViewState()::onReceivedPages,
                 getViewState()::error

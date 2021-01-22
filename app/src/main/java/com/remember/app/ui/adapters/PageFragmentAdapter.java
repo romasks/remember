@@ -43,6 +43,16 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         addNextItem(position);
     }
 
+    private void addNextItem(int position) {
+        if (position == memoryPageModelList.size() - 3) {
+            callback.onVisibleLastElement(memoryPageModelList.size());
+        }
+    }
+    public interface Callback {
+        void sendItem(MemoryPageModel person);
+        void onVisibleLastElement(int listSize);
+    }
+
     @Override
     public int getItemCount() {
         return memoryPageModelList.size();
@@ -69,17 +79,6 @@ public class PageFragmentAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         this.isMainPages = isMainPages;
     }
 
-    public interface Callback {
-
-        void sendItem(MemoryPageModel person);
-        void onVisibleLastElement(int listSize);
-    }
-
-    private void addNextItem(int position) {
-        if (position == memoryPageModelList.size() - 3) {
-            callback.onVisibleLastElement(memoryPageModelList.size());
-        }
-    }
 
     public class PageFragmentAdapterViewHolder extends BaseViewHolder {
 

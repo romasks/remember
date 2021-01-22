@@ -41,7 +41,6 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
 
     @InjectPresenter
     PageMenuPresenter presenter;
-
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     @BindView(R.id.show_all)
@@ -52,39 +51,31 @@ public class PageActivityMenu extends BaseActivity implements PageMenuView, Page
     ImageView back;
     @BindView(R.id.search)
     ImageView search;
-
     private PopupPageScreen popupWindowPage;
     private LinkedList<MemoryPageModel> memoryPages = new LinkedList<MemoryPageModel>();
     private LinkedList<MemoryPageModel> unStarList = new LinkedList<MemoryPageModel>();
     private int pageNumber = 1;
     private int countSum = 0;
-
     private PageFragmentAdapter pageFragmentAdapter;
 
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Utils.setTheme(this);
-
         super.onCreate(savedInstanceState);
-
         if (Utils.isThemeDark()) {
             title.setTextColor(getResources().getColor(R.color.colorWhiteDark));
             back.setImageResource(R.drawable.ic_back_dark_theme);
             search.setImageResource(R.drawable.ic_search2);
         }
-
         pageFragmentAdapter = new PageFragmentAdapter();
         pageFragmentAdapter.setCallback(this);
         pageFragmentAdapter.setIsMainPages(true);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(pageFragmentAdapter);
-
         presenter.getImages(pageNumber);
-//        presenter.getAllPages();
     }
 
     @Override

@@ -3,15 +3,18 @@ package com.remember.app.push
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.PRIORITY_MAX
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.remember.app.R
@@ -31,8 +34,14 @@ class FCMService : FirebaseMessagingService() {
     var bitmap: Bitmap? = null
     lateinit var notificationBuilder: NotificationCompat.Builder
     private var notificationManager: NotificationManager? = null
+    lateinit var soundUri : Uri
+    val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+    //var soundUri = Uri.parse("android.resource://" + packageName + "/" + R.raw.sound)
+
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.from)
+        soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE.toString() + "://" + this.packageName + "/" + R.raw.sound)
         if (remoteMessage.data.isNotEmpty()) {
             val params = remoteMessage.data
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
@@ -51,7 +60,6 @@ class FCMService : FirebaseMessagingService() {
         val id = messageData["user_id"]
         val picture = messageData["picture"]
         val channelId = packageName
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         if (messageData["type"] == "event") {
             intent = Intent(this, EventFullActivity::class.java)
@@ -75,10 +83,9 @@ class FCMService : FirebaseMessagingService() {
 
         if (title == "Новое сообщение") {
             intent = Intent(this, ChatActivity::class.java)
-            //intent.putExtra("type", "menu")
             intent.putExtra("type", "push")
             intent.putExtra("visaviID", id)
-            Log.d("DEBAGPUSH" ,"push $id FCM")
+            Log.d("DEBAGPUSH", "push $id FCM")
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -90,14 +97,21 @@ class FCMService : FirebaseMessagingService() {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
-             //   .setSound(defaultSoundUri)
+                .setPriority(PRIORITY_MAX)
+              //  .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + baseContext.packageName + "/" + R.raw.sound))
+                .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId,
                     getString(R.string.app_name),
-                    NotificationManager.IMPORTANCE_DEFAULT)
+                    NotificationManager.IMPORTANCE_HIGH)
+            val audioAttributes = AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .build()
+            channel.setSound(defaultSoundUri, audioAttributes)
             if (notificationManager != null) {
                 notificationManager!!.createNotificationChannel(channel)
             }
@@ -106,14 +120,14 @@ class FCMService : FirebaseMessagingService() {
 //            getImageBitmap(BASE_SERVICE_URL + picture);
 //        else
         var notificationID = Random().nextInt();
-        if (title == "Новое сообщение"){
+        if (title == "Новое сообщение") {
             notificationID = parseInt(id!!)
         }
         if (notificationManager != null) {
             Log.d("NOTIFICATION", notificationID.toString())
             notificationManager!!.notify(notificationID, notificationBuilder.build())
-            val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val r = RingtoneManager.getRingtone(applicationContext, notification)
+         //   val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val r = RingtoneManager.getRingtone(applicationContext, defaultSoundUri)
             r.play()
         }
     }
