@@ -96,16 +96,20 @@ class ChatFragment : BaseFragmentMVVM() {
                 scrollToBottom()
                 when (type) {
                     "afterList" -> {
-                        chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, it.history.first().id)
+                        if (it.history.isNotEmpty())
+                            chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, it.history.first().id)
                     }
                     "profile" -> {
-                        chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), it.history.first().id)
+                        if (it.history.isNotEmpty())
+                            chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), it.history.first().id)
                     }
                     "push" -> {
-                        chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), it.history.first().id)
+                        if (it.history.isNotEmpty())
+                            chatViewModel.changeStatusUnreadMessages(parseInt(visaviID), it.history.first().id)
                     }
                     else -> {
-                        chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, it.history.first().id)
+                        if (it.history.isNotEmpty())
+                            chatViewModel.changeStatusUnreadMessages(chatModel?.id!!, it.history.first().id)
                     }
                 }
             }

@@ -34,14 +34,12 @@ class FCMService : FirebaseMessagingService() {
     var bitmap: Bitmap? = null
     lateinit var notificationBuilder: NotificationCompat.Builder
     private var notificationManager: NotificationManager? = null
-    lateinit var soundUri : Uri
     val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     //var soundUri = Uri.parse("android.resource://" + packageName + "/" + R.raw.sound)
 
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.from)
-        soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE.toString() + "://" + this.packageName + "/" + R.raw.sound)
         if (remoteMessage.data.isNotEmpty()) {
             val params = remoteMessage.data
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
